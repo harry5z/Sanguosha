@@ -1,6 +1,8 @@
 package gui;
 
-public class PlayerGui 
+import javax.swing.JButton;
+
+public class PlayerGui extends JButton
 {
 
 }

@@ -15,7 +15,7 @@ public class CardRackGui extends JPanel implements MouseMotionListener
 	 * 
 	 */
 	private static final long serialVersionUID = -7373800552773539354L;
-	public static final int WIDTH = PanelGui.WIDTH - EquipmentRackGui.WIDTH - HeroGui.WIDTH;
+	public static final int WIDTH = PanelGui.WIDTH - EquipmentRackGui.WIDTH - HeroGui.WIDTH - HealthGui.WIDTH;
 	public static final int HEIGHT = 200;
 	
 	private ArrayList<CardGui> cards;

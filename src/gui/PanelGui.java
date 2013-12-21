@@ -18,6 +18,7 @@ public class PanelGui extends JPanel implements ActionListener
 	private CardRackGui cardRack;
 	private EquipmentRackGui equipmentRack;
 	private HeroGui heroGui;
+	private HealthGui healthGui;
 	public static final int WIDTH = 1600;
 	public static final int HEIGHT = 900;
 	public PanelGui()
@@ -26,11 +27,13 @@ public class PanelGui extends JPanel implements ActionListener
 		cardRack = new CardRackGui();
 		equipmentRack = new EquipmentRackGui();
 		heroGui = new HeroGui();
+		healthGui = new HealthGui();
 		
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		add(cardRack);
 		add(equipmentRack);
 		add(heroGui);
+		add(healthGui);
 	}
 	public void actionPerformed(ActionEvent e) 
 	{

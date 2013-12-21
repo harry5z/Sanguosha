@@ -22,7 +22,7 @@ public class HeroGui extends JPanel
 	{
 		hero = null;
 		setSize(WIDTH,HEIGHT);
-		setLocation(PanelGui.WIDTH-WIDTH,PanelGui.HEIGHT-HEIGHT);
+		setLocation(PanelGui.WIDTH-HealthGui.WIDTH-WIDTH,PanelGui.HEIGHT-HEIGHT);
 	}
 	
 	public void setHero(Hero hero)
