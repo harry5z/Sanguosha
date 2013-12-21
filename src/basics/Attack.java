@@ -21,6 +21,11 @@ public class Attack extends Basic
 	@Override
 	public String getName()
 	{
-		return "Attack";
+		if(element == NORMAL)
+			return "Attack";
+		else if(element == FIRE)
+			return "FireAttack";
+		else
+			return "ThunderAttack";
 	}
 }

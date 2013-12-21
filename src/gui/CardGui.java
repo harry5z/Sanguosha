@@ -33,17 +33,7 @@ public class CardGui extends JPanel
 	{
 		try
 		{
-			if(c instanceof Attack)
-			{
-				Attack a = (Attack)k;
-				if(a.getElement() == Attack.NORMAL)
-					img = ImageIO.read(getClass().getResource("cards/attack.png"));
-			}
-			else if(c instanceof Dodge)
-				img = ImageIO.read(getClass().getResource("cards/dodge.png"));
-			else if(c instanceof Peach)
-				img = ImageIO.read(getClass().getResource("cards/peach.png"));
-			
+			img = ImageIO.read(getClass().getResource("cards/"+c.getName()+".png"));
 		} 
 		catch (IOException e) 
 		{
