@@ -1,82 +1,35 @@
 package core;
 
-import java.util.ArrayList;
 
-import data.*;
-import specials.*;
-
-public class PlayerImpl 
+public class PlayerImpl extends Player
 {
-	private ArrayList<Card> cardsOnHand;
-	private ArrayList<Card> decisionArea;
+	public static final int EMPEROR = 0;
+	public static final int LOYALIST = 1;
+	public static final int REBEL = 2;
+	public static final int USURPER = 3;
+	
 	private boolean skipDetermine = false;
 	private boolean skipDraw = false;
 	private boolean skipDeal = false;
 	private boolean skipDiscard = false;
-	private Hero hero;
+	
 	private int role;
 	
-	public PlayerImpl()
+	public PlayerImpl(String name,int position)
 	{
-		cardsOnHand = new ArrayList<Card>();
-		decisionArea = new ArrayList<Card>();
+		super(name,position);
 	}
-	public int getCardsOnHandCount()
-	{
-		return cardsOnHand.size();
-	}
-	public void receiveCard(Card c)
-	{
-		cardsOnHand.add(c);
-	}
-	public void setIdentity(int role)
+
+	public void setRole(int role)
 	{
 		this.role = role;
 	}
-	public int getIdentity()
+	/**
+	 * Emperor? Loyalist? Rebel? Usurper?
+	 * @return Player's role
+	 */
+	public int getRole()
 	{
 		return role;
 	}
-	public void setHero(Hero h)
-	{
-		hero = h;
-	}
-	public Hero getHero()
-	{
-		return hero;
-	}
-	public void myTurn()
-	{
-
-		turnStart();
-		turnDetermine();
-		turnDraw();
-		turnDeal();
-		turnDiscard();
-		turnEnd();
-	}
-	private void turnStart(){}
-	private void turnDetermine()
-	{
-
-	}
-	private void turnDraw()
-	{
-
-	}
-	private void turnDeal()
-	{
-		if(skipDeal){skipDeal = false;return;}
-		
-	}
-	private void turnDiscard()
-	{
-
-	}
-	private void turnEnd(){}
-	public void receive(Data d)
-	{
-		
-	}
-	
 }

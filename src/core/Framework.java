@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import update.Update;
 
-public abstract class Framework 
+public class Framework 
 {
 	private ArrayList<Player> players;
 	private Deck deck;
@@ -19,7 +19,10 @@ public abstract class Framework
 	{
 		return players;
 	}
-
+	public void addPlayer(Player player)
+	{
+		players.add(player);
+	}
 	public Player getCurrentPlayer() 
 	{
 		return currentPlayer;
@@ -27,11 +30,6 @@ public abstract class Framework
 	public Deck getDeck()
 	{
 		return deck;
-	}
-	
-	public void onPlayerAdded(Player player)
-	{
-		
 	}
 	public void onNotified(Update note)
 	{

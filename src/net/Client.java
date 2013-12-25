@@ -1,13 +1,14 @@
 package net;
 
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
+import update.ClientReadyNotification;
 import update.Update;
-import core.GameListener;
+import listener.GameListener;
 
 public class Client extends Thread
 {
@@ -41,15 +42,16 @@ public class Client extends Thread
 	 * Send a notification/game update to master
 	 * @param note
 	 */
-	public void notifyMaster(Update note)
+	public void sendToMaster(Update update)
 	{
 		try
 		{
-			out.writeObject(note);
+			out.writeObject(update);
 		}
 		catch(IOException e)//need to handle connection failure in the future
 		{
 			System.err.println("Client: I/O Exception when sending notification");
+			e.printStackTrace();
 		}
 	}
 	@Override
@@ -62,21 +64,23 @@ public class Client extends Thread
 			socket = new Socket(masterHost,masterPort);
 			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
-			listener.onClientRegistered(this);
+			listener.onNotified(new ClientReadyNotification());
+			System.out.println("Listening to master");
 			while(true)
 			{
-				Update note = (Update)in.readObject();
-				listener.onNotified(note);
-				
+				Update update = (Update)in.readObject();
+				listener.onNotified(update);
 			}
 		}
 		catch(IOException e)
 		{
 			System.err.println("Client: I/O Exception when connecting with master");
+			e.printStackTrace();
 		} 
 		catch (ClassNotFoundException e) 
 		{
 			System.err.println("Client: Received invalid response from master");
+			e.printStackTrace();
 		}
 	}
 }

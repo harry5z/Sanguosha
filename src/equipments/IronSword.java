@@ -11,7 +11,7 @@ public class IronSword extends Weapon
 	@Override
 	public String getName() 
 	{
-		return "Iron Sword";
+		return "IronSword";
 	}
 
 }

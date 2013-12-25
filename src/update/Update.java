@@ -2,18 +2,19 @@ package update;
 
 import java.io.Serializable;
 
-import core.Framework;
+import core.Master;
+import core.Player;
 
 public abstract class Update implements Serializable
 {
-	public static final String GAME_OVER = "Game Over";
-	
-	private String message;
-	
-	public String getMessage()
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8023612171434442802L;
+
+	public void masterOperation(Master master)
 	{
-		return message;
+		master.sendToAllClients(this);
 	}
-	
-	public abstract void update(Framework framwork);
+	public abstract void playerOperation(Player player);
 }

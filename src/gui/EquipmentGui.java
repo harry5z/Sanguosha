@@ -30,6 +30,7 @@ public class EquipmentGui extends JButton
 	public void setEquipment(Equipment equipment)
 	{
 		this.equipment = equipment;
+		repaint();
 	}
 	@Override
 	public void paint(Graphics g)

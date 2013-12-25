@@ -5,6 +5,7 @@ import core.Basic;
 
 public class Peach extends Basic
 {
+	public static final String PEACH = "Peach";
 	public Peach(int num, int suit)
 	{
 		super(num, suit);
@@ -12,6 +13,6 @@ public class Peach extends Basic
 	@Override
 	public String getName()
 	{
-		return "Peach";
+		return PEACH;
 	}
 }

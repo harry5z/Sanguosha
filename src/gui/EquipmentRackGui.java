@@ -2,9 +2,10 @@ package gui;
 
 import javax.swing.JPanel;
 
+import listener.EquipmentListener;
 import core.Equipment;
 
-public class EquipmentRackGui extends JPanel
+public class EquipmentRackGui extends JPanel implements EquipmentListener
 {
 	/**
 	 * 
@@ -31,11 +32,8 @@ public class EquipmentRackGui extends JPanel
 		add(horsePlus);
 		add(horseMinus);
 	}
-	/**
-	 * Require that equipment != null
-	 * @param equipment
-	 */
-	public void equip(Equipment equipment)
+	@Override
+	public void onEquipped(Equipment equipment)
 	{
 		switch(equipment.getType())
 		{
@@ -55,11 +53,9 @@ public class EquipmentRackGui extends JPanel
 				System.err.println("EquipmentRack: Unidentified Error");
 		}
 	}
-	/**
-	 * un-equip an equipment, require: type = Equipment.SOMETYPE
-	 * @param type
-	 */
-	public void unequip(int type)
+
+	@Override
+	public void onUnequipped(int type)
 	{
 		switch(type)
 		{

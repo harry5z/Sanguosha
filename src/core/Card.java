@@ -19,7 +19,13 @@ public abstract class Card
 	private int number;//1-13, note that A,J,Q,K are not numeric
 	private int suit; //1.Diamond 2.Club 3.Heart 4.Spade
 	private int type; //1.Basic 2.Special 3.Equipment
-
+	
+	/**
+	 * Initialization of normal cards
+	 * @param number
+	 * @param suit
+	 * @param type
+	 */
 	public Card(int number, int suit, int type)
 	{
 		this.number = number;
@@ -30,9 +36,15 @@ public abstract class Card
 		else
 			color = BLACK;
 	}
-	public Card()
+	/**
+	 * initialization of transformed cards
+	 * @param type
+	 * @param color
+	 */
+	public Card(int color,int type)
 	{
-		
+		this.color = color;
+		this.type = type;
 	}
 	public abstract String getName();
 	
@@ -52,5 +64,19 @@ public abstract class Card
 	public int getSuit()
 	{
 		return suit;
+	}
+	@Override
+	public int hashCode()
+	{
+		return getName().hashCode();
+	}
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(!(obj instanceof Card))
+			return false;
+		Card other = (Card)obj;
+		return getName().equals(other.getName()) && number == other.number
+				&& suit == other.suit;
 	}
 }

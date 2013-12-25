@@ -9,6 +9,10 @@ public class Attack extends Basic
 	public static final int NORMAL = 0;
 	public static final int FIRE = 1;
 	public static final int THUNDER = 2;
+	
+	public static final String ATTACK = "Attack";
+	public static final String FIRE_ATTACK = "Fire Attack";
+	public static final String THUNDER_ATTACK = "Thunder Attack";
 	public Attack(int e, int num, int suit)
 	{
 		super(num, suit);
@@ -22,10 +26,10 @@ public class Attack extends Basic
 	public String getName()
 	{
 		if(element == NORMAL)
-			return "Attack";
+			return ATTACK;
 		else if(element == FIRE)
-			return "FireAttack";
+			return FIRE_ATTACK;
 		else
-			return "ThunderAttack";
+			return THUNDER_ATTACK;
 	}
 }

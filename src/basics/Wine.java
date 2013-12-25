@@ -5,6 +5,7 @@ import core.Basic;
 
 public class Wine extends Basic
 {
+	public static final String WINE = "Wine";
 	public Wine(int num, int suit)
 	{
 		super(num, suit);
@@ -12,6 +13,6 @@ public class Wine extends Basic
 	@Override
 	public String getName()
 	{
-		return "Wine";
+		return WINE;
 	}
 }

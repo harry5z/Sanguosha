@@ -22,12 +22,13 @@ public class HeroGui extends JPanel
 	{
 		hero = null;
 		setSize(WIDTH,HEIGHT);
-		setLocation(PanelGui.WIDTH-HealthGui.WIDTH-WIDTH,PanelGui.HEIGHT-HEIGHT);
+		setLocation(PanelGui.WIDTH-LifebarGui.WIDTH-WIDTH,PanelGui.HEIGHT-HEIGHT);
 	}
 	
 	public void setHero(Hero hero)
 	{
 		this.hero = hero;
+		repaint();
 	}
 	
 	@Override
@@ -40,6 +41,6 @@ public class HeroGui extends JPanel
 		}
 		g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 50));
 		g.setColor(Color.BLACK);
-		g.drawString(hero.getName(), WIDTH/2, HEIGHT/2);
+		g.drawString(hero.getName(), 0, HEIGHT/2);
 	}
 }

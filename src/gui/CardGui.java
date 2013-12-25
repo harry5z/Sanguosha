@@ -6,9 +6,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import core.Card;
-import basics.*;
 
-public class CardGui extends JPanel
+public class CardGui extends JButton
 {
 	
 	/**

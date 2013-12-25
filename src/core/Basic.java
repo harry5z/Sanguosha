@@ -7,4 +7,12 @@ public abstract class Basic extends Card
 	{
 		super(num, suit, Card.BASIC);
 	}
+	public Basic(int color)
+	{
+		super(color,Card.BASIC);
+	}
+	public Basic()
+	{
+		super(Card.COLORLESS,Card.BASIC);
+	}
 }
