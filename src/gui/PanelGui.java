@@ -36,6 +36,8 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 	private EquipmentRackGui equipmentRack;
 	private HeroGui heroGui;
 	private LifebarGui healthGui;
+	private CardDisposalGui disposalGui;
+	
 	private Player myself;
 	private Client client;
 	private ArrayList<PlayerGui> otherPlayers;
@@ -43,8 +45,6 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 	private ButtonGui cancel;
 	private ButtonGui end;
 	
-	private CardGui cardSelected;
-	private PlayerGui targetSelected;
 	private Update updateToSend;
 	private JLabel deckSize;
 	public PanelGui(int position)
@@ -55,6 +55,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		equipmentRack = new EquipmentRackGui();
 		heroGui = new HeroGui();
 		healthGui = new LifebarGui();
+		disposalGui = new CardDisposalGui();
 		otherPlayers = new ArrayList<PlayerGui>();
 
 		myself = new PlayerImpl("Player "+position,position);
@@ -63,6 +64,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		myself.registerCardOnHandListener(cardRack);
 		myself.registerEquipmentListener(equipmentRack);
 		myself.registerHealthListener(healthGui);
+		myself.registerCardDisposalListener(disposalGui);
 		heroGui.setHero(myself.getHero());
 		
 		confirm = new ButtonGui("Confirm",this);
@@ -72,8 +74,6 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		end = new ButtonGui("End",this);
 		end.setLocation(ButtonGui.WIDTH*2,HEIGHT-CardRackGui.HEIGHT-ButtonGui.HEIGHT);
 		
-		cardSelected = null;
-		targetSelected = null;
 		updateToSend = null;
 		
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -81,6 +81,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		add(equipmentRack);
 		add(heroGui);
 		add(healthGui);
+		add(disposalGui);
 		add(confirm);
 		add(cancel);
 		add(end);
@@ -96,6 +97,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 	@Override
 	public void onPlayerAdded(Player player)
 	{
+		player.registerCardDisposalListener(disposalGui);
 		PlayerGui p = new PlayerGui(player);
 		otherPlayers.add(p);
 		p.setLocation(WIDTH-(otherPlayers.size())*PlayerGui.WIDTH,0);
@@ -108,22 +110,19 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		Object obj = e.getSource();
 		if(obj instanceof CardGui)
 		{
-			if(cardSelected != null)
-				cardSelected.setLocation(cardSelected.getX(),cardSelected.getY()+SELECTION_HEIGHT);
-			
-			cardSelected = (CardGui)obj;
-			cardSelected.setLocation(cardSelected.getX(),cardSelected.getY()-SELECTION_HEIGHT);
-			processCard(cardSelected.getCard());
+			Card card = ((CardGui)obj).getCard();
+			if(!myself.isSelected(card))
+				myself.selectCardOnHand(card);
+			else
+				myself.unselectCardOnHand(card);
 		}
 		else if(obj instanceof PlayerGui)
 		{
-			if(targetSelected != null)
-				targetSelected.setLocation(targetSelected.getX(),targetSelected.getY()-SELECTION_HEIGHT);
-			
-			targetSelected = (PlayerGui)obj;
-			targetSelected.setLocation(targetSelected.getX(),targetSelected.getY()+SELECTION_HEIGHT);
-			((RequireUseOfCardsByName)updateToSend).setTarget(targetSelected.getPlayer());
-			confirm.setEnabled(true);
+			Player player = ((PlayerGui)obj).getPlayer();
+			if(!myself.isSelected(player))
+				myself.selectTarget(player);
+			else
+				myself.unselectTarget(player);
 		}
 		else if(obj == confirm)
 		{
@@ -175,25 +174,9 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 			if(!card.getName().equals(Dodge.DODGE))
 				card.setEnabled(true);
 	}
-	/**
-	 * <li>No card selected
-	 * <li>No target selected
-	 * <li>No playerGui enabled(targetSelection off)
-	 * <li>No update to send
-	 * <li>confirm disabled
-	 */
+
 	private void reset()
 	{
-		if(cardSelected != null)
-		{
-			cardSelected.setLocation(cardSelected.getX(),cardSelected.getY()+SELECTION_HEIGHT);
-			cardSelected = null;
-		}
-		if(targetSelected != null)
-		{
-			targetSelected.setLocation(targetSelected.getX(),targetSelected.getY()-SELECTION_HEIGHT);
-			targetSelected = null;
-		}
 		for(PlayerGui p : otherPlayers)
 			p.setEnabled(false);
 		confirm.setEnabled(false);
@@ -229,31 +212,51 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 	{
 		for(CardGui c : cardRack.getCardsOnHand())
 			if(c.getCard().equals(card))
-				c.setLocation(cardSelected.getX(),cardSelected.getY()-SELECTION_HEIGHT);
+			{
+				c.setLocation(c.getX(),c.getY()-SELECTION_HEIGHT);
+				return;
+			}
 	}
 	@Override
 	public void onCardUnselected(Card card)
 	{
 		for(CardGui c : cardRack.getCardsOnHand())
 			if(c.getCard().equals(card))
-				c.setLocation(cardSelected.getX(),cardSelected.getY()+SELECTION_HEIGHT);
+			{
+				c.setLocation(c.getX(),c.getY()+SELECTION_HEIGHT);
+				return;
+			}
 	}
 	@Override
-	public void onPlayerSelected(Player player)
+	public void onTargetSelected(Player player)
 	{
 		for(PlayerGui p : otherPlayers)
 			if(p.getPlayer().equals(player))
-				p.setLocation(targetSelected.getX(),targetSelected.getY()+SELECTION_HEIGHT);
+			{
+				p.setLocation(p.getX(),p.getY()+SELECTION_HEIGHT);
+				return;
+			}
 	}
 	@Override
-	public void onPlayerUnselected(Player player)
+	public void onTargetUnselected(Player player)
 	{
 		for(PlayerGui p : otherPlayers)
 			if(p.getPlayer().equals(player))
-				p.setLocation(targetSelected.getX(),targetSelected.getY()-SELECTION_HEIGHT);
+			{
+				p.setLocation(p.getX(),p.getY()-SELECTION_HEIGHT);
+				return;
+			}
 	}
-
-	
+	@Override
+	public void onCardSetSelectable(Card card, boolean selectable)
+	{
+		for(CardGui c : cardRack.getCardsOnHand())
+			if(c.getCard().equals(card))
+			{
+				c.setEnabled(selectable);
+				return;
+			}
+	}
 	
 	public static void main(String[] args)
 	{

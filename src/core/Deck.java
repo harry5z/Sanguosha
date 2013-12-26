@@ -69,9 +69,13 @@ public class Deck
 	{
 		return deck.size();
 	}
-	public void discard(Card c)
+	public void discard(Card card)
 	{
-		used.add(c);
+		used.add(card);
+	}
+	public void discardAll(ArrayList<Card> cards)
+	{
+		used.addAll(cards);
 	}
 	private void resetDeck()
 	{

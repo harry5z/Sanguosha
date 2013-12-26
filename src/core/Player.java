@@ -3,10 +3,7 @@ package core;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import update.Damage;
-import update.DrawCardsFromDeck;
-import update.StageUpdate;
-import update.Update;
+import update.*;
 import listener.*;
 import equipments.HorseMinus;
 import equipments.HorsePlus;
@@ -54,6 +51,9 @@ public class Player implements Serializable
 	//in-game interactive properties
 	private ArrayList<Card> cardsSelected;
 	private int cardSelectionLimit;
+	private ArrayList<Player> targetsSelected;
+	private int targetSelectionLimit;
+	private ArrayList<Card> cardsUsedThisTurn;
 	
 	public Player(String name,int position)
 	{
@@ -83,6 +83,8 @@ public class Player implements Serializable
 		//init in-game interactive properties
 		cardsSelected = new ArrayList<Card>();
 		cardSelectionLimit = 1;
+		targetsSelected = new ArrayList<Player>();
+		targetSelectionLimit = 1;
 	}
 	/**
 	 * upon setting a hero
@@ -127,6 +129,10 @@ public class Player implements Serializable
 	public void registerGameListener(GameListener listener)
 	{
 		gameListener = listener;
+	}
+	public void registerCardDisposalListener(CardDisposalListener listener)
+	{
+		disposalListener = listener;
 	}
 	//************* methods related to flipping ***************
 	public boolean isFlipped()
@@ -221,15 +227,17 @@ public class Player implements Serializable
 	}
 	/**
 	 * <li>{@link CardOnHandListener} notified
+	 * <li>{@link CardDisposalListener} notified
 	 * @param card
 	 */
 	public void useCard(Card card)
 	{
 		cardsOnHand.remove(card);
 		cardsOnHandListener.onCardRemoved(card);
+		disposalListener.onCardUsed(card);
 	}
 	/**
-	 * (CardOnHandListener notified)
+	 * <li>{@link CardOnHandListener} notified
 	 * @param cards
 	 */
 	public void useCards(ArrayList<Card> cards)
@@ -237,9 +245,22 @@ public class Player implements Serializable
 		for(Card card : cards)
 			useCard(card);
 	}
+	/**
+	 * <li>{@link CardDisposalListener} notified
+	 * @param card
+	 */
 	public void discardCard(Card card)
 	{
-		
+		disposalListener.onCardDisposed(card);
+	}
+	/**
+	 * <li>{@link CardDisposalListener} notified
+	 * @param cards
+	 */
+	public void discardCards(ArrayList<Card> cards)
+	{
+		for(Card card : cards)
+			discardCard(card);
 	}
 	public int getCardsOnHandCount()
 	{
@@ -258,6 +279,7 @@ public class Player implements Serializable
 	/**
 	 * discard an equipment
 	 * <li>{@link EquipmentListener} notified
+	 * <li>{@link CardDisposalListener} notified
 	 * @param type
 	 * @return the equipment discarded
 	 */
@@ -289,11 +311,14 @@ public class Player implements Serializable
 			horseMinusEquipped = false;
 		}
 		equipmentListener.onUnequipped(type);
+		disposalListener.onCardDisposed(temp);
+		sendToMaster(new DisposalOfCards(this,temp));
 		return temp;
 	}
 	/**
 	 * equip new equipment, return the old one. Return null if nothing is replaced
 	 * <li>{@link EquipmentListener} notified
+	 * <li>{@link CardDisposalListener} notified
 	 * @param equipment : new equipment
 	 * @return old equipment, null if no old equipment
 	 */
@@ -325,6 +350,8 @@ public class Player implements Serializable
 			shieldEquipped = true;
 		}
 		equipmentListener.onEquipped(equipment);
+		if(temp != null)
+			sendToMaster(new DisposalOfCards(this,temp));
 		return temp;
 	}
 
@@ -462,6 +489,22 @@ public class Player implements Serializable
 	
 	//**************** methods related to interactions ****************
 	/**
+	 * <li>No card selected
+	 * <li>No target selected
+	 * <li>No player enabled(targetSelection off)
+	 * <li>No update to send
+	 * <li>confirm disabled
+	 */
+	public void reset()
+	{
+		cardsSelected.clear();
+		targetsSelected.clear();
+		cardSelectionLimit = 1;
+		targetSelectionLimit = 1;
+		attackLimit = 1;
+		
+	}
+	/**
 	 * select a card on hand, done by Gui
 	 * <li>{@link GameListener} notified
 	 * @param card
@@ -487,6 +530,43 @@ public class Player implements Serializable
 	{
 		cardSelectionLimit = limit;
 	}
+	public void setTargetSelectionLimit(int limit)
+	{
+		targetSelectionLimit = limit;
+	}
+	public void setCardSelectableByName(String cardName,boolean selectable)
+	{
+		for(Card card : cardsOnHand)
+			if(card.getName().equals(cardName))
+				gameListener.onCardSetSelectable(card,selectable);
+	}
+	public void setCardSelectableByType(int cardType,boolean selectable)
+	{
+		for(Card card : cardsOnHand)
+			if(card.getType() == cardType)
+				gameListener.onCardSetSelectable(card,selectable);
+	}
+	public boolean isSelected(Card card)
+	{
+		return cardsSelected.contains(card);
+	}
+	public void selectTarget(Player player)
+	{
+		targetsSelected.add(player);
+		gameListener.onTargetSelected(player);
+		if(targetsSelected.size() > targetSelectionLimit)
+			gameListener.onTargetUnselected(targetsSelected.remove(0));
+	}
+	public void unselectTarget(Player player)
+	{
+		targetsSelected.remove(player);
+		gameListener.onTargetUnselected(player);
+	}
+	public boolean isSelected(Player player)
+	{
+		return targetsSelected.contains(player);
+	}
+	
 	@Override
 	public int hashCode()
 	{

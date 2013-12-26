@@ -11,7 +11,6 @@ public abstract class Update implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = 8023612171434442802L;
-
 	public void masterOperation(Master master)
 	{
 		master.sendToAllClients(this);

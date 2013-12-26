@@ -20,8 +20,8 @@ public class CardRackGui extends JPanel implements MouseMotionListener, CardOnHa
 	public static final int WIDTH = PanelGui.WIDTH - EquipmentRackGui.WIDTH - HeroGui.WIDTH - LifebarGui.WIDTH;
 	public static final int HEIGHT = 200;
 	private ActionListener listener;
-	
 	private ArrayList<CardGui> cards;
+
 	public CardRackGui(ActionListener listener)
 	{
 		setLayout(null);
@@ -38,6 +38,7 @@ public class CardRackGui extends JPanel implements MouseMotionListener, CardOnHa
 		cardGui.addActionListener(listener);
 		cards.add(cardGui);
 		add(cardGui);
+		repaint();
 	}
 	@Override
 	public void onCardRemoved(Card card)
@@ -47,9 +48,15 @@ public class CardRackGui extends JPanel implements MouseMotionListener, CardOnHa
 			if(cards.get(i).getCard() == card)
 			{
 				cards.remove(i);
+				repaint();
 				return;
 			}
 		}
+	}
+	protected void clearRack()
+	{
+		cards.clear();
+		repaint();
 	}
 	public ArrayList<CardGui> getCardsOnHand()
 	{

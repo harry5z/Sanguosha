@@ -51,7 +51,7 @@ public class RequireUseOfCardsByName extends SourceTargetAmount
 	@Override
 	public void playerOperation(Player player)
 	{
-		
+		player.setCardSelectableByName(cardName, true);
 	}
 
 }

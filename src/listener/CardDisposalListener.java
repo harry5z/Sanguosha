@@ -1,11 +1,22 @@
 package listener;
 
-import java.util.ArrayList;
-
 import core.Card;
 
 public interface CardDisposalListener 
 {
+	/**
+	 * monitors the usage of card
+	 * @param card
+	 */
 	public void onCardUsed(Card card);
-	public void onCardsUsed(ArrayList<Card> cards);
+	/**
+	 * monitors the disposal of card (may invoke skills)
+	 * @param card
+	 */
+	public void onCardDisposed(Card card);
+
+	/**
+	 * refresh the disposal area
+	 */
+	public void refresh();
 }

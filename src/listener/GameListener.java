@@ -26,7 +26,10 @@ public interface GameListener
 	
 	public void onCardUnselected(Card card);
 	
-	public void onPlayerSelected(Player player);
+	public void onTargetSelected(Player player);
 	
-	public void onPlayerUnselected(Player player);
+	public void onTargetUnselected(Player player);
+	
+	public void onCardSetSelectable(Card card, boolean selectable);
+	
 }
