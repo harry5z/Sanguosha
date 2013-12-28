@@ -45,7 +45,6 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 	private ButtonGui cancel;
 	private ButtonGui end;
 	
-	private Update updateToSend;
 	private JLabel deckSize;
 	public PanelGui(int position)
 	{
@@ -74,7 +73,6 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		end = new ButtonGui("End",this);
 		end.setLocation(ButtonGui.WIDTH*2,HEIGHT-CardRackGui.HEIGHT-ButtonGui.HEIGHT);
 		
-		updateToSend = null;
 		
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		add(cardRack);
@@ -111,58 +109,60 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		if(obj instanceof CardGui)
 		{
 			Card card = ((CardGui)obj).getCard();
-			if(!myself.isSelected(card))
-				myself.selectCardOnHand(card);
-			else
-				myself.unselectCardOnHand(card);
+			myself.activateCardOnHand(card);
+//			if(!myself.isSelected(card))
+//				myself.selectCardOnHand(card);
+//			else
+//				myself.unselectCardOnHand(card);
 		}
 		else if(obj instanceof PlayerGui)
 		{
 			Player player = ((PlayerGui)obj).getPlayer();
-			if(!myself.isSelected(player))
-				myself.selectTarget(player);
-			else
-				myself.unselectTarget(player);
+			myself.selectTarget(player);
+//			if(!myself.isSelected(player))
+//				myself.selectTarget(player);
+//			else
+//				myself.unselectTarget(player);
 		}
 		else if(obj == confirm)
 		{
-			client.sendToMaster(updateToSend);
-			reset();
-			setAllCardsEnabled(false);
+			myself.confirm();
 		}
 		else if(obj == cancel)
 		{
-			reset();
+			myself.cancel();
 		}
 		else if(obj == end)
 		{
-			reset();
+			for(PlayerGui p : otherPlayers)
+				p.setEnabled(false);
+			setAllCardsEnabled(false);
+			confirm.setEnabled(false);
 			end.setEnabled(false);
 			cancel.setEnabled(false);
-			client.sendToMaster(new NextStage(myself.getCurrentStage()));
 		}
 	}
-	private void processCard(Card card)
-	{
-		if(card.getType() == Card.BASIC)
-		{
-			String name = card.getName();
-			if(name.equals(Attack.ATTACK))
-			{
-				for(PlayerGui potentialTarget : otherPlayers)
-					if(myself.isPlayerInRange(potentialTarget.getPlayer()))
-							potentialTarget.setEnabled(true);
-				updateToSend = new RequireUseOfCardsByName(myself,new Dodge(),1);
-				cancel.setEnabled(true);
-			}
-			else if(name.equals(Peach.PEACH) || name.equals(Dodge.DODGE));
-			{
-				updateToSend = new UseOfCards(myself,card);
-				confirm.setEnabled(true);
-				cancel.setEnabled(true);
-			}
-		}
-	}
+//	private void processCard(Card card)
+//	{
+//		if(card.getType() == Card.BASIC)
+//		{
+//			String name = card.getName();
+//			if(name.equals(Attack.ATTACK))
+//			{
+//				for(PlayerGui potentialTarget : otherPlayers)
+//					if(myself.isPlayerInRange(potentialTarget.getPlayer()))
+//							potentialTarget.setEnabled(true);
+//				updateToSend = new RequireUseOfCardsByName(myself,new Dodge(),1);
+//				cancel.setEnabled(true);
+//			}
+//			else if(name.equals(Peach.PEACH) || name.equals(Dodge.DODGE));
+//			{
+//				updateToSend = new UseOfCards(myself,card);
+//				confirm.setEnabled(true);
+//				cancel.setEnabled(true);
+//			}
+//		}
+//	}
 	private void setAllCardsEnabled(boolean b)
 	{
 		for(CardGui card : cardRack.getCardsOnHand())
@@ -173,14 +173,6 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		for(CardGui card : cardRack.getCardsOnHand())
 			if(!card.getName().equals(Dodge.DODGE))
 				card.setEnabled(true);
-	}
-
-	private void reset()
-	{
-		for(PlayerGui p : otherPlayers)
-			p.setEnabled(false);
-		confirm.setEnabled(false);
-		updateToSend = null;
 	}
 
 	@Override
@@ -257,7 +249,26 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 				return;
 			}
 	}
-	
+	@Override
+	public void onTargetSetSelectable(Player player, boolean selectable)
+	{
+		for(PlayerGui p : otherPlayers)
+			if(p.getPlayer().equals(player))
+			{
+				p.setEnabled(selectable);
+				return;
+			}
+	}
+	@Override
+	public void onConfirmSetEnabled(boolean isEnabled)
+	{
+		confirm.setEnabled(isEnabled);
+	}
+	@Override
+	public void onCancelSetEnabled(boolean isEnabled)
+	{
+		cancel.setEnabled(isEnabled);
+	}
 	public static void main(String[] args)
 	{
 		JFrame f = new JFrame();

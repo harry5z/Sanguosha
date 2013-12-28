@@ -27,12 +27,17 @@ public class NewPlayer extends Update
 	@Override
 	public void playerOperation(Player player) 
 	{
-		ArrayList<Player> existingOtherPlayers = player.getOtherPlayers();
-		for(Player p : allPlayers)
-			if(!p.equals(player) && !existingOtherPlayers.contains(p))
-				player.addOtherPlayer(p);
-		if(!player.equals(newPlayer))
+		if(player.equals(newPlayer))
+		{
+			for(Player p : allPlayers)
+				if(!p.equals(player))
+					player.addOtherPlayer(p);
+		}
+		else
+		{
 			player.addOtherPlayer(newPlayer);
+		}
+
 	}
 	public int size()
 	{

@@ -36,6 +36,7 @@ public class CardRackGui extends JPanel implements MouseMotionListener, CardOnHa
 		CardGui cardGui = new CardGui(card);
 		cardGui.addMouseMotionListener(this);
 		cardGui.addActionListener(listener);
+		cardGui.setEnabled(false);
 		cards.add(cardGui);
 		add(cardGui);
 		repaint();

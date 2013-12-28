@@ -2,6 +2,7 @@ package core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import update.*;
 import listener.*;
@@ -24,6 +25,10 @@ public class Player implements Serializable
 	//in-game properties
 	private int healthCurrent;
 	private int attackLimit;
+	private int attackUsed;
+	private int wineLimit;
+	private int wineUsed;
+	private boolean isWineUsed;
 	private ArrayList<Card> cardsOnHand;
 	private boolean flipped;
 	private boolean isAlive;
@@ -49,11 +54,11 @@ public class Player implements Serializable
 	private transient CardDisposalListener disposalListener;
 
 	//in-game interactive properties
-	private ArrayList<Card> cardsSelected;
-	private int cardSelectionLimit;
-	private ArrayList<Player> targetsSelected;
-	private int targetSelectionLimit;
+	private Card cardActivated;
+	//private ArrayList<Player> targetsSelected;
+	//private int targetSelectionLimit;
 	private ArrayList<Card> cardsUsedThisTurn;
+	private Stack<Update> updateStack;
 	
 	public Player(String name,int position)
 	{
@@ -69,6 +74,10 @@ public class Player implements Serializable
 		horsePlusEquipped = false;
 		horseMinusEquipped = false;
 		attackLimit = 1;
+		attackUsed = 0;
+		wineLimit = 1;
+		wineUsed = 0;
+		isWineUsed = false;
 		
 		//init other properties
 		decisionArea = new ArrayList<Card>();
@@ -81,10 +90,10 @@ public class Player implements Serializable
 		otherPlayers = new ArrayList<Player>();
 		
 		//init in-game interactive properties
-		cardsSelected = new ArrayList<Card>();
-		cardSelectionLimit = 1;
-		targetsSelected = new ArrayList<Player>();
-		targetSelectionLimit = 1;
+		cardActivated = null;
+		//targetsSelected = new ArrayList<Player>();
+		//targetSelectionLimit = 1;
+		updateStack = new Stack<Update>();
 	}
 	/**
 	 * upon setting a hero
@@ -473,6 +482,10 @@ public class Player implements Serializable
 	{
 		return isAlive;
 	}
+	public void setAttackLimit(int limit)
+	{
+		attackLimit = limit;
+	}
 	//**************** methods related to game flow ***************
 	public void drawCards()
 	{
@@ -484,10 +497,15 @@ public class Player implements Serializable
 	 */
 	public void startDealing()
 	{
+
 		gameListener.onTurnDealStarted();
 	}
 	
 	//**************** methods related to interactions ****************
+	public Stack<Update> getUpdateStack()
+	{
+		return updateStack;
+	}
 	/**
 	 * <li>No card selected
 	 * <li>No target selected
@@ -495,45 +513,76 @@ public class Player implements Serializable
 	 * <li>No update to send
 	 * <li>confirm disabled
 	 */
-	public void reset()
+	public void endDealing()
 	{
-		cardsSelected.clear();
-		targetsSelected.clear();
-		cardSelectionLimit = 1;
-		targetSelectionLimit = 1;
-		attackLimit = 1;
-		
+		cardsUsedThisTurn.clear();
+		attackUsed = 0;
+		wineUsed = 0;
+		gameListener.onTurnDealEnded();
+//		for(Card card : cardsSelected)
+//			gameListener.onCardUnselected(card);
+//		cardsSelected.clear();
+//		for(Player target : targetsSelected)
+//			gameListener.onTargetUnselected(target);
+//		targetsSelected.clear();
 	}
 	/**
 	 * select a card on hand, done by Gui
 	 * <li>{@link GameListener} notified
 	 * @param card
 	 */
-	public void selectCardOnHand(Card card)
+	public void activateCardOnHand(Card card)
 	{
-		cardsSelected.add(card);
-		gameListener.onCardSelected(card);
-		if(cardsSelected.size() > cardSelectionLimit)
-			gameListener.onCardUnselected(cardsSelected.remove(0));
+		if(cardActivated == null)//no card activated 
+		{
+			cardActivated = card;
+			cardActivated.onActivatedBy(this);
+			gameListener.onCardSelected(cardActivated);//card is selected
+			gameListener.onCancelSetEnabled(true);//can cancel
+		}
+		else if(cardActivated.equals(card))//want to cancel the activation
+		{
+			cardActivated.onDeactivatedBy(this);
+			gameListener.onCardUnselected(card);
+			cardActivated = null;
+		}
+		else//card is different from cardSelected
+		{
+			cardActivated.onDeactivatedBy(this);
+			gameListener.onCardUnselected(cardActivated);
+			
+			cardActivated = card;
+			cardActivated.onActivatedBy(this);
+			gameListener.onCardSelected(cardActivated);
+		}
+//		cardsSelected.add(card);
+//		gameListener.onCardSelected(card);
+//		if(cardsSelected.size() > cardSelectionLimit)
+//			gameListener.onCardUnselected(cardsSelected.remove(0));
 	}
+	
 	/**
 	 * unselect a card on hand, done by Gui
 	 * <li>{@link GameListener} notified
 	 * @param card
 	 */
-	public void unselectCardOnHand(Card card)
+	public void setCardOnHandSelected(Card card, boolean isSelected)
 	{
-		cardsSelected.remove(card);
-		gameListener.onCardUnselected(card);
+		if(isSelected)
+			gameListener.onCardSelected(card);
+		else
+			gameListener.onCardUnselected(card);
+//		cardsSelected.remove(card);
+		
 	}
-	public void setCardSelectionLimit(int limit)
-	{
-		cardSelectionLimit = limit;
-	}
-	public void setTargetSelectionLimit(int limit)
-	{
-		targetSelectionLimit = limit;
-	}
+//	public void setCardSelectionLimit(int limit)
+//	{
+//		cardSelectionLimit = limit;
+//	}
+//	public void setTargetSelectionLimit(int limit)
+//	{
+//		targetSelectionLimit = limit;
+//	}
 	public void setCardSelectableByName(String cardName,boolean selectable)
 	{
 		for(Card card : cardsOnHand)
@@ -546,27 +595,55 @@ public class Player implements Serializable
 			if(card.getType() == cardType)
 				gameListener.onCardSetSelectable(card,selectable);
 	}
-	public boolean isSelected(Card card)
+	public void setCardSelectable(Card card, boolean selectable)
 	{
-		return cardsSelected.contains(card);
+		gameListener.onCardSetSelectable(card, selectable);
+	}
+//	public boolean isSelected(Card card)
+//	{
+//		return cardsSelected.contains(card);
+//	}
+	public void setTargetSelectable(Player player,boolean selectable)
+	{
+		gameListener.onTargetSetSelectable(player, selectable);
 	}
 	public void selectTarget(Player player)
 	{
-		targetsSelected.add(player);
+	//	targetsSelected.add(player);
 		gameListener.onTargetSelected(player);
-		if(targetsSelected.size() > targetSelectionLimit)
-			gameListener.onTargetUnselected(targetsSelected.remove(0));
+	//	if(targetsSelected.size() > targetSelectionLimit)
+	//		gameListener.onTargetUnselected(targetsSelected.remove(0));
 	}
 	public void unselectTarget(Player player)
 	{
-		targetsSelected.remove(player);
+//		targetsSelected.remove(player);
 		gameListener.onTargetUnselected(player);
 	}
-	public boolean isSelected(Player player)
+//	public boolean isSelected(Player player)
+//	{
+//		return targetsSelected.contains(player);
+//	}
+	public void setConfirmEnabled(boolean isEnabled)
 	{
-		return targetsSelected.contains(player);
+		gameListener.onConfirmSetEnabled(isEnabled);
 	}
-	
+	public void setCancelEnabled(boolean isEnabled)
+	{
+		gameListener.onCancelSetEnabled(isEnabled);
+	}
+	public void confirm()
+	{
+		gameListener.onSendToMaster(updateStack.pop());
+	}
+	public void cancel()
+	{
+		if(cardActivated != null)
+		updateStack.pop();
+	}
+	public void end()
+	{
+		gameListener.onSendToMaster(new NextStage(currentStage));
+	}
 	@Override
 	public int hashCode()
 	{

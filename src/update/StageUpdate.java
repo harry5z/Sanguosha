@@ -1,5 +1,6 @@
 package update;
 
+import core.Card;
 import core.Player;
 
 public class StageUpdate extends Update
@@ -42,6 +43,7 @@ public class StageUpdate extends Update
 	public void playerOperation(Player player)
 	{
 		Player operator;
+		player.setCurrentStage(this);
 		if(player.equals(source))
 			operator = player;
 		else
@@ -55,5 +57,15 @@ public class StageUpdate extends Update
 		{
 			operator.startDealing();
 		}
+	}
+	@Override
+	public void onPlayerSelected(Player player) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onCardSelected(Card card) {
+		// TODO Auto-generated method stub
+		
 	}	
 }

@@ -32,4 +32,9 @@ public interface GameListener
 	
 	public void onCardSetSelectable(Card card, boolean selectable);
 	
+	public void onTargetSetSelectable(Player player, boolean selectable);
+	
+	public void onConfirmSetEnabled(boolean isEnabled);
+	
+	public void onCancelSetEnabled(boolean isEnabled);
 }

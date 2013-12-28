@@ -17,7 +17,10 @@ public class Framework
 	}
 	public ArrayList<Player> getPlayers() 
 	{
-		return players;
+		ArrayList<Player> temp = new ArrayList<Player>();
+		for(Player p : players)
+			temp.add(p);
+		return temp;
 	}
 	public void addPlayer(Player player)
 	{

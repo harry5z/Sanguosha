@@ -1,6 +1,8 @@
 package core;
 
-public abstract class Card
+import update.Update;
+
+public abstract class Card extends Update
 {
 	public static final int DIAMOND = 1;
 	public static final int CLUB = 2;
@@ -47,7 +49,11 @@ public abstract class Card
 		this.type = type;
 	}
 	public abstract String getName();
-	
+	public abstract void onActivatedBy(Player player);
+	public void onDeactivatedBy(Player player)
+	{
+		player.getUpdateStack().pop();
+	}
 	public int getType()
 	{
 		return type;
@@ -64,6 +70,11 @@ public abstract class Card
 	public int getSuit()
 	{
 		return suit;
+	}
+	@Override
+	public void onCardSelected(Card card)
+	{
+		
 	}
 	@Override
 	public int hashCode()
