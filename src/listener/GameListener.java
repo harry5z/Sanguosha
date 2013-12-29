@@ -1,26 +1,18 @@
 package listener;
 
+import player.PlayerOriginalClientSimple;
 import core.Card;
 import core.Player;
 import update.Update;
 public interface GameListener 
 {
 	/**
-	 * Send game update to GUI
-	 * @param note
-	 */
-	public void onNotified(Update update);
-	/**
 	 * use it to communicate with master
 	 * @param update
 	 */
 	public void onSendToMaster(Update update);
 	
-	public void onPlayerAdded(Player player);
-	
-	public void onTurnDealStarted();
-	
-	public void onTurnDealEnded();
+	public void onPlayerAdded(PlayerOriginalClientSimple player);
 	
 	public void onCardSelected(Card card);
 	
@@ -37,4 +29,6 @@ public interface GameListener
 	public void onConfirmSetEnabled(boolean isEnabled);
 	
 	public void onCancelSetEnabled(boolean isEnabled);
+	
+	public void onEndSetEnabled(boolean isEnabled);
 }

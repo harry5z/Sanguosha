@@ -2,6 +2,7 @@ package update;
 
 import java.io.Serializable;
 
+import player.*;
 import core.Card;
 import core.Master;
 import core.Player;
@@ -20,9 +21,9 @@ public abstract class Update implements Serializable
 	{
 		master.sendToAllClients(this);
 	}
-	public abstract void playerOperation(Player player);
+	public abstract void playerOperation(PlayerOriginalClientComplete player);
 	
-	public abstract void onPlayerSelected(Player player);
+	public abstract void onPlayerSelected(PlayerOriginalClientSimple player);
 	
 	/**
 	 * usually used by skills and equipment for effects

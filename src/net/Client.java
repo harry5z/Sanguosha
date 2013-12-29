@@ -8,6 +8,7 @@ import java.net.Socket;
 
 import update.ClientReadyNotification;
 import update.Update;
+import listener.ClientListener;
 import listener.GameListener;
 
 public class Client extends Thread
@@ -15,10 +16,10 @@ public class Client extends Thread
 	private int masterPort;
 	private String masterHost;
 	
-	private GameListener listener;
+	private ClientListener listener;
 	private ObjectOutputStream out;
 	
-	public Client(GameListener listener)
+	public Client(ClientListener listener)
 	{
 		this.listener = listener;
 	}

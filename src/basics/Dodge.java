@@ -6,6 +6,10 @@ import core.Player;
 
 public class Dodge extends Basic
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1992513440094048675L;
 	public static final String DODGE = "Dodge";
 	private Player source;
 	public Dodge(int num, int suit)
@@ -36,5 +40,10 @@ public class Dodge extends Basic
 	public void onPlayerSelected(Player player) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public boolean isActivatableBy(Player player) 
+	{
+		return false;
 	}
 }

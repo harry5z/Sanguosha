@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import player.PlayerOriginalClientSimple;
 import listener.CardOnHandListener;
 import listener.EquipmentListener;
 import listener.HealthListener;
@@ -29,7 +30,7 @@ public class PlayerGui extends JButton
 	private static final int EQUIPMENTBAR_HEIGHT = 20;
 	private static final int CARDCOUNT_HEIGHT = 20;
 	private Player player;
-	public PlayerGui(Player player)
+	public PlayerGui(PlayerOriginalClientSimple player)
 	{
 		this.player = player;
 		setSize(WIDTH,HEIGHT);

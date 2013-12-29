@@ -2,29 +2,30 @@ package core;
 
 import java.util.ArrayList;
 
+import player.PlayerOriginalMasterSimple;
 import update.Update;
 
 public class Framework 
 {
-	private ArrayList<Player> players;
+	private ArrayList<PlayerOriginalMasterSimple> players;
 	private Deck deck;
 	
 	private Player currentPlayer;
 	public Framework()
 	{
 		deck = new Deck(true,true);
-		players = new ArrayList<Player>();
+		players = new ArrayList<PlayerOriginalMasterSimple>();
 	}
-	public ArrayList<Player> getPlayers() 
+	public ArrayList<PlayerInfo> getPlayers() 
 	{
-		ArrayList<Player> temp = new ArrayList<Player>();
+		ArrayList<PlayerInfo> temp = new ArrayList<PlayerInfo>();
 		for(Player p : players)
-			temp.add(p);
+			temp.add(new PlayerInfo(p.getName(),p.getPosition()));
 		return temp;
 	}
-	public void addPlayer(Player player)
+	public void addPlayer(PlayerInfo player)
 	{
-		players.add(player);
+		players.add(new PlayerOriginalMasterSimple(player.getName(),player.getPosition()));
 	}
 	public Player getCurrentPlayer() 
 	{

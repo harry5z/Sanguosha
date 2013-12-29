@@ -1,5 +1,7 @@
 package basics;
 
+import player.PlayerOriginalClientComplete;
+import player.PlayerOriginalClientSimple;
 import core.Basic;
 import core.Player;
 
@@ -20,7 +22,7 @@ public class Attack extends Basic
 	public static final String THUNDER_ATTACK = "Thunder Attack";
 	
 	private Player target;
-	private Player source;
+	private PlayerOriginalClientComplete source;
 	public Attack(int e, int num, int suit)
 	{
 		super(num, suit);
@@ -42,31 +44,44 @@ public class Attack extends Basic
 		else
 			return THUNDER_ATTACK;
 	}
-	
 	@Override
-	public void onActivatedBy(Player player) 
+	public boolean isActivatableBy(PlayerOriginalClientComplete player)
+	{
+		if(player.getAttackUsed() < player.getAttackLimit())
+			return true;
+		else
+			return false;
+	}
+	@Override
+	public void onActivatedBy(PlayerOriginalClientComplete player) 
 	{
 		source = player;
 		source.getUpdateStack().push(this);
-		for(Player p : source.getOtherPlayers())
-			if(source.isPlayerInRange(p))
+		for(PlayerOriginalClientSimple p : source.getOtherPlayers())
+			if(source.isPlayerInRange(p,source.getNumberOfPlayersAlive()))
 				source.setTargetSelectable(p, true);
 	}
 	@Override
-	public void onDeactivatedBy(Player player)
+	public void onDeactivatedBy(PlayerOriginalClientComplete player)
 	{
 		super.onDeactivatedBy(player);
-		for(Player p : player.getOtherPlayers())
-			p.setTargetSelectable(p, false);
+		for(PlayerOriginalClientSimple p : player.getOtherPlayers())
+			player.setTargetSelectable(p, false);
 	}
 	@Override
-	public void playerOperation(Player player) 
+	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
-		// TODO Auto-generated method stub
+		if(player.equals(source))
+			player.setAttackUsed(player.getAttackUsed()+1);//use an attack
+		else if(player.equals(target))
+		{
+			player.setCardSelectableByName(Dodge.DODGE, true);
+			player.setCancelEnabled(true);
+		}
 		
 	}
 	@Override
-	public void onPlayerSelected(Player player) 
+	public void onPlayerSelected(PlayerOriginalClientSimple player) 
 	{
 		if(target == null)
 		{

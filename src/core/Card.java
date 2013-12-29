@@ -1,9 +1,14 @@
 package core;
 
+import player.PlayerOriginalClientComplete;
 import update.Update;
 
 public abstract class Card extends Update
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2570541960577206529L;
 	public static final int DIAMOND = 1;
 	public static final int CLUB = 2;
 	public static final int HEART = 3;
@@ -49,8 +54,9 @@ public abstract class Card extends Update
 		this.type = type;
 	}
 	public abstract String getName();
-	public abstract void onActivatedBy(Player player);
-	public void onDeactivatedBy(Player player)
+	public abstract void onActivatedBy(PlayerOriginalClientComplete player);
+	public abstract boolean isActivatableBy(PlayerOriginalClientComplete player);
+	public void onDeactivatedBy(PlayerOriginalClientComplete player)
 	{
 		player.getUpdateStack().pop();
 	}

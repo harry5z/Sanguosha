@@ -9,6 +9,9 @@ import java.util.concurrent.Executors;
 
 import javax.swing.*;
 
+import player.PlayerOriginal;
+import player.PlayerOriginalClientComplete;
+import player.PlayerOriginalClientSimple;
 import update.*;
 import net.Client;
 import listener.GameListener;
@@ -16,7 +19,6 @@ import core.Card;
 import core.Hero;
 import core.Master;
 import core.Player;
-import core.PlayerImpl;
 import basics.*;
 
 
@@ -38,7 +40,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 	private LifebarGui healthGui;
 	private CardDisposalGui disposalGui;
 	
-	private Player myself;
+	private PlayerOriginalClientComplete myself;
 	private Client client;
 	private ArrayList<PlayerGui> otherPlayers;
 	private ButtonGui confirm;
@@ -57,7 +59,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		disposalGui = new CardDisposalGui();
 		otherPlayers = new ArrayList<PlayerGui>();
 
-		myself = new PlayerImpl("Player "+position,position);
+		myself = new PlayerOriginalClientComplete("Player "+position,position);
 		myself.setHero(new Blank());
 		myself.registerGameListener(this);
 		myself.registerCardOnHandListener(cardRack);
@@ -87,13 +89,13 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 	}
 	private void connect()
 	{
-		client = new Client(this);
+		client = new Client(myself);
 		client.setHost("localhost");
 		client.setPort(Master.DEFAULT_PORT);
 		executor.execute(client);
 	}
 	@Override
-	public void onPlayerAdded(Player player)
+	public void onPlayerAdded(PlayerOriginalClientSimple player)
 	{
 		player.registerCardDisposalListener(disposalGui);
 		PlayerGui p = new PlayerGui(player);
@@ -176,28 +178,9 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 	}
 
 	@Override
-	public void onNotified(Update update) 
-	{
-		update.playerOperation(myself);
-	}
-	@Override
 	public void onSendToMaster(Update update)
 	{
 		client.sendToMaster(update);
-	}
-	@Override
-	public void onTurnDealStarted()
-	{
-		cancel.setEnabled(true);
-		end.setEnabled(true);
-		setAllCardsEnabledExceptDodge();
-	}
-	@Override
-	public void onTurnDealEnded()
-	{
-		cancel.setEnabled(false);
-		end.setEnabled(false);
-		setAllCardsEnabled(false);
 	}
 	@Override
 	public void onCardSelected(Card card)
@@ -268,6 +251,11 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 	public void onCancelSetEnabled(boolean isEnabled)
 	{
 		cancel.setEnabled(isEnabled);
+	}
+	@Override
+	public void onEndSetEnabled(boolean isEnabled)
+	{
+		end.setEnabled(isEnabled);
 	}
 	public static void main(String[] args)
 	{
