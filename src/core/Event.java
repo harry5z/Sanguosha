@@ -2,5 +2,5 @@ package core;
 
 public interface Event extends Update
 {
-	public void nextStep(Framework framework);
+	public void nextStep();
 }

@@ -430,9 +430,9 @@ public abstract class Player
 	public abstract void endDealing();
 	public void endTurn()
 	{
-		
 		attackUsed = 0;
 		wineUsed = 0;
+		isWineUsed = false;
 	}
 	@Override
 	public int hashCode()

@@ -2,12 +2,13 @@ package update;
 
 import player.PlayerOriginalClientComplete;
 import core.Card;
+import core.Event;
 import core.Framework;
 import core.Player;
 import core.PlayerInfo;
 import core.Update;
 
-public class StageUpdate implements Update
+public class StageUpdate implements Event
 {
 	/**
 	 * 
@@ -45,20 +46,19 @@ public class StageUpdate implements Update
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
-		Player operator;
 		player.setCurrentStage(this);
+		
 		if(player.equals(source))
-			operator = player;
-		else
-			operator = player.findMatch(source);
+		{
 			
-		if(stage == TURN_DRAW && isBeginning)
-		{
-			operator.drawCards();
-		}
-		else if(stage == TURN_DEAL && isBeginning)
-		{
-			operator.startDealing();
+			if(stage == TURN_DRAW)
+			{
+				player.drawCards();
+			}
+			else if(stage == TURN_DEAL)
+			{
+				player.startDealing();
+			}
 		}
 	}
 	@Override
@@ -66,5 +66,10 @@ public class StageUpdate implements Update
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void nextStep() 
+	{
+		stage++;
 	}
 }
