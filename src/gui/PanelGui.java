@@ -3,6 +3,8 @@ import heroes.Blank;
 
 import java.awt.Dimension;
 import java.awt.event.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -91,8 +93,16 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 	}
 	private void connect()
 	{
+//		try
+//		{
+//			System.out.println(InetAddress.getLocalHost().getHostAddress());
+//		}
+//		catch(UnknownHostException e)
+//		{
+//			
+//		}
 		client = new Client(myself);
-		client.setHost("localhost");
+		client.setHost("192.168.8.121");
 		client.setPort(Master.DEFAULT_PORT);
 		executor.execute(client);
 	}
