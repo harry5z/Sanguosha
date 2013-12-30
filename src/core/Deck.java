@@ -3,42 +3,9 @@ package core;
 import java.util.ArrayList;
 import java.util.Random;
 
-import specials.ArrowSalvo;
-import specials.BarbarianInvasion;
-import specials.BorrowSword;
-import specials.Brotherhood;
-import specials.Chain;
-import specials.Creation;
-import specials.Starvation;
-import specials.Destroy;
-import specials.Duel;
-import specials.FireAttack;
-import specials.Harvest;
-import specials.Lightning;
-import specials.Relaxation;
-import specials.Neutralization;
-import specials.Steal;
-import basics.Attack;
-import basics.Dodge;
-import basics.Peach;
-import basics.Wine;
-import equipments.AncientNuggetFalchion;
-import equipments.ChuKoNu;
-import equipments.DoubleSword;
-import equipments.DragonBlade;
-import equipments.Halbert;
-import equipments.HeavyAxe;
-import equipments.HorseMinus;
-import equipments.HorsePlus;
-import equipments.IronShield;
-import equipments.IronSword;
-import equipments.KylinBow;
-import equipments.SerpentSpear;
-import equipments.FeatheredFan;
-import equipments.RattenArmor;
-import equipments.SilverLion;
-import equipments.IcySword;
-import equipments.TaichiFormation;
+import specials.*;
+import basics.*;
+import equipments.*;
 
 public class Deck 
 {

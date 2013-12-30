@@ -15,7 +15,6 @@ public class Framework
 	private Deck deck;
 	
 	private Stack<Event> events;
-	private Player currentPlayer;
 	public Framework(Master master)
 	{
 		this.master = master;
@@ -48,9 +47,12 @@ public class Framework
 		}
 		return null;//should not reach here
 	}
-	public Player getCurrentPlayer() 
+	public PlayerOriginalMasterSimple findMatch(PlayerInfo p)
 	{
-		return currentPlayer;
+		for(PlayerOriginalMasterSimple player : players)
+			if(player.isEqualTo(p))
+				return player;
+		return null;
 	}
 	public Stack<Event> getEventStack()
 	{

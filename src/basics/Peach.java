@@ -1,17 +1,13 @@
 package basics;
 
+import player.PlayerOriginalClientComplete;
 import core.Basic;
-import core.Player;
+import events.PeachOperation;
 
 
 public class Peach extends Basic
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4681237057056984060L;
 	public static final String PEACH = "Peach";
-	private Player source;
 	public Peach(int num, int suit)
 	{
 		super(num, suit);
@@ -22,25 +18,18 @@ public class Peach extends Basic
 		return PEACH;
 	}
 	@Override
-	public void onActivatedBy(Player player) 
-	{
-		source = player;
-		player.getUpdateStack().push(this);
-	}
-	@Override
-	public void playerOperation(Player player) 
-	{
-		if(player.equals(source))
-			player.changeHealthCurrentBy(1);
-		else
-			player.findMatch(source).changeHealthCurrentBy(1);
-	}
-	@Override
-	public boolean isActivatableBy(Player player) 
+	public boolean isActivatableBy(PlayerOriginalClientComplete player) 
 	{
 		if(player.getHealthCurrent() < player.getHealthLimit())
 			return true;
 		else
 			return false;
+	}
+	@Override
+	public void onActivatedBy(PlayerOriginalClientComplete player)
+	{
+		player.setOperation(new PeachOperation(player.getPlayerInfo(),this));
+		player.setCancelEnabled(true);
+		player.setConfirmEnabled(true);
 	}
 }

@@ -79,11 +79,12 @@ public class AttackEvent implements Operation, Event
 				player.sendToMaster(this);
 			}
 		}
+		else
+			System.err.println("AttackEvent: invalid cancellation at stage "+stage);
 	}
 	private void endOfTargetOperation(PlayerOriginalClientComplete player)
 	{
 		player.setOperation(null);
-		player.setConfirmEnabled(false);
 		player.setCancelEnabled(false);
 		if(dodge != null)
 			player.setCardOnHandSelected(dodge, false);
@@ -121,7 +122,7 @@ public class AttackEvent implements Operation, Event
 			}
 			else if(stage == USING_DODGE)//target choose whether to dodge the attack
 			{
-				player.setUpdateToSend(this);//push it to target's stack
+				player.setOperation(this);//push it to target's stack
 				player.setCardSelectableByName(Dodge.DODGE, true);//enable dodges
 				player.setCancelEnabled(true);//enable cancel
 			}
@@ -168,7 +169,7 @@ public class AttackEvent implements Operation, Event
 			}
 		}
 		else
-			System.err.println("AttackEvent: Error in player selection");
+			System.err.println("AttackEvent: invalid player selection at stage "+stage);
 	}
 	@Override
 	public void onConfirmedBy(PlayerOriginalClientComplete player) 
@@ -183,6 +184,8 @@ public class AttackEvent implements Operation, Event
 				player.useWine();
 			}
 			damage = new Damage(amount,cardUsedAsAttack.getElement(),source,target);
+			player.setOperation(null);
+			player.sendToMaster(this);
 		}
 		else if(player.isEqualTo(target))//target dodged
 		{
@@ -190,12 +193,13 @@ public class AttackEvent implements Operation, Event
 			endOfTargetOperation(player);
 			player.sendToMaster(this);
 		}
+		else
+			System.err.println("AttackEvent: Invalid confirmation at stage "+stage);
 	}
 	private void cancelOperation(PlayerOriginalClientComplete operator, Card card)
 	{
 		operator.setOperation(null);//no operation
 		operator.setConfirmEnabled(false);//unable to confirm
-		operator.setCardOnHandSelected(cardUsedAsAttack, false);//this card not selected
 		if(target != null)
 			operator.unselectTarget(target);//target not selected
 		for(PlayerOriginalClientSimple p : operator.getOtherPlayers())//no target selectable
@@ -204,15 +208,7 @@ public class AttackEvent implements Operation, Event
 	@Override
 	public void onCardSelected(PlayerOriginalClientComplete operator, Card card) 
 	{
-		if(operator.isEqualTo(source))//source operation
-		{
-			cancelOperation(operator,card);//cancel operation
-			if(!card.equals(cardUsedAsAttack))//change
-			{
-				card.onActivatedBy(operator);//activate next
-			}
-		}
-		else if(operator.isEqualTo(target))//target select a card (must be dodge)
+		if(operator.isEqualTo(target))//target select a card (must be dodge)
 		{
 			if(dodge != null)//unselect previous dodge
 			{

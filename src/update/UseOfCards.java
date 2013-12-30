@@ -2,22 +2,23 @@ package update;
 
 import java.util.ArrayList;
 
-import net.Client;
+import player.PlayerOriginalClientComplete;
 import core.Card;
-import core.Player;
+import core.Framework;
+import core.PlayerInfo;
 import core.Update;
 
-public class UseOfCards extends Update
+public class UseOfCards implements Update
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1407461225573885948L;
-	private Player source;
+	private PlayerInfo source;
 	private String nameOfCardEffective;
 	private ArrayList<Card> cardsUsed;
 	
-	public UseOfCards(Player source)
+	public UseOfCards(PlayerInfo source)
 	{
 		this.source = source;
 	}
@@ -26,18 +27,18 @@ public class UseOfCards extends Update
 	 * @param source
 	 * @param cardUsed
 	 */
-	public UseOfCards(Player source,Card cardUsed)
+	public UseOfCards(PlayerInfo source,Card cardUsed)
 	{
 		this.source = source;
 		this.nameOfCardEffective = cardUsed.getName();
 		cardsUsed = new ArrayList<Card>(1);
 		cardsUsed.add(cardUsed);
 	}
-	public void setSource(Player player)
+	public void setSource(PlayerInfo player)
 	{
 		source = player;
 	}
-	public Player getSource()
+	public PlayerInfo getSource()
 	{
 		return source;
 	}
@@ -51,13 +52,19 @@ public class UseOfCards extends Update
 	}
 
 	@Override
-	public void playerOperation(Player player)
+	public void playerOperation(PlayerOriginalClientComplete player)
 	{
 		if(player.equals(source))
 			player.useCards(cardsUsed);
 		else
 			player.findMatch(source).useCards(cardsUsed);
 		
+	}
+	@Override
+	public void frameworkOperation(Framework framework) 
+	{
+		framework.getDeck().discardAll(cardsUsed);
+		framework.sendToAllClients(this);
 	}
 
 	

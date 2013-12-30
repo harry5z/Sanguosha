@@ -1,9 +1,12 @@
 package update;
 
-import net.Master;
+import java.util.ArrayList;
+
 import player.PlayerOriginalClientComplete;
+import core.Card;
 import core.Framework;
 import core.Player;
+import core.PlayerInfo;
 import core.Update;
 
 public class DrawCardsFromDeck implements Update
@@ -11,31 +14,31 @@ public class DrawCardsFromDeck implements Update
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3372389685603159424L;
-	private Player source;
+	private static final long serialVersionUID = 3227087424276735239L;
 	private int amount;
-	public DrawCardsFromDeck(Player source,int amount)
+	private ArrayList<Card> cards;
+	private PlayerInfo source;
+	
+	public DrawCardsFromDeck(PlayerInfo source, int amount)
 	{
 		this.source = source;
 		this.amount = amount;
 	}
-	public Player getSource()
-	{
-		return source;
-	}
-	public int getAmount()
-	{
-		return amount;
-	}
+
 	@Override
-	public void frameworkOperation(Framework framework)
+	public void frameworkOperation(Framework framework) 
 	{
-		framework.sendToAllClients(new ReceiveCardsFromDeck(source,framework.getDeck().drawMany(amount)));
+		cards = framework.getDeck().drawMany(amount);
+		framework.findMatch(source).addCards(cards);
+		framework.sendToAllClients(this);
 	}
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
-		// TODO Auto-generated method stub
-		
+		if(player.equals(source))
+			player.addCards(cards);
+		else
+			player.findMatch(source).addCards(cards);
 	}
+
 }

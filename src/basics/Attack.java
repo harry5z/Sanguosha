@@ -1,7 +1,6 @@
 package basics;
 
 import player.PlayerOriginalClientComplete;
-import player.PlayerOriginalClientSimple;
 import core.Basic;
 import events.AttackEvent;
 

@@ -138,7 +138,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	//**************** methods related to game flow ***************
 	public void drawCards()
 	{
-		DrawCardsFromDeck update = new DrawCardsFromDeck(this,2);
+		DrawCardsFromDeck update = new DrawCardsFromDeck(getPlayerInfo(),2);
 		sendToMaster(update);
 	}
 	/**
@@ -214,9 +214,26 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	 */
 	public void chooseCardOnHand(Card card)
 	{
-		if(operation == null)//nothing activated 
+		if(cardActivated == null && operation == null)//no card activated
 		{
 			card.onActivatedBy(this);
+			cardActivated = card;
+			gameListener.onCardSelected(card);
+		}
+		else if(cardActivated != null)
+		{
+			operation.onCancelledBy(this);
+			gameListener.onCardUnselected(cardActivated);
+			if(cardActivated.equals(card))//cancel
+			{
+				cardActivated = null;
+			}
+			else//change
+			{
+				cardActivated = card;
+				cardActivated.onActivatedBy(this);
+				gameListener.onCardSelected(cardActivated);				
+			}
 		}
 		else//something activated
 		{
@@ -309,6 +326,8 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	}
 	public void confirm()
 	{
+		cardActivated = null;
+		gameListener.onConfirmSetEnabled(false);
 		operation.onConfirmedBy(this);
 	}
 	public void cancel()
