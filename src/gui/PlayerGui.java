@@ -3,6 +3,7 @@ package gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -30,7 +31,7 @@ public class PlayerGui extends JButton
 	private static final int EQUIPMENTBAR_HEIGHT = 20;
 	private static final int CARDCOUNT_HEIGHT = 20;
 	private PlayerOriginalClientSimple player;
-	public PlayerGui(PlayerOriginalClientSimple player)
+	public PlayerGui(PlayerOriginalClientSimple player, ActionListener listener)
 	{
 		this.player = player;
 		setSize(WIDTH,HEIGHT);
@@ -61,6 +62,8 @@ public class PlayerGui extends JButton
 		PlayerEquipmentRackGui equipments = new PlayerEquipmentRackGui();
 		player.registerEquipmentListener(equipments);
 		add(equipments);
+		
+		addActionListener(listener);
 	}
 	private class HorizontalLifebarGui extends JPanel implements HealthListener
 	{
@@ -104,6 +107,7 @@ public class PlayerGui extends JButton
 		@Override
 		public void paint(Graphics g)
 		{
+			super.paint(g);
 			g.drawRect(0, 0, WIDTH, HEIGHT);
 			if(limit == 0)
 				return;

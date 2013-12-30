@@ -1,3 +1,8 @@
 /core
 /events
 /update
+/basics
+/player
+/gui
+/listener
+/net

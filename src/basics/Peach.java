@@ -28,7 +28,7 @@ public class Peach extends Basic
 	@Override
 	public void onActivatedBy(PlayerOriginalClientComplete player)
 	{
-		player.setOperation(new PeachOperation(player.getPlayerInfo(),this));
+		player.setOperation(new PeachOperation(player.getPlayerInfo(),this,player.getCurrentStage()));
 		player.setCancelEnabled(true);
 		player.setConfirmEnabled(true);
 	}

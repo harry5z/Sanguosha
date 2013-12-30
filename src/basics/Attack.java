@@ -47,7 +47,7 @@ public class Attack extends Basic
 	@Override
 	public void onActivatedBy(PlayerOriginalClientComplete player) 
 	{
-		player.setOperation(new AttackEvent(player,this));//operation set
+		player.setOperation(new AttackEvent(player,this,player.getCurrentStage()));//operation set
 		player.setCardOnHandSelected(this, true);//card is selected
 		player.setCancelEnabled(true);//can cancel
 	}

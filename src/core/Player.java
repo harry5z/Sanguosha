@@ -149,11 +149,7 @@ public abstract class Player
 		hero.changeCardLimitTo(healthCurrent);
 		
 	}
-	/**
-	 * strict change of health (i.e. no damage, does not invoke skills).
-	 * <li>{@link HealthListener} notified
-	 * @param n
-	 */
+
 	public void changeHealthCurrentBy(int n)
 	{
 		healthCurrent += n;
@@ -361,11 +357,7 @@ public abstract class Player
 		return getDistanceTo(player, numberOfPlayersAlive) <= getReachDistance();
 	}
 	//************** methods related to damage *******************
-	public void takeDamage(Damage damage)
-	{
-		int amount = damage.getAmount();
-		changeHealthCurrentBy(-amount);
-	}
+	public abstract void takeDamage(Damage damage);
 
 
 	public int getPosition()

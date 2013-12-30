@@ -78,10 +78,11 @@ public class CardGui extends JButton
 	@Override
 	public void paint(Graphics g)
 	{
+		super.paint(g);
 		g.drawImage(img,0,0,null);
 		g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
-		g.drawString(suit, 20, 40);
-		g.drawString(number, 20, 30);
+		g.drawString(suit, 10, 30);
+		g.drawString(number, 10, 20);
 	}
 
 }

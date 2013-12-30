@@ -6,7 +6,7 @@ import player.PlayerOriginalClientComplete;
 import basics.Attack;
 import core.*;
 
-public class Damage extends SourceTargetAmount
+public class Damage extends SourceTargetAmount implements Event
 {
 	/**
 	 * 
@@ -18,6 +18,7 @@ public class Damage extends SourceTargetAmount
 	private Card cardUsedAs;
 	private PlayerInfo source;
 	private PlayerInfo target;
+	private Event nextEvent;
 	/**
 	 * Default setup of damage, used as simple damage caused by 1 card:
 	 * <ol>
@@ -30,7 +31,7 @@ public class Damage extends SourceTargetAmount
 	 * @param source : source of damage
 	 * @param target : target of damage
 	 */
-	public Damage(Card cardUsed, PlayerInfo source, PlayerInfo target)
+	public Damage(Card cardUsed, PlayerInfo source, PlayerInfo target, Event next)
 	{
 		element = Attack.NORMAL;
 		amount = 1;
@@ -39,6 +40,7 @@ public class Damage extends SourceTargetAmount
 		cardUsedAs = cardUsed;
 		cardsCausingDamage = new ArrayList<Card>(1);
 		cardsCausingDamage.add(cardUsedAs);
+		nextEvent = next;
 	}
 	/**
 	 * Setup of non-card damage (caused by skills, etc.)
@@ -48,7 +50,7 @@ public class Damage extends SourceTargetAmount
 	 * @param source : source of damage
 	 * @param target : target of damage
 	 */
-	public Damage(int amount, int element, PlayerInfo source, PlayerInfo target)
+	public Damage(int amount, int element, PlayerInfo source, PlayerInfo target, Event next)
 	{
 		this.amount = amount;
 		this.element = element;
@@ -56,6 +58,7 @@ public class Damage extends SourceTargetAmount
 		this.target = target;
 		cardsCausingDamage = null;
 		cardUsedAs = null;
+		nextEvent = next;
 	}
 
 	/**
@@ -127,9 +130,10 @@ public class Damage extends SourceTargetAmount
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
-		if(target.equals(player))
+		if(player.isEqualTo(target))
 		{
 			player.takeDamage(this);
+			player.sendToMaster(nextEvent);
 		}
 		else
 		{
@@ -140,6 +144,10 @@ public class Damage extends SourceTargetAmount
 	@Override
 	public void frameworkOperation(Framework framework) 
 	{
+		framework.sendToAllClients(this);
+	}
+	@Override
+	public void nextStep() {
 		// TODO Auto-generated method stub
 		
 	}

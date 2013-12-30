@@ -3,7 +3,9 @@ package events;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.IncreaseOfHealth;
+import update.UseOfCards;
 import core.Card;
+import core.Event;
 import core.Framework;
 import core.Operation;
 import core.PlayerInfo;
@@ -11,10 +13,12 @@ import core.PlayerInfo;
 public class PeachOperation implements Operation
 {
 	private IncreaseOfHealth update;
+	private PlayerInfo source;
 	private Card peach;
-	public PeachOperation(PlayerInfo player, Card peach)
+	public PeachOperation(PlayerInfo player, Card peach, Event e)
 	{
-		update = new IncreaseOfHealth(player);
+		source = player;
+		update = new IncreaseOfHealth(player,e);
 		this.peach = peach;
 	}
 	@Override
@@ -48,6 +52,7 @@ public class PeachOperation implements Operation
 		player.setOperation(null);
 		player.setConfirmEnabled(false);
 		player.setCancelEnabled(false);
+		player.setCardOnHandSelected(peach, false);
 	}
 
 	@Override
@@ -56,6 +61,7 @@ public class PeachOperation implements Operation
 		player.setOperation(null);
 		player.setCardOnHandSelected(peach, false);
 		player.setCancelEnabled(false);
+		player.sendToMaster(new UseOfCards(source,peach,update));
 	}
 
 }

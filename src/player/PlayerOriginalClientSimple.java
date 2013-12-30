@@ -1,5 +1,6 @@
 package player;
 
+import update.Damage;
 import core.Card;
 import core.Equipment;
 import listener.*;
@@ -63,6 +64,11 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 		super.changeHealthCurrentTo(n);
 		healthListener.onSetHealthCurrent(n);
 	}
+	/**
+	 * damage
+	 * <li>{@link HealthListener} notified
+	 * @param n
+	 */
 	@Override
 	public void changeHealthCurrentBy(int n)
 	{
@@ -103,4 +109,5 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 		equipmentListener.onEquipped(equipment);
 		return e;
 	}
+	
 }

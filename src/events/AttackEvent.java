@@ -7,13 +7,13 @@ import core.Event;
 import core.Framework;
 import core.Operation;
 import core.PlayerInfo;
-import core.Update;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import player.PlayerOriginalClientSimple;
 import basics.Attack;
 import basics.Dodge;
 import update.Damage;
+import update.UseOfCards;
 
 public class AttackEvent implements Operation, Event
 {
@@ -33,22 +33,35 @@ public class AttackEvent implements Operation, Event
 	public static final int ATTACK_NOT_DODGED_PREVENTION = 11;//only for skill: "fog"
 	public static final int ATTACK_NOT_DODGED_ADDITION = 12;//only for skill: "gale"
 	
-	public static final int BEFORE_DAMAGE = 13;//last stage, for weapon effects
+	public static final int BEFORE_DAMAGE = 13;//source operation.last stage, for weapon effects
+	public static final int DAMAGE = 14;//target operation, take damage
+	public static final int END = 15;
 	
-	public static final int END = 14;
-	
-	private PlayerInfo target = null;
-	private PlayerInfo source = null;
+	private PlayerInfo target;
+	private PlayerInfo source;
 	private int stage;
 	private boolean dodgeable;
 	private Attack cardUsedAsAttack;
 	private Card dodge;
 	private ArrayList<Card> cardsUsed;
 	private Damage damage;
+	private Event nextEvent;
 	
-	public AttackEvent(PlayerOriginalClientComplete source, Attack attack)
+//	public AttackEvent(PlayerOriginalClientComplete source, Attack attack)
+//	{
+//		this.source = source.getPlayerInfo();
+//		cardUsedAsAttack = attack;
+//		cardsUsed = new ArrayList<Card>();
+//		cardsUsed.add(attack);
+//		stage = TARGET_SELECTION;
+//		dodgeable = true;
+//		dodge = null;
+//		enableTargets(source);
+//	}
+	public AttackEvent(PlayerOriginalClientComplete source, Attack attack, Event next)
 	{
 		this.source = source.getPlayerInfo();
+		target = null;
 		cardUsedAsAttack = attack;
 		cardsUsed = new ArrayList<Card>();
 		cardsUsed.add(attack);
@@ -56,32 +69,9 @@ public class AttackEvent implements Operation, Event
 		dodgeable = true;
 		dodge = null;
 		enableTargets(source);
+		nextEvent = next;
 	}
-	@Override
-	public void onCancelledBy(PlayerOriginalClientComplete player)
-	{
-		if(stage == TARGET_SELECTION)//not sent yet
-		{
-			cancelOperation(player,cardUsedAsAttack);
-		}
-		else if(stage == USING_DODGE)//target operation
-		{
-			if(dodge != null)//unselect dodge
-			{
-				player.setCardOnHandSelected(dodge, false);
-				player.setConfirmEnabled(false);
-				dodge = null;
-			}
-			else // choose not to dodge
-			{
-				stage = ATTACK_NOT_DODGED_PREVENTION;
-				endOfTargetOperation(player);
-				player.sendToMaster(this);
-			}
-		}
-		else
-			System.err.println("AttackEvent: invalid cancellation at stage "+stage);
-	}
+
 	private void endOfTargetOperation(PlayerOriginalClientComplete player)
 	{
 		player.setOperation(null);
@@ -98,6 +88,7 @@ public class AttackEvent implements Operation, Event
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
+		System.out.println("Attack stage "+stage);
 		if(player.isEqualTo(target))//target operations
 		{
 			if(stage == BEFORE_TARGET_LOCKED)//target skills to change target
@@ -126,14 +117,65 @@ public class AttackEvent implements Operation, Event
 				player.setCardSelectableByName(Dodge.DODGE, true);//enable dodges
 				player.setCancelEnabled(true);//enable cancel
 			}
+			else if(stage == AFTER_USING_DODGE)
+			{
+				stage++;
+				player.sendToMaster(this);
+			}
+			else if(stage == ATTACK_NOT_DODGED_PREVENTION)
+			{
+				stage++;
+				player.sendToMaster(this);
+			}
+			else if(stage == ATTACK_NOT_DODGED_ADDITION)
+			{
+				stage++;
+				player.sendToMaster(this);
+			}
+			else if(stage == DAMAGE)
+			{
+				stage++;
+				player.sendToMaster(damage);
+			}
 		}
 		else if(player.isEqualTo(source))//source operation
 		{
-			
+			if(stage == TARGET_LOCKED)
+			{
+				stage++;
+				player.sendToMaster(this);
+			}
+			else if(stage == AFTER_TARGET_LOCKED_SKILLS)
+			{
+				stage++;
+				player.sendToMaster(this);
+			}
+			else if(stage == AFTER_TARGET_LOCKED_WEAPONS)
+			{
+				stage++;
+				player.sendToMaster(this);
+			}
+			else if(stage == ATTACK_DODGED_SKILLS)
+			{
+				stage++;
+				player.sendToMaster(this);
+			}
+			else if(stage == ATTACK_DODGED_WEAPONS)
+			{
+				stage = BEFORE_DAMAGE;
+				player.sendToMaster(this);
+			}
+			else if(stage == BEFORE_DAMAGE)
+			{
+				stage++;
+				player.sendToMaster(this);
+			}
+			else if(stage == END)
+				player.sendToMaster(nextEvent);
 		}
 		else //bystanders...
 		{
-			System.out.println(player.getName()+ " is watching "+source.getName()+ " attacking "+target.getName());
+			System.out.println(player.getName()+ " is watching "+source.getName()+ " attacking "+target.getName()+" at stage "+stage);
 		}
 	}
 
@@ -183,18 +225,48 @@ public class AttackEvent implements Operation, Event
 				amount++;
 				player.useWine();
 			}
-			damage = new Damage(amount,cardUsedAsAttack.getElement(),source,target);
+			player.unselectTarget(target);
+			player.setCardOnHandSelected(cardUsedAsAttack, false);
+			System.out.println("Damage is "+amount);
+			damage = new Damage(amount,cardUsedAsAttack.getElement(),source,target,this);
+			stage = BEFORE_TARGET_LOCKED;
 			player.setOperation(null);
-			player.sendToMaster(this);
+			player.sendToMaster(new UseOfCards(source,cardUsedAsAttack,this));
 		}
 		else if(player.isEqualTo(target))//target dodged
 		{
-			stage = ATTACK_DODGED_SKILLS;
+			stage = AFTER_USING_DODGE;
 			endOfTargetOperation(player);
 			player.sendToMaster(this);
 		}
 		else
 			System.err.println("AttackEvent: Invalid confirmation at stage "+stage);
+	}
+	@Override
+	public void onCancelledBy(PlayerOriginalClientComplete player)
+	{
+		if(stage == TARGET_SELECTION)//not sent yet
+		{
+			cancelOperation(player,cardUsedAsAttack);
+			player.setCancelEnabled(false);
+		}
+		else if(stage == USING_DODGE)//target operation
+		{
+			if(dodge != null)//unselect dodge
+			{
+				player.setCardOnHandSelected(dodge, false);
+				player.setConfirmEnabled(false);
+				dodge = null;
+			}
+			else // choose not to dodge
+			{
+				stage = ATTACK_NOT_DODGED_PREVENTION;
+				endOfTargetOperation(player);
+				player.sendToMaster(this);
+			}
+		}
+		else
+			System.err.println("AttackEvent: invalid cancellation at stage "+stage);
 	}
 	private void cancelOperation(PlayerOriginalClientComplete operator, Card card)
 	{
@@ -235,7 +307,7 @@ public class AttackEvent implements Operation, Event
 			System.err.println("AttackEvent: Bystander selecting cards");
 	}
 	@Override
-	public void nextStep(Framework framework) 
+	public void nextStep() 
 	{
 		// TODO Auto-generated method stub
 		

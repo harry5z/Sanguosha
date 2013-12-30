@@ -102,7 +102,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 //			
 //		}
 		client = new Client(myself);
-		client.setHost("192.168.8.121");
+		client.setHost("localhost");
 		client.setPort(Master.DEFAULT_PORT);
 		executor.execute(client);
 	}
@@ -110,7 +110,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 	public void onPlayerAdded(PlayerOriginalClientSimple player)
 	{
 		player.registerCardDisposalListener(disposalGui);
-		PlayerGui p = new PlayerGui(player);
+		PlayerGui p = new PlayerGui(player,this);
 		otherPlayers.add(p);
 		p.setLocation(WIDTH-(otherPlayers.size())*PlayerGui.WIDTH,0);
 		add(p);

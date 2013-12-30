@@ -1,6 +1,8 @@
 package net;
 
 
+import gui.FrameworkGui;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -37,6 +39,7 @@ public class Master extends Thread
 		executor = Executors.newFixedThreadPool(POOL_SIZE);
 		threads = new ArrayList<PlayerThread>();
 		framework = new Framework(this);
+		executor.execute(new FrameworkGui(framework));
 	}
 	/**
 	 * Register a game framework

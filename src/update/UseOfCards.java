@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import player.PlayerOriginalClientComplete;
 import core.Card;
+import core.Event;
 import core.Framework;
 import core.PlayerInfo;
 import core.Update;
@@ -17,6 +18,7 @@ public class UseOfCards implements Update
 	private PlayerInfo source;
 	private String nameOfCardEffective;
 	private ArrayList<Card> cardsUsed;
+	private Update nextEvent;
 	
 	public UseOfCards(PlayerInfo source)
 	{
@@ -27,12 +29,13 @@ public class UseOfCards implements Update
 	 * @param source
 	 * @param cardUsed
 	 */
-	public UseOfCards(PlayerInfo source,Card cardUsed)
+	public UseOfCards(PlayerInfo source,Card cardUsed,Update next)
 	{
 		this.source = source;
 		this.nameOfCardEffective = cardUsed.getName();
 		cardsUsed = new ArrayList<Card>(1);
 		cardsUsed.add(cardUsed);
+		nextEvent = next;
 	}
 	public void setSource(PlayerInfo player)
 	{
@@ -54,8 +57,11 @@ public class UseOfCards implements Update
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
-		if(player.equals(source))
+		if(player.isEqualTo(source))
+		{
 			player.useCards(cardsUsed);
+			player.sendToMaster(nextEvent);
+		}
 		else
 			player.findMatch(source).useCards(cardsUsed);
 		

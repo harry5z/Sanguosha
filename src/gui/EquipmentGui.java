@@ -21,6 +21,7 @@ public class EquipmentGui extends JButton
 	{
 		setSize(WIDTH,HEIGHT);
 		setLocation(0,verticalLocation);
+		setEnabled(false);
 		equipment = null;
 	}
 	/**
@@ -35,6 +36,7 @@ public class EquipmentGui extends JButton
 	@Override
 	public void paint(Graphics g)
 	{
+		super.paint(g);
 		if(equipment == null)
 		{
 			g.drawRect(0, 0, WIDTH, HEIGHT);

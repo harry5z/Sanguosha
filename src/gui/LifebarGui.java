@@ -29,11 +29,13 @@ public class LifebarGui extends JPanel implements HealthListener
 	public void onSetHealthLimit(int limit)
 	{
 		this.limit = limit;
+		repaint();
 	}
 	@Override
 	public void onSetHealthCurrent(int current)
 	{
 		this.current = current;
+		repaint();
 	}
 	@Override
 	public void onHealthChangedBy(int amount)
@@ -41,11 +43,13 @@ public class LifebarGui extends JPanel implements HealthListener
 		current += amount;
 		if(current > limit)//may not be necessary
 			current = limit;
+		repaint();
 	}
 	
 	@Override
 	public void paint(Graphics g)
 	{
+		super.paint(g);
 		g.drawRect(0, 0, WIDTH, HEIGHT);
 		if(limit == 0)
 			return;

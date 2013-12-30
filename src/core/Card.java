@@ -1,8 +1,10 @@
 package core;
 
+import java.io.Serializable;
+
 import player.PlayerOriginalClientComplete;
 
-public abstract class Card implements Activatable
+public abstract class Card implements Activatable,Serializable
 {
 	/**
 	 * 

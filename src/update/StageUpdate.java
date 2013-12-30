@@ -1,12 +1,13 @@
 package update;
 
+import java.util.ArrayList;
+
 import player.PlayerOriginalClientComplete;
-import core.Card;
+import player.PlayerOriginalClientSimple;
 import core.Event;
 import core.Framework;
 import core.Player;
 import core.PlayerInfo;
-import core.Update;
 
 public class StageUpdate implements Event
 {
@@ -42,13 +43,53 @@ public class StageUpdate implements Event
 	{
 		return stage;
 	}
-
+	public void nextStage(PlayerOriginalClientComplete player)
+	{
+		if(stage != TURN_END)
+			stage++;
+		else
+		{
+			ArrayList<PlayerOriginalClientSimple> players = player.getOtherPlayers();
+			Player next = null;
+			for(Player p : players)
+			{
+				if(!p.isAlive())
+					continue;
+				if(next == null && p.getPosition() > source.getPosition())
+				{
+					next = p;
+					continue;
+				}
+				if(p.getPosition() > source.getPosition() && p.getPosition() < next.getPosition())
+					next = p;
+			}
+			if(next == null)
+			{
+				for(Player p : players)
+				{
+					if(!p.isAlive())
+						continue;
+					if(next == null && p.getPosition() < source.getPosition())
+					{
+						next = p;
+						continue;
+					}
+					if(p.getPosition() < next.getPosition())
+						next = p;
+				}
+			}
+			if(next == null)
+				System.err.println("Master: Next player not found");
+			source = next.getPlayerInfo();
+			stage = TURN_START_BEGINNING;
+		}
+	}
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
 		player.setCurrentStage(this);
 		
-		if(player.equals(source))
+		if(player.isEqualTo(source))
 		{
 			
 			if(stage == TURN_DRAW)
@@ -59,13 +100,21 @@ public class StageUpdate implements Event
 			{
 				player.startDealing();
 			}
+			else if(stage == TURN_END)
+				player.endTurn();
+			else
+			{
+				stage++;
+				player.sendToMaster(this);
+			}
 		}
+		else
+			System.out.println(player.getName()+" is watching "+source.getName()+" executing stage "+stage);
 	}
 	@Override
 	public void frameworkOperation(Framework framework) 
 	{
-		// TODO Auto-generated method stub
-		
+		framework.sendToAllClients(this);
 	}
 	@Override
 	public void nextStep() 

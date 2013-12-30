@@ -46,13 +46,14 @@ public class CardRackGui extends JPanel implements MouseMotionListener, CardOnHa
 	{
 		for(int i = 0;i < cards.size();i++)
 		{
-			if(cards.get(i).getCard() == card)
+			if(cards.get(i).getCard().equals(card))
 			{
 				cards.remove(i);
 				repaint();
 				return;
 			}
 		}
+		System.err.println("Card Rack: Card not found");
 	}
 	protected void clearRack()
 	{
@@ -66,6 +67,7 @@ public class CardRackGui extends JPanel implements MouseMotionListener, CardOnHa
 	@Override
 	public void paint(Graphics g)
 	{
+		super.paint(g);
 		g.drawRect(0, 0, WIDTH, HEIGHT);
 		int totalLength = cards.size() * CardGui.WIDTH;
 		int stepLength;

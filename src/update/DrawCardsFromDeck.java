@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import player.PlayerOriginalClientComplete;
 import core.Card;
+import core.Event;
 import core.Framework;
 import core.Player;
 import core.PlayerInfo;
@@ -18,27 +19,43 @@ public class DrawCardsFromDeck implements Update
 	private int amount;
 	private ArrayList<Card> cards;
 	private PlayerInfo source;
+	private Event nextEvent;
 	
-	public DrawCardsFromDeck(PlayerInfo source, int amount)
+	public DrawCardsFromDeck(PlayerInfo source, int amount,Event next)
 	{
 		this.source = source;
 		this.amount = amount;
+		nextEvent = next;
 	}
-
+	public DrawCardsFromDeck(PlayerInfo source, ArrayList<Card> cards)
+	{
+		this.source = source;
+		this.cards = cards;
+		nextEvent = null;
+	}
 	@Override
 	public void frameworkOperation(Framework framework) 
 	{
 		cards = framework.getDeck().drawMany(amount);
-		framework.findMatch(source).addCards(cards);
+
 		framework.sendToAllClients(this);
 	}
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
-		if(player.equals(source))
+		if(player.isEqualTo(source))
+		{
+			System.out.println("myself adding cards");
 			player.addCards(cards);
+			if(nextEvent != null)
+				player.sendToMaster(nextEvent);
+		}
 		else
+		{
+			System.out.println("Player "+source.getPosition()+" adding cards");
 			player.findMatch(source).addCards(cards);
+		}
+			
 	}
 
 }

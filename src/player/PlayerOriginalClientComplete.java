@@ -3,11 +3,9 @@ package player;
 import heroes.Blank;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
-import update.DisposalOfCards;
+import update.Damage;
 import update.DrawCardsFromDeck;
-import update.NextStage;
 import update.StageUpdate;
 import listener.ClientListener;
 import listener.GameListener;
@@ -42,12 +40,13 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		cardsOnHand = new ArrayList<Card>();
 		//init global settings
 		otherPlayers = new ArrayList<PlayerOriginalClientSimple>();
-		
+		cardsUsedThisTurn = new ArrayList<Card>();
 		//init in-game interactive properties
 		//cardActivated = null;
 		//targetsSelected = new ArrayList<Player>();
 		//targetSelectionLimit = 1;
 		//updateStack = new Stack<Update>();
+		currentStage = null;
 		updateToSend = null;
 		operation = null;
 	}
@@ -68,20 +67,20 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	@Override
 	public void addCard(Card card)
 	{
-		super.addCard(card);
 		cardsOnHand.add(card);
+		super.addCard(card);
 	}
 	@Override
 	public void useCard(Card card)
 	{
-		super.useCard(card);
 		cardsOnHand.remove(card);
+		super.useCard(card);
 	}
 	@Override
 	public void discardCard(Card card)
 	{
-		super.discardCard(card);
 		cardsOnHand.remove(card);
+		super.discardCard(card);
 	}
 	
 	@Override
@@ -118,7 +117,12 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	{
 		return otherPlayers;
 	}
-	
+	@Override
+	public void takeDamage(Damage damage)
+	{
+		System.out.println("Taking damage "+damage.getAmount());
+		super.takeDamage(damage);
+	}
 	/**
 	 * <li>{@link GameListener} notified
 	 * @param update
@@ -138,7 +142,8 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	//**************** methods related to game flow ***************
 	public void drawCards()
 	{
-		DrawCardsFromDeck update = new DrawCardsFromDeck(getPlayerInfo(),2);
+		currentStage.nextStage(this);
+		DrawCardsFromDeck update = new DrawCardsFromDeck(getPlayerInfo(),2,currentStage);
 		sendToMaster(update);
 	}
 	/**
@@ -170,24 +175,33 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		{
 			operation.onCancelledBy(this);
 		}
-		for(Card card : cardsOnHand)
-			gameListener.onCardSetSelectable(card, false);
-		gameListener.onConfirmSetEnabled(false);
-		gameListener.onCancelSetEnabled(false);
-		gameListener.onEndSetEnabled(false);
+		disableAll();
 //		for(Card card : cardsSelected)
 //			gameListener.onCardUnselected(card);
 //		cardsSelected.clear();
 //		for(Player target : targetsSelected)
 //			gameListener.onTargetUnselected(target);
 //		targetsSelected.clear();
-		gameListener.onSendToMaster(new StageUpdate(getPlayerInfo(),StageUpdate.TURN_DISCARD_BEGINNING));
+		currentStage.nextStep();
+		gameListener.onSendToMaster(currentStage);
+	}
+	public void disableAll()
+	{
+		cardActivated = null;
+		setAllCardsOnHandSelectable(false);
+		setAllTargetsSelectable(false);
+		gameListener.onConfirmSetEnabled(false);
+		gameListener.onCancelSetEnabled(false);
+		gameListener.onEndSetEnabled(false);
 	}
 	@Override
 	public void endTurn()
 	{
 		super.endTurn();
 		cardsUsedThisTurn.clear();
+		currentStage.nextStage(this);
+		System.out.println(currentStage.getStage());
+		gameListener.onSendToMaster(currentStage);
 	}
 	//**************** methods related to interactions ****************
 	public Update getUpdateToSend()
@@ -201,6 +215,12 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	public void setOperation(Operation op)
 	{
 		operation = op;
+	}
+	public void setAllTargetsSelectable(boolean selectable)
+	{
+		for(PlayerOriginal p : otherPlayers)
+			gameListener.onTargetSetSelectable(p.getPlayerInfo(), selectable);
+		gameListener.onTargetSetSelectable(getPlayerInfo(), selectable);
 	}
 	public void setAllCardsOnHandSelectable(boolean selectable)
 	{
@@ -326,13 +346,13 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	}
 	public void confirm()
 	{
-		cardActivated = null;
-		gameListener.onConfirmSetEnabled(false);
+		disableAll();
 		operation.onConfirmedBy(this);
 	}
 	public void cancel()
 	{
 		operation.onCancelledBy(this);
+		cardActivated = null;
 	}
 
 	public PlayerOriginal findMatch(PlayerInfo p)

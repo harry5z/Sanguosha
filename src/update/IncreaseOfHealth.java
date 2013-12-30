@@ -1,6 +1,7 @@
 package update;
 
 import player.PlayerOriginalClientComplete;
+import core.Event;
 import core.Framework;
 import core.PlayerInfo;
 import core.Update;
@@ -14,15 +15,17 @@ public class IncreaseOfHealth implements Update
 	private PlayerInfo source;
 	private PlayerInfo target;
 	private int amount;
+	private Event nextEvent;
 	/**
 	 * simple setup: source = target, amount = 1
 	 * @param source
 	 */
-	public IncreaseOfHealth(PlayerInfo source)
+	public IncreaseOfHealth(PlayerInfo source, Event next)
 	{
 		this.source = source;
 		this.target = source;
 		this.amount = 1;
+		nextEvent = next;
 	}
 	public void setTarget(PlayerInfo target)
 	{
@@ -31,7 +34,7 @@ public class IncreaseOfHealth implements Update
 	@Override
 	public void frameworkOperation(Framework framework) 
 	{
-		framework.findMatch(target).changeHealthCurrentBy(amount);
+		//framework.findMatch(target).changeHealthCurrentBy(amount);
 		framework.sendToAllClients(this);
 	}
 
@@ -39,7 +42,10 @@ public class IncreaseOfHealth implements Update
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
 		if(player.isEqualTo(target))
+		{
 			player.changeHealthCurrentBy(amount);
+			player.sendToMaster(nextEvent);
+		}
 		else
 			player.findMatch(target).changeHealthCurrentBy(amount);
 	}

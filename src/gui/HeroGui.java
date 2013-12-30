@@ -37,6 +37,7 @@ public class HeroGui extends JButton
 	@Override
 	public void paint(Graphics g)
 	{
+		super.paint(g);
 		g.drawRect(0, 0, WIDTH, HEIGHT);
 		if(hero == null)
 		{

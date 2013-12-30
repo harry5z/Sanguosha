@@ -5,15 +5,18 @@ import heroes.Blank;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import listener.FrameworkListener;
 import net.Master;
 import player.PlayerOriginalMasterSimple;
+import update.DrawCardsFromDeck;
+import update.StageUpdate;
 
 public class Framework 
 {
 	private ArrayList<PlayerOriginalMasterSimple> players;
 	private Master master;
 	private Deck deck;
-	
+	private FrameworkListener listener;
 	private Stack<Event> events;
 	public Framework(Master master)
 	{
@@ -66,8 +69,21 @@ public class Framework
 	{
 		return deck;
 	}
+	public void start()
+	{
+		for(PlayerInfo p : getPlayers())
+			master.sendToAllClients(new DrawCardsFromDeck(p,deck.drawMany(4)));
+		System.out.println("Finished card drawing");
+		StageUpdate start = new StageUpdate(players.get(0).getPlayerInfo(),StageUpdate.TURN_START_BEGINNING);
+		master.sendToAllClients(start);
+		System.out.println("Starting");
+	}
 	public void sendToAllClients(Update update)
 	{
 		master.sendToAllClients(update);
+	}
+	public void registerFrameworkListener(FrameworkListener listener)
+	{
+		this.listener = listener;
 	}
 }
