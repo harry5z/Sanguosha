@@ -1,6 +1,7 @@
 package update;
 
 import core.Player;
+import core.Update;
 
 public class LossOfHealth extends Update
 {

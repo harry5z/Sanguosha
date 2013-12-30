@@ -71,7 +71,10 @@ public abstract class Player
 		
 
 	}
-
+	public PlayerInfo getPlayerInfo()
+	{
+		return new PlayerInfo(name,position);
+	}
 	/**
 	 * upon setting a hero
 	 * @param hero
@@ -221,6 +224,8 @@ public abstract class Player
 	public boolean isEquippedShield(){return shieldEquipped;}
 	public boolean isEquippedHorsePlus(){return horsePlusEquipped;}
 	public boolean isEquippedHorseMinus(){return horseMinusEquipped;}
+	public Shield getShield(){return shield;}
+	public Weapon getWeapon(){return weapon;}
 	/**
 	 * discard an equipment
 	 * <li>{@link EquipmentListener} notified
@@ -387,6 +392,10 @@ public abstract class Player
 	{
 		attackUsed = amount;
 	}
+	public void useAttack()
+	{
+		attackUsed++;
+	}
 	public int getAttackUsed()
 	{
 		return attackUsed;
@@ -398,6 +407,12 @@ public abstract class Player
 	public void setWineUsed(int amount)
 	{
 		wineUsed = amount;
+	}
+	public void useWine()
+	{
+		wineUsed++;
+		isWineUsed = false;
+		//in the future, notify gui
 	}
 	public boolean isWineUsed()
 	{
@@ -432,7 +447,7 @@ public abstract class Player
 		else
 			return position == (((Player)obj).position);
 	}
-	public boolean equalTo(PlayerInfo p)
+	public boolean isEqualTo(PlayerInfo p)
 	{
 		return position == p.getPosition();
 	}

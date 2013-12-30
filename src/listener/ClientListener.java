@@ -1,6 +1,6 @@
 package listener;
 
-import update.Update;
+import core.Update;
 
 public interface ClientListener 
 {

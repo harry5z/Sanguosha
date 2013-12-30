@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.Client;
 import core.Card;
 import core.Player;
+import core.Update;
 
 public class UseOfCards extends Update
 {

@@ -29,7 +29,7 @@ public class PlayerGui extends JButton
 	private static final int LIFEBAR_HEIGHT = 20;
 	private static final int EQUIPMENTBAR_HEIGHT = 20;
 	private static final int CARDCOUNT_HEIGHT = 20;
-	private Player player;
+	private PlayerOriginalClientSimple player;
 	public PlayerGui(PlayerOriginalClientSimple player)
 	{
 		this.player = player;
@@ -220,7 +220,7 @@ public class PlayerGui extends JButton
 		}
 		
 	}
-	public Player getPlayer()
+	public PlayerOriginalClientSimple getPlayer()
 	{
 		return player;
 	}

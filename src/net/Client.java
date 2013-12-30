@@ -6,8 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import core.Update;
 import update.ClientReadyNotification;
-import update.Update;
 import listener.ClientListener;
 import listener.GameListener;
 

@@ -11,4 +11,5 @@ public abstract class Shield extends Equipment
 	{
 		super(num, suit, Equipment.SHIELD);
 	}
+	public abstract boolean isRequiredToReact(Card card);
 }

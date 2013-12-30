@@ -2,8 +2,9 @@ package update;
 
 import java.util.ArrayList;
 
-import core.Master;
+import net.Master;
 import core.Player;
+import core.Update;
 
 public class NextStage extends Update
 {
@@ -18,7 +19,7 @@ public class NextStage extends Update
 		currentStage = current;
 	}
 	@Override
-	public void masterOperation(Master master)
+	public void frameworkOperation(Master master)
 	{
 		if(currentStage.isBeginning())
 		{

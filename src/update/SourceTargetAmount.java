@@ -1,22 +1,24 @@
 package update;
 
 import core.Player;
+import core.PlayerInfo;
+import core.Update;
 
-public abstract class SourceTargetAmount extends Update
+public abstract class SourceTargetAmount implements Update
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -724386714600121367L;
-	private Player source;
-	private Player target;
+	private PlayerInfo source;
+	private PlayerInfo target;
 	private int amount;
 	
 	/**
 	 * change the target of damage to player
 	 * @param player
 	 */
-	public void setTarget(Player target)
+	public void setTarget(PlayerInfo target)
 	{
 		this.target = target;
 	}
@@ -24,7 +26,7 @@ public abstract class SourceTargetAmount extends Update
 	 * change the source of damage to player
 	 * @param player
 	 */
-	public void setSource(Player source)
+	public void setSource(PlayerInfo source)
 	{
 		this.source = source;
 	}
@@ -44,11 +46,11 @@ public abstract class SourceTargetAmount extends Update
 	{
 		amount += number;
 	}
-	protected Player getSource()
+	protected PlayerInfo getSource()
 	{
 		return source;
 	}
-	protected Player getTarget()
+	protected PlayerInfo getTarget()
 	{
 		return target;
 	}

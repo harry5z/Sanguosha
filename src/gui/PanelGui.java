@@ -14,11 +14,13 @@ import player.PlayerOriginalClientComplete;
 import player.PlayerOriginalClientSimple;
 import update.*;
 import net.Client;
+import net.Master;
 import listener.GameListener;
 import core.Card;
 import core.Hero;
-import core.Master;
 import core.Player;
+import core.PlayerInfo;
+import core.Update;
 import basics.*;
 
 
@@ -54,7 +56,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		executor = Executors.newFixedThreadPool(POOL_SIZE);
 		cardRack = new CardRackGui(this);
 		equipmentRack = new EquipmentRackGui();
-		heroGui = new HeroGui();
+		heroGui = new HeroGui(this);
 		healthGui = new LifebarGui();
 		disposalGui = new CardDisposalGui();
 		otherPlayers = new ArrayList<PlayerGui>();
@@ -111,7 +113,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		if(obj instanceof CardGui)
 		{
 			Card card = ((CardGui)obj).getCard();
-			myself.activateCardOnHand(card);
+			myself.chooseCardOnHand(card);
 //			if(!myself.isSelected(card))
 //				myself.selectCardOnHand(card);
 //			else
@@ -119,12 +121,16 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		}
 		else if(obj instanceof PlayerGui)
 		{
-			Player player = ((PlayerGui)obj).getPlayer();
-			myself.selectTarget(player);
+			PlayerOriginalClientSimple player = ((PlayerGui)obj).getPlayer();
+			myself.choosePlayer(player);
 //			if(!myself.isSelected(player))
 //				myself.selectTarget(player);
 //			else
 //				myself.unselectTarget(player);
+		}
+		else if(obj instanceof HeroGui)
+		{
+			myself.choosePlayer(myself);
 		}
 		else if(obj == confirm)
 		{
@@ -136,12 +142,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		}
 		else if(obj == end)
 		{
-			for(PlayerGui p : otherPlayers)
-				p.setEnabled(false);
-			setAllCardsEnabled(false);
-			confirm.setEnabled(false);
-			end.setEnabled(false);
-			cancel.setEnabled(false);
+			myself.endDealing();
 		}
 	}
 //	private void processCard(Card card)
@@ -170,12 +171,6 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		for(CardGui card : cardRack.getCardsOnHand())
 			card.setEnabled(b);
 	}
-	private void setAllCardsEnabledExceptDodge()
-	{
-		for(CardGui card : cardRack.getCardsOnHand())
-			if(!card.getName().equals(Dodge.DODGE))
-				card.setEnabled(true);
-	}
 
 	@Override
 	public void onSendToMaster(Update update)
@@ -203,20 +198,20 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 			}
 	}
 	@Override
-	public void onTargetSelected(Player player)
+	public void onTargetSelected(PlayerInfo player)
 	{
 		for(PlayerGui p : otherPlayers)
-			if(p.getPlayer().equals(player))
+			if(p.getPlayer().isEqualTo(player))
 			{
 				p.setLocation(p.getX(),p.getY()+SELECTION_HEIGHT);
 				return;
 			}
 	}
 	@Override
-	public void onTargetUnselected(Player player)
+	public void onTargetUnselected(PlayerInfo player)
 	{
 		for(PlayerGui p : otherPlayers)
-			if(p.getPlayer().equals(player))
+			if(p.getPlayer().isEqualTo(player))
 			{
 				p.setLocation(p.getX(),p.getY()-SELECTION_HEIGHT);
 				return;
@@ -233,10 +228,12 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 			}
 	}
 	@Override
-	public void onTargetSetSelectable(Player player, boolean selectable)
+	public void onTargetSetSelectable(PlayerInfo player, boolean selectable)
 	{
+		if(myself.isEqualTo(player))
+			heroGui.setEnabled(selectable);
 		for(PlayerGui p : otherPlayers)
-			if(p.getPlayer().equals(player))
+			if(p.getPlayer().isEqualTo(player))
 			{
 				p.setEnabled(selectable);
 				return;
@@ -262,10 +259,12 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		JFrame f = new JFrame();
 		Scanner scan = new Scanner(System.in);
 		int pos = scan.nextInt();
+		scan.close();
 		f.add(new PanelGui(pos));
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.pack();
 		f.setVisible(true);
 		f.setLocation(200,0);
+		
 	}
 }

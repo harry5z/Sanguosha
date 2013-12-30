@@ -1,32 +1,39 @@
 package update;
 
+import player.PlayerOriginalClientComplete;
 import core.Card;
+import core.Framework;
 import core.Player;
+import core.PlayerInfo;
+import core.Update;
 
-public class StageUpdate extends Update
+public class StageUpdate implements Update
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1512958754082503787L;
-	public static final int TURN_START = 1;
-	public static final int TURN_DECISION = 2;
-	public static final int TURN_DRAW = 3;
-	public static final int TURN_DEAL = 4;
-	public static final int TURN_DISCARD = 5;
-	public static final int TURN_END = 6;
+	public static final int TURN_START_BEGINNING = 1;
+	public static final int TURN_START = 2;
+	public static final int TURN_DECISION_BEGINNING = 3;
+	public static final int TURN_DECISION = 4;
+	public static final int TURN_DRAW = 5;
+	public static final int TURN_DEAL_BEGINNING = 6;
+	public static final int TURN_DEAL = 7;
+	public static final int TURN_DISCARD_BEGINNING = 8;
+	public static final int TURN_DISCARD = 9;
+	public static final int TURN_DISCARD_END = 10;
+	public static final int TURN_END = 11;
 	
-	private Player source;
+	private PlayerInfo source;
 	private int stage;
-	private boolean isBeginning;
 	
-	public StageUpdate(Player source,int stage,boolean isBeginning)
+	public StageUpdate(PlayerInfo source,int stage)
 	{
 		this.source = source;
 		this.stage = stage;
-		this.isBeginning = isBeginning;
 	}
-	public Player getSource()
+	public PlayerInfo getSource()
 	{
 		return source;
 	}
@@ -34,13 +41,9 @@ public class StageUpdate extends Update
 	{
 		return stage;
 	}
-	public boolean isBeginning()
-	{
-		return isBeginning;
-	}
 
 	@Override
-	public void playerOperation(Player player)
+	public void playerOperation(PlayerOriginalClientComplete player)
 	{
 		Player operator;
 		player.setCurrentStage(this);
@@ -59,13 +62,9 @@ public class StageUpdate extends Update
 		}
 	}
 	@Override
-	public void onPlayerSelected(Player player) {
+	public void frameworkOperation(Framework framework) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
-	@Override
-	public void onCardSelected(Card card) {
-		// TODO Auto-generated method stub
-		
-	}	
 }

@@ -2,14 +2,16 @@ package update;
 
 import java.util.ArrayList;
 
+import net.Master;
 import player.PlayerOriginalClientComplete;
 import player.PlayerOriginalClientSimple;
 import core.Card;
-import core.Master;
+import core.Framework;
 import core.Player;
 import core.PlayerInfo;
+import core.Update;
 
-public class NewPlayer extends Update
+public class NewPlayer implements Update
 {
 	/**
 	 * 
@@ -22,19 +24,19 @@ public class NewPlayer extends Update
 		newPlayer = new PlayerInfo(player.getName(),player.getPosition());
 	}
 	@Override
-	public void masterOperation(Master master)
+	public void frameworkOperation(Framework framework)
 	{
-		master.getFramework().addPlayer(newPlayer);
-		allPlayers = master.getFramework().getPlayers();
-		master.sendToAllClients(this);
+		framework.addPlayer(newPlayer);
+		allPlayers = framework.getPlayers();
+		framework.sendToAllClients(this);
 	}
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
-		if(player.equalTo(newPlayer))
+		if(player.isEqualTo(newPlayer))
 		{
 			for(PlayerInfo p : allPlayers)
-				if(!player.equalTo(p))
+				if(!player.isEqualTo(p))
 					player.addOtherPlayer(p);
 		}
 		else
@@ -46,15 +48,5 @@ public class NewPlayer extends Update
 	public int size()
 	{
 		return allPlayers.size();
-	}
-	@Override
-	public void onPlayerSelected(PlayerOriginalClientSimple player) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void onCardSelected(Card card) {
-		// TODO Auto-generated method stub
-		
 	}
 }

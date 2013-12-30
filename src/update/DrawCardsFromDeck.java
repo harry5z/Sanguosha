@@ -1,9 +1,12 @@
 package update;
 
-import core.Master;
+import net.Master;
+import player.PlayerOriginalClientComplete;
+import core.Framework;
 import core.Player;
+import core.Update;
 
-public class DrawCardsFromDeck extends Update
+public class DrawCardsFromDeck implements Update
 {
 	/**
 	 * 
@@ -25,12 +28,12 @@ public class DrawCardsFromDeck extends Update
 		return amount;
 	}
 	@Override
-	public void masterOperation(Master master)
+	public void frameworkOperation(Framework framework)
 	{
-		master.sendToAllClients(new ReceiveCardsFromDeck(source,master.getFramework().getDeck().drawMany(amount)));
+		framework.sendToAllClients(new ReceiveCardsFromDeck(source,framework.getDeck().drawMany(amount)));
 	}
 	@Override
-	public void playerOperation(Player player) 
+	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
 		// TODO Auto-generated method stub
 		

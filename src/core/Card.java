@@ -1,9 +1,8 @@
 package core;
 
 import player.PlayerOriginalClientComplete;
-import update.Update;
 
-public abstract class Card extends Update
+public abstract class Card implements Activatable
 {
 	/**
 	 * 
@@ -54,12 +53,8 @@ public abstract class Card extends Update
 		this.type = type;
 	}
 	public abstract String getName();
-	public abstract void onActivatedBy(PlayerOriginalClientComplete player);
-	public abstract boolean isActivatableBy(PlayerOriginalClientComplete player);
-	public void onDeactivatedBy(PlayerOriginalClientComplete player)
-	{
-		player.getUpdateStack().pop();
-	}
+
+
 	public int getType()
 	{
 		return type;
@@ -76,11 +71,6 @@ public abstract class Card extends Update
 	public int getSuit()
 	{
 		return suit;
-	}
-	@Override
-	public void onCardSelected(Card card)
-	{
-		
 	}
 	@Override
 	public int hashCode()

@@ -2,9 +2,10 @@ package update;
 
 import java.util.ArrayList;
 
+import net.Master;
 import core.Card;
-import core.Master;
 import core.Player;
+import core.Update;
 
 public class DisposalOfCards extends Update
 {
@@ -37,10 +38,10 @@ public class DisposalOfCards extends Update
 		this.cards = cards;
 	}
 	@Override
-	public void masterOperation(Master master)
+	public void frameworkOperation(Master master)
 	{
 		master.getFramework().getDeck().discardAll(cards);
-		super.masterOperation(master);
+		super.frameworkOperation(master);
 	}
 	@Override
 	public void playerOperation(Player player) 

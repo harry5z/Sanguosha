@@ -9,13 +9,14 @@ import update.DisposalOfCards;
 import update.DrawCardsFromDeck;
 import update.NextStage;
 import update.StageUpdate;
-import update.Update;
 import listener.ClientListener;
 import listener.GameListener;
 import core.Card;
 import core.Equipment;
+import core.Operation;
 import core.Player;
 import core.PlayerInfo;
+import core.Update;
 
 public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple implements ClientListener
 {
@@ -29,10 +30,12 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		
 	//in-game interactive properties
 	private Card cardActivated;
+	private Operation operation;
 	//private ArrayList<Player> targetsSelected;
 	//private int targetSelectionLimit;
 	private ArrayList<Card> cardsUsedThisTurn;
-	private Stack<Update> updateStack;
+	//private Stack<Update> updateStack;
+	private Update updateToSend;
 	public PlayerOriginalClientComplete(String name, int position) 
 	{
 		super(name, position);
@@ -41,10 +44,12 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		otherPlayers = new ArrayList<PlayerOriginalClientSimple>();
 		
 		//init in-game interactive properties
-		cardActivated = null;
+		//cardActivated = null;
 		//targetsSelected = new ArrayList<Player>();
 		//targetSelectionLimit = 1;
-		updateStack = new Stack<Update>();
+		//updateStack = new Stack<Update>();
+		updateToSend = null;
+		operation = null;
 	}
 	@Override
 	public void onNotified(Update update)
@@ -84,8 +89,8 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	{
 		Equipment e = super.equip(equipment);
 		
-		if(e != null)
-			sendToMaster(new DisposalOfCards(this,e));
+//		if(e != null)
+//			sendToMaster(new DisposalOfCards(this,e));
 		return e;
 	}
 	public int getNumberOfPlayersAlive()
@@ -112,13 +117,6 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	public ArrayList<PlayerOriginalClientSimple> getOtherPlayers()
 	{
 		return otherPlayers;
-	}
-	public Player findMatch(Player player)
-	{
-		for(Player p : otherPlayers)
-			if(p.equals(player))
-				return p;
-		return null;
 	}
 	
 	/**
@@ -168,8 +166,10 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	@Override
 	public void endDealing()
 	{
-		if(cardActivated != null)
-			deactivateCard();
+		if(operation != null)
+		{
+			operation.onCancelledBy(this);
+		}
 		for(Card card : cardsOnHand)
 			gameListener.onCardSetSelectable(card, false);
 		gameListener.onConfirmSetEnabled(false);
@@ -181,6 +181,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 //		for(Player target : targetsSelected)
 //			gameListener.onTargetUnselected(target);
 //		targetsSelected.clear();
+		gameListener.onSendToMaster(new StageUpdate(getPlayerInfo(),StageUpdate.TURN_DISCARD_BEGINNING));
 	}
 	@Override
 	public void endTurn()
@@ -189,48 +190,46 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		cardsUsedThisTurn.clear();
 	}
 	//**************** methods related to interactions ****************
-	public Stack<Update> getUpdateStack()
+	public Update getUpdateToSend()
 	{
-		return updateStack;
+		return updateToSend;
 	}
-
+	public void setUpdateToSend(Update update)
+	{
+		updateToSend = update;
+	}
+	public void setOperation(Operation op)
+	{
+		operation = op;
+	}
+	public void setAllCardsOnHandSelectable(boolean selectable)
+	{
+		for(Card card : cardsOnHand)
+			setCardSelectable(card,selectable);
+	}
 	/**
 	 * select a card on hand, done by Gui
 	 * <li>{@link GameListener} notified
 	 * @param card
 	 */
-	public void activateCardOnHand(Card card)
+	public void chooseCardOnHand(Card card)
 	{
-		if(cardActivated == null)//no card activated 
+		if(operation == null)//nothing activated 
 		{
-			activateCard(card);
+			card.onActivatedBy(this);
 		}
-		else if(cardActivated.equals(card))//want to cancel the activation
+		else//something activated
 		{
-			deactivateCard();
-		}
-		else//card is different from cardSelected
-		{
-			deactivateCard();
-			activateCard(card);
+			operation.onCardSelected(this, card);
 		}
 //		cardsSelected.add(card);
 //		gameListener.onCardSelected(card);
 //		if(cardsSelected.size() > cardSelectionLimit)
 //			gameListener.onCardUnselected(cardsSelected.remove(0));
 	}
-	private void activateCard(Card card)
+	public void choosePlayer(PlayerOriginal player)
 	{
-		cardActivated = card;
-		cardActivated.onActivatedBy(this);
-		gameListener.onCardSelected(cardActivated);//card is selected
-		gameListener.onCancelSetEnabled(true);//can cancel
-	}
-	private void deactivateCard()
-	{
-		cardActivated.onDeactivatedBy(this);
-		gameListener.onCardUnselected(cardActivated);
-		cardActivated = null;
+		operation.onPlayerSelected(this, player);
 	}
 	/**
 	 * unselect a card on hand, done by Gui
@@ -274,18 +273,24 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 //	{
 //		return cardsSelected.contains(card);
 //	}
-	public void setTargetSelectable(Player player,boolean selectable)
+	public void setTargetSelectable(PlayerInfo player,boolean selectable)
 	{
 		gameListener.onTargetSetSelectable(player, selectable);
 	}
-	public void selectTarget(Player player)
+	/**
+	 * update of gui
+	 * <li>{@link GameListener}
+	 * @param player
+	 */
+	public void selectTarget(PlayerInfo player)
 	{
 	//	targetsSelected.add(player);
 		gameListener.onTargetSelected(player);
 	//	if(targetsSelected.size() > targetSelectionLimit)
 	//		gameListener.onTargetUnselected(targetsSelected.remove(0));
 	}
-	public void unselectTarget(Player player)
+
+	public void unselectTarget(PlayerInfo player)
 	{
 //		targetsSelected.remove(player);
 		gameListener.onTargetUnselected(player);
@@ -304,15 +309,20 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	}
 	public void confirm()
 	{
-		gameListener.onSendToMaster(updateStack.pop());
+		operation.onConfirmedBy(this);
 	}
 	public void cancel()
 	{
-		if(cardActivated != null)
-		updateStack.pop();
+		operation.onCancelledBy(this);
 	}
-	public void end()
+
+	public PlayerOriginal findMatch(PlayerInfo p)
 	{
-		gameListener.onSendToMaster(new NextStage(currentStage));
+		for(PlayerOriginalClientSimple player : otherPlayers)
+			if(player.isEqualTo(p))
+				return player;
+		if(this.isEqualTo(p))
+			return this;
+		return null;
 	}
 }

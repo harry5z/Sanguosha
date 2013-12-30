@@ -1,6 +1,6 @@
 package core;
 
-public interface Skill 
+public interface Skill
 {
 	public boolean onBeginningStage();
 	public boolean onDecisionStage();

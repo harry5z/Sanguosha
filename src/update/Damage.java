@@ -2,6 +2,7 @@ package update;
 
 import java.util.ArrayList;
 
+import player.PlayerOriginalClientComplete;
 import basics.Attack;
 import core.*;
 
@@ -15,8 +16,8 @@ public class Damage extends SourceTargetAmount
 	private int amount;
 	private ArrayList<Card> cardsCausingDamage;
 	private Card cardUsedAs;
-	private Player source;
-	private Player target;
+	private PlayerInfo source;
+	private PlayerInfo target;
 	/**
 	 * Default setup of damage, used as simple damage caused by 1 card:
 	 * <ol>
@@ -29,7 +30,7 @@ public class Damage extends SourceTargetAmount
 	 * @param source : source of damage
 	 * @param target : target of damage
 	 */
-	public Damage(Card cardUsed, Player source, Player target)
+	public Damage(Card cardUsed, PlayerInfo source, PlayerInfo target)
 	{
 		element = Attack.NORMAL;
 		amount = 1;
@@ -47,7 +48,7 @@ public class Damage extends SourceTargetAmount
 	 * @param source : source of damage
 	 * @param target : target of damage
 	 */
-	public Damage(int amount, int element, Player source, Player target)
+	public Damage(int amount, int element, PlayerInfo source, PlayerInfo target)
 	{
 		this.amount = amount;
 		this.element = element;
@@ -109,7 +110,8 @@ public class Damage extends SourceTargetAmount
 	 * source can be null, which represents "source-less" damage
 	 * @return
 	 */
-	public Player getSource()
+	@Override
+	public PlayerInfo getSource()
 	{
 		return source;
 	}
@@ -117,12 +119,13 @@ public class Damage extends SourceTargetAmount
 	 * there must be a target
 	 * @return
 	 */
-	public Player getTarget()
+	@Override
+	public PlayerInfo getTarget()
 	{
 		return target;
 	}
 	@Override
-	public void playerOperation(Player player)
+	public void playerOperation(PlayerOriginalClientComplete player)
 	{
 		if(target.equals(player))
 		{
@@ -132,6 +135,12 @@ public class Damage extends SourceTargetAmount
 		{
 			player.findMatch(target).takeDamage(this);
 		}
+		
+	}
+	@Override
+	public void frameworkOperation(Framework framework) 
+	{
+		// TODO Auto-generated method stub
 		
 	}
 

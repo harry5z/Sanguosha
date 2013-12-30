@@ -3,13 +3,14 @@ package gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ActionListener;
 
-import javax.swing.JPanel;
+import javax.swing.JButton;
 
 import core.Hero;
 
 
-public class HeroGui extends JPanel
+public class HeroGui extends JButton
 {
 	/**
 	 * 
@@ -18,11 +19,13 @@ public class HeroGui extends JPanel
 	private Hero hero;
 	public static final int WIDTH = CardRackGui.HEIGHT;
 	public static final int HEIGHT = WIDTH;
-	public HeroGui()
+	public HeroGui(ActionListener listener)
 	{
 		hero = null;
+		setEnabled(false);
 		setSize(WIDTH,HEIGHT);
 		setLocation(PanelGui.WIDTH-LifebarGui.WIDTH-WIDTH,PanelGui.HEIGHT-HEIGHT);
+		addActionListener(listener);
 	}
 	
 	public void setHero(Hero hero)

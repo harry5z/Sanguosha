@@ -1,4 +1,4 @@
-package core;
+package net;
 
 
 import java.io.IOException;
@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import update.Update;
+import core.Framework;
+import core.Update;
 
 public class Master extends Thread
 {
@@ -18,7 +19,6 @@ public class Master extends Thread
 	private final int mPort;
 	private final ExecutorService executor;
 	private ArrayList<PlayerThread> threads;
-	private int playerCount;
 	
 	public static final int DEFAULT_PORT = 12345;
 	
@@ -29,24 +29,14 @@ public class Master extends Thread
 		mPort = port;
 		executor = Executors.newFixedThreadPool(POOL_SIZE);
 		threads = new ArrayList<PlayerThread>();
-		framework = new Framework();
-		playerCount = 0;
+		framework = new Framework(this);
 	}
 	public Master()
 	{
 		mPort = DEFAULT_PORT;
 		executor = Executors.newFixedThreadPool(POOL_SIZE);
 		threads = new ArrayList<PlayerThread>();
-		framework = new Framework();
-		playerCount = 0;
-	}
-	public int getPlayerCount()
-	{
-		return playerCount;
-	}
-	public Framework getFramework()
-	{
-		return framework;
+		framework = new Framework(this);
 	}
 	/**
 	 * Register a game framework
@@ -73,8 +63,7 @@ public class Master extends Thread
 			{
 				Socket socket = serverSocket.accept();
 				System.out.println("Master: receiving new connection...");
-				playerCount++;
-				PlayerThread newThread = new PlayerThread(socket,this);
+				PlayerThread newThread = new PlayerThread(socket);
 				threads.add(newThread);
 				executor.execute(newThread);
 			}
@@ -86,21 +75,39 @@ public class Master extends Thread
 			e.printStackTrace();
 		}
 	}
+	//****** actually too slow *********
+//	private class UpdateRunnable implements Runnable
+//	{
+//		private PlayerThread thread;
+//		private Update update;
+//		public UpdateRunnable(PlayerThread t)
+//		{
+//			thread = t;
+//		}
+//		public void setUpdate(Update update)
+//		{
+//			this.update = update;
+//		}
+//		@Override
+//		public void run() 
+//		{
+//			thread.sendToClient(update);
+//		}
+//		
+//	}
 	private class PlayerThread extends Thread
 	{
 		private Socket socket;
 		private ObjectOutputStream out;
 		private ObjectInputStream in;
-		private Master master;
 		
-		public PlayerThread(Socket socket,Master master)
+		public PlayerThread(Socket socket)
 		{
 			try
 			{
 				this.socket = socket;
 				this.out = new ObjectOutputStream(socket.getOutputStream());
 				this.in = new ObjectInputStream(socket.getInputStream());
-				this.master = master;
 			}
 			catch(IOException e)
 			{
@@ -148,7 +155,7 @@ public class Master extends Thread
 					Object obj = in.readObject();
 					if(obj instanceof Update)
 					{
-						((Update)obj).masterOperation(master);
+						((Update)obj).frameworkOperation(framework);
 					}
 					else
 					{

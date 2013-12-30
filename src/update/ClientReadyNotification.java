@@ -3,9 +3,11 @@ package update;
 import player.PlayerOriginalClientComplete;
 import player.PlayerOriginalClientSimple;
 import core.Card;
+import core.Framework;
 import core.Player;
+import core.Update;
 
-public class ClientReadyNotification extends Update
+public class ClientReadyNotification implements Update
 {
 
 	/**
@@ -17,19 +19,11 @@ public class ClientReadyNotification extends Update
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
 		player.sendToMaster(new NewPlayer(player));
-		
 	}
 
 	@Override
-	public void onPlayerSelected(PlayerOriginalClientSimple player) {
+	public void frameworkOperation(Framework framework) {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void onCardSelected(Card card) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }

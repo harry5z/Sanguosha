@@ -3,7 +3,8 @@ package listener;
 import player.PlayerOriginalClientSimple;
 import core.Card;
 import core.Player;
-import update.Update;
+import core.PlayerInfo;
+import core.Update;
 public interface GameListener 
 {
 	/**
@@ -18,13 +19,13 @@ public interface GameListener
 	
 	public void onCardUnselected(Card card);
 	
-	public void onTargetSelected(Player player);
+	public void onTargetSelected(PlayerInfo player);
 	
-	public void onTargetUnselected(Player player);
+	public void onTargetUnselected(PlayerInfo player);
 	
 	public void onCardSetSelectable(Card card, boolean selectable);
 	
-	public void onTargetSetSelectable(Player player, boolean selectable);
+	public void onTargetSetSelectable(PlayerInfo player, boolean selectable);
 	
 	public void onConfirmSetEnabled(boolean isEnabled);
 	
