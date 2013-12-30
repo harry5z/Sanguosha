@@ -162,7 +162,7 @@ public class AttackEvent implements Operation, Event
 			}
 			else if(stage == ATTACK_DODGED_WEAPONS)
 			{
-				stage = BEFORE_DAMAGE;
+				stage = END;
 				player.sendToMaster(this);
 			}
 			else if(stage == BEFORE_DAMAGE)
@@ -227,7 +227,6 @@ public class AttackEvent implements Operation, Event
 			}
 			player.unselectTarget(target);
 			player.setCardOnHandSelected(cardUsedAsAttack, false);
-			System.out.println("Damage is "+amount);
 			damage = new Damage(amount,cardUsedAsAttack.getElement(),source,target,this);
 			stage = BEFORE_TARGET_LOCKED;
 			player.setOperation(null);
@@ -237,7 +236,7 @@ public class AttackEvent implements Operation, Event
 		{
 			stage = AFTER_USING_DODGE;
 			endOfTargetOperation(player);
-			player.sendToMaster(this);
+			player.sendToMaster(new UseOfCards(target,dodge,this));
 		}
 		else
 			System.err.println("AttackEvent: Invalid confirmation at stage "+stage);

@@ -193,7 +193,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		for(CardGui c : cardRack.getCardsOnHand())
 			if(c.getCard().equals(card))
 			{
-				c.setLocation(c.getX(),c.getY()-SELECTION_HEIGHT);
+				c.setLocation(c.getX(),c.getY()-SELECTION_HEIGHT/2);
 				return;
 			}
 	}
