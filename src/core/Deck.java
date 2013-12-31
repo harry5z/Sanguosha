@@ -171,8 +171,8 @@ public class Deck
 //			used.add(new Lightning(12,heart));
 //			used.add(new Neutralization(12,diamond));
 //		}
-//		if(useBATTLE)
-//		{
+		if(useBATTLE)
+		{
 //			used.add(new AncientNuggetFalchion(1,spade));
 //			used.add(new Neutralization(1,heart));
 //			used.add(new SilverLion(1,club));
@@ -180,52 +180,52 @@ public class Deck
 //			used.add(new RattenArmor(2,spade));
 //			used.add(new FireAttack(2,heart));
 //			used.add(new RattenArmor(2,club));
-//			used.add(new Peach(2,diamond));
-//			used.add(new Wine(3,spade));
+			used.add(new Peach(2,diamond));
+			used.add(new Wine(3,spade));
 //			used.add(new Attack(fire,3,heart));
-//			used.add(new Wine(3,club));
-//			used.add(new Peach(3,diamond));
+			used.add(new Wine(3,club));
+			used.add(new Peach(3,diamond));
 //			used.add(new Attack(thunder,4,spade));
 //			used.add(new FireAttack(4,heart));
 //			used.add(new Starvation(4,club));
 //			used.add(new Attack(fire,4,diamond));
 //			used.add(new Attack(thunder,5,spade));
-//			used.add(new Peach(5,heart));
+			used.add(new Peach(5,heart));
 //			used.add(new Attack(thunder,5,club));
 //			used.add(new Attack(fire,5,diamond));
 //			used.add(new Attack(thunder,6,spade));
-//			used.add(new Peach(6,heart));
+			used.add(new Peach(6,heart));
 //			used.add(new Attack(thunder,6,club));
-//			used.add(new Dodge(6,diamond));
+			used.add(new Dodge(6,diamond));
 //			used.add(new Attack(thunder,7,spade));
 //			used.add(new Attack(fire,7,heart));
 //			used.add(new Attack(thunder,7,club));
-//			used.add(new Dodge(7,diamond));
+			used.add(new Dodge(7,diamond));
 //			used.add(new Attack(thunder,8,spade));
-//			used.add(new Dodge(8,heart));
+			used.add(new Dodge(8,heart));
 //			used.add(new Attack(thunder,8,club));
-//			used.add(new Dodge(8,diamond));
-//			used.add(new Wine(9,spade));
-//			used.add(new Dodge(9,heart));
-//			used.add(new Wine(9,club));
-//			used.add(new Wine(9,diamond));
+			used.add(new Dodge(8,diamond));
+			used.add(new Wine(9,spade));
+			used.add(new Dodge(9,heart));
+			used.add(new Wine(9,club));
+			used.add(new Wine(9,diamond));
 //			used.add(new Starvation(10,spade));
 //			used.add(new Attack(fire,10,heart));
 //			used.add(new Chain(10,club));
-//			used.add(new Dodge(10,diamond));
+			used.add(new Dodge(10,diamond));
 //			used.add(new Chain(11,spade));
-//			used.add(new Dodge(11,heart));
+			used.add(new Dodge(11,heart));
 //			used.add(new Chain(11,club));
-//			used.add(new Dodge(11,diamond));
+			used.add(new Dodge(11,diamond));
 //			used.add(new Chain(12,spade));
-//			used.add(new Dodge(12,heart));
+			used.add(new Dodge(12,heart));
 //			used.add(new Chain(12,club));
 //			used.add(new FireAttack(12,diamond));
 //			used.add(new Neutralization(13,spade));
 //			used.add(new Neutralization(13,heart));
 //			used.add(new Chain(13,club));
 //			used.add(new HorsePlus(13,diamond,"..."));
-//		}
+		}
 		resetDeck();
 	}
 }

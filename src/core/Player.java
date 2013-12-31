@@ -135,7 +135,6 @@ public abstract class Player
 		hero.changeHealthLimitTo(n);
 		if(healthCurrent > hero.getHealthLimit())
 			changeHealthCurrentTo(hero.getHealthLimit());
-
 	}
 	/**
 	 * change of health limit
@@ -345,7 +344,7 @@ public abstract class Player
 	public int getDistanceTo(Player player,int numberOfPlayersAlive)
 	{
 		int counterclockwise = Math.abs(player.position - position);
-		int clockwise = Math.abs(position+numberOfPlayersAlive-player.position);
+		int clockwise = numberOfPlayersAlive-Math.abs(position-player.position);
 		int shorter = counterclockwise >= clockwise ? clockwise : counterclockwise;
 		if(isEquippedHorseMinus())
 			shorter--;
@@ -418,7 +417,7 @@ public abstract class Player
 	public void useWine()
 	{
 		wineUsed++;
-		isWineUsed = false;
+		isWineUsed = true;
 		//in the future, notify gui
 	}
 	public boolean isWineUsed()

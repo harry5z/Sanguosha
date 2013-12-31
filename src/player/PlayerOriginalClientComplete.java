@@ -213,7 +213,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		super.endTurn();
 		cardsUsedThisTurn.clear();
 		currentStage.nextStage(this);
-		System.out.println(currentStage.getStage());
+		
 		client.sendToMaster(currentStage);
 	}
 	//**************** methods related to interactions ****************
