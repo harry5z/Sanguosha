@@ -2,10 +2,7 @@ package update;
 
 import java.util.ArrayList;
 
-import net.Master;
 import player.PlayerOriginalClientComplete;
-import player.PlayerOriginalClientSimple;
-import core.Card;
 import core.Framework;
 import core.Player;
 import core.PlayerInfo;
@@ -21,7 +18,7 @@ public class NewPlayer implements Update
 	private ArrayList<PlayerInfo> allPlayers;
 	public NewPlayer(Player player)
 	{
-		newPlayer = new PlayerInfo(player.getName(),player.getPosition());
+		newPlayer = player.getPlayerInfo();
 	}
 	@Override
 	public void frameworkOperation(Framework framework)
@@ -33,15 +30,21 @@ public class NewPlayer implements Update
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
+		int newPos = allPlayers.size();
 		if(player.isEqualTo(newPlayer))
 		{
+			player.setPosition(newPos);
 			for(PlayerInfo p : allPlayers)
+			{
 				if(!player.isEqualTo(p))
 					player.addOtherPlayer(p);
+				else
+					player.setName(p.getName());
+			}
 		}
 		else
 		{
-			player.addOtherPlayer(newPlayer);
+			player.addOtherPlayer(new PlayerInfo(newPlayer.getName()+" "+newPos,newPos));
 		}
 
 	}

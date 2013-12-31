@@ -14,6 +14,7 @@ import core.Framework;
 public class FrameworkGui extends JButton implements Runnable,FrameworkListener,ActionListener
 {
 	private Framework framework;
+	private JFrame frame;
 	public FrameworkGui(Framework f)
 	{
 		framework = f;
@@ -25,17 +26,21 @@ public class FrameworkGui extends JButton implements Runnable,FrameworkListener,
 		setPreferredSize(new Dimension(100,100));
 		setText("Start");
 		addActionListener(this);
-		JFrame f = new JFrame();
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.add(this);
-		f.pack();
-		f.setVisible(true);
-		f.setLocation(0,0);
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.add(this);
+		frame.pack();
+		frame.setVisible(true);
+		frame.setLocation(0,0);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		if(e.getSource() == this)
+		{
+			setEnabled(false);
 			framework.start();
+			frame.setVisible(false);
+		}
 	}
 }

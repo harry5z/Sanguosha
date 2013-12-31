@@ -2,6 +2,7 @@ package core;
 
 import java.util.ArrayList;
 
+import net.Client;
 import update.*;
 import listener.*;
 import equipments.HorseMinus;
@@ -39,17 +40,21 @@ public abstract class Player
 	private HorsePlus horsePlus;
 	private HorseMinus horseMinus;
 	
-	
-
-	
-	public Player(String name,int position)
+	public Player(String name)
 	{
-		
 		//init personal properties
 		this.name = name;
+		init();
+	}
+	public Player(String name, int position)
+	{
+		this.name = name;
 		this.position = position;
+		init();
+	}
+	private void init()
+	{
 		//init in-game properties
-		
 		isAlive = true;
 		isDying = false;
 		weaponEquipped = false;
@@ -68,8 +73,6 @@ public abstract class Player
 		shield = null;
 		horsePlus = null;
 		horseMinus = null;
-		
-
 	}
 	public PlayerInfo getPlayerInfo()
 	{
@@ -83,6 +86,18 @@ public abstract class Player
 	{
 		this.hero = hero;
 		healthCurrent = hero.getHealthLimit();
+	}
+	/**
+	 * use this very carefully, usually only at game start
+	 * @param position
+	 */
+	public void setPosition(int position)
+	{
+		this.position = position;
+	}
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 	public Hero getHero()
 	{
@@ -329,8 +344,8 @@ public abstract class Player
 	 */
 	public int getDistanceTo(Player player,int numberOfPlayersAlive)
 	{
-		int counterclockwise = player.position - position;
-		int clockwise = position+numberOfPlayersAlive-player.position;
+		int counterclockwise = Math.abs(player.position - position);
+		int clockwise = Math.abs(position+numberOfPlayersAlive-player.position);
 		int shorter = counterclockwise >= clockwise ? clockwise : counterclockwise;
 		if(isEquippedHorseMinus())
 			shorter--;
@@ -443,4 +458,5 @@ public abstract class Player
 	{
 		return position == p.getPosition();
 	}
+	
 }

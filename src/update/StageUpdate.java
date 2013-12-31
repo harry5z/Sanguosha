@@ -88,7 +88,7 @@ public class StageUpdate implements Event
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
 		player.setCurrentStage(this);
-		
+		player.clearDisposalArea();
 		if(player.isEqualTo(source))
 		{
 			

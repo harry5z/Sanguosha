@@ -40,6 +40,7 @@ public class CardRackGui extends JPanel implements MouseMotionListener, CardOnHa
 		cards.add(cardGui);
 		add(cardGui);
 		resetLocations();
+		repaint();
 	}
 	@Override
 	public void onCardRemoved(Card card)
@@ -48,14 +49,16 @@ public class CardRackGui extends JPanel implements MouseMotionListener, CardOnHa
 		{
 			if(cards.get(i).getCard().equals(card))
 			{
-				System.out.println("Rack: remove card successful? "+new Boolean(cards.remove(i)!=null));
+				remove(cards.remove(i));
 				resetLocations();
+				repaint();
 				break;
 			}
 		}
 	}
 	protected void clearRack()
 	{
+		this.removeAll();
 		cards.clear();
 		repaint();
 	}

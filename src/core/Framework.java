@@ -34,7 +34,8 @@ public class Framework
 	}
 	public void addPlayer(PlayerInfo player)
 	{
-		PlayerOriginalMasterSimple p = new PlayerOriginalMasterSimple(player.getName(),player.getPosition());
+		int position = players.size()+1;
+		PlayerOriginalMasterSimple p = new PlayerOriginalMasterSimple(player.getName()+" "+position,position);
 		p.setHero(new Blank());
 		players.add(p);
 	}

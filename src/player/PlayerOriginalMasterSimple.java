@@ -6,9 +6,14 @@ import core.Card;
 public class PlayerOriginalMasterSimple extends PlayerOriginal
 {
 	private int cardsCount;
+	public PlayerOriginalMasterSimple(String name) 
+	{
+		super(name);
+		cardsCount = 0;
+	}
 	public PlayerOriginalMasterSimple(String name, int position) 
 	{
-		super(name, position);
+		super(name,position);
 		cardsCount = 0;
 	}
 	@Override

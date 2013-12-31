@@ -7,12 +7,6 @@ import core.PlayerInfo;
 import core.Update;
 public interface GameListener 
 {
-	/**
-	 * use it to communicate with master
-	 * @param update
-	 */
-	public void onSendToMaster(Update update);
-	
 	public void onPlayerAdded(PlayerOriginalClientSimple player);
 	
 	public void onCardSelected(Card card);

@@ -26,7 +26,7 @@ import core.Update;
 import basics.*;
 
 
-public class PanelGui extends JPanel implements ActionListener, GameListener
+public class PanelGui extends JPanel implements ActionListener, GameListener,Runnable
 {
 	/**
 	 * 
@@ -36,8 +36,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 	public static final int HEIGHT = 900;
 	private static final int SELECTION_HEIGHT = 20;
 	
-	private final ExecutorService executor;
-	private static final int POOL_SIZE = Runtime.getRuntime().availableProcessors();
+
 	private CardRackGui cardRack;
 	private EquipmentRackGui equipmentRack;
 	private HeroGui heroGui;
@@ -45,17 +44,17 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 	private CardDisposalGui disposalGui;
 	
 	private PlayerOriginalClientComplete myself;
-	private Client client;
 	private ArrayList<PlayerGui> otherPlayers;
 	private ButtonGui confirm;
 	private ButtonGui cancel;
 	private ButtonGui end;
 	
 	private JLabel deckSize;
-	public PanelGui(int position)
+	public PanelGui(PlayerOriginalClientComplete player)
 	{
 		setLayout(null);
-		executor = Executors.newFixedThreadPool(POOL_SIZE);
+		myself = player;
+		
 		cardRack = new CardRackGui(this);
 		equipmentRack = new EquipmentRackGui();
 		heroGui = new HeroGui(this);
@@ -63,14 +62,15 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		disposalGui = new CardDisposalGui();
 		otherPlayers = new ArrayList<PlayerGui>();
 
-		myself = new PlayerOriginalClientComplete("Player "+position,position);
-		myself.setHero(new Blank());
+		myself.setHero(new Blank());//change in the future
+		heroGui.setHero(myself.getHero());
+		
 		myself.registerGameListener(this);
 		myself.registerCardOnHandListener(cardRack);
 		myself.registerEquipmentListener(equipmentRack);
 		myself.registerHealthListener(healthGui);
 		myself.registerCardDisposalListener(disposalGui);
-		heroGui.setHero(myself.getHero());
+		
 		
 		confirm = new ButtonGui("Confirm",this);
 		confirm.setLocation(0,HEIGHT-CardRackGui.HEIGHT-ButtonGui.HEIGHT);
@@ -89,22 +89,6 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 		add(confirm);
 		add(cancel);
 		add(end);
-		connect();
-	}
-	private void connect()
-	{
-//		try
-//		{
-//			System.out.println(InetAddress.getLocalHost().getHostAddress());
-//		}
-//		catch(UnknownHostException e)
-//		{
-//			
-//		}
-		client = new Client(myself);
-		client.setHost("localhost");
-		client.setPort(Master.DEFAULT_PORT);
-		executor.execute(client);
 	}
 	@Override
 	public void onPlayerAdded(PlayerOriginalClientSimple player)
@@ -183,17 +167,12 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 	}
 
 	@Override
-	public void onSendToMaster(Update update)
-	{
-		client.sendToMaster(update);
-	}
-	@Override
 	public void onCardSelected(Card card)
 	{
 		for(CardGui c : cardRack.getCardsOnHand())
 			if(c.getCard().equals(card))
 			{
-				c.setLocation(c.getX(),c.getY()-SELECTION_HEIGHT/2);
+				c.setLocation(c.getX(),c.getY()-SELECTION_HEIGHT);
 				return;
 			}
 	}
@@ -264,17 +243,13 @@ public class PanelGui extends JPanel implements ActionListener, GameListener
 	{
 		end.setEnabled(isEnabled);
 	}
-	public static void main(String[] args)
+	public void run()
 	{
 		JFrame f = new JFrame();
-		Scanner scan = new Scanner(System.in);
-		int pos = scan.nextInt();
-		scan.close();
-		f.add(new PanelGui(pos));
+		f.add(this);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.pack();
-		f.setVisible(true);
 		f.setLocation(200,0);
-		
+		f.setVisible(true);
 	}
 }

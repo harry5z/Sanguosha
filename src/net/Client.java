@@ -1,27 +1,36 @@
 package net;
 
 
+import gui.PanelGui;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import player.PlayerOriginalClientComplete;
 import core.Update;
-import update.ClientReadyNotification;
-import listener.ClientListener;
-import listener.GameListener;
+import update.NewPlayer;
 
 public class Client extends Thread
 {
+	private final ExecutorService executor;
+	private static final int POOL_SIZE = Runtime.getRuntime().availableProcessors();
 	private int masterPort;
 	private String masterHost;
 	
-	private ClientListener listener;
 	private ObjectOutputStream out;
 	
-	public Client(ClientListener listener)
+	private PlayerOriginalClientComplete player;
+	public Client()
 	{
-		this.listener = listener;
+		executor = Executors.newFixedThreadPool(POOL_SIZE);
+		masterPort = Master.DEFAULT_PORT;
+		masterHost = "localhost";
+		player = new PlayerOriginalClientComplete("Player",this);
+		executor.execute(new PanelGui(player));
 	}
 	/**
 	 * Set master's port to connect
@@ -65,12 +74,12 @@ public class Client extends Thread
 			socket = new Socket(masterHost,masterPort);
 			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
-			listener.onNotified(new ClientReadyNotification());
+			out.writeObject(new NewPlayer(player));
 			System.out.println("Listening to master");
 			while(true)
 			{
 				Update update = (Update)in.readObject();
-				listener.onNotified(update);
+				update.playerOperation(player);
 			}
 		}
 		catch(IOException e)
@@ -83,5 +92,9 @@ public class Client extends Thread
 			System.err.println("Client: Received invalid response from master");
 			e.printStackTrace();
 		}
+	}
+	public static void main(String[] args)
+	{
+		new Client().run();
 	}
 }

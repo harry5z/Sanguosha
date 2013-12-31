@@ -247,6 +247,7 @@ public class AttackEvent implements Operation, Event
 		if(stage == TARGET_SELECTION)//not sent yet
 		{
 			cancelOperation(player,cardUsedAsAttack);
+			player.setCardOnHandSelected(cardUsedAsAttack, false);
 			player.setCancelEnabled(false);
 		}
 		else if(stage == USING_DODGE)//target operation

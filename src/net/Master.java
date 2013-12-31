@@ -32,6 +32,7 @@ public class Master extends Thread
 		executor = Executors.newFixedThreadPool(POOL_SIZE);
 		threads = new ArrayList<PlayerThread>();
 		framework = new Framework(this);
+		executor.execute(new FrameworkGui(framework));
 	}
 	public Master()
 	{
@@ -49,7 +50,7 @@ public class Master extends Thread
 	{
 		this.framework = framework;
 	}
-	public void sendToAllClients(Update update)
+	public synchronized void sendToAllClients(Update update)
 	{
 		for(PlayerThread p : threads)
 			p.sendToClient(update);

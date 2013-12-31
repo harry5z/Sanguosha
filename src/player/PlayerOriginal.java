@@ -12,11 +12,14 @@ public abstract class PlayerOriginal extends Player
 	
 	private int role;
 	
-	public PlayerOriginal(String name,int position)
+	public PlayerOriginal(String name)
+	{
+		super(name);
+	}
+	public PlayerOriginal(String name, int position)
 	{
 		super(name,position);
 	}
-
 	public void setRole(int role)
 	{
 		this.role = role;

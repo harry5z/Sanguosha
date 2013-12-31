@@ -4,6 +4,7 @@ import heroes.Blank;
 
 import java.util.ArrayList;
 
+import net.Client;
 import update.Damage;
 import update.DrawCardsFromDeck;
 import update.StageUpdate;
@@ -33,10 +34,22 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	//private int targetSelectionLimit;
 	private ArrayList<Card> cardsUsedThisTurn;
 	//private Stack<Update> updateStack;
+	private Client client;
 	private Update updateToSend;
 	public PlayerOriginalClientComplete(String name, int position) 
 	{
 		super(name, position);
+		init();
+	}
+	public PlayerOriginalClientComplete(String name, Client client)
+	{
+		super(name);
+		setPosition(0);
+		this.client = client;
+		init();
+	}
+	private void init()
+	{
 		cardsOnHand = new ArrayList<Card>();
 		//init global settings
 		otherPlayers = new ArrayList<PlayerOriginalClientSimple>();
@@ -129,7 +142,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	 */
 	public void sendToMaster(Update update)
 	{
-		gameListener.onSendToMaster(update);
+		client.sendToMaster(update);
 	}
 	public void setCurrentStage(StageUpdate update)
 	{
@@ -183,7 +196,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 //			gameListener.onTargetUnselected(target);
 //		targetsSelected.clear();
 		currentStage.nextStep();
-		gameListener.onSendToMaster(currentStage);
+		client.sendToMaster(currentStage);
 	}
 	public void disableAll()
 	{
@@ -201,7 +214,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		cardsUsedThisTurn.clear();
 		currentStage.nextStage(this);
 		System.out.println(currentStage.getStage());
-		gameListener.onSendToMaster(currentStage);
+		client.sendToMaster(currentStage);
 	}
 	//**************** methods related to interactions ****************
 	public Update getUpdateToSend()
@@ -238,12 +251,10 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		{
 			card.onActivatedBy(this);
 			cardActivated = card;
-			gameListener.onCardSelected(card);
 		}
 		else if(cardActivated != null)
 		{
 			operation.onCancelledBy(this);
-			gameListener.onCardUnselected(cardActivated);
 			if(cardActivated.equals(card))//cancel
 			{
 				cardActivated = null;
@@ -252,7 +263,6 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 			{
 				cardActivated = card;
 				cardActivated.onActivatedBy(this);
-				gameListener.onCardSelected(cardActivated);				
 			}
 		}
 		else//something activated

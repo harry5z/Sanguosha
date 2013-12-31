@@ -29,6 +29,7 @@ public class Peach extends Basic
 	public void onActivatedBy(PlayerOriginalClientComplete player)
 	{
 		player.setOperation(new PeachOperation(player.getPlayerInfo(),this,player.getCurrentStage()));
+		player.setCardOnHandSelected(this, true);
 		player.setCancelEnabled(true);
 		player.setConfirmEnabled(true);
 	}

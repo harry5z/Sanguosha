@@ -1,6 +1,5 @@
 package player;
 
-import update.Damage;
 import core.Card;
 import core.Equipment;
 import listener.*;
@@ -12,9 +11,13 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 	private transient EquipmentListener equipmentListener;
 	private transient CardDisposalListener disposalListener;
 	
+	public PlayerOriginalClientSimple(String name) 
+	{
+		super(name);
+	}
 	public PlayerOriginalClientSimple(String name, int position) 
 	{
-		super(name, position);
+		super(name,position);
 	}
 	/**
 	 * register health listener to monitor the change in health
@@ -109,5 +112,8 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 		equipmentListener.onEquipped(equipment);
 		return e;
 	}
-	
+	public void clearDisposalArea()
+	{
+		disposalListener.refresh();
+	}
 }
