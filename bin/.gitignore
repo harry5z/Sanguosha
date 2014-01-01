@@ -1,6 +1,8 @@
 /basics
 /core
-/equipments
 /events
 /gui
+/listener
+/net
 /player
+/update
