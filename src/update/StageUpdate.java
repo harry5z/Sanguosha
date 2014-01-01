@@ -100,6 +100,8 @@ public class StageUpdate implements Event
 			{
 				player.startDealing();
 			}
+			else if(stage == TURN_DISCARD)
+				player.turnDiscard();
 			else if(stage == TURN_END)
 				player.endTurn();
 			else

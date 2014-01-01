@@ -16,6 +16,7 @@ import core.Operation;
 import core.Player;
 import core.PlayerInfo;
 import core.Update;
+import events.TurnDiscardOperation;
 
 public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple implements ClientListener
 {
@@ -195,9 +196,29 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 //		for(Player target : targetsSelected)
 //			gameListener.onTargetUnselected(target);
 //		targetsSelected.clear();
-		currentStage.nextStep();
+		currentStage.nextStage(this);
 		client.sendToMaster(currentStage);
 	}
+	
+	public void turnDiscard()
+	{
+		if(getCardsOnHandCount() <= getCardOnHandLimit())
+		{
+			currentStage.nextStage(this);
+			client.sendToMaster(currentStage);
+		}
+		else
+		{
+			currentStage.nextStage(this);
+			client.sendToMaster(new TurnDiscardOperation(getPlayerInfo(),currentStage));
+		}
+	}
+	/**
+	 * <li>no card activated
+	 * <li>no card on hand selectable
+	 * <li>no target selectable
+	 * <li>no button can be pressed
+	 */
 	public void disableAll()
 	{
 		cardActivated = null;

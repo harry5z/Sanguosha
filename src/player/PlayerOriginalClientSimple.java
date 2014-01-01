@@ -95,6 +95,7 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 	public void discardCard(Card card)
 	{
 		super.discardCard(card);
+		cardsOnHandListener.onCardRemoved(card);
 		disposalListener.onCardDisposed(card);
 	}
 	@Override
