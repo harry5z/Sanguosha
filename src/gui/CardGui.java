@@ -18,43 +18,55 @@ public class CardGui extends JButton
 	public static final int HEIGHT = 200;
 	private Card c;
 	private String number;
-	private String suit;
+	private Color color;
+	private Image suit;
 	private Image img;
 	public CardGui(Card card)
 	{
 		c = card;	
 		setSize(WIDTH,HEIGHT);
 		number = numToString(c.getNumber());
-		suit(card.getSuit());
-		readImage(c);
+		readSuit(card.getSuit());
+		readName(c.getName());
 	}
-	private void readImage(Card k)
+	private void readName(String name)
 	{
 		try
 		{
-			img = ImageIO.read(getClass().getResource("cards/"+c.getName()+".png"));
+			img = ImageIO.read(getClass().getResource("cards/"+name+".png"));
 		} 
 		catch (IOException e) 
 		{
-			System.out.println("File not found");
+			System.err.println("File not found");
 		}
 	}
-	private void suit(int n)
+	private void readSuit(int n)
 	{
-		switch(n)
+		try
 		{
-		case Card.SPADE:
-			suit = "SPADE";
-			break;
-		case Card.HEART:
-			suit = "HEART";
-			break;
-		case Card.CLUB:
-			suit = "CLUB";
-			break;
-		case Card.DIAMOND:
-			suit = "DIAMOND";
-			break;
+			switch(n)
+			{
+			case Card.SPADE:
+				suit = ImageIO.read(getClass().getResource("cards/spade.png"));
+				color = Color.BLACK;
+				break;
+			case Card.HEART:
+				suit = ImageIO.read(getClass().getResource("cards/heart.png"));
+				color = Color.RED;
+				break;
+			case Card.CLUB:
+				suit = ImageIO.read(getClass().getResource("cards/club.png"));
+				color = Color.BLACK;
+				break;
+			case Card.DIAMOND:
+				suit = ImageIO.read(getClass().getResource("cards/diamond.png"));
+				color = Color.RED;
+				break;
+			}
+		}
+		catch(IOException e)
+		{
+			System.err.println("File not found");
 		}
 		
 	}
@@ -80,9 +92,13 @@ public class CardGui extends JButton
 	{
 		super.paint(g);
 		g.drawImage(img,0,0,null);
-		g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
-		g.drawString(suit, 10, 30);
-		g.drawString(number, 10, 20);
+		g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 18));
+		g.setColor(color);
+		g.drawImage(suit, 10, 28,null);
+		if(number.length() == 1)
+			g.drawString(number, 15, 25);
+		else
+			g.drawString(number, 10, 25);
 	}
 
 }
