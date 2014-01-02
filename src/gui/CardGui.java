@@ -21,6 +21,7 @@ public class CardGui extends JButton
 	private Color color;
 	private Image suit;
 	private Image img;
+	private Image img_darker;
 	public CardGui(Card card)
 	{
 		c = card;	
@@ -34,6 +35,7 @@ public class CardGui extends JButton
 		try
 		{
 			img = ImageIO.read(getClass().getResource("cards/"+name+".png"));
+			img_darker = ImageIO.read(getClass().getResource("cards/"+name+"_darker.png"));
 		} 
 		catch (IOException e) 
 		{
@@ -91,7 +93,10 @@ public class CardGui extends JButton
 	public void paint(Graphics g)
 	{
 		super.paint(g);
-		g.drawImage(img,0,0,null);
+		if(isEnabled())
+			g.drawImage(img,0,0,null);
+		else
+			g.drawImage(img_darker, 0, 0, null);
 		g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 18));
 		g.setColor(color);
 		g.drawImage(suit, 10, 28,null);
