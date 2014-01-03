@@ -1,10 +1,10 @@
 ﻿Sanguosha
 =========
-Sanguosha, or translated as "Battles of the Three Kingdoms", is a very famous board game in China today, based on the historical events of the Three Kindoms (a historical period in ancient China, around 220–280 AD). (see link below)
+Sanguosha, or translated as "Battles of the Three Kingdoms", is a very famous board game in China today, based on the historical events of the Three Kingdoms (a historical period in ancient China, around 220–280 AD). (see link below)
 
 http://en.wikipedia.org/wiki/Legends_of_the_Three_Kingdoms
 
-The core and most fun part of the game is the variety of heroes and their skills, as you may have already noticed, there are many expansion packs of heroes. An implicit rule is that the names and descriptions of a hero's skills should more or less match the historical facts about the hero. Many people even learn a lot about the history of the Three Kindoms through playing different heroes.
+The core and most fun part of the game is the variety of heroes and their skills, as you may have already noticed, there are many expansion packs of heroes. An implicit rule is that the names and descriptions of a hero's skills should more or less match the historical facts about the hero. Many people even learn a lot about the history of the Three Kingdoms through playing different heroes.
 
 Therefore, besides the official game, many gamers invented their own versions of Sanguosha, in which heroes are replaced with friends, family members, celebrities, etc. Most of these "heroes" also abide by the rule of similarity, for example, a student with skill "study hard", a teacher with skill "homework", or perhaps Obama with skill "medicare". However, most of these designs are limited to a graphical design of the hero card, because actually printing and playing these hero cards are infeasible to most people -- most players are students who are busy at schoolwork as well, and it is hard to gather them together to play a game, which usually lasts more than 20 minutes; besides, due to the complicated system of rules of Sanguosha, face-to-face games are prone to error, which sometimes can be very frustrating.
 
