@@ -7,6 +7,7 @@ import core.Event;
 import core.Framework;
 import core.Operation;
 import core.PlayerInfo;
+import core.Update;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import player.PlayerOriginalClientSimple;
@@ -45,7 +46,7 @@ public class AttackEvent implements Operation, Event
 	private Card dodge;
 	private ArrayList<Card> cardsUsed;
 	private Damage damage;
-	private Event nextEvent;
+	private Update nextEvent;
 	
 //	public AttackEvent(PlayerOriginalClientComplete source, Attack attack)
 //	{
@@ -58,7 +59,7 @@ public class AttackEvent implements Operation, Event
 //		dodge = null;
 //		enableTargets(source);
 //	}
-	public AttackEvent(PlayerOriginalClientComplete source, Attack attack, Event next)
+	public AttackEvent(PlayerOriginalClientComplete source, Attack attack, Update next)
 	{
 		this.source = source.getPlayerInfo();
 		target = null;
@@ -74,7 +75,6 @@ public class AttackEvent implements Operation, Event
 
 	private void endOfTargetOperation(PlayerOriginalClientComplete player)
 	{
-		player.setOperation(null);
 		player.setCancelEnabled(false);
 		if(dodge != null)
 			player.setCardOnHandSelected(dodge, false);
@@ -113,7 +113,7 @@ public class AttackEvent implements Operation, Event
 			}
 			else if(stage == USING_DODGE)//target choose whether to dodge the attack
 			{
-				player.setOperation(this);//push it to target's stack
+				player.setOperation(this);//push it to operation
 				player.setCardSelectableByName(Dodge.DODGE, true);//enable dodges
 				player.setCancelEnabled(true);//enable cancel
 			}
@@ -229,7 +229,6 @@ public class AttackEvent implements Operation, Event
 			player.setCardOnHandSelected(cardUsedAsAttack, false);
 			damage = new Damage(amount,cardUsedAsAttack.getElement(),source,target,this);
 			stage = BEFORE_TARGET_LOCKED;
-			player.setOperation(null);
 			player.sendToMaster(new UseOfCards(source,cardUsedAsAttack,this));
 		}
 		else if(player.isEqualTo(target))//target dodged
@@ -257,6 +256,7 @@ public class AttackEvent implements Operation, Event
 				player.setCardOnHandSelected(dodge, false);
 				player.setConfirmEnabled(false);
 				dodge = null;
+				player.setOperation(this);//push back to operation active
 			}
 			else // choose not to dodge
 			{
@@ -270,7 +270,6 @@ public class AttackEvent implements Operation, Event
 	}
 	private void cancelOperation(PlayerOriginalClientComplete operator, Card card)
 	{
-		operator.setOperation(null);//no operation
 		operator.setConfirmEnabled(false);//unable to confirm
 		if(target != null)
 			operator.unselectTarget(target);//target not selected

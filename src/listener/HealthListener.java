@@ -17,4 +17,8 @@ public interface HealthListener
 	 * @param amount
 	 */
 	public void onHealthChangedBy(int amount);
+	/**
+	 * used when player is dead
+	 */
+	public void onDeath();
 }

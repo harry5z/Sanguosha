@@ -2,11 +2,17 @@ package basics;
 
 import player.PlayerOriginalClientComplete;
 import core.Basic;
+import core.Operation;
+import core.Update;
 import events.AttackEvent;
 
 
 public class Attack extends Basic
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4346640648436436523L;
 	private int element = 0;//0.Normal 1.Fire 2.Thunder
 	public static final int NORMAL = 0;
 	public static final int FIRE = 1;
@@ -45,11 +51,11 @@ public class Attack extends Basic
 			return false;
 	}
 	@Override
-	public void onActivatedBy(PlayerOriginalClientComplete player) 
+	public Operation onActivatedBy(PlayerOriginalClientComplete player,Update next) 
 	{
-		player.setOperation(new AttackEvent(player,this,player.getCurrentStage()));//operation set
 		player.setCancelEnabled(true);//can cancel
 		player.setCardOnHandSelected(this, true);
+		return new AttackEvent(player,this,next);
 	}
 
 }

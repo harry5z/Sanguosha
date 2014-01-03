@@ -74,11 +74,13 @@ public class PlayerGui extends JButton
 		public static final int WIDTH = PlayerGui.WIDTH;
 		public static final int HEIGHT = PlayerGui.LIFEBAR_HEIGHT;
 		private int limit;
+		private boolean alive;
 		private int current;
 		public HorizontalLifebarGui()
 		{
 			setSize(WIDTH,HEIGHT);
 			setLocation(0,NAMETAG_HEIGHT+PICTURE_HEIGHT);
+			alive = true;
 			limit = 0;
 			current = 0;
 		}
@@ -105,21 +107,33 @@ public class PlayerGui extends JButton
 			repaint();
 		}
 		@Override
+		public void onDeath()
+		{
+			alive = false;
+			JLabel death = new JLabel("Dead");
+			death.setSize(WIDTH,HEIGHT);
+			death.setFont(new Font(Font.MONOSPACED, Font.BOLD, 18));
+			add(death);
+		}
+		@Override
 		public void paint(Graphics g)
 		{
 			super.paint(g);
-			g.drawRect(0, 0, WIDTH, HEIGHT);
-			if(limit == 0)
-				return;
-			int diameter = WIDTH / (limit*2+1);
-			int y = (HEIGHT - diameter) / 2;
-			for(int i = 0;i < limit;i++)
+			if(alive)
 			{
-				if(i < current)
-					g.setColor(Color.GREEN);
-				else
-					g.setColor(Color.RED);
-					g.fillOval((2*i+1)*diameter, y, diameter, diameter);
+				g.drawRect(0, 0, WIDTH, HEIGHT);
+				if(limit == 0)
+					return;
+				int diameter = WIDTH / (limit*2+1);
+				int y = (HEIGHT - diameter) / 2;
+				for(int i = 0;i < limit;i++)
+				{
+					if(i < current)
+						g.setColor(Color.GREEN);
+					else
+						g.setColor(Color.RED);
+						g.fillOval((2*i+1)*diameter, y, diameter, diameter);
+				}
 			}
 		}
 	}

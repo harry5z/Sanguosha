@@ -15,12 +15,12 @@ public class IncreaseOfHealth implements Update
 	private PlayerInfo source;
 	private PlayerInfo target;
 	private int amount;
-	private Event nextEvent;
+	private Update nextEvent;
 	/**
 	 * simple setup: source = target, amount = 1
 	 * @param source
 	 */
-	public IncreaseOfHealth(PlayerInfo source, Event next)
+	public IncreaseOfHealth(PlayerInfo source, Update next)
 	{
 		this.source = source;
 		this.target = source;

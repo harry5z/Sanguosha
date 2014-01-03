@@ -16,6 +16,7 @@ import core.Operation;
 import core.Player;
 import core.PlayerInfo;
 import core.Update;
+import events.NearDeathEvent;
 import events.TurnDiscardOperation;
 
 public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple implements ClientListener
@@ -136,6 +137,12 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	{
 		System.out.println("Taking damage "+damage.getAmount());
 		super.takeDamage(damage);
+		if(isDying())
+		{
+			client.sendToMaster(new NearDeathEvent(currentStage.getSource(),damage.getSource(),getPlayerInfo(),damage.getNext()));
+		}
+		else
+			client.sendToMaster(damage.getNext());
 	}
 	/**
 	 * <li>{@link GameListener} notified
@@ -215,6 +222,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	}
 	/**
 	 * <li>no card activated
+	 * <li>no operation
 	 * <li>no card on hand selectable
 	 * <li>no target selectable
 	 * <li>no button can be pressed
@@ -232,9 +240,9 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	public void endTurn()
 	{
 		super.endTurn();
+		operation = null;
 		cardsUsedThisTurn.clear();
 		currentStage.nextStage(this);
-		
 		client.sendToMaster(currentStage);
 	}
 	//**************** methods related to interactions ****************
@@ -270,12 +278,13 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	{
 		if(cardActivated == null && operation == null)//no card activated
 		{
-			card.onActivatedBy(this);
+			operation = card.onActivatedBy(this,currentStage);
 			cardActivated = card;
 		}
 		else if(cardActivated != null)
 		{
 			operation.onCancelledBy(this);
+			operation = null;
 			if(cardActivated.equals(card))//cancel
 			{
 				cardActivated = null;
@@ -283,7 +292,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 			else//change
 			{
 				cardActivated = card;
-				cardActivated.onActivatedBy(this);
+				operation = cardActivated.onActivatedBy(this,currentStage);
 			}
 		}
 		else//something activated
@@ -375,15 +384,63 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	{
 		gameListener.onCancelSetEnabled(isEnabled);
 	}
+	/**
+	 * called by user clicking "confirm"
+	 */
 	public void confirm()
 	{
 		disableAll();
-		operation.onConfirmedBy(this);
+		Operation temp = operation;
+		operation = null;
+		temp.onConfirmedBy(this);
 	}
+	/**
+	 * called by user clicking "cancel"
+	 * <li>operation.onCancelledBy(this)
+	 * <li>operation = null;
+	 * <li>cardActivated = null
+	 */
 	public void cancel()
 	{
-		operation.onCancelledBy(this);
 		cardActivated = null;
+		Operation temp = operation;
+		operation = null;
+		temp.onCancelledBy(this);
+	}
+
+	public PlayerInfo getNextPlayerAlive()
+	{
+		Player next = null;
+		for(Player p : otherPlayers)
+		{
+			if(!p.isAlive())
+				continue;
+			if(next == null && p.getPosition() > getPosition())
+			{
+				next = p;
+				continue;
+			}
+			if(p.getPosition() > getPosition() && p.getPosition() < next.getPosition())
+				next = p;
+		}
+		if(next == null)
+		{
+			for(Player p : otherPlayers)
+			{
+				if(!p.isAlive())
+					continue;
+				if(next == null && p.getPosition() < getPosition())
+				{
+					next = p;
+					continue;
+				}
+				if(p.getPosition() < next.getPosition())
+					next = p;
+			}
+		}
+		if(next == null)
+			System.err.println("Master: Next player not found");
+		return next.getPlayerInfo();
 	}
 
 	public PlayerOriginal findMatch(PlayerInfo p)

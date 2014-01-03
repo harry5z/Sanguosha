@@ -45,7 +45,11 @@ public class LifebarGui extends JPanel implements HealthListener
 			current = limit;
 		repaint();
 	}
-	
+	@Override
+	public void onDeath()
+	{
+		
+	}
 	@Override
 	public void paint(Graphics g)
 	{
@@ -64,4 +68,5 @@ public class LifebarGui extends JPanel implements HealthListener
 				g.fillOval(x, (2*i+1)*diameter, diameter, diameter);
 		}
 	}
+
 }

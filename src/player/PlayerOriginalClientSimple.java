@@ -113,6 +113,12 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 		equipmentListener.onEquipped(equipment);
 		return e;
 	}
+	@Override
+	public void kill()
+	{
+		super.kill();
+		healthListener.onDeath();
+	}
 	public void clearDisposalArea()
 	{
 		disposalListener.refresh();

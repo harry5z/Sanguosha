@@ -1,12 +1,8 @@
 package update;
 
-import java.util.ArrayList;
-
 import player.PlayerOriginalClientComplete;
-import player.PlayerOriginalClientSimple;
 import core.Event;
 import core.Framework;
-import core.Player;
 import core.PlayerInfo;
 
 public class StageUpdate implements Event
@@ -49,38 +45,7 @@ public class StageUpdate implements Event
 			stage++;
 		else
 		{
-			ArrayList<PlayerOriginalClientSimple> players = player.getOtherPlayers();
-			Player next = null;
-			for(Player p : players)
-			{
-				if(!p.isAlive())
-					continue;
-				if(next == null && p.getPosition() > source.getPosition())
-				{
-					next = p;
-					continue;
-				}
-				if(p.getPosition() > source.getPosition() && p.getPosition() < next.getPosition())
-					next = p;
-			}
-			if(next == null)
-			{
-				for(Player p : players)
-				{
-					if(!p.isAlive())
-						continue;
-					if(next == null && p.getPosition() < source.getPosition())
-					{
-						next = p;
-						continue;
-					}
-					if(p.getPosition() < next.getPosition())
-						next = p;
-				}
-			}
-			if(next == null)
-				System.err.println("Master: Next player not found");
-			source = next.getPlayerInfo();
+			source = player.getNextPlayerAlive();
 			stage = TURN_START_BEGINNING;
 		}
 	}

@@ -18,7 +18,7 @@ public class Damage extends SourceTargetAmount implements Event
 	private Card cardUsedAs;
 	private PlayerInfo source;
 	private PlayerInfo target;
-	private Event nextEvent;
+	private Update nextEvent;
 	/**
 	 * Default setup of damage, used as simple damage caused by 1 card:
 	 * <ol>
@@ -31,7 +31,7 @@ public class Damage extends SourceTargetAmount implements Event
 	 * @param source : source of damage
 	 * @param target : target of damage
 	 */
-	public Damage(Card cardUsed, PlayerInfo source, PlayerInfo target, Event next)
+	public Damage(Card cardUsed, PlayerInfo source, PlayerInfo target, Update next)
 	{
 		element = Attack.NORMAL;
 		amount = 1;
@@ -60,7 +60,10 @@ public class Damage extends SourceTargetAmount implements Event
 		cardUsedAs = null;
 		nextEvent = next;
 	}
-
+	public Update getNext()
+	{
+		return nextEvent;
+	}
 	/**
 	 * element == one of Fire/Thunder/Normal
 	 * @param element
@@ -133,7 +136,6 @@ public class Damage extends SourceTargetAmount implements Event
 		if(player.isEqualTo(target))
 		{
 			player.takeDamage(this);
-			player.sendToMaster(nextEvent);
 		}
 		else
 		{

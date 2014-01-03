@@ -2,6 +2,8 @@ package basics;
 
 import player.PlayerOriginalClientComplete;
 import core.Basic;
+import core.Operation;
+import core.Update;
 import events.PeachOperation;
 
 
@@ -30,11 +32,11 @@ public class Peach extends Basic
 			return false;
 	}
 	@Override
-	public void onActivatedBy(PlayerOriginalClientComplete player)
+	public Operation onActivatedBy(PlayerOriginalClientComplete player, Update next)
 	{
-		player.setOperation(new PeachOperation(player.getPlayerInfo(),this,player.getCurrentStage()));
 		player.setCardOnHandSelected(this, true);
 		player.setCancelEnabled(true);
 		player.setConfirmEnabled(true);
+		return new PeachOperation(player.getPlayerInfo(),this,next);
 	}
 }

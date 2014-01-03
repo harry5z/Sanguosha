@@ -2,6 +2,8 @@ package basics;
 
 import player.PlayerOriginalClientComplete;
 import core.Basic;
+import core.Operation;
+import core.Update;
 import events.WineOperation;
 
 
@@ -22,12 +24,12 @@ public class Wine extends Basic
 		return WINE;
 	}
 	@Override
-	public void onActivatedBy(PlayerOriginalClientComplete player) 
+	public Operation onActivatedBy(PlayerOriginalClientComplete player, Update next) 
 	{
-		player.setOperation(new WineOperation(player.getPlayerInfo(),this,player.getCurrentStage()));
 		player.setCardOnHandSelected(this, true);
 		player.setCancelEnabled(true);
 		player.setConfirmEnabled(true);
+		return new WineOperation(player.getPlayerInfo(),this,next);
 	}
 	@Override
 	public boolean isActivatableBy(PlayerOriginalClientComplete player) 

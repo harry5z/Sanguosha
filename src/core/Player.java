@@ -168,7 +168,10 @@ public abstract class Player
 	{
 		healthCurrent += n;
 		hero.changeCardLimitTo(healthCurrent);
-		
+		if(healthCurrent < 1)//is dying
+			isDying = true;
+		else
+			isDying = false;
 	}
 	public int getHealthCurrent()
 	{
@@ -385,6 +388,7 @@ public abstract class Player
 	public void kill()
 	{
 		isAlive = false;
+		isDying = false;
 	}
 	public boolean isAlive()
 	{

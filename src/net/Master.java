@@ -50,6 +50,10 @@ public class Master extends Thread
 	{
 		this.framework = framework;
 	}
+	/**
+	 * inform all clients of an update, call update.playerOperation automatically
+	 * @param update
+	 */
 	public synchronized void sendToAllClients(Update update)
 	{
 		for(PlayerThread p : threads)

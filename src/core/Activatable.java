@@ -4,6 +4,6 @@ import player.PlayerOriginalClientComplete;
 
 public interface Activatable
 {
-	public void onActivatedBy(PlayerOriginalClientComplete player);
+	public Operation onActivatedBy(PlayerOriginalClientComplete player, Update next);
 	public boolean isActivatableBy(PlayerOriginalClientComplete player);
 }

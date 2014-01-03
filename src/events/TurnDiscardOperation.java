@@ -1,7 +1,6 @@
 package events;
 
 import java.util.ArrayList;
-
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.DisposalOfCards;

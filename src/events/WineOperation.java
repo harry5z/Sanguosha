@@ -5,21 +5,25 @@ import player.PlayerOriginalClientComplete;
 import update.IncreaseOfHealth;
 import update.UseOfCards;
 import core.Card;
-import core.Event;
 import core.Framework;
 import core.Operation;
 import core.PlayerInfo;
+import core.Update;
 
 public class WineOperation implements Operation
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3919164368836659196L;
 	private IncreaseOfHealth update;
 	private PlayerInfo source;
 	private Card wine;
-	private Event next;
-	public WineOperation(PlayerInfo player, Card wine, Event e)
+	private Update next;
+	public WineOperation(PlayerInfo player, Card wine, Update next)
 	{
 		source = player;
-		next = e;
+		this.next = next;
 		this.wine = wine;
 	}
 	@Override
@@ -50,7 +54,6 @@ public class WineOperation implements Operation
 	@Override
 	public void onCancelledBy(PlayerOriginalClientComplete player) 
 	{
-		player.setOperation(null);
 		player.setConfirmEnabled(false);
 		player.setCancelEnabled(false);
 		player.setCardOnHandSelected(wine, false);
@@ -59,7 +62,6 @@ public class WineOperation implements Operation
 	@Override
 	public void onConfirmedBy(PlayerOriginalClientComplete player) 
 	{
-		player.setOperation(null);
 		player.setCardOnHandSelected(wine, false);
 		player.setCancelEnabled(false);
 		if(player.isDying())

@@ -5,21 +5,32 @@ import player.PlayerOriginalClientComplete;
 import update.IncreaseOfHealth;
 import update.UseOfCards;
 import core.Card;
-import core.Event;
 import core.Framework;
 import core.Operation;
 import core.PlayerInfo;
+import core.Update;
 
 public class PeachOperation implements Operation
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1723063004362265957L;
 	private IncreaseOfHealth update;
 	private PlayerInfo source;
+	private PlayerInfo target;
 	private Card peach;
-	public PeachOperation(PlayerInfo player, Card peach, Event e)
+	public PeachOperation(PlayerInfo player, Card peach, Update next)
 	{
 		source = player;
-		update = new IncreaseOfHealth(player,e);
+		target = null;
+		update = new IncreaseOfHealth(player,next);
 		this.peach = peach;
+	}
+	public void setTarget(PlayerInfo player)
+	{
+		target = player;
+		update.setTarget(target);
 	}
 	@Override
 	public void frameworkOperation(Framework framework) {
@@ -49,7 +60,6 @@ public class PeachOperation implements Operation
 	@Override
 	public void onCancelledBy(PlayerOriginalClientComplete player) 
 	{
-		player.setOperation(null);
 		player.setConfirmEnabled(false);
 		player.setCancelEnabled(false);
 		player.setCardOnHandSelected(peach, false);
