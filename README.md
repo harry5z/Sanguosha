@@ -36,7 +36,8 @@ As of 1/3/2014:
 
 1. Basic documentation
 
-2. Master and Client
+2. Master and Client:
+It is tested that multiple clients on different machines within an LAN can play together. Remote connection is not tested yet, because there appears to be some router configurations required, and I forgot the username and password of my router...
 
 3. Basic Gui: cards, players, buttons, life bar, etc.
 
