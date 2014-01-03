@@ -112,7 +112,7 @@ public class PlayerGui extends JButton
 			alive = false;
 			JLabel death = new JLabel("Dead");
 			death.setSize(WIDTH,HEIGHT);
-			death.setFont(new Font(Font.MONOSPACED, Font.BOLD, 18));
+			death.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
 			add(death);
 		}
 		@Override
