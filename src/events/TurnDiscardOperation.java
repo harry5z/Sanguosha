@@ -10,12 +10,21 @@ import core.Operation;
 import core.PlayerInfo;
 import core.Update;
 
-
+/**
+ * Operation that forces a player to discard extra cards on hand if player holds
+ * more cards than permitted
+ * @author Harry
+ *
+ */
 public class TurnDiscardOperation implements Operation
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -351725130199991268L;
 	private PlayerInfo source;
-	private ArrayList<Card> cardsDiscarded;
-	private ArrayList<Card> cardsSelected;
+	private ArrayList<Card> cardsDiscarded;//all cards discarded
+	private ArrayList<Card> cardsSelected;//cards currently selected
 	private Update next;
 	
 	public TurnDiscardOperation(PlayerInfo source,Update next)
@@ -36,20 +45,20 @@ public class TurnDiscardOperation implements Operation
 	{
 		if(player.isEqualTo(source))
 		{
-			if(player.getCardsOnHandCount() == player.getCardOnHandLimit())
-				player.sendToMaster(next);
+			if(player.getCardsOnHandCount() == player.getCardOnHandLimit())//meets requirement
+				player.sendToMaster(next);//continue the game
 			else
 			{
-				player.setOperation(this);
-				player.setAllCardsOnHandSelectable(true);
+				player.setOperation(this);//push to operation
+				player.setAllCardsOnHandSelectable(true);//discard any card on hand
 			}
 		}
 	}
 
 	@Override
-	public void onPlayerSelected(PlayerOriginalClientComplete operator,PlayerOriginal player) {
-		// TODO Auto-generated method stub
-		
+	public void onPlayerSelected(PlayerOriginalClientComplete operator,PlayerOriginal player) 
+	{
+		//no player selection in this operation
 	}
 
 	@Override
@@ -69,7 +78,7 @@ public class TurnDiscardOperation implements Operation
 			int current = operator.getCardsOnHandCount();
 			int goal = operator.getCardOnHandLimit();
 			if(goal + cardsSelected.size() == current)
-				operator.setCardOnHandSelected(cardsSelected.remove(0),false);
+				operator.setCardOnHandSelected(cardsSelected.remove(0),false);//remove first
 			cardsSelected.add(card);
 			operator.setCardOnHandSelected(card, true);
 			operator.setConfirmEnabled(true);
@@ -77,9 +86,9 @@ public class TurnDiscardOperation implements Operation
 	}
 
 	@Override
-	public void onCancelledBy(PlayerOriginalClientComplete player) {
-		// TODO Auto-generated method stub
-		
+	public void onCancelledBy(PlayerOriginalClientComplete player) 
+	{
+		//unable to cancel
 	}
 
 	@Override

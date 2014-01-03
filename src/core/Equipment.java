@@ -1,9 +1,16 @@
 package core;
 
-
-
+/**
+ * The "Equipment" type of cards, consisting of all equipments
+ * @author Harry
+ *
+ */
 public abstract class Equipment extends Card
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5968539700238484665L;
 	private int equipmentType;//1.Weapon 2.Shield 3.Horse+ 4.Horse-
 	private boolean equipped;
 	public static final int WEAPON = 1;

@@ -2,16 +2,17 @@ package gui;
 
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
-
 import listener.CardOnHandListener;
 import core.Card;
 
-public class CardRackGui extends JPanel implements MouseMotionListener, CardOnHandListener
+/**
+ * card rack (cards on hand) gui
+ * @author Harry
+ *
+ */
+public class CardRackGui extends JPanel implements CardOnHandListener
 {
 	/**
 	 * 
@@ -19,6 +20,7 @@ public class CardRackGui extends JPanel implements MouseMotionListener, CardOnHa
 	private static final long serialVersionUID = -7373800552773539354L;
 	public static final int WIDTH = PanelGui.WIDTH - EquipmentRackGui.WIDTH - HeroGui.WIDTH - LifebarGui.WIDTH;
 	public static final int HEIGHT = 200;
+	private static final int SELECTION_HEIGHT = 20;
 	private ActionListener listener;
 	private ArrayList<CardGui> cards;
 
@@ -34,11 +36,11 @@ public class CardRackGui extends JPanel implements MouseMotionListener, CardOnHa
 	public void onCardAdded(Card card)
 	{
 		CardGui cardGui = new CardGui(card);
-		cardGui.addMouseMotionListener(this);
+		cardGui.setRolloverEnabled(false);
 		cardGui.addActionListener(listener);
 		cardGui.setEnabled(false);
 		cards.add(cardGui);
-		add(cardGui);
+		add(cardGui,0);
 		resetLocations();
 		repaint();
 	}
@@ -58,42 +60,62 @@ public class CardRackGui extends JPanel implements MouseMotionListener, CardOnHa
 	}
 	protected void clearRack()
 	{
-		this.removeAll();
+		removeAll();
 		cards.clear();
 		repaint();
 	}
-	public ArrayList<CardGui> getCardsOnHand()
+	protected void selectCard(Card card)
 	{
-		return cards;
+		for(CardGui c : cards)
+		{
+			if(c.getCard().equals(card))
+			{
+				c.setLocation(c.getX(),c.getY()-SELECTION_HEIGHT);
+				repaint();
+				return;
+			}
+		}
+	}
+	protected void unselectCard(Card card)
+	{
+		for(CardGui c : cards)
+			if(c.getCard().equals(card))
+			{
+				c.setLocation(c.getX(),c.getY()+SELECTION_HEIGHT);
+				repaint();
+				return;
+			}
+	}
+	protected void setCardSelectable(Card card, boolean selectable)
+	{
+		for(CardGui c : cards)
+			if(c.getCard().equals(card))
+			{
+				c.setEnabled(selectable);
+				repaint();
+				return;
+			}
 	}
 	private void resetLocations()
 	{
 		int totalLength = cards.size() * CardGui.WIDTH;
 		int stepLength;
-		if(totalLength <= WIDTH)
+		if(totalLength <= getWidth())
 			stepLength = CardGui.WIDTH;
 		else
-			stepLength = (WIDTH-CardGui.WIDTH)/(cards.size()-1);
-		
-		for(int i = 0;i < cards.size();i++)
+			stepLength = (getWidth()-CardGui.WIDTH)/(cards.size()-1);
+		int size = cards.size();
+		for(int i = 0;i < size;i++)
+		{
 			cards.get(i).setLocation(i*stepLength,0);
+		}
 	}
+
 	@Override
 	public void paint(Graphics g)
 	{
 		super.paint(g);
-		g.drawRect(0, 0, WIDTH, HEIGHT);
+		g.drawRect(0, 0, getWidth(), getHeight());
 	}
 
-	@Override
-	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 }

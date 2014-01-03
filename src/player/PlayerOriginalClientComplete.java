@@ -19,11 +19,22 @@ import core.Update;
 import events.NearDeathEvent;
 import events.TurnDiscardOperation;
 
+/**
+ * client side complete implementation of player, used as player himself
+ * @author Harry
+ *
+ */
 public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple implements ClientListener
 {
+	//******** in-game properties ***********
 	private ArrayList<Card> cardsOnHand;
-	private transient GameListener gameListener;
+	private int attackLimit;//limit of attacks can be used in one TURN_DEAL, by default 1
+	private int attackUsed;//number of attacks already used this TURN_DEAL
+	private int wineLimit;//limit of wines can be used in on TURN_DEAL, by default 1
+	private int wineUsed;//number of wines already used this TURN_DEAL
+	private boolean isWineUsed;//whether wine is currently used
 	
+	private transient GameListener gameListener;
 	//private settings
 	private transient StageUpdate currentStage;
 	private transient ArrayList<PlayerOriginalClientSimple> otherPlayers;
@@ -32,10 +43,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	//in-game interactive properties
 	private Card cardActivated;
 	private Operation operation;
-	//private ArrayList<Player> targetsSelected;
-	//private int targetSelectionLimit;
 	private ArrayList<Card> cardsUsedThisTurn;
-	//private Stack<Update> updateStack;
 	private Client client;
 	private Update updateToSend;
 	public PlayerOriginalClientComplete(String name, int position) 
@@ -53,17 +61,21 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	private void init()
 	{
 		cardsOnHand = new ArrayList<Card>();
-		//init global settings
+
 		otherPlayers = new ArrayList<PlayerOriginalClientSimple>();
 		cardsUsedThisTurn = new ArrayList<Card>();
 		//init in-game interactive properties
-		//cardActivated = null;
-		//targetsSelected = new ArrayList<Player>();
-		//targetSelectionLimit = 1;
-		//updateStack = new Stack<Update>();
+		cardActivated = null;
+
 		currentStage = null;
 		updateToSend = null;
 		operation = null;
+		
+		attackLimit = 1;
+		attackUsed = 0;
+		wineLimit = 1;
+		wineUsed = 0;
+		isWineUsed = false;
 	}
 	@Override
 	public void onNotified(Update update)
@@ -206,7 +218,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		currentStage.nextStage(this);
 		client.sendToMaster(currentStage);
 	}
-	
+	@Override
 	public void turnDiscard()
 	{
 		if(getCardsOnHandCount() <= getCardOnHandLimit())
@@ -219,6 +231,18 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 			currentStage.nextStage(this);
 			client.sendToMaster(new TurnDiscardOperation(getPlayerInfo(),currentStage));
 		}
+	}
+	@Override
+	public void endTurn()
+	{
+		super.endTurn();
+		attackUsed = 0;
+		wineUsed = 0;
+		isWineUsed = false;
+		operation = null;
+		cardsUsedThisTurn.clear();
+		currentStage.nextStage(this);
+		client.sendToMaster(currentStage);
 	}
 	/**
 	 * <li>no card activated
@@ -236,15 +260,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		gameListener.onCancelSetEnabled(false);
 		gameListener.onEndSetEnabled(false);
 	}
-	@Override
-	public void endTurn()
-	{
-		super.endTurn();
-		operation = null;
-		cardsUsedThisTurn.clear();
-		currentStage.nextStage(this);
-		client.sendToMaster(currentStage);
-	}
+
 	//**************** methods related to interactions ****************
 	public Update getUpdateToSend()
 	{
@@ -452,4 +468,50 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 			return this;
 		return null;
 	}
+	//************** methods related to in-game properties ****************
+
+
+	public void setAttackLimit(int limit)
+	{
+		attackLimit = limit;
+	}
+	public void setAttackUsed(int amount)
+	{
+		attackUsed = amount;
+	}
+	public void useAttack()
+	{
+		attackUsed++;
+	}
+	public int getAttackUsed()
+	{
+		return attackUsed;
+	}
+	public int getAttackLimit()
+	{
+		return attackLimit;
+	}
+	public void setWineUsed(int amount)
+	{
+		wineUsed = amount;
+	}
+	public void useWine()
+	{
+		wineUsed++;
+		isWineUsed = true;
+		//in the future, notify gui
+	}
+	public boolean isWineUsed()
+	{
+		return isWineUsed;
+	}
+	public int getWineUsed()
+	{
+		return wineUsed;
+	}
+	public int getWineLimit()
+	{
+		return wineLimit;
+	}
+	
 }

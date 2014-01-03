@@ -2,7 +2,11 @@ package player;
 
 import core.Player;
 
-
+/**
+ * implementation of player of Original Sanguosha
+ * @author Harry
+ *
+ */
 public abstract class PlayerOriginal extends Player
 {
 	public static final int EMPEROR = 0;

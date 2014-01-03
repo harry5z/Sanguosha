@@ -7,10 +7,15 @@ import specials.*;
 import basics.*;
 import equipments.*;
 
+/**
+ * The deck used in game
+ * @author Harry
+ *
+ */
 public class Deck 
 {
-	private ArrayList<Card> used;
-	private ArrayList<Card> deck;
+	private ArrayList<Card> used;//used and discarded cards, will be shuffled once deck is empty
+	private ArrayList<Card> deck;//cards to be drawn
 	private Random random;
 	
 	public Deck(boolean useEx, boolean useBattle)
@@ -20,7 +25,7 @@ public class Deck
 	}
 	public Card draw()
 	{
-		Card c = deck.remove(deck.size()-1);
+		Card c = deck.remove(deck.size()-1);//always draw from top
 		if(deck.size() == 0)
 			resetDeck();
 		return c;
@@ -44,6 +49,9 @@ public class Deck
 	{
 		used.addAll(cards);
 	}
+	/**
+	 * shuffle the used deck and make it the new deck
+	 */
 	private void resetDeck()
 	{
 		while(used.size() != 0)

@@ -10,14 +10,19 @@ import net.Master;
 import player.PlayerOriginalMasterSimple;
 import update.DrawCardsFromDeck;
 import update.StageUpdate;
-
+/**
+ * The game framework. Currently only the original game (Emperor-loyalist-rebel-usurper), but in the future
+ * may add other kinds (1v1, 3v3, Total War, etc.)
+ * @author Harry
+ *
+ */
 public class Framework 
 {
 	private ArrayList<PlayerOriginalMasterSimple> players;
-	private Master master;
-	private Deck deck;
-	private FrameworkListener listener;
-	private Stack<Event> events;
+	private Master master;//master server
+	private Deck deck;//deck, currently only original game deck as well
+	private FrameworkListener listener;//not used
+	private Stack<Event> events;//not used 
 	public Framework(Master master)
 	{
 		this.master = master;
@@ -70,6 +75,9 @@ public class Framework
 	{
 		return deck;
 	}
+	/**
+	 * start game
+	 */
 	public void start()
 	{
 		for(PlayerInfo p : getPlayers())
@@ -79,6 +87,10 @@ public class Framework
 		master.sendToAllClients(start);
 		System.out.println("Starting");
 	}
+	/**
+	 * send update to all players, default operation of an update
+	 * @param update
+	 */
 	public void sendToAllClients(Update update)
 	{
 		master.sendToAllClients(update);

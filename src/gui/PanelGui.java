@@ -3,29 +3,19 @@ import heroes.Blank;
 
 import java.awt.Dimension;
 import java.awt.event.*;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import javax.swing.*;
-
-import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import player.PlayerOriginalClientSimple;
-import update.*;
-import net.Client;
-import net.Master;
 import listener.GameListener;
 import core.Card;
-import core.Hero;
-import core.Player;
 import core.PlayerInfo;
-import core.Update;
-import basics.*;
 
-
+/**
+ * Main Display gui, also monitors card/target selections, confirm/cancel/end selections, etc.
+ * @author Harry
+ *
+ */
 public class PanelGui extends JPanel implements ActionListener, GameListener,Runnable
 {
 	/**
@@ -160,31 +150,16 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 //			}
 //		}
 //	}
-	private void setAllCardsEnabled(boolean b)
-	{
-		for(CardGui card : cardRack.getCardsOnHand())
-			card.setEnabled(b);
-	}
 
 	@Override
 	public void onCardSelected(Card card)
 	{
-		for(CardGui c : cardRack.getCardsOnHand())
-			if(c.getCard().equals(card))
-			{
-				c.setLocation(c.getX(),c.getY()-SELECTION_HEIGHT);
-				return;
-			}
+		cardRack.selectCard(card);
 	}
 	@Override
 	public void onCardUnselected(Card card)
 	{
-		for(CardGui c : cardRack.getCardsOnHand())
-			if(c.getCard().equals(card))
-			{
-				c.setLocation(c.getX(),c.getY()+SELECTION_HEIGHT);
-				return;
-			}
+		cardRack.unselectCard(card);
 	}
 	@Override
 	public void onTargetSelected(PlayerInfo player)
@@ -209,12 +184,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 	@Override
 	public void onCardSetSelectable(Card card, boolean selectable)
 	{
-		for(CardGui c : cardRack.getCardsOnHand())
-			if(c.getCard().equals(card))
-			{
-				c.setEnabled(selectable);
-				return;
-			}
+		cardRack.setCardSelectable(card, selectable);
 	}
 	@Override
 	public void onTargetSetSelectable(PlayerInfo player, boolean selectable)

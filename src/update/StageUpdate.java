@@ -5,6 +5,11 @@ import core.Event;
 import core.Framework;
 import core.PlayerInfo;
 
+/**
+ * stage update, controls basic game flow
+ * @author Harry
+ *
+ */
 public class StageUpdate implements Event
 {
 	/**

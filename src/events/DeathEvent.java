@@ -6,6 +6,11 @@ import core.Framework;
 import core.PlayerInfo;
 import core.Update;
 
+/**
+ * The event of the death of a player
+ * @author Harry
+ *
+ */
 public class DeathEvent implements Update
 {
 	/**
@@ -17,8 +22,8 @@ public class DeathEvent implements Update
 	public static final int CONSEQUENCE = 3;//if "rebel" is killed, killer draws 3 cards, etc.
 	private PlayerInfo victim;
 	private PlayerInfo killer;
-	private PlayerInfo turnPlayer;
-	private PlayerInfo currentPlayer;
+	private PlayerInfo turnPlayer;//player who is playing the current turn
+	private PlayerInfo currentPlayer;//player who is currently being inquired for skills
 	private Update next;
 	private int stage;
 	public DeathEvent(PlayerInfo turnPlayer,PlayerInfo killer,PlayerInfo victim,Update next)

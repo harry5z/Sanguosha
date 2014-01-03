@@ -10,6 +10,12 @@ import core.Operation;
 import core.PlayerInfo;
 import core.Update;
 
+/**
+ * The near-death event, has high priority and is invoked immediately after a player's
+ * health drops below 1
+ * @author Harry
+ *
+ */
 public class NearDeathEvent implements Operation
 {
 	/**
@@ -56,9 +62,9 @@ public class NearDeathEvent implements Operation
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
-		if(player.isEqualTo(currentPlayer) && !player.findMatch(dyingPlayer).isDying())//saved
+		if(player.isEqualTo(currentPlayer) && !player.findMatch(dyingPlayer).isDying())//dying player saved
 		{
-			player.sendToMaster(next);//continue
+			player.sendToMaster(next);//continue the game
 		}
 		else if(stage == BEFORE)//for future skills
 		{
@@ -101,7 +107,7 @@ public class NearDeathEvent implements Operation
 	@Override
 	public void onPlayerSelected(PlayerOriginalClientComplete operator,PlayerOriginal player) 
 	{
-		
+		//no player selection in this event
 	}
 
 	@Override
@@ -126,7 +132,6 @@ public class NearDeathEvent implements Operation
 				operation = null;
 				cardChosen = null;
 				operator.setCancelEnabled(true);
-				//operator.setConfirmEnabled(false);
 			}
 			else //change selection
 			{

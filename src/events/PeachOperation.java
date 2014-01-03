@@ -10,6 +10,11 @@ import core.Operation;
 import core.PlayerInfo;
 import core.Update;
 
+/**
+ * Operation of use of peach
+ * @author Harry
+ *
+ */
 public class PeachOperation implements Operation
 {
 	/**
@@ -27,6 +32,10 @@ public class PeachOperation implements Operation
 		update = new IncreaseOfHealth(player,next);
 		this.peach = peach;
 	}
+	/**
+	 * used when saving others during near-death event
+	 * @param player
+	 */
 	public void setTarget(PlayerInfo player)
 	{
 		target = player;

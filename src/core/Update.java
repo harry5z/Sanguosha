@@ -4,6 +4,12 @@ import java.io.Serializable;
 
 import player.*;
 
+/**
+ * The only recognized communication class over network, all interactions must be done
+ * through this interface
+ * @author Harry
+ *
+ */
 public interface Update extends Serializable
 {
 	/**
@@ -11,7 +17,10 @@ public interface Update extends Serializable
 	 * @param framework
 	 */
 	public void frameworkOperation(Framework framework);
-	
+	/**
+	 * behavior of client-side operation
+	 * @param player
+	 */
 	public void playerOperation(PlayerOriginalClientComplete player);
 	
 

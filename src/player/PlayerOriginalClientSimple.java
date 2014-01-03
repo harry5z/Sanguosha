@@ -4,6 +4,11 @@ import core.Card;
 import core.Equipment;
 import listener.*;
 
+/**
+ * client side simple player implementation, used to hold information of "other players"
+ * @author Harry
+ *
+ */
 public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 {
 	private transient HealthListener healthListener;
@@ -45,22 +50,35 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 	{
 		equipmentListener = listener;
 	}
+	/**
+	 * register card disposal listener to monitor the use and disposal of cards
+	 * @param listener
+	 */
 	public void registerCardDisposalListener(CardDisposalListener listener)
 	{
 		disposalListener = listener;
 	}
+	/**
+	 * <li>{@link HealthListener} notified
+	 */
 	@Override
 	public void changeHealthLimitTo(int n)
 	{
 		super.changeHealthLimitTo(n);
 		healthListener.onSetHealthLimit(getHero().getHealthLimit());
 	}
+	/**
+	 * <li>{@link HealthListener} notified
+	 */
 	@Override
 	public void changeHealthLimitBy(int n)
 	{
 		super.changeHealthLimitBy(n);
 		healthListener.onSetHealthLimit(getHero().getHealthLimit());
 	}
+	/**
+	 * <li>{@link HealthListener} notified
+	 */
 	@Override
 	public void changeHealthCurrentTo(int n)
 	{
@@ -68,7 +86,6 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 		healthListener.onSetHealthCurrent(n);
 	}
 	/**
-	 * damage
 	 * <li>{@link HealthListener} notified
 	 * @param n
 	 */
@@ -78,12 +95,21 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 		super.changeHealthCurrentBy(n);
 		healthListener.onHealthChangedBy(n);
 	}
+	/**
+	 * <li>{@link CardOnHandListener} notified
+	 * @param card
+	 */
 	@Override
 	public void addCard(Card card)
 	{
 		super.addCard(card);
 		cardsOnHandListener.onCardAdded(card);
 	}
+	/**
+	 * <li>{@link CardOnHandListener} notified
+	 * <li>{@link CardDisposalListener} notified
+	 * @param card
+	 */
 	@Override
 	public void useCard(Card card)
 	{
@@ -91,6 +117,10 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 		cardsOnHandListener.onCardRemoved(card);
 		disposalListener.onCardUsed(card);
 	}
+	/**
+	 * <li>{@link CardDisposalListener} notified
+	 * @param card
+	 */
 	@Override
 	public void discardCard(Card card)
 	{
@@ -98,6 +128,13 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 		cardsOnHandListener.onCardRemoved(card);
 		disposalListener.onCardDisposed(card);
 	}
+	/**
+	 * discard an equipment
+	 * <li>{@link EquipmentListener} notified
+	 * <li>{@link CardDisposalListener} notified
+	 * @param type
+	 * @return the equipment discarded
+	 */
 	@Override
 	public Equipment unequip(int type)
 	{
@@ -106,6 +143,13 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 		disposalListener.onCardDisposed(e);
 		return e;
 	}
+	/**
+	 * equip new equipment, return the old one. Return null if nothing is replaced
+	 * <li>{@link EquipmentListener} notified
+	 * <li>{@link CardDisposalListener} notified
+	 * @param equipment : new equipment
+	 * @return old equipment, null if no old equipment
+	 */
 	@Override
 	public Equipment equip(Equipment equipment)
 	{
@@ -113,6 +157,9 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 		equipmentListener.onEquipped(equipment);
 		return e;
 	}
+	/**
+	 * {@link HealthListener} notified
+	 */
 	@Override
 	public void kill()
 	{
@@ -123,4 +170,22 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 	{
 		disposalListener.refresh();
 	}
+	//*************** method related to stages *****************
+	public void startDealing()
+	{
+		
+	}
+	public void endDealing()
+	{
+		
+	}
+	public void turnDiscard() 
+	{
+		
+	}
+	public void endTurn()
+	{
+		
+	}
+
 }

@@ -2,6 +2,12 @@ package core;
 
 import java.io.Serializable;
 
+/**
+ * a small but representative class of Player, since players are uniquely identified by
+ * names and positions
+ * @author Harry
+ *
+ */
 public class PlayerInfo implements Serializable
 {
 	/**

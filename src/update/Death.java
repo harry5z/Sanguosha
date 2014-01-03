@@ -5,6 +5,11 @@ import core.Framework;
 import core.PlayerInfo;
 import core.Update;
 
+/**
+ * Death update
+ * @author Harry
+ *
+ */
 public class Death implements Update
 {
 
@@ -30,8 +35,8 @@ public class Death implements Update
 	{
 		if(player.isEqualTo(victim))
 		{
-			player.kill();
-			player.sendToMaster(new DisposalOfCards(victim,player.getCardsOnHand(),next));
+			player.kill();//kill victim
+			player.sendToMaster(new DisposalOfCards(victim,player.getCardsOnHand(),next));//victim discards all cards
 		}
 		else
 			player.findMatch(victim).kill();

@@ -14,7 +14,11 @@ import java.util.concurrent.Executors;
 
 import core.Framework;
 import core.Update;
-
+/**
+ * master side, used by framework to communicate with all players
+ * @author Harry
+ *
+ */
 public class Master extends Thread
 {
 	private Framework framework;

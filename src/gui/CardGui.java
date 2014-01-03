@@ -7,6 +7,11 @@ import javax.swing.*;
 
 import core.Card;
 
+/**
+ * Gui class for cards (on hand and at diposal area)
+ * @author Harry
+ *
+ */
 public class CardGui extends JButton
 {
 	

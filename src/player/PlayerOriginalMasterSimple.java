@@ -3,6 +3,11 @@ package player;
 import update.Damage;
 import core.Card;
 
+/**
+ * master side player information
+ * @author Harry
+ *
+ */
 public class PlayerOriginalMasterSimple extends PlayerOriginal
 {
 	private int cardsCount;
@@ -44,15 +49,5 @@ public class PlayerOriginalMasterSimple extends PlayerOriginal
 	{
 		int amount = damage.getAmount();
 		changeHealthCurrentBy(-amount);
-	}
-	@Override
-	public void startDealing() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void endDealing() {
-		// TODO Auto-generated method stub
-		
 	}
 }

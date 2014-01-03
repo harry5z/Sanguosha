@@ -7,6 +7,11 @@ import javax.swing.JPanel;
 
 import listener.HealthListener;
 
+/**
+ * life bar. current health is represented as green dots, lost health is represented as red dots
+ * @author Harry
+ *
+ */
 public class LifebarGui extends JPanel implements HealthListener
 {
 	/**

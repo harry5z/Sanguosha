@@ -43,7 +43,7 @@ public abstract class Card implements Activatable,Serializable
 			color = BLACK;
 	}
 	/**
-	 * initialization of transformed cards
+	 * initialization of transformed cards (from skills, equipments, etc.)
 	 * @param type
 	 * @param color
 	 */

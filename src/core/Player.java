@@ -1,8 +1,6 @@
 package core;
 
 import java.util.ArrayList;
-
-import net.Client;
 import update.*;
 import listener.*;
 import equipments.HorseMinus;
@@ -10,31 +8,32 @@ import equipments.HorsePlus;
 import equipments.Shield;
 import equipments.Weapon;
 
+/**
+ * The player class, defines common traits of different implementations of players
+ * @author Harry
+ *
+ */
 public abstract class Player
 {
-	//personal properties
+	//********* personal properties *********
 	private String name;
 	private int position;
 	private Hero hero;
 	
-	//in-game properties
+	//********* in-game properties ***********
 	private int healthCurrent;
-	private int attackLimit;
-	private int attackUsed;
-	private int wineLimit;
-	private int wineUsed;
-	private boolean isWineUsed;
+
 	
-	private boolean flipped;
-	private boolean isAlive;
-	private boolean isDying;
+	private boolean flipped;//whether player is flipped (not implemented yet)
+	private boolean isAlive;//whether player is alive
+	private boolean isDying;//whether player is in the near-death stage
 	private boolean weaponEquipped;
 	private boolean shieldEquipped;
 	private boolean horsePlusEquipped;
 	private boolean horseMinusEquipped;
 	
-	//other properties
-	private ArrayList<Card> decisionArea;
+	//********* cards other than cardsOnHand, public to all other players *********
+	private ArrayList<Card> decisionArea;//not implemented yet
 	private Weapon weapon;
 	private Shield shield;
 	private HorsePlus horsePlus;
@@ -61,11 +60,7 @@ public abstract class Player
 		shieldEquipped = false;
 		horsePlusEquipped = false;
 		horseMinusEquipped = false;
-		attackLimit = 1;
-		attackUsed = 0;
-		wineLimit = 1;
-		wineUsed = 0;
-		isWineUsed = false;
+
 		
 		//init other properties
 		decisionArea = new ArrayList<Card>();
@@ -103,9 +98,14 @@ public abstract class Player
 	{
 		return hero;
 	}
-	//**************** methods related to listeners *********************
-
-
+	public int getPosition()
+	{
+		return position;
+	}
+	public String getName()
+	{
+		return name;
+	}
 
 	//************* methods related to flipping ***************
 	public boolean isFlipped()
@@ -117,6 +117,18 @@ public abstract class Player
 		flipped = !flipped;
 	}
 	//**************** methods related to health *******************
+	/**
+	 * kill the player
+	 */
+	public void kill()
+	{
+		isAlive = false;
+		isDying = false;
+	}
+	public boolean isAlive()
+	{
+		return isAlive;
+	}
 	public boolean isDying()
 	{
 		return isDying;
@@ -126,8 +138,8 @@ public abstract class Player
 		this.isDying = isDying;
 	}
 	/**
-	 * change of health limit
-	 * <li>{@link HealthListener} notified
+	 * change of health limit, if current health is greater than health limit after change,
+	 * make it equal to health limit
 	 * @param n
 	 */
 	public void changeHealthLimitTo(int n)
@@ -137,8 +149,8 @@ public abstract class Player
 			changeHealthCurrentTo(hero.getHealthLimit());
 	}
 	/**
-	 * change of health limit
-	 * <li>{@link HealthListener} notified
+	 * change of health limit, if current health is greater than health limit after change,
+	 * make it equal to health limit
 	 * @param n
 	 */
 	public void changeHealthLimitBy(int n)
@@ -154,16 +166,21 @@ public abstract class Player
 	}
 	/**
 	 * strict change of health (i.e. no damage, does not invoke skills).
-	 * <li>{@link HealthListener} notified
 	 * @param n
 	 */
 	public void changeHealthCurrentTo(int n)
 	{
 		healthCurrent = n;
 		hero.changeCardLimitTo(healthCurrent);
-		
+		if(healthCurrent < 1)//is dying
+			isDying = true;
+		else
+			isDying = false;
 	}
-
+	/**
+	 * strict change of health (i.e. no damage, does not invoke skills).
+	 * @param n
+	 */
 	public void changeHealthCurrentBy(int n)
 	{
 		healthCurrent += n;
@@ -183,10 +200,6 @@ public abstract class Player
 		return hero.getCardOnHandLimit();
 	}
 
-	/**
-	 * <li>{@link CardOnHandListener} notified
-	 * @param card
-	 */
 	public abstract void addCard(Card card);
 	/**
 	 * <li>{@link CardOnHandListener} notified
@@ -197,11 +210,7 @@ public abstract class Player
 		for(Card card : cards)
 			addCard(card);
 	}
-	/**
-	 * <li>{@link CardOnHandListener} notified
-	 * <li>{@link CardDisposalListener} notified
-	 * @param card
-	 */
+
 	public abstract void useCard(Card card);
 	/**
 	 * <li>{@link CardOnHandListener} notified
@@ -212,10 +221,7 @@ public abstract class Player
 		for(Card card : cards)
 			useCard(card);
 	}
-	/**
-	 * <li>{@link CardDisposalListener} notified
-	 * @param card
-	 */
+
 	public abstract void discardCard(Card card);
 	/**
 	 * <li>{@link CardDisposalListener} notified
@@ -239,13 +245,7 @@ public abstract class Player
 	public boolean isEquippedHorseMinus(){return horseMinusEquipped;}
 	public Shield getShield(){return shield;}
 	public Weapon getWeapon(){return weapon;}
-	/**
-	 * discard an equipment
-	 * <li>{@link EquipmentListener} notified
-	 * <li>{@link CardDisposalListener} notified
-	 * @param type
-	 * @return the equipment discarded
-	 */
+
 	public Equipment unequip(int type)
 	{
 		Equipment temp = null;
@@ -273,16 +273,9 @@ public abstract class Player
 			horseMinus = null;
 			horseMinusEquipped = false;
 		}
-		//sendToMaster(new DisposalOfCards(this,temp));
 		return temp;
 	}
-	/**
-	 * equip new equipment, return the old one. Return null if nothing is replaced
-	 * <li>{@link EquipmentListener} notified
-	 * <li>{@link CardDisposalListener} notified
-	 * @param equipment : new equipment
-	 * @return old equipment, null if no old equipment
-	 */
+
 	public Equipment equip(Equipment equipment)
 	{
 		Equipment temp = null;
@@ -321,10 +314,10 @@ public abstract class Player
 	 */
 	public int getAttackRange()
 	{
-		int range = 1;
+		int range = 1;//default reach distance
 		if(weaponEquipped)
-			range += (weapon.getRange()-1);
-		if(horseMinusEquipped)
+			range += (weapon.getRange()-1);//plus weapon range
+		if(horseMinusEquipped)//plus horse range
 			range++;
 		return range;
 	}
@@ -334,30 +327,32 @@ public abstract class Player
 	 */
 	public int getReachDistance()
 	{
-		int distance = 1;
+		int distance = 1;//default reach distance
 		if(horseMinusEquipped)
-			distance++;
+			distance++;//plus horse range
 		return distance;
 	}
 	/**
-	 * Distance to another player
+	 * Distance to another player, given number of players alive
 	 * @param player
+	 * @param numberOfPlayersAlive
 	 * @return a number that can be smaller than 1
 	 */
 	public int getDistanceTo(Player player,int numberOfPlayersAlive)
 	{
-		int counterclockwise = Math.abs(player.position - position);
-		int clockwise = numberOfPlayersAlive-Math.abs(position-player.position);
-		int shorter = counterclockwise >= clockwise ? clockwise : counterclockwise;
+		int counterclockwise = Math.abs(player.position - position);//counterclockwise distance
+		int clockwise = numberOfPlayersAlive-Math.abs(position-player.position);//clockwise distance
+		int shorter = counterclockwise >= clockwise ? clockwise : counterclockwise;//choose shorter
 		if(isEquippedHorseMinus())
-			shorter--;
+			shorter--;//minus horse range
 		if(player.isEquippedHorsePlus())
-			shorter++;
+			shorter++;//plus other player's horse range
 		return shorter;
 	}
 	/**
 	 * check whether player is in the attack range
 	 * @param player
+	 * @param numberOfPlayersAlive
 	 * @return true on yes, false on no
 	 */
 	public boolean isPlayerInRange(Player player,int numberOfPlayersAlive)
@@ -367,6 +362,7 @@ public abstract class Player
 	/**
 	 * check whether player is in the reach distance
 	 * @param player
+	 * @param numberOfPlayersAlive
 	 * @return true on yes, false on no
 	 */
 	public boolean isPlayerInDistance(Player player, int numberOfPlayersAlive)
@@ -376,74 +372,6 @@ public abstract class Player
 	//************** methods related to damage *******************
 	public abstract void takeDamage(Damage damage);
 
-
-	public int getPosition()
-	{
-		return position;
-	}
-	public String getName()
-	{
-		return name;
-	}
-	public void kill()
-	{
-		isAlive = false;
-		isDying = false;
-	}
-	public boolean isAlive()
-	{
-		return isAlive;
-	}
-	public void setAttackLimit(int limit)
-	{
-		attackLimit = limit;
-	}
-	public void setAttackUsed(int amount)
-	{
-		attackUsed = amount;
-	}
-	public void useAttack()
-	{
-		attackUsed++;
-	}
-	public int getAttackUsed()
-	{
-		return attackUsed;
-	}
-	public int getAttackLimit()
-	{
-		return attackLimit;
-	}
-	public void setWineUsed(int amount)
-	{
-		wineUsed = amount;
-	}
-	public void useWine()
-	{
-		wineUsed++;
-		isWineUsed = true;
-		//in the future, notify gui
-	}
-	public boolean isWineUsed()
-	{
-		return isWineUsed;
-	}
-	public int getWineUsed()
-	{
-		return wineUsed;
-	}
-	public int getWineLimit()
-	{
-		return wineLimit;
-	}
-	public abstract void startDealing();
-	public abstract void endDealing();
-	public void endTurn()
-	{
-		attackUsed = 0;
-		wineUsed = 0;
-		isWineUsed = false;
-	}
 	@Override
 	public int hashCode()
 	{
@@ -457,6 +385,11 @@ public abstract class Player
 		else
 			return position == (((Player)obj).position);
 	}
+	/**
+	 * Use this for most comparisons
+	 * @param p
+	 * @return 
+	 */
 	public boolean isEqualTo(PlayerInfo p)
 	{
 		return position == p.getPosition();

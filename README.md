@@ -1,4 +1,4 @@
-Sanguosha
+﻿Sanguosha
 =========
 Sanguosha, or translated as "Battles of the Three Kindoms", is a very famous board game in China today, based on the historical events of the Three Kindoms (a historical period in ancient China, around 220–280 AD). (see link below)
 
@@ -13,3 +13,23 @@ There is an online version of Sanguosha, run by the company that designed it. Th
 And these are the motives of my project. A big fan of Sanguosha, I want to build a Sanguosha framework that my friends and I can use to play over the network. Since I wrote the source code, it is easy to add heroes and skills to the game, so one day we can perhaps complete a "CMU-sha" (Battles of CMU), that would be really fun. Best of all, it's free.
 
 My ultimate goal is to automatize the creation of heroes and skills by designing a framework that supports the creation of common types of skills by several simple selections and keystrokes.
+
+
+How to play (As of 1/3/2014):
+
+Run Master.java without arguments (a small window will appear)
+Run several Client.java without arguments
+click "start" on the small window.
+
+
+Current Progress:
+
+As of 1/3/2014:
+1. Basic documentation
+2. Master and Client
+3. All 4 basic-type cards enabled
+4. Attack/Dodge event
+5. Basic Gui
+6. Game flow
+7. Near-death and death events
+8. DrawCard stage and Discard stage

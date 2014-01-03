@@ -10,13 +10,18 @@ import core.Operation;
 import core.PlayerInfo;
 import core.Update;
 
+/**
+ * Operation of use of wine. Wine can be used either to increase attack damage once,
+ * or used to save oneself when dying
+ * @author Harry
+ *
+ */
 public class WineOperation implements Operation
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3919164368836659196L;
-	private IncreaseOfHealth update;
 	private PlayerInfo source;
 	private Card wine;
 	private Update next;
@@ -64,12 +69,11 @@ public class WineOperation implements Operation
 	{
 		player.setCardOnHandSelected(wine, false);
 		player.setCancelEnabled(false);
-		if(player.isDying())
+		if(player.isDying())//can increase health by 1
 		{
-			update = new IncreaseOfHealth(source,next);
-			player.sendToMaster(new UseOfCards(source,wine,update));
+			player.sendToMaster(new UseOfCards(source,wine,new IncreaseOfHealth(source,next)));
 		}
-		else
+		else//can increase attack damage by 1
 		{
 			player.useWine();
 			player.sendToMaster(new UseOfCards(source,wine,next));

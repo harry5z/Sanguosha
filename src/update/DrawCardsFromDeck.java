@@ -1,15 +1,17 @@
 package update;
 
 import java.util.ArrayList;
-
 import player.PlayerOriginalClientComplete;
 import core.Card;
-import core.Event;
 import core.Framework;
-import core.Player;
 import core.PlayerInfo;
 import core.Update;
 
+/**
+ * player's request of cards from deck
+ * @author Harry
+ *
+ */
 public class DrawCardsFromDeck implements Update
 {
 	/**
@@ -19,9 +21,9 @@ public class DrawCardsFromDeck implements Update
 	private int amount;
 	private ArrayList<Card> cards;
 	private PlayerInfo source;
-	private Event nextEvent;
+	private Update nextEvent;
 	
-	public DrawCardsFromDeck(PlayerInfo source, int amount,Event next)
+	public DrawCardsFromDeck(PlayerInfo source, int amount,Update next)
 	{
 		this.source = source;
 		this.amount = amount;
@@ -37,7 +39,6 @@ public class DrawCardsFromDeck implements Update
 	public void frameworkOperation(Framework framework) 
 	{
 		cards = framework.getDeck().drawMany(amount);
-
 		framework.sendToAllClients(this);
 	}
 	@Override
@@ -45,14 +46,12 @@ public class DrawCardsFromDeck implements Update
 	{
 		if(player.isEqualTo(source))
 		{
-			System.out.println("myself adding cards");
 			player.addCards(cards);
 			if(nextEvent != null)
 				player.sendToMaster(nextEvent);
 		}
 		else
 		{
-			System.out.println("Player "+source.getPosition()+" adding cards");
 			player.findMatch(source).addCards(cards);
 		}
 			

@@ -6,6 +6,11 @@ import player.PlayerOriginalClientComplete;
 import basics.Attack;
 import core.*;
 
+/**
+ * Damage update
+ * @author Harry
+ *
+ */
 public class Damage extends SourceTargetAmount implements Event
 {
 	/**

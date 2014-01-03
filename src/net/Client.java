@@ -13,7 +13,11 @@ import java.util.concurrent.Executors;
 import player.PlayerOriginalClientComplete;
 import core.Update;
 import update.NewPlayer;
-
+/**
+ * client side, used by each player to communicate to master
+ * @author Harry
+ *
+ */
 public class Client extends Thread
 {
 	private final ExecutorService executor;

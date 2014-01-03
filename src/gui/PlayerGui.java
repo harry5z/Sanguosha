@@ -15,8 +15,12 @@ import listener.EquipmentListener;
 import listener.HealthListener;
 import core.Card;
 import core.Equipment;
-import core.Player;
 
+/**
+ * Gui of other players, shows life bar, equipments, count of cards on hand, etc. 
+ * @author Harry
+ *
+ */
 public class PlayerGui extends JButton
 {
 	/**

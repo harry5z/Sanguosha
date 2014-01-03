@@ -3,6 +3,11 @@ package core;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Hero class, consisting of all heroes
+ * @author Harry
+ *
+ */
 public abstract class Hero implements Serializable
 {
 	/**
@@ -17,13 +22,13 @@ public abstract class Hero implements Serializable
 	public static final int MALE = 1;
 	public static final int FEMALE = 2;
 	
-	private String name;
-	private int force;
-	private int sex;
-	private int healthLimit;
-	private int cardsOnHandLimit;
+	private String name;//unique for every hero
+	private int force;// WEI/SHU/WU/QUN
+	private int sex;//MALE / FEMALE
+	private int healthLimit;//usually 3 or 4
+	private int cardsOnHandLimit;//usually equal to current health, unless changed by skills
+	private ArrayList<Skill> skills;//not implememented yet
 	
-	private ArrayList<Skill> skills;
 	public Hero(int healthLimit, int force, int sex, String name)
 	{
 		this.name = name;
@@ -31,8 +36,7 @@ public abstract class Hero implements Serializable
 		this.sex = sex;
 		this.healthLimit = healthLimit;
 		this.cardsOnHandLimit = healthLimit;
-		
-		skills = new ArrayList<Skill>();
+		this.skills = new ArrayList<Skill>();
 	}
 
 	public String getName()

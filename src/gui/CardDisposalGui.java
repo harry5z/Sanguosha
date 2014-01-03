@@ -5,6 +5,11 @@ import javax.swing.JPanel;
 import core.Card;
 import listener.CardDisposalListener;
 
+/**
+ * Gui of card disposal area, public to all players
+ * @author Harry
+ *
+ */
 public class CardDisposalGui extends JPanel implements CardDisposalListener
 {
 

@@ -16,8 +16,19 @@ import basics.Dodge;
 import update.Damage;
 import update.UseOfCards;
 
+/**
+ * The "Attack" event, multistage and very complicated, as many skills and equipment 
+ * effects can be invoked at each stage
+ * @author Harry
+ *
+ */
 public class AttackEvent implements Operation, Event
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -320291606677077531L;
+
 	public static final int TARGET_SELECTION = 1;
 	
 	public static final int BEFORE_TARGET_LOCKED = 2;//target operation
@@ -41,38 +52,29 @@ public class AttackEvent implements Operation, Event
 	private PlayerInfo target;
 	private PlayerInfo source;
 	private int stage;
-	private boolean dodgeable;
-	private Attack cardUsedAsAttack;
-	private Card dodge;
-	private ArrayList<Card> cardsUsed;
-	private Damage damage;
-	private Update nextEvent;
+	private boolean dodgeable;//is this attack dodge-able? (some skills make an attack un-dodge-able
+	private Attack attack;//in the future, there will be transformed attacks, so it will be changed
+	private Card dodge;//the dodge that target uses
+	private Damage damage;//the damage that this attack carries
+	private Update nextEvent;//next event in game flow
 	
-//	public AttackEvent(PlayerOriginalClientComplete source, Attack attack)
-//	{
-//		this.source = source.getPlayerInfo();
-//		cardUsedAsAttack = attack;
-//		cardsUsed = new ArrayList<Card>();
-//		cardsUsed.add(attack);
-//		stage = TARGET_SELECTION;
-//		dodgeable = true;
-//		dodge = null;
-//		enableTargets(source);
-//	}
 	public AttackEvent(PlayerOriginalClientComplete source, Attack attack, Update next)
 	{
 		this.source = source.getPlayerInfo();
 		target = null;
-		cardUsedAsAttack = attack;
-		cardsUsed = new ArrayList<Card>();
-		cardsUsed.add(attack);
+		this.attack = attack;
 		stage = TARGET_SELECTION;
 		dodgeable = true;
 		dodge = null;
 		enableTargets(source);
 		nextEvent = next;
 	}
-
+	private void enableTargets(PlayerOriginalClientComplete source)
+	{
+		for(PlayerOriginalClientSimple p : source.getOtherPlayers())
+			if(p.isAlive() && source.isPlayerInRange(p,source.getNumberOfPlayersAlive()))//if p is alive an in attack range
+				source.setTargetSelectable(p.getPlayerInfo(), true);//in the future, add skill decisions
+	}
 	private void endOfTargetOperation(PlayerOriginalClientComplete player)
 	{
 		player.setCancelEnabled(false);
@@ -88,18 +90,17 @@ public class AttackEvent implements Operation, Event
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
-		System.out.println("Attack stage "+stage);
 		if(player.isEqualTo(target))//target operations
 		{
 			if(stage == BEFORE_TARGET_LOCKED)//target skills to change target
 			{
 				stage = TARGET_LOCKED;
-				
+				//insert skill inquiries here
 				player.sendToMaster(this);//for now
 			}
 			else if(stage == DODGE_DECISION)//target skills/shields to cancel the attack
 			{
-				if(!player.isEquippedShield() || player.getShield().isRequiredToReact(cardUsedAsAttack))
+				if(!player.isEquippedShield() || player.getShield().isRequiredToReact(attack))
 					//no equipment or equipment cannot cancel the attack
 				{
 					stage = USING_DODGE;
@@ -111,11 +112,11 @@ public class AttackEvent implements Operation, Event
 					player.sendToMaster(this);
 				}
 			}
-			else if(stage == USING_DODGE)//target choose whether to dodge the attack
+			else if(stage == USING_DODGE)//target chooses whether to dodge the attack
 			{
 				player.setOperation(this);//push it to operation
 				player.setCardSelectableByName(Dodge.DODGE, true);//enable dodges
-				player.setCancelEnabled(true);//enable cancel
+				player.setCancelEnabled(true);//enable cancel (choose not to dodge)
 			}
 			else if(stage == AFTER_USING_DODGE)
 			{
@@ -179,12 +180,7 @@ public class AttackEvent implements Operation, Event
 		}
 	}
 
-	private void enableTargets(PlayerOriginalClientComplete source)
-	{
-		for(PlayerOriginalClientSimple p : source.getOtherPlayers())
-			if(p.isAlive() && source.isPlayerInRange(p,source.getNumberOfPlayersAlive()))
-				source.setTargetSelectable(p.getPlayerInfo(), true);//in the future, add skill decisions
-	}
+
 	@Override
 	public void onPlayerSelected(PlayerOriginalClientComplete operator, PlayerOriginal player) 
 	{
@@ -194,8 +190,8 @@ public class AttackEvent implements Operation, Event
 			{
 				target = player.getPlayerInfo();
 				operator.selectTarget(target);
-				operator.setConfirmEnabled(true);
-				operator.setCancelEnabled(true);
+				operator.setConfirmEnabled(true);//target set, can confirm the attack
+				operator.setCancelEnabled(true);//can cancel as well
 			}
 			else if(player.isEqualTo(target))//cancel target
 			{
@@ -216,20 +212,20 @@ public class AttackEvent implements Operation, Event
 	@Override
 	public void onConfirmedBy(PlayerOriginalClientComplete player) 
 	{
-		if(player.isEqualTo(source))
+		if(player.isEqualTo(source))//attack confirmed by source
 		{
-			int amount = 1;//in the future, player.getDamageAmount (or similar)
-			player.useAttack();
-			if(player.isWineUsed())
+			int amount = 1;//in the future, player.getDamageAmount (or similar) to take into account skill effects
+			player.useAttack();//set attack used once
+			if(player.isWineUsed())//wine increases attack damage by 1
 			{
 				amount++;
 				player.useWine();
 			}
 			player.unselectTarget(target);
-			player.setCardOnHandSelected(cardUsedAsAttack, false);
-			damage = new Damage(amount,cardUsedAsAttack.getElement(),source,target,this);
+			player.setCardOnHandSelected(attack, false);
+			damage = new Damage(amount,attack.getElement(),source,target,this);
 			stage = BEFORE_TARGET_LOCKED;
-			player.sendToMaster(new UseOfCards(source,cardUsedAsAttack,this));
+			player.sendToMaster(new UseOfCards(source,attack,this));
 		}
 		else if(player.isEqualTo(target))//target dodged
 		{
@@ -245,8 +241,8 @@ public class AttackEvent implements Operation, Event
 	{
 		if(stage == TARGET_SELECTION)//not sent yet
 		{
-			cancelOperation(player,cardUsedAsAttack);
-			player.setCardOnHandSelected(cardUsedAsAttack, false);
+			cancelOperation(player,attack);
+			player.setCardOnHandSelected(attack, false);
 			player.setCancelEnabled(false);
 		}
 		else if(stage == USING_DODGE)//target operation
@@ -295,7 +291,7 @@ public class AttackEvent implements Operation, Event
 					operator.setCardOnHandSelected(card, true);
 				}
 			}
-			else
+			else //select a new dodge
 			{
 				dodge = card;
 				operator.setCardOnHandSelected(card, true);

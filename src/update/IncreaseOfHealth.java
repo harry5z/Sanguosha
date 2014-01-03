@@ -1,7 +1,6 @@
 package update;
 
 import player.PlayerOriginalClientComplete;
-import core.Event;
 import core.Framework;
 import core.PlayerInfo;
 import core.Update;
