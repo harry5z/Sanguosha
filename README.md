@@ -1,6 +1,6 @@
 ﻿Sanguosha
 =========
-Sanguosha, or translated as "Battles of the Three Kindoms", is a very famous board game in China today, based on the historical events of the Three Kindoms (a historical period in ancient China, around 220–280 AD). (see link below)
+Sanguosha, or translated as "Battles of the Three Kingdoms", is a very famous board game in China today, based on the historical events of the Three Kindoms (a historical period in ancient China, around 220–280 AD). (see link below)
 
 http://en.wikipedia.org/wiki/Legends_of_the_Three_Kingdoms
 
