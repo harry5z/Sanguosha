@@ -37,6 +37,7 @@ As of 1/3/2014:
 1. Basic documentation
 
 2. Master and Client:
+
 It is tested that multiple clients on different machines within an LAN can play together. Remote connection is not tested yet, because there appears to be some router configurations required, and I forgot the username and password of my router...
 
 3. Basic Gui: cards, players, buttons, life bar, etc.
@@ -44,14 +45,20 @@ It is tested that multiple clients on different machines within an LAN can play 
 4. Game flow
 
 5. Near-death and death events:
+
 Whenever a player's current health drops below 1, the player enters near-death stage. Starting from the player who is playing the current turn, each player (including dying player himself) decides whether to use peach to save him. If enough peaches are given and the dying player's health returns to 1 or more, the game continues; if not enough peaches are given after a cycle, then the player dies. 
 
 6. DrawCard stage and Discard stage:
+
 At draw card stage, a player draws 2 cards (by default) from deck, then enters dealing stage. After player chooses to end dealing stage, the player enters discard stage: if the player owns more cards on hand than "cardsOnHandLimit" (by default equal to player's current health), the players have to discard extra cards.
 
 7. All 4 basic-type cards are enabled:
+
 Attack: used by a player during turn_deal to attack other players that are in player's attack range. By default, a player can use only 1 attack per turn, a player's attack distance is initially 1, and an attack carries 1 damage.
+
 Dodge: used to dodge attacks from other players, used only when player is attacked. If player chooses to dodge, the
 attack is cancelled, otherwise, the player takes the damage carried by the attack
+
 Peach: used to increase a player's health during turn_deal, or to save a player who is dying. Note that a player's current health can never exceeds health limit.
+
 Wine: used to increase the damage carried by player's next attack (this turn) by 1 during turn_deal, or to save a player HIMSELF when he is dying. By default, wine (used to increase damage) can be used once per turn.
