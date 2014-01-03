@@ -23,14 +23,17 @@ My ultimate goal is to automatize the creation of heroes and skills by designing
 
 How to play (As of 1/3/2014):
 
-Run Master.java without arguments (a small window will appear)
-Run several Client.java without arguments
-click "start" on the small window.
+1. Run Master.java without arguments (a small window will appear)
+
+2. Run several Client.java without arguments
+
+3. Click "start" on the small window.
 
 
 Current Progress:
 
 As of 1/3/2014:
+
 1. Basic documentation
 
 2. Master and Client
