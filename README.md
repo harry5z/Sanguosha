@@ -58,3 +58,5 @@ attack is cancelled, otherwise, the player takes the damage carried by the attac
 Peach: used to increase a player's health during turn_deal, or to save a player who is dying. Note that a player's current health can never exceeds health limit.
 
 Wine: used to increase the damage carried by player's next attack (this turn) by 1 during turn_deal, or to save a player HIMSELF when he is dying. By default, wine (used to increase damage) can be used once per turn.
+
+1/4/2014: Fixed card equality bug: added unique ID to each real card, also made equality check faster.
