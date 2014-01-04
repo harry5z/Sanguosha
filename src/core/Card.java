@@ -8,6 +8,7 @@ public abstract class Card implements Activatable,Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = 2570541960577206529L;
+	private static int uniqueID = 1;
 	public static final int DIAMOND = 1;
 	public static final int CLUB = 2;
 	public static final int HEART = 3;
@@ -25,6 +26,8 @@ public abstract class Card implements Activatable,Serializable
 	private int number;//1-13, note that A,J,Q,K are not numeric
 	private int suit; //1.Diamond 2.Club 3.Heart 4.Spade
 	private int type; //1.Basic 2.Special 3.Equipment
+	private int id;
+	private boolean isReal;
 	
 	/**
 	 * Initialization of normal cards
@@ -41,6 +44,9 @@ public abstract class Card implements Activatable,Serializable
 			color = RED;
 		else
 			color = BLACK;
+		id = uniqueID;
+		uniqueID++;
+		isReal = true;
 	}
 	/**
 	 * initialization of transformed cards (from skills, equipments, etc.)
@@ -51,6 +57,7 @@ public abstract class Card implements Activatable,Serializable
 	{
 		this.color = color;
 		this.type = type;
+		isReal = false;
 	}
 	public abstract String getName();
 
@@ -83,7 +90,6 @@ public abstract class Card implements Activatable,Serializable
 		if(!(obj instanceof Card))
 			return false;
 		Card other = (Card)obj;
-		return getName().equals(other.getName()) && number == other.number
-				&& suit == other.suit;
+		return isReal ? id == other.id : false;
 	}
 }

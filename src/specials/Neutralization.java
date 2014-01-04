@@ -1,5 +1,9 @@
 package specials;
 
+import player.PlayerOriginalClientComplete;
+import core.Operation;
+import core.Update;
+
 
 public class Neutralization extends Instant
 {
@@ -14,6 +18,21 @@ public class Neutralization extends Instant
 	public String getName() 
 	{
 		return "Neutralization";
+	}
+
+	@Override
+	public Operation onActivatedBy(PlayerOriginalClientComplete player,Update next)
+	{
+		player.setCardOnHandSelected(this, true);
+		player.setCancelEnabled(true);
+		player.setConfirmEnabled(true);
+		return null;
+	}
+
+	@Override
+	public boolean isActivatableBy(PlayerOriginalClientComplete player) 
+	{
+		return false;
 	}
 
 }
