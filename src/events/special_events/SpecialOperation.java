@@ -9,10 +9,13 @@ import core.Update;
 
 public abstract class SpecialOperation implements Operation
 {
+	private static final int BEFORE = 1;
+	private static final int NEUTRALIZATION = 2;
+	private static final int AFTER = 3;
 	private boolean neutralizable;
 	private boolean neutralized;
 	private Update next;
-	private Card special;
+	private int stage;
 	
 	public SpecialOperation(Update next)
 	{
@@ -23,6 +26,10 @@ public abstract class SpecialOperation implements Operation
 	protected void neutralize()
 	{
 		neutralized = !neutralized;
+	}
+	protected Update getNext()
+	{
+		return next;
 	}
 	public void setNeutralizable(boolean neutralizable)
 	{
@@ -37,36 +44,17 @@ public abstract class SpecialOperation implements Operation
 	{
 		framework.sendToAllClients(this);
 	}
-
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player) {
-		// TODO Auto-generated method stub
-		
+	public void playerOperation(PlayerOriginalClientComplete player)
+	{
+		if(stage == BEFORE)
+			playerOpBefore(player);
+		else if(stage == NEUTRALIZATION)
+			playerOpNeutralization(player);
+		else if (stage == AFTER)
+			playerOpAfter(player);
 	}
-
-	@Override
-	public void onPlayerSelected(PlayerOriginalClientComplete operator,
-			PlayerOriginal player) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onCardSelected(PlayerOriginalClientComplete operator, Card card) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onCancelledBy(PlayerOriginalClientComplete player) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onConfirmedBy(PlayerOriginalClientComplete player) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	protected abstract void playerOpBefore(PlayerOriginalClientComplete player);
+	protected abstract void playerOpNeutralization(PlayerOriginalClientComplete player);
+	protected abstract void playerOpAfter(PlayerOriginalClientComplete player);
 }
