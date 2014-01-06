@@ -44,6 +44,7 @@ public class DeathEvent implements Update
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
+		System.out.println(player.getName()+" DeathEvent "+stage);
 		if(stage == BEFORE)
 		{
 			if(player.isEqualTo(currentPlayer))//for future skills
@@ -57,11 +58,12 @@ public class DeathEvent implements Update
 			{
 				if(player.isEqualTo(victim))//die
 				{
-					currentPlayer = player.getNextPlayerAlive();
-					if(currentPlayer.getPosition() == turnPlayer.getPosition())//circle complete
-					{
-						stage++;
-					}
+					stage++;
+//					currentPlayer = player.getNextPlayerAlive();
+//					if(currentPlayer.getPosition() == turnPlayer.getPosition())//circle complete
+//					{
+//						stage++;
+//					}
 					player.sendToMaster(new Death(victim,this));
 				}
 				else

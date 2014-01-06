@@ -2,9 +2,12 @@ package gui;
 import heroes.Blank;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.*;
 import java.util.*;
+
 import javax.swing.*;
+
 import player.PlayerOriginalClientComplete;
 import player.PlayerOriginalClientSimple;
 import listener.GameListener;
@@ -51,6 +54,10 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 		healthGui = new LifebarGui();
 		disposalGui = new CardDisposalGui();
 		otherPlayers = new ArrayList<PlayerGui>();
+		deckSize = new JLabel();
+		deckSize.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
+		deckSize.setSize(100,100);
+		deckSize.setLocation(WIDTH-100,PlayerGui.HEIGHT);
 
 		myself.setHero(new Blank());//change in the future
 		heroGui.setHero(myself.getHero());
@@ -79,6 +86,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 		add(confirm);
 		add(cancel);
 		add(end);
+		add(deckSize);
 	}
 	@Override
 	public void onPlayerAdded(PlayerOriginalClientSimple player)
@@ -212,6 +220,11 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 	public void onEndSetEnabled(boolean isEnabled)
 	{
 		end.setEnabled(isEnabled);
+	}
+	@Override
+	public void onDeckSizeUpdated(int size)
+	{
+		deckSize.setText(""+size);
 	}
 	public void run()
 	{

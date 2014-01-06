@@ -68,13 +68,13 @@ public class Deck
 		int normal = Attack.NORMAL;
 		int thunder = Attack.THUNDER;
 		int fire = Attack.FIRE;
-//		used.add(new Duel(1, spade));
+		used.add(new Duel(1, spade));
 //		used.add(new Lightning(1, spade));
 //		used.add(new ArrowSalvo(1, heart));
 //		used.add(new Brotherhood(1, heart));
-//		used.add(new Duel(1, club));
+		used.add(new Duel(1, club));
 //		used.add(new ChuKoNu(1, club));
-//		used.add(new Duel(1, diamond));
+		used.add(new Duel(1, diamond));
 //		used.add(new ChuKoNu(1, diamond));
 //		used.add(new TaichiFormation(2,spade));
 //		used.add(new DoubleSword(2,spade));
@@ -139,7 +139,7 @@ public class Deck
 		used.add(new Attack(normal,9,club));
 		used.add(new Attack(normal,9,club));
 		used.add(new Attack(normal,9,diamond));
-//		used.add(new Dodge(9,diamond));
+		used.add(new Dodge(9,diamond));
 		used.add(new Attack(normal,10,spade));
 		used.add(new Attack(normal,10,spade));
 		used.add(new Attack(normal,10,heart));
@@ -149,7 +149,7 @@ public class Deck
 		used.add(new Attack(normal,10,diamond));
 		used.add(new Dodge(10,diamond));
 //		used.add(new Steal(11,spade));
-//		used.add(new Neutralization(11,spade));
+		used.add(new Neutralization(11,spade));
 		used.add(new Attack(normal,11,heart));
 //		used.add(new Creation(11,heart));
 		used.add(new Attack(normal,11,club));
@@ -161,7 +161,7 @@ public class Deck
 		used.add(new Peach(12,heart));
 //		used.add(new Destroy(12,heart));
 //		used.add(new BorrowSword(12,club));
-//		used.add(new Neutralization(12,club));
+		used.add(new Neutralization(12,club));
 		used.add(new Peach(12,diamond));
 //		used.add(new Halbert(12,diamond));
 //		used.add(new BarbarianInvasion(13,spade));
@@ -169,20 +169,20 @@ public class Deck
 		used.add(new Dodge(13,heart));
 //		used.add(new HorsePlus(13,heart,"YellowHooves"));
 //		used.add(new BorrowSword(13,club));
-//		used.add(new Neutralization(13,club));
+		used.add(new Neutralization(13,club));
 		used.add(new Attack(normal,13,diamond));
 //		used.add(new HorseMinus(13,diamond,"Purple"));
-//		if(useEX)
-//		{
+		if(useEX)
+		{
 //			used.add(new IcySword(2,spade));
 //			used.add(new IronShield(2,club));
 //			used.add(new Lightning(12,heart));
-//			used.add(new Neutralization(12,diamond));
-//		}
+			used.add(new Neutralization(12,diamond));
+		}
 		if(useBATTLE)
 		{
 //			used.add(new AncientNuggetFalchion(1,spade));
-//			used.add(new Neutralization(1,heart));
+			used.add(new Neutralization(1,heart));
 //			used.add(new SilverLion(1,club));
 //			used.add(new FeatheredFan(1,diamond));
 //			used.add(new RattenArmor(2,spade));
@@ -229,8 +229,8 @@ public class Deck
 			used.add(new Dodge(12,heart));
 //			used.add(new Chain(12,club));
 //			used.add(new FireAttack(12,diamond));
-//			used.add(new Neutralization(13,spade));
-//			used.add(new Neutralization(13,heart));
+			used.add(new Neutralization(13,spade));
+			used.add(new Neutralization(13,heart));
 //			used.add(new Chain(13,club));
 //			used.add(new HorsePlus(13,diamond,"..."));
 		}

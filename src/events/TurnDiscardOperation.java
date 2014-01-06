@@ -1,6 +1,7 @@
 package events;
 
 import java.util.ArrayList;
+
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.DisposalOfCards;
@@ -43,6 +44,7 @@ public class TurnDiscardOperation implements Operation
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
+		System.out.println(player.getName()+" DiscardOperation ");
 		if(player.isEqualTo(source))
 		{
 			if(player.getCardsOnHandCount() == player.getCardOnHandLimit())//meets requirement

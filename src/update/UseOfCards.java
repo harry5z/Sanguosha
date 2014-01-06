@@ -62,6 +62,7 @@ public class UseOfCards implements Update
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
+		System.out.println(player.getName()+" UseOfCards ");
 		if(player.isEqualTo(source))
 		{
 			player.useCards(cardsUsed);

@@ -91,6 +91,10 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	{
 		return cardsOnHand;
 	}
+	public void setDeckSize(int size)
+	{
+		gameListener.onDeckSizeUpdated(size);
+	}
 	@Override
 	public void addCard(Card card)
 	{
@@ -255,7 +259,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	{
 		cardActivated = null;
 		setAllCardsOnHandSelectable(false);
-		setAllTargetsSelectable(false);
+		setAllTargetsSelectableExcludingSelf(false);
 		gameListener.onConfirmSetEnabled(false);
 		gameListener.onCancelSetEnabled(false);
 		gameListener.onEndSetEnabled(false);
@@ -274,11 +278,11 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	{
 		operation = op;
 	}
-	public void setAllTargetsSelectable(boolean selectable)
+	public void setAllTargetsSelectableExcludingSelf(boolean selectable)
 	{
 		for(PlayerOriginal p : otherPlayers)
-			gameListener.onTargetSetSelectable(p.getPlayerInfo(), selectable);
-		gameListener.onTargetSetSelectable(getPlayerInfo(), selectable);
+			if(p.isAlive())
+				gameListener.onTargetSetSelectable(p.getPlayerInfo(), selectable);
 	}
 	public void setAllCardsOnHandSelectable(boolean selectable)
 	{

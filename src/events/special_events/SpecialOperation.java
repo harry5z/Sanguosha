@@ -2,30 +2,34 @@ package events.special_events;
 
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
+import specials.Neutralization;
 import core.Card;
 import core.Framework;
 import core.Operation;
+import core.PlayerInfo;
 import core.Update;
 
 public abstract class SpecialOperation implements Operation
 {
 	private static final int BEFORE = 1;
 	private static final int NEUTRALIZATION = 2;
-	private static final int AFTER = 3;
+	private static final int EFFECT = 3;
+	private static final int AFTER = 4;
 	private boolean neutralizable;
-	private boolean neutralized;
+	
 	private Update next;
 	private int stage;
+	private PlayerInfo turnPlayer;
+	private PlayerInfo currentPlayer;
+
 	
-	public SpecialOperation(Update next)
+	public SpecialOperation(Update next, PlayerInfo turnPlayer)
 	{
 		neutralizable = true;
-		neutralized = false;
+		stage = BEFORE;
 		this.next = next;
-	}
-	protected void neutralize()
-	{
-		neutralized = !neutralized;
+		this.turnPlayer = turnPlayer;
+		this.currentPlayer = turnPlayer;
 	}
 	protected Update getNext()
 	{
@@ -39,6 +43,10 @@ public abstract class SpecialOperation implements Operation
 	{
 		return neutralizable;
 	}
+	public void nextStage()
+	{
+		stage++;
+	}
 	@Override
 	public void frameworkOperation(Framework framework) 
 	{
@@ -47,14 +55,42 @@ public abstract class SpecialOperation implements Operation
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
-		if(stage == BEFORE)
-			playerOpBefore(player);
-		else if(stage == NEUTRALIZATION)
-			playerOpNeutralization(player);
-		else if (stage == AFTER)
-			playerOpAfter(player);
+		if(stage == NEUTRALIZATION && player.isEqualTo(turnPlayer))
+		{
+			if(neutralizable)
+				player.sendToMaster(new NeutralizationOperation(this,turnPlayer));
+			else
+			{
+				currentPlayer = turnPlayer;
+				stage = EFFECT;
+				player.sendToMaster(this);
+			}	
+			return;
+		}
+		else if(stage == EFFECT)
+		{
+			playerOpEffect(player);
+		}
+		else if(player.isEqualTo(currentPlayer))
+		{
+			if(stage == BEFORE)
+				playerOpBefore(player);
+			else if (stage == AFTER && player.isEqualTo(turnPlayer))
+				player.sendToMaster(next);
+		}
 	}
-	protected abstract void playerOpBefore(PlayerOriginalClientComplete player);
-	protected abstract void playerOpNeutralization(PlayerOriginalClientComplete player);
-	protected abstract void playerOpAfter(PlayerOriginalClientComplete player);
+	protected void playerOpBefore(PlayerOriginalClientComplete player)
+	{
+		sendToNextPlayer(player);
+	}
+	protected abstract void playerOpEffect(PlayerOriginalClientComplete player);
+	private void sendToNextPlayer(PlayerOriginalClientComplete player)
+	{
+		currentPlayer = player.getNextPlayerAlive();
+		if(currentPlayer.getPosition() == turnPlayer.getPosition())//circle complete
+		{
+			stage++;
+		}
+		player.sendToMaster(this);
+	}
 }

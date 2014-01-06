@@ -62,6 +62,7 @@ public class NearDeathEvent implements Operation
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
+		System.out.println(player.getName()+" NearDeathEvent "+stage);
 		if(player.isEqualTo(currentPlayer) && !player.findMatch(dyingPlayer).isDying())//dying player saved
 		{
 			player.sendToMaster(next);//continue the game

@@ -1,6 +1,7 @@
 package update;
 
 import java.util.ArrayList;
+
 import player.PlayerOriginalClientComplete;
 import core.Card;
 import core.Framework;
@@ -55,6 +56,7 @@ public class DisposalOfCards implements Update
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
+		System.out.println(player.getName()+" DisposalOfCards ");
 		if(player.isEqualTo(source))
 		{
 			player.discardCards(cards);

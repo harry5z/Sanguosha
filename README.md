@@ -59,4 +59,12 @@ Peach: used to increase a player's health during turn_deal, or to save a player 
 
 Wine: used to increase the damage carried by player's next attack (this turn) by 1 during turn_deal, or to save a player HIMSELF when he is dying. By default, wine (used to increase damage) can be used once per turn.
 
-1/4/2014: Fixed card equality bug: added unique ID to each real card, also made equality check faster.
+1/4/2014:
+Fixed card equality bug: added unique ID to each real card, also made equality check faster.
+
+1/5/2014:
+Added two instant type cards: Duel and neutralization. Fixed game flow bug brought up by Duel (when turn_player dies in a duel)
+
+Neutralization: while anyone uses an instant type card, or when a delayed type card is to be decided, any player can deal an Neutralization to cancel the effect of this special-type card. Of course, Neutralization itself is a special-type card so its effect can be neutralized as well.
+
+Duel: Used by a player to duel with another player during turn_deal. Once a target is selected, starting from the target, two players take turns to deal an Attack. The first player that fails to do so takes (by default) 1 damage from the other player.

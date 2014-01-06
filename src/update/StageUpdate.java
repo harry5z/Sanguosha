@@ -54,14 +54,24 @@ public class StageUpdate implements Event
 			stage = TURN_START_BEGINNING;
 		}
 	}
+	public void nextPlayer(PlayerOriginalClientComplete player)
+	{
+		source = player.getNextPlayerAlive();
+		stage = TURN_START_BEGINNING;
+	}
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
+		System.out.println(source.getName() +" Stage "+stage);
 		player.setCurrentStage(this);
 		player.clearDisposalArea();
 		if(player.isEqualTo(source))
 		{
-			
+			if(!player.isAlive())
+			{
+				nextPlayer(player);
+				player.sendToMaster(this);
+			}
 			if(stage == TURN_DRAW)
 			{
 				player.drawCards();
@@ -80,8 +90,6 @@ public class StageUpdate implements Event
 				player.sendToMaster(this);
 			}
 		}
-		else
-			System.out.println(player.getName()+" is watching "+source.getName()+" executing stage "+stage);
 	}
 	@Override
 	public void frameworkOperation(Framework framework) 

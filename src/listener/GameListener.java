@@ -58,4 +58,9 @@ public interface GameListener
 	 * @param isEnabled
 	 */
 	public void onEndSetEnabled(boolean isEnabled);
+	/**
+	 * update the size of game deck
+	 * @param size
+	 */
+	public void onDeckSizeUpdated(int size);
 }

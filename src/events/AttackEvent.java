@@ -90,6 +90,7 @@ public class AttackEvent implements Operation, Event
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
+		System.out.println(player.getName()+" AttackEvent "+stage);
 		if(player.isEqualTo(target))//target operations
 		{
 			if(stage == BEFORE_TARGET_LOCKED)//target skills to change target
@@ -173,10 +174,6 @@ public class AttackEvent implements Operation, Event
 			}
 			else if(stage == END)
 				player.sendToMaster(nextEvent);
-		}
-		else //bystanders...
-		{
-			System.out.println(player.getName()+ " is watching "+source.getName()+ " attacking "+target.getName()+" at stage "+stage);
 		}
 	}
 
@@ -269,8 +266,7 @@ public class AttackEvent implements Operation, Event
 		operator.setConfirmEnabled(false);//unable to confirm
 		if(target != null)
 			operator.unselectTarget(target);//target not selected
-		for(PlayerOriginalClientSimple p : operator.getOtherPlayers())//no target selectable
-			operator.setTargetSelectable(p.getPlayerInfo(), false);
+		operator.setAllTargetsSelectableExcludingSelf(false);
 	}
 	@Override
 	public void onCardSelected(PlayerOriginalClientComplete operator, Card card) 

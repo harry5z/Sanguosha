@@ -81,11 +81,9 @@ public class Framework
 	public void start()
 	{
 		for(PlayerInfo p : getPlayers())
-			master.sendToAllClients(new DrawCardsFromDeck(p,deck.drawMany(4)));
-		System.out.println("Finished card drawing");
+			master.sendToAllClients(new DrawCardsFromDeck(p,deck.drawMany(4),deck.getDeckSize()));
 		StageUpdate start = new StageUpdate(players.get(0).getPlayerInfo(),StageUpdate.TURN_START_BEGINNING);
 		master.sendToAllClients(start);
-		System.out.println("Starting");
 	}
 	/**
 	 * send update to all players, default operation of an update

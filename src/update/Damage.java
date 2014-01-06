@@ -35,6 +35,7 @@ public class Damage extends SourceTargetAmount implements Event
 	 * @param cardUsed : the card that both represents and causes the damage
 	 * @param source : source of damage
 	 * @param target : target of damage
+	 * @param next : next update
 	 */
 	public Damage(Card cardUsed, PlayerInfo source, PlayerInfo target, Update next)
 	{
@@ -138,6 +139,7 @@ public class Damage extends SourceTargetAmount implements Event
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
+		System.out.println(player.getName()+" Damage ");
 		if(player.isEqualTo(target))
 		{
 			player.takeDamage(this);

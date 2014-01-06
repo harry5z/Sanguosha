@@ -29,4 +29,16 @@ public class PlayerInfo implements Serializable
 	{
 		return position;
 	}
+	@Override
+	public int hashCode()
+	{
+		return name.hashCode();
+	}
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(!(obj instanceof PlayerInfo))
+			return false;
+		return position == ((PlayerInfo)obj).position;
+	}
 }

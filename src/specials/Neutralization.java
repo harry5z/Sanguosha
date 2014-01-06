@@ -7,7 +7,7 @@ import core.Update;
 
 public class Neutralization extends Instant
 {
-
+	public static final String NEUTRALIZATION = "Neutralization";
 	public Neutralization(int num, int suit) 
 	{
 		super(num, suit);
@@ -17,7 +17,7 @@ public class Neutralization extends Instant
 	@Override
 	public String getName() 
 	{
-		return "Neutralization";
+		return NEUTRALIZATION;
 	}
 
 	@Override

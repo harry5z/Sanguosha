@@ -33,6 +33,7 @@ public class Death implements Update
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
+		System.out.println(player.getName()+" Death ");
 		if(player.isEqualTo(victim))
 		{
 			player.kill();//kill victim
