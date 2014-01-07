@@ -119,7 +119,7 @@ public class Deck
 		used.add(new Attack(normal,7,spade));
 //		used.add(new BarbarianInvasion(7,spade));
 		used.add(new Peach(7,heart));
-//		used.add(new Creation(7,heart));
+		used.add(new Creation(7,heart));
 		used.add(new Attack(normal,7,club));
 //		used.add(new BarbarianInvasion(7,club));
 		used.add(new Attack(normal,7,diamond));
@@ -127,7 +127,7 @@ public class Deck
 		used.add(new Attack(normal,8,spade));
 		used.add(new Attack(normal,8,spade));
 		used.add(new Peach(8,heart));
-//		used.add(new Creation(8,heart));
+		used.add(new Creation(8,heart));
 		used.add(new Attack(normal,8,club));
 		used.add(new Attack(normal,8,club));
 		used.add(new Attack(normal,8,diamond));
@@ -135,7 +135,7 @@ public class Deck
 		used.add(new Attack(normal,9,spade));
 		used.add(new Attack(normal,9,spade));
 		used.add(new Peach(9,heart));
-//		used.add(new Creation(9,heart));
+		used.add(new Creation(9,heart));
 		used.add(new Attack(normal,9,club));
 		used.add(new Attack(normal,9,club));
 		used.add(new Attack(normal,9,diamond));
@@ -151,7 +151,7 @@ public class Deck
 //		used.add(new Steal(11,spade));
 		used.add(new Neutralization(11,spade));
 		used.add(new Attack(normal,11,heart));
-//		used.add(new Creation(11,heart));
+		used.add(new Creation(11,heart));
 		used.add(new Attack(normal,11,club));
 		used.add(new Attack(normal,11,club));
 		used.add(new Dodge(11,diamond));
@@ -186,7 +186,7 @@ public class Deck
 //			used.add(new SilverLion(1,club));
 //			used.add(new FeatheredFan(1,diamond));
 //			used.add(new RattenArmor(2,spade));
-//			used.add(new FireAttack(2,heart));
+			used.add(new FireAttack(2,heart));
 //			used.add(new RattenArmor(2,club));
 			used.add(new Peach(2,diamond));
 			used.add(new Wine(3,spade));
@@ -194,7 +194,7 @@ public class Deck
 			used.add(new Wine(3,club));
 			used.add(new Peach(3,diamond));
 //			used.add(new Attack(thunder,4,spade));
-//			used.add(new FireAttack(4,heart));
+			used.add(new FireAttack(4,heart));
 //			used.add(new Starvation(4,club));
 //			used.add(new Attack(fire,4,diamond));
 //			used.add(new Attack(thunder,5,spade));
@@ -228,7 +228,7 @@ public class Deck
 //			used.add(new Chain(12,spade));
 			used.add(new Dodge(12,heart));
 //			used.add(new Chain(12,club));
-//			used.add(new FireAttack(12,diamond));
+			used.add(new FireAttack(12,diamond));
 			used.add(new Neutralization(13,spade));
 			used.add(new Neutralization(13,heart));
 //			used.add(new Chain(13,club));

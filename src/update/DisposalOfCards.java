@@ -17,14 +17,12 @@ public class DisposalOfCards implements Update
 	private PlayerInfo source;
 	private ArrayList<Card> cards;
 	private Update next;
-	public DisposalOfCards(PlayerInfo source)
-	{
-		this.source = source;
-	}
-	public DisposalOfCards(PlayerInfo source,Card card)
+
+	public DisposalOfCards(PlayerInfo source,Card card,Update next)
 	{
 		this.source = source;
 		this.cards = new ArrayList<Card>(1);
+		this.next = next;
 		cards.add(card);
 	}
 	public DisposalOfCards(PlayerInfo source,ArrayList<Card> cards,Update next)

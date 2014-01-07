@@ -128,6 +128,10 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 		cardsOnHandListener.onCardRemoved(card);
 		disposalListener.onCardDisposed(card);
 	}
+	public void showCard(Card card)
+	{
+		disposalListener.onCardDisposed(card);
+	}
 	/**
 	 * discard an equipment
 	 * <li>{@link EquipmentListener} notified

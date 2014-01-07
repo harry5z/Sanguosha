@@ -56,7 +56,7 @@ public class Damage extends SourceTargetAmount implements Event
 	 * @param source : source of damage
 	 * @param target : target of damage
 	 */
-	public Damage(int amount, int element, PlayerInfo source, PlayerInfo target, Event next)
+	public Damage(int amount, int element, PlayerInfo source, PlayerInfo target, Update next)
 	{
 		this.amount = amount;
 		this.element = element;

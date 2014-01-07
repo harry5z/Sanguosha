@@ -284,6 +284,11 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 			if(p.isAlive())
 				gameListener.onTargetSetSelectable(p.getPlayerInfo(), selectable);
 	}
+	public void setAllTargetsSelectableIncludingSelf(boolean selectable)
+	{
+		setAllTargetsSelectableExcludingSelf(selectable);
+		gameListener.onTargetSetSelectable(getPlayerInfo(), selectable);
+	}
 	public void setAllCardsOnHandSelectable(boolean selectable)
 	{
 		for(Card card : cardsOnHand)
@@ -463,7 +468,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		return next.getPlayerInfo();
 	}
 
-	public PlayerOriginal findMatch(PlayerInfo p)
+	public PlayerOriginalClientSimple findMatch(PlayerInfo p)
 	{
 		for(PlayerOriginalClientSimple player : otherPlayers)
 			if(player.isEqualTo(p))
