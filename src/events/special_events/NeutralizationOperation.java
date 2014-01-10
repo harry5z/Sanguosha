@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import specials.Neutralization;
+import update.Update;
 import update.UseOfCards;
 import core.Card;
 import core.Framework;
 import core.Operation;
 import core.PlayerInfo;
-import core.Update;
 
 public class NeutralizationOperation implements Operation
 {

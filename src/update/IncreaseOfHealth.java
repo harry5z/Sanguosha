@@ -3,7 +3,6 @@ package update;
 import player.PlayerOriginalClientComplete;
 import core.Framework;
 import core.PlayerInfo;
-import core.Update;
 
 public class IncreaseOfHealth implements Update
 {

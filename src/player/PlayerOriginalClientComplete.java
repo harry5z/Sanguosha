@@ -8,6 +8,7 @@ import net.Client;
 import update.Damage;
 import update.DrawCardsFromDeck;
 import update.StageUpdate;
+import update.Update;
 import listener.ClientListener;
 import listener.GameListener;
 import core.Card;
@@ -15,7 +16,6 @@ import core.Equipment;
 import core.Operation;
 import core.Player;
 import core.PlayerInfo;
-import core.Update;
 import events.NearDeathEvent;
 import events.TurnDiscardOperation;
 

@@ -4,10 +4,10 @@ import basics.Attack;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.Damage;
+import update.Update;
 import update.UseOfCards;
 import core.Card;
 import core.PlayerInfo;
-import core.Update;
 
 public class DuelOperation extends SpecialOperation
 {

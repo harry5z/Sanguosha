@@ -6,7 +6,6 @@ import player.PlayerOriginalClientComplete;
 import core.Card;
 import core.Framework;
 import core.PlayerInfo;
-import core.Update;
 
 /**
  * use of cards by a player, used cards are displayed in the disposal area until an event

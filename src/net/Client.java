@@ -11,8 +11,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import player.PlayerOriginalClientComplete;
-import core.Update;
 import update.NewPlayer;
+import update.Update;
 /**
  * client side, used by each player to communicate to master
  * @author Harry
@@ -56,7 +56,7 @@ public class Client extends Thread
 	 * Send a notification/game update to master
 	 * @param note
 	 */
-	public void sendToMaster(Update update)
+	public synchronized void sendToMaster(Update update)
 	{
 		try
 		{

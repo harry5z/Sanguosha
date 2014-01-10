@@ -3,12 +3,12 @@ package events;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.IncreaseOfHealth;
+import update.Update;
 import update.UseOfCards;
 import core.Card;
 import core.Framework;
 import core.Operation;
 import core.PlayerInfo;
-import core.Update;
 
 /**
  * Operation of use of wine. Wine can be used either to increase attack damage once,

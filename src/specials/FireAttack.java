@@ -2,12 +2,16 @@ package specials;
 
 import player.PlayerOriginalClientComplete;
 import player.PlayerOriginalClientSimple;
+import update.Update;
 import core.Operation;
-import core.Update;
 import events.special_events.FireAttackOperation;
 
 public class FireAttack extends Instant
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3725224946954164125L;
 	public static final String FIRE_ATTACK = "Fire_Attack";
 	public FireAttack(int num, int suit)
 	{

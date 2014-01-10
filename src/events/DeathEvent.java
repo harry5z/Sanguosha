@@ -2,9 +2,9 @@ package events;
 
 import player.PlayerOriginalClientComplete;
 import update.Death;
+import update.Update;
 import core.Framework;
 import core.PlayerInfo;
-import core.Update;
 
 /**
  * The event of the death of a player

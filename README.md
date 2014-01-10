@@ -18,10 +18,6 @@ There is an online version of Sanguosha, run by the company that designed it. Th
 
 And these are the motives of my project. A big fan of Sanguosha, I want to build a Sanguosha framework that my friends and I can use to play over the network. Since I wrote the source code, it is easy to add heroes and skills to the game, so one day we can perhaps complete a "CMU-sha" (Battles of CMU), that would be really fun. Best of all, it's free.
 
-The difficulty of writing this game comes from two parts: quantity and generality. First, Sanguosha is a game with more than 100 heroes officially released, each of which has unique skills. The total amount of work is enormous, even if it is easy to implement each hero. Second, after I studied the skills of all heroes, the effects of equipments, and the usage of cards, I realized that there are lots of moments when a skill/equipment can interrupt the gameflow (e.g. Guo Jia's skill "legacy" -- draw two cards and give them to any player after taking 1 damage) and change the default game settings (e.g. Zhang Fei's skill "Roar" -- can use unlimited amount of "Attack" in his turn (by default 1)). So while designing the game framework, I had to make sure that it is general enough to support these skills that are to be implemented in the future. 
-
-So far, the basic stucture is complete, and I am adding features. My plan is: basic cards --> special cards --> equipment cards --> skills and heroes. 
-
 My ultimate goal is to automatize the creation of heroes and skills by designing a framework that supports the creation of common types of skills by several simple selections and keystrokes.
 
 
@@ -79,3 +75,6 @@ Added two instant type cards: Creation and Fire Attack.
 Creation: draw two cards from deck.
 
 Fire Attack: Use it against another player or self. Target shows a card on hand, and if attacker can discard a card on hand with the same suit, then target takes 1 damage of element "Fire"
+
+1/10/2014:
+Fixed ExecutorService bug: can now add any number of players

@@ -2,7 +2,6 @@ package update;
 
 import core.Player;
 import core.PlayerInfo;
-import core.Update;
 
 public abstract class SourceTargetAmount implements Update
 {

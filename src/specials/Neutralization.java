@@ -1,8 +1,8 @@
 package specials;
 
 import player.PlayerOriginalClientComplete;
+import update.Update;
 import core.Operation;
-import core.Update;
 
 
 public class Neutralization extends Instant

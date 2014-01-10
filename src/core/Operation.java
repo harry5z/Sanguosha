@@ -2,6 +2,7 @@ package core;
 
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
+import update.Update;
 /**
  * An operation that listens to user actions (confirm, cancel, select cards/targets, etc.)
  * @author Harry

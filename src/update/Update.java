@@ -1,7 +1,8 @@
-package core;
+package update;
 
 import java.io.Serializable;
 
+import core.Framework;
 import player.*;
 
 /**

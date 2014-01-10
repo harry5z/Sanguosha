@@ -3,10 +3,10 @@ package events.special_events;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.DrawCardsFromDeck;
+import update.Update;
 import update.UseOfCards;
 import core.Card;
 import core.PlayerInfo;
-import core.Update;
 
 public class CreationOperation extends SpecialOperation
 {

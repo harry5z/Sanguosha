@@ -7,13 +7,13 @@ import core.Event;
 import core.Framework;
 import core.Operation;
 import core.PlayerInfo;
-import core.Update;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import player.PlayerOriginalClientSimple;
 import basics.Attack;
 import basics.Dodge;
 import update.Damage;
+import update.Update;
 import update.UseOfCards;
 
 /**

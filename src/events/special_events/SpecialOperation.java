@@ -3,11 +3,11 @@ package events.special_events;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import specials.Neutralization;
+import update.Update;
 import core.Card;
 import core.Framework;
 import core.Operation;
 import core.PlayerInfo;
-import core.Update;
 
 public abstract class SpecialOperation implements Operation
 {

@@ -3,7 +3,6 @@ package update;
 import player.PlayerOriginalClientComplete;
 import core.Framework;
 import core.PlayerInfo;
-import core.Update;
 
 /**
  * Death update

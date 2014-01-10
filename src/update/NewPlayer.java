@@ -6,7 +6,6 @@ import player.PlayerOriginalClientComplete;
 import core.Framework;
 import core.Player;
 import core.PlayerInfo;
-import core.Update;
 
 public class NewPlayer implements Update
 {

@@ -2,12 +2,12 @@ package events;
 
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
+import update.Update;
 import update.UseOfCards;
 import core.Card;
 import core.Framework;
 import core.Operation;
 import core.PlayerInfo;
-import core.Update;
 
 public class SingleCardOperation implements Operation
 {

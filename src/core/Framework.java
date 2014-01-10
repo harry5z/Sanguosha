@@ -10,6 +10,7 @@ import net.Master;
 import player.PlayerOriginalMasterSimple;
 import update.DrawCardsFromDeck;
 import update.StageUpdate;
+import update.Update;
 /**
  * The game framework. Currently only the original game (Emperor-loyalist-rebel-usurper), but in the future
  * may add other kinds (1v1, 3v3, Total War, etc.)

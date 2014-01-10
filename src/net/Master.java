@@ -1,8 +1,6 @@
 package net;
 
-
 import gui.FrameworkGui;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -11,9 +9,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
+import java.util.concurrent.RejectedExecutionException;
+import update.Update;
 import core.Framework;
-import core.Update;
 /**
  * master side, used by framework to communicate with all players
  * @author Harry
@@ -28,12 +26,10 @@ public class Master extends Thread
 	
 	public static final int DEFAULT_PORT = 12345;
 	
-	private static final int POOL_SIZE = Runtime.getRuntime().availableProcessors();
-	
 	public Master(int port)
 	{
 		mPort = port;
-		executor = Executors.newFixedThreadPool(POOL_SIZE);
+		executor = Executors.newCachedThreadPool();
 		threads = new ArrayList<PlayerThread>();
 		framework = new Framework(this);
 		executor.execute(new FrameworkGui(framework));
@@ -41,7 +37,7 @@ public class Master extends Thread
 	public Master()
 	{
 		mPort = DEFAULT_PORT;
-		executor = Executors.newFixedThreadPool(POOL_SIZE);
+		executor = Executors.newCachedThreadPool();
 		threads = new ArrayList<PlayerThread>();
 		framework = new Framework(this);
 		executor.execute(new FrameworkGui(framework));
@@ -84,6 +80,14 @@ public class Master extends Thread
 		catch(IOException e)
 		{
 			System.err.println("Master: I/O Exception");
+			e.printStackTrace();
+		}
+		catch(RejectedExecutionException e)
+		{
+			e.printStackTrace();
+		}
+		catch(NullPointerException e)
+		{
 			e.printStackTrace();
 		}
 	}

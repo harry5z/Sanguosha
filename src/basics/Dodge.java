@@ -1,9 +1,9 @@
 package basics;
 
 import player.PlayerOriginalClientComplete;
+import update.Update;
 import core.Basic;
 import core.Operation;
-import core.Update;
 
 public class Dodge extends Basic
 {

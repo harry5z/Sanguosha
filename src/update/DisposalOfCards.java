@@ -6,7 +6,6 @@ import player.PlayerOriginalClientComplete;
 import core.Card;
 import core.Framework;
 import core.PlayerInfo;
-import core.Update;
 
 public class DisposalOfCards implements Update
 {

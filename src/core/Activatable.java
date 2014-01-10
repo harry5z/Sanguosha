@@ -1,6 +1,7 @@
 package core;
 
 import player.PlayerOriginalClientComplete;
+import update.Update;
 
 public interface Activatable
 {
