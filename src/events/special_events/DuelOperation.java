@@ -14,7 +14,7 @@ public class DuelOperation extends SpecialOperation
 	private PlayerInfo source;
 	private PlayerInfo target;
 	private Card duel;
-	private Card attack;
+//	private Card attack;
 	
 	public DuelOperation(PlayerInfo source,PlayerInfo turnPlayer,Card duel,Update next)
 	{
@@ -22,7 +22,7 @@ public class DuelOperation extends SpecialOperation
 		this.duel = duel;
 		this.source = source;
 		this.target = null;
-		this.attack = null;
+//		this.attack = null;
 	}
 	
 	@Override
@@ -54,26 +54,27 @@ public class DuelOperation extends SpecialOperation
 	@Override
 	public void onCardSelected(PlayerOriginalClientComplete operator, Card card)
 	{
-		if(attack != null)//unselect previous
-		{
-			operator.setCardOnHandSelected(attack, false);
-			if(attack.equals(card))//unselect
-			{
-				attack = null;
-				operator.setConfirmEnabled(false);
-			}
-			else//change
-			{
-				attack = card;
-				operator.setCardOnHandSelected(card, true);
-			}
-		}
-		else //select new
-		{
-			attack = card;
-			operator.setCardOnHandSelected(card, true);
-			operator.setConfirmEnabled(true);
-		}
+		this.cardSelectedAsReaction(operator, card);
+//		if(attack != null)//unselect previous
+//		{
+//			operator.setCardOnHandSelected(attack, false);
+//			if(attack.equals(card))//unselect
+//			{
+//				attack = null;
+//				operator.setConfirmEnabled(false);
+//			}
+//			else//change
+//			{
+//				attack = card;
+//				operator.setCardOnHandSelected(card, true);
+//			}
+//		}
+//		else //select new
+//		{
+//			attack = card;
+//			operator.setCardOnHandSelected(card, true);
+//			operator.setConfirmEnabled(true);
+//		}
 		
 	}
 
@@ -92,11 +93,11 @@ public class DuelOperation extends SpecialOperation
 		}
 		else if(player.isEqualTo(target))
 		{
-			if(attack != null)//cancel selection
+			if(reactionCard != null)//cancel selection
 			{
-				player.setCardOnHandSelected(attack, false);
+				player.setCardOnHandSelected(reactionCard, false);
 				player.setConfirmEnabled(false);
-				attack = null;
+				reactionCard = null;
 				player.setOperation(this);
 			}
 			else //give up
@@ -104,7 +105,7 @@ public class DuelOperation extends SpecialOperation
 				this.nextStage();
 				player.setAllCardsOnHandSelectable(false);
 				player.setCancelEnabled(false);
-				player.setOperation(null);
+				//player.setOperation(null);
 				player.sendToMaster(new Damage(duel,source,target,getNext()));
 			}
 		}
@@ -122,13 +123,13 @@ public class DuelOperation extends SpecialOperation
 		}
 		else//target reacted
 		{
-			player.setCardOnHandSelected(attack,false);
+			player.setCardOnHandSelected(reactionCard,false);
 			//switch source and target
 			PlayerInfo temp = target;
 			target = source;
 			source = temp;
-			Card c = attack;
-			attack = null;
+			Card c = reactionCard;
+			reactionCard = null;
 			player.sendToMaster(new UseOfCards(player.getPlayerInfo(),c,this));
 		}
 	}
@@ -136,9 +137,9 @@ public class DuelOperation extends SpecialOperation
 	@Override
 	protected void playerOpEffect(PlayerOriginalClientComplete player) 
 	{
-		System.out.println(player.getName()+" DuelOperation ");
 		if(player.isEqualTo(target))
 		{
+			System.out.println(player.getName()+" DuelOperation ");
 			player.setCardSelectableByName(Attack.ATTACK, true);
 			player.setCancelEnabled(true);
 			player.setOperation(this);

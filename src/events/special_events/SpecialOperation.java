@@ -11,10 +11,10 @@ import core.PlayerInfo;
 
 public abstract class SpecialOperation implements Operation
 {
-	private static final int BEFORE = 1;
-	private static final int NEUTRALIZATION = 2;
-	private static final int EFFECT = 3;
-	private static final int AFTER = 4;
+	protected static final int BEFORE = 1;
+	protected static final int NEUTRALIZATION = 2;
+	protected static final int EFFECT = 3;
+	protected static final int AFTER = 4;
 	private boolean neutralizable;
 	
 	private Update next;
@@ -22,6 +22,7 @@ public abstract class SpecialOperation implements Operation
 	private PlayerInfo turnPlayer;
 	private PlayerInfo currentPlayer;
 
+	protected Card reactionCard;
 	
 	public SpecialOperation(Update next, PlayerInfo turnPlayer)
 	{
@@ -30,6 +31,7 @@ public abstract class SpecialOperation implements Operation
 		this.next = next;
 		this.turnPlayer = turnPlayer;
 		this.currentPlayer = turnPlayer;
+		reactionCard = null;
 	}
 	protected Update getNext()
 	{
@@ -47,10 +49,38 @@ public abstract class SpecialOperation implements Operation
 	{
 		stage++;
 	}
+	public void setStage(int stage)
+	{
+		this.stage = stage;
+	}
 	@Override
 	public void frameworkOperation(Framework framework) 
 	{
 		framework.sendToAllClients(this);
+	}
+
+	protected void cardSelectedAsReaction(PlayerOriginalClientComplete operator, Card card)
+	{
+		if(reactionCard != null)//unselect previous
+		{
+			operator.setCardOnHandSelected(reactionCard, false);
+			if(reactionCard.equals(card))//unselect
+			{
+				reactionCard = null;
+				operator.setConfirmEnabled(false);
+			}
+			else//change
+			{
+				reactionCard = card;
+				operator.setCardOnHandSelected(card, true);
+			}
+		}
+		else //select new
+		{
+			reactionCard = card;
+			operator.setCardOnHandSelected(card, true);
+			operator.setConfirmEnabled(true);
+		}
 	}
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player)
@@ -76,7 +106,7 @@ public abstract class SpecialOperation implements Operation
 			if(stage == BEFORE)
 				playerOpBefore(player);
 			else if (stage == AFTER && player.isEqualTo(turnPlayer))
-				player.sendToMaster(next);
+				playerOpAfter(player);
 		}
 	}
 	protected void playerOpBefore(PlayerOriginalClientComplete player)
@@ -84,10 +114,18 @@ public abstract class SpecialOperation implements Operation
 		sendToNextPlayer(player);
 	}
 	protected abstract void playerOpEffect(PlayerOriginalClientComplete player);
+	/**
+	 * Default ending behavior executed by CurrentPlayer: continue with next operation
+	 * @param player
+	 */
+	protected void playerOpAfter(PlayerOriginalClientComplete player)
+	{
+		player.sendToMaster(next);
+	}
 	private void sendToNextPlayer(PlayerOriginalClientComplete player)
 	{
 		currentPlayer = player.getNextPlayerAlive();
-		if(currentPlayer.getPosition() == turnPlayer.getPosition())//circle complete
+		if(currentPlayer.equals(turnPlayer))//circle complete
 		{
 			stage++;
 		}

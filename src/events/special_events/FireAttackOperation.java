@@ -20,7 +20,7 @@ public class FireAttackOperation extends SpecialOperation
 	private boolean sent;
 	private Card fireAttack;
 	private Card cardShown;
-	private Card cardDisposed;
+	//private Card cardDisposed;
 	
 	public FireAttackOperation(PlayerOriginalClientComplete player, Card fireAttack,Update next)
 	{
@@ -31,7 +31,7 @@ public class FireAttackOperation extends SpecialOperation
 		shown = false;
 		sent = false;
 		cardShown = null;
-		cardDisposed = null;
+		//cardDisposed = null;
 	}
 
 	@Override
@@ -88,26 +88,27 @@ public class FireAttackOperation extends SpecialOperation
 		}
 		else //source selecting card to dispose
 		{
-			if(cardDisposed != null)//unselect previous
-			{
-				operator.setCardOnHandSelected(cardDisposed, false);
-				if(cardDisposed.equals(card))//unselect
-				{
-					cardDisposed = null;
-					operator.setConfirmEnabled(false);
-				}
-				else//change
-				{
-					cardDisposed = card;
-					operator.setCardOnHandSelected(card, true);
-				}
-			}
-			else //select new
-			{
-				cardDisposed = card;
-				operator.setCardOnHandSelected(card, true);
-				operator.setConfirmEnabled(true);
-			}
+			cardSelectedAsReaction(operator, card);
+//			if(cardDisposed != null)//unselect previous
+//			{
+//				operator.setCardOnHandSelected(cardDisposed, false);
+//				if(cardDisposed.equals(card))//unselect
+//				{
+//					cardDisposed = null;
+//					operator.setConfirmEnabled(false);
+//				}
+//				else//change
+//				{
+//					cardDisposed = card;
+//					operator.setCardOnHandSelected(card, true);
+//				}
+//			}
+//			else //select new
+//			{
+//				cardDisposed = card;
+//				operator.setCardOnHandSelected(card, true);
+//				operator.setConfirmEnabled(true);
+//			}
 		}
 	}
 
@@ -126,11 +127,11 @@ public class FireAttackOperation extends SpecialOperation
 		}
 		else//cancel damage confirmation
 		{
-			if(cardDisposed != null)//cancel selection
+			if(reactionCard != null)//cancel selection
 			{
-				player.setCardOnHandSelected(cardDisposed, false);
+				player.setCardOnHandSelected(reactionCard, false);
 				player.setConfirmEnabled(false);
-				cardDisposed = null;
+				reactionCard = null;
 				player.setOperation(this);
 			}
 			else //give up
@@ -165,8 +166,8 @@ public class FireAttackOperation extends SpecialOperation
 		}
 		else if(sent && shown)//confirm damage
 		{
-			player.setCardOnHandSelected(cardDisposed, false);
-			player.sendToMaster(new DisposalOfCards(source,cardDisposed,new Damage(1,Attack.FIRE,source,target,this.getNext())));
+			player.setCardOnHandSelected(reactionCard, false);
+			player.sendToMaster(new DisposalOfCards(source,reactionCard,new Damage(1,Attack.FIRE,source,target,this.getNext())));
 		}
 	}
 	@Override
