@@ -46,7 +46,10 @@ public class NeutralizationOperation implements Operation
 			if(player.isEqualTo(turnPlayer))
 			{
 				if(neutralized)//ineffective
-					player.sendToMaster(next.getNext());
+				{
+					next.setStage(SpecialOperation.AFTER);
+					player.sendToMaster(next);
+				}
 				else//effective
 				{
 					next.nextStage();
@@ -57,7 +60,7 @@ public class NeutralizationOperation implements Operation
 		}
 		
 		player.setOperation(this);//bug, previous selection?
-		if(!cancelledPlayers.contains(player.getPlayerInfo()))
+		if(player.isAlive() && !cancelledPlayers.contains(player.getPlayerInfo()))
 		{
 			player.setCardSelectableByName(Neutralization.NEUTRALIZATION, true);
 			player.setCancelEnabled(true);

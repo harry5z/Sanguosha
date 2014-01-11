@@ -101,17 +101,16 @@ public abstract class SpecialOperation implements Operation
 		{
 			playerOpEffect(player);
 		}
-		else if(player.isEqualTo(currentPlayer))
-		{
-			if(stage == BEFORE)
-				playerOpBefore(player);
-			else if (stage == AFTER && player.isEqualTo(turnPlayer))
-				playerOpAfter(player);
-		}
+		else if(stage == BEFORE)
+			playerOpBefore(player);
+		else if (stage == AFTER)
+			playerOpAfter(player);
+		
 	}
 	protected void playerOpBefore(PlayerOriginalClientComplete player)
 	{
-		sendToNextPlayer(player);
+		if(player.isEqualTo(currentPlayer))
+			sendToNextPlayer(player);
 	}
 	protected abstract void playerOpEffect(PlayerOriginalClientComplete player);
 	/**
@@ -120,7 +119,8 @@ public abstract class SpecialOperation implements Operation
 	 */
 	protected void playerOpAfter(PlayerOriginalClientComplete player)
 	{
-		player.sendToMaster(next);
+		if(player.isEqualTo(currentPlayer))
+			player.sendToMaster(next);
 	}
 	private void sendToNextPlayer(PlayerOriginalClientComplete player)
 	{

@@ -70,8 +70,8 @@ public class Deck
 		int fire = Attack.FIRE;
 		used.add(new Duel(1, spade));
 //		used.add(new Lightning(1, spade));
-//		used.add(new ArrowSalvo(1, heart));
-//		used.add(new Brotherhood(1, heart));
+		used.add(new ArrowSalvo(1, heart));
+		used.add(new Brotherhood(1, heart));
 		used.add(new Duel(1, club));
 //		used.add(new ChuKoNu(1, club));
 		used.add(new Duel(1, diamond));
@@ -117,11 +117,11 @@ public class Deck
 		used.add(new Attack(normal,6,diamond));
 		used.add(new Dodge(6,diamond));
 		used.add(new Attack(normal,7,spade));
-//		used.add(new BarbarianInvasion(7,spade));
+		used.add(new BarbarianInvasion(7,spade));
 		used.add(new Peach(7,heart));
 		used.add(new Creation(7,heart));
 		used.add(new Attack(normal,7,club));
-//		used.add(new BarbarianInvasion(7,club));
+		used.add(new BarbarianInvasion(7,club));
 		used.add(new Attack(normal,7,diamond));
 		used.add(new Dodge(7,diamond));
 		used.add(new Attack(normal,8,spade));
@@ -164,7 +164,7 @@ public class Deck
 		used.add(new Neutralization(12,club));
 		used.add(new Peach(12,diamond));
 //		used.add(new Halbert(12,diamond));
-//		used.add(new BarbarianInvasion(13,spade));
+		used.add(new BarbarianInvasion(13,spade));
 //		used.add(new HorseMinus(13,spade,"DaWan"));
 		used.add(new Dodge(13,heart));
 //		used.add(new HorsePlus(13,heart,"YellowHooves"));

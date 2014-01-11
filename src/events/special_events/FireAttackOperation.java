@@ -19,7 +19,7 @@ public class FireAttackOperation extends SpecialOperation
 	private boolean shown;
 	private boolean sent;
 	private Card fireAttack;
-	private Card cardShown;
+	//private Card cardShown;
 	//private Card cardDisposed;
 	
 	public FireAttackOperation(PlayerOriginalClientComplete player, Card fireAttack,Update next)
@@ -30,7 +30,7 @@ public class FireAttackOperation extends SpecialOperation
 		this.fireAttack = fireAttack;
 		shown = false;
 		sent = false;
-		cardShown = null;
+		//cardShown = null;
 		//cardDisposed = null;
 	}
 
@@ -63,53 +63,7 @@ public class FireAttackOperation extends SpecialOperation
 	@Override
 	public void onCardSelected(PlayerOriginalClientComplete operator, Card card)
 	{
-		if(!shown)//target selecting card to show
-		{
-			if(cardShown != null)//unselect previous
-			{
-				operator.setCardOnHandSelected(cardShown, false);
-				if(cardShown.equals(card))//unselect
-				{
-					cardShown = null;
-					operator.setConfirmEnabled(false);
-				}
-				else//change
-				{
-					cardShown = card;
-					operator.setCardOnHandSelected(card, true);
-				}
-			}
-			else //select new
-			{
-				cardShown = card;
-				operator.setCardOnHandSelected(card, true);
-				operator.setConfirmEnabled(true);
-			}
-		}
-		else //source selecting card to dispose
-		{
-			cardSelectedAsReaction(operator, card);
-//			if(cardDisposed != null)//unselect previous
-//			{
-//				operator.setCardOnHandSelected(cardDisposed, false);
-//				if(cardDisposed.equals(card))//unselect
-//				{
-//					cardDisposed = null;
-//					operator.setConfirmEnabled(false);
-//				}
-//				else//change
-//				{
-//					cardDisposed = card;
-//					operator.setCardOnHandSelected(card, true);
-//				}
-//			}
-//			else //select new
-//			{
-//				cardDisposed = card;
-//				operator.setCardOnHandSelected(card, true);
-//				operator.setConfirmEnabled(true);
-//			}
-		}
+		cardSelectedAsReaction(operator, card);
 	}
 
 	@Override
@@ -151,7 +105,7 @@ public class FireAttackOperation extends SpecialOperation
 		player.setOperation(null);
 		if(sent && !shown)//confirm showing card
 		{
-			player.setCardOnHandSelected(cardShown, false);
+			player.setCardOnHandSelected(reactionCard, false);
 			player.setAllCardsOnHandSelectable(false);
 			shown = true;
 			player.sendToMaster(this);
@@ -175,7 +129,7 @@ public class FireAttackOperation extends SpecialOperation
 	{
 		if(shown)
 		{
-			player.findMatch(target).showCard(cardShown);
+			player.findMatch(target).showCard(reactionCard);
 		}
 		if(!shown && player.isEqualTo(target))//showing card
 		{
@@ -190,8 +144,9 @@ public class FireAttackOperation extends SpecialOperation
 		else if(shown && player.isEqualTo(source))//choosing card to dispose
 		{
 			for(Card c : player.getCardsOnHand())
-				if(c.getSuit() == cardShown.getSuit())
+				if(c.getSuit() == reactionCard.getSuit())
 					player.setCardSelectable(c, true);
+			reactionCard = null;
 			player.setCancelEnabled(true);
 			player.setOperation(this);
 		}		

@@ -25,6 +25,13 @@ public class IncreaseOfHealth implements Update
 		this.amount = 1;
 		nextEvent = next;
 	}
+	public IncreaseOfHealth(PlayerInfo source, PlayerInfo target, Update next)
+	{
+		this.source = source;
+		this.target = target;
+		this.amount = 1;
+		nextEvent = next;
+	}
 	public void setTarget(PlayerInfo target)
 	{
 		this.target = target;

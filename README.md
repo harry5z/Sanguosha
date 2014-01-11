@@ -74,7 +74,17 @@ Added two instant type cards: Creation and Fire Attack.
 
 Creation: draw two cards from deck.
 
-Fire Attack: Use it against another player or self. Target shows a card on hand, and if attacker can discard a card on hand with the same suit, then target takes 1 damage of element "Fire"
+Fire Attack: Use it against another player or self. Target shows a card on hand, and if attacker can discard a card on hand with the same suit, then target takes 1 damage of element "Fire" from source.
 
 1/10/2014:
-Fixed ExecutorService bug: can now add any number of players
+Fixed ExecutorService bug: can now add any number of players.
+
+Fixed bug in Neutralization: Dead players will not be asked for Neutralization.
+
+Added three special cards: Barbarian Invasion, ArrowSalvo, and Brotherhood.
+
+Barbarian Invasion: From the next player of the current player (who plays this card), each player except source player himself has to play an Attack one by one (the effect of this card can be neutralized on each player too). Those who fails to do so takes 1 damage from source.
+
+Arrow Salvo: very similar to Barbarian Invasion, except that each player plays a Dodge.
+
+Brotherhood: All injured players gain 1 health point (the effect of this card can be neutralized on each player too).

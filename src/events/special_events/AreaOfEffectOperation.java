@@ -1,5 +1,6 @@
 package events.special_events;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 import player.PlayerOriginal;
@@ -12,15 +13,19 @@ import core.PlayerInfo;
 
 public abstract class AreaOfEffectOperation extends SpecialOperation
 {
-	private PlayerInfo source;
-	private Stack<PlayerInfo> targets;
-	private PlayerInfo currentTarget;
+	protected PlayerInfo source;
+	private ArrayList<PlayerInfo> visitedPlayers;
+	protected PlayerInfo currentTarget;
 	private Card aoe;
+	private boolean sent;
 	public AreaOfEffectOperation(PlayerOriginalClientComplete player, Card aoe, Update next) 
 	{
 		super(next, player.getCurrentStage().getSource());
 		this.aoe = aoe;
 		this.source = player.getPlayerInfo();
+		this.currentTarget = player.getNextPlayerAlive();
+		visitedPlayers = new ArrayList<PlayerInfo>();
+		sent = false;
 	}
 
 	@Override
@@ -56,7 +61,7 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 			}
 			else //give up
 			{
-				this.nextStage();
+				setStage(AFTER);
 				player.setAllCardsOnHandSelectable(false);
 				player.setCancelEnabled(false);
 				player.setOperation(null);
@@ -68,15 +73,16 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 	@Override
 	public void onConfirmedBy(PlayerOriginalClientComplete player) 
 	{
-		if(player.isEqualTo(source))//confirm AOE
+		if(!sent)//confirm AOE
 		{
+			sent = true;
 			player.setCardOnHandSelected(aoe, false);
 			player.sendToMaster(new UseOfCards(source,aoe,this));
 		}
 		else//target reacted
 		{
 			player.setCardOnHandSelected(reactionCard, false);
-			continueOperation(player);//next target
+			setStage(AFTER);
 			player.sendToMaster(new UseOfCards(currentTarget,reactionCard,this));
 		}
 	}
@@ -86,6 +92,7 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 	{
 		if(player.isEqualTo(currentTarget))
 		{
+			reactionCard = null;
 			if(!player.isAlive())//already dead
 			{
 				playerOpAfter(player);//next player
@@ -104,17 +111,16 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 	@Override
 	protected void playerOpAfter(PlayerOriginalClientComplete player)
 	{
-		continueOperation(player);
-		player.sendToMaster(this);
-	}
-	private void continueOperation(PlayerOriginalClientComplete player)
-	{
-		if(targets.isEmpty())//cycle complete
+		if(player.isEqualTo(currentTarget))
 		{
-			super.playerOpAfter(player);
-			return;
+			visitedPlayers.add(currentTarget);
+			currentTarget = player.getNextPlayerAlive();
+			setStage(BEFORE);
+			
+			if(currentTarget.equals(source) || visitedPlayers.contains(currentTarget))//cycle complete
+				player.sendToMaster(getNext());
+			else
+				player.sendToMaster(this);
 		}
-		currentTarget = targets.pop();
-		setStage(BEFORE);
 	}
 }

@@ -3,6 +3,7 @@ package specials;
 import player.PlayerOriginalClientComplete;
 import update.Update;
 import core.Operation;
+import events.special_events.BarbarianInvasionOperation;
 
 
 public class BarbarianInvasion extends Instant
@@ -16,7 +17,7 @@ public class BarbarianInvasion extends Instant
 	@Override
 	public String getName() 
 	{
-		return "Barbarian Invasion";
+		return "Barbarian_Invasion";
 	}
 
 	@Override
@@ -25,7 +26,7 @@ public class BarbarianInvasion extends Instant
 		player.setCardOnHandSelected(this, true);
 		player.setCancelEnabled(true);
 		player.setConfirmEnabled(true);
-		return ;
+		return new BarbarianInvasionOperation(player,this,next);
 	}
 
 	@Override

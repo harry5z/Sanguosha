@@ -1,5 +1,10 @@
 package specials;
 
+import player.PlayerOriginalClientComplete;
+import update.Update;
+import core.Operation;
+import events.special_events.ArrowSalvoOperation;
+
 
 public class ArrowSalvo extends Instant
 {
@@ -12,7 +17,22 @@ public class ArrowSalvo extends Instant
 	@Override
 	public String getName()
 	{
-		return "Arrow Salvo";
+		return "Arrow_Salvo";
+	}
+
+	@Override
+	public Operation onActivatedBy(PlayerOriginalClientComplete player,Update next) 
+	{
+		player.setCardOnHandSelected(this, true);
+		player.setCancelEnabled(true);
+		player.setConfirmEnabled(true);
+		return new ArrowSalvoOperation(player,this,next);
+	}
+
+	@Override
+	public boolean isActivatableBy(PlayerOriginalClientComplete player) 
+	{
+		return true;
 	}
 
 }
