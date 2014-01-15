@@ -1,0 +1,12 @@
+# Java class files
+*.class
+
+# generated files
+bin/
+
+# workspace configuration files
+.settings/
+.metadata/
+
+# Mac OS X hidden file
+.DS_Store

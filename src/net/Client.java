@@ -1,6 +1,5 @@
 package net;
 
-
 import gui.PanelGui;
 
 import java.io.IOException;
