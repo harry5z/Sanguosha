@@ -15,7 +15,6 @@ import core.PlayerInfo;
 public class NeutralizationOperation implements Operation
 {
 	private SpecialOperation next;
-	private int alivePlayerCount;
 	private ArrayList<PlayerInfo> cancelledPlayers;
 	private PlayerInfo turnPlayer;
 	private boolean neutralized;
@@ -39,8 +38,7 @@ public class NeutralizationOperation implements Operation
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
 		System.out.println(player.getName()+" NeutralizationOperation ");
-		alivePlayerCount = player.getNumberOfPlayersAlive();
-		if(cancelledPlayers.size() == alivePlayerCount)
+		if(cancelledPlayers.size() == player.getNumberOfPlayersAlive())
 		{
 			player.setOperation(null);
 			if(player.isEqualTo(turnPlayer))

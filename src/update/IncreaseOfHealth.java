@@ -4,15 +4,12 @@ import player.PlayerOriginalClientComplete;
 import core.Framework;
 import core.PlayerInfo;
 
-public class IncreaseOfHealth implements Update
+public class IncreaseOfHealth extends SourceTargetAmount
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1257117652694294645L;
-	private PlayerInfo source;
-	private PlayerInfo target;
-	private int amount;
 	private Update nextEvent;
 	/**
 	 * simple setup: source = target, amount = 1
@@ -20,21 +17,17 @@ public class IncreaseOfHealth implements Update
 	 */
 	public IncreaseOfHealth(PlayerInfo source, Update next)
 	{
-		this.source = source;
-		this.target = source;
-		this.amount = 1;
+		this.setSource(source);
+		this.setTarget(source);
+		this.setAmount(1);
 		nextEvent = next;
 	}
 	public IncreaseOfHealth(PlayerInfo source, PlayerInfo target, Update next)
 	{
-		this.source = source;
-		this.target = target;
-		this.amount = 1;
+		this.setSource(source);
+		this.setTarget(target);
+		this.setAmount(1);
 		nextEvent = next;
-	}
-	public void setTarget(PlayerInfo target)
-	{
-		this.target = target;
 	}
 	@Override
 	public void frameworkOperation(Framework framework) 
@@ -46,13 +39,13 @@ public class IncreaseOfHealth implements Update
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
-		if(player.isEqualTo(target))
+		if(player.isEqualTo(getTarget()))
 		{
-			player.changeHealthCurrentBy(amount);
+			player.changeHealthCurrentBy(getAmount());
 			player.sendToMaster(nextEvent);
 		}
 		else
-			player.findMatch(target).changeHealthCurrentBy(amount);
+			player.findMatch(getTarget()).changeHealthCurrentBy(getAmount());
 	}
 
 }
