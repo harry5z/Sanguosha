@@ -1,28 +1,34 @@
 package update;
 
+import player.PlayerOriginalClientComplete;
+import core.Framework;
 import core.Player;
+import core.PlayerInfo;
+import events.NearDeathEvent;
 
-public class LossOfHealth extends Update
+public class LossOfHealth implements Update
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6030578142962861498L;
-	private Player target;
+	private PlayerInfo target;
 	private int amount;
+	private Update next;
 	
 	/**
 	 * non-damage loss of health, therefore source-less
 	 * @param target : target of damage
 	 * @param amount : amount of damage
 	 */
-	public LossOfHealth(Player target, int amount)
+	public LossOfHealth(PlayerInfo target, int amount,Update next)
 	{
 		this.target = target;
 		this.amount = amount;
+		this.next = next;
 	}
 	
-	public Player getTarget()
+	public PlayerInfo getTarget()
 	{
 		return target;
 	}
@@ -33,23 +39,33 @@ public class LossOfHealth extends Update
 	}
 
 	@Override
-	public void playerOperation(Player player)
+	public void playerOperation(PlayerOriginalClientComplete player)
 	{
-		if(target.equals(player))
+		if(player.isEqualTo(target))
 		{
 			player.changeHealthCurrentBy(-amount);
+			if(player.isDying())
+				player.sendToMaster(new NearDeathEvent(player.getCurrentStage().getSource(),null,target,next));
+			else
+				player.sendToMaster(next);
 		}
 		else
 		{
 			for(Player p : player.getOtherPlayers())
 			{
-				if(p.equals(player))
+				if(p.isEqualTo(target))
 				{
 					p.changeHealthCurrentBy(-amount);
 					return;
 				}
 			}
 		}
+	}
+
+	@Override
+	public void frameworkOperation(Framework framework) 
+	{
+		framework.sendToAllClients(this);
 	}
 
 }
