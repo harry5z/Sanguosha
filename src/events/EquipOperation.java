@@ -4,15 +4,18 @@ import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.DisposalOfEquipment;
 import update.Update;
-import update.UseOfCards;
 import core.Card;
-import core.Equipment;
 import core.Framework;
 import core.Operation;
 import core.PlayerInfo;
+import equipments.Equipment;
 
 public class EquipOperation implements Operation
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4444649804902222892L;
 	private Equipment equipment;
 	private PlayerInfo source;
 	private Update next;
@@ -73,7 +76,7 @@ public class EquipOperation implements Operation
 		player.setOperation(null);
 		player.setCardOnHandSelected(equipment, false);
 		player.setCancelEnabled(false);
-		player.sendToMaster(new UseOfCards(source,equipment,this));
+		player.sendToMaster(this);
 	}
 
 }

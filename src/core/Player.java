@@ -1,8 +1,10 @@
 package core;
 
 import java.util.ArrayList;
+
 import update.*;
 import listener.*;
+import equipments.Equipment;
 import equipments.HorseMinus;
 import equipments.HorsePlus;
 import equipments.Shield;
@@ -232,6 +234,13 @@ public abstract class Player
 		for(Card card : cards)
 			discardCard(card);
 	}
+	/**
+	 * Simply remove from hand, not discarded or used
+	 * <li>{@link CardOnHandListener} notified
+	 * @param card
+	 */
+	public abstract void removeCardFromHand(Card card);
+	
 	public abstract int getCardsOnHandCount();
 	//**************** methods related to equipments ******************
 	public boolean isEquipped()
@@ -303,7 +312,7 @@ public abstract class Player
 			shield = (Shield)equipment;
 			shieldEquipped = true;
 		}
-
+		removeCardFromHand(equipment);
 		return temp;
 	}
 

@@ -101,7 +101,7 @@ public class AttackEvent implements Operation, Event
 			}
 			else if(stage == DODGE_DECISION)//target skills/shields to cancel the attack
 			{
-				if(!player.isEquippedShield() || player.getShield().isRequiredToReact(attack))
+				if(!player.isEquippedShield() || player.getShield().isRequiredToReactTo(attack))
 					//no equipment or equipment cannot cancel the attack
 				{
 					stage = USING_DODGE;

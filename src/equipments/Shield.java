@@ -1,7 +1,6 @@
 package equipments;
 
 import core.Card;
-import core.Equipment;
 
 
 public abstract class Shield extends Equipment
@@ -11,5 +10,5 @@ public abstract class Shield extends Equipment
 	{
 		super(num, suit, Equipment.SHIELD);
 	}
-	public abstract boolean isRequiredToReact(Card card);
+	public abstract boolean isRequiredToReactTo(Card card);
 }

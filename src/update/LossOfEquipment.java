@@ -3,31 +3,24 @@ package update;
 import java.util.ArrayList;
 
 import player.PlayerOriginalClientComplete;
-import core.Card;
 import core.Framework;
 import core.PlayerInfo;
 import equipments.Equipment;
 
-public class DisposalOfEquipment implements Update
+public class LossOfEquipment implements Update
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3882089868279910147L;
+	private static final long serialVersionUID = 6808896498802425889L;
 	private PlayerInfo source;
 	private Update next;
-	private ArrayList<Card> equipments;
-	public DisposalOfEquipment(PlayerInfo source,Equipment card,Update next)
+	private ArrayList<Equipment> equipments;
+	
+	public LossOfEquipment(PlayerInfo source,ArrayList<Equipment> equipments,Update next)
 	{
 		this.source = source;
-		this.equipments = new ArrayList<Card>();
-		equipments.add(card);
-		this.next = next;
-	}
-	public DisposalOfEquipment(PlayerInfo source,ArrayList<Equipment> equipments,Update next)
-	{
-		this.source = source;
-		this.equipments = new ArrayList<Card>();
+		this.equipments = new ArrayList<Equipment>();
 		for(Equipment e : equipments)
 			this.equipments.add(e);
 		this.next = next;
@@ -41,13 +34,17 @@ public class DisposalOfEquipment implements Update
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
-		System.out.println(player.getName()+" DisposalOfEquipment ");
+		System.out.println(player.getName()+" LossOfEquipment ");
 		if(player.isEqualTo(source))
 		{
-			player.showCards(equipments);
+			for(Equipment e : equipments)
+				player.unequip(e.getType());
 			player.sendToMaster(next);
 		}
 		else
-			player.findMatch(source).showCards(equipments);
+		{
+			for(Equipment e : equipments)
+				player.findMatch(source).unequip(e.getType());
+		}
 	}
 }

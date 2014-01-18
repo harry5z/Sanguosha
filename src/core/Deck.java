@@ -45,7 +45,7 @@ public class Deck
 	{
 		used.add(card);
 	}
-	public void discardAll(ArrayList<Card> cards)
+	public void discardAll(ArrayList<? extends Card> cards)
 	{
 		used.addAll(cards);
 	}
@@ -175,7 +175,7 @@ public class Deck
 		if(useEX)
 		{
 //			used.add(new IcySword(2,spade));
-//			used.add(new IronShield(2,club));
+			used.add(new IronShield(2,club));
 //			used.add(new Lightning(12,heart));
 			used.add(new Neutralization(12,diamond));
 		}
@@ -185,9 +185,9 @@ public class Deck
 			used.add(new Neutralization(1,heart));
 //			used.add(new SilverLion(1,club));
 //			used.add(new FeatheredFan(1,diamond));
-//			used.add(new RattenArmor(2,spade));
+			used.add(new RattanArmor(2,spade));
 			used.add(new FireAttack(2,heart));
-//			used.add(new RattenArmor(2,club));
+			used.add(new RattanArmor(2,club));
 			used.add(new Peach(2,diamond));
 			used.add(new Wine(3,spade));
 //			used.add(new Attack(fire,3,heart));

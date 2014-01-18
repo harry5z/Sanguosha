@@ -1,4 +1,10 @@
-package core;
+package equipments;
+
+import player.PlayerOriginalClientComplete;
+import update.Update;
+import core.Card;
+import core.Operation;
+import events.EquipOperation;
 
 /**
  * The "Equipment" type of cards, consisting of all equipments
@@ -35,5 +41,18 @@ public abstract class Equipment extends Card
 	public int getEquipmentType()
 	{
 		return equipmentType;
+	}
+	@Override
+	public Operation onActivatedBy(PlayerOriginalClientComplete player,Update next) 
+	{
+		player.setCardOnHandSelected(this, true);
+		player.setCancelEnabled(true);
+		player.setConfirmEnabled(true);
+		return new EquipOperation(player.getPlayerInfo(),this,next);
+	}
+	@Override
+	public boolean isActivatableBy(PlayerOriginalClientComplete player) 
+	{
+		return true;
 	}
 }

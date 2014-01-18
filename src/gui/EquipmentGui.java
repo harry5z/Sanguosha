@@ -6,7 +6,7 @@ import java.awt.Graphics;
 
 import javax.swing.JButton;
 
-import core.Equipment;
+import equipments.Equipment;
 
 public class EquipmentGui extends JButton
 {

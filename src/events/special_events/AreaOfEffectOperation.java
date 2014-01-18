@@ -1,8 +1,6 @@
 package events.special_events;
 
 import java.util.ArrayList;
-import java.util.Stack;
-
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.Damage;
@@ -13,6 +11,10 @@ import core.PlayerInfo;
 
 public abstract class AreaOfEffectOperation extends SpecialOperation
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4879416749526010430L;
 	protected PlayerInfo source;
 	private ArrayList<PlayerInfo> visitedPlayers;
 	protected PlayerInfo currentTarget;
@@ -86,7 +88,19 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 			player.sendToMaster(new UseOfCards(currentTarget,reactionCard,this));
 		}
 	}
-
+	@Override
+	protected void playerOpBefore(PlayerOriginalClientComplete player)
+	{
+		if(player.isEqualTo(currentTarget))
+		{
+			//here for future skills
+			if(player.isEquippedShield() && !player.getShield().isRequiredToReactTo(aoe))
+				setStage(AFTER);
+			else
+				setStage(NEUTRALIZATION);
+			player.sendToMaster(this);
+		}
+	}
 	@Override
 	protected void playerOpEffect(PlayerOriginalClientComplete player) 
 	{

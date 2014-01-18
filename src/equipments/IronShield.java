@@ -1,12 +1,14 @@
 package equipments;
 
 import basics.Attack;
-import player.PlayerOriginalClientComplete;
 import core.Card;
-
 
 public class IronShield extends Shield
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4370802087723597065L;
 
 	public IronShield(int num, int suit) 
 	{
@@ -20,24 +22,13 @@ public class IronShield extends Shield
 	}
 
 	@Override
-	public void onActivatedBy(PlayerOriginalClientComplete player) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isRequiredToReact(Card card) 
+	public boolean isRequiredToReactTo(Card card) 
 	{
 		if(card instanceof Attack && card.getColor() == Card.BLACK)
 			return false;
 		else
 			return true;
 	}
+
 	
 }

@@ -1,16 +1,11 @@
 package equipments;
 
-import player.PlayerOriginalClientComplete;
-import update.Update;
-import core.Equipment;
-import core.Operation;
-import events.EquipOperation;
-
-
-
-
 public class HorsePlus extends Equipment
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6981646924294901512L;
 	private String name;
 	public HorsePlus(int num, int suit, String name) 
 	{
@@ -25,18 +20,5 @@ public class HorsePlus extends Equipment
 	public String getName()
 	{
 		return name;
-	}
-	@Override
-	public Operation onActivatedBy(PlayerOriginalClientComplete player,Update next) 
-	{
-		player.setCardOnHandSelected(this, true);
-		player.setCancelEnabled(true);
-		player.setConfirmEnabled(true);
-		return new EquipOperation(player.getPlayerInfo(),this,next);
-	}
-	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player) 
-	{
-		return true;
 	}
 }

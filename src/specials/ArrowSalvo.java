@@ -17,7 +17,7 @@ public class ArrowSalvo extends Instant
 	@Override
 	public String getName()
 	{
-		return "Arrow_Salvo";
+		return "Arrow Salvo";
 	}
 
 	@Override

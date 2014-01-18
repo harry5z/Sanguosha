@@ -17,7 +17,7 @@ public class BarbarianInvasion extends Instant
 	@Override
 	public String getName() 
 	{
-		return "Barbarian_Invasion";
+		return "Barbarian Invasion";
 	}
 
 	@Override

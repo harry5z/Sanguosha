@@ -1,7 +1,9 @@
 package player;
 
+import java.util.ArrayList;
+
 import core.Card;
-import core.Equipment;
+import equipments.Equipment;
 import listener.*;
 
 /**
@@ -132,6 +134,17 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 	{
 		disposalListener.onCardDisposed(card);
 	}
+	public void showCards(ArrayList<Card> cards)
+	{
+		for(Card card : cards)
+			showCard(card);
+	}
+	@Override
+	public void removeCardFromHand(Card card)
+	{
+		super.removeCardFromHand(card);
+		cardsOnHandListener.onCardRemoved(card);
+	}
 	/**
 	 * discard an equipment
 	 * <li>{@link EquipmentListener} notified
@@ -158,6 +171,7 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 		equipmentListener.onEquipped(equipment);
 		return e;
 	}
+
 	/**
 	 * {@link HealthListener} notified
 	 */
@@ -166,6 +180,10 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 	{
 		super.kill();
 		healthListener.onDeath();
+		equipmentListener.onUnequipped(Equipment.WEAPON);
+		equipmentListener.onUnequipped(Equipment.SHIELD);
+		equipmentListener.onUnequipped(Equipment.HORSEPLUS);
+		equipmentListener.onUnequipped(Equipment.HORSEMINUS);
 	}
 	public void clearDisposalArea()
 	{

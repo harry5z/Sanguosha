@@ -3,7 +3,7 @@ package gui;
 import javax.swing.JPanel;
 
 import listener.EquipmentListener;
-import core.Equipment;
+import equipments.Equipment;
 
 public class EquipmentRackGui extends JPanel implements EquipmentListener
 {

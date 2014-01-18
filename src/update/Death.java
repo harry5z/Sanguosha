@@ -1,8 +1,11 @@
 package update;
 
+import java.util.ArrayList;
+
 import player.PlayerOriginalClientComplete;
 import core.Framework;
 import core.PlayerInfo;
+import equipments.Equipment;
 
 /**
  * Death update
@@ -36,7 +39,18 @@ public class Death implements Update
 		if(player.isEqualTo(victim))
 		{
 			player.kill();//kill victim
-			player.sendToMaster(new DisposalOfCards(victim,player.getCardsOnHand(),next));//victim discards all cards
+			ArrayList<Equipment> equipmentsToDispose = new ArrayList<Equipment>();
+			if(player.isEquippedWeapon())
+				equipmentsToDispose.add(player.unequip(Equipment.WEAPON));
+			if(player.isEquippedShield())
+				equipmentsToDispose.add(player.unequip(Equipment.SHIELD));
+			if(player.isEquippedHorsePlus())
+				equipmentsToDispose.add(player.unequip(Equipment.HORSEPLUS));
+			if(player.isEquippedHorseMinus())
+				equipmentsToDispose.add(player.unequip(Equipment.HORSEMINUS));
+			//here for decision area
+			//here for player skill cards
+			player.sendToMaster(new DisposalOfCards(victim,player.getCardsOnHand(),new DisposalOfEquipment(victim,equipmentsToDispose,next)));//victim discards all cards
 		}
 		else
 			player.findMatch(victim).kill();

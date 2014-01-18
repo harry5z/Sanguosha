@@ -1,6 +1,5 @@
 package equipments;
 
-import core.Equipment;
 
 
 

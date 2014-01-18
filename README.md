@@ -97,3 +97,10 @@ Plus: when a player is equipped the horse, the distance between the player and a
 Minus: when a player is equipped the horse, the reaching distance of the player is increase by 1 (i.e. easier to reach others).
 
 General rule of equipments: at most one equipment can be equipped for each type (weapon,shield,plus,minus), so when a new equipment is equipped, the old one (of the same type) is discarded.
+
+1/18/2014:
+Added two shields: Iron Shield and Ratten Armor
+
+Iron Shield: makes black "Attack" not effective
+
+Rattan Armor: makes Barbarian Invasion, Arrow Salvo, and normal "Attack" not effective. When taking any damage of element Fire, the damage +1 (not yet implemented).

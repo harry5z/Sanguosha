@@ -12,10 +12,10 @@ import update.Update;
 import listener.ClientListener;
 import listener.GameListener;
 import core.Card;
-import core.Equipment;
 import core.Operation;
 import core.Player;
 import core.PlayerInfo;
+import equipments.Equipment;
 import events.NearDeathEvent;
 import events.TurnDiscardOperation;
 
@@ -113,7 +113,12 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		cardsOnHand.remove(card);
 		super.discardCard(card);
 	}
-	
+	@Override
+	public void removeCardFromHand(Card card)
+	{
+		super.removeCardFromHand(card);
+		cardsOnHand.remove(card);
+	}
 	@Override
 	public Equipment equip(Equipment equipment)
 	{

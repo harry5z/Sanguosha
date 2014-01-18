@@ -50,4 +50,9 @@ public class PlayerOriginalMasterSimple extends PlayerOriginal
 		int amount = damage.getAmount();
 		changeHealthCurrentBy(-amount);
 	}
+	@Override
+	public void removeCardFromHand(Card card)
+	{
+		cardsCount--;
+	}
 }

@@ -14,7 +14,7 @@ import listener.CardOnHandListener;
 import listener.EquipmentListener;
 import listener.HealthListener;
 import core.Card;
-import core.Equipment;
+import equipments.Equipment;
 
 /**
  * Gui of other players, shows life bar, equipments, count of cards on hand, etc. 

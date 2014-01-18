@@ -1,16 +1,21 @@
 package gui;
 
-import javax.swing.JPanel;
 
-import core.Card;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
 import listener.CardDisposalListener;
+import core.Card;
 
 /**
  * Gui of card disposal area, public to all players
  * @author Harry
  *
  */
-public class CardDisposalGui extends JPanel implements CardDisposalListener
+public class CardDisposalGui extends JPanel implements CardDisposalListener, ActionListener
 {
 
 	/**
@@ -22,6 +27,8 @@ public class CardDisposalGui extends JPanel implements CardDisposalListener
 
 	private CardRackGui disposal;
 	private CardRackGui usage;
+	private Timer timer;
+	private int ms;
 	
 	public CardDisposalGui()
 	{
@@ -37,6 +44,8 @@ public class CardDisposalGui extends JPanel implements CardDisposalListener
 		disposal.setSize(WIDTH, CardGui.HEIGHT);
 		disposal.setLocation(0, CardGui.HEIGHT);
 		add(disposal);
+		timer = new Timer(10,this);
+		ms = 0;
 	}
 	@Override
 	public void onCardUsed(Card card) 
@@ -52,7 +61,19 @@ public class CardDisposalGui extends JPanel implements CardDisposalListener
 	@Override
 	public void refresh()
 	{
-		usage.clearRack();
-		disposal.clearRack();
+		timer.start();
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) 
+	{
+		if(ms == 50)
+		{
+			usage.clearRack();
+			disposal.clearRack();
+			timer.stop();
+			ms = 0;
+		}
+		else
+			ms++;
 	}
 }
