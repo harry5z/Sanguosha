@@ -101,11 +101,11 @@ public class Deck
 		used.add(new Dodge(4,diamond));
 //		used.add(new Steal(4,diamond));
 //		used.add(new DragonBlade(5,spade));
-//		used.add(new HorsePlus(5,spade,"Flash"));
+		used.add(new HorsePlus(5,spade,"Flash"));
 //		used.add(new KylinBow(5,heart));
-//		used.add(new HorseMinus(5,heart,"RedHare"));
+		used.add(new HorseMinus(5,heart,"RedHare"));
 		used.add(new Attack(normal,5,club));
-//		used.add(new HorsePlus(5,club,"Dilu"));
+		used.add(new HorsePlus(5,club,"Dilu"));
 		used.add(new Dodge(5,diamond));
 //		used.add(new HeavyAxe(5,diamond));
 //		used.add(new Relaxation(6,spade));
@@ -165,13 +165,13 @@ public class Deck
 		used.add(new Peach(12,diamond));
 //		used.add(new Halbert(12,diamond));
 		used.add(new BarbarianInvasion(13,spade));
-//		used.add(new HorseMinus(13,spade,"DaWan"));
+		used.add(new HorseMinus(13,spade,"DaYuan"));
 		used.add(new Dodge(13,heart));
-//		used.add(new HorsePlus(13,heart,"YellowHooves"));
+		used.add(new HorsePlus(13,heart,"GoldenLightning"));
 //		used.add(new BorrowSword(13,club));
 		used.add(new Neutralization(13,club));
 		used.add(new Attack(normal,13,diamond));
-//		used.add(new HorseMinus(13,diamond,"Purple"));
+		used.add(new HorseMinus(13,diamond,"Purple"));
 		if(useEX)
 		{
 //			used.add(new IcySword(2,spade));
@@ -232,7 +232,7 @@ public class Deck
 			used.add(new Neutralization(13,spade));
 			used.add(new Neutralization(13,heart));
 //			used.add(new Chain(13,club));
-//			used.add(new HorsePlus(13,diamond,"..."));
+			used.add(new HorsePlus(13,diamond,"Hualiu"));
 		}
 		resetDeck();
 	}

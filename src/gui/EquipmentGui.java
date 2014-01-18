@@ -21,6 +21,8 @@ public class EquipmentGui extends JButton
 	{
 		setSize(WIDTH,HEIGHT);
 		setLocation(0,verticalLocation);
+		setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
+		this.setHorizontalAlignment(JButton.CENTER);
 		setEnabled(false);
 		equipment = null;
 	}
@@ -31,19 +33,24 @@ public class EquipmentGui extends JButton
 	public void setEquipment(Equipment equipment)
 	{
 		this.equipment = equipment;
-		repaint();
-	}
-	@Override
-	public void paint(Graphics g)
-	{
-		super.paint(g);
 		if(equipment == null)
-		{
-			g.drawRect(0, 0, WIDTH, HEIGHT);
-			return;
-		}
-		g.setFont(new Font(Font.MONOSPACED, Font.BOLD, HEIGHT));
-		g.setColor(Color.BLACK);
-		g.drawString(equipment.getName(), 0, HEIGHT);
+			setText("");
+		else
+			this.setText(equipment.getName());
+		//repaint();
 	}
+//	@Override
+//	public void paint(Graphics g)
+//	{
+//		super.paint(g);
+//		if(equipment == null)
+//		{
+//			g.drawRect(0, 0, WIDTH, HEIGHT);
+//			return;
+//		}
+//		g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
+//		g.setColor(Color.BLACK);
+//		
+//		g.drawString(equipment.getName(), 0,20);
+//	}
 }

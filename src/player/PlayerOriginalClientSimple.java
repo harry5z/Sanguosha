@@ -135,7 +135,6 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 	/**
 	 * discard an equipment
 	 * <li>{@link EquipmentListener} notified
-	 * <li>{@link CardDisposalListener} notified
 	 * @param type
 	 * @return the equipment discarded
 	 */
@@ -144,13 +143,11 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 	{
 		Equipment e = super.unequip(type);
 		equipmentListener.onUnequipped(type);
-		disposalListener.onCardDisposed(e);
 		return e;
 	}
 	/**
 	 * equip new equipment, return the old one. Return null if nothing is replaced
 	 * <li>{@link EquipmentListener} notified
-	 * <li>{@link CardDisposalListener} notified
 	 * @param equipment : new equipment
 	 * @return old equipment, null if no old equipment
 	 */

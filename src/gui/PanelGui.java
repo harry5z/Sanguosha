@@ -233,6 +233,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.pack();
 		f.setLocation(200,0);
+		f.setResizable(false);
 		f.setVisible(true);
 	}
 }

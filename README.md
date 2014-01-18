@@ -88,3 +88,12 @@ Barbarian Invasion: From the next player of the current player (who plays this c
 Arrow Salvo: very similar to Barbarian Invasion, except that each player plays a Dodge.
 
 Brotherhood: All injured players gain 1 health point (the effect of this card can be neutralized on each player too).
+
+1/17/2014:
+Added HorsePlus and HorseMinus:
+
+Plus: when a player is equipped the horse, the distance between the player and any other play is increased by 1 (i.e. harder to be reached).
+
+Minus: when a player is equipped the horse, the reaching distance of the player is increase by 1 (i.e. easier to reach others).
+
+General rule of equipments: at most one equipment can be equipped for each type (weapon,shield,plus,minus), so when a new equipment is equipped, the old one (of the same type) is discarded.

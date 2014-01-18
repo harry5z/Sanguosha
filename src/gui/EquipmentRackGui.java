@@ -35,7 +35,7 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener
 	@Override
 	public void onEquipped(Equipment equipment)
 	{
-		switch(equipment.getType())
+		switch(equipment.getEquipmentType())
 		{
 			case Equipment.WEAPON:
 				weapon.setEquipment(equipment);

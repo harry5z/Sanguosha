@@ -158,11 +158,15 @@ public class PlayerGui extends JButton
 		{
 			setSize(WIDTH,HEIGHT);
 			setLayout(null);
-			setLocation(0,PanelGui.HEIGHT-HEIGHT);
+			setLocation(0,PlayerGui.HEIGHT-HEIGHT);
 			weapon = new EquipmentGui(0);
 			shield = new EquipmentGui(PlayerGui.EQUIPMENTBAR_HEIGHT);
 			horsePlus = new EquipmentGui(2*PlayerGui.EQUIPMENTBAR_HEIGHT);
 			horseMinus = new EquipmentGui(3*PlayerGui.EQUIPMENTBAR_HEIGHT);
+			weapon.setSize(WIDTH,PlayerGui.EQUIPMENTBAR_HEIGHT);
+			shield.setSize(WIDTH,PlayerGui.EQUIPMENTBAR_HEIGHT);
+			horsePlus.setSize(WIDTH,PlayerGui.EQUIPMENTBAR_HEIGHT);
+			horseMinus.setSize(WIDTH,PlayerGui.EQUIPMENTBAR_HEIGHT);
 			add(weapon);
 			add(shield);
 			add(horsePlus);
@@ -171,7 +175,7 @@ public class PlayerGui extends JButton
 		@Override
 		public void onEquipped(Equipment equipment)
 		{
-			switch(equipment.getType())
+			switch(equipment.getEquipmentType())
 			{
 				case Equipment.WEAPON:
 					weapon.setEquipment(equipment);
