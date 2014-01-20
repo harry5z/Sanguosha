@@ -1,9 +1,6 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-
 import javax.swing.JButton;
 
 import equipments.Equipment;
@@ -38,6 +35,10 @@ public class EquipmentGui extends JButton
 		else
 			this.setText(equipment.getName());
 		//repaint();
+	}
+	public Equipment getEquipment()
+	{
+		return equipment;
 	}
 //	@Override
 //	public void paint(Graphics g)

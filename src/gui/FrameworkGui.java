@@ -6,13 +6,16 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import listener.FrameworkListener;
 import core.Framework;
 
 public class FrameworkGui extends JButton implements Runnable,FrameworkListener,ActionListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3644826715427168652L;
 	private Framework framework;
 	private JFrame frame;
 	public FrameworkGui(Framework f)

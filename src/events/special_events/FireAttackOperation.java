@@ -8,12 +8,14 @@ import update.DisposalOfCards;
 import update.Update;
 import update.UseOfCards;
 import core.Card;
-import core.Framework;
-import core.Operation;
 import core.PlayerInfo;
 
 public class FireAttackOperation extends SpecialOperation
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3276086757026451171L;
 	private PlayerInfo source;
 	private PlayerInfo target;
 	private boolean shown;

@@ -8,6 +8,11 @@ import core.Card;
 public class ArrowSalvoOperation extends AreaOfEffectOperation
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2434095276900355365L;
+
 	public ArrowSalvoOperation(PlayerOriginalClientComplete player, Card aoe,Update next) 
 	{
 		super(player, aoe, next);

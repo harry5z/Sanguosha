@@ -8,6 +8,11 @@ import core.Card;
 public class BarbarianInvasionOperation extends AreaOfEffectOperation
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5344213304608489554L;
+
 	public BarbarianInvasionOperation(PlayerOriginalClientComplete player,Card barbarianInvasion, Update next) 
 	{
 		super(player, barbarianInvasion, next);

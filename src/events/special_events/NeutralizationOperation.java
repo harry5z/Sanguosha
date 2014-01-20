@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import specials.Neutralization;
-import update.Update;
 import update.UseOfCards;
 import core.Card;
 import core.Framework;
@@ -14,6 +13,10 @@ import core.PlayerInfo;
 
 public class NeutralizationOperation implements Operation
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5444652755918048029L;
 	private SpecialOperation next;
 	private ArrayList<PlayerInfo> cancelledPlayers;
 	private PlayerInfo turnPlayer;

@@ -10,6 +10,10 @@ import core.PlayerInfo;
 public class ShowCardOperation implements Operation
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2861496807858561557L;
 	private PlayerInfo target;
 	private Card cardShown;
 	private boolean any;

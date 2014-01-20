@@ -8,6 +8,10 @@ import core.Card;
 public class BrotherhoodOperation extends AreaOfEffectOperation
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8220370748719969280L;
 	public BrotherhoodOperation(PlayerOriginalClientComplete player, Card aoe,Update next)
 	{
 		super(player, aoe, next);

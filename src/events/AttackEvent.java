@@ -1,7 +1,5 @@
 package events;
 
-import java.util.ArrayList;
-
 import core.Card;
 import core.Event;
 import core.Framework;

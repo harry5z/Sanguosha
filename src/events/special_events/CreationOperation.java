@@ -10,6 +10,10 @@ import core.PlayerInfo;
 
 public class CreationOperation extends SpecialOperation
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1410334098472333831L;
 	private PlayerInfo source;
 	private Card creation;
 	

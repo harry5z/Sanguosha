@@ -11,6 +11,10 @@ import core.PlayerInfo;
 
 public class DuelOperation extends SpecialOperation
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5234628931021212612L;
 	private PlayerInfo source;
 	private PlayerInfo target;
 	private Card duel;

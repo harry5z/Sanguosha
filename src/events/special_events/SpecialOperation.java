@@ -1,8 +1,6 @@
 package events.special_events;
 
-import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
-import specials.Neutralization;
 import update.Update;
 import core.Card;
 import core.Framework;
@@ -11,6 +9,10 @@ import core.PlayerInfo;
 
 public abstract class SpecialOperation implements Operation
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4037333002465107383L;
 	protected static final int BEFORE = 1;
 	protected static final int NEUTRALIZATION = 2;
 	protected static final int EFFECT = 3;
