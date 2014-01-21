@@ -98,6 +98,6 @@ public class Client extends Thread
 	}
 	public static void main(String[] args)
 	{
-		new Client().run();
+		new Client().start();
 	}
 }

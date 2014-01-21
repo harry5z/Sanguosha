@@ -34,9 +34,6 @@ public class Wine extends Basic
 	@Override
 	public boolean isActivatableBy(PlayerOriginalClientComplete player) 
 	{
-		if(player.getWineUsed() < player.getWineLimit() && !player.isWineUsed())
-			return true;
-		else
-			return false;
+		return player.getWineUsed() < player.getWineLimit() && !player.isWineUsed();
 	}
 }

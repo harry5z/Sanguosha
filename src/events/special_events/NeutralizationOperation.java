@@ -122,7 +122,7 @@ public class NeutralizationOperation implements Operation
 	@Override
 	public void onConfirmedBy(PlayerOriginalClientComplete player)
 	{
-		cancelledPlayers.clear();;
+		cancelledPlayers.clear();
 		neutralized = !neutralized;
 		player.setAllCardsOnHandSelectable(false);
 		player.setOperation(null);

@@ -26,10 +26,7 @@ public class Peach extends Basic
 	@Override
 	public boolean isActivatableBy(PlayerOriginalClientComplete player) 
 	{
-		if(player.getHealthCurrent() < player.getHealthLimit())
-			return true;
-		else
-			return false;
+		return player.getHealthCurrent() < player.getHealthLimit();
 	}
 	@Override
 	public Operation onActivatedBy(PlayerOriginalClientComplete player, Update next)

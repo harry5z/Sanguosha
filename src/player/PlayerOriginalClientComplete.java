@@ -34,10 +34,10 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	private int wineUsed;//number of wines already used this TURN_DEAL
 	private boolean isWineUsed;//whether wine is currently used
 	
-	private transient GameListener gameListener;
+	private GameListener gameListener;
 	//private settings
-	private transient StageUpdate currentStage;
-	private transient ArrayList<PlayerOriginalClientSimple> otherPlayers;
+	private StageUpdate currentStage;
+	private ArrayList<PlayerOriginalClientSimple> otherPlayers;
 		
 		
 	//in-game interactive properties

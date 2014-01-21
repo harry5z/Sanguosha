@@ -45,10 +45,7 @@ public class Attack extends Basic
 	@Override
 	public boolean isActivatableBy(PlayerOriginalClientComplete player)
 	{
-		if(player.getAttackUsed() < player.getAttackLimit())
-			return true;
-		else
-			return false;
+		return player.getAttackUsed() < player.getAttackLimit();
 	}
 	@Override
 	public Operation onActivatedBy(PlayerOriginalClientComplete player,Update next) 

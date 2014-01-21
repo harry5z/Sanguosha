@@ -13,10 +13,10 @@ import listener.*;
  */
 public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 {
-	private transient HealthListener healthListener;
-	private transient CardOnHandListener cardsOnHandListener;
-	private transient EquipmentListener equipmentListener;
-	private transient CardDisposalListener disposalListener;
+	private HealthListener healthListener;
+	private CardOnHandListener cardsOnHandListener;
+	private EquipmentListener equipmentListener;
+	private CardDisposalListener disposalListener;
 	
 	public PlayerOriginalClientSimple(String name) 
 	{

@@ -197,7 +197,7 @@ public class Master extends Thread
 
 	public static void main(String[] args)
 	{
-		new Master().run();
+		new Master().start();
 	}
 }
 
