@@ -24,7 +24,7 @@ public class IronShield extends Shield
 	@Override
 	public boolean isRequiredToReactTo(Card card) 
 	{
-		return card instanceof Attack && card.getColor() == Card.BLACK;
+		return !(card instanceof Attack && card.getColor() == Card.BLACK);
 	}
 
 	
