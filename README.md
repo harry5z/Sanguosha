@@ -104,3 +104,6 @@ Added two shields: Iron Shield and Ratten Armor
 Iron Shield: makes black "Attack" not effective
 
 Rattan Armor: makes Barbarian Invasion, Arrow Salvo, and normal "Attack" not effective. When taking any damage of element Fire, the damage +1 (not yet implemented).
+
+1/28/2014:
+Added card selection animation

@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.event.ActionListener;
+
 import javax.swing.JPanel;
 
 import listener.EquipmentListener;
@@ -18,7 +20,19 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener
 	private EquipmentGui horsePlus;
 	private EquipmentGui horseMinus;
 	
+	public EquipmentRackGui(ActionListener listener)
+	{
+		init();
+		weapon.addActionListener(listener);
+		shield.addActionListener(listener);
+		horsePlus.addActionListener(listener);
+		horseMinus.addActionListener(listener);
+	}
 	public EquipmentRackGui()
+	{
+		init();
+	}
+	private void init()
 	{
 		setSize(WIDTH,HEIGHT);
 		setLayout(null);

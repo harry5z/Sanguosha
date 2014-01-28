@@ -25,7 +25,6 @@ public class Master extends Thread
 	private ArrayList<PlayerThread> threads;
 	
 	public static final int DEFAULT_PORT = 12345;
-	
 	public Master(int port)
 	{
 		mPort = port;

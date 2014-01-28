@@ -49,7 +49,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 		myself = player;
 		
 		cardRack = new CardRackGui(this);
-		equipmentRack = new EquipmentRackGui();
+		equipmentRack = new EquipmentRackGui(this);
 		heroGui = new HeroGui(this);
 		healthGui = new LifebarGui();
 		disposalGui = new CardDisposalGui();
@@ -226,6 +226,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 	{
 		deckSize.setText(""+size);
 	}
+	@Override
 	public void run()
 	{
 		JFrame f = new JFrame();

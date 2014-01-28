@@ -31,7 +31,7 @@ public class Client extends Thread
 	{
 		executor = Executors.newFixedThreadPool(POOL_SIZE);
 		masterPort = Master.DEFAULT_PORT;
-		masterHost = "128.237.207.126";
+		masterHost = "localhost";
 		player = new PlayerOriginalClientComplete("Player",this);
 		executor.execute(new PanelGui(player));
 	}

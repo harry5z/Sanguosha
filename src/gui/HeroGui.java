@@ -24,6 +24,7 @@ public class HeroGui extends JButton
 		hero = null;
 		setEnabled(false);
 		setSize(WIDTH,HEIGHT);
+		setFont(new Font(Font.MONOSPACED, Font.BOLD, 50));
 		setLocation(PanelGui.WIDTH-LifebarGui.WIDTH-WIDTH,PanelGui.HEIGHT-HEIGHT);
 		addActionListener(listener);
 	}
@@ -31,20 +32,8 @@ public class HeroGui extends JButton
 	public void setHero(Hero hero)
 	{
 		this.hero = hero;
+		setText(hero.getName());
 		repaint();
 	}
 	
-	@Override
-	public void paint(Graphics g)
-	{
-		super.paint(g);
-		g.drawRect(0, 0, WIDTH, HEIGHT);
-		if(hero == null)
-		{
-			return;
-		}
-		g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 50));
-		g.setColor(Color.BLACK);
-		g.drawString(hero.getName(), 0, HEIGHT/2);
-	}
 }

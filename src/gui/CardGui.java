@@ -1,5 +1,7 @@
 package gui;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -12,7 +14,7 @@ import core.Card;
  * @author Harry
  *
  */
-public class CardGui extends JButton
+public class CardGui extends JButton implements ActionListener
 {
 	
 	/**
@@ -27,6 +29,8 @@ public class CardGui extends JButton
 	private Image suit;
 	private Image img;
 	private Image img_darker;
+	private Timer timer;
+	private int currY = 0;
 	public CardGui(Card card)
 	{
 		c = card;	
@@ -34,6 +38,7 @@ public class CardGui extends JButton
 		number = numToString(c.getNumber());
 		readSuit(card.getSuit());
 		readName(c.getName());
+		timer = new Timer(10,this);
 	}
 	private void readName(String name)
 	{
@@ -46,6 +51,26 @@ public class CardGui extends JButton
 		{
 			System.err.println("File not found");
 		}
+	}
+	protected void moveVerticallyTo(int pixels)
+	{
+		timer.stop();
+		currY = pixels;
+		timer.start();
+	}
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		if(getY() < currY)
+		{
+			setLocation(getX(),getY()+1);
+		}
+		else if(getY() > currY)
+		{
+			setLocation(getX(),getY()-1);
+		}
+		else
+			timer.stop();
 	}
 	private void readSuit(int n)
 	{

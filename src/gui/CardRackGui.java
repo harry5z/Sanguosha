@@ -18,17 +18,19 @@ public class CardRackGui extends JPanel implements CardOnHandListener
 	 * 
 	 */
 	private static final long serialVersionUID = -7373800552773539354L;
-	public static final int WIDTH = PanelGui.WIDTH - EquipmentRackGui.WIDTH - HeroGui.WIDTH - LifebarGui.WIDTH;
-	public static final int HEIGHT = 200;
 	private static final int SELECTION_HEIGHT = 20;
+
+	public static final int WIDTH = PanelGui.WIDTH - EquipmentRackGui.WIDTH - HeroGui.WIDTH - LifebarGui.WIDTH;
+
+	public static final int HEIGHT = 200;
 	private ActionListener listener;
 	private ArrayList<CardGui> cards;
 
 	public CardRackGui(ActionListener listener)
 	{
 		setLayout(null);
-		setSize(WIDTH,HEIGHT);
-		setLocation(EquipmentRackGui.WIDTH,PanelGui.HEIGHT-HEIGHT);
+		setSize(WIDTH,HEIGHT+SELECTION_HEIGHT);
+		setLocation(EquipmentRackGui.WIDTH,PanelGui.HEIGHT-HEIGHT-SELECTION_HEIGHT);
 		cards = new ArrayList<CardGui>();
 		this.listener = listener;
 	}
@@ -70,7 +72,7 @@ public class CardRackGui extends JPanel implements CardOnHandListener
 		{
 			if(c.getCard().equals(card))
 			{
-				c.setLocation(c.getX(),c.getY()-SELECTION_HEIGHT);
+				c.moveVerticallyTo(0);
 				repaint();
 				return;
 			}
@@ -81,7 +83,7 @@ public class CardRackGui extends JPanel implements CardOnHandListener
 		for(CardGui c : cards)
 			if(c.getCard().equals(card))
 			{
-				c.setLocation(c.getX(),c.getY()+SELECTION_HEIGHT);
+				c.moveVerticallyTo(SELECTION_HEIGHT);
 				repaint();
 				return;
 			}
@@ -107,15 +109,8 @@ public class CardRackGui extends JPanel implements CardOnHandListener
 		int size = cards.size();
 		for(int i = 0;i < size;i++)
 		{
-			cards.get(i).setLocation(i*stepLength,0);
+			cards.get(i).setLocation(i*stepLength,SELECTION_HEIGHT);
 		}
-	}
-
-	@Override
-	public void paint(Graphics g)
-	{
-		super.paint(g);
-		g.drawRect(0, 0, getWidth(), getHeight());
 	}
 
 }
