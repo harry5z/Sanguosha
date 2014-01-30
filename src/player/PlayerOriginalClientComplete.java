@@ -9,6 +9,8 @@ import update.Damage;
 import update.DrawCardsFromDeck;
 import update.StageUpdate;
 import update.Update;
+import update.operations.NearDeathEvent;
+import update.operations.TurnDiscardOperation;
 import listener.ClientListener;
 import listener.GameListener;
 import core.Card;
@@ -16,8 +18,6 @@ import core.Operation;
 import core.Player;
 import core.PlayerInfo;
 import equipments.Equipment;
-import events.NearDeathEvent;
-import events.TurnDiscardOperation;
 
 /**
  * client side complete implementation of player, used as player himself
@@ -158,12 +158,6 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	{
 		System.out.println("Taking damage "+damage.getAmount());
 		super.takeDamage(damage);
-		if(isDying())
-		{
-			client.sendToMaster(new NearDeathEvent(currentStage.getSource(),damage.getSource(),getPlayerInfo(),damage.getNext()));
-		}
-		else
-			client.sendToMaster(damage.getNext());
 	}
 	/**
 	 * <li>{@link GameListener} notified
@@ -473,12 +467,17 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		return next.getPlayerInfo();
 	}
 
+	/**
+	 * Find the match of player, can be this player or other players
+	 * @param p
+	 * @return the match
+	 */
 	public PlayerOriginalClientSimple findMatch(PlayerInfo p)
 	{
 		for(PlayerOriginalClientSimple player : otherPlayers)
-			if(player.isEqualTo(p))
+			if(player.matches(p))
 				return player;
-		if(this.isEqualTo(p))
+		if(this.matches(p))
 			return this;
 		return null;
 	}

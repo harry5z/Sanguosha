@@ -3,8 +3,8 @@ package specials;
 import player.PlayerOriginalClientComplete;
 import player.PlayerOriginalClientSimple;
 import update.Update;
+import update.operations.special_operations.FireAttackOperation;
 import core.Operation;
-import events.special_events.FireAttackOperation;
 
 public class FireAttack extends Instant
 {

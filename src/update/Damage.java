@@ -3,6 +3,7 @@ package update;
 import java.util.ArrayList;
 
 import player.PlayerOriginalClientComplete;
+import update.operations.NearDeathEvent;
 import basics.Attack;
 import core.*;
 
@@ -11,19 +12,28 @@ import core.*;
  * @author Harry
  *
  */
-public class Damage extends SourceTargetAmount implements Event
+public class Damage implements Update
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4543012418271735342L;
-	private int element;
+	public static final byte TARGET_HERO_SKILLS = 1;
+	public static final byte TARGET_EQUIPMENT_SKILLS = 2;
+	public static final byte TARGET_CHECK_CHAINED = 3;
+	public static final byte TARGET_DAMAGE = 4;
+	public static final byte SOURCE_HERO_SKILLS_AFTER_DAMAGE = 5;
+	public static final byte TARGET_HERO_SKILLS_AFTER_DAMAGE = 6;
+	
+	
+	private Element element;
 	private int amount;
 	private ArrayList<Card> cardsCausingDamage;
 	private Card cardUsedAs;
 	private PlayerInfo source;
 	private PlayerInfo target;
-	private Update nextEvent;
+	private Update next;
+	private byte stage;
 	/**
 	 * Default setup of damage, used as simple damage caused by 1 card:
 	 * <ol>
@@ -39,14 +49,15 @@ public class Damage extends SourceTargetAmount implements Event
 	 */
 	public Damage(Card cardUsed, PlayerInfo source, PlayerInfo target, Update next)
 	{
-		element = Attack.NORMAL;
-		amount = 1;
+		this.element = Element.NORMAL;
+		this.amount = 1;
 		this.source = source;
 		this.target = target;
-		cardUsedAs = cardUsed;
-		cardsCausingDamage = new ArrayList<Card>(1);
-		cardsCausingDamage.add(cardUsedAs);
-		nextEvent = next;
+		this.cardUsedAs = cardUsed;
+		this.cardsCausingDamage = new ArrayList<Card>(1);
+		this.cardsCausingDamage.add(cardUsedAs);
+		this.next = next;
+		this.stage = TARGET_HERO_SKILLS;
 	}
 	/**
 	 * Setup of non-card damage (caused by skills, etc.)
@@ -56,31 +67,37 @@ public class Damage extends SourceTargetAmount implements Event
 	 * @param source : source of damage
 	 * @param target : target of damage
 	 */
-	public Damage(int amount, int element, PlayerInfo source, PlayerInfo target, Update next)
+	public Damage(int amount, Element element, PlayerInfo source, PlayerInfo target, Update next)
 	{
 		this.amount = amount;
 		this.element = element;
 		this.source = source;
 		this.target = target;
-		cardsCausingDamage = null;
-		cardUsedAs = null;
-		nextEvent = next;
+		this.cardsCausingDamage = null;
+		this.cardUsedAs = null;
+		this.next = next;
+		this.stage = TARGET_HERO_SKILLS;
+
 	}
 	public Update getNext()
 	{
-		return nextEvent;
+		return next;
 	}
 	/**
 	 * element == one of Fire/Thunder/Normal
 	 * @param element
 	 */
-	public void setElement(int element)
+	public void setElement(Element element)
 	{
 		this.element = element;
 	}
-	public int getElement()
+	public Element getElement()
 	{
 		return element;
+	}
+	public void setAmount(int amount)
+	{
+		this.amount = amount;
 	}
 	public int getAmount()
 	{
@@ -122,7 +139,6 @@ public class Damage extends SourceTargetAmount implements Event
 	 * source can be null, which represents "source-less" damage
 	 * @return
 	 */
-	@Override
 	public PlayerInfo getSource()
 	{
 		return source;
@@ -131,34 +147,64 @@ public class Damage extends SourceTargetAmount implements Event
 	 * there must be a target
 	 * @return
 	 */
-	@Override
 	public PlayerInfo getTarget()
 	{
 		return target;
+	}
+	private void next(PlayerOriginalClientComplete player)
+	{
+		stage++;
+		player.sendToMaster(this);		
 	}
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
 		System.out.println(player.getName()+" Damage ");
-		if(player.isEqualTo(target))
-		{
-			player.takeDamage(this);
-		}
-		else
-		{
+		if(stage == TARGET_DAMAGE)
 			player.findMatch(target).takeDamage(this);
+		if(player.matches(target))
+		{
+			if(stage == TARGET_HERO_SKILLS)
+			{
+				next(player);
+			}
+			else if(stage == TARGET_EQUIPMENT_SKILLS)
+			{
+				if(player.isEquippedShield())
+				{
+					player.getShield().modifyDamage(this);
+				}
+				next(player);
+			}
+			else if(stage == TARGET_CHECK_CHAINED)
+			{
+				next(player);
+			}
+			else if(stage == TARGET_DAMAGE)
+			{	
+				if(player.isDying())
+				{
+					stage++;
+					player.sendToMaster(new NearDeathEvent(player.getCurrentStage().getSource(),source,target,this));
+				}
+				else
+					next(player);
+			}
+			else if(stage == TARGET_HERO_SKILLS_AFTER_DAMAGE)
+			{
+				player.sendToMaster(next);
+			}
 		}
-		
+		if(player.matches(source))
+		{
+			if(stage == SOURCE_HERO_SKILLS_AFTER_DAMAGE)
+				next(player);
+		}
 	}
 	@Override
 	public void frameworkOperation(Framework framework) 
 	{
 		framework.sendToAllClients(this);
-	}
-	@Override
-	public void nextStep() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

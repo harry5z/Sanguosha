@@ -2,8 +2,8 @@ package specials;
 
 import player.PlayerOriginalClientComplete;
 import update.Update;
+import update.operations.special_operations.ArrowSalvoOperation;
 import core.Operation;
-import events.special_events.ArrowSalvoOperation;
 
 
 public class ArrowSalvo extends Instant

@@ -2,8 +2,8 @@ package specials;
 
 import player.PlayerOriginalClientComplete;
 import update.Update;
+import update.operations.special_operations.DuelOperation;
 import core.Operation;
-import events.special_events.DuelOperation;
 
 
 

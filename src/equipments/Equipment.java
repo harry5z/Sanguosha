@@ -2,9 +2,9 @@ package equipments;
 
 import player.PlayerOriginalClientComplete;
 import update.Update;
+import update.operations.EquipOperation;
 import core.Card;
 import core.Operation;
-import events.EquipOperation;
 
 /**
  * The "Equipment" type of cards, consisting of all equipments

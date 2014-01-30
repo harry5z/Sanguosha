@@ -65,7 +65,7 @@ public class StageUpdate implements Event
 		System.out.println(source.getName() +" Stage "+stage);
 		player.setCurrentStage(this);
 		player.clearDisposalArea();
-		if(player.isEqualTo(source))
+		if(player.matches(source))
 		{
 			if(!player.isAlive())
 			{

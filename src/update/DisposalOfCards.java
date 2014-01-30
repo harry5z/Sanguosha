@@ -54,7 +54,7 @@ public class DisposalOfCards implements Update
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
 		System.out.println(player.getName()+" DisposalOfCards ");
-		if(player.isEqualTo(source))
+		if(player.matches(source))
 		{
 			player.discardCards(cards);
 			player.sendToMaster(next);

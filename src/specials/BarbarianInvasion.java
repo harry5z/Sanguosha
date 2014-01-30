@@ -2,8 +2,8 @@ package specials;
 
 import player.PlayerOriginalClientComplete;
 import update.Update;
+import update.operations.special_operations.BarbarianInvasionOperation;
 import core.Operation;
-import events.special_events.BarbarianInvasionOperation;
 
 
 public class BarbarianInvasion extends Instant

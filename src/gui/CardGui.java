@@ -52,10 +52,10 @@ public class CardGui extends JButton implements ActionListener
 			System.err.println("File not found");
 		}
 	}
-	protected void moveVerticallyTo(int pixels)
+	protected void moveVerticallyTo(int pixel)
 	{
 		timer.stop();
-		currY = pixels;
+		currY = pixel;
 		timer.start();
 	}
 	@Override

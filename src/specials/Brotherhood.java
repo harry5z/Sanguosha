@@ -2,8 +2,8 @@ package specials;
 
 import player.PlayerOriginalClientComplete;
 import update.Update;
+import update.operations.special_operations.BrotherhoodOperation;
 import core.Operation;
-import events.special_events.BrotherhoodOperation;
 
 public class Brotherhood extends Instant
 {

@@ -39,7 +39,7 @@ public class IncreaseOfHealth extends SourceTargetAmount
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
-		if(player.isEqualTo(getTarget()))
+		if(player.matches(getTarget()))
 		{
 			player.changeHealthCurrentBy(getAmount());
 			player.sendToMaster(nextEvent);

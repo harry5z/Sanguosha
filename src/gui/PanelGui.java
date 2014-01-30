@@ -173,7 +173,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 	public void onTargetSelected(PlayerInfo player)
 	{
 		for(PlayerGui p : otherPlayers)
-			if(p.getPlayer().isEqualTo(player))
+			if(p.getPlayer().matches(player))
 			{
 				p.setLocation(p.getX(),p.getY()+SELECTION_HEIGHT);
 				return;
@@ -183,7 +183,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 	public void onTargetUnselected(PlayerInfo player)
 	{
 		for(PlayerGui p : otherPlayers)
-			if(p.getPlayer().isEqualTo(player))
+			if(p.getPlayer().matches(player))
 			{
 				p.setLocation(p.getX(),p.getY()-SELECTION_HEIGHT);
 				return;
@@ -197,10 +197,10 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 	@Override
 	public void onTargetSetSelectable(PlayerInfo player, boolean selectable)
 	{
-		if(myself.isEqualTo(player))
+		if(myself.matches(player))
 			heroGui.setEnabled(selectable);
 		for(PlayerGui p : otherPlayers)
-			if(p.getPlayer().isEqualTo(player))
+			if(p.getPlayer().matches(player))
 			{
 				p.setEnabled(selectable);
 				return;

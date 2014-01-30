@@ -1,10 +1,10 @@
 package update;
 
 import player.PlayerOriginalClientComplete;
+import update.operations.decision_operations.DecisionOperation;
 import core.Card;
 import core.Framework;
 import core.PlayerInfo;
-import events.decision_events.DecisionOperation;
 
 public class Decision implements Update
 {
@@ -29,7 +29,7 @@ public class Decision implements Update
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
 		player.showCard(decision);
-		if(player.isEqualTo(source))
+		if(player.matches(source))
 		{
 			next.setResult(decision);
 			player.sendToMaster(next);

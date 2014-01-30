@@ -2,8 +2,8 @@ package specials;
 
 import player.PlayerOriginalClientComplete;
 import update.Update;
+import update.operations.special_operations.CreationOperation;
 import core.Operation;
-import events.special_events.CreationOperation;
 
 public class Creation extends Instant
 {

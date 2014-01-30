@@ -48,7 +48,7 @@ public class DrawCardsFromDeck implements Update
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
 		player.setDeckSize(deckSize);
-		if(player.isEqualTo(source))
+		if(player.matches(source))
 		{
 			player.addCards(cards);
 			if(nextEvent != null)

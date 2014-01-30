@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JPanel;

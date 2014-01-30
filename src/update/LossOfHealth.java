@@ -1,10 +1,10 @@
 package update;
 
 import player.PlayerOriginalClientComplete;
+import update.operations.NearDeathEvent;
 import core.Framework;
 import core.Player;
 import core.PlayerInfo;
-import events.NearDeathEvent;
 
 public class LossOfHealth implements Update
 {
@@ -41,7 +41,7 @@ public class LossOfHealth implements Update
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
-		if(player.isEqualTo(target))
+		if(player.matches(target))
 		{
 			player.changeHealthCurrentBy(-amount);
 			if(player.isDying())
@@ -53,7 +53,7 @@ public class LossOfHealth implements Update
 		{
 			for(Player p : player.getOtherPlayers())
 			{
-				if(p.isEqualTo(target))
+				if(p.matches(target))
 				{
 					p.changeHealthCurrentBy(-amount);
 					return;

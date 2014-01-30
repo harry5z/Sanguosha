@@ -36,7 +36,7 @@ public class Death implements Update
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
 		System.out.println(player.getName()+" Death ");
-		if(player.isEqualTo(victim))
+		if(player.matches(victim))
 		{
 			player.kill();//kill victim
 			ArrayList<Equipment> equipmentsToDispose = new ArrayList<Equipment>();

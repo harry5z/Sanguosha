@@ -42,7 +42,7 @@ public class DisposalOfEquipment implements Update
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
 		System.out.println(player.getName()+" DisposalOfEquipment ");
-		if(player.isEqualTo(source))
+		if(player.matches(source))
 		{
 			player.showCards(equipments);
 			player.sendToMaster(next);

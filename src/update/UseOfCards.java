@@ -62,7 +62,7 @@ public class UseOfCards implements Update
 	public void playerOperation(PlayerOriginalClientComplete player)
 	{
 		System.out.println(player.getName()+" UseOfCards ");
-		if(player.isEqualTo(source))
+		if(player.matches(source))
 		{
 			player.useCards(cardsUsed);
 			player.sendToMaster(nextEvent);

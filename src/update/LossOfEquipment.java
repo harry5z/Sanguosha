@@ -35,7 +35,7 @@ public class LossOfEquipment implements Update
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
 		System.out.println(player.getName()+" LossOfEquipment ");
-		if(player.isEqualTo(source))
+		if(player.matches(source))
 		{
 			for(Equipment e : equipments)
 				player.unequip(e.getType());

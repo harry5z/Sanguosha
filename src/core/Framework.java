@@ -60,7 +60,7 @@ public class Framework
 	public PlayerOriginalMasterSimple findMatch(PlayerInfo p)
 	{
 		for(PlayerOriginalMasterSimple player : players)
-			if(player.isEqualTo(p))
+			if(player.matches(p))
 				return player;
 		return null;
 	}

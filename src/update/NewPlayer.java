@@ -30,12 +30,12 @@ public class NewPlayer implements Update
 	public void playerOperation(PlayerOriginalClientComplete player) 
 	{
 		int newPos = allPlayers.size();
-		if(player.isEqualTo(newPlayer))
+		if(player.matches(newPlayer))
 		{
 			player.setPosition(newPos);
 			for(PlayerInfo p : allPlayers)
 			{
-				if(!player.isEqualTo(p))
+				if(!player.matches(p))
 					player.addOtherPlayer(p);
 				else
 					player.setName(p.getName());

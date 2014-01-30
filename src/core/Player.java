@@ -7,8 +7,8 @@ import listener.*;
 import equipments.Equipment;
 import equipments.HorseMinus;
 import equipments.HorsePlus;
-import equipments.Shield;
-import equipments.Weapon;
+import equipments.shields.Shield;
+import equipments.weapons.Weapon;
 
 /**
  * The player class, defines common traits of different implementations of players
@@ -399,7 +399,7 @@ public abstract class Player
 	 * @param p
 	 * @return 
 	 */
-	public boolean isEqualTo(PlayerInfo p)
+	public boolean matches(PlayerInfo p)
 	{
 		return position == p.getPosition();
 	}

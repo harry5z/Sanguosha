@@ -2,9 +2,9 @@ package basics;
 
 import player.PlayerOriginalClientComplete;
 import update.Update;
+import update.operations.WineOperation;
 import core.Basic;
 import core.Operation;
-import events.WineOperation;
 
 
 public class Wine extends Basic
