@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import listener.FrameworkListener;
 import net.Master;
+import player.Player;
 import player.PlayerOriginalMasterSimple;
 import update.DrawCardsFromDeck;
 import update.StageUpdate;

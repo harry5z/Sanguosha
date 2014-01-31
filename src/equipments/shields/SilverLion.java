@@ -6,6 +6,11 @@ import core.Card;
 public class SilverLion extends Shield
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4821532886423359596L;
+
 	public SilverLion(int num, int suit) 
 	{
 		super(num, suit);
@@ -18,7 +23,7 @@ public class SilverLion extends Shield
 	}
 
 	@Override
-	public boolean isRequiredToReactTo(Card card) 
+	public boolean mustReactTo(Card card) 
 	{
 		return true;
 	}

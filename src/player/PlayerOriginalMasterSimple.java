@@ -1,6 +1,5 @@
 package player;
 
-import update.Damage;
 import core.Card;
 
 /**
@@ -45,9 +44,8 @@ public class PlayerOriginalMasterSimple extends PlayerOriginal
 		return cardsCount;
 	}
 	@Override
-	public void takeDamage(Damage damage)
+	public void takeDamage(int amount)
 	{
-		int amount = damage.getAmount();
 		changeHealthCurrentBy(-amount);
 	}
 	@Override

@@ -190,21 +190,7 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 		disposalListener.refresh();
 	}
 	//*************** method related to stages *****************
-	public void startDealing()
-	{
-		
-	}
-	public void endDealing()
-	{
-		
-	}
-	public void turnDiscard() 
-	{
-		
-	}
-	public void endTurn()
-	{
-		
-	}
+
+
 
 }

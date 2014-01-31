@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import player.PlayerOriginalClientComplete;
 import update.operations.NearDeathEvent;
-import basics.Attack;
 import core.*;
 
 /**
@@ -161,7 +160,7 @@ public class Damage implements Update
 	{
 		System.out.println(player.getName()+" Damage ");
 		if(stage == TARGET_DAMAGE)
-			player.findMatch(target).takeDamage(this);
+			player.findMatch(target).takeDamage(amount);
 		if(player.matches(target))
 		{
 			if(stage == TARGET_HERO_SKILLS)

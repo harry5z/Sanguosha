@@ -43,6 +43,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 	private ButtonGui end;
 	
 	private JLabel deckSize;
+	private MessageBoxGui messageBox;
 	public PanelGui(PlayerOriginalClientComplete player)
 	{
 		setLayout(null);
@@ -58,6 +59,9 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 		deckSize.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
 		deckSize.setSize(100,100);
 		deckSize.setLocation(WIDTH-100,PlayerGui.HEIGHT);
+		messageBox = new MessageBoxGui();
+		messageBox.setLocation(equipmentRack.getWidth(),HEIGHT - cardRack.getHeight() - MessageBoxGui.HEIGHT);
+
 
 		myself.setHero(new Blank());//change in the future
 		heroGui.setHero(myself.getHero());
@@ -87,6 +91,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 		add(cancel);
 		add(end);
 		add(deckSize);
+		add(messageBox);
 	}
 	@Override
 	public void onPlayerAdded(PlayerOriginalClientSimple player)
@@ -225,6 +230,16 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 	public void onDeckSizeUpdated(int size)
 	{
 		deckSize.setText(""+size);
+	}
+	@Override
+	public void onSetMessage(String message)
+	{
+		messageBox.setMessage(message);
+	}
+	@Override
+	public void onClearMessage()
+	{
+		messageBox.clearMessage();
 	}
 	@Override
 	public void run()

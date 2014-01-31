@@ -63,5 +63,9 @@ public class CreationOperation extends SpecialOperation
 			player.sendToMaster(new DrawCardsFromDeck(player.getPlayerInfo(),2,this));
 		}
 	}
-
+	@Override
+	public String getName()
+	{
+		return "Creation";
+	}
 }

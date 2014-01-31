@@ -63,4 +63,8 @@ public interface GameListener
 	 * @param size
 	 */
 	public void onDeckSizeUpdated(int size);
+	
+	public void onSetMessage(String message);
+	
+	public void onClearMessage();
 }

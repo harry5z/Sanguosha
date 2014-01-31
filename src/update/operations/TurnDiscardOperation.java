@@ -47,12 +47,14 @@ public class TurnDiscardOperation implements Operation
 		System.out.println(player.getName()+" DiscardOperation ");
 		if(player.matches(source))
 		{
-			if(player.getCardsOnHandCount() == player.getCardOnHandLimit())//meets requirement
+			int numToDiscard = player.getCardsOnHandCount() - player.getCardOnHandLimit();
+			if(numToDiscard == 0)//meets requirement
 				player.sendToMaster(next);//continue the game
 			else
 			{
 				player.setOperation(this);//push to operation
 				player.setAllCardsOnHandSelectable(true);//discard any card on hand
+				player.getGameListener().onSetMessage("You need to discard "+numToDiscard+" cards");
 			}
 		}
 	}

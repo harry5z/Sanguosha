@@ -22,8 +22,13 @@ public class ArrowSalvoOperation extends AreaOfEffectOperation
 	protected void targetOp(PlayerOriginalClientComplete target) 
 	{
 		target.setCardSelectableByName(Dodge.DODGE, true);
+		target.getGameListener().onSetMessage("You are targeted by Arrow Salvo, do you use Attack?");
 		target.setCancelEnabled(true);
 		target.setOperation(this);		
 	}
-
+	@Override
+	public String getName()
+	{
+		return "Arrow Salvo";
+	}
 }

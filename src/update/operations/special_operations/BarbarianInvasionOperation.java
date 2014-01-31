@@ -22,8 +22,15 @@ public class BarbarianInvasionOperation extends AreaOfEffectOperation
 	protected void targetOp(PlayerOriginalClientComplete target) 
 	{
 		target.setCardSelectableByName(Attack.ATTACK, true);
+		target.setCardSelectableByName(Attack.FIRE_ATTACK, true);
+		target.setCardSelectableByName(Attack.THUNDER_ATTACK, true);
+		target.getGameListener().onSetMessage("You are targeted by Barbarian Invasion, do you use Attack?");
 		target.setCancelEnabled(true);
 		target.setOperation(this);
 	}
-
+	@Override
+	public String getName()
+	{
+		return "Barbarian Invasion";
+	}
 }

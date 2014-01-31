@@ -1,8 +1,10 @@
-package core;
+package player;
 
 import java.util.ArrayList;
 
-import update.*;
+import core.Card;
+import core.Hero;
+import core.PlayerInfo;
 import listener.*;
 import equipments.Equipment;
 import equipments.HorseMinus;
@@ -35,7 +37,6 @@ public abstract class Player
 	private boolean horseMinusEquipped;
 	
 	//********* cards other than cardsOnHand, public to all other players *********
-	private ArrayList<Card> decisionArea;//not implemented yet
 	private Weapon weapon;
 	private Shield shield;
 	private HorsePlus horsePlus;
@@ -65,7 +66,6 @@ public abstract class Player
 
 		
 		//init other properties
-		decisionArea = new ArrayList<Card>();
 		weapon = null;
 		shield = null;
 		horsePlus = null;
@@ -379,7 +379,7 @@ public abstract class Player
 		return getDistanceTo(player, numberOfPlayersAlive) <= getReachDistance();
 	}
 	//************** methods related to damage *******************
-	public abstract void takeDamage(Damage damage);
+	public abstract void takeDamage(int amount);
 
 	@Override
 	public int hashCode()

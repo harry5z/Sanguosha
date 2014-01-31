@@ -144,12 +144,19 @@ public class DuelOperation extends SpecialOperation
 		if(player.matches(target))
 		{
 			System.out.println(player.getName()+" DuelOperation ");
+			player.getGameListener().onSetMessage("You are being dueled, please use an Attack");
 			player.setCardSelectableByName(Attack.ATTACK, true);
+			player.setCardSelectableByName(Attack.FIRE_ATTACK, true);
+			player.setCardSelectableByName(Attack.THUNDER_ATTACK, true);
 			player.setCancelEnabled(true);
 			player.setOperation(this);
 		}
 		
 	}
-
+	@Override
+	public String getName()
+	{
+		return "Duel";
+	}
 	
 }

@@ -2,9 +2,9 @@ package update;
 
 import java.util.ArrayList;
 
+import player.Player;
 import player.PlayerOriginalClientComplete;
 import core.Framework;
-import core.Player;
 import core.PlayerInfo;
 
 public class NewPlayer implements Update

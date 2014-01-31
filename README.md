@@ -116,3 +116,6 @@ Attack(Fire/Thunder): an Attack that carries Fire/Thunder element
 Silver Lion: Taking at most 1 damage each time. Gain 1 health point when un-equiping Silver Lion.
 
 Rattan Armor: Fire damage +1 implemented
+
+1/31/2014:
+Added MessageBox on main panel. Now players will know what they are reacting to.

@@ -5,17 +5,12 @@ import heroes.Blank;
 import java.util.ArrayList;
 
 import net.Client;
-import update.Damage;
-import update.DrawCardsFromDeck;
 import update.StageUpdate;
 import update.Update;
-import update.operations.NearDeathEvent;
-import update.operations.TurnDiscardOperation;
 import listener.ClientListener;
 import listener.GameListener;
 import core.Card;
 import core.Operation;
-import core.Player;
 import core.PlayerInfo;
 import equipments.Equipment;
 
@@ -77,6 +72,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		wineUsed = 0;
 		isWineUsed = false;
 	}
+	
 	@Override
 	public void onNotified(Update update)
 	{
@@ -86,6 +82,10 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	public void registerGameListener(GameListener listener)
 	{
 		gameListener = listener;
+	}
+	public GameListener getGameListener()
+	{
+		return gameListener;
 	}
 	public ArrayList<Card> getCardsOnHand()
 	{
@@ -153,12 +153,6 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	{
 		return otherPlayers;
 	}
-	@Override
-	public void takeDamage(Damage damage)
-	{
-		System.out.println("Taking damage "+damage.getAmount());
-		super.takeDamage(damage);
-	}
 	/**
 	 * <li>{@link GameListener} notified
 	 * @param update
@@ -176,16 +170,9 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		return currentStage;
 	}
 	//**************** methods related to game flow ***************
-	public void drawCards()
-	{
-		currentStage.nextStage(this);
-		DrawCardsFromDeck update = new DrawCardsFromDeck(getPlayerInfo(),2,currentStage);
-		sendToMaster(update);
-	}
 	/**
 	 * <li>{@link GameListener} notified
 	 */
-	@Override
 	public void startDealing()
 	{
 		gameListener.onEndSetEnabled(true);
@@ -204,7 +191,6 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	 * <li>No update to send
 	 * <li>confirm disabled
 	 */
-	@Override
 	public void endDealing()
 	{
 		if(operation != null)
@@ -221,24 +207,8 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 		currentStage.nextStage(this);
 		client.sendToMaster(currentStage);
 	}
-	@Override
-	public void turnDiscard()
-	{
-		if(getCardsOnHandCount() <= getCardOnHandLimit())
-		{
-			currentStage.nextStage(this);
-			client.sendToMaster(currentStage);
-		}
-		else
-		{
-			currentStage.nextStage(this);
-			client.sendToMaster(new TurnDiscardOperation(getPlayerInfo(),currentStage));
-		}
-	}
-	@Override
 	public void endTurn()
 	{
-		super.endTurn();
 		attackUsed = 0;
 		wineUsed = 0;
 		isWineUsed = false;
@@ -413,6 +383,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	 */
 	public void confirm()
 	{
+		gameListener.onClearMessage();
 		disableAll();
 		Operation temp = operation;
 		operation = null;
@@ -426,6 +397,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	 */
 	public void cancel()
 	{
+		gameListener.onClearMessage();
 		cardActivated = null;
 		Operation temp = operation;
 		operation = null;

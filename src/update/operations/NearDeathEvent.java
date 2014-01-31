@@ -82,9 +82,11 @@ public class NearDeathEvent implements Operation
 				player.setOperation(this);//push to operation
 				player.setCancelEnabled(true);//can refuse to give peach
 				player.setCardSelectableByName(Peach.PEACH, true);//peach enabled
+				player.getGameListener().onSetMessage(dyingPlayer.getName() + " is dying, do you use a peach?");
 				if(player.matches(dyingPlayer))//if dying player himself
 				{
 					player.setCardSelectableByName(Wine.WINE, true);//wine also usable
+					player.getGameListener().onSetMessage("You are dying, do you use wine or peach?");
 				}
 				
 			}

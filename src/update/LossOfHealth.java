@@ -1,9 +1,9 @@
 package update;
 
+import player.Player;
 import player.PlayerOriginalClientComplete;
 import update.operations.NearDeathEvent;
 import core.Framework;
-import core.Player;
 import core.PlayerInfo;
 
 public class LossOfHealth implements Update

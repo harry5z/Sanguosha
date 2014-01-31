@@ -99,7 +99,7 @@ public class AttackEvent implements Operation, Event
 			}
 			else if(stage == DODGE_DECISION)//target skills/shields to cancel the attack
 			{
-				if(!player.isEquippedShield() || player.getShield().isRequiredToReactTo(attack))
+				if(!player.isEquippedShield() || player.getShield().mustReactTo(attack))
 					//no equipment or equipment cannot cancel the attack
 				{
 					stage = USING_DODGE;
@@ -116,6 +116,7 @@ public class AttackEvent implements Operation, Event
 				player.setOperation(this);//push it to operation
 				player.setCardSelectableByName(Dodge.DODGE, true);//enable dodges
 				player.setCancelEnabled(true);//enable cancel (choose not to dodge)
+				player.getGameListener().onSetMessage("You are attacked by "+source.getName()+", do you want to dodge?");
 			}
 			else if(stage == AFTER_USING_DODGE)
 			{

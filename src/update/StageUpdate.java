@@ -1,6 +1,7 @@
 package update;
 
 import player.PlayerOriginalClientComplete;
+import update.operations.TurnDiscardOperation;
 import core.Event;
 import core.Framework;
 import core.PlayerInfo;
@@ -74,14 +75,16 @@ public class StageUpdate implements Event
 			}
 			if(stage == TURN_DRAW)
 			{
-				player.drawCards();
+				turnDraw(player);
 			}
 			else if(stage == TURN_DEAL)
 			{
 				player.startDealing();
 			}
 			else if(stage == TURN_DISCARD)
-				player.turnDiscard();
+			{
+				turnDiscard(player);
+			}
 			else if(stage == TURN_END)
 				player.endTurn();
 			else
@@ -89,6 +92,24 @@ public class StageUpdate implements Event
 				stage++;
 				player.sendToMaster(this);
 			}
+		}
+	}
+	private void turnDraw(PlayerOriginalClientComplete player)
+	{
+		nextStage(player);
+		player.sendToMaster(new DrawCardsFromDeck(player.getPlayerInfo(),2,this));
+	}
+	private void turnDiscard(PlayerOriginalClientComplete player)
+	{
+		if(player.getCardsOnHandCount() <= player.getCardOnHandLimit())
+		{
+			nextStage(player);
+			player.sendToMaster(this);
+		}
+		else
+		{
+			nextStage(player);
+			player.sendToMaster(new TurnDiscardOperation(player.getPlayerInfo(),this));
 		}
 	}
 	@Override

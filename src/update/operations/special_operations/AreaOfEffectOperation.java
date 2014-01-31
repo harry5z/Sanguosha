@@ -94,7 +94,7 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 		if(player.matches(currentTarget))
 		{
 			//here for future skills
-			if(player.isEquippedShield() && !player.getShield().isRequiredToReactTo(aoe))
+			if(player.isEquippedShield() && !player.getShield().mustReactTo(aoe))
 				setStage(AFTER);
 			else
 				setStage(NEUTRALIZATION);

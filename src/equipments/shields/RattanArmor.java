@@ -26,7 +26,7 @@ public class RattanArmor extends Shield
 	}
 
 	@Override
-	public boolean isRequiredToReactTo(Card card)
+	public boolean mustReactTo(Card card)
 	{
 		if(card instanceof ArrowSalvo || card instanceof BarbarianInvasion)
 			return false;

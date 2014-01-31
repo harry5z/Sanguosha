@@ -23,14 +23,13 @@ public class TaichiFormation extends Shield
 	}
 
 	@Override
-	public boolean isRequiredToReactTo(Card card) 
+	public boolean mustReactTo(Card card) 
 	{
 		return true;
 	}
 
 	@Override
 	public void modifyDamage(Damage damage) {
-		// TODO Auto-generated method stub
 		
 	}
 	

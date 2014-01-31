@@ -47,6 +47,7 @@ public abstract class SpecialOperation implements Operation
 	{
 		return neutralizable;
 	}
+	public abstract String getName();
 	public void nextStage()
 	{
 		stage++;
@@ -83,6 +84,10 @@ public abstract class SpecialOperation implements Operation
 			operator.setCardOnHandSelected(card, true);
 			operator.setConfirmEnabled(true);
 		}
+	}
+	public PlayerInfo getCurrentPlayer()
+	{
+		return currentPlayer;
 	}
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player)

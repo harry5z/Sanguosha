@@ -1,6 +1,5 @@
 package player;
 
-import core.Player;
 
 /**
  * implementation of player of Original Sanguosha

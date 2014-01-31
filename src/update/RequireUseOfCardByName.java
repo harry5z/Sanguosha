@@ -25,6 +25,10 @@ public class RequireUseOfCardByName implements Update
 		framework.sendToAllClients(this);
 	}
 
+	public void setCardUsed(boolean used)
+	{
+		
+	}
 	@Override
 	public void playerOperation(PlayerOriginalClientComplete player) {
 		// TODO Auto-generated method stub
