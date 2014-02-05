@@ -1,5 +1,9 @@
 package specials;
 
+import player.PlayerOriginalClientComplete;
+import update.Update;
+import core.Operation;
+
 public class Harvest extends Instant
 {
 
@@ -12,6 +16,18 @@ public class Harvest extends Instant
 	public String getName()
 	{
 		return "Harvest";
+	}
+
+	@Override
+	public Operation onActivatedBy(PlayerOriginalClientComplete player,
+			Update next) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isActivatableBy(PlayerOriginalClientComplete player) {
+		return true;
 	}
 
 }

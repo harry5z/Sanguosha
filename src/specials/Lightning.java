@@ -1,5 +1,9 @@
 package specials;
 
+import player.PlayerOriginalClientComplete;
+import update.Update;
+import core.Operation;
+
 public class Lightning extends Delayed
 {
 	public Lightning(int num, int suit) 
@@ -11,6 +15,19 @@ public class Lightning extends Delayed
 	public String getName() 
 	{
 		return "Lightning";
+	}
+
+	@Override
+	public Operation onActivatedBy(PlayerOriginalClientComplete player,
+			Update next) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isActivatableBy(PlayerOriginalClientComplete player) {
+		//if(player.canBeTargetedBy(this);
+		return true;
 	}
 
 }
