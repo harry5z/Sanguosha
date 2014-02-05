@@ -1,6 +1,6 @@
 package listener;
 
-import core.Card;
+import cards.Card;
 
 public interface CardDisposalListener 
 {

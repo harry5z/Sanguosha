@@ -2,6 +2,7 @@ package update;
 
 import java.util.ArrayList;
 
+import cards.Card;
 import player.PlayerOriginalClientComplete;
 import update.operations.NearDeathEvent;
 import core.*;

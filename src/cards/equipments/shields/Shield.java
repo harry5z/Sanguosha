@@ -1,8 +1,8 @@
-package equipments.shields;
+package cards.equipments.shields;
 
+import cards.Card;
+import cards.equipments.Equipment;
 import update.Damage;
-import core.Card;
-import equipments.Equipment;
 
 public abstract class Shield extends Equipment
 {

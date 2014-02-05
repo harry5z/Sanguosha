@@ -1,7 +1,7 @@
-package equipments.shields;
+package cards.equipments.shields;
 
+import cards.Card;
 import update.Damage;
-import core.Card;
 
 public class SilverLion extends Shield
 {

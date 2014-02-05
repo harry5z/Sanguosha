@@ -1,4 +1,4 @@
-package equipments.weapons;
+package cards.equipments.weapons;
 
 
 

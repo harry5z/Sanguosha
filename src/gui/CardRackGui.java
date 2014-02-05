@@ -2,9 +2,11 @@ package gui;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 import javax.swing.JPanel;
+
+import cards.Card;
 import listener.CardOnHandListener;
-import core.Card;
 
 /**
  * card rack (cards on hand) gui

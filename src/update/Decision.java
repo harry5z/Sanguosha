@@ -1,8 +1,8 @@
 package update;
 
+import cards.Card;
 import player.PlayerOriginalClientComplete;
 import update.operations.decision_operations.DecisionOperation;
-import core.Card;
 import core.Framework;
 import core.PlayerInfo;
 

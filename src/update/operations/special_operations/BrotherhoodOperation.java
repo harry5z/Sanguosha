@@ -1,9 +1,9 @@
 package update.operations.special_operations;
 
+import cards.Card;
 import player.PlayerOriginalClientComplete;
 import update.IncreaseOfHealth;
 import update.Update;
-import core.Card;
 
 public class BrotherhoodOperation extends AreaOfEffectOperation
 {

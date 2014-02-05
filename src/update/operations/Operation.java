@@ -1,5 +1,6 @@
-package core;
+package update.operations;
 
+import cards.Card;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.Update;

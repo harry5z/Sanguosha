@@ -9,12 +9,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import cards.Card;
+import cards.equipments.Equipment;
 import player.PlayerOriginalClientSimple;
 import listener.CardOnHandListener;
 import listener.EquipmentListener;
 import listener.HealthListener;
-import core.Card;
-import equipments.Equipment;
 
 /**
  * Gui of other players, shows life bar, equipments, count of cards on hand, etc. 

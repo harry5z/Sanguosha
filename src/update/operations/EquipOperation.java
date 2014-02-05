@@ -1,14 +1,13 @@
 package update.operations;
 
+import cards.Card;
+import cards.equipments.Equipment;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.DisposalOfEquipment;
 import update.Update;
-import core.Card;
 import core.Framework;
-import core.Operation;
 import core.PlayerInfo;
-import equipments.Equipment;
 
 public class EquipOperation implements Operation
 {

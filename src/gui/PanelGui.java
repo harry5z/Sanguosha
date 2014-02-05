@@ -8,10 +8,10 @@ import java.util.*;
 
 import javax.swing.*;
 
+import cards.Card;
 import player.PlayerOriginalClientComplete;
 import player.PlayerOriginalClientSimple;
 import listener.GameListener;
-import core.Card;
 import core.PlayerInfo;
 
 /**

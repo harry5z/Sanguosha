@@ -2,13 +2,12 @@ package update.operations;
 
 import java.util.ArrayList;
 
+import cards.Card;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.DisposalOfCards;
 import update.Update;
-import core.Card;
 import core.Framework;
-import core.Operation;
 import core.PlayerInfo;
 
 /**

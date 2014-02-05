@@ -1,10 +1,10 @@
-package equipments.shields;
+package cards.equipments.shields;
 
-import basics.Attack;
-import specials.ArrowSalvo;
-import specials.BarbarianInvasion;
+import cards.Card;
+import cards.basics.Attack;
+import cards.specials.instant.ArrowSalvo;
+import cards.specials.instant.BarbarianInvasion;
 import update.Damage;
-import core.Card;
 import core.Element;
 
 public class RattanArmor extends Shield

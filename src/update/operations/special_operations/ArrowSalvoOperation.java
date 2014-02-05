@@ -1,9 +1,9 @@
 package update.operations.special_operations;
 
-import basics.Dodge;
+import cards.Card;
+import cards.basics.Dodge;
 import player.PlayerOriginalClientComplete;
 import update.Update;
-import core.Card;
 
 public class ArrowSalvoOperation extends AreaOfEffectOperation
 {

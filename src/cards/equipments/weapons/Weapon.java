@@ -1,6 +1,6 @@
-package equipments.weapons;
+package cards.equipments.weapons;
 
-import equipments.Equipment;
+import cards.equipments.Equipment;
 
 
 

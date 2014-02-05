@@ -1,4 +1,6 @@
-package core;
+package cards.specials;
+
+import cards.Card;
 
 /**
  * The "special" type of cards, including Steal, Lightning, etc.

@@ -1,12 +1,13 @@
 package update.operations.special_operations;
 
 import java.util.ArrayList;
+
+import cards.Card;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.Damage;
 import update.Update;
 import update.UseOfCards;
-import core.Card;
 import core.PlayerInfo;
 
 public abstract class AreaOfEffectOperation extends SpecialOperation

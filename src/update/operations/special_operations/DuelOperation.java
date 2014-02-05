@@ -1,12 +1,12 @@
 package update.operations.special_operations;
 
-import basics.Attack;
+import cards.Card;
+import cards.basics.Attack;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.Damage;
 import update.Update;
 import update.UseOfCards;
-import core.Card;
 import core.PlayerInfo;
 
 public class DuelOperation extends SpecialOperation

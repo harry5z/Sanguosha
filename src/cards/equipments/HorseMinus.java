@@ -1,4 +1,4 @@
-package equipments;
+package cards.equipments;
 
 public class HorseMinus extends Equipment
 {

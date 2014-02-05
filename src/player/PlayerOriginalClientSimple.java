@@ -2,8 +2,8 @@ package player;
 
 import java.util.ArrayList;
 
-import core.Card;
-import equipments.Equipment;
+import cards.Card;
+import cards.equipments.Equipment;
 import listener.*;
 
 /**

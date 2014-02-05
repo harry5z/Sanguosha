@@ -1,10 +1,9 @@
-package basics;
+package cards.basics;
 
 import player.PlayerOriginalClientComplete;
 import update.Update;
+import update.operations.Operation;
 import update.operations.WineOperation;
-import core.Basic;
-import core.Operation;
 
 
 public class Wine extends Basic

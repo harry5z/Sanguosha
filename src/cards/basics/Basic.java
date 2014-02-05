@@ -1,4 +1,6 @@
-package core;
+package cards.basics;
+
+import cards.Card;
 
 /**
  * The "Basic" type of cards, consisting of Attack, Dodge, Peach, and Wine (Battle expansion)

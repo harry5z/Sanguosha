@@ -1,9 +1,9 @@
 package update.operations.special_operations;
 
-import basics.Attack;
+import cards.Card;
+import cards.basics.Attack;
 import player.PlayerOriginalClientComplete;
 import update.Update;
-import core.Card;
 
 public class BarbarianInvasionOperation extends AreaOfEffectOperation
 {

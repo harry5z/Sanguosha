@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import cards.Card;
 import listener.CardDisposalListener;
-import core.Card;
 
 /**
  * Gui of card disposal area, public to all players

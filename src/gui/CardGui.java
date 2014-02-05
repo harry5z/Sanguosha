@@ -7,7 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import core.Card;
+import cards.Card;
 
 /**
  * Gui class for cards (on hand and at diposal area)

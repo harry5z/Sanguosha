@@ -1,10 +1,9 @@
-package basics;
+package cards.basics;
 
 import player.PlayerOriginalClientComplete;
 import update.Update;
+import update.operations.Operation;
 import update.operations.PeachOperation;
-import core.Basic;
-import core.Operation;
 
 
 public class Peach extends Basic

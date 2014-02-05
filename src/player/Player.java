@@ -2,15 +2,15 @@ package player;
 
 import java.util.ArrayList;
 
-import core.Card;
+import cards.Card;
+import cards.equipments.Equipment;
+import cards.equipments.HorseMinus;
+import cards.equipments.HorsePlus;
+import cards.equipments.shields.Shield;
+import cards.equipments.weapons.Weapon;
 import core.Hero;
 import core.PlayerInfo;
 import listener.*;
-import equipments.Equipment;
-import equipments.HorseMinus;
-import equipments.HorsePlus;
-import equipments.shields.Shield;
-import equipments.weapons.Weapon;
 
 /**
  * The player class, defines common traits of different implementations of players

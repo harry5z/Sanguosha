@@ -1,10 +1,9 @@
 package update.operations;
 
+import cards.Card;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
-import core.Card;
 import core.Framework;
-import core.Operation;
 import core.PlayerInfo;
 
 public class ShowCardOperation implements Operation

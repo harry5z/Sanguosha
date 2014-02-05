@@ -1,13 +1,12 @@
 package update.operations;
 
-import basics.Peach;
-import basics.Wine;
+import cards.Card;
+import cards.basics.Peach;
+import cards.basics.Wine;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.Update;
-import core.Card;
 import core.Framework;
-import core.Operation;
 import core.PlayerInfo;
 
 /**

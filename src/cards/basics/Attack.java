@@ -1,12 +1,11 @@
-package basics;
+package cards.basics;
 
 
 import player.PlayerOriginalClientComplete;
 import update.Update;
 import update.operations.AttackEvent;
-import core.Basic;
+import update.operations.Operation;
 import core.Element;
-import core.Operation;
 
 
 public class Attack extends Basic

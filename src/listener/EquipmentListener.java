@@ -1,6 +1,6 @@
 package listener;
 
-import equipments.Equipment;
+import cards.equipments.Equipment;
 
 public interface EquipmentListener 
 {

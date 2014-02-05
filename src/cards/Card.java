@@ -1,8 +1,12 @@
-package core;
+package cards;
 
 import java.io.Serializable;
 
-public abstract class Card implements Activatable,Serializable
+import player.PlayerOriginalClientComplete;
+import update.Update;
+import update.operations.Operation;
+
+public abstract class Card implements Serializable
 {
 	/**
 	 * 
@@ -60,7 +64,19 @@ public abstract class Card implements Activatable,Serializable
 		isReal = false;
 	}
 	public abstract String getName();
-
+	/**
+	 * returns an operation corresponding to this card, with the next update set to be "next"
+	 * @param player
+	 * @param next
+	 * @return the corresponding operation
+	 */
+	public abstract Operation onActivatedBy(PlayerOriginalClientComplete player, Update next);
+	/**
+	 * decides whether the card is activatable by player during TURN_DEAL
+	 * @param player
+	 * @return true if activatable, false if not
+	 */
+	public abstract boolean isActivatableBy(PlayerOriginalClientComplete player);
 
 	public int getType()
 	{

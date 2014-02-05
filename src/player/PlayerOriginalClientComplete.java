@@ -4,15 +4,15 @@ import heroes.Blank;
 
 import java.util.ArrayList;
 
+import cards.Card;
+import cards.equipments.Equipment;
 import net.Client;
 import update.StageUpdate;
 import update.Update;
+import update.operations.Operation;
 import listener.ClientListener;
 import listener.GameListener;
-import core.Card;
-import core.Operation;
 import core.PlayerInfo;
-import equipments.Equipment;
 
 /**
  * client side complete implementation of player, used as player himself

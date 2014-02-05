@@ -1,9 +1,10 @@
 package gui;
 
 import java.awt.Font;
+
 import javax.swing.JButton;
 
-import equipments.Equipment;
+import cards.equipments.Equipment;
 
 public class EquipmentGui extends JButton
 {

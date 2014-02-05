@@ -1,12 +1,12 @@
 package update.operations.special_operations;
 
+import cards.Card;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.Damage;
 import update.DisposalOfCards;
 import update.Update;
 import update.UseOfCards;
-import core.Card;
 import core.Element;
 import core.PlayerInfo;
 

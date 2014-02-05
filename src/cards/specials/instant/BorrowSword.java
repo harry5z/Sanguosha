@@ -1,9 +1,9 @@
-package specials;
+package cards.specials.instant;
 
 import player.Player;
 import player.PlayerOriginalClientComplete;
 import update.Update;
-import core.Operation;
+import update.operations.Operation;
 
 public class BorrowSword extends Instant
 {

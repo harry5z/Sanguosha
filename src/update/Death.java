@@ -2,10 +2,10 @@ package update;
 
 import java.util.ArrayList;
 
+import cards.equipments.Equipment;
 import player.PlayerOriginalClientComplete;
 import core.Framework;
 import core.PlayerInfo;
-import equipments.Equipment;
 
 /**
  * Death update

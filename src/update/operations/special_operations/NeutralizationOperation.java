@@ -2,13 +2,13 @@ package update.operations.special_operations;
 
 import java.util.ArrayList;
 
+import cards.Card;
+import cards.specials.instant.Neutralization;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
-import specials.Neutralization;
 import update.UseOfCards;
-import core.Card;
+import update.operations.Operation;
 import core.Framework;
-import core.Operation;
 import core.PlayerInfo;
 
 public class NeutralizationOperation implements Operation

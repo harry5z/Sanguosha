@@ -1,10 +1,10 @@
 package update.operations.special_operations;
 
+import cards.Card;
 import player.PlayerOriginalClientComplete;
 import update.Update;
-import core.Card;
+import update.operations.Operation;
 import core.Framework;
-import core.Operation;
 import core.PlayerInfo;
 
 public abstract class SpecialOperation implements Operation

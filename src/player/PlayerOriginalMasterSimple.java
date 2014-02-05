@@ -1,6 +1,6 @@
 package player;
 
-import core.Card;
+import cards.Card;
 
 /**
  * master side player information

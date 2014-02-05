@@ -1,6 +1,7 @@
-package specials;
+package cards.specials.instant;
 
-import core.Special;
+import cards.specials.Special;
+
 
 
 

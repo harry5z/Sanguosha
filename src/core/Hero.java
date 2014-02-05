@@ -3,6 +3,8 @@ package core;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import skills.Skill;
+
 /**
  * Hero class, consisting of all heroes
  * @author Harry

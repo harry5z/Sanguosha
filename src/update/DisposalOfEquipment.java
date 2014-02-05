@@ -2,11 +2,11 @@ package update;
 
 import java.util.ArrayList;
 
+import cards.Card;
+import cards.equipments.Equipment;
 import player.PlayerOriginalClientComplete;
-import core.Card;
 import core.Framework;
 import core.PlayerInfo;
-import equipments.Equipment;
 
 public class DisposalOfEquipment implements Update
 {

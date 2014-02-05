@@ -1,11 +1,11 @@
 package update.operations.special_operations;
 
+import cards.Card;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.DrawCardsFromDeck;
 import update.Update;
 import update.UseOfCards;
-import core.Card;
 import core.PlayerInfo;
 
 public class CreationOperation extends SpecialOperation

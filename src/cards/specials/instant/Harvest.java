@@ -1,8 +1,8 @@
-package specials;
+package cards.specials.instant;
 
 import player.PlayerOriginalClientComplete;
 import update.Update;
-import core.Operation;
+import update.operations.Operation;
 
 public class Harvest extends Instant
 {

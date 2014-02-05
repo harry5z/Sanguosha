@@ -1,8 +1,8 @@
-package specials;
+package cards.specials.delayed;
 
 import player.PlayerOriginalClientComplete;
 import update.Update;
-import core.Operation;
+import update.operations.Operation;
 
 public class Starvation extends Delayed
 {

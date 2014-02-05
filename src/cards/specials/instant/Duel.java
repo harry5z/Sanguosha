@@ -1,9 +1,9 @@
-package specials;
+package cards.specials.instant;
 
 import player.PlayerOriginalClientComplete;
 import update.Update;
+import update.operations.Operation;
 import update.operations.special_operations.DuelOperation;
-import core.Operation;
 
 
 

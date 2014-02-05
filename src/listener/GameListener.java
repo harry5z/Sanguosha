@@ -1,7 +1,7 @@
 package listener;
 
+import cards.Card;
 import player.PlayerOriginalClientSimple;
-import core.Card;
 import core.PlayerInfo;
 
 public interface GameListener 

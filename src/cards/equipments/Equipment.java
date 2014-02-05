@@ -1,10 +1,10 @@
-package equipments;
+package cards.equipments;
 
+import cards.Card;
 import player.PlayerOriginalClientComplete;
 import update.Update;
 import update.operations.EquipOperation;
-import core.Card;
-import core.Operation;
+import update.operations.Operation;
 
 /**
  * The "Equipment" type of cards, consisting of all equipments

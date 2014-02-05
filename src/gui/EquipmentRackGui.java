@@ -4,8 +4,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import cards.equipments.Equipment;
 import listener.EquipmentListener;
-import equipments.Equipment;
 
 public class EquipmentRackGui extends JPanel implements EquipmentListener
 {

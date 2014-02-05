@@ -1,15 +1,14 @@
 package update.operations;
 
-import core.Card;
+import cards.Card;
+import cards.basics.Attack;
+import cards.basics.Dodge;
 import core.Event;
 import core.Framework;
-import core.Operation;
 import core.PlayerInfo;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import player.PlayerOriginalClientSimple;
-import basics.Attack;
-import basics.Dodge;
 import update.Damage;
 import update.Update;
 import update.UseOfCards;
