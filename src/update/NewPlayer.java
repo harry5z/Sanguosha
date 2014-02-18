@@ -7,7 +7,7 @@ import player.PlayerOriginalClientComplete;
 import core.Framework;
 import core.PlayerInfo;
 
-public class NewPlayer implements Update
+public class NewPlayer extends Update
 {
 	/**
 	 * 
@@ -17,6 +17,7 @@ public class NewPlayer implements Update
 	private ArrayList<PlayerInfo> allPlayers;
 	public NewPlayer(Player player)
 	{
+		super(null);
 		newPlayer = player.getPlayerInfo();
 	}
 	@Override

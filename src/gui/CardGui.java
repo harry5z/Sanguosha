@@ -1,13 +1,18 @@
 package gui;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.Timer;
 
 import cards.Card;
+import cards.Card.Suit;
 
 /**
  * Gui class for cards (on hand and at diposal area)
@@ -72,25 +77,25 @@ public class CardGui extends JButton implements ActionListener
 		else
 			timer.stop();
 	}
-	private void readSuit(int n)
+	private void readSuit(Suit n)
 	{
 		try
 		{
 			switch(n)
 			{
-			case Card.SPADE:
+			case SPADE:
 				suit = ImageIO.read(getClass().getResource("cards/spade.png"));
 				color = Color.BLACK;
 				break;
-			case Card.HEART:
+			case HEART:
 				suit = ImageIO.read(getClass().getResource("cards/heart.png"));
 				color = Color.RED;
 				break;
-			case Card.CLUB:
+			case CLUB:
 				suit = ImageIO.read(getClass().getResource("cards/club.png"));
 				color = Color.BLACK;
 				break;
-			case Card.DIAMOND:
+			case DIAMOND:
 				suit = ImageIO.read(getClass().getResource("cards/diamond.png"));
 				color = Color.RED;
 				break;

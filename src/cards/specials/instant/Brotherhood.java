@@ -8,7 +8,12 @@ import update.operations.special_operations.BrotherhoodOperation;
 public class Brotherhood extends Instant
 {
 
-	public Brotherhood(int num, int suit) 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8104953282875316885L;
+
+	public Brotherhood(int num, Suit suit) 
 	{
 		super(num, suit);
 	}
@@ -27,11 +32,4 @@ public class Brotherhood extends Instant
 		player.setConfirmEnabled(true);
 		return new BrotherhoodOperation(player,this,next);
 	}
-
-	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player)
-	{
-		return true;
-	}
-	
 }

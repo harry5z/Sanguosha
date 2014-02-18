@@ -4,20 +4,19 @@ import player.PlayerOriginalClientComplete;
 import core.Framework;
 import core.PlayerInfo;
 
-public class RequireUseOfCardByName implements Update
+public class RequireUseOfCardByName extends Update
 {
 	
 	private PlayerInfo source;
 	private PlayerInfo target;
 	private String cardName;
-	private Update next;
 	
 	public RequireUseOfCardByName(PlayerInfo source,PlayerInfo target,String cardName,Update next)
 	{
+		super(next);
 		this.source = source;
 		this.target = target;
 		this.cardName = cardName;
-		this.next = next;
 	}
 	@Override
 	public void frameworkOperation(Framework framework) 

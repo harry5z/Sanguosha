@@ -119,3 +119,8 @@ Rattan Armor: Fire damage +1 implemented
 
 1/31/2014:
 Added MessageBox on main panel. Now players will know what they are reacting to.
+
+2/18/2014:
+Bug fix: Bug in Damage.java, when a health-1 player fireattack himself to near death, after he is rescued, the subsequent stages are out of order.
+
+Major change in structure: Suit, Color, CardType, and EquipmentType are all enum types now. Update becomes an abstract class with the ability to get and set the next update like a Stack.

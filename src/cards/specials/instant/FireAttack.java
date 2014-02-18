@@ -13,7 +13,7 @@ public class FireAttack extends Instant
 	 */
 	private static final long serialVersionUID = -3725224946954164125L;
 	public static final String FIRE_ATTACK = "Fire Attack";
-	public FireAttack(int num, int suit)
+	public FireAttack(int num, Suit suit)
 	{
 		super(num, suit);
 	}
@@ -36,11 +36,4 @@ public class FireAttack extends Instant
 			player.setTargetSelectable(player.getPlayerInfo(), true);
 		return new FireAttackOperation(player,this,next);
 	}
-
-	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player) 
-	{
-		return true;
-	}
-
 }

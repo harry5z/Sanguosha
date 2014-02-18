@@ -14,9 +14,9 @@ public abstract class Special extends Card
 	 */
 	private static final long serialVersionUID = 1458323578635106662L;
 	private boolean instant;
-	public Special(int num, int suit, boolean isInstant)
+	public Special(int num, Suit suit, boolean isInstant)
 	{
-		super(num,suit,Card.SPECIAL);
+		super(num,suit,CardType.SPECIAL);
 		instant = isInstant;
 	}
 	public boolean isInstant()

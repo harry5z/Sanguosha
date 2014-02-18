@@ -9,7 +9,7 @@ import update.Update;
 import core.Framework;
 import core.PlayerInfo;
 
-public class EquipOperation implements Operation
+public class EquipOperation extends Operation
 {
 	/**
 	 * 
@@ -17,13 +17,12 @@ public class EquipOperation implements Operation
 	private static final long serialVersionUID = -4444649804902222892L;
 	private Equipment equipment;
 	private PlayerInfo source;
-	private Update next;
 	
 	public EquipOperation(PlayerInfo source, Equipment equipment, Update next)
 	{
+		super(next);
 		this.equipment = equipment;
 		this.source = source;
-		this.next = next;
 	}
 	@Override
 	public void frameworkOperation(Framework framework) 
@@ -39,10 +38,10 @@ public class EquipOperation implements Operation
 			Equipment old = player.equip(equipment);
 			if(old != null)
 			{
-				player.sendToMaster(new DisposalOfEquipment(source,old,next));
+				player.sendToMaster(new DisposalOfEquipment(source,old,getNext()));
 			}
 			else
-				player.sendToMaster(next);
+				player.sendToMaster(getNext());
 		}
 		else
 			player.findMatch(source).equip(equipment);

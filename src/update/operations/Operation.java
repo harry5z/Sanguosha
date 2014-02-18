@@ -9,28 +9,37 @@ import update.Update;
  * @author Harry
  *
  */
-public interface Operation extends Update
+public abstract class Operation extends Update
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5751768653876815254L;
+	public Operation(Update next) 
+	{
+		super(next);
+	}
+
 	/**
 	 * called when a player is selected as target by operator
 	 * @param operator
 	 * @param player
 	 */
-	public void onPlayerSelected(PlayerOriginalClientComplete operator,PlayerOriginal player);
+	public abstract void onPlayerSelected(PlayerOriginalClientComplete operator,PlayerOriginal player);
 	
 	/**
 	 * called when a card is selected by operator
 	 * @param card
 	 */
-	public void onCardSelected(PlayerOriginalClientComplete operator, Card card);
+	public abstract void onCardSelected(PlayerOriginalClientComplete operator, Card card);
 	/**
 	 * called when cancel is clicked by player
 	 * @param player
 	 */
-	public void onCancelledBy(PlayerOriginalClientComplete player);
+	public abstract void onCancelledBy(PlayerOriginalClientComplete player);
 	/**
 	 * called when confirm is clicked by player
 	 * @param player
 	 */
-	public void onConfirmedBy(PlayerOriginalClientComplete player);
+	public abstract void onConfirmedBy(PlayerOriginalClientComplete player);
 }

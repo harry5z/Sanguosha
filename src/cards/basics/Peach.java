@@ -13,7 +13,7 @@ public class Peach extends Basic
 	 */
 	private static final long serialVersionUID = 4464520689683075435L;
 	public static final String PEACH = "Peach";
-	public Peach(int num, int suit)
+	public Peach(int num, Suit suit)
 	{
 		super(num, suit);
 	}

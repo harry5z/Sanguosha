@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import cards.Card;
 import player.PlayerOriginalClientComplete;
-import update.operations.NearDeathEvent;
+import update.operations.NearDeathOperation;
 import core.*;
 
 /**
@@ -12,7 +12,7 @@ import core.*;
  * @author Harry
  *
  */
-public class Damage implements Update
+public class Damage extends Update
 {
 	/**
 	 * 
@@ -25,6 +25,9 @@ public class Damage implements Update
 	public static final byte SOURCE_HERO_SKILLS_AFTER_DAMAGE = 5;
 	public static final byte TARGET_HERO_SKILLS_AFTER_DAMAGE = 6;
 	
+	public enum Element {
+		NORMAL, FIRE, THUNDER;
+	}
 	
 	private Element element;
 	private int amount;
@@ -32,7 +35,6 @@ public class Damage implements Update
 	private Card cardUsedAs;
 	private PlayerInfo source;
 	private PlayerInfo target;
-	private Update next;
 	private byte stage;
 	/**
 	 * Default setup of damage, used as simple damage caused by 1 card:
@@ -49,6 +51,7 @@ public class Damage implements Update
 	 */
 	public Damage(Card cardUsed, PlayerInfo source, PlayerInfo target, Update next)
 	{
+		super(next);
 		this.element = Element.NORMAL;
 		this.amount = 1;
 		this.source = source;
@@ -56,7 +59,6 @@ public class Damage implements Update
 		this.cardUsedAs = cardUsed;
 		this.cardsCausingDamage = new ArrayList<Card>(1);
 		this.cardsCausingDamage.add(cardUsedAs);
-		this.next = next;
 		this.stage = TARGET_HERO_SKILLS;
 	}
 	/**
@@ -69,19 +71,15 @@ public class Damage implements Update
 	 */
 	public Damage(int amount, Element element, PlayerInfo source, PlayerInfo target, Update next)
 	{
+		super(next);
 		this.amount = amount;
 		this.element = element;
 		this.source = source;
 		this.target = target;
 		this.cardsCausingDamage = null;
 		this.cardUsedAs = null;
-		this.next = next;
 		this.stage = TARGET_HERO_SKILLS;
 
-	}
-	public Update getNext()
-	{
-		return next;
 	}
 	/**
 	 * element == one of Fire/Thunder/Normal
@@ -167,6 +165,7 @@ public class Damage implements Update
 			if(stage == TARGET_HERO_SKILLS)
 			{
 				next(player);
+				return;
 			}
 			else if(stage == TARGET_EQUIPMENT_SKILLS)
 			{
@@ -175,24 +174,28 @@ public class Damage implements Update
 					player.getShield().modifyDamage(this);
 				}
 				next(player);
+				return;
 			}
 			else if(stage == TARGET_CHECK_CHAINED)
 			{
 				next(player);
+				return;
 			}
 			else if(stage == TARGET_DAMAGE)
 			{	
 				if(player.isDying())
 				{
 					stage++;
-					player.sendToMaster(new NearDeathEvent(player.getCurrentStage().getSource(),source,target,this));
+					player.sendToMaster(new NearDeathOperation(player.getCurrentStage().getSource(),source,target,this));
 				}
 				else
 					next(player);
+				return;
 			}
 			else if(stage == TARGET_HERO_SKILLS_AFTER_DAMAGE)
 			{
-				player.sendToMaster(next);
+				player.sendToMaster(getNext());
+				return;
 			}
 		}
 		if(player.matches(source))

@@ -1,9 +1,19 @@
 package update.operations.decision_operations;
 
 import cards.Card;
+import update.Update;
 import update.operations.Operation;
 
-public interface DecisionOperation extends Operation
+public abstract class DecisionOperation extends Operation
 {
-	public void setResult(Card card);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6814734281457367294L;
+
+	public DecisionOperation(Update next) {
+		super(next);
+	}
+
+	public abstract void setResult(Card card);
 }

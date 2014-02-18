@@ -2,7 +2,7 @@ package update;
 
 import core.PlayerInfo;
 
-public abstract class SourceTargetAmount implements Update
+public abstract class SourceTargetAmount extends Update
 {
 	/**
 	 * 
@@ -12,6 +12,10 @@ public abstract class SourceTargetAmount implements Update
 	private PlayerInfo target;
 	private int amount;
 	
+	public SourceTargetAmount(Update next) 
+	{
+		super(next);
+	}
 	/**
 	 * change the target of damage to player
 	 * @param player

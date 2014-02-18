@@ -1,12 +1,13 @@
 package update.operations;
 
-import cards.Card;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
+import cards.Card;
+import cards.Card.CardType;
 import core.Framework;
 import core.PlayerInfo;
 
-public class ShowCardOperation implements Operation
+public class ShowCardOperation extends Operation
 {
 
 	/**
@@ -15,14 +16,15 @@ public class ShowCardOperation implements Operation
 	private static final long serialVersionUID = 2861496807858561557L;
 	private PlayerInfo target;
 	private Card cardShown;
-	private boolean any;
-	private int type;
+	private boolean anyType;
+	private CardType type;
 	private String name;
 	
 	public ShowCardOperation(PlayerInfo target)
 	{
+		super(null);
 		this.target = target;
-		any = true;
+		anyType = true;
 		name = null;
 		cardShown = null;
 	}
@@ -38,7 +40,7 @@ public class ShowCardOperation implements Operation
 		if(player.matches(target))
 		{
 			player.setOperation(this);
-			if(any)
+			if(anyType)
 			{
 				player.setAllCardsOnHandSelectable(true);
 			}

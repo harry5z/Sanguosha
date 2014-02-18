@@ -13,7 +13,7 @@ import core.PlayerInfo;
  * @author Harry
  *
  */
-public class UseOfCards implements Update
+public class UseOfCards extends Update
 {
 	/**
 	 * 
@@ -22,12 +22,7 @@ public class UseOfCards implements Update
 	private PlayerInfo source;
 	private String nameOfCardEffective;
 	private ArrayList<Card> cardsUsed;
-	private Update nextEvent;
 	
-	public UseOfCards(PlayerInfo source)
-	{
-		this.source = source;
-	}
 	/**
 	 * Simple setup of useofcards, in which card used = card effective
 	 * @param source
@@ -35,11 +30,11 @@ public class UseOfCards implements Update
 	 */
 	public UseOfCards(PlayerInfo source,Card cardUsed,Update next)
 	{
+		super(next);
 		this.source = source;
 		this.nameOfCardEffective = cardUsed.getName();
 		cardsUsed = new ArrayList<Card>(1);
 		cardsUsed.add(cardUsed);
-		nextEvent = next;
 	}
 	public void setSource(PlayerInfo player)
 	{
@@ -65,7 +60,7 @@ public class UseOfCards implements Update
 		if(player.matches(source))
 		{
 			player.useCards(cardsUsed);
-			player.sendToMaster(nextEvent);
+			player.sendToMaster(getNext());
 		}
 		else
 			player.findMatch(source).useCards(cardsUsed);

@@ -13,7 +13,7 @@ public class BorrowSword extends Instant
 	 */
 	private static final long serialVersionUID = -8537939550303913600L;
 
-	public BorrowSword(int num, int suit) 
+	public BorrowSword(int num, Suit suit) 
 	{
 		super(num, suit);
 	}

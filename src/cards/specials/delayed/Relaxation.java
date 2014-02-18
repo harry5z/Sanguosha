@@ -7,7 +7,12 @@ import update.operations.Operation;
 public class Relaxation extends Delayed
 {
 
-	public Relaxation(int num, int suit) 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2295098976558504164L;
+
+	public Relaxation(int num, Suit suit) 
 	{
 		super(num, suit);
 	}

@@ -12,9 +12,9 @@ public abstract class Shield extends Equipment
 	 */
 	private static final long serialVersionUID = 3973053122566006924L;
 
-	public Shield(int num, int suit) 
+	public Shield(int num, Suit suit) 
 	{
-		super(num, suit, Equipment.SHIELD);
+		super(num, suit, EquipmentType.SHIELD);
 	}
 	public abstract boolean mustReactTo(Card card);
 	

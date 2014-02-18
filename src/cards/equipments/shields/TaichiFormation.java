@@ -10,7 +10,7 @@ public class TaichiFormation extends Shield
 	 */
 	private static final long serialVersionUID = -6729114905115919334L;
 
-	public TaichiFormation(int num, int suit) 
+	public TaichiFormation(int num, Suit suit) 
 	{
 		super(num, suit);
 		

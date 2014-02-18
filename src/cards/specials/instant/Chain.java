@@ -7,7 +7,12 @@ import update.operations.Operation;
 public class Chain extends Instant
 {
 
-	public Chain(int num, int suit) 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4842163599907076818L;
+
+	public Chain(int num, Suit suit) 
 	{
 		super(num, suit);
 	}
@@ -24,10 +29,4 @@ public class Chain extends Instant
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player) {
-		return true;
-	}
-
 }

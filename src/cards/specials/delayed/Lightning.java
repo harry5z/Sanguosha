@@ -6,7 +6,12 @@ import update.operations.Operation;
 
 public class Lightning extends Delayed
 {
-	public Lightning(int num, int suit) 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8502796453884676779L;
+
+	public Lightning(int num, Suit suit) 
 	{
 		super(num, suit);
 	}

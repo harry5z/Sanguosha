@@ -1,11 +1,11 @@
 package cards.equipments.shields;
 
+import update.Damage;
+import update.Damage.Element;
 import cards.Card;
 import cards.basics.Attack;
 import cards.specials.instant.ArrowSalvo;
 import cards.specials.instant.BarbarianInvasion;
-import update.Damage;
-import core.Element;
 
 public class RattanArmor extends Shield
 {
@@ -14,7 +14,7 @@ public class RattanArmor extends Shield
 	 */
 	private static final long serialVersionUID = -4377220192386216241L;
 
-	public RattanArmor(int num, int suit) 
+	public RattanArmor(int num, Suit suit) 
 	{
 		super(num, suit);
 	}

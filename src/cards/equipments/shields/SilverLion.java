@@ -11,7 +11,7 @@ public class SilverLion extends Shield
 	 */
 	private static final long serialVersionUID = -4821532886423359596L;
 
-	public SilverLion(int num, int suit) 
+	public SilverLion(int num, Suit suit) 
 	{
 		super(num, suit);
 	}

@@ -9,12 +9,13 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import cards.Card;
-import cards.equipments.Equipment;
-import player.PlayerOriginalClientSimple;
 import listener.CardOnHandListener;
 import listener.EquipmentListener;
 import listener.HealthListener;
+import player.PlayerOriginalClientSimple;
+import cards.Card;
+import cards.equipments.Equipment;
+import cards.equipments.Equipment.EquipmentType;
 
 /**
  * Gui of other players, shows life bar, equipments, count of cards on hand, etc. 
@@ -177,16 +178,16 @@ public class PlayerGui extends JButton
 		{
 			switch(equipment.getEquipmentType())
 			{
-				case Equipment.WEAPON:
+				case WEAPON:
 					weapon.setEquipment(equipment);
 					break;
-				case Equipment.SHIELD:
+				case SHIELD:
 					shield.setEquipment(equipment);
 					break;
-				case Equipment.HORSEPLUS:
+				case HORSEPLUS:
 					horsePlus.setEquipment(equipment);
 					break;
-				case Equipment.HORSEMINUS:
+				case HORSEMINUS:
 					horseMinus.setEquipment(equipment);
 					break;
 				default:
@@ -195,20 +196,20 @@ public class PlayerGui extends JButton
 		}
 
 		@Override
-		public void onUnequipped(int type)
+		public void onUnequipped(EquipmentType type)
 		{
 			switch(type)
 			{
-			case Equipment.WEAPON:
+			case WEAPON:
 				weapon.setEquipment(null);
 				break;
-			case Equipment.SHIELD:
+			case SHIELD:
 				shield.setEquipment(null);
 				break;
-			case Equipment.HORSEPLUS:
+			case HORSEPLUS:
 				horsePlus.setEquipment(null);
 				break;
-			case Equipment.HORSEMINUS:
+			case HORSEMINUS:
 				horseMinus.setEquipment(null);
 				break;
 			default:

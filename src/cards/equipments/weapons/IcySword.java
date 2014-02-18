@@ -3,7 +3,12 @@ package cards.equipments.weapons;
 public class IcySword extends Weapon
 {
 
-	public IcySword(int num, int suit) 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5010996802567818570L;
+
+	public IcySword(int num, Suit suit) 
 	{
 		super(2, num, suit);
 	}

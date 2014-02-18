@@ -1,8 +1,6 @@
-package update.operations;
+package update;
 
 import player.PlayerOriginalClientComplete;
-import update.Death;
-import update.Update;
 import core.Framework;
 import core.PlayerInfo;
 
@@ -11,7 +9,7 @@ import core.PlayerInfo;
  * @author Harry
  *
  */
-public class DeathEvent implements Update
+public class DeathEvent extends Update
 {
 	/**
 	 * 
@@ -24,15 +22,14 @@ public class DeathEvent implements Update
 	private PlayerInfo killer;
 	private PlayerInfo turnPlayer;//player who is playing the current turn
 	private PlayerInfo currentPlayer;//player who is currently being inquired for skills
-	private Update next;
 	private int stage;
 	public DeathEvent(PlayerInfo turnPlayer,PlayerInfo killer,PlayerInfo victim,Update next)
 	{
+		super(next);
 		this.turnPlayer = turnPlayer;
 		this.currentPlayer = turnPlayer;
 		this.killer = killer;
 		this.victim = victim;
-		this.next = next;
 		stage = BEFORE;
 	}
 	@Override
@@ -73,7 +70,7 @@ public class DeathEvent implements Update
 		else if(stage == CONSEQUENCE)//future implementation
 		{
 			if(player.matches(killer))
-				player.sendToMaster(next);
+				player.sendToMaster(getNext());
 		}
 	}
 	private void sendToNextPlayer(PlayerOriginalClientComplete player)

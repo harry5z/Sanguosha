@@ -8,22 +8,21 @@ import update.UseOfCards;
 import core.Framework;
 import core.PlayerInfo;
 
-public class SingleCardOperation implements Operation
+public class SingleCardOperation extends Operation
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8013540053622863152L;
-	private Update update;
 	private PlayerInfo source;
 	private PlayerInfo target;
 	private Card card;
 	
 	public SingleCardOperation(PlayerInfo source, Card card,Update next)
 	{
+		super(next);
 		this.source = source;
 		this.card = card;
-		this.update = next;
 	}
 	@Override
 	public void frameworkOperation(Framework framework) {
@@ -64,7 +63,7 @@ public class SingleCardOperation implements Operation
 		player.setOperation(null);
 		player.setCardOnHandSelected(card, false);
 		player.setCancelEnabled(false);
-		player.sendToMaster(new UseOfCards(source,card,update));		
+		player.sendToMaster(new UseOfCards(source,card,getNext()));		
 	}
 
 }

@@ -12,7 +12,7 @@ public class Steal extends Instant
 	 */
 	private static final long serialVersionUID = -3401311157667464458L;
 
-	public Steal(int num, int suit) 
+	public Steal(int num, Suit suit) 
 	{
 		super(num, suit);
 	}
@@ -29,10 +29,4 @@ public class Steal extends Instant
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player) {
-		return true;
-	}
-
 }

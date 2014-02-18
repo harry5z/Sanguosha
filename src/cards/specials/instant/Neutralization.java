@@ -7,11 +7,14 @@ import update.operations.Operation;
 
 public class Neutralization extends Instant
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9088689394043873593L;
 	public static final String NEUTRALIZATION = "Neutralization";
-	public Neutralization(int num, int suit) 
+	public Neutralization(int num, Suit suit) 
 	{
 		super(num, suit);
-		
 	}
 
 	@Override
@@ -34,5 +37,4 @@ public class Neutralization extends Instant
 	{
 		return false;
 	}
-
 }

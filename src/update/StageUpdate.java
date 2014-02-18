@@ -2,7 +2,6 @@ package update;
 
 import player.PlayerOriginalClientComplete;
 import update.operations.TurnDiscardOperation;
-import core.Event;
 import core.Framework;
 import core.PlayerInfo;
 
@@ -11,7 +10,7 @@ import core.PlayerInfo;
  * @author Harry
  *
  */
-public class StageUpdate implements Event
+public class StageUpdate extends Update
 {
 	/**
 	 * 
@@ -34,6 +33,7 @@ public class StageUpdate implements Event
 	
 	public StageUpdate(PlayerInfo source,int stage)
 	{
+		super(null);
 		this.source = source;
 		this.stage = stage;
 	}
@@ -116,10 +116,5 @@ public class StageUpdate implements Event
 	public void frameworkOperation(Framework framework) 
 	{
 		framework.sendToAllClients(this);
-	}
-	@Override
-	public void nextStep() 
-	{
-		stage++;
 	}
 }

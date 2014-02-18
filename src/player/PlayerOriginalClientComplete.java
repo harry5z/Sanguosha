@@ -4,14 +4,15 @@ import heroes.Blank;
 
 import java.util.ArrayList;
 
-import cards.Card;
-import cards.equipments.Equipment;
+import listener.ClientListener;
+import listener.GameListener;
 import net.Client;
 import update.StageUpdate;
 import update.Update;
 import update.operations.Operation;
-import listener.ClientListener;
-import listener.GameListener;
+import cards.Card;
+import cards.Card.CardType;
+import cards.equipments.Equipment;
 import core.PlayerInfo;
 
 /**
@@ -330,7 +331,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 			if(card.getName().equals(cardName))
 				gameListener.onCardSetSelectable(card,selectable);
 	}
-	public void setCardSelectableByType(int cardType,boolean selectable)
+	public void setCardSelectableByType(CardType cardType,boolean selectable)
 	{
 		for(Card card : cardsOnHand)
 			if(card.getType() == cardType)

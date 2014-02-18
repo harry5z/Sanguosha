@@ -11,7 +11,7 @@ public class IronShield extends Shield
 	 */
 	private static final long serialVersionUID = 4370802087723597065L;
 
-	public IronShield(int num, int suit) 
+	public IronShield(int num, Suit suit) 
 	{
 		super(num, suit);
 	}
@@ -25,7 +25,7 @@ public class IronShield extends Shield
 	@Override
 	public boolean mustReactTo(Card card) 
 	{
-		return !(card instanceof Attack && card.getColor() == Card.BLACK);
+		return !(card instanceof Attack && card.getColor() == Color.BLACK);
 	}
 
 	@Override

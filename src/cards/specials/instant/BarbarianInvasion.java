@@ -9,7 +9,12 @@ import update.operations.special_operations.BarbarianInvasionOperation;
 public class BarbarianInvasion extends Instant
 {
 
-	public BarbarianInvasion(int num, int suit) 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8054906715946205031L;
+
+	public BarbarianInvasion(int num, Suit suit) 
 	{
 		super(num, suit);
 	}
@@ -28,11 +33,4 @@ public class BarbarianInvasion extends Instant
 		player.setConfirmEnabled(true);
 		return new BarbarianInvasionOperation(player,this,next);
 	}
-
-	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player) 
-	{
-		return true;
-	}
-
 }

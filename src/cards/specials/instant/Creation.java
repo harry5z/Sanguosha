@@ -7,8 +7,12 @@ import update.operations.special_operations.CreationOperation;
 
 public class Creation extends Instant
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5695736855862242617L;
 	public static final String CREATION = "Creation";
-	public Creation(int num, int suit)
+	public Creation(int num, Suit suit)
 	{
 		super(num, suit);
 	}
@@ -27,11 +31,4 @@ public class Creation extends Instant
 		player.setConfirmEnabled(true);
 		return new CreationOperation(player.getPlayerInfo(),player.getCurrentStage().getSource(),this,next);
 	}
-
-	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player) 
-	{
-		return true;
-	}
-
 }

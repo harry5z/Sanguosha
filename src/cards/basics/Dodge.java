@@ -11,7 +11,7 @@ public class Dodge extends Basic
 	 */
 	private static final long serialVersionUID = -7923623178052220181L;
 	public static final String DODGE = "Dodge";
-	public Dodge(int num, int suit)
+	public Dodge(int num, Suit suit)
 	{
 		super(num, suit);
 	}

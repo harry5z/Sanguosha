@@ -14,21 +14,20 @@ import core.PlayerInfo;
  * @author Harry
  *
  */
-public class PeachOperation implements Operation
+public class PeachOperation extends Operation
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1723063004362265957L;
-	private IncreaseOfHealth update;
 	private PlayerInfo source;
 	private PlayerInfo target;
 	private Card peach;
 	public PeachOperation(PlayerInfo player, Card peach, Update next)
 	{
+		super(new IncreaseOfHealth(player,next));
 		source = player;
 		target = null;
-		update = new IncreaseOfHealth(player,next);
 		this.peach = peach;
 	}
 	/**
@@ -38,7 +37,7 @@ public class PeachOperation implements Operation
 	public void setTarget(PlayerInfo player)
 	{
 		target = player;
-		update.setTarget(target);
+		((IncreaseOfHealth)getNext()).setTarget(target);
 	}
 	@Override
 	public void frameworkOperation(Framework framework) {
@@ -79,7 +78,7 @@ public class PeachOperation implements Operation
 		player.setOperation(null);
 		player.setCardOnHandSelected(peach, false);
 		player.setCancelEnabled(false);
-		player.sendToMaster(new UseOfCards(source,peach,update));
+		player.sendToMaster(new UseOfCards(source,peach,getNext()));
 	}
 
 }

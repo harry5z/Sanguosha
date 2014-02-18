@@ -13,16 +13,16 @@ public abstract class Basic extends Card
 	 * 
 	 */
 	private static final long serialVersionUID = -4758707277276652122L;
-	public Basic(int num, int suit)
+	public Basic(int num, Suit suit)
 	{
-		super(num, suit, Card.BASIC);
+		super(num, suit, CardType.BASIC);
 	}
-	public Basic(int color)
+	public Basic(Color color)
 	{
-		super(color,Card.BASIC);
+		super(color,CardType.BASIC);
 	}
 	public Basic()
 	{
-		super(Card.COLORLESS,Card.BASIC);
+		super(Color.COLORLESS,CardType.BASIC);
 	}
 }

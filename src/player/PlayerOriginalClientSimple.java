@@ -2,9 +2,13 @@ package player;
 
 import java.util.ArrayList;
 
+import listener.CardDisposalListener;
+import listener.CardOnHandListener;
+import listener.EquipmentListener;
+import listener.HealthListener;
 import cards.Card;
 import cards.equipments.Equipment;
-import listener.*;
+import cards.equipments.Equipment.EquipmentType;
 
 /**
  * client side simple player implementation, used to hold information of "other players"
@@ -152,7 +156,7 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 	 * @return the equipment discarded
 	 */
 	@Override
-	public Equipment unequip(int type)
+	public Equipment unequip(EquipmentType type)
 	{
 		Equipment e = super.unequip(type);
 		equipmentListener.onUnequipped(type);
@@ -180,10 +184,10 @@ public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
 	{
 		super.kill();
 		healthListener.onDeath();
-		equipmentListener.onUnequipped(Equipment.WEAPON);
-		equipmentListener.onUnequipped(Equipment.SHIELD);
-		equipmentListener.onUnequipped(Equipment.HORSEPLUS);
-		equipmentListener.onUnequipped(Equipment.HORSEMINUS);
+		equipmentListener.onUnequipped(EquipmentType.WEAPON);
+		equipmentListener.onUnequipped(EquipmentType.SHIELD);
+		equipmentListener.onUnequipped(EquipmentType.HORSEPLUS);
+		equipmentListener.onUnequipped(EquipmentType.HORSEMINUS);
 	}
 	public void clearDisposalArea()
 	{

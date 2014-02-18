@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
 import cards.equipments.Equipment;
+import cards.equipments.Equipment.EquipmentType;
 import listener.EquipmentListener;
 
 public class EquipmentRackGui extends JPanel implements EquipmentListener
@@ -51,16 +52,16 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener
 	{
 		switch(equipment.getEquipmentType())
 		{
-			case Equipment.WEAPON:
+			case WEAPON:
 				weapon.setEquipment(equipment);
 				break;
-			case Equipment.SHIELD:
+			case SHIELD:
 				shield.setEquipment(equipment);
 				break;
-			case Equipment.HORSEPLUS:
+			case HORSEPLUS:
 				horsePlus.setEquipment(equipment);
 				break;
-			case Equipment.HORSEMINUS:
+			case HORSEMINUS:
 				horseMinus.setEquipment(equipment);
 				break;
 			default:
@@ -69,20 +70,20 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener
 	}
 
 	@Override
-	public void onUnequipped(int type)
+	public void onUnequipped(EquipmentType type)
 	{
 		switch(type)
 		{
-		case Equipment.WEAPON:
+		case WEAPON:
 			weapon.setEquipment(null);
 			break;
-		case Equipment.SHIELD:
+		case SHIELD:
 			shield.setEquipment(null);
 			break;
-		case Equipment.HORSEPLUS:
+		case HORSEPLUS:
 			horsePlus.setEquipment(null);
 			break;
-		case Equipment.HORSEMINUS:
+		case HORSEMINUS:
 			horseMinus.setEquipment(null);
 			break;
 		default:

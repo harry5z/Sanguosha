@@ -5,6 +5,7 @@ import cards.basics.Peach;
 import cards.basics.Wine;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
+import update.DeathEvent;
 import update.Update;
 import core.Framework;
 import core.PlayerInfo;
@@ -15,7 +16,7 @@ import core.PlayerInfo;
  * @author Harry
  *
  */
-public class NearDeathEvent implements Operation
+public class NearDeathOperation extends Operation
 {
 	/**
 	 * 
@@ -29,18 +30,17 @@ public class NearDeathEvent implements Operation
 	private PlayerInfo currentPlayer;//player currently being asked for peach
 	private PlayerInfo killer;
 	private PlayerInfo dyingPlayer;//player dying
-	private Update next;
 	private int stage;
 	private Operation operation;
 	private Card cardChosen;
 	
-	public NearDeathEvent(PlayerInfo current,PlayerInfo killer,PlayerInfo dying,Update next)
+	public NearDeathOperation(PlayerInfo current,PlayerInfo killer,PlayerInfo dying,Update next)
 	{
+		super(next);
 		this.killer = killer;
 		turnPlayer = current;
 		currentPlayer = current;
 		dyingPlayer = dying;
-		this.next = next;
 		stage = BEFORE;
 	}
 	private void sendToNextPlayer(PlayerOriginalClientComplete player)
@@ -64,7 +64,7 @@ public class NearDeathEvent implements Operation
 		System.out.println(player.getName()+" NearDeathEvent "+stage);
 		if(player.matches(currentPlayer) && !player.findMatch(dyingPlayer).isDying())//dying player saved
 		{
-			player.sendToMaster(next);//continue the game
+			player.sendToMaster(getNext());//continue the game
 		}
 		else if(stage == BEFORE)//for future skills
 		{
@@ -87,7 +87,6 @@ public class NearDeathEvent implements Operation
 					player.setCardSelectableByName(Wine.WINE, true);//wine also usable
 					player.getGameListener().onSetMessage("You are dying, do you use wine or peach?");
 				}
-				
 			}
 			return;
 		}
@@ -95,14 +94,8 @@ public class NearDeathEvent implements Operation
 		{
 			if(player.matches(turnPlayer))
 			{
-				stage = END;
-				player.sendToMaster(new DeathEvent(turnPlayer,killer,dyingPlayer,this));
+				player.sendToMaster(new DeathEvent(turnPlayer,killer,dyingPlayer,getNext()));
 			}
-		}
-		else if(stage == END)
-		{
-			if(player.matches(turnPlayer))
-				player.sendToMaster(next);
 		}
 	}
 
@@ -119,7 +112,7 @@ public class NearDeathEvent implements Operation
 		{
 			cardChosen = card;
 			operation = card.onActivatedBy(operator, this);
-			if(cardChosen.getName().equals(Peach.PEACH))
+			if(cardChosen instanceof Peach)
 			{
 				((PeachOperation)operation).setTarget(dyingPlayer);
 			}

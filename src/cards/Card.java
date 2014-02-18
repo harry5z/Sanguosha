@@ -13,23 +13,26 @@ public abstract class Card implements Serializable
 	 */
 	private static final long serialVersionUID = 2570541960577206529L;
 	private static int uniqueID = 1;
-	public static final int DIAMOND = 1;
-	public static final int CLUB = 2;
-	public static final int HEART = 3;
-	public static final int SPADE = 4;
 	
-	public static final int RED = 1;
-	public static final int BLACK = 2;
-	public static final int COLORLESS = 3;
+	public enum Suit
+	{
+		DIAMOND, CLUB, HEART, SPADE
+	}
 	
-	public static final int BASIC = 1;
-	public static final int SPECIAL = 2;
-	public static final int EQUIPMENT = 3;
+	public enum Color
+	{
+		RED, BLACK, COLORLESS
+	}
 	
-	private int color;//1. Red 2.Black 3.No Color
+	public enum CardType
+	{
+		BASIC, SPECIAL, EQUIPMENT
+	}
+	
+	private Color color;//1. Red 2.Black 3.No Color
 	private int number;//1-13, note that A,J,Q,K are not numeric
-	private int suit; //1.Diamond 2.Club 3.Heart 4.Spade
-	private int type; //1.Basic 2.Special 3.Equipment
+	private Suit suit; //1.Diamond 2.Club 3.Heart 4.Spade
+	private CardType type; //1.Basic 2.Special 3.Equipment
 	private int id;
 	private boolean isReal;
 	
@@ -39,15 +42,15 @@ public abstract class Card implements Serializable
 	 * @param suit
 	 * @param type
 	 */
-	public Card(int number, int suit, int type)
+	public Card(int number, Suit suit, CardType type)
 	{
 		this.number = number;
 		this.type = type;
 		this.suit = suit;
-		if(suit == DIAMOND || suit == HEART)
-			color = RED;
+		if(suit == Suit.DIAMOND || suit == Suit.HEART)
+			color = Color.RED;
 		else
-			color = BLACK;
+			color = Color.BLACK;
 		id = uniqueID;
 		uniqueID++;
 		isReal = true;
@@ -57,7 +60,7 @@ public abstract class Card implements Serializable
 	 * @param type
 	 * @param color
 	 */
-	public Card(int color,int type)
+	public Card(Color color,CardType type)
 	{
 		this.color = color;
 		this.type = type;
@@ -78,11 +81,11 @@ public abstract class Card implements Serializable
 	 */
 	public abstract boolean isActivatableBy(PlayerOriginalClientComplete player);
 
-	public int getType()
+	public CardType getType()
 	{
 		return type;
 	}
-	public int getColor()
+	public Color getColor()
 	{
 		return color;
 	}
@@ -91,7 +94,7 @@ public abstract class Card implements Serializable
 	{
 		return number;
 	}
-	public int getSuit()
+	public Suit getSuit()
 	{
 		return suit;
 	}

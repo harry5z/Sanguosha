@@ -24,13 +24,11 @@ public class Framework
 	private Master master;//master server
 	private Deck deck;//deck, currently only original game deck as well
 	private FrameworkListener listener;//not used
-	private Stack<Event> events;//not used 
 	public Framework(Master master)
 	{
 		this.master = master;
 		deck = new Deck(true,true);
 		players = new ArrayList<PlayerOriginalMasterSimple>();
-		events = new Stack<Event>();
 	}
 	public ArrayList<PlayerInfo> getPlayers() 
 	{
@@ -64,14 +62,6 @@ public class Framework
 			if(player.matches(p))
 				return player;
 		return null;
-	}
-	public Stack<Event> getEventStack()
-	{
-		return events;
-	}
-	public void addEvent(Event e)
-	{
-		events.push(e);
 	}
 	public Deck getDeck()
 	{

@@ -2,11 +2,11 @@ package update;
 
 import player.Player;
 import player.PlayerOriginalClientComplete;
-import update.operations.NearDeathEvent;
+import update.operations.NearDeathOperation;
 import core.Framework;
 import core.PlayerInfo;
 
-public class LossOfHealth implements Update
+public class LossOfHealth extends Update
 {
 	/**
 	 * 
@@ -14,7 +14,6 @@ public class LossOfHealth implements Update
 	private static final long serialVersionUID = -6030578142962861498L;
 	private PlayerInfo target;
 	private int amount;
-	private Update next;
 	
 	/**
 	 * non-damage loss of health, therefore source-less
@@ -23,9 +22,9 @@ public class LossOfHealth implements Update
 	 */
 	public LossOfHealth(PlayerInfo target, int amount,Update next)
 	{
+		super(next);
 		this.target = target;
 		this.amount = amount;
-		this.next = next;
 	}
 	
 	public PlayerInfo getTarget()
@@ -45,9 +44,9 @@ public class LossOfHealth implements Update
 		{
 			player.changeHealthCurrentBy(-amount);
 			if(player.isDying())
-				player.sendToMaster(new NearDeathEvent(player.getCurrentStage().getSource(),null,target,next));
+				player.sendToMaster(new NearDeathOperation(player.getCurrentStage().getSource(),null,target,getNext()));
 			else
-				player.sendToMaster(next);
+				player.sendToMaster(getNext());
 		}
 		else
 		{

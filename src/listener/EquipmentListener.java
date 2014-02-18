@@ -1,6 +1,7 @@
 package listener;
 
 import cards.equipments.Equipment;
+import cards.equipments.Equipment.EquipmentType;
 
 public interface EquipmentListener 
 {
@@ -13,5 +14,5 @@ public interface EquipmentListener
 	 * un-equip an equipment, require: type = Equipment.SOMETYPE
 	 * @param type
 	 */
-	public void onUnequipped(int type);
+	public void onUnequipped(EquipmentType type);
 }

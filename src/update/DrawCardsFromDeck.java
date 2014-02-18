@@ -12,7 +12,7 @@ import core.PlayerInfo;
  * @author Harry
  *
  */
-public class DrawCardsFromDeck implements Update
+public class DrawCardsFromDeck extends Update
 {
 	/**
 	 * 
@@ -22,20 +22,19 @@ public class DrawCardsFromDeck implements Update
 	private ArrayList<Card> cards;
 	private int deckSize;
 	private PlayerInfo source;
-	private Update nextEvent;
 	
 	public DrawCardsFromDeck(PlayerInfo source, int amount,Update next)
 	{
+		super(next);
 		this.source = source;
 		this.amount = amount;
-		nextEvent = next;
 	}
 	public DrawCardsFromDeck(PlayerInfo source, ArrayList<Card> cards,int size)
 	{
+		super(null);
 		this.source = source;
 		this.cards = cards;
 		this.deckSize = size;
-		nextEvent = null;
 	}
 	@Override
 	public void frameworkOperation(Framework framework) 
@@ -51,14 +50,12 @@ public class DrawCardsFromDeck implements Update
 		if(player.matches(source))
 		{
 			player.addCards(cards);
-			if(nextEvent != null)
-				player.sendToMaster(nextEvent);
+			if(getNext() != null)
+				player.sendToMaster(getNext());
 		}
 		else
 		{
 			player.findMatch(source).addCards(cards);
 		}
-			
 	}
-
 }

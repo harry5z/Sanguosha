@@ -3,16 +3,18 @@ package core;
 import java.util.ArrayList;
 import java.util.Random;
 
+import update.Damage.Element;
 import cards.Card;
+import cards.Card.Suit;
 import cards.basics.Attack;
 import cards.basics.Dodge;
 import cards.basics.Peach;
 import cards.basics.Wine;
 import cards.equipments.HorseMinus;
 import cards.equipments.HorsePlus;
-import cards.equipments.shields.*;
-import cards.equipments.weapons.*;
-import cards.specials.*;
+import cards.equipments.shields.IronShield;
+import cards.equipments.shields.RattanArmor;
+import cards.equipments.shields.SilverLion;
 import cards.specials.instant.ArrowSalvo;
 import cards.specials.instant.BarbarianInvasion;
 import cards.specials.instant.Brotherhood;
@@ -75,10 +77,10 @@ public class Deck
 	{
 		used = new ArrayList<Card>();
 		deck = new ArrayList<Card>();
-		int diamond = Card.DIAMOND;
-		int club = Card.CLUB;
-		int heart = Card.HEART;
-		int spade = Card.SPADE;
+		Suit diamond = Suit.DIAMOND;
+		Suit club = Suit.CLUB;
+		Suit heart = Suit.HEART;
+		Suit spade = Suit.SPADE;
 		Element normal = Element.NORMAL;
 		Element thunder = Element.THUNDER;
 		Element fire = Element.FIRE;

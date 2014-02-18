@@ -7,9 +7,9 @@ public class HorseMinus extends Equipment
 	 */
 	private static final long serialVersionUID = 4263828194081932793L;
 	private String name;
-	public HorseMinus(int num, int suit, String name) 
+	public HorseMinus(int num, Suit suit, String name) 
 	{
-		super(num, suit, Equipment.HORSEMINUS);
+		super(num, suit, EquipmentType.HORSEMINUS);
 		this.name = name;
 	}
 	public int getDistance()

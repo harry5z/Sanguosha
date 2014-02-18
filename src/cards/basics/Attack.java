@@ -2,10 +2,10 @@ package cards.basics;
 
 
 import player.PlayerOriginalClientComplete;
+import update.Damage.Element;
 import update.Update;
-import update.operations.AttackEvent;
+import update.operations.AttackOperation;
 import update.operations.Operation;
-import core.Element;
 
 
 public class Attack extends Basic
@@ -21,7 +21,7 @@ public class Attack extends Basic
 	public static final String THUNDER_ATTACK = "Attack(Thunder)";
 	
 
-	public Attack(Element e, int num, int suit)
+	public Attack(Element e, int num, Suit suit)
 	{
 		super(num, suit);
 		element = e;
@@ -50,7 +50,7 @@ public class Attack extends Basic
 	{
 		player.setCancelEnabled(true);//can cancel
 		player.setCardOnHandSelected(this, true);
-		return new AttackEvent(player,this,next);
+		return new AttackOperation(player,this,next);
 	}
 
 }

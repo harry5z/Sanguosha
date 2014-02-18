@@ -13,7 +13,7 @@ public class Wine extends Basic
 	 */
 	private static final long serialVersionUID = -5279754525954626716L;
 	public static final String WINE = "Wine";
-	public Wine(int num, int suit)
+	public Wine(int num, Suit suit)
 	{
 		super(num, suit);
 	}

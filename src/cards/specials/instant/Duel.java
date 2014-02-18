@@ -9,8 +9,12 @@ import update.operations.special_operations.DuelOperation;
 
 public class Duel extends Instant
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -301334501587512526L;
 	public static final String Duel = "Duel";
-	public Duel(int num, int suit) 
+	public Duel(int num, Suit suit) 
 	{
 		super(num, suit);
 	}
@@ -29,11 +33,4 @@ public class Duel extends Instant
 		player.setCancelEnabled(true);
 		return new DuelOperation(player.getPlayerInfo(),player.getCurrentStage().getSource(),this,next);
 	}
-
-	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player)
-	{
-		return true;
-	}
-
 }

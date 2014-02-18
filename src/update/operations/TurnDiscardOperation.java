@@ -16,7 +16,7 @@ import core.PlayerInfo;
  * @author Harry
  *
  */
-public class TurnDiscardOperation implements Operation
+public class TurnDiscardOperation extends Operation
 {
 	/**
 	 * 
@@ -25,12 +25,11 @@ public class TurnDiscardOperation implements Operation
 	private PlayerInfo source;
 	private ArrayList<Card> cardsDiscarded;//all cards discarded
 	private ArrayList<Card> cardsSelected;//cards currently selected
-	private Update next;
 	
 	public TurnDiscardOperation(PlayerInfo source,Update next)
 	{
+		super(next);
 		this.source = source;
-		this.next = next;
 		cardsDiscarded = new ArrayList<Card>();
 		cardsSelected = new ArrayList<Card>();
 	}
@@ -48,7 +47,7 @@ public class TurnDiscardOperation implements Operation
 		{
 			int numToDiscard = player.getCardsOnHandCount() - player.getCardOnHandLimit();
 			if(numToDiscard == 0)//meets requirement
-				player.sendToMaster(next);//continue the game
+				player.sendToMaster(getNext());//continue the game
 			else
 			{
 				player.setOperation(this);//push to operation

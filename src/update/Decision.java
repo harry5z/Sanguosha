@@ -6,17 +6,16 @@ import update.operations.decision_operations.DecisionOperation;
 import core.Framework;
 import core.PlayerInfo;
 
-public class Decision implements Update
+public class Decision extends Update
 {
 
 	private PlayerInfo source;
 	private Card decision;
-	private DecisionOperation next;
 	
 	public Decision(PlayerInfo source, DecisionOperation next)
 	{
+		super(next);
 		this.source = source;
-		this.next = next;
 	}
 	@Override
 	public void frameworkOperation(Framework framework)
@@ -31,8 +30,8 @@ public class Decision implements Update
 		player.showCard(decision);
 		if(player.matches(source))
 		{
-			next.setResult(decision);
-			player.sendToMaster(next);
+			((DecisionOperation)getNext()).setResult(decision);
+			player.sendToMaster(getNext());
 		}
 	}
 

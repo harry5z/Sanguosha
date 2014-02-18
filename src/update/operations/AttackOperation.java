@@ -3,7 +3,6 @@ package update.operations;
 import cards.Card;
 import cards.basics.Attack;
 import cards.basics.Dodge;
-import core.Event;
 import core.Framework;
 import core.PlayerInfo;
 import player.PlayerOriginal;
@@ -19,7 +18,7 @@ import update.UseOfCards;
  * @author Harry
  *
  */
-public class AttackEvent implements Operation, Event
+public class AttackOperation extends Operation
 {
 	/**
 	 * 
@@ -53,10 +52,10 @@ public class AttackEvent implements Operation, Event
 	private Attack attack;//in the future, there will be transformed attacks, so it will be changed
 	private Card dodge;//the dodge that target uses
 	private Damage damage;//the damage that this attack carries
-	private Update nextEvent;//next event in game flow
 	
-	public AttackEvent(PlayerOriginalClientComplete source, Attack attack, Update next)
+	public AttackOperation(PlayerOriginalClientComplete source, Attack attack, Update next)
 	{
+		super(next);
 		this.source = source.getPlayerInfo();
 		target = null;
 		this.attack = attack;
@@ -64,7 +63,6 @@ public class AttackEvent implements Operation, Event
 		dodgeable = true;
 		dodge = null;
 		enableTargets(source);
-		nextEvent = next;
 	}
 	private void enableTargets(PlayerOriginalClientComplete source)
 	{
@@ -171,7 +169,7 @@ public class AttackEvent implements Operation, Event
 				player.sendToMaster(this);
 			}
 			else if(stage == END)
-				player.sendToMaster(nextEvent);
+				player.sendToMaster(getNext());
 		}
 	}
 
@@ -294,11 +292,5 @@ public class AttackEvent implements Operation, Event
 		}
 		else
 			System.err.println("AttackEvent: Bystander selecting cards");
-	}
-	@Override
-	public void nextStep() 
-	{
-		// TODO Auto-generated method stub
-		
 	}
 }

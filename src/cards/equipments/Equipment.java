@@ -17,16 +17,17 @@ public abstract class Equipment extends Card
 	 * 
 	 */
 	private static final long serialVersionUID = 5968539700238484665L;
-	private int equipmentType;//1.Weapon 2.Shield 3.Horse+ 4.Horse-
+	private EquipmentType equipmentType;//1.Weapon 2.Shield 3.Horse+ 4.Horse-
 	private boolean equipped;
-	public static final int WEAPON = 1;
-	public static final int SHIELD = 2;
-	public static final int HORSEPLUS = 3;
-	public static final int HORSEMINUS = 4;
-
-	public Equipment(int num, int suit,int equipmentType)
+	
+	public enum EquipmentType
 	{
-		super(num, suit, Card.EQUIPMENT);
+		WEAPON, SHIELD, HORSEPLUS, HORSEMINUS
+	}
+
+	public Equipment(int num, Suit suit, EquipmentType equipmentType)
+	{
+		super(num, suit, CardType.EQUIPMENT);
 		this.equipped = false;
 		this.equipmentType = equipmentType;
 	}
@@ -38,7 +39,7 @@ public abstract class Equipment extends Card
 	{
 		return equipped;
 	}
-	public int getEquipmentType()
+	public EquipmentType getEquipmentType()
 	{
 		return equipmentType;
 	}

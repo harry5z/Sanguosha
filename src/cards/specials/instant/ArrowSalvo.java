@@ -9,7 +9,12 @@ import update.operations.special_operations.ArrowSalvoOperation;
 public class ArrowSalvo extends Instant
 {
 
-	public ArrowSalvo(int num, int suit) 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1395738598490175305L;
+
+	public ArrowSalvo(int num, Suit suit) 
 	{
 		super(num, suit);
 	}
@@ -28,11 +33,4 @@ public class ArrowSalvo extends Instant
 		player.setConfirmEnabled(true);
 		return new ArrowSalvoOperation(player,this,next);
 	}
-
-	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player) 
-	{
-		return true;
-	}
-
 }

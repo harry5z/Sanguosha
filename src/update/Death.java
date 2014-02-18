@@ -2,8 +2,9 @@ package update;
 
 import java.util.ArrayList;
 
-import cards.equipments.Equipment;
 import player.PlayerOriginalClientComplete;
+import cards.equipments.Equipment;
+import cards.equipments.Equipment.EquipmentType;
 import core.Framework;
 import core.PlayerInfo;
 
@@ -12,7 +13,7 @@ import core.PlayerInfo;
  * @author Harry
  *
  */
-public class Death implements Update
+public class Death extends Update
 {
 
 	/**
@@ -20,11 +21,10 @@ public class Death implements Update
 	 */
 	private static final long serialVersionUID = -4321634819282332287L;
 	private PlayerInfo victim;
-	private Update next;
 	public Death(PlayerInfo victim,Update next)
 	{
+		super(next);
 		this.victim = victim;
-		this.next = next;
 	}
 	@Override
 	public void frameworkOperation(Framework framework) 
@@ -41,16 +41,16 @@ public class Death implements Update
 			player.kill();//kill victim
 			ArrayList<Equipment> equipmentsToDispose = new ArrayList<Equipment>();
 			if(player.isEquippedWeapon())
-				equipmentsToDispose.add(player.unequip(Equipment.WEAPON));
+				equipmentsToDispose.add(player.unequip(EquipmentType.WEAPON));
 			if(player.isEquippedShield())
-				equipmentsToDispose.add(player.unequip(Equipment.SHIELD));
+				equipmentsToDispose.add(player.unequip(EquipmentType.SHIELD));
 			if(player.isEquippedHorsePlus())
-				equipmentsToDispose.add(player.unequip(Equipment.HORSEPLUS));
+				equipmentsToDispose.add(player.unequip(EquipmentType.HORSEPLUS));
 			if(player.isEquippedHorseMinus())
-				equipmentsToDispose.add(player.unequip(Equipment.HORSEMINUS));
+				equipmentsToDispose.add(player.unequip(EquipmentType.HORSEMINUS));
 			//here for decision area
 			//here for player skill cards
-			player.sendToMaster(new DisposalOfCards(victim,player.getCardsOnHand(),new DisposalOfEquipment(victim,equipmentsToDispose,next)));//victim discards all cards
+			player.sendToMaster(new DisposalOfCards(victim,player.getCardsOnHand(),new DisposalOfEquipment(victim,equipmentsToDispose,getNext())));//victim discards all cards
 		}
 		else
 			player.findMatch(victim).kill();

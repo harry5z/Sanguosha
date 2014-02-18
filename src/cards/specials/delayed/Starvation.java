@@ -12,7 +12,7 @@ public class Starvation extends Delayed
 	 */
 	private static final long serialVersionUID = -5348625255975178503L;
 
-	public Starvation(int num, int suit) 
+	public Starvation(int num, Suit suit) 
 	{
 		super(num, suit);
 	}

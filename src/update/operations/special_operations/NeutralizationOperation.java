@@ -11,7 +11,7 @@ import update.operations.Operation;
 import core.Framework;
 import core.PlayerInfo;
 
-public class NeutralizationOperation implements Operation
+public class NeutralizationOperation extends Operation
 {
 	/**
 	 * 
@@ -25,6 +25,7 @@ public class NeutralizationOperation implements Operation
 	
 	public NeutralizationOperation(SpecialOperation next,PlayerInfo turnPlayer)
 	{
+		super(next);
 		this.next = next;
 		this.turnPlayer = turnPlayer;
 		this.neutralized = false;

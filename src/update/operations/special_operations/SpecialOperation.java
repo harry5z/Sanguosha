@@ -7,7 +7,7 @@ import update.operations.Operation;
 import core.Framework;
 import core.PlayerInfo;
 
-public abstract class SpecialOperation implements Operation
+public abstract class SpecialOperation extends Operation
 {
 	/**
 	 * 
@@ -19,7 +19,6 @@ public abstract class SpecialOperation implements Operation
 	protected static final int AFTER = 4;
 	private boolean neutralizable;
 	
-	private Update next;
 	private int stage;
 	private PlayerInfo turnPlayer;
 	private PlayerInfo currentPlayer;
@@ -28,16 +27,12 @@ public abstract class SpecialOperation implements Operation
 	
 	public SpecialOperation(Update next, PlayerInfo turnPlayer)
 	{
+		super(next);
 		neutralizable = true;
 		stage = BEFORE;
-		this.next = next;
 		this.turnPlayer = turnPlayer;
 		this.currentPlayer = turnPlayer;
 		reactionCard = null;
-	}
-	protected Update getNext()
-	{
-		return next;
 	}
 	public void setNeutralizable(boolean neutralizable)
 	{
@@ -127,7 +122,7 @@ public abstract class SpecialOperation implements Operation
 	protected void playerOpAfter(PlayerOriginalClientComplete player)
 	{
 		if(player.matches(currentPlayer))
-			player.sendToMaster(next);
+			player.sendToMaster(getNext());
 	}
 	private void sendToNextPlayer(PlayerOriginalClientComplete player)
 	{

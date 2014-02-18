@@ -12,7 +12,7 @@ public class Destroy extends Instant
 	 */
 	private static final long serialVersionUID = -2917645089871877494L;
 
-	public Destroy(int num, int suit) 
+	public Destroy(int num, Suit suit) 
 	{
 		super(num, suit);
 	}
@@ -29,10 +29,4 @@ public class Destroy extends Instant
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player) {
-		return true;
-	}
-
 }

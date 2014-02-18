@@ -15,7 +15,7 @@ import core.PlayerInfo;
  * @author Harry
  *
  */
-public class WineOperation implements Operation
+public class WineOperation extends Operation
 {
 	/**
 	 * 
@@ -23,11 +23,10 @@ public class WineOperation implements Operation
 	private static final long serialVersionUID = -3919164368836659196L;
 	private PlayerInfo source;
 	private Card wine;
-	private Update next;
 	public WineOperation(PlayerInfo player, Card wine, Update next)
 	{
+		super(next);
 		source = player;
-		this.next = next;
 		this.wine = wine;
 	}
 	@Override
@@ -70,12 +69,12 @@ public class WineOperation implements Operation
 		player.setCancelEnabled(false);
 		if(player.isDying())//can increase health by 1
 		{
-			player.sendToMaster(new UseOfCards(source,wine,new IncreaseOfHealth(source,next)));
+			player.sendToMaster(new UseOfCards(source,wine,new IncreaseOfHealth(source,getNext())));
 		}
 		else//can increase attack damage by 1
 		{
 			player.useWine();
-			player.sendToMaster(new UseOfCards(source,wine,next));
+			player.sendToMaster(new UseOfCards(source,wine,getNext()));
 		}
 	}
 

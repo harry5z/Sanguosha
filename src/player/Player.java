@@ -2,15 +2,17 @@ package player;
 
 import java.util.ArrayList;
 
+import listener.CardDisposalListener;
+import listener.CardOnHandListener;
 import cards.Card;
 import cards.equipments.Equipment;
+import cards.equipments.Equipment.EquipmentType;
 import cards.equipments.HorseMinus;
 import cards.equipments.HorsePlus;
 import cards.equipments.shields.Shield;
 import cards.equipments.weapons.Weapon;
 import core.Hero;
 import core.PlayerInfo;
-import listener.*;
 
 /**
  * The player class, defines common traits of different implementations of players
@@ -255,28 +257,28 @@ public abstract class Player
 	public Shield getShield(){return shield;}
 	public Weapon getWeapon(){return weapon;}
 
-	public Equipment unequip(int type)
+	public Equipment unequip(EquipmentType type)
 	{
 		Equipment temp = null;
-		if(type == Equipment.WEAPON)
+		if(type == EquipmentType.WEAPON)
 		{
 			temp = weapon;
 			weapon = null;
 			weaponEquipped = false;
 		}
-		else if(type == Equipment.SHIELD)
+		else if(type == EquipmentType.SHIELD)
 		{
 			temp = shield;
 			shield = null;
 			shieldEquipped = false;
 		}
-		else if(type == Equipment.HORSEPLUS)
+		else if(type == EquipmentType.HORSEPLUS)
 		{
 			temp = horsePlus;
 			horsePlus = null;
 			horsePlusEquipped = false;
 		}
-		else if(type == Equipment.HORSEMINUS)
+		else if(type == EquipmentType.HORSEMINUS)
 		{
 			temp = horseMinus;
 			horseMinus = null;
@@ -288,29 +290,28 @@ public abstract class Player
 	public Equipment equip(Equipment equipment)
 	{
 		Equipment temp = null;
-		if(equipment instanceof HorsePlus)
+		switch(equipment.getEquipmentType())
 		{
-			temp = unequip(Equipment.HORSEPLUS);
-			horsePlus = (HorsePlus) equipment;
-			horsePlusEquipped = true;
-		}
-		else if(equipment instanceof HorseMinus)
-		{
-			temp = unequip(Equipment.HORSEMINUS);
-			horseMinus = (HorseMinus)equipment;
-			horseMinusEquipped = true;
-		}
-		else if(equipment instanceof Weapon)
-		{
-			temp = unequip(Equipment.WEAPON);
-			weapon = (Weapon)equipment;
-			weaponEquipped = true;
-		}
-		else if(equipment instanceof Shield)
-		{
-			temp = unequip(Equipment.SHIELD);
-			shield = (Shield)equipment;
-			shieldEquipped = true;
+			case HORSEPLUS:
+				temp = unequip(EquipmentType.HORSEPLUS);
+				horsePlus = (HorsePlus) equipment;
+				horsePlusEquipped = true;
+				break;
+			case HORSEMINUS:
+				temp = unequip(EquipmentType.HORSEMINUS);
+				horseMinus = (HorseMinus)equipment;
+				horseMinusEquipped = true;
+				break;
+			case WEAPON:
+				temp = unequip(EquipmentType.WEAPON);
+				weapon = (Weapon)equipment;
+				weaponEquipped = true;
+				break;
+			case SHIELD:
+				temp = unequip(EquipmentType.SHIELD);
+				shield = (Shield)equipment;
+				shieldEquipped = true;
+				break;
 		}
 		removeCardFromHand(equipment);
 		return temp;

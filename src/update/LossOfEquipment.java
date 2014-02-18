@@ -7,23 +7,22 @@ import player.PlayerOriginalClientComplete;
 import core.Framework;
 import core.PlayerInfo;
 
-public class LossOfEquipment implements Update
+public class LossOfEquipment extends Update
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6808896498802425889L;
 	private PlayerInfo source;
-	private Update next;
 	private ArrayList<Equipment> equipments;
 	
 	public LossOfEquipment(PlayerInfo source,ArrayList<Equipment> equipments,Update next)
 	{
+		super(next);
 		this.source = source;
 		this.equipments = new ArrayList<Equipment>();
 		for(Equipment e : equipments)
 			this.equipments.add(e);
-		this.next = next;
 	}
 	@Override
 	public void frameworkOperation(Framework framework)
@@ -38,13 +37,13 @@ public class LossOfEquipment implements Update
 		if(player.matches(source))
 		{
 			for(Equipment e : equipments)
-				player.unequip(e.getType());
-			player.sendToMaster(next);
+				player.unequip(e.getEquipmentType());
+			player.sendToMaster(getNext());
 		}
 		else
 		{
 			for(Equipment e : equipments)
-				player.findMatch(source).unequip(e.getType());
+				player.findMatch(source).unequip(e.getEquipmentType());
 		}
 	}
 }

@@ -7,7 +7,12 @@ import update.operations.Operation;
 public class Harvest extends Instant
 {
 
-	public Harvest(int num, int suit)
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3333097112836442800L;
+
+	public Harvest(int num, Suit suit)
 	{
 		super(num, suit);
 	}
@@ -19,15 +24,8 @@ public class Harvest extends Instant
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerOriginalClientComplete player,
-			Update next) {
-		// TODO Auto-generated method stub
+	public Operation onActivatedBy(PlayerOriginalClientComplete player, Update next) 
+	{
 		return null;
 	}
-
-	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player) {
-		return true;
-	}
-
 }

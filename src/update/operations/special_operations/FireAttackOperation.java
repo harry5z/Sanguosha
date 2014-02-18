@@ -4,10 +4,10 @@ import cards.Card;
 import player.PlayerOriginal;
 import player.PlayerOriginalClientComplete;
 import update.Damage;
+import update.Damage.Element;
 import update.DisposalOfCards;
 import update.Update;
 import update.UseOfCards;
-import core.Element;
 import core.PlayerInfo;
 
 public class FireAttackOperation extends SpecialOperation
@@ -21,8 +21,6 @@ public class FireAttackOperation extends SpecialOperation
 	private boolean shown;
 	private boolean sent;
 	private Card fireAttack;
-	//private Card cardShown;
-	//private Card cardDisposed;
 	
 	public FireAttackOperation(PlayerOriginalClientComplete player, Card fireAttack,Update next)
 	{
@@ -32,8 +30,6 @@ public class FireAttackOperation extends SpecialOperation
 		this.fireAttack = fireAttack;
 		shown = false;
 		sent = false;
-		//cardShown = null;
-		//cardDisposed = null;
 	}
 
 	@Override
@@ -123,7 +119,7 @@ public class FireAttackOperation extends SpecialOperation
 		else if(sent && shown)//confirm damage
 		{
 			player.setCardOnHandSelected(reactionCard, false);
-			player.sendToMaster(new DisposalOfCards(source,reactionCard,new Damage(1,Element.FIRE,source,target,this.getNext())));
+			player.sendToMaster(new DisposalOfCards(source,reactionCard,new Damage(1,Element.FIRE,source,target,getNext())));
 		}
 	}
 	@Override
