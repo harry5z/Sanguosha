@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.NewPlayer;
 import update.Update;
 /**
@@ -26,13 +26,13 @@ public class Client extends Thread
 	
 	private ObjectOutputStream out;
 	
-	private PlayerOriginalClientComplete player;
+	private PlayerClientComplete player;
 	public Client()
 	{
 		executor = Executors.newFixedThreadPool(POOL_SIZE);
 		masterPort = Master.DEFAULT_PORT;
 		masterHost = "localhost";
-		player = new PlayerOriginalClientComplete("Player",this);
+		player = new PlayerClientComplete("Player",this);
 		executor.execute(new PanelGui(player));
 	}
 	/**

@@ -1,7 +1,7 @@
 package cards.equipments;
 
 import cards.Card;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.Update;
 import update.operations.EquipOperation;
 import update.operations.Operation;
@@ -44,7 +44,7 @@ public abstract class Equipment extends Card
 		return equipmentType;
 	}
 	@Override
-	public Operation onActivatedBy(PlayerOriginalClientComplete player,Update next) 
+	public Operation onActivatedBy(PlayerClientComplete player,Update next) 
 	{
 		player.setCardOnHandSelected(this, true);
 		player.setCancelEnabled(true);
@@ -52,7 +52,7 @@ public abstract class Equipment extends Card
 		return new EquipOperation(player.getPlayerInfo(),this,next);
 	}
 	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player) 
+	public boolean isActivatableBy(PlayerClientComplete player) 
 	{
 		return true;
 	}

@@ -1,7 +1,7 @@
 package cards.specials.instant;
 
-import player.PlayerOriginalClientComplete;
-import player.PlayerOriginalClientSimple;
+import player.PlayerClientComplete;
+import player.PlayerClientSimple;
 import update.Update;
 import update.operations.Operation;
 import update.operations.special_operations.FireAttackOperation;
@@ -25,11 +25,11 @@ public class FireAttack extends Instant
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerOriginalClientComplete player,Update next)
+	public Operation onActivatedBy(PlayerClientComplete player,Update next)
 	{
 		player.setCardOnHandSelected(this, true);
 		player.setCancelEnabled(true);
-		for(PlayerOriginalClientSimple other : player.getOtherPlayers())
+		for(PlayerClientSimple other : player.getOtherPlayers())
 			if(other.getCardsOnHandCount() != 0)//target must have card on hand
 				player.setTargetSelectable(other.getPlayerInfo(), true);
 		if(player.getCardsOnHandCount() > 1)

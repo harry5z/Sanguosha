@@ -4,7 +4,7 @@ import cards.Card;
 import cards.basics.Peach;
 import cards.basics.Wine;
 import player.PlayerOriginal;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.DeathEvent;
 import update.Update;
 import core.Framework;
@@ -43,7 +43,7 @@ public class NearDeathOperation extends Operation
 		dyingPlayer = dying;
 		stage = BEFORE;
 	}
-	private void sendToNextPlayer(PlayerOriginalClientComplete player)
+	private void sendToNextPlayer(PlayerClientComplete player)
 	{
 		currentPlayer = player.getNextPlayerAlive();
 		if(currentPlayer.getPosition() == turnPlayer.getPosition())//circle complete
@@ -59,7 +59,7 @@ public class NearDeathOperation extends Operation
 	}
 
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player) 
+	public void playerOperation(PlayerClientComplete player) 
 	{
 		System.out.println(player.getName()+" NearDeathEvent "+stage);
 		if(player.matches(currentPlayer) && !player.findMatch(dyingPlayer).isDying())//dying player saved
@@ -100,13 +100,13 @@ public class NearDeathOperation extends Operation
 	}
 
 	@Override
-	public void onPlayerSelected(PlayerOriginalClientComplete operator,PlayerOriginal player) 
+	public void onPlayerSelected(PlayerClientComplete operator,PlayerOriginal player) 
 	{
 		//no player selection in this event
 	}
 
 	@Override
-	public void onCardSelected(PlayerOriginalClientComplete operator, Card card) 
+	public void onCardSelected(PlayerClientComplete operator, Card card) 
 	{
 		if(operation == null)//ready to use card
 		{
@@ -139,7 +139,7 @@ public class NearDeathOperation extends Operation
 	}
 
 	@Override
-	public void onCancelledBy(PlayerOriginalClientComplete player) 
+	public void onCancelledBy(PlayerClientComplete player) 
 	{
 		if(operation == null)//refuse to give peach
 		{
@@ -158,7 +158,7 @@ public class NearDeathOperation extends Operation
 	}
 
 	@Override
-	public void onConfirmedBy(PlayerOriginalClientComplete player) 
+	public void onConfirmedBy(PlayerClientComplete player) 
 	{
 		cardChosen = null;
 		Operation temp = operation;

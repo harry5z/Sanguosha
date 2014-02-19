@@ -1,6 +1,6 @@
 package cards.basics;
 
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.Update;
 import update.operations.Operation;
 import update.operations.PeachOperation;
@@ -23,12 +23,12 @@ public class Peach extends Basic
 		return PEACH;
 	}
 	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player) 
+	public boolean isActivatableBy(PlayerClientComplete player) 
 	{
 		return player.getHealthCurrent() < player.getHealthLimit();
 	}
 	@Override
-	public Operation onActivatedBy(PlayerOriginalClientComplete player, Update next)
+	public Operation onActivatedBy(PlayerClientComplete player, Update next)
 	{
 		player.setCardOnHandSelected(this, true);
 		player.setCancelEnabled(true);

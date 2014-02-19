@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import cards.Card;
 import player.PlayerOriginal;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.Damage;
 import update.Update;
 import update.UseOfCards;
@@ -21,7 +21,7 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 	protected PlayerInfo currentTarget;
 	private Card aoe;
 	private boolean sent;
-	public AreaOfEffectOperation(PlayerOriginalClientComplete player, Card aoe, Update next) 
+	public AreaOfEffectOperation(PlayerClientComplete player, Card aoe, Update next) 
 	{
 		super(next, player.getCurrentStage().getSource());
 		this.aoe = aoe;
@@ -32,19 +32,19 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 	}
 
 	@Override
-	public void onPlayerSelected(PlayerOriginalClientComplete operator,PlayerOriginal player)
+	public void onPlayerSelected(PlayerClientComplete operator,PlayerOriginal player)
 	{
 		// no target selection
 	}
 
 	@Override
-	public void onCardSelected(PlayerOriginalClientComplete operator, Card card) 
+	public void onCardSelected(PlayerClientComplete operator, Card card) 
 	{
 		cardSelectedAsReaction(operator, card);
 	}
 
 	@Override
-	public void onCancelledBy(PlayerOriginalClientComplete player) 
+	public void onCancelledBy(PlayerClientComplete player) 
 	{
 		if(player.matches(source))//cancel operation
 		{
@@ -74,7 +74,7 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 	}
 
 	@Override
-	public void onConfirmedBy(PlayerOriginalClientComplete player) 
+	public void onConfirmedBy(PlayerClientComplete player) 
 	{
 		if(!sent)//confirm AOE
 		{
@@ -90,7 +90,7 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 		}
 	}
 	@Override
-	protected void playerOpBefore(PlayerOriginalClientComplete player)
+	protected void playerOpBefore(PlayerClientComplete player)
 	{
 		if(player.matches(currentTarget))
 		{
@@ -103,7 +103,7 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 		}
 	}
 	@Override
-	protected void playerOpEffect(PlayerOriginalClientComplete player) 
+	protected void playerOpEffect(PlayerClientComplete player) 
 	{
 		if(player.matches(currentTarget))
 		{
@@ -122,9 +122,9 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 	 * what does a target do?
 	 * @param target
 	 */
-	protected abstract void targetOp(PlayerOriginalClientComplete target);
+	protected abstract void targetOp(PlayerClientComplete target);
 	@Override
-	protected void playerOpAfter(PlayerOriginalClientComplete player)
+	protected void playerOpAfter(PlayerClientComplete player)
 	{
 		if(player.matches(currentTarget))
 		{

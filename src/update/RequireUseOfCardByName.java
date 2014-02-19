@@ -1,6 +1,6 @@
 package update;
 
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import core.Framework;
 import core.PlayerInfo;
 
@@ -29,7 +29,7 @@ public class RequireUseOfCardByName extends Update
 		
 	}
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player) {
+	public void playerOperation(PlayerClientComplete player) {
 		// TODO Auto-generated method stub
 		
 	}

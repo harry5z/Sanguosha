@@ -1,7 +1,7 @@
 package listener;
 
 import cards.Card;
-import player.PlayerOriginalClientSimple;
+import player.PlayerClientSimple;
 import core.PlayerInfo;
 
 public interface GameListener 
@@ -10,7 +10,7 @@ public interface GameListener
 	 * invoked when a new player is added to game
 	 * @param player
 	 */
-	public void onPlayerAdded(PlayerOriginalClientSimple player);
+	public void onPlayerAdded(PlayerClientSimple player);
 	/**
 	 * invoked when a card on hand is selected
 	 * @param card

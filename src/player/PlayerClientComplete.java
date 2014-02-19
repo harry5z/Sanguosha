@@ -20,7 +20,7 @@ import core.PlayerInfo;
  * @author Harry
  *
  */
-public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple implements ClientListener
+public class PlayerClientComplete extends PlayerClientSimple implements ClientListener
 {
 	//******** in-game properties ***********
 	private ArrayList<Card> cardsOnHand;
@@ -33,7 +33,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	private GameListener gameListener;
 	//private settings
 	private StageUpdate currentStage;
-	private ArrayList<PlayerOriginalClientSimple> otherPlayers;
+	private ArrayList<PlayerClientSimple> otherPlayers;
 		
 		
 	//in-game interactive properties
@@ -42,12 +42,12 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	private ArrayList<Card> cardsUsedThisTurn;
 	private Client client;
 	private Update updateToSend;
-	public PlayerOriginalClientComplete(String name, int position) 
+	public PlayerClientComplete(String name, int position) 
 	{
 		super(name, position);
 		init();
 	}
-	public PlayerOriginalClientComplete(String name, Client client)
+	public PlayerClientComplete(String name, Client client)
 	{
 		super(name);
 		setPosition(0);
@@ -58,7 +58,7 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	{
 		cardsOnHand = new ArrayList<Card>();
 
-		otherPlayers = new ArrayList<PlayerOriginalClientSimple>();
+		otherPlayers = new ArrayList<PlayerClientSimple>();
 		cardsUsedThisTurn = new ArrayList<Card>();
 		//init in-game interactive properties
 		cardActivated = null;
@@ -145,12 +145,12 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	 */
 	public void addOtherPlayer(PlayerInfo player)
 	{
-		PlayerOriginalClientSimple p = new PlayerOriginalClientSimple(player.getName(),player.getPosition());
+		PlayerClientSimple p = new PlayerClientSimple(player.getName(),player.getPosition());
 		p.setHero(new Blank());
 		otherPlayers.add(p);
 		gameListener.onPlayerAdded(p);
 	}
-	public ArrayList<PlayerOriginalClientSimple> getOtherPlayers()
+	public ArrayList<PlayerClientSimple> getOtherPlayers()
 	{
 		return otherPlayers;
 	}
@@ -445,9 +445,9 @@ public class PlayerOriginalClientComplete extends PlayerOriginalClientSimple imp
 	 * @param p
 	 * @return the match
 	 */
-	public PlayerOriginalClientSimple findMatch(PlayerInfo p)
+	public PlayerClientSimple findMatch(PlayerInfo p)
 	{
-		for(PlayerOriginalClientSimple player : otherPlayers)
+		for(PlayerClientSimple player : otherPlayers)
 			if(player.matches(p))
 				return player;
 		if(this.matches(p))

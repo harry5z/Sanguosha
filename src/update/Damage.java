@@ -3,7 +3,7 @@ package update;
 import java.util.ArrayList;
 
 import cards.Card;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.operations.NearDeathOperation;
 import core.*;
 
@@ -149,13 +149,13 @@ public class Damage extends Update
 	{
 		return target;
 	}
-	private void next(PlayerOriginalClientComplete player)
+	private void next(PlayerClientComplete player)
 	{
 		stage++;
 		player.sendToMaster(this);		
 	}
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player)
+	public void playerOperation(PlayerClientComplete player)
 	{
 		System.out.println(player.getName()+" Damage ");
 		if(stage == TARGET_DAMAGE)

@@ -2,7 +2,7 @@ package update.operations;
 
 import cards.Card;
 import player.PlayerOriginal;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.Update;
 import update.UseOfCards;
 import core.Framework;
@@ -31,26 +31,26 @@ public class SingleCardOperation extends Operation
 	}
 
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player) {
+	public void playerOperation(PlayerClientComplete player) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onPlayerSelected(PlayerOriginalClientComplete operator,
+	public void onPlayerSelected(PlayerClientComplete operator,
 			PlayerOriginal player) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onCardSelected(PlayerOriginalClientComplete operator, Card card) {
+	public void onCardSelected(PlayerClientComplete operator, Card card) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onCancelledBy(PlayerOriginalClientComplete player) 
+	public void onCancelledBy(PlayerClientComplete player) 
 	{
 		player.setConfirmEnabled(false);
 		player.setCancelEnabled(false);
@@ -58,7 +58,7 @@ public class SingleCardOperation extends Operation
 	}
 
 	@Override
-	public void onConfirmedBy(PlayerOriginalClientComplete player) 
+	public void onConfirmedBy(PlayerClientComplete player) 
 	{
 		player.setOperation(null);
 		player.setCardOnHandSelected(card, false);

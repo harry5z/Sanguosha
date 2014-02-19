@@ -1,6 +1,6 @@
 package update;
 
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import core.Framework;
 import core.PlayerInfo;
 
@@ -39,7 +39,7 @@ public class DeathEvent extends Update
 	}
 
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player) 
+	public void playerOperation(PlayerClientComplete player) 
 	{
 		System.out.println(player.getName()+" DeathEvent "+stage);
 		if(stage == BEFORE)
@@ -73,7 +73,7 @@ public class DeathEvent extends Update
 				player.sendToMaster(getNext());
 		}
 	}
-	private void sendToNextPlayer(PlayerOriginalClientComplete player)
+	private void sendToNextPlayer(PlayerClientComplete player)
 	{
 		currentPlayer = player.getNextPlayerAlive();
 		if(currentPlayer.getPosition() == turnPlayer.getPosition())//circle complete

@@ -8,7 +8,7 @@ import java.util.Stack;
 import listener.FrameworkListener;
 import net.Master;
 import player.Player;
-import player.PlayerOriginalMasterSimple;
+import player.PlayerMasterSimple;
 import update.DrawCardsFromDeck;
 import update.StageUpdate;
 import update.Update;
@@ -20,7 +20,7 @@ import update.Update;
  */
 public class Framework 
 {
-	private ArrayList<PlayerOriginalMasterSimple> players;
+	private ArrayList<PlayerMasterSimple> players;
 	private Master master;//master server
 	private Deck deck;//deck, currently only original game deck as well
 	private FrameworkListener listener;//not used
@@ -28,7 +28,7 @@ public class Framework
 	{
 		this.master = master;
 		deck = new Deck(true,true);
-		players = new ArrayList<PlayerOriginalMasterSimple>();
+		players = new ArrayList<PlayerMasterSimple>();
 	}
 	public ArrayList<PlayerInfo> getPlayers() 
 	{
@@ -40,7 +40,7 @@ public class Framework
 	public void addPlayer(PlayerInfo player)
 	{
 		int position = players.size()+1;
-		PlayerOriginalMasterSimple p = new PlayerOriginalMasterSimple(player.getName()+" "+position,position);
+		PlayerMasterSimple p = new PlayerMasterSimple(player.getName()+" "+position,position);
 		p.setHero(new Blank());
 		players.add(p);
 	}
@@ -56,9 +56,9 @@ public class Framework
 		}
 		return null;//should not reach here
 	}
-	public PlayerOriginalMasterSimple findMatch(PlayerInfo p)
+	public PlayerMasterSimple findMatch(PlayerInfo p)
 	{
-		for(PlayerOriginalMasterSimple player : players)
+		for(PlayerMasterSimple player : players)
 			if(player.matches(p))
 				return player;
 		return null;

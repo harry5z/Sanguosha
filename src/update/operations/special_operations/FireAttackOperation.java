@@ -2,7 +2,7 @@ package update.operations.special_operations;
 
 import cards.Card;
 import player.PlayerOriginal;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.Damage;
 import update.Damage.Element;
 import update.DisposalOfCards;
@@ -22,7 +22,7 @@ public class FireAttackOperation extends SpecialOperation
 	private boolean sent;
 	private Card fireAttack;
 	
-	public FireAttackOperation(PlayerOriginalClientComplete player, Card fireAttack,Update next)
+	public FireAttackOperation(PlayerClientComplete player, Card fireAttack,Update next)
 	{
 		super(next,player.getCurrentStage().getSource());
 		this.source = player.getPlayerInfo();
@@ -33,7 +33,7 @@ public class FireAttackOperation extends SpecialOperation
 	}
 
 	@Override
-	public void onPlayerSelected(PlayerOriginalClientComplete operator,PlayerOriginal player)
+	public void onPlayerSelected(PlayerClientComplete operator,PlayerOriginal player)
 	{
 		if(target == null)//select target
 		{
@@ -59,13 +59,13 @@ public class FireAttackOperation extends SpecialOperation
 	}
 
 	@Override
-	public void onCardSelected(PlayerOriginalClientComplete operator, Card card)
+	public void onCardSelected(PlayerClientComplete operator, Card card)
 	{
 		cardSelectedAsReaction(operator, card);
 	}
 
 	@Override
-	public void onCancelledBy(PlayerOriginalClientComplete player) 
+	public void onCancelledBy(PlayerClientComplete player) 
 	{
 		if(!shown)//cancel fireattack
 		{
@@ -98,7 +98,7 @@ public class FireAttackOperation extends SpecialOperation
 	}
 
 	@Override
-	public void onConfirmedBy(PlayerOriginalClientComplete player) 
+	public void onConfirmedBy(PlayerClientComplete player) 
 	{
 		player.setOperation(null);
 		if(sent && !shown)//confirm showing card
@@ -123,7 +123,7 @@ public class FireAttackOperation extends SpecialOperation
 		}
 	}
 	@Override
-	protected void playerOpEffect(PlayerOriginalClientComplete player) 
+	protected void playerOpEffect(PlayerClientComplete player) 
 	{
 		if(shown)
 		{

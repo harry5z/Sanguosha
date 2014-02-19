@@ -1,6 +1,6 @@
 package cards.specials.delayed;
 
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.Update;
 import update.operations.Operation;
 
@@ -24,14 +24,14 @@ public class Relaxation extends Delayed
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerOriginalClientComplete player,
+	public Operation onActivatedBy(PlayerClientComplete player,
 			Update next) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player) {
+	public boolean isActivatableBy(PlayerClientComplete player) {
 		// TODO Auto-generated method stub
 		return true;
 	}

@@ -3,7 +3,7 @@ package update;
 import java.util.ArrayList;
 
 import cards.Card;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import core.Framework;
 import core.PlayerInfo;
 
@@ -54,7 +54,7 @@ public class UseOfCards extends Update
 	}
 
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player)
+	public void playerOperation(PlayerClientComplete player)
 	{
 		System.out.println(player.getName()+" UseOfCards ");
 		if(player.matches(source))

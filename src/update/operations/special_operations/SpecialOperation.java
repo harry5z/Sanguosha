@@ -1,7 +1,7 @@
 package update.operations.special_operations;
 
 import cards.Card;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.Update;
 import update.operations.Operation;
 import core.Framework;
@@ -13,10 +13,10 @@ public abstract class SpecialOperation extends Operation
 	 * 
 	 */
 	private static final long serialVersionUID = 4037333002465107383L;
-	protected static final int BEFORE = 1;
-	protected static final int NEUTRALIZATION = 2;
-	protected static final int EFFECT = 3;
-	protected static final int AFTER = 4;
+	protected static final byte BEFORE = 1;
+	protected static final byte NEUTRALIZATION = 2;
+	protected static final byte EFFECT = 3;
+	protected static final byte AFTER = 4;
 	private boolean neutralizable;
 	
 	private int stage;
@@ -57,7 +57,7 @@ public abstract class SpecialOperation extends Operation
 		framework.sendToAllClients(this);
 	}
 
-	protected void cardSelectedAsReaction(PlayerOriginalClientComplete operator, Card card)
+	protected void cardSelectedAsReaction(PlayerClientComplete operator, Card card)
 	{
 		if(reactionCard != null)//unselect previous
 		{
@@ -85,7 +85,7 @@ public abstract class SpecialOperation extends Operation
 		return currentPlayer;
 	}
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player)
+	public void playerOperation(PlayerClientComplete player)
 	{
 		if(stage == NEUTRALIZATION && player.matches(turnPlayer))
 		{
@@ -109,22 +109,32 @@ public abstract class SpecialOperation extends Operation
 			playerOpAfter(player);
 		
 	}
-	protected void playerOpBefore(PlayerOriginalClientComplete player)
+	/**
+	 * Player's operation before special card is in effect<br>
+	 * (Currently just sending to next player because no skills are added yet)
+	 * @param player : target of special card
+	 */
+	protected void playerOpBefore(PlayerClientComplete player)
 	{
 		if(player.matches(currentPlayer))
 			sendToNextPlayer(player);
 	}
-	protected abstract void playerOpEffect(PlayerOriginalClientComplete player);
 	/**
+	 * Player's operation when special card is in effect
+	 * @param player : target of special card
+	 */
+	protected abstract void playerOpEffect(PlayerClientComplete player);
+	/**
+	 * Player's operation after special card takes effect
 	 * Default ending behavior executed by CurrentPlayer: continue with next operation
 	 * @param player
 	 */
-	protected void playerOpAfter(PlayerOriginalClientComplete player)
+	protected void playerOpAfter(PlayerClientComplete player)
 	{
 		if(player.matches(currentPlayer))
 			player.sendToMaster(getNext());
 	}
-	private void sendToNextPlayer(PlayerOriginalClientComplete player)
+	private void sendToNextPlayer(PlayerClientComplete player)
 	{
 		currentPlayer = player.getNextPlayerAlive();
 		if(currentPlayer.equals(turnPlayer))//circle complete

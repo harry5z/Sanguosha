@@ -1,6 +1,6 @@
 package cards.specials.instant;
 
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import cards.specials.Special;
 
 public abstract class Instant extends Special
@@ -16,7 +16,7 @@ public abstract class Instant extends Special
 	}
 	
 	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player) 
+	public boolean isActivatableBy(PlayerClientComplete player) 
 	{
 		return true;
 	}

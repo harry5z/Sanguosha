@@ -1,7 +1,7 @@
 package update.operations;
 
 import player.PlayerOriginal;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import cards.Card;
 import cards.Card.CardType;
 import core.Framework;
@@ -35,7 +35,7 @@ public class ShowCardOperation extends Operation
 	}
 
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player) 
+	public void playerOperation(PlayerClientComplete player) 
 	{
 		if(player.matches(target))
 		{
@@ -52,14 +52,14 @@ public class ShowCardOperation extends Operation
 	}
 
 	@Override
-	public void onPlayerSelected(PlayerOriginalClientComplete operator,
+	public void onPlayerSelected(PlayerClientComplete operator,
 			PlayerOriginal player) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onCardSelected(PlayerOriginalClientComplete operator, Card card) 
+	public void onCardSelected(PlayerClientComplete operator, Card card) 
 	{
 		if(cardShown != null)//unselect previous
 		{
@@ -84,13 +84,13 @@ public class ShowCardOperation extends Operation
 	}
 
 	@Override
-	public void onCancelledBy(PlayerOriginalClientComplete player) 
+	public void onCancelledBy(PlayerClientComplete player) 
 	{
 		
 	}
 
 	@Override
-	public void onConfirmedBy(PlayerOriginalClientComplete player) 
+	public void onConfirmedBy(PlayerClientComplete player) 
 	{
 		
 	}

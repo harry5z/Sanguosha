@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import cards.Card;
 import player.PlayerOriginal;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.DisposalOfCards;
 import update.Update;
 import core.Framework;
@@ -40,7 +40,7 @@ public class TurnDiscardOperation extends Operation
 	}
 
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player) 
+	public void playerOperation(PlayerClientComplete player) 
 	{
 		System.out.println(player.getName()+" DiscardOperation ");
 		if(player.matches(source))
@@ -58,13 +58,13 @@ public class TurnDiscardOperation extends Operation
 	}
 
 	@Override
-	public void onPlayerSelected(PlayerOriginalClientComplete operator,PlayerOriginal player) 
+	public void onPlayerSelected(PlayerClientComplete operator,PlayerOriginal player) 
 	{
 		//no player selection in this operation
 	}
 
 	@Override
-	public void onCardSelected(PlayerOriginalClientComplete operator, Card card) 
+	public void onCardSelected(PlayerClientComplete operator, Card card) 
 	{
 		if(cardsSelected.contains(card))//unselect
 		{
@@ -88,13 +88,13 @@ public class TurnDiscardOperation extends Operation
 	}
 
 	@Override
-	public void onCancelledBy(PlayerOriginalClientComplete player) 
+	public void onCancelledBy(PlayerClientComplete player) 
 	{
 		//unable to cancel
 	}
 
 	@Override
-	public void onConfirmedBy(PlayerOriginalClientComplete player) 
+	public void onConfirmedBy(PlayerClientComplete player) 
 	{
 		cardsDiscarded.addAll(cardsSelected);
 		ArrayList<Card> temp = new ArrayList<Card>();

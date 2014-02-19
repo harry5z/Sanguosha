@@ -1,6 +1,6 @@
 package cards.specials.instant;
 
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.Update;
 import update.operations.Operation;
 
@@ -24,7 +24,7 @@ public class Chain extends Instant
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerOriginalClientComplete player,
+	public Operation onActivatedBy(PlayerClientComplete player,
 			Update next) {
 		// TODO Auto-generated method stub
 		return null;

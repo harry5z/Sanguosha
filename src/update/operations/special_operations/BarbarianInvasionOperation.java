@@ -2,7 +2,7 @@ package update.operations.special_operations;
 
 import cards.Card;
 import cards.basics.Attack;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.Update;
 
 public class BarbarianInvasionOperation extends AreaOfEffectOperation
@@ -13,13 +13,13 @@ public class BarbarianInvasionOperation extends AreaOfEffectOperation
 	 */
 	private static final long serialVersionUID = 5344213304608489554L;
 
-	public BarbarianInvasionOperation(PlayerOriginalClientComplete player,Card barbarianInvasion, Update next) 
+	public BarbarianInvasionOperation(PlayerClientComplete player,Card barbarianInvasion, Update next) 
 	{
 		super(player, barbarianInvasion, next);
 	}
 
 	@Override
-	protected void targetOp(PlayerOriginalClientComplete target) 
+	protected void targetOp(PlayerClientComplete target) 
 	{
 		target.setCardSelectableByName(Attack.ATTACK, true);
 		target.setCardSelectableByName(Attack.FIRE_ATTACK, true);

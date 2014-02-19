@@ -1,7 +1,7 @@
 package update.operations.special_operations;
 
 import cards.Card;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.IncreaseOfHealth;
 import update.Update;
 
@@ -12,14 +12,14 @@ public class BrotherhoodOperation extends AreaOfEffectOperation
 	 * 
 	 */
 	private static final long serialVersionUID = 8220370748719969280L;
-	public BrotherhoodOperation(PlayerOriginalClientComplete player, Card aoe,Update next)
+	public BrotherhoodOperation(PlayerClientComplete player, Card aoe,Update next)
 	{
 		super(player, aoe, next);
 		currentTarget = source;
 	}
 
 	@Override
-	protected void playerOpBefore(PlayerOriginalClientComplete player)
+	protected void playerOpBefore(PlayerClientComplete player)
 	{
 		if(player.matches(currentTarget))
 		{
@@ -31,7 +31,7 @@ public class BrotherhoodOperation extends AreaOfEffectOperation
 		}
 	}
 	@Override
-	protected void targetOp(PlayerOriginalClientComplete target)
+	protected void targetOp(PlayerClientComplete target)
 	{
 		this.setStage(AFTER);
 		target.sendToMaster(new IncreaseOfHealth(source,currentTarget,this));

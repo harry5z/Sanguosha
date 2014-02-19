@@ -1,7 +1,7 @@
 package update;
 
 import cards.Card;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.operations.decision_operations.DecisionOperation;
 import core.Framework;
 import core.PlayerInfo;
@@ -25,7 +25,7 @@ public class Decision extends Update
 	}
 
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player) 
+	public void playerOperation(PlayerClientComplete player) 
 	{
 		player.showCard(decision);
 		if(player.matches(source))

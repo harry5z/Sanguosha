@@ -2,7 +2,7 @@ package update;
 
 import java.io.Serializable;
 
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import core.Framework;
 
 /**
@@ -36,7 +36,7 @@ public abstract class Update implements Serializable
 	 * behavior of client-side operation
 	 * @param player
 	 */
-	public abstract void playerOperation(PlayerOriginalClientComplete player);
+	public abstract void playerOperation(PlayerClientComplete player);
 	
 	/**
 	 * get the next update

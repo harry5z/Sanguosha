@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import listener.CardOnHandListener;
 import listener.EquipmentListener;
 import listener.HealthListener;
-import player.PlayerOriginalClientSimple;
+import player.PlayerClientSimple;
 import cards.Card;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
@@ -35,8 +35,8 @@ public class PlayerGui extends JButton
 	private static final int LIFEBAR_HEIGHT = 20;
 	private static final int EQUIPMENTBAR_HEIGHT = 20;
 	private static final int CARDCOUNT_HEIGHT = 20;
-	private PlayerOriginalClientSimple player;
-	public PlayerGui(PlayerOriginalClientSimple player, ActionListener listener)
+	private PlayerClientSimple player;
+	public PlayerGui(PlayerClientSimple player, ActionListener listener)
 	{
 		this.player = player;
 		setSize(WIDTH,HEIGHT);
@@ -247,7 +247,7 @@ public class PlayerGui extends JButton
 		}
 		
 	}
-	public PlayerOriginalClientSimple getPlayer()
+	public PlayerClientSimple getPlayer()
 	{
 		return player;
 	}

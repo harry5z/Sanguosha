@@ -1,6 +1,6 @@
 package update;
 
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.operations.TurnDiscardOperation;
 import core.Framework;
 import core.PlayerInfo;
@@ -45,7 +45,7 @@ public class StageUpdate extends Update
 	{
 		return stage;
 	}
-	public void nextStage(PlayerOriginalClientComplete player)
+	public void nextStage(PlayerClientComplete player)
 	{
 		if(stage != TURN_END)
 			stage++;
@@ -55,13 +55,13 @@ public class StageUpdate extends Update
 			stage = TURN_START_BEGINNING;
 		}
 	}
-	public void nextPlayer(PlayerOriginalClientComplete player)
+	public void nextPlayer(PlayerClientComplete player)
 	{
 		source = player.getNextPlayerAlive();
 		stage = TURN_START_BEGINNING;
 	}
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player)
+	public void playerOperation(PlayerClientComplete player)
 	{
 		System.out.println(source.getName() +" Stage "+stage);
 		player.setCurrentStage(this);
@@ -94,12 +94,12 @@ public class StageUpdate extends Update
 			}
 		}
 	}
-	private void turnDraw(PlayerOriginalClientComplete player)
+	private void turnDraw(PlayerClientComplete player)
 	{
 		nextStage(player);
 		player.sendToMaster(new DrawCardsFromDeck(player.getPlayerInfo(),2,this));
 	}
-	private void turnDiscard(PlayerOriginalClientComplete player)
+	private void turnDiscard(PlayerClientComplete player)
 	{
 		if(player.getCardsOnHandCount() <= player.getCardOnHandLimit())
 		{

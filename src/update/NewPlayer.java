@@ -3,7 +3,7 @@ package update;
 import java.util.ArrayList;
 
 import player.Player;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import core.Framework;
 import core.PlayerInfo;
 
@@ -28,7 +28,7 @@ public class NewPlayer extends Update
 		framework.sendToAllClients(this);
 	}
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player) 
+	public void playerOperation(PlayerClientComplete player) 
 	{
 		int newPos = allPlayers.size();
 		if(player.matches(newPlayer))

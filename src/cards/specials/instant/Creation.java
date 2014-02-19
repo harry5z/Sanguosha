@@ -1,6 +1,6 @@
 package cards.specials.instant;
 
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.Update;
 import update.operations.Operation;
 import update.operations.special_operations.CreationOperation;
@@ -24,7 +24,7 @@ public class Creation extends Instant
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerOriginalClientComplete player,Update next) 
+	public Operation onActivatedBy(PlayerClientComplete player,Update next) 
 	{
 		player.setCardOnHandSelected(this, true);
 		player.setCancelEnabled(true);

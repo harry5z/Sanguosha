@@ -1,7 +1,7 @@
 package cards.basics;
 
 
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.Damage.Element;
 import update.Update;
 import update.operations.AttackOperation;
@@ -41,12 +41,12 @@ public class Attack extends Basic
 			return THUNDER_ATTACK;
 	}
 	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player)
+	public boolean isActivatableBy(PlayerClientComplete player)
 	{
 		return player.getAttackUsed() < player.getAttackLimit();
 	}
 	@Override
-	public Operation onActivatedBy(PlayerOriginalClientComplete player,Update next) 
+	public Operation onActivatedBy(PlayerClientComplete player,Update next) 
 	{
 		player.setCancelEnabled(true);//can cancel
 		player.setCardOnHandSelected(this, true);

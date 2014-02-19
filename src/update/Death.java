@@ -2,7 +2,7 @@ package update;
 
 import java.util.ArrayList;
 
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
 import core.Framework;
@@ -33,7 +33,7 @@ public class Death extends Update
 	}
 
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player)
+	public void playerOperation(PlayerClientComplete player)
 	{
 		System.out.println(player.getName()+" Death ");
 		if(player.matches(victim))

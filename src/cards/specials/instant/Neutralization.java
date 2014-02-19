@@ -1,6 +1,6 @@
 package cards.specials.instant;
 
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.Update;
 import update.operations.Operation;
 
@@ -24,7 +24,7 @@ public class Neutralization extends Instant
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerOriginalClientComplete player,Update next)
+	public Operation onActivatedBy(PlayerClientComplete player,Update next)
 	{
 		player.setCardOnHandSelected(this, true);
 		player.setCancelEnabled(true);
@@ -33,7 +33,7 @@ public class Neutralization extends Instant
 	}
 
 	@Override
-	public boolean isActivatableBy(PlayerOriginalClientComplete player) 
+	public boolean isActivatableBy(PlayerClientComplete player) 
 	{
 		return false;
 	}

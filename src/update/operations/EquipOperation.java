@@ -3,7 +3,7 @@ package update.operations;
 import cards.Card;
 import cards.equipments.Equipment;
 import player.PlayerOriginal;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.DisposalOfEquipment;
 import update.Update;
 import core.Framework;
@@ -31,7 +31,7 @@ public class EquipOperation extends Operation
 	}
 
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player)
+	public void playerOperation(PlayerClientComplete player)
 	{
 		if(player.matches(source))
 		{
@@ -48,20 +48,20 @@ public class EquipOperation extends Operation
 	}
 
 	@Override
-	public void onPlayerSelected(PlayerOriginalClientComplete operator,PlayerOriginal player) 
+	public void onPlayerSelected(PlayerClientComplete operator,PlayerOriginal player) 
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onCardSelected(PlayerOriginalClientComplete operator, Card card) {
+	public void onCardSelected(PlayerClientComplete operator, Card card) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onCancelledBy(PlayerOriginalClientComplete player) 
+	public void onCancelledBy(PlayerClientComplete player) 
 	{
 		player.setConfirmEnabled(false);
 		player.setCancelEnabled(false);
@@ -69,7 +69,7 @@ public class EquipOperation extends Operation
 	}
 
 	@Override
-	public void onConfirmedBy(PlayerOriginalClientComplete player)
+	public void onConfirmedBy(PlayerClientComplete player)
 	{
 		player.setOperation(null);
 		player.setCardOnHandSelected(equipment, false);

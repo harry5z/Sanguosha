@@ -1,7 +1,7 @@
 package update;
 
 import player.Player;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.operations.NearDeathOperation;
 import core.Framework;
 import core.PlayerInfo;
@@ -38,7 +38,7 @@ public class LossOfHealth extends Update
 	}
 
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player)
+	public void playerOperation(PlayerClientComplete player)
 	{
 		if(player.matches(target))
 		{

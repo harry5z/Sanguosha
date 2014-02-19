@@ -3,7 +3,7 @@ package update;
 import java.util.ArrayList;
 
 import cards.equipments.Equipment;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import core.Framework;
 import core.PlayerInfo;
 
@@ -31,7 +31,7 @@ public class LossOfEquipment extends Update
 		framework.sendToAllClients(this);
 	}
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player) 
+	public void playerOperation(PlayerClientComplete player) 
 	{
 		System.out.println(player.getName()+" LossOfEquipment ");
 		if(player.matches(source))

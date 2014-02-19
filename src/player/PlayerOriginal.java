@@ -8,12 +8,12 @@ package player;
  */
 public abstract class PlayerOriginal extends Player
 {
-	public static final int EMPEROR = 0;
-	public static final int LOYALIST = 1;
-	public static final int REBEL = 2;
-	public static final int USURPER = 3;
 	
-	private int role;
+	public enum Role
+	{
+		EMPEROR, LOYALIST, REBEL, USURPER
+	}
+	private Role role;
 	
 	public PlayerOriginal(String name)
 	{
@@ -23,7 +23,7 @@ public abstract class PlayerOriginal extends Player
 	{
 		super(name,position);
 	}
-	public void setRole(int role)
+	public void setRole(Role role)
 	{
 		this.role = role;
 	}
@@ -31,7 +31,7 @@ public abstract class PlayerOriginal extends Player
 	 * Emperor? Loyalist? Rebel? Usurper?
 	 * @return Player's role
 	 */
-	public int getRole()
+	public Role getRole()
 	{
 		return role;
 	}

@@ -9,8 +9,8 @@ import java.util.*;
 import javax.swing.*;
 
 import cards.Card;
-import player.PlayerOriginalClientComplete;
-import player.PlayerOriginalClientSimple;
+import player.PlayerClientComplete;
+import player.PlayerClientSimple;
 import listener.GameListener;
 import core.PlayerInfo;
 
@@ -36,7 +36,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 	private LifebarGui healthGui;
 	private CardDisposalGui disposalGui;
 	
-	private PlayerOriginalClientComplete myself;
+	private PlayerClientComplete myself;
 	private ArrayList<PlayerGui> otherPlayers;
 	private ButtonGui confirm;
 	private ButtonGui cancel;
@@ -44,7 +44,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 	
 	private JLabel deckSize;
 	private MessageBoxGui messageBox;
-	public PanelGui(PlayerOriginalClientComplete player)
+	public PanelGui(PlayerClientComplete player)
 	{
 		setLayout(null);
 		myself = player;
@@ -94,7 +94,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 		add(messageBox);
 	}
 	@Override
-	public void onPlayerAdded(PlayerOriginalClientSimple player)
+	public void onPlayerAdded(PlayerClientSimple player)
 	{
 		player.registerCardDisposalListener(disposalGui);
 		PlayerGui p = new PlayerGui(player,this);
@@ -118,7 +118,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 		}
 		else if(obj instanceof PlayerGui)
 		{
-			PlayerOriginalClientSimple player = ((PlayerGui)obj).getPlayer();
+			PlayerClientSimple player = ((PlayerGui)obj).getPlayer();
 			myself.choosePlayer(player);
 //			if(!myself.isSelected(player))
 //				myself.selectTarget(player);

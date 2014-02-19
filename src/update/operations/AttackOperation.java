@@ -6,8 +6,8 @@ import cards.basics.Dodge;
 import core.Framework;
 import core.PlayerInfo;
 import player.PlayerOriginal;
-import player.PlayerOriginalClientComplete;
-import player.PlayerOriginalClientSimple;
+import player.PlayerClientComplete;
+import player.PlayerClientSimple;
 import update.Damage;
 import update.Update;
 import update.UseOfCards;
@@ -53,7 +53,7 @@ public class AttackOperation extends Operation
 	private Card dodge;//the dodge that target uses
 	private Damage damage;//the damage that this attack carries
 	
-	public AttackOperation(PlayerOriginalClientComplete source, Attack attack, Update next)
+	public AttackOperation(PlayerClientComplete source, Attack attack, Update next)
 	{
 		super(next);
 		this.source = source.getPlayerInfo();
@@ -64,13 +64,13 @@ public class AttackOperation extends Operation
 		dodge = null;
 		enableTargets(source);
 	}
-	private void enableTargets(PlayerOriginalClientComplete source)
+	private void enableTargets(PlayerClientComplete source)
 	{
-		for(PlayerOriginalClientSimple p : source.getOtherPlayers())
+		for(PlayerClientSimple p : source.getOtherPlayers())
 			if(p.isAlive() && source.isPlayerInRange(p,source.getNumberOfPlayersAlive()))//if p is alive an in attack range
 				source.setTargetSelectable(p.getPlayerInfo(), true);//in the future, add skill decisions
 	}
-	private void endOfTargetOperation(PlayerOriginalClientComplete player)
+	private void endOfTargetOperation(PlayerClientComplete player)
 	{
 		player.setCancelEnabled(false);
 		if(dodge != null)
@@ -83,7 +83,7 @@ public class AttackOperation extends Operation
 		framework.sendToAllClients(this);
 	}
 	@Override
-	public void playerOperation(PlayerOriginalClientComplete player) 
+	public void playerOperation(PlayerClientComplete player) 
 	{
 		System.out.println(player.getName()+" AttackEvent "+stage);
 		if(player.matches(target))//target operations
@@ -175,7 +175,7 @@ public class AttackOperation extends Operation
 
 
 	@Override
-	public void onPlayerSelected(PlayerOriginalClientComplete operator, PlayerOriginal player) 
+	public void onPlayerSelected(PlayerClientComplete operator, PlayerOriginal player) 
 	{
 		if(stage == TARGET_SELECTION)//now selecting target
 		{
@@ -203,7 +203,7 @@ public class AttackOperation extends Operation
 			System.err.println("AttackEvent: invalid player selection at stage "+stage);
 	}
 	@Override
-	public void onConfirmedBy(PlayerOriginalClientComplete player) 
+	public void onConfirmedBy(PlayerClientComplete player) 
 	{
 		if(player.matches(source))//attack confirmed by source
 		{
@@ -230,7 +230,7 @@ public class AttackOperation extends Operation
 			System.err.println("AttackEvent: Invalid confirmation at stage "+stage);
 	}
 	@Override
-	public void onCancelledBy(PlayerOriginalClientComplete player)
+	public void onCancelledBy(PlayerClientComplete player)
 	{
 		if(stage == TARGET_SELECTION)//not sent yet
 		{
@@ -257,7 +257,7 @@ public class AttackOperation extends Operation
 		else
 			System.err.println("AttackEvent: invalid cancellation at stage "+stage);
 	}
-	private void cancelOperation(PlayerOriginalClientComplete operator, Card card)
+	private void cancelOperation(PlayerClientComplete operator, Card card)
 	{
 		operator.setConfirmEnabled(false);//unable to confirm
 		if(target != null)
@@ -265,7 +265,7 @@ public class AttackOperation extends Operation
 		operator.setAllTargetsSelectableExcludingSelf(false);
 	}
 	@Override
-	public void onCardSelected(PlayerOriginalClientComplete operator, Card card) 
+	public void onCardSelected(PlayerClientComplete operator, Card card) 
 	{
 		if(operator.matches(target))//target select a card (must be dodge)
 		{

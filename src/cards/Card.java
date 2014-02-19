@@ -2,7 +2,7 @@ package cards;
 
 import java.io.Serializable;
 
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.Update;
 import update.operations.Operation;
 
@@ -73,13 +73,13 @@ public abstract class Card implements Serializable
 	 * @param next
 	 * @return the corresponding operation
 	 */
-	public abstract Operation onActivatedBy(PlayerOriginalClientComplete player, Update next);
+	public abstract Operation onActivatedBy(PlayerClientComplete player, Update next);
 	/**
 	 * decides whether the card is activatable by player during TURN_DEAL
 	 * @param player
 	 * @return true if activatable, false if not
 	 */
-	public abstract boolean isActivatableBy(PlayerOriginalClientComplete player);
+	public abstract boolean isActivatableBy(PlayerClientComplete player);
 
 	public CardType getType()
 	{

@@ -15,18 +15,18 @@ import cards.equipments.Equipment.EquipmentType;
  * @author Harry
  *
  */
-public class PlayerOriginalClientSimple extends PlayerOriginalMasterSimple
+public class PlayerClientSimple extends PlayerMasterSimple
 {
 	private HealthListener healthListener;
 	private CardOnHandListener cardsOnHandListener;
 	private EquipmentListener equipmentListener;
 	private CardDisposalListener disposalListener;
 	
-	public PlayerOriginalClientSimple(String name) 
+	public PlayerClientSimple(String name) 
 	{
 		super(name);
 	}
-	public PlayerOriginalClientSimple(String name, int position) 
+	public PlayerClientSimple(String name, int position) 
 	{
 		super(name,position);
 	}

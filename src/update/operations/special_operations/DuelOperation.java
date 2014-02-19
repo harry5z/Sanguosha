@@ -3,7 +3,7 @@ package update.operations.special_operations;
 import cards.Card;
 import cards.basics.Attack;
 import player.PlayerOriginal;
-import player.PlayerOriginalClientComplete;
+import player.PlayerClientComplete;
 import update.Damage;
 import update.Update;
 import update.UseOfCards;
@@ -30,7 +30,7 @@ public class DuelOperation extends SpecialOperation
 	}
 	
 	@Override
-	public void onPlayerSelected(PlayerOriginalClientComplete operator, PlayerOriginal player) 
+	public void onPlayerSelected(PlayerClientComplete operator, PlayerOriginal player) 
 	{
 		if(target == null)//select target
 		{
@@ -56,7 +56,7 @@ public class DuelOperation extends SpecialOperation
 	}
 
 	@Override
-	public void onCardSelected(PlayerOriginalClientComplete operator, Card card)
+	public void onCardSelected(PlayerClientComplete operator, Card card)
 	{
 		this.cardSelectedAsReaction(operator, card);
 //		if(attack != null)//unselect previous
@@ -83,7 +83,7 @@ public class DuelOperation extends SpecialOperation
 	}
 
 	@Override
-	public void onCancelledBy(PlayerOriginalClientComplete player) 
+	public void onCancelledBy(PlayerClientComplete player) 
 	{
 		if(player.matches(source))//not sent yet
 		{
@@ -116,7 +116,7 @@ public class DuelOperation extends SpecialOperation
 	}
 
 	@Override
-	public void onConfirmedBy(PlayerOriginalClientComplete player)
+	public void onConfirmedBy(PlayerClientComplete player)
 	{
 		if(player.matches(source))//start duel
 		{
@@ -139,7 +139,7 @@ public class DuelOperation extends SpecialOperation
 	}
 
 	@Override
-	protected void playerOpEffect(PlayerOriginalClientComplete player) 
+	protected void playerOpEffect(PlayerClientComplete player) 
 	{
 		if(player.matches(target))
 		{
