@@ -52,6 +52,7 @@ Whenever a player's current health drops below 1, the player enters near-death s
 At draw card stage, a player draws 2 cards (by default) from [deck](https://github.com/harry5z/Sanguosha/blob/master/src/core/Deck.java), then enters dealing stage. After player chooses to end dealing stage, the player enters discard stage: if the player owns more cards on hand than "cardsOnHandLimit" (by default equal to player's current health), the players have to discard extra cards.
 
 7. All 4 [Basic](https://github.com/harry5z/Sanguosha/blob/master/src/cards/basics/Basic.java) cards are enabled:
+
 [Attack](https://github.com/harry5z/Sanguosha/blob/master/src/cards/basics/Attack.java): used by a player during turn_deal to attack other players that are in player's attack range. By default, a player can use only 1 attack per turn, a player's attack distance is initially 1, and an attack carries 1 damage.
 
 [Dodge](https://github.com/harry5z/Sanguosha/blob/master/src/cards/basics/Dodge.java): used to dodge attacks from other players, used only when player is attacked. If player chooses to dodge, the
@@ -85,7 +86,7 @@ Fixed ExecutorService bug: can now add any number of players.
 
 Fixed bug in Neutralization: Dead players will not be asked for Neutralization.
 
-Added three instant cards with [Area of Effect](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/AreaOfEffectOperation.java) property: Barbarian Invasion, ArrowSalvo, and Brotherhood.
+Added three instant cards with [Area of Effect](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/AreaOfEffectOperation.java) property: [Barbarian Invasion](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/BarbarianInvasion.java), [ArrowSalvo](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/ArrowSalvo.java), and [Brotherhood](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/Brotherhood.java).
 
 [Barbarian Invasion](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/BarbarianInvasionOperation.java): From the next player of the current player (who plays this card), each player except source player himself has to play an Attack one by one (the effect of this card can be neutralized on each player too). Those who fails to do so takes 1 damage from source.
 
@@ -130,6 +131,6 @@ Bug fix: Bug in [Damage.java](https://github.com/harry5z/Sanguosha/blob/master/s
 Major change in structure: [Suit](https://github.com/harry5z/Sanguosha/blob/master/src/cards/Card.java#L17-L20), [Color](https://github.com/harry5z/Sanguosha/blob/master/src/cards/Card.java#L22-L25), [CardType](https://github.com/harry5z/Sanguosha/blob/master/src/cards/Card.java#L27-L30), and EquipmentType are all enum types now. Update becomes an abstract class with the ability to get and set the next update like a Stack.
 
 2/24/2014:
-Silver Lion feature: "Gain 1 health point when un-equiping" implemented.
+Silver Lion [feature](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/SilverLion.java#L28-L33): "Gain 1 health point when un-equiping" implemented.
 
 Started working on CardSelectionPanel (for Sabotage, Steal, Harvest, etc.)
