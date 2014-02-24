@@ -10,7 +10,7 @@ import net.Master;
 import player.Player;
 import player.PlayerMasterSimple;
 import update.DrawCardsFromDeck;
-import update.StageUpdate;
+import update.Stage;
 import update.Update;
 /**
  * The game framework. Currently only the original game (Emperor-loyalist-rebel-usurper), but in the future
@@ -74,7 +74,7 @@ public class Framework
 	{
 		for(PlayerInfo p : getPlayers())
 			master.sendToAllClients(new DrawCardsFromDeck(p,deck.drawMany(4),deck.getDeckSize()));
-		StageUpdate start = new StageUpdate(players.get(0).getPlayerInfo(),StageUpdate.TURN_START_BEGINNING);
+		Stage start = new Stage(players.get(0).getPlayerInfo(),Stage.TURN_START_BEGINNING);
 		master.sendToAllClients(start);
 	}
 	/**

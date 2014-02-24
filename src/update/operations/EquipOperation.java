@@ -4,7 +4,7 @@ import cards.Card;
 import cards.equipments.Equipment;
 import player.PlayerOriginal;
 import player.PlayerClientComplete;
-import update.DisposalOfEquipment;
+import update.LossOfEquipment;
 import update.Update;
 import core.Framework;
 import core.PlayerInfo;
@@ -38,7 +38,7 @@ public class EquipOperation extends Operation
 			Equipment old = player.equip(equipment);
 			if(old != null)
 			{
-				player.sendToMaster(new DisposalOfEquipment(source,old,getNext()));
+				player.sendToMaster(new LossOfEquipment(source,getNext(),old));
 			}
 			else
 				player.sendToMaster(getNext());

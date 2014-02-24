@@ -1,6 +1,7 @@
 package update;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import player.PlayerClientComplete;
 import cards.equipments.Equipment;
@@ -39,7 +40,7 @@ public class Death extends Update
 		if(player.matches(victim))
 		{
 			player.kill();//kill victim
-			ArrayList<Equipment> equipmentsToDispose = new ArrayList<Equipment>();
+			List<Equipment> equipmentsToDispose = new ArrayList<Equipment>();
 			if(player.isEquippedWeapon())
 				equipmentsToDispose.add(player.unequip(EquipmentType.WEAPON));
 			if(player.isEquippedShield())
@@ -50,7 +51,7 @@ public class Death extends Update
 				equipmentsToDispose.add(player.unequip(EquipmentType.HORSEMINUS));
 			//here for decision area
 			//here for player skill cards
-			player.sendToMaster(new DisposalOfCards(victim,player.getCardsOnHand(),new DisposalOfEquipment(victim,equipmentsToDispose,getNext())));//victim discards all cards
+			player.sendToMaster(new DisposalOfCards(victim,player.getCardsOnHand(),new DisposalOfEquipment(victim,getNext(),equipmentsToDispose)));//victim discards all cards
 		}
 		else
 			player.findMatch(victim).kill();

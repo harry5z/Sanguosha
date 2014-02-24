@@ -138,7 +138,7 @@ public class PlayerClientSimple extends PlayerMasterSimple
 	{
 		disposalListener.onCardDisposed(card);
 	}
-	public void showCards(ArrayList<Card> cards)
+	public void showCards(ArrayList<? extends Card> cards)
 	{
 		for(Card card : cards)
 			showCard(card);

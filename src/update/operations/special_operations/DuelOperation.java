@@ -18,7 +18,6 @@ public class DuelOperation extends SpecialOperation
 	private PlayerInfo source;
 	private PlayerInfo target;
 	private Card duel;
-//	private Card attack;
 	
 	public DuelOperation(PlayerInfo source,PlayerInfo turnPlayer,Card duel,Update next)
 	{
@@ -26,7 +25,6 @@ public class DuelOperation extends SpecialOperation
 		this.duel = duel;
 		this.source = source;
 		this.target = null;
-//		this.attack = null;
 	}
 	
 	@Override
@@ -59,27 +57,6 @@ public class DuelOperation extends SpecialOperation
 	public void onCardSelected(PlayerClientComplete operator, Card card)
 	{
 		this.cardSelectedAsReaction(operator, card);
-//		if(attack != null)//unselect previous
-//		{
-//			operator.setCardOnHandSelected(attack, false);
-//			if(attack.equals(card))//unselect
-//			{
-//				attack = null;
-//				operator.setConfirmEnabled(false);
-//			}
-//			else//change
-//			{
-//				attack = card;
-//				operator.setCardOnHandSelected(card, true);
-//			}
-//		}
-//		else //select new
-//		{
-//			attack = card;
-//			operator.setCardOnHandSelected(card, true);
-//			operator.setConfirmEnabled(true);
-//		}
-		
 	}
 
 	@Override

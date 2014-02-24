@@ -40,7 +40,7 @@ public abstract class Update implements Serializable
 	
 	/**
 	 * get the next update
-	 * @return next
+	 * @return next : the next update
 	 */
 	public Update getNext()
 	{
@@ -48,8 +48,10 @@ public abstract class Update implements Serializable
 	}
 	
 	/**
-	 * set the next update
-	 * @param update
+	 * set the next update. <br>
+	 * Be careful, setting next will override
+	 * the original stack of updates
+	 * @param update : the next update
 	 */
 	public void setNext(Update update)
 	{

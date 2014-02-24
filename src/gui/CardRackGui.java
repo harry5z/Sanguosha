@@ -38,14 +38,7 @@ public class CardRackGui extends JPanel implements CardOnHandListener
 	@Override
 	public void onCardAdded(Card card)
 	{
-		CardGui cardGui = new CardGui(card);
-		cardGui.setRolloverEnabled(false);
-		cardGui.addActionListener(listener);
-		cardGui.setEnabled(false);
-		cards.add(cardGui);
-		add(cardGui,0);
-		resetLocations();
-		repaint();
+		addCardGui(new CardGui(card));
 	}
 	@Override
 	public void onCardRemoved(Card card)
@@ -60,6 +53,16 @@ public class CardRackGui extends JPanel implements CardOnHandListener
 				break;
 			}
 		}
+	}
+	protected void addCardGui(CardGui cardGui)
+	{
+		cardGui.setRolloverEnabled(false);
+		cardGui.addActionListener(listener);
+		cardGui.setEnabled(false);
+		cards.add(cardGui);
+		add(cardGui,0);
+		resetLocations();
+		repaint();
 	}
 	protected void clearRack()
 	{

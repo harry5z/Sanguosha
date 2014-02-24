@@ -6,4 +6,7 @@ public interface Skill
 	public boolean onDecisionStage();
 	public boolean onCardDrawingStage();
 	public boolean onPlayingStageBegin();
+	
+	public String getName();
+	public String getDescription();
 }

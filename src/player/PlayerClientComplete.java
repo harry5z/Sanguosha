@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import listener.ClientListener;
 import listener.GameListener;
 import net.Client;
-import update.StageUpdate;
+import update.Stage;
 import update.Update;
 import update.operations.Operation;
 import cards.Card;
@@ -32,7 +32,7 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 	
 	private GameListener gameListener;
 	//private settings
-	private StageUpdate currentStage;
+	private Stage currentStage;
 	private ArrayList<PlayerClientSimple> otherPlayers;
 		
 		
@@ -162,11 +162,11 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 	{
 		client.sendToMaster(update);
 	}
-	public void setCurrentStage(StageUpdate update)
+	public void setCurrentStage(Stage update)
 	{
 		currentStage = update;
 	}
-	public StageUpdate getCurrentStage()
+	public Stage getCurrentStage()
 	{
 		return currentStage;
 	}

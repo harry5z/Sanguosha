@@ -10,7 +10,7 @@ import core.PlayerInfo;
  * @author Harry
  *
  */
-public class StageUpdate extends Update
+public class Stage extends Update
 {
 	/**
 	 * 
@@ -31,7 +31,7 @@ public class StageUpdate extends Update
 	private PlayerInfo source;
 	private int stage;
 	
-	public StageUpdate(PlayerInfo source,int stage)
+	public Stage(PlayerInfo source,int stage)
 	{
 		super(null);
 		this.source = source;
@@ -85,8 +85,6 @@ public class StageUpdate extends Update
 			{
 				turnDiscard(player);
 			}
-			else if(stage == TURN_END)
-				player.endTurn();
 			else
 			{
 				stage++;

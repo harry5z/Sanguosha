@@ -1,6 +1,5 @@
 package heroes;
 
-import core.Hero;
 /**
  * for test use only
  * @author Harry

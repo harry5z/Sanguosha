@@ -4,7 +4,7 @@ import player.PlayerClientComplete;
 import update.Update;
 import update.operations.Operation;
 
-public class Destroy extends Instant
+public class Sabotage extends Instant
 {
 
 	/**
@@ -12,7 +12,7 @@ public class Destroy extends Instant
 	 */
 	private static final long serialVersionUID = -2917645089871877494L;
 
-	public Destroy(int num, Suit suit) 
+	public Sabotage(int num, Suit suit) 
 	{
 		super(num, suit);
 	}
@@ -20,7 +20,7 @@ public class Destroy extends Instant
 	@Override
 	public String getName() 
 	{
-		return "Destory";
+		return "Sabotage";
 	}
 
 	@Override

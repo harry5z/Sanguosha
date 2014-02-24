@@ -1,13 +1,10 @@
 package gui;
 
-import java.awt.Color;
+import heroes.Hero;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-
-import core.Hero;
 
 
 public class HeroGui extends JButton
@@ -36,4 +33,8 @@ public class HeroGui extends JButton
 		repaint();
 	}
 	
+	public Hero getHero()
+	{
+		return hero;
+	}
 }

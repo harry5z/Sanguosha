@@ -2,11 +2,17 @@ package update;
 
 import java.util.ArrayList;
 
-import cards.equipments.Equipment;
 import player.PlayerClientComplete;
+import cards.equipments.Equipment;
+import cards.equipments.shields.Shield;
 import core.Framework;
 import core.PlayerInfo;
 
+/**
+ * Player 
+ * @author Harry
+ *
+ */
 public class LossOfEquipment extends Update
 {
 	/**
@@ -16,7 +22,7 @@ public class LossOfEquipment extends Update
 	private PlayerInfo source;
 	private ArrayList<Equipment> equipments;
 	
-	public LossOfEquipment(PlayerInfo source,ArrayList<Equipment> equipments,Update next)
+	public LossOfEquipment(PlayerInfo source,Update next,Equipment... equipments)
 	{
 		super(next);
 		this.source = source;
@@ -37,13 +43,17 @@ public class LossOfEquipment extends Update
 		if(player.matches(source))
 		{
 			for(Equipment e : equipments)
-				player.unequip(e.getEquipmentType());
+			{
+				player.showCard(e);
+				if(e instanceof Shield)
+					((Shield)e).onUnequipped(player, this);
+			}
+			
 			player.sendToMaster(getNext());
 		}
 		else
 		{
-			for(Equipment e : equipments)
-				player.findMatch(source).unequip(e.getEquipmentType());
+			player.findMatch(source).showCards(equipments);
 		}
 	}
 }

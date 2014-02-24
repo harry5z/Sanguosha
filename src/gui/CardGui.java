@@ -31,6 +31,7 @@ public class CardGui extends JButton implements ActionListener
 	private Card c;
 	private String number;
 	private Color color;
+	private boolean visible;
 	private Image suit;
 	private Image img;
 	private Image img_darker;
@@ -43,7 +44,29 @@ public class CardGui extends JButton implements ActionListener
 		number = numToString(c.getNumber());
 		readSuit(card.getSuit());
 		readName(c.getName());
+		visible = true;
 		timer = new Timer(10,this);
+	}
+	/**
+	 * Only showing the back of a card
+	 */
+	public CardGui()
+	{
+		visible = false;
+		setSize(WIDTH,HEIGHT);
+		try 
+		{
+			img = ImageIO.read(getClass().getResource("cards/card_back.png"));
+		} 
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean isVisible()
+	{
+		return visible;
 	}
 	private void readName(String name)
 	{
@@ -128,17 +151,22 @@ public class CardGui extends JButton implements ActionListener
 	public void paint(Graphics g)
 	{
 		super.paint(g);
-		if(isEnabled())
+		if(visible)
+		{
+			if(isEnabled())
+				g.drawImage(img,0,0,null);
+			else
+				g.drawImage(img_darker, 0, 0, null);
+			g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 18));
+			g.setColor(color);
+			g.drawImage(suit, 10, 28,null);
+			if(number.length() == 1)
+				g.drawString(number, 15, 25);
+			else
+				g.drawString(number, 10, 25);
+		}
+		else
 			g.drawImage(img,0,0,null);
-		else
-			g.drawImage(img_darker, 0, 0, null);
-		g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 18));
-		g.setColor(color);
-		g.drawImage(suit, 10, 28,null);
-		if(number.length() == 1)
-			g.drawString(number, 15, 25);
-		else
-			g.drawString(number, 10, 25);
 	}
 
 }

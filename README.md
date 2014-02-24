@@ -23,9 +23,9 @@ My ultimate goal is to automatize the creation of heroes and skills by designing
 
 How to play (As of 1/3/2014):
 
-1. Run Master.java without arguments (a small window will appear)
+1. Run [Master.java](https://github.com/harry5z/Sanguosha/blob/master/src/net/Master.java) without arguments (a small window will appear)
 
-2. Run several Client.java without arguments
+2. Run several [Client.java](https://github.com/harry5z/Sanguosha/blob/master/src/net/Client.java) without arguments
 
 3. Click "start" on the small window.
 
@@ -34,93 +34,102 @@ Current Progress:
 
 As of 1/3/2014:
 
-1. Basic documentation
+0. Basic documentation
 
-2. Master and Client:
+1. Core functionalities such as [cards](https://github.com/harry5z/Sanguosha/blob/master/src/cards/Card.java), [players](https://github.com/harry5z/Sanguosha/tree/master/src/player), [updates](https://github.com/harry5z/Sanguosha/blob/master/src/update/Update.java) etc.
+
+2. [Master](https://github.com/harry5z/Sanguosha/blob/master/src/net/Master.java) and [Client](https://github.com/harry5z/Sanguosha/blob/master/src/net/Client.java):
 It is tested that multiple clients on different machines within an LAN can play together. Remote connection is not tested yet, because there appears to be some router configurations required, and I forgot the username and password of my router...
 
-3. Basic Gui: cards, players, buttons, life bar, etc.
+3. Basic [Gui](https://github.com/harry5z/Sanguosha/tree/master/src/gui): [cards](https://github.com/harry5z/Sanguosha/blob/master/src/gui/CardGui.java), [players](https://github.com/harry5z/Sanguosha/blob/master/src/gui/PlayerGui.java), [buttons](https://github.com/harry5z/Sanguosha/blob/master/src/gui/ButtonGui.java), [life bar](https://github.com/harry5z/Sanguosha/blob/master/src/gui/LifebarGui.java), etc.
 
-4. Game flow
+4. [Game flow](https://github.com/harry5z/Sanguosha/blob/master/src/update/Stage.java)
 
-5. Near-death and death events:
+5. [Near-death](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/NearDeathOperation.java) and [death](https://github.com/harry5z/Sanguosha/blob/master/src/update/DeathEvent.java) events:
 Whenever a player's current health drops below 1, the player enters near-death stage. Starting from the player who is playing the current turn, each player (including dying player himself) decides whether to use peach to save him. If enough peaches are given and the dying player's health returns to 1 or more, the game continues; if not enough peaches are given after a cycle, then the player dies. 
 
-6. DrawCard stage and Discard stage:
-At draw card stage, a player draws 2 cards (by default) from deck, then enters dealing stage. After player chooses to end dealing stage, the player enters discard stage: if the player owns more cards on hand than "cardsOnHandLimit" (by default equal to player's current health), the players have to discard extra cards.
+6. [DrawCard](https://github.com/harry5z/Sanguosha/blob/master/src/update/DrawCardsFromDeck.java) stage and [Discard](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/TurnDiscardOperation.java) stage:
+At draw card stage, a player draws 2 cards (by default) from [deck](https://github.com/harry5z/Sanguosha/blob/master/src/core/Deck.java), then enters dealing stage. After player chooses to end dealing stage, the player enters discard stage: if the player owns more cards on hand than "cardsOnHandLimit" (by default equal to player's current health), the players have to discard extra cards.
 
-7. All 4 basic-type cards are enabled:
-Attack: used by a player during turn_deal to attack other players that are in player's attack range. By default, a player can use only 1 attack per turn, a player's attack distance is initially 1, and an attack carries 1 damage.
+7. All 4 [Basic](https://github.com/harry5z/Sanguosha/blob/master/src/cards/basics/Basic.java) cards are enabled:
+[Attack](https://github.com/harry5z/Sanguosha/blob/master/src/cards/basics/Attack.java): used by a player during turn_deal to attack other players that are in player's attack range. By default, a player can use only 1 attack per turn, a player's attack distance is initially 1, and an attack carries 1 damage.
 
-Dodge: used to dodge attacks from other players, used only when player is attacked. If player chooses to dodge, the
+[Dodge](https://github.com/harry5z/Sanguosha/blob/master/src/cards/basics/Dodge.java): used to dodge attacks from other players, used only when player is attacked. If player chooses to dodge, the
 attack is cancelled, otherwise, the player takes the damage carried by the attack
 
-Peach: used to increase a player's health during turn_deal, or to save a player who is dying. Note that a player's current health can never exceeds health limit.
+[Peach](https://github.com/harry5z/Sanguosha/blob/master/src/cards/basics/Peach.java): used to increase a player's health during turn_deal, or to save a player who is dying. Note that a player's current health can never exceeds health limit.
 
-Wine: used to increase the damage carried by player's next attack (this turn) by 1 during turn_deal, or to save a player HIMSELF when he is dying. By default, wine (used to increase damage) can be used once per turn.
+[Wine](https://github.com/harry5z/Sanguosha/blob/master/src/cards/basics/Wine.java): used to increase the damage carried by player's next attack (this turn) by 1 during turn_deal, or to save a player HIMSELF when he is dying. By default, wine (used to increase damage) can be used once per turn.
 
 1/4/2014:
 Fixed card equality bug: added unique ID to each real card, also made equality check faster.
 
 1/5/2014:
-Added two instant type cards: Duel and Neutralization. Fixed game flow bug brought up by Duel (when turn_player dies in a duel)
+Added two [instant](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/Instant.java) type cards: [Duel](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/Duel.java) and [Neutralization](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/Neutralization.java). All instant cards are of [special](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/Special.java) type. 
 
-Neutralization: while anyone uses an instant type card, or when a delayed type card is to be decided, any player can deal an Neutralization to cancel the effect of this special-type card. Of course, Neutralization itself is a special-type card so its effect can be neutralized as well.
+Fixed game flow bug brought up by Duel (when turn_player dies in a duel)
 
-Duel: Used by a player to duel with another player during turn_deal. Once a target is selected, starting from the target, two players take turns to deal an Attack. The first player that fails to do so takes (by default) 1 damage from the other player.
+[Neutralization](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/NeutralizationOperation.java): while anyone uses an instant type card, or when a delayed type card is to be decided, any player can deal an Neutralization to cancel the effect of this special-type card. Of course, Neutralization itself is a special-type card so its effect can be neutralized as well.
+
+[Duel](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/DuelOperation.java): Used by a player to duel with another player during turn_deal. Once a target is selected, starting from the target, two players take turns to deal an Attack. The first player that fails to do so takes (by default) 1 damage from the other player.
 
 1/6/2014:
-Added two instant type cards: Creation and Fire Attack.
+Added two instant type cards: [Creation](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/Creation.java) and [Fire Attack](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/FireAttack.java).
 
-Creation: draw two cards from deck.
+[Creation](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/CreationOperation.java): draw two cards from deck.
 
-Fire Attack: Use it against another player or self. Target shows a card on hand, and if attacker can discard a card on hand with the same suit, then target takes 1 damage of element "Fire" from source.
+[Fire Attack](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/FireAttackOperation.java): Use it against another player or self. Target shows a card on hand, and if attacker can discard a card on hand with the same suit, then target takes 1 damage of element "Fire" from source.
 
 1/10/2014:
 Fixed ExecutorService bug: can now add any number of players.
 
 Fixed bug in Neutralization: Dead players will not be asked for Neutralization.
 
-Added three special cards: Barbarian Invasion, ArrowSalvo, and Brotherhood.
+Added three instant cards with [Area of Effect](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/AreaOfEffectOperation.java) property: Barbarian Invasion, ArrowSalvo, and Brotherhood.
 
-Barbarian Invasion: From the next player of the current player (who plays this card), each player except source player himself has to play an Attack one by one (the effect of this card can be neutralized on each player too). Those who fails to do so takes 1 damage from source.
+[Barbarian Invasion](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/BarbarianInvasionOperation.java): From the next player of the current player (who plays this card), each player except source player himself has to play an Attack one by one (the effect of this card can be neutralized on each player too). Those who fails to do so takes 1 damage from source.
 
-Arrow Salvo: very similar to Barbarian Invasion, except that each player plays a Dodge.
+[Arrow Salvo](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/ArrowSalvoOperation.java): very similar to Barbarian Invasion, except that each player plays a Dodge.
 
-Brotherhood: All injured players gain 1 health point (the effect of this card can be neutralized on each player too).
+[Brotherhood](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/BrotherhoodOperation.java): All injured players gain 1 health point (the effect of this card can be neutralized on each player too).
 
 1/17/2014:
-Added HorsePlus and HorseMinus:
+Added two [Equipments](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/Equipment.java): [HorsePlus](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/HorsePlus.java) and [HorseMinus](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/HorseMinus.java):
 
 Plus: when a player is equipped the horse, the distance between the player and any other play is increased by 1 (i.e. harder to be reached).
 
 Minus: when a player is equipped the horse, the reaching distance of the player is increase by 1 (i.e. easier to reach others).
 
-General rule of equipments: at most one equipment can be equipped for each type (weapon,shield,plus,minus), so when a new equipment is equipped, the old one (of the same type) is discarded.
+General rule of equipments: at most one equipment can be equipped for each type ([weapon](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/weapons/Weapon.java),[shield](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/Shield.java),plus,minus), so when a new equipment is equipped, the old one (of the same type) is discarded.
 
 1/18/2014:
-Added two shields: Iron Shield and Ratten Armor
+Added two shields: [Iron Shield](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/IronShield.java) and [Ratten Armor](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/RattanArmor.java):
 
 Iron Shield: makes black "Attack" not effective
 
-Rattan Armor: makes Barbarian Invasion, Arrow Salvo, and normal "Attack" not effective. When taking any damage of element Fire, the damage +1 (not yet implemented).
+Rattan Armor: makes Barbarian Invasion, Arrow Salvo, and normal "Attack" [not effective](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/RattanArmor.java#L28-L37). When taking any damage of element Fire, the damage +1 (not yet implemented).
 
 1/28/2014:
-Added card selection animation
+Added card selection [animation](https://github.com/harry5z/Sanguosha/blob/master/src/gui/CardGui.java#L66-L79)
 
 1/30/2014:
-Added Attack(Fire) and Attack(Thunder) and Silver Lion.
+Added Attack(Fire) and Attack(Thunder) and [Silver Lion](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/SilverLion.java).
 
 Attack(Fire/Thunder): an Attack that carries Fire/Thunder element
 
-Silver Lion: Taking at most 1 damage each time. Gain 1 health point when un-equiping Silver Lion.
+Silver Lion: Taking [at most 1 damage](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/SilverLion.java#L31-L35) each time. Gain 1 health point when un-equiping Silver Lion (not yet implemented).
 
-Rattan Armor: Fire damage +1 implemented
+Rattan Armor: [Fire damage +1](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/RattanArmor.java#L39-L44) implemented
 
 1/31/2014:
-Added MessageBox on main panel. Now players will know what they are reacting to.
+Added [MessageBox](https://github.com/harry5z/Sanguosha/blob/master/src/gui/MessageBoxGui.java) on main panel. Now players will know what they are reacting to.
 
 2/18/2014:
-Bug fix: Bug in Damage.java, when a health-1 player fireattack himself to near death, after he is rescued, the subsequent stages are out of order.
+Bug fix: Bug in [Damage.java](https://github.com/harry5z/Sanguosha/blob/master/src/update/Damage.java), when a health-1 player fireattack himself to near death, after he is rescued, the subsequent stages are out of order.
 
-Major change in structure: Suit, Color, CardType, and EquipmentType are all enum types now. Update becomes an abstract class with the ability to get and set the next update like a Stack.
+Major change in structure: [Suit](https://github.com/harry5z/Sanguosha/blob/master/src/cards/Card.java#L17-L20), [Color](https://github.com/harry5z/Sanguosha/blob/master/src/cards/Card.java#L22-L25), [CardType](https://github.com/harry5z/Sanguosha/blob/master/src/cards/Card.java#L27-L30), and EquipmentType are all enum types now. Update becomes an abstract class with the ability to get and set the next update like a Stack.
+
+2/24/2014:
+Silver Lion feature: "Gain 1 health point when un-equiping" implemented.
+
+Started working on CardSelectionPanel (for Sabotage, Steal, Harvest, etc.)

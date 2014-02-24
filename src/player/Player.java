@@ -1,6 +1,9 @@
 package player;
 
+import heroes.Hero;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import listener.CardDisposalListener;
 import listener.CardOnHandListener;
@@ -11,7 +14,6 @@ import cards.equipments.HorseMinus;
 import cards.equipments.HorsePlus;
 import cards.equipments.shields.Shield;
 import cards.equipments.weapons.Weapon;
-import core.Hero;
 import core.PlayerInfo;
 
 /**
@@ -244,6 +246,20 @@ public abstract class Player
 	public abstract void removeCardFromHand(Card card);
 	
 	public abstract int getCardsOnHandCount();
+	
+	public List<Equipment> getEquipments()
+	{
+		List<Equipment> list = new ArrayList<Equipment>();
+		if(weaponEquipped)
+			list.add(weapon);
+		if(shieldEquipped)
+			list.add(shield);
+		if(horsePlusEquipped)
+			list.add(horsePlus);
+		if(horseMinusEquipped)
+			list.add(horseMinus);
+		return list;
+	}
 	//**************** methods related to equipments ******************
 	public boolean isEquipped()
 	{

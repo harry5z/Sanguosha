@@ -1,6 +1,5 @@
 package heroes;
 
-import core.Hero;
 
 
 public class YuJin extends Hero

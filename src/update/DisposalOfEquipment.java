@@ -1,10 +1,11 @@
 package update;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import player.PlayerClientComplete;
 import cards.Card;
 import cards.equipments.Equipment;
-import player.PlayerClientComplete;
 import core.Framework;
 import core.PlayerInfo;
 
@@ -23,7 +24,7 @@ public class DisposalOfEquipment extends Update
 		this.equipments = new ArrayList<Card>();
 		equipments.add(card);
 	}
-	public DisposalOfEquipment(PlayerInfo source,ArrayList<Equipment> equipments,Update next)
+	public DisposalOfEquipment(PlayerInfo source,Update next, List<Equipment> equipments)
 	{
 		super(next);
 		this.source = source;
