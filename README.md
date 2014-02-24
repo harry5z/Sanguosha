@@ -111,7 +111,7 @@ Iron Shield: makes black "Attack" not effective
 Rattan Armor: makes Barbarian Invasion, Arrow Salvo, and normal "Attack" [not effective](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/RattanArmor.java#L28-L37). When taking any damage of element Fire, the damage +1 (not yet implemented).
 
 1/28/2014:
-Added card selection [animation](https://github.com/harry5z/Sanguosha/blob/master/src/gui/CardGui.java#L66-L79)
+Added card selection animation.
 
 1/30/2014:
 Added Attack(Fire) and Attack(Thunder) and [Silver Lion](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/SilverLion.java).
