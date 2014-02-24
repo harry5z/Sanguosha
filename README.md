@@ -118,7 +118,7 @@ Added Attack(Fire) and Attack(Thunder) and [Silver Lion](https://github.com/harr
 
 Attack(Fire/Thunder): an Attack that carries Fire/Thunder element
 
-Silver Lion: Taking [at most 1 damage](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/SilverLion.java#L31-L35) each time. Gain 1 health point when un-equiping Silver Lion (not yet implemented).
+Silver Lion: Taking [at most 1 damage](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/SilverLion.java#L40-L44) each time. Gain 1 health point when un-equiping Silver Lion (not yet implemented).
 
 Rattan Armor: [Fire damage +1](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/RattanArmor.java#L39-L44) implemented
 
