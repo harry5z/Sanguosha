@@ -9,8 +9,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import player.PlayerClientSimple;
-import cards.Card.Suit;
-import cards.basics.Dodge;
 import cards.equipments.Equipment;
 
 public class CardSelectionPane extends JPanel
