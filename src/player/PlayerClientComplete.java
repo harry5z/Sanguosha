@@ -12,7 +12,6 @@ import update.Update;
 import update.operations.Operation;
 import cards.Card;
 import cards.Card.CardType;
-import cards.equipments.Equipment;
 import core.PlayerInfo;
 
 /**
@@ -120,15 +119,6 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 		super.removeCardFromHand(card);
 		cardsOnHand.remove(card);
 	}
-	@Override
-	public Equipment equip(Equipment equipment)
-	{
-		Equipment e = super.equip(equipment);
-		
-//		if(e != null)
-//			sendToMaster(new DisposalOfCards(this,e));
-		return e;
-	}
 	public int getNumberOfPlayersAlive()
 	{
 		int alive = 1;//self
@@ -155,7 +145,7 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 		return otherPlayers;
 	}
 	/**
-	 * <li>{@link GameListener} notified
+	 * <li>Send update to master
 	 * @param update
 	 */
 	public void sendToMaster(Update update)
@@ -199,15 +189,18 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 			operation.onCancelledBy(this);
 		}
 		disableAll();
-//		for(Card card : cardsSelected)
-//			gameListener.onCardUnselected(card);
-//		cardsSelected.clear();
-//		for(Player target : targetsSelected)
-//			gameListener.onTargetUnselected(target);
-//		targetsSelected.clear();
 		currentStage.nextStage(this);
 		client.sendToMaster(currentStage);
 	}
+	
+	/**
+	 * End the player's turn:
+	 * <li> attack used reset to 0
+	 * <li> wine used reset to 0
+	 * <li> operation reset to null
+	 * <li> card used this turn reset to empty
+	 * <li> continue to next stage
+	 */
 	public void endTurn()
 	{
 		attackUsed = 0;
@@ -294,10 +287,6 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 		{
 			operation.onCardSelected(this, card);
 		}
-//		cardsSelected.add(card);
-//		gameListener.onCardSelected(card);
-//		if(cardsSelected.size() > cardSelectionLimit)
-//			gameListener.onCardUnselected(cardsSelected.remove(0));
 	}
 	public void choosePlayer(PlayerOriginal player)
 	{
@@ -314,17 +303,7 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 			gameListener.onCardSelected(card);
 		else
 			gameListener.onCardUnselected(card);
-//		cardsSelected.remove(card);
-		
 	}
-//	public void setCardSelectionLimit(int limit)
-//	{
-//		cardSelectionLimit = limit;
-//	}
-//	public void setTargetSelectionLimit(int limit)
-//	{
-//		targetSelectionLimit = limit;
-//	}
 	public void setCardSelectableByName(String cardName,boolean selectable)
 	{
 		for(Card card : cardsOnHand)
@@ -367,10 +346,6 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 //		targetsSelected.remove(player);
 		gameListener.onTargetUnselected(player);
 	}
-//	public boolean isSelected(Player player)
-//	{
-//		return targetsSelected.contains(player);
-//	}
 	public void setConfirmEnabled(boolean isEnabled)
 	{
 		gameListener.onConfirmSetEnabled(isEnabled);

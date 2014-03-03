@@ -24,7 +24,7 @@ public class CardDisposalGui extends JPanel implements CardDisposalListener, Act
 	private static final long serialVersionUID = 4151655146720492963L;
 	public static final int WIDTH = 600;
 	public static final int HEIGHT = CardGui.HEIGHT*2;
-
+	private static final int TIME = 50;
 	private CardRackGui disposal;
 	private CardRackGui usage;
 	private Timer timer;
@@ -66,7 +66,7 @@ public class CardDisposalGui extends JPanel implements CardDisposalListener, Act
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
-		if(ms == 50)
+		if(ms == 2*TIME)
 		{
 			usage.clearRack();
 			disposal.clearRack();
@@ -74,6 +74,13 @@ public class CardDisposalGui extends JPanel implements CardDisposalListener, Act
 			ms = 0;
 		}
 		else
+		{
 			ms++;
+			if(ms > TIME)
+			{
+				usage.fadeCards(1.0f/TIME);
+				disposal.fadeCards(1.0f/TIME);
+			}
+		}
 	}
 }

@@ -6,6 +6,7 @@ import player.PlayerOriginal;
 import player.PlayerClientComplete;
 import update.LossOfEquipment;
 import update.Update;
+import update.UseOfCards;
 import core.Framework;
 import core.PlayerInfo;
 
@@ -36,6 +37,7 @@ public class EquipOperation extends Operation
 		if(player.matches(source))
 		{
 			Equipment old = player.equip(equipment);
+			player.removeCardFromHand(equipment);
 			if(old != null)
 			{
 				player.sendToMaster(new LossOfEquipment(source,getNext(),old));
@@ -44,7 +46,10 @@ public class EquipOperation extends Operation
 				player.sendToMaster(getNext());
 		}
 		else
+		{
+			player.findMatch(source).removeCardFromHand(equipment);
 			player.findMatch(source).equip(equipment);
+		}
 	}
 
 	@Override

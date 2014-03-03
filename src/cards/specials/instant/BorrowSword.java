@@ -1,5 +1,6 @@
 package cards.specials.instant;
 
+import cards.equipments.Equipment.EquipmentType;
 import player.Player;
 import player.PlayerClientComplete;
 import update.Update;
@@ -33,7 +34,7 @@ public class BorrowSword extends Instant
 	@Override
 	public boolean isActivatableBy(PlayerClientComplete player) {
 		for(Player p : player.getOtherPlayers())
-			if(p.isEquippedWeapon())
+			if(p.isEquipped(EquipmentType.WEAPON))
 				return true;
 		return false;
 	}

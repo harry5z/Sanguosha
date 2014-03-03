@@ -266,13 +266,51 @@ public abstract class Player
 		return weaponEquipped || shieldEquipped || 
 				horsePlusEquipped || horseMinusEquipped;
 	}
-	public boolean isEquippedWeapon(){return weaponEquipped;}
-	public boolean isEquippedShield(){return shieldEquipped;}
-	public boolean isEquippedHorsePlus(){return horsePlusEquipped;}
-	public boolean isEquippedHorseMinus(){return horseMinusEquipped;}
-	public Shield getShield(){return shield;}
-	public Weapon getWeapon(){return weapon;}
+	public boolean isEquipped(EquipmentType type)
+	{
+		switch(type)
+		{
+			case WEAPON:
+				return weaponEquipped;
+			case SHIELD:
+				return shieldEquipped;
+			case HORSEPLUS:
+				return horsePlusEquipped;
+			case HORSEMINUS:
+				return horseMinusEquipped;
+			default:
+				System.err.println("error: equipment type unidentified");
+				return false;
+		}
+	}
 
+	public Equipment getEquipment(EquipmentType type)
+	{
+		switch(type)
+		{
+			case WEAPON:
+				return weapon;
+			case SHIELD:
+				return shield;
+			case HORSEPLUS:
+				return horsePlus;
+			case HORSEMINUS:
+				return horseMinus;
+			default:
+				System.err.println("error: equipment type unidentified");
+				return null;
+		}
+	}
+
+	public Shield getShield()
+	{
+		return shield;
+	}
+	
+	public Weapon getWeapon()
+	{
+		return weapon;
+	}
 	public Equipment unequip(EquipmentType type)
 	{
 		Equipment temp = null;
@@ -329,7 +367,6 @@ public abstract class Player
 				shieldEquipped = true;
 				break;
 		}
-		removeCardFromHand(equipment);
 		return temp;
 	}
 
@@ -369,9 +406,9 @@ public abstract class Player
 		int counterclockwise = Math.abs(player.position - position);//counterclockwise distance
 		int clockwise = numberOfPlayersAlive-Math.abs(position-player.position);//clockwise distance
 		int shorter = counterclockwise >= clockwise ? clockwise : counterclockwise;//choose shorter
-		if(isEquippedHorseMinus())
+		if(isEquipped(EquipmentType.HORSEMINUS))
 			shorter--;//minus horse range
-		if(player.isEquippedHorsePlus())
+		if(player.isEquipped(EquipmentType.HORSEPLUS))
 			shorter++;//plus other player's horse range
 		return shorter;
 	}

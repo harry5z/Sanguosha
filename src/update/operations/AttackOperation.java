@@ -3,6 +3,7 @@ package update.operations;
 import cards.Card;
 import cards.basics.Attack;
 import cards.basics.Dodge;
+import cards.equipments.Equipment.EquipmentType;
 import core.Framework;
 import core.PlayerInfo;
 import player.PlayerOriginal;
@@ -96,7 +97,7 @@ public class AttackOperation extends Operation
 			}
 			else if(stage == DODGE_DECISION)//target skills/shields to cancel the attack
 			{
-				if(!player.isEquippedShield() || player.getShield().mustReactTo(attack))
+				if(!player.isEquipped(EquipmentType.SHIELD) || player.getShield().mustReactTo(attack))
 					//no equipment or equipment cannot cancel the attack
 				{
 					stage = USING_DODGE;

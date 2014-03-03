@@ -3,6 +3,7 @@ package update;
 import java.util.ArrayList;
 
 import cards.Card;
+import cards.equipments.Equipment.EquipmentType;
 import player.PlayerClientComplete;
 import update.operations.NearDeathOperation;
 import core.*;
@@ -169,7 +170,7 @@ public class Damage extends Update
 			}
 			else if(stage == TARGET_EQUIPMENT_SKILLS)
 			{
-				if(player.isEquippedShield())
+				if(player.isEquipped(EquipmentType.SHIELD))
 				{
 					player.getShield().modifyDamage(this);
 				}

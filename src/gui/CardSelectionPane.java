@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 
@@ -8,9 +9,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import player.PlayerClientSimple;
+import cards.Card.Suit;
+import cards.basics.Dodge;
 import cards.equipments.Equipment;
 
-public abstract class CardSelectionPanel extends JPanel implements ActionListener
+public class CardSelectionPane extends JPanel
 {
 	/**
 	 * 
@@ -24,7 +27,7 @@ public abstract class CardSelectionPanel extends JPanel implements ActionListene
 	 * @param showEquipments
 	 * @param showDecisions
 	 */
-	public CardSelectionPanel(PlayerClientSimple player, boolean showHand, boolean showEquipments, boolean showDecisions)
+	public CardSelectionPane(PlayerClientSimple player, boolean showHand, boolean showEquipments, boolean showDecisions, ActionListener listener)
 	{
 		int verticalLocation = 0;
 		setLayout(null);
@@ -34,12 +37,10 @@ public abstract class CardSelectionPanel extends JPanel implements ActionListene
 			if(amount != 0)
 			{
 				JLabel label = new LabelGui("Cards on Hand");
-				CardRackGui hand = new CardRackGui(this);
-				while(amount != 0)
-				{
-					hand.addCardGui(new CardGui());
-					amount--;
-				}
+				CardRackGui hand = new CardRackGui(listener);
+				for(int i = 0; i < amount;i++)
+					hand.addCardGui(new CardGui(),true);
+
 				label.setLocation(0,verticalLocation);
 				add(label);
 				verticalLocation += LabelGui.HEIGHT;
@@ -53,9 +54,9 @@ public abstract class CardSelectionPanel extends JPanel implements ActionListene
 			if(player.isEquipped())
 			{
 				JLabel label = new LabelGui("Equipments");
-				CardRackGui equipments = new CardRackGui(this);
+				CardRackGui equipments = new CardRackGui(listener);
 				for(Equipment e : player.getEquipments())
-					equipments.onCardAdded(e);
+					equipments.addCardGui(new CardGui(e), true);
 				
 				label.setLocation(0,verticalLocation);
 				add(label);
@@ -69,6 +70,7 @@ public abstract class CardSelectionPanel extends JPanel implements ActionListene
 //		if(showDecisions) // not yet implemented
 //			size++;
 		setSize(CardRackGui.WIDTH, verticalLocation);
+		repaint();
 	}
 	
 	private class LabelGui extends JLabel
@@ -81,9 +83,10 @@ public abstract class CardSelectionPanel extends JPanel implements ActionListene
 		public LabelGui(String text)
 		{
 			super(text);
+			setBackground(Color.RED);
 			setSize(CardRackGui.WIDTH, HEIGHT);
-			setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
-			setHorizontalAlignment(JButton.CENTER);
+			setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+			setHorizontalAlignment(JButton.CENTER); //text in the middle
 
 		}
 	}

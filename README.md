@@ -133,4 +133,11 @@ Major change in structure: [Suit](https://github.com/harry5z/Sanguosha/blob/mast
 2/24/2014:
 Silver Lion [feature](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/SilverLion.java#L28-L33): "Gain 1 health point when un-equiping" implemented.
 
-Started working on CardSelectionPanel (for Sabotage, Steal, Harvest, etc.)
+Started working on CardSelectionPane (for Sabotage, Steal, Harvest, etc.)
+
+3/03/2014:
+Added new Instant type card Sabotage
+
+Sabotage: Can discard one card (on hand, equipment area, or decision area) of another player.
+
+CardSelectionPane finished (for Sabotage, Steal, Harvest, and future skill implementations)

@@ -67,4 +67,6 @@ public interface GameListener
 	public void onSetMessage(String message);
 	
 	public void onClearMessage();
+	
+	public void onDisplayCardSelectionPane(PlayerClientSimple player, boolean showHand, boolean showEquipments, boolean showDecisions);
 }

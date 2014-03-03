@@ -85,6 +85,11 @@ public class Stage extends Update
 			{
 				turnDiscard(player);
 			}
+			else if(stage == TURN_END)
+			{
+				player.endTurn();
+			}
+				
 			else
 			{
 				stage++;

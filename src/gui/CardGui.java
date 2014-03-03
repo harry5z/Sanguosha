@@ -1,10 +1,12 @@
 package gui;
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -28,23 +30,24 @@ public class CardGui extends JButton implements ActionListener
 	private static final long serialVersionUID = -8973362684095284243L;
 	public static final int WIDTH = 142;
 	public static final int HEIGHT = 200;
-	private Card c;
+	private Card card;
 	private String number;
 	private Color color;
-	private boolean visible;
-	private Image suit;
-	private Image img;
-	private Image img_darker;
+	private boolean known;
+	private BufferedImage suit;
+	private BufferedImage img;
+	private BufferedImage img_darker;
 	private Timer timer;
+	private float alpha = 1f;
 	private int currY = 0;
 	public CardGui(Card card)
 	{
-		c = card;	
+		this.card = card;	
 		setSize(WIDTH,HEIGHT);
-		number = numToString(c.getNumber());
+		number = numToString(card.getNumber());
 		readSuit(card.getSuit());
-		readName(c.getName());
-		visible = true;
+		readImage(card.getName());
+		known = true;
 		timer = new Timer(10,this);
 	}
 	/**
@@ -52,7 +55,6 @@ public class CardGui extends JButton implements ActionListener
 	 */
 	public CardGui()
 	{
-		visible = false;
 		setSize(WIDTH,HEIGHT);
 		try 
 		{
@@ -60,15 +62,16 @@ public class CardGui extends JButton implements ActionListener
 		} 
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			System.err.println("File not found");
 		}
+		known = false;
 	}
 	
-	public boolean isVisible()
+	public boolean isKnown()
 	{
-		return visible;
+		return known;
 	}
-	private void readName(String name)
+	private void readImage(String name)
 	{
 		try
 		{
@@ -85,6 +88,11 @@ public class CardGui extends JButton implements ActionListener
 		timer.stop();
 		currY = pixel;
 		timer.start();
+	}
+	protected void fade(float offset)
+	{
+		alpha -= offset;
+		repaint();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e)
@@ -145,28 +153,35 @@ public class CardGui extends JButton implements ActionListener
 	}
 	public Card getCard()
 	{
-		return c;
+		return card;
 	}
 	@Override
 	public void paint(Graphics g)
 	{
 		super.paint(g);
-		if(visible)
+		Graphics2D graphics = (Graphics2D)g;
+		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+		graphics.setComposite(ac);
+		
+
+		if(known)
 		{
 			if(isEnabled())
-				g.drawImage(img,0,0,null);
+				graphics.drawImage(img, 0, 0, null);
 			else
-				g.drawImage(img_darker, 0, 0, null);
-			g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 18));
-			g.setColor(color);
-			g.drawImage(suit, 10, 28,null);
+				graphics.drawImage(img_darker, 0, 0, null);
+			graphics.setFont(new Font(Font.MONOSPACED, Font.BOLD, 18));
+			graphics.setColor(color);
+			graphics.drawImage(suit, 10, 28,null);
 			if(number.length() == 1)
-				g.drawString(number, 15, 25);
+				graphics.drawString(number, 15, 25);
 			else
-				g.drawString(number, 10, 25);
+				graphics.drawString(number, 10, 25);
 		}
 		else
-			g.drawImage(img,0,0,null);
+		{
+			graphics.drawImage(img, 0, 0, null);
+		}
 	}
 
 }

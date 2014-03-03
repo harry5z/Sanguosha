@@ -41,13 +41,13 @@ public class Death extends Update
 		{
 			player.kill();//kill victim
 			List<Equipment> equipmentsToDispose = new ArrayList<Equipment>();
-			if(player.isEquippedWeapon())
+			if(player.isEquipped(EquipmentType.WEAPON))
 				equipmentsToDispose.add(player.unequip(EquipmentType.WEAPON));
-			if(player.isEquippedShield())
+			if(player.isEquipped(EquipmentType.SHIELD))
 				equipmentsToDispose.add(player.unequip(EquipmentType.SHIELD));
-			if(player.isEquippedHorsePlus())
+			if(player.isEquipped(EquipmentType.HORSEPLUS))
 				equipmentsToDispose.add(player.unequip(EquipmentType.HORSEPLUS));
-			if(player.isEquippedHorseMinus())
+			if(player.isEquipped(EquipmentType.HORSEMINUS))
 				equipmentsToDispose.add(player.unequip(EquipmentType.HORSEMINUS));
 			//here for decision area
 			//here for player skill cards

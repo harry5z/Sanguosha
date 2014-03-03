@@ -30,15 +30,15 @@ public class CardRackGui extends JPanel implements CardOnHandListener
 	public CardRackGui(ActionListener listener)
 	{
 		setLayout(null);
-		setSize(WIDTH,HEIGHT+SELECTION_HEIGHT);
-		setLocation(EquipmentRackGui.WIDTH,PanelGui.HEIGHT-HEIGHT-SELECTION_HEIGHT);
+		setSize(WIDTH,HEIGHT);
+		setLocation(EquipmentRackGui.WIDTH,PanelGui.HEIGHT-HEIGHT);
 		cards = new ArrayList<CardGui>();
 		this.listener = listener;
 	}
 	@Override
 	public void onCardAdded(Card card)
 	{
-		addCardGui(new CardGui(card));
+		addCardGui(new CardGui(card), false);
 	}
 	@Override
 	public void onCardRemoved(Card card)
@@ -54,15 +54,20 @@ public class CardRackGui extends JPanel implements CardOnHandListener
 			}
 		}
 	}
-	protected void addCardGui(CardGui cardGui)
+	protected void addCardGui(CardGui cardGui, boolean enabled)
 	{
 		cardGui.setRolloverEnabled(false);
 		cardGui.addActionListener(listener);
-		cardGui.setEnabled(false);
+		cardGui.setEnabled(enabled);
 		cards.add(cardGui);
 		add(cardGui,0);
 		resetLocations();
 		repaint();
+	}
+	protected void fadeCards(float offset)
+	{
+		for(CardGui c : cards)
+			c.fade(offset);
 	}
 	protected void clearRack()
 	{

@@ -35,6 +35,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 	private HeroGui heroGui;
 	private LifebarGui healthGui;
 	private CardDisposalGui disposalGui;
+	private CardSelectionPane pane;
 	
 	private PlayerClientComplete myself;
 	private ArrayList<PlayerGui> otherPlayers;
@@ -61,7 +62,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 		deckSize.setLocation(WIDTH-100,PlayerGui.HEIGHT);
 		messageBox = new MessageBoxGui();
 		messageBox.setLocation(equipmentRack.getWidth(),HEIGHT - cardRack.getHeight() - MessageBoxGui.HEIGHT);
-
+		pane = null;
 
 		myself.setHero(new Blank());//change in the future
 		heroGui.setHero(myself.getHero());
@@ -106,6 +107,11 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
+		if(pane != null)
+		{
+			remove(pane);
+			repaint();
+		}
 		Object obj = e.getSource();
 		if(obj instanceof CardGui)
 		{
@@ -142,28 +148,6 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 			myself.endDealing();
 		}
 	}
-//	private void processCard(Card card)
-//	{
-//		if(card.getType() == Card.BASIC)
-//		{
-//			String name = card.getName();
-//			if(name.equals(Attack.ATTACK))
-//			{
-//				for(PlayerGui potentialTarget : otherPlayers)
-//					if(myself.isPlayerInRange(potentialTarget.getPlayer()))
-//							potentialTarget.setEnabled(true);
-//				updateToSend = new RequireUseOfCardsByName(myself,new Dodge(),1);
-//				cancel.setEnabled(true);
-//			}
-//			else if(name.equals(Peach.PEACH) || name.equals(Dodge.DODGE));
-//			{
-//				updateToSend = new UseOfCards(myself,card);
-//				confirm.setEnabled(true);
-//				cancel.setEnabled(true);
-//			}
-//		}
-//	}
-
 	@Override
 	public void onCardSelected(Card card)
 	{
@@ -251,5 +235,14 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 		f.setLocation(200,0);
 		f.setResizable(false);
 		f.setVisible(true);
+	}
+	@Override
+	public void onDisplayCardSelectionPane(PlayerClientSimple player, boolean showHand, boolean showEquipments, boolean showDecisions) 
+	{
+		pane = new CardSelectionPane(player,showHand,showEquipments,showDecisions,this);
+		pane.setLocation((WIDTH-pane.getWidth())/2,(HEIGHT-CardRackGui.HEIGHT-pane.getHeight())/2);
+		add(pane);
+		pane.validate();
+		pane.repaint();
 	}
 }

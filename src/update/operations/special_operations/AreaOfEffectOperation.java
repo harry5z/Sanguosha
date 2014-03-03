@@ -3,6 +3,7 @@ package update.operations.special_operations;
 import java.util.ArrayList;
 
 import cards.Card;
+import cards.equipments.Equipment.EquipmentType;
 import player.PlayerOriginal;
 import player.PlayerClientComplete;
 import update.Damage;
@@ -95,7 +96,7 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 		if(player.matches(currentTarget))
 		{
 			//here for future skills
-			if(player.isEquippedShield() && !player.getShield().mustReactTo(aoe))
+			if(player.isEquipped(EquipmentType.SHIELD) && !player.getShield().mustReactTo(aoe))
 				setStage(AFTER);
 			else
 				setStage(NEUTRALIZATION);
