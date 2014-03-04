@@ -28,9 +28,10 @@ public class BarbarianInvasionOperation extends AreaOfEffectOperation
 		target.setCancelEnabled(true);
 		target.setOperation(this);
 	}
+
 	@Override
-	public String getName()
+	public String getName() 
 	{
-		return "Barbarian Invasion";
+		return "Brotherhood";
 	}
 }

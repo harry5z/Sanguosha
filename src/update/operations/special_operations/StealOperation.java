@@ -1,5 +1,7 @@
 package update.operations.special_operations;
 
+import java.util.Random;
+
 import player.PlayerClientComplete;
 import player.PlayerClientSimple;
 import player.PlayerOriginal;
@@ -8,37 +10,43 @@ import update.Unequip;
 import update.Update;
 import update.UseOfCards;
 import cards.Card;
+import cards.Card.CardType;
 import cards.equipments.Equipment;
 import core.PlayerInfo;
 
-public class SabotageOperation extends SpecialOperation
+public class StealOperation extends SpecialOperation
 {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7847731828305501888L;
+	private static final long serialVersionUID = 324760187182837241L;
 	private PlayerInfo source;
-	private Card sabotage;
+	private Card steal;
 	private PlayerInfo target;
-
+	private boolean hand;
+	private boolean equipment;
+	private Card stolen;
 	
-	public SabotageOperation(PlayerInfo turnPlayer, Card sabotage, Update next) 
+	public StealOperation(PlayerInfo turnPlayer, Card steal, Update next) 
 	{
 		super(next, turnPlayer);
 		this.source = turnPlayer;
-		this.sabotage = sabotage;
-		target = null;
+		this.steal = steal;
+		this.target = null;
+		this.hand = false;
+		this.equipment = false;
+		this.stolen = null;
 	}
 
 	@Override
 	public String getName() 
 	{
-		return "Sabotage";
+		return "Steal";
 	}
 
 	@Override
-	protected void playerOpEffect(PlayerClientComplete player)
+	protected void playerOpEffect(PlayerClientComplete player) 
 	{
 		if(player.matches(source))
 		{
@@ -46,16 +54,46 @@ public class SabotageOperation extends SpecialOperation
 			if(t.getCardsOnHandCount() != 0 || t.isEquipped())//TODO or if has decision area cards
 			{
 				player.setOperation(this);
-				player.getGameListener().onSetMessage("Choose a card to dispose");
+				player.getGameListener().onSetMessage("Choose a card to steal");
 				player.getGameListener().onDisplayCardSelectionPane(player.findMatch(target), true, true, true);
 			}
 			else
 				player.sendToMaster(getNext());
+		}		
+	}
+	
+	@Override
+	protected void playerOpAfter(PlayerClientComplete player)
+	{
+		if(!(hand || equipment))//neutralized
+		{
+			super.playerOpAfter(player);
+			return;
+		}
+		if(hand && stolen == null)//target card on hand stolen
+		{
+			if(player.matches(target))
+			{
+				Random rand = new Random();
+				stolen = player.getCardsOnHand().get(rand.nextInt(player.getCardsOnHandCount()));
+				player.sendToMaster(this);
+			}
+			return;
+		}
+		if(hand)//equipped
+			player.findMatch(target).removeCardFromHand(stolen);//TODO can be card in dicision area
+		
+		if(player.matches(source))
+			player.addCard(stolen);
+		else
+			player.findMatch(source).addCard(stolen);
+		if(player.matches(source)) //has stolen card
+		{
+			player.sendToMaster(getNext());
 		}
 	}
-
 	@Override
-	public void onPlayerSelected(PlayerClientComplete operator,	PlayerOriginal player) 
+	public void onPlayerSelected(PlayerClientComplete operator, PlayerOriginal player) 
 	{
 		if(target == null)//select target
 		{
@@ -77,7 +115,7 @@ public class SabotageOperation extends SpecialOperation
 				target = player.getPlayerInfo();
 				operator.selectTarget(target);
 			}
-		}
+		}		
 	}
 
 	@Override
@@ -87,7 +125,9 @@ public class SabotageOperation extends SpecialOperation
 		operator.setOperation(null);
 		if(card == null) //card on hand
 		{
-			operator.sendToMaster(new DisposalOfCards(target,getNext()));// dispose a random card on hand
+			this.nextStage();
+			this.hand = true;
+			operator.sendToMaster(this);// dispose a random card on hand
 		}
 		else if(card instanceof Equipment) //TODO what if equipment used in decision area?
 		{
@@ -97,28 +137,32 @@ public class SabotageOperation extends SpecialOperation
 					e.equals(t.getEquipment(e.getEquipmentType())))//actually equipped
 			{
 				t.unequip(e.getEquipmentType());
-				operator.sendToMaster(new Unequip(target,getNext(),e,true));
+				this.nextStage();
+				this.stolen = e;
+				this.equipment = true;
+				this.insertNext(new Unequip(target,getNext(),e,false));
+				operator.sendToMaster(this);
 			}
-		}
+		}		
 	}
 
 	@Override
-	public void onCancelledBy(PlayerClientComplete player)
+	public void onCancelledBy(PlayerClientComplete player) 
 	{
 		player.setAllTargetsSelectableIncludingSelf(false);
 		player.setConfirmEnabled(false);
 		player.setCancelEnabled(false);
 		if(target != null)
 			player.unselectTarget(target);
-		player.setCardOnHandSelected(sabotage, false);			
+		player.setCardOnHandSelected(steal, false);	
 	}
 
 	@Override
-	public void onConfirmedBy(PlayerClientComplete player) 
+	public void onConfirmedBy(PlayerClientComplete player)
 	{
 		onCancelledBy(player);
 		player.setOperation(null);
-		player.sendToMaster(new UseOfCards(source,sabotage,this));		
+		player.sendToMaster(new UseOfCards(source,steal,this));		
 	}
 
 }

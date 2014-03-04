@@ -42,10 +42,13 @@ public abstract class SpecialOperation extends Operation
 	{
 		return neutralizable;
 	}
-	public abstract String getName();
 	public void nextStage()
 	{
 		stage++;
+	}
+	protected int getStage()
+	{
+		return stage;
 	}
 	public void setStage(int stage)
 	{
@@ -125,8 +128,9 @@ public abstract class SpecialOperation extends Operation
 	 */
 	protected abstract void playerOpEffect(PlayerClientComplete player);
 	/**
-	 * Player's operation after special card takes effect
-	 * Default ending behavior executed by CurrentPlayer: continue with next operation
+	 * Player's operation after special card takes effect<br>
+	 * Default ending behavior executed by CurrentPlayer: continue with next operation<br>
+	 * Note that when a special operation is Neutralized, it continues to here
 	 * @param player
 	 */
 	protected void playerOpAfter(PlayerClientComplete player)
@@ -143,4 +147,9 @@ public abstract class SpecialOperation extends Operation
 		}
 		player.sendToMaster(this);
 	}
+	/**
+	 * name of this operation
+	 * @return name
+	 */
+	public abstract String getName();
 }

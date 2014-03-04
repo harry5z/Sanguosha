@@ -25,16 +25,15 @@ public class CreationOperation extends SpecialOperation
 	}
 
 	@Override
-	public void onPlayerSelected(PlayerClientComplete operator,
-			PlayerOriginal player) {
-		// TODO Auto-generated method stub
-		
+	public void onPlayerSelected(PlayerClientComplete operator,	PlayerOriginal player) 
+	{
+		//No player selection
 	}
 
 	@Override
-	public void onCardSelected(PlayerClientComplete operator, Card card) {
-		// TODO Auto-generated method stub
-		
+	public void onCardSelected(PlayerClientComplete operator, Card card) 
+	{
+		//No card selection process
 	}
 
 	@Override
@@ -63,8 +62,9 @@ public class CreationOperation extends SpecialOperation
 			player.sendToMaster(new DrawCardsFromDeck(player.getPlayerInfo(),2,this));
 		}
 	}
+
 	@Override
-	public String getName()
+	public String getName() 
 	{
 		return "Creation";
 	}

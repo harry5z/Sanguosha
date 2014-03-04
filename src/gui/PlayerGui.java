@@ -245,7 +245,6 @@ public class PlayerGui extends JButton
 			count--;
 			setText(""+count);
 		}
-		
 	}
 	public PlayerClientSimple getPlayer()
 	{

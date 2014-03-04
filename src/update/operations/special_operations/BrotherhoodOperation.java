@@ -36,6 +36,7 @@ public class BrotherhoodOperation extends AreaOfEffectOperation
 		this.setStage(AFTER);
 		target.sendToMaster(new IncreaseOfHealth(source,currentTarget,this));
 	}
+
 	@Override
 	public String getName()
 	{

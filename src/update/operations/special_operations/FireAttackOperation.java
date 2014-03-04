@@ -151,8 +151,9 @@ public class FireAttackOperation extends SpecialOperation
 			player.getGameListener().onSetMessage("Choose a card with the same suit to cause damage");
 		}		
 	}
+
 	@Override
-	public String getName()
+	public String getName() 
 	{
 		return "Fire Attack";
 	}

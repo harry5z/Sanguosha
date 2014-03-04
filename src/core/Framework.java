@@ -3,7 +3,6 @@ package core;
 import heroes.Blank;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 import listener.FrameworkListener;
 import net.Master;

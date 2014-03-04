@@ -130,10 +130,10 @@ public class DuelOperation extends SpecialOperation
 		}
 		
 	}
+
 	@Override
-	public String getName()
+	public String getName() 
 	{
 		return "Duel";
 	}
-	
 }

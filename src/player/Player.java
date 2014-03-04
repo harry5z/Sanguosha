@@ -266,6 +266,10 @@ public abstract class Player
 		return weaponEquipped || shieldEquipped || 
 				horsePlusEquipped || horseMinusEquipped;
 	}
+	public boolean isEquippedWith(Equipment e)
+	{
+		return e.equals(weapon) || e.equals(shield) || e.equals(horseMinus) || e.equals(horsePlus);
+	}
 	public boolean isEquipped(EquipmentType type)
 	{
 		switch(type)
@@ -377,23 +381,9 @@ public abstract class Player
 	 */
 	public int getAttackRange()
 	{
-		int range = 1;//default reach distance
 		if(weaponEquipped)
-			range += (weapon.getRange()-1);//plus weapon range
-		if(horseMinusEquipped)//plus horse range
-			range++;
-		return range;
-	}
-	/**
-	 * Reach distance, excluding weapon range
-	 * @return reach distance
-	 */
-	public int getReachDistance()
-	{
-		int distance = 1;//default reach distance
-		if(horseMinusEquipped)
-			distance++;//plus horse range
-		return distance;
+			return weapon.getRange();//plus weapon range
+		return 1;
 	}
 	/**
 	 * Distance to another player, given number of players alive
@@ -403,9 +393,9 @@ public abstract class Player
 	 */
 	public int getDistanceTo(Player player,int numberOfPlayersAlive)
 	{
-		int counterclockwise = Math.abs(player.position - position);//counterclockwise distance
-		int clockwise = numberOfPlayersAlive-Math.abs(position-player.position);//clockwise distance
-		int shorter = counterclockwise >= clockwise ? clockwise : counterclockwise;//choose shorter
+		int smaller = Math.min(position, player.position);
+		int larger = Math.max(position, player.position);
+		int shorter = Math.min(larger - smaller, smaller + numberOfPlayersAlive - larger);
 		if(isEquipped(EquipmentType.HORSEMINUS))
 			shorter--;//minus horse range
 		if(player.isEquipped(EquipmentType.HORSEPLUS))
@@ -430,7 +420,7 @@ public abstract class Player
 	 */
 	public boolean isPlayerInDistance(Player player, int numberOfPlayersAlive)
 	{
-		return getDistanceTo(player, numberOfPlayersAlive) <= getReachDistance();
+		return getDistanceTo(player, numberOfPlayersAlive) <= 1;
 	}
 	//************** methods related to damage *******************
 	public abstract void takeDamage(int amount);
@@ -438,7 +428,7 @@ public abstract class Player
 	@Override
 	public int hashCode()
 	{
-		return name.hashCode();
+		return position;
 	}
 	@Override
 	public boolean equals(Object obj)

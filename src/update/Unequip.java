@@ -16,18 +16,21 @@ public class Unequip extends Update
 	private static final long serialVersionUID = -5339794175888880779L;
 	private PlayerInfo source;
 	private Equipment equipment;
+	private boolean disposed;
 	
-	public Unequip(PlayerInfo source, Update next, Equipment equipment) 
+	public Unequip(PlayerInfo source, Update next, Equipment equipment, boolean disposed) 
 	{
 		super(next);
 		this.source = source;
 		this.equipment = equipment;
+		this.disposed = disposed;
 	}
 
 	@Override
 	public void frameworkOperation(Framework framework) 
 	{
-		framework.getDeck().discard(equipment);
+		if(disposed)
+			framework.getDeck().discard(equipment);
 		framework.sendToAllClients(this);		
 	}
 
@@ -37,7 +40,6 @@ public class Unequip extends Update
 		if(player.matches(source))
 		{
 			player.unequip(equipment.getEquipmentType());
-			player.showCard(equipment);
 			if(equipment.getEquipmentType() == EquipmentType.SHIELD)
 				((Shield)equipment).onUnequipped(player, this);
 			player.sendToMaster(getNext());
@@ -45,8 +47,9 @@ public class Unequip extends Update
 		else
 		{
 			player.findMatch(source).unequip(equipment.getEquipmentType());
-			player.findMatch(source).showCard(equipment);
 		}
+		if(disposed)
+			player.findMatch(source).showCard(equipment);
 	}
 
 }
