@@ -136,8 +136,11 @@ Silver Lion [feature](https://github.com/harry5z/Sanguosha/blob/master/src/cards
 Started working on CardSelectionPane (for Sabotage, Steal, Harvest, etc.)
 
 3/03/2014:
-Added new Instant type card [Sabotage](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/Sabotage.java)
+Added new Instant type card [Sabotage](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/Sabotage.java) and [Steal](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/Steal.java)
 
 [Sabotage](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/SabotageOperation.java): Can discard one card (on hand, equipment area, or decision area) of another player.
 
+[Steal](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/StealOperation.java): Can take one card (on hand, equipment area, or decision area) of another player that is within distance 1.
+
 [CardSelectionPane](https://github.com/harry5z/Sanguosha/blob/master/src/gui/CardSelectionPane.java) finished (for Sabotage, Steal, Harvest, and future skill implementations)
+
