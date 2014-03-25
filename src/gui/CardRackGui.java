@@ -1,12 +1,14 @@
 package gui;
 
+import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 
-import cards.Card;
 import listener.CardOnHandListener;
+import cards.Card;
 
 /**
  * card rack (cards on hand) gui
@@ -19,13 +21,11 @@ public class CardRackGui extends JPanel implements CardOnHandListener
 	 * 
 	 */
 	private static final long serialVersionUID = -7373800552773539354L;
-	private static final int SELECTION_HEIGHT = 20;
-
 	public static final int WIDTH = PanelGui.WIDTH - EquipmentRackGui.WIDTH - HeroGui.WIDTH - LifebarGui.WIDTH;
 
 	public static final int HEIGHT = 200;
 	private ActionListener listener;
-	private ArrayList<CardGui> cards;
+	private List<CardGui> cards;
 
 	public CardRackGui(ActionListener listener)
 	{
@@ -38,7 +38,7 @@ public class CardRackGui extends JPanel implements CardOnHandListener
 	@Override
 	public void onCardAdded(Card card)
 	{
-		addCardGui(new CardGui(card), false);
+		addCardGui(new CardGui(card,listener), false);
 	}
 	@Override
 	public void onCardRemoved(Card card)
@@ -56,14 +56,23 @@ public class CardRackGui extends JPanel implements CardOnHandListener
 	}
 	protected void addCardGui(CardGui cardGui, boolean enabled)
 	{
-		cardGui.setRolloverEnabled(false);
-		cardGui.addActionListener(listener);
 		cardGui.setEnabled(enabled);
 		cards.add(cardGui);
 		add(cardGui,0);
 		resetLocations();
 		repaint();
 	}
+	@Override
+	public void paintComponents(Graphics g)
+	{
+		super.paintComponents(g);
+		for(CardGui c : cards)
+			c.paintComponents(g);
+	}
+	/**
+	 * subtract offset from card's alpha values
+	 * @param offset : amount of change, from 0 to 1
+	 */
 	protected void fadeCards(float offset)
 	{
 		for(CardGui c : cards)
@@ -81,8 +90,7 @@ public class CardRackGui extends JPanel implements CardOnHandListener
 		{
 			if(c.getCard().equals(card))
 			{
-				c.moveVerticallyTo(0);
-				repaint();
+				c.select();
 				return;
 			}
 		}
@@ -92,8 +100,7 @@ public class CardRackGui extends JPanel implements CardOnHandListener
 		for(CardGui c : cards)
 			if(c.getCard().equals(card))
 			{
-				c.moveVerticallyTo(SELECTION_HEIGHT);
-				repaint();
+				c.unselect();
 				return;
 			}
 	}
@@ -118,7 +125,7 @@ public class CardRackGui extends JPanel implements CardOnHandListener
 		int size = cards.size();
 		for(int i = 0;i < size;i++)
 		{
-			cards.get(i).setLocation(i*stepLength,SELECTION_HEIGHT);
+			cards.get(i).setLocation(i*stepLength,0);
 		}
 	}
 

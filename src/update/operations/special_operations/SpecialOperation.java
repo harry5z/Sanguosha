@@ -60,6 +60,8 @@ public abstract class SpecialOperation extends Operation
 		framework.sendToAllClients(this);
 	}
 
+	public abstract PlayerInfo getCurrentTarget();
+
 	protected void cardSelectedAsReaction(PlayerClientComplete operator, Card card)
 	{
 		if(reactionCard != null)//unselect previous

@@ -1,6 +1,6 @@
 package player;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import listener.CardDisposalListener;
 import listener.CardOnHandListener;
@@ -138,9 +138,9 @@ public class PlayerClientSimple extends PlayerMasterSimple
 	{
 		disposalListener.onCardDisposed(card);
 	}
-	public void showCards(ArrayList<? extends Card> cards)
+	public void showCards(List<? extends Card> equipments)
 	{
-		for(Card card : cards)
+		for(Card card : equipments)
 			showCard(card);
 	}
 	@Override

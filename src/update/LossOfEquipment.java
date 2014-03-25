@@ -1,6 +1,7 @@
 package update;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import player.PlayerClientComplete;
 import cards.equipments.Equipment;
@@ -20,7 +21,7 @@ public class LossOfEquipment extends Update
 	 */
 	private static final long serialVersionUID = 6808896498802425889L;
 	private PlayerInfo source;
-	private ArrayList<Equipment> equipments;
+	private List<Equipment> equipments;
 	
 	public LossOfEquipment(PlayerInfo source,Update next,Equipment... equipments)
 	{

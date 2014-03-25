@@ -211,7 +211,7 @@ public abstract class Player
 	 * <li>{@link CardOnHandListener} notified
 	 * @param cards
 	 */
-	public void addCards(ArrayList<Card> cards)
+	public void addCards(List<Card> cards)
 	{
 		for(Card card : cards)
 			addCard(card);
@@ -222,7 +222,7 @@ public abstract class Player
 	 * <li>{@link CardOnHandListener} notified
 	 * @param cards
 	 */
-	public void useCards(ArrayList<Card> cards)
+	public void useCards(List<Card> cards)
 	{
 		for(Card card : cards)
 			useCard(card);
@@ -233,7 +233,7 @@ public abstract class Player
 	 * <li>{@link CardDisposalListener} notified
 	 * @param cards
 	 */
-	public void discardCards(ArrayList<Card> cards)
+	public void discardCards(List<Card> cards)
 	{
 		for(Card card : cards)
 			discardCard(card);

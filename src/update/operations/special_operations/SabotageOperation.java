@@ -121,4 +121,10 @@ public class SabotageOperation extends SpecialOperation
 		player.sendToMaster(new UseOfCards(source,sabotage,this));		
 	}
 
+	@Override
+	public PlayerInfo getCurrentTarget() 
+	{
+		return target;
+	}
+
 }

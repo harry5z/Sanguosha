@@ -1,13 +1,14 @@
 package update.operations.special_operations;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import cards.Card;
-import cards.specials.instant.Neutralization;
-import player.PlayerOriginal;
 import player.PlayerClientComplete;
+import player.PlayerOriginal;
 import update.UseOfCards;
 import update.operations.Operation;
+import cards.Card;
+import cards.specials.instant.Neutralization;
 import core.Framework;
 import core.PlayerInfo;
 
@@ -18,7 +19,7 @@ public class NeutralizationOperation extends Operation
 	 */
 	private static final long serialVersionUID = -5444652755918048029L;
 	private SpecialOperation next;
-	private ArrayList<PlayerInfo> cancelledPlayers;
+	private List<PlayerInfo> cancelledPlayers;
 	private PlayerInfo turnPlayer;
 	private boolean neutralized;
 	private Card neutralization;
@@ -41,7 +42,6 @@ public class NeutralizationOperation extends Operation
 	@Override
 	public void playerOperation(PlayerClientComplete player)
 	{
-		System.out.println(player.getName()+" NeutralizationOperation ");
 		if(cancelledPlayers.size() == player.getNumberOfPlayersAlive())
 		{
 			player.setOperation(null);
@@ -65,7 +65,7 @@ public class NeutralizationOperation extends Operation
 		if(player.isAlive() && !cancelledPlayers.contains(player.getPlayerInfo()))
 		{
 			player.setCardSelectableByName(Neutralization.NEUTRALIZATION, true);
-			player.getGameListener().onSetMessage(next.getCurrentPlayer().getName()+" is the target of "+next.getName()+", do you use Neutralization?");
+			player.getGameListener().onSetMessage(next.getCurrentTarget().getName()+" is the target of "+next.getName()+", do you use Neutralization?");
 			player.setCancelEnabled(true);
 		}
 	}
@@ -127,7 +127,6 @@ public class NeutralizationOperation extends Operation
 		cancelledPlayers.clear();
 		neutralized = !neutralized;
 		player.setAllCardsOnHandSelectable(false);
-		player.setOperation(null);
 		Card temp = neutralization;
 		neutralization = null;
 		player.sendToMaster(new UseOfCards(player.getPlayerInfo(),temp,this));

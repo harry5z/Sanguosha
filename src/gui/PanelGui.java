@@ -19,7 +19,7 @@ import core.PlayerInfo;
  * @author Harry
  *
  */
-public class PanelGui extends JPanel implements ActionListener, GameListener,Runnable
+public class PanelGui extends JPanel implements GameListener,Runnable
 {
 	/**
 	 * 
@@ -27,8 +27,6 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 	private static final long serialVersionUID = 5365518456813424707L;
 	public static final int WIDTH = 1600;
 	public static final int HEIGHT = 900;
-	private static final int SELECTION_HEIGHT = 20;
-	
 
 	private CardRackGui cardRack;
 	private EquipmentRackGui equipmentRack;
@@ -36,6 +34,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 	private LifebarGui healthGui;
 	private CardDisposalGui disposalGui;
 	private CardSelectionPane pane;
+	private JPanel customizedPanel;
 	
 	private PlayerClientComplete myself;
 	private ArrayList<PlayerGui> otherPlayers;
@@ -54,7 +53,7 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 		equipmentRack = new EquipmentRackGui(this);
 		heroGui = new HeroGui(this);
 		healthGui = new LifebarGui();
-		disposalGui = new CardDisposalGui();
+		disposalGui = new CardDisposalGui(this);
 		otherPlayers = new ArrayList<PlayerGui>();
 		deckSize = new JLabel();
 		deckSize.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
@@ -117,19 +116,11 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 		{
 			Card card = ((CardGui)obj).getCard();
 			myself.chooseCardOnHand(card);
-//			if(!myself.isSelected(card))
-//				myself.selectCardOnHand(card);
-//			else
-//				myself.unselectCardOnHand(card);
 		}
 		else if(obj instanceof PlayerGui)
 		{
 			PlayerClientSimple player = ((PlayerGui)obj).getPlayer();
 			myself.choosePlayer(player);
-//			if(!myself.isSelected(player))
-//				myself.selectTarget(player);
-//			else
-//				myself.unselectTarget(player);
 		}
 		else if(obj instanceof HeroGui)
 		{
@@ -164,9 +155,10 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 		for(PlayerGui p : otherPlayers)
 			if(p.getPlayer().matches(player))
 			{
-				p.setLocation(p.getX(),p.getY()+SELECTION_HEIGHT);
+				p.select();
 				return;
 			}
+		heroGui.select();
 	}
 	@Override
 	public void onTargetUnselected(PlayerInfo player)
@@ -174,9 +166,10 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 		for(PlayerGui p : otherPlayers)
 			if(p.getPlayer().matches(player))
 			{
-				p.setLocation(p.getX(),p.getY()-SELECTION_HEIGHT);
+				p.unselect();
 				return;
 			}
+		heroGui.unselect();
 	}
 	@Override
 	public void onCardSetSelectable(Card card, boolean selectable)
@@ -242,7 +235,30 @@ public class PanelGui extends JPanel implements ActionListener, GameListener,Run
 		pane = new CardSelectionPane(player,showHand,showEquipments,showDecisions,this);
 		pane.setLocation((WIDTH-pane.getWidth())/2,(HEIGHT-CardRackGui.HEIGHT-pane.getHeight())/2);
 		add(pane);
+		setComponentZOrder(pane,0); //foremost
 		pane.validate();
 		pane.repaint();
+	}
+	@Override
+	public void onDisplayCustomizedSelectionPaneAtCenter(JPanel panel) 
+	{
+		this.onRemoveCustomizedSelectionPane();
+		customizedPanel = panel;
+		customizedPanel.setLocation((WIDTH-customizedPanel.getWidth())/2,(HEIGHT-CardRackGui.HEIGHT-customizedPanel.getHeight())/2);
+		add(customizedPanel);
+		setComponentZOrder(customizedPanel, 0); //foremost
+		customizedPanel.validate();
+		customizedPanel.repaint();
+	}
+	@Override
+	public void onRemoveCustomizedSelectionPane() 
+	{
+		if(customizedPanel != null)
+		{
+			remove(customizedPanel);
+			customizedPanel = null;
+			validate();
+			repaint();
+		}
 	}
 }

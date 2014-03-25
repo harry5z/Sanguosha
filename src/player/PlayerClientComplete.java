@@ -119,9 +119,9 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 		super.removeCardFromHand(card);
 		cardsOnHand.remove(card);
 	}
-	public int getNumberOfPlayersAlive()
+	public byte getNumberOfPlayersAlive()
 	{
-		int alive = 1;//self
+		byte alive = 1;//self
 		for(Player p : otherPlayers)
 			if(p.isAlive())
 				alive++;
@@ -146,10 +146,12 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 	}
 	/**
 	 * <li>Send update to master
+	 * <li>Clear operation
 	 * @param update
 	 */
 	public void sendToMaster(Update update)
 	{
+		operation = null;
 		client.sendToMaster(update);
 	}
 	public void setCurrentStage(Stage update)
@@ -320,10 +322,6 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 	{
 		gameListener.onCardSetSelectable(card, selectable);
 	}
-//	public boolean isSelected(Card card)
-//	{
-//		return cardsSelected.contains(card);
-//	}
 	public void setTargetSelectable(PlayerInfo player,boolean selectable)
 	{
 		gameListener.onTargetSetSelectable(player, selectable);
@@ -335,15 +333,11 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 	 */
 	public void selectTarget(PlayerInfo player)
 	{
-	//	targetsSelected.add(player);
 		gameListener.onTargetSelected(player);
-	//	if(targetsSelected.size() > targetSelectionLimit)
-	//		gameListener.onTargetUnselected(targetsSelected.remove(0));
 	}
 
 	public void unselectTarget(PlayerInfo player)
 	{
-//		targetsSelected.remove(player);
 		gameListener.onTargetUnselected(player);
 	}
 	public void setConfirmEnabled(boolean isEnabled)

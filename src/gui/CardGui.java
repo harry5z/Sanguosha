@@ -1,27 +1,27 @@
 package gui;
 import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
-import javax.swing.Timer;
 
 import cards.Card;
 import cards.Card.Suit;
+import core.Constants;
 
 /**
  * Gui class for cards (on hand and at diposal area)
  * @author Harry
  *
  */
-public class CardGui extends JButton implements ActionListener
+public class CardGui extends JButton
 {
 	
 	/**
@@ -37,18 +37,23 @@ public class CardGui extends JButton implements ActionListener
 	private BufferedImage suit;
 	private BufferedImage img;
 	private BufferedImage img_darker;
-	private Timer timer;
 	private float alpha = 1f;
-	private int currY = 0;
+	private boolean selected = false;
+	
+	public CardGui(Card card, ActionListener listener)
+	{
+		this(card);
+		addActionListener(listener);
+	}
 	public CardGui(Card card)
 	{
 		this.card = card;	
 		setSize(WIDTH,HEIGHT);
+		setRolloverEnabled(false);
 		number = numToString(card.getNumber());
 		readSuit(card.getSuit());
 		readImage(card.getName());
 		known = true;
-		timer = new Timer(10,this);
 	}
 	/**
 	 * Only showing the back of a card
@@ -83,30 +88,20 @@ public class CardGui extends JButton implements ActionListener
 			System.err.println("File not found");
 		}
 	}
-	protected void moveVerticallyTo(int pixel)
+	protected void select()
 	{
-		timer.stop();
-		currY = pixel;
-		timer.start();
+		selected = true;
+		repaint();
+	}
+	protected void unselect()
+	{
+		selected = false;
+		repaint();
 	}
 	protected void fade(float offset)
 	{
 		alpha -= offset;
 		repaint();
-	}
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		if(getY() < currY)
-		{
-			setLocation(getX(),getY()+1);
-		}
-		else if(getY() > currY)
-		{
-			setLocation(getX(),getY()-1);
-		}
-		else
-			timer.stop();
 	}
 	private void readSuit(Suit n)
 	{
@@ -182,6 +177,24 @@ public class CardGui extends JButton implements ActionListener
 		{
 			graphics.drawImage(img, 0, 0, null);
 		}
+		if(selected)
+		{
+			graphics.setColor(Color.RED);
+			graphics.setStroke(new BasicStroke(Constants.BORDER_WIDTH));
+			graphics.drawRect(0, 0, WIDTH, HEIGHT);	
+		}
 	}
 
+	@Override
+	public int hashCode()
+	{
+		return card.hashCode();
+	}
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(!(obj instanceof CardGui))
+			return false;
+		return card.equals(((CardGui)obj).getCard());
+	}
 }

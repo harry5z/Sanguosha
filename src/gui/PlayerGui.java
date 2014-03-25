@@ -1,14 +1,17 @@
 package gui;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import core.Constants;
 import listener.CardOnHandListener;
 import listener.EquipmentListener;
 import listener.HealthListener;
@@ -36,6 +39,7 @@ public class PlayerGui extends JButton
 	private static final int EQUIPMENTBAR_HEIGHT = 20;
 	private static final int CARDCOUNT_HEIGHT = 20;
 	private PlayerClientSimple player;
+	private boolean selected = false;
 	public PlayerGui(PlayerClientSimple player, ActionListener listener)
 	{
 		this.player = player;
@@ -69,6 +73,16 @@ public class PlayerGui extends JButton
 		add(equipments);
 		
 		addActionListener(listener);
+	}
+	protected void select()
+	{
+		selected = true;
+		repaint();
+	}
+	protected void unselect()
+	{
+		selected = false;
+		repaint();
 	}
 	private class HorizontalLifebarGui extends JPanel implements HealthListener
 	{
@@ -255,6 +269,11 @@ public class PlayerGui extends JButton
 	public void paint(Graphics g)
 	{
 		super.paint(g);
-		g.drawRect(0, 0, WIDTH, HEIGHT);
+		if(selected)
+			g.setColor(Color.RED);
+		else
+			g.setColor(Color.BLACK);
+		((Graphics2D) g).setStroke(new BasicStroke(Constants.BORDER_WIDTH));
+		g.drawRect(0, 0, WIDTH, HEIGHT);	
 	}
 }

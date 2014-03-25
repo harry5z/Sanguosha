@@ -1,14 +1,15 @@
 package update.operations.special_operations;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import cards.Card;
-import cards.equipments.Equipment.EquipmentType;
-import player.PlayerOriginal;
 import player.PlayerClientComplete;
+import player.PlayerOriginal;
 import update.Damage;
 import update.Update;
 import update.UseOfCards;
+import cards.Card;
+import cards.equipments.Equipment.EquipmentType;
 import core.PlayerInfo;
 
 public abstract class AreaOfEffectOperation extends SpecialOperation
@@ -18,10 +19,10 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 	 */
 	private static final long serialVersionUID = 4879416749526010430L;
 	protected PlayerInfo source;
-	private ArrayList<PlayerInfo> visitedPlayers;
+	private List<PlayerInfo> visitedPlayers;
 	protected PlayerInfo currentTarget;
-	private Card aoe;
-	private boolean sent;
+	protected Card aoe;
+	protected boolean sent;
 	public AreaOfEffectOperation(PlayerClientComplete player, Card aoe, Update next) 
 	{
 		super(next, player.getCurrentStage().getSource());
@@ -31,7 +32,11 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 		visitedPlayers = new ArrayList<PlayerInfo>();
 		sent = false;
 	}
-
+	@Override
+	public PlayerInfo getCurrentTarget()
+	{
+		return currentTarget;
+	}
 	@Override
 	public void onPlayerSelected(PlayerClientComplete operator,PlayerOriginal player)
 	{
@@ -114,16 +119,16 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 				playerOpAfter(player);//next player
 				return;
 			}
-			System.out.println(player.getName() + "AOE");
-			targetOp(player);
+			player.setOperation(this);
+			AOETargetOperation(player);
 		}
 		
 	}
 	/**
-	 * what does a target do?
-	 * @param target
+	 * what does a target do, when a special card takes effect
+	 * @param target : current target of special card
 	 */
-	protected abstract void targetOp(PlayerClientComplete target);
+	protected abstract void AOETargetOperation(PlayerClientComplete target);
 	@Override
 	protected void playerOpAfter(PlayerClientComplete player)
 	{

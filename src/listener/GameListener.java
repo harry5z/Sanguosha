@@ -1,10 +1,14 @@
 package listener;
 
-import cards.Card;
+import java.awt.event.ActionListener;
+
+import javax.swing.JPanel;
+
 import player.PlayerClientSimple;
+import cards.Card;
 import core.PlayerInfo;
 
-public interface GameListener 
+public interface GameListener extends ActionListener
 {
 	/**
 	 * invoked when a new player is added to game
@@ -68,5 +72,16 @@ public interface GameListener
 	
 	public void onClearMessage();
 	
+	/**
+	 * Display the card selection pane on screen
+	 * @param player : the owner of these cards
+	 * @param showHand : whether to display player's cards on hand
+	 * @param showEquipments : whether to display player's equipments
+	 * @param showDecisions : whether to display player's decision area
+	 */
 	public void onDisplayCardSelectionPane(PlayerClientSimple player, boolean showHand, boolean showEquipments, boolean showDecisions);
+	
+	public void onDisplayCustomizedSelectionPaneAtCenter(JPanel panel);
+	
+	public void onRemoveCustomizedSelectionPane();
 }

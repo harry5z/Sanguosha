@@ -31,7 +31,7 @@ public class BrotherhoodOperation extends AreaOfEffectOperation
 		}
 	}
 	@Override
-	protected void targetOp(PlayerClientComplete target)
+	protected void AOETargetOperation(PlayerClientComplete target)
 	{
 		this.setStage(AFTER);
 		target.sendToMaster(new IncreaseOfHealth(source,currentTarget,this));

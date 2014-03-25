@@ -3,6 +3,7 @@ package cards.specials.instant;
 import player.PlayerClientComplete;
 import update.Update;
 import update.operations.Operation;
+import update.operations.special_operations.HarvestOperation;
 
 public class Harvest extends Instant
 {
@@ -26,6 +27,9 @@ public class Harvest extends Instant
 	@Override
 	public Operation onActivatedBy(PlayerClientComplete player, Update next) 
 	{
-		return null;
+		player.setCardOnHandSelected(this, true);
+		player.setCancelEnabled(true);
+		player.setConfirmEnabled(true);
+		return new HarvestOperation(player,this,next);
 	}
 }

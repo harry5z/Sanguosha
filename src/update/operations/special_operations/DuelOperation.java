@@ -136,4 +136,10 @@ public class DuelOperation extends SpecialOperation
 	{
 		return "Duel";
 	}
+
+	@Override
+	public PlayerInfo getCurrentTarget() 
+	{
+		return target;
+	}
 }

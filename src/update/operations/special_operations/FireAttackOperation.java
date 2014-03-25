@@ -157,4 +157,10 @@ public class FireAttackOperation extends SpecialOperation
 	{
 		return "Fire Attack";
 	}
+
+	@Override
+	public PlayerInfo getCurrentTarget() 
+	{
+		return target;
+	}
 }

@@ -68,4 +68,10 @@ public class CreationOperation extends SpecialOperation
 	{
 		return "Creation";
 	}
+
+	@Override
+	public PlayerInfo getCurrentTarget() 
+	{
+		return source;
+	}
 }

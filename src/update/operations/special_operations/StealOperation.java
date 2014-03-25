@@ -5,12 +5,10 @@ import java.util.Random;
 import player.PlayerClientComplete;
 import player.PlayerClientSimple;
 import player.PlayerOriginal;
-import update.DisposalOfCards;
 import update.Unequip;
 import update.Update;
 import update.UseOfCards;
 import cards.Card;
-import cards.Card.CardType;
 import cards.equipments.Equipment;
 import core.PlayerInfo;
 
@@ -163,6 +161,12 @@ public class StealOperation extends SpecialOperation
 		onCancelledBy(player);
 		player.setOperation(null);
 		player.sendToMaster(new UseOfCards(source,steal,this));		
+	}
+
+	@Override
+	public PlayerInfo getCurrentTarget() 
+	{
+		return target;
 	}
 
 }

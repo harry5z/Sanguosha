@@ -1,9 +1,9 @@
 package update;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import cards.Card;
 import player.PlayerClientComplete;
+import cards.Card;
 import core.Framework;
 import core.PlayerInfo;
 
@@ -19,7 +19,7 @@ public class DrawCardsFromDeck extends Update
 	 */
 	private static final long serialVersionUID = 3227087424276735239L;
 	private int amount;
-	private ArrayList<Card> cards;
+	private List<Card> cards;
 	private int deckSize;
 	private PlayerInfo source;
 	
@@ -29,7 +29,7 @@ public class DrawCardsFromDeck extends Update
 		this.source = source;
 		this.amount = amount;
 	}
-	public DrawCardsFromDeck(PlayerInfo source, ArrayList<Card> cards,int size)
+	public DrawCardsFromDeck(PlayerInfo source, List<Card> cards,int size)
 	{
 		super(null);
 		this.source = source;

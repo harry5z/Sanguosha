@@ -1,6 +1,7 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import update.Damage.Element;
@@ -18,8 +19,8 @@ import cards.specials.instant.*;
  */
 public class Deck 
 {
-	private ArrayList<Card> used;//used and discarded cards, will be shuffled once deck is empty
-	private ArrayList<Card> deck;//cards to be drawn
+	private List<Card> used;//used and discarded cards, will be shuffled once deck is empty
+	private List<Card> deck;//cards to be drawn
 	private Random random;
 	
 	private Suit diamond = Suit.DIAMOND;
@@ -45,9 +46,9 @@ public class Deck
 			resetDeck();
 		return c;
 	}
-	public ArrayList<Card> drawMany(int amount)
+	public List<Card> drawMany(int amount)
 	{
-		ArrayList<Card> cards = new ArrayList<Card>(amount);
+		List<Card> cards = new ArrayList<Card>(amount);
 		for(int i = 0;i < amount;i++)
 			cards.add(draw());
 		return cards;
@@ -60,7 +61,7 @@ public class Deck
 	{
 		used.add(card);
 	}
-	public void discardAll(ArrayList<? extends Card> cards)
+	public void discardAll(List<? extends Card> cards)
 	{
 		used.addAll(cards);
 	}
@@ -139,23 +140,23 @@ public class Deck
 		used.add(new Duel(1, spade));
 		used.add(new Duel(1, club));
 		used.add(new Duel(1, diamond));
-		used.add(new ArrowSalvo(1, heart));
-		used.add(new Brotherhood(1, heart));
-		used.add(new Sabotage(3,spade));
-		used.add(new Sabotage(3,club));
-		used.add(new Sabotage(4,spade));
-		used.add(new Sabotage(4,club));
-		used.add(new Sabotage(12,spade));
-		used.add(new Sabotage(12,heart));
+//		used.add(new ArrowSalvo(1, heart));
+//		used.add(new Brotherhood(1, heart));
+//		used.add(new Sabotage(3,spade));
+//		used.add(new Sabotage(3,club));
+//		used.add(new Sabotage(4,spade));
+//		used.add(new Sabotage(4,club));
+//		used.add(new Sabotage(12,spade));
+//		used.add(new Sabotage(12,heart));
+//		
+//		used.add(new Steal(3,spade));
+//		used.add(new Steal(3,diamond));
+//		used.add(new Steal(4,spade));
+//		used.add(new Steal(4,diamond));
+//		used.add(new Steal(11,spade));
 		
-		used.add(new Steal(3,spade));
-		used.add(new Steal(3,diamond));
-		used.add(new Steal(4,spade));
-		used.add(new Steal(4,diamond));
-		used.add(new Steal(11,spade));
-		
-//		used.add(new Harvest(3,heart));
-//		used.add(new Harvest(4,heart));
+		used.add(new Harvest(3,heart));
+		used.add(new Harvest(4,heart));
 		
 //		used.add(new BarbarianInvasion(7,spade));
 //		used.add(new BarbarianInvasion(7,club));
