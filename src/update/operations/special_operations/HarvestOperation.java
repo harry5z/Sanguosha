@@ -57,14 +57,13 @@ public class HarvestOperation extends AreaOfEffectOperation
 	@Override
 	protected void AOETargetOperation(PlayerClientComplete target) 
 	{
-		System.err.println("AOE Target OP");
 		target.getGameListener().onDisplayCustomizedSelectionPaneAtCenter(createPanel(target.getGameListener()));
 	}
 
 	@Override
 	public void onCardSelected(PlayerClientComplete operator, Card card) 
 	{
-		System.out.println("Card selected successful? "+remainingCards.remove(card));
+		remainingCards.remove(card);
 		setStage(AFTER);
 		operator.sendToMaster(new ReceiveCards(this,operator.getPlayerInfo(),card));
 	}
