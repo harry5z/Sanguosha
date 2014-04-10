@@ -23,7 +23,7 @@ My ultimate goal is to automatize the creation of heroes and skills by designing
 
 #### How to play (As of 1/3/2014):
 
-1. Run [Master.java](https://github.com/harry5z/Sanguosha/blob/master/src/net/Master.java) without arguments (a small window will appear)
+1. Run [Server.java](https://github.com/harry5z/Sanguosha/blob/master/src/net/Server.java) without arguments (a small window will appear)
 
 2. Run several [Client.java](https://github.com/harry5z/Sanguosha/blob/master/src/net/Client.java) without arguments
 
@@ -38,7 +38,7 @@ My ultimate goal is to automatize the creation of heroes and skills by designing
 
 1. Core functionalities such as [cards](https://github.com/harry5z/Sanguosha/blob/master/src/cards/Card.java), [players](https://github.com/harry5z/Sanguosha/tree/master/src/player), [updates](https://github.com/harry5z/Sanguosha/blob/master/src/update/Update.java) etc.
 
-2. [Master](https://github.com/harry5z/Sanguosha/blob/master/src/net/Master.java) and [Client](https://github.com/harry5z/Sanguosha/blob/master/src/net/Client.java):
+2. [Server](https://github.com/harry5z/Sanguosha/blob/master/src/net/Server.java) and [Client](https://github.com/harry5z/Sanguosha/blob/master/src/net/Client.java):
 It is tested that multiple clients on different machines within an LAN can play together. Remote connection is not tested yet, because there appears to be some router configurations required, and I forgot the username and password of my router...
 
 3. Basic [Gui](https://github.com/harry5z/Sanguosha/tree/master/src/gui): [cards](https://github.com/harry5z/Sanguosha/blob/master/src/gui/CardGui.java), [players](https://github.com/harry5z/Sanguosha/blob/master/src/gui/PlayerGui.java), [buttons](https://github.com/harry5z/Sanguosha/blob/master/src/gui/ButtonGui.java), [life bar](https://github.com/harry5z/Sanguosha/blob/master/src/gui/LifebarGui.java), etc.
