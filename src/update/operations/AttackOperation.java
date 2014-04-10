@@ -1,17 +1,17 @@
 package update.operations;
 
+import player.PlayerClientComplete;
+import player.PlayerClientSimple;
+import player.PlayerOriginal;
+import update.Damage;
+import update.Update;
+import update.UseOfCards;
 import cards.Card;
 import cards.basics.Attack;
 import cards.basics.Dodge;
 import cards.equipments.Equipment.EquipmentType;
 import core.Framework;
 import core.PlayerInfo;
-import player.PlayerOriginal;
-import player.PlayerClientComplete;
-import player.PlayerClientSimple;
-import update.Damage;
-import update.Update;
-import update.UseOfCards;
 
 /**
  * The "Attack" event, multistage and very complicated, as many skills and equipment 

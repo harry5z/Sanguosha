@@ -1,6 +1,7 @@
 package net;
 
 import gui.FrameworkGui;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,42 +11,46 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
+
 import update.Update;
-import core.Framework;
+import core.FrameworkImpl;
 /**
  * master side, used by framework to communicate with all players
  * @author Harry
  *
  */
-public class Master extends Thread
+public class Server extends Thread
 {
-	private Framework framework;
+	private FrameworkImpl framework;
 	private final int mPort;
 	private final ExecutorService executor;
 	private ArrayList<PlayerThread> threads;
 	
 	public static final int DEFAULT_PORT = 12345;
-	public Master(int port)
+	public Server(int port)
 	{
 		mPort = port;
 		executor = Executors.newCachedThreadPool();
 		threads = new ArrayList<PlayerThread>();
-		framework = new Framework(this);
+		framework = new FrameworkImpl(this);
 		executor.execute(new FrameworkGui(framework));
 	}
-	public Master()
+	/**
+	 * initialize server with DEFAULT_PORT
+	 */
+	public Server()
 	{
 		mPort = DEFAULT_PORT;
 		executor = Executors.newCachedThreadPool();
 		threads = new ArrayList<PlayerThread>();
-		framework = new Framework(this);
+		framework = new FrameworkImpl(this);
 		executor.execute(new FrameworkGui(framework));
 	}
 	/**
 	 * Register a game framework
 	 * @param framework
 	 */
-	public void registerFramework(Framework framework)
+	public void registerFramework(FrameworkImpl framework)
 	{
 		this.framework = framework;
 	}
@@ -127,23 +132,25 @@ public class Master extends Thread
 			catch(IOException e)
 			{
 				System.err.println("PlayerThread: I/O exception");
+				threads.remove(this);
 				e.printStackTrace();
 			}
 		}
 		/**
 		 * Send update to client
-		 * @param note
+		 * @param update
 		 */
-		public void sendToClient(Object obj)
+		public void sendToClient(Update update)
 		{
 			try 
 			{
-				out.writeObject(obj);
+				out.writeObject(update);
 				out.flush();
 			} 
 			catch (IOException e) 
 			{
 				System.err.println("PlayerThread: I/O Exception when updating client");
+				threads.remove(this);
 				e.printStackTrace();
 			}
 		}
@@ -154,10 +161,11 @@ public class Master extends Thread
 				in.close();
 				out.close();
 				socket.close();
+				threads.remove(this);
 			}
 			catch(IOException e)
 			{
-				//do nothing
+				
 			}
 		}
 		@Override
@@ -181,10 +189,12 @@ public class Master extends Thread
 			catch(IOException e)
 			{
 				System.err.println("PlayerThread: I/O Exception when receiving update");
+				threads.remove(this);
 			}
 			catch(ClassNotFoundException e)
 			{
 				System.err.println("PlayerThread: Class Not Found");
+				threads.remove(this);
 			}
 			finally
 			{
@@ -196,7 +206,7 @@ public class Master extends Thread
 
 	public static void main(String[] args)
 	{
-		new Master().start();
+		new Server().start();
 	}
 }
 

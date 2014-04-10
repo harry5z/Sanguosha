@@ -1,12 +1,11 @@
 package update.operations;
 
-import cards.Card;
-import cards.equipments.Equipment;
-import player.PlayerOriginal;
 import player.PlayerClientComplete;
+import player.PlayerOriginal;
 import update.LossOfEquipment;
 import update.Update;
-import update.UseOfCards;
+import cards.Card;
+import cards.equipments.Equipment;
 import core.Framework;
 import core.PlayerInfo;
 

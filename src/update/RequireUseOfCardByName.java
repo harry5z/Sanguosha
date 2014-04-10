@@ -7,6 +7,10 @@ import core.PlayerInfo;
 public class RequireUseOfCardByName extends Update
 {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4679312323429905803L;
 	private PlayerInfo source;
 	private PlayerInfo target;
 	private String cardName;

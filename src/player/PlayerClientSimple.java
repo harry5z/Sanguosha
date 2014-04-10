@@ -15,7 +15,7 @@ import cards.equipments.Equipment.EquipmentType;
  * @author Harry
  *
  */
-public class PlayerClientSimple extends PlayerMasterSimple
+public class PlayerClientSimple extends PlayerServerSimple
 {
 	private HealthListener healthListener;
 	private CardOnHandListener cardsOnHandListener;

@@ -2,8 +2,8 @@ package update;
 
 import java.util.ArrayList;
 
-import cards.Card;
 import player.PlayerClientComplete;
+import cards.Card;
 import core.Framework;
 import core.PlayerInfo;
 

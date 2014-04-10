@@ -1,7 +1,7 @@
 package update.operations;
 
-import player.PlayerOriginal;
 import player.PlayerClientComplete;
+import player.PlayerOriginal;
 import cards.Card;
 import cards.Card.CardType;
 import core.Framework;

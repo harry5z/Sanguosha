@@ -7,15 +7,15 @@ import cards.Card;
  * @author Harry
  *
  */
-public class PlayerMasterSimple extends PlayerOriginal
+public class PlayerServerSimple extends PlayerOriginal
 {
 	private int cardsCount;
-	public PlayerMasterSimple(String name) 
+	public PlayerServerSimple(String name) 
 	{
 		super(name);
 		cardsCount = 0;
 	}
-	public PlayerMasterSimple(String name, int position) 
+	public PlayerServerSimple(String name, int position) 
 	{
 		super(name,position);
 		cardsCount = 0;

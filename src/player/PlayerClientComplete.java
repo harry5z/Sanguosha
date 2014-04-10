@@ -421,6 +421,7 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 				return player;
 		if(this.matches(p))
 			return this;
+		System.err.println("Player not found");
 		return null;
 	}
 	//************** methods related to in-game properties ****************

@@ -30,7 +30,7 @@ public class Client extends Thread
 	public Client()
 	{
 		executor = Executors.newFixedThreadPool(POOL_SIZE);
-		masterPort = Master.DEFAULT_PORT;
+		masterPort = Server.DEFAULT_PORT;
 		masterHost = "localhost";
 		player = new PlayerClientComplete("Player",this);
 		executor.execute(new PanelGui(player));
@@ -60,6 +60,7 @@ public class Client extends Thread
 		try
 		{
 			out.writeObject(update);
+			out.flush();
 		}
 		catch(IOException e)//need to handle connection failure in the future
 		{
