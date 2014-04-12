@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -40,11 +39,6 @@ public class CardGui extends JButton
 	private float alpha = 1f;
 	private boolean selected = false;
 	
-	public CardGui(Card card, ActionListener listener)
-	{
-		this(card);
-		addActionListener(listener);
-	}
 	public CardGui(Card card)
 	{
 		this.card = card;	
@@ -188,11 +182,13 @@ public class CardGui extends JButton
 	@Override
 	public int hashCode()
 	{
-		return card.hashCode();
+		return known ? card.hashCode() : img.hashCode();
 	}
 	@Override
 	public boolean equals(Object obj)
 	{
+		if(!known)
+			return false;
 		if(!(obj instanceof CardGui))
 			return false;
 		return card.equals(((CardGui)obj).getCard());
