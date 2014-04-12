@@ -77,7 +77,7 @@ public class HarvestOperation extends AreaOfEffectOperation
 		if(!initialized)
 		{
 			initialized = true;
-			player.getGameListener().onDeckSizeUpdated(deckSize); //update deck size
+			player.getGameListener().updateDeckSize(deckSize); //update deck size
 		}
 		player.setOperation(this);
 		player.getGameListener().onDisplayCustomizedSelectionPaneAtCenter(createPanel(null)); //display selection pane

@@ -26,17 +26,17 @@ public class BorrowSword extends Instant
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerClientComplete player,Update next) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public boolean isActivatableBy(PlayerClientComplete player) {
 		for(Player p : player.getOtherPlayers())
 			if(p.isEquipped(EquipmentType.WEAPON))
 				return true;
 		return false;
+	}
+
+	@Override
+	protected Operation createOperation(PlayerClientComplete player, Update next) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -54,17 +54,14 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 	{
 		if(player.matches(source))//cancel operation
 		{
-			player.setCardOnHandSelected(aoe, false);
-			player.setConfirmEnabled(false);
-			player.setCancelEnabled(false);
-			player.setOperation(null);
+			this.cancelOperation(player, aoe);
 		}
 		else//target
 		{
 			if(reactionCard != null)//cancel selection
 			{
-				player.setCardOnHandSelected(reactionCard, false);
-				player.setConfirmEnabled(false);
+				player.getGameListener().setCardSelected(reactionCard, false);
+				player.getGameListener().setConfirmEnabled(false);
 				reactionCard = null;
 				player.setOperation(this);
 			}
@@ -72,7 +69,7 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 			{
 				setStage(AFTER);
 				player.setAllCardsOnHandSelectable(false);
-				player.setCancelEnabled(false);
+				player.getGameListener().setCancelEnabled(false);
 				player.setOperation(null);
 				player.sendToMaster(new Damage(aoe,source,currentTarget,this));
 			}
@@ -85,12 +82,12 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 		if(!sent)//confirm AOE
 		{
 			sent = true;
-			player.setCardOnHandSelected(aoe, false);
+			player.getGameListener().setCardSelected(aoe, false);
 			player.sendToMaster(new UseOfCards(source,aoe,this));
 		}
 		else//target reacted
 		{
-			player.setCardOnHandSelected(reactionCard, false);
+			player.getGameListener().setCardSelected(reactionCard, false);
 			setStage(AFTER);
 			player.sendToMaster(new UseOfCards(currentTarget,reactionCard,this));
 		}

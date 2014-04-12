@@ -26,16 +26,14 @@ public class Steal extends Instant
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerClientComplete player,Update next)
+	protected Operation createOperation(PlayerClientComplete player, Update next)
 	{
-		player.setCardOnHandSelected(this, true);
-		player.setCancelEnabled(true);
 		for(PlayerClientSimple other : player.getOtherPlayers())
 		{
 			if(!player.isPlayerInDistance(other, player.getNumberOfPlayersAlive())) //has to be in reach distance
 				continue;
 			if(other.getCardsOnHandCount() != 0 || other.isEquipped())//target must have something
-				player.setTargetSelectable(other.getPlayerInfo(), true);
+				player.getGameListener().setTargetSelectable(other.getPlayerInfo(), true);
 		}
 		return new StealOperation(player.getPlayerInfo(),this,next);
 	}

@@ -1,12 +1,14 @@
 package update;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import cards.Card;
-import cards.equipments.Equipment.EquipmentType;
 import player.PlayerClientComplete;
 import update.operations.NearDeathOperation;
-import core.*;
+import cards.Card;
+import cards.equipments.Equipment.EquipmentType;
+import core.Framework;
+import core.PlayerInfo;
 
 /**
  * Damage update
@@ -32,7 +34,7 @@ public class Damage extends Update
 	
 	private Element element;
 	private int amount;
-	private ArrayList<Card> cardsCausingDamage;
+	private List<Card> cardsCausingDamage;
 	private Card cardUsedAs;
 	private PlayerInfo source;
 	private PlayerInfo target;
@@ -114,7 +116,7 @@ public class Damage extends Update
 	 * list can be null, which represents damage without using any card
 	 * @return list of cards that cause the damage
 	 */
-	public ArrayList<Card> getCardsCausingDamage()
+	public List<Card> getCardsCausingDamage()
 	{
 		return cardsCausingDamage;
 	}
@@ -160,7 +162,7 @@ public class Damage extends Update
 	{
 		System.out.println(player.getName()+" Damage ");
 		if(stage == TARGET_DAMAGE)
-			player.findMatch(target).takeDamage(amount);
+			player.findMatch(target).changeHealthCurrentBy(-amount);
 		if(player.matches(target))
 		{
 			if(stage == TARGET_HERO_SKILLS)

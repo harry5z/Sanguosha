@@ -25,15 +25,13 @@ public class FireAttack extends Instant
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerClientComplete player,Update next)
+	protected Operation createOperation(PlayerClientComplete player, Update next) 
 	{
-		player.setCardOnHandSelected(this, true);
-		player.setCancelEnabled(true);
 		for(PlayerClientSimple other : player.getOtherPlayers())
-			if(other.getCardsOnHandCount() != 0)//target must have card on hand
-				player.setTargetSelectable(other.getPlayerInfo(), true);
-		if(player.getCardsOnHandCount() > 1)
-			player.setTargetSelectable(player.getPlayerInfo(), true);
+			if(other.getCardsOnHandCount() != 0)// target must have card on hand
+				player.getGameListener().setTargetSelectable(other.getPlayerInfo(), true);
+		if(player.getCardsOnHandCount() > 1) // self have card (other than fire attack) on hand
+			player.getGameListener().setTargetSelectable(player.getPlayerInfo(), true);
 		return new FireAttackOperation(player,this,next);
 	}
 }

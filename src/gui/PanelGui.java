@@ -140,44 +140,37 @@ public class PanelGui extends JPanel implements GameListener,Runnable
 		}
 	}
 	@Override
-	public void onCardSelected(Card card)
+	public void setCardSelected(Card card, boolean selected)
 	{
-		cardRack.selectCard(card);
+		cardRack.setCardSelected(card, selected);
 	}
 	@Override
-	public void onCardUnselected(Card card)
-	{
-		cardRack.unselectCard(card);
-	}
-	@Override
-	public void onTargetSelected(PlayerInfo player)
+	public void setTargetSelected(PlayerInfo player, boolean selected)
 	{
 		for(PlayerGui p : otherPlayers)
 			if(p.getPlayer().matches(player))
 			{
-				p.select();
+				if(selected)
+				{
+					p.select();
+					heroGui.select();
+				}
+				else
+				{
+					p.unselect();
+					heroGui.unselect();
+				}
 				return;
 			}
-		heroGui.select();
+		
 	}
 	@Override
-	public void onTargetUnselected(PlayerInfo player)
-	{
-		for(PlayerGui p : otherPlayers)
-			if(p.getPlayer().matches(player))
-			{
-				p.unselect();
-				return;
-			}
-		heroGui.unselect();
-	}
-	@Override
-	public void onCardSetSelectable(Card card, boolean selectable)
+	public void setCardSelectable(Card card, boolean selectable)
 	{
 		cardRack.setCardSelectable(card, selectable);
 	}
 	@Override
-	public void onTargetSetSelectable(PlayerInfo player, boolean selectable)
+	public void setTargetSelectable(PlayerInfo player, boolean selectable)
 	{
 		if(myself.matches(player))
 			heroGui.setEnabled(selectable);
@@ -189,32 +182,32 @@ public class PanelGui extends JPanel implements GameListener,Runnable
 			}
 	}
 	@Override
-	public void onConfirmSetEnabled(boolean isEnabled)
+	public void setConfirmEnabled(boolean isEnabled)
 	{
 		confirm.setEnabled(isEnabled);
 	}
 	@Override
-	public void onCancelSetEnabled(boolean isEnabled)
+	public void setCancelEnabled(boolean isEnabled)
 	{
 		cancel.setEnabled(isEnabled);
 	}
 	@Override
-	public void onEndSetEnabled(boolean isEnabled)
+	public void setEndEnabled(boolean isEnabled)
 	{
 		end.setEnabled(isEnabled);
 	}
 	@Override
-	public void onDeckSizeUpdated(int size)
+	public void updateDeckSize(int size)
 	{
 		deckSize.setText(""+size);
 	}
 	@Override
-	public void onSetMessage(String message)
+	public void setMessage(String message)
 	{
 		messageBox.setMessage(message);
 	}
 	@Override
-	public void onClearMessage()
+	public void clearMessage()
 	{
 		messageBox.clearMessage();
 	}

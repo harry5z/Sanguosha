@@ -138,7 +138,7 @@ public class FireAttackOperation extends SpecialOperation
 			}
 			player.setAllCardsOnHandSelectable(true);
 			player.setOperation(this);
-			player.getGameListener().onSetMessage("You are being Fire Attacked, please show a card on hand");
+			player.getGameListener().setMessage("You are being Fire Attacked, please show a card on hand");
 		}
 		else if(shown && player.matches(source))//choosing card to dispose
 		{
@@ -148,7 +148,7 @@ public class FireAttackOperation extends SpecialOperation
 			reactionCard = null;
 			player.setCancelEnabled(true);
 			player.setOperation(this);
-			player.getGameListener().onSetMessage("Choose a card with the same suit to cause damage");
+			player.getGameListener().setMessage("Choose a card with the same suit to cause damage");
 		}		
 	}
 

@@ -52,8 +52,7 @@ public class ShowCardOperation extends Operation
 	}
 
 	@Override
-	public void onPlayerSelected(PlayerClientComplete operator,
-			PlayerOriginal player) {
+	public void onPlayerSelected(PlayerClientComplete operator, PlayerOriginal player) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -63,23 +62,23 @@ public class ShowCardOperation extends Operation
 	{
 		if(cardShown != null)//unselect previous
 		{
-			operator.setCardOnHandSelected(cardShown, false);
+			operator.getGameListener().setCardSelected(cardShown, false);
 			if(cardShown.equals(card))//unselect
 			{
 				cardShown = null;
-				operator.setConfirmEnabled(false);
+				operator.getGameListener().setConfirmEnabled(false);
 			}
 			else//change
 			{
 				cardShown = card;
-				operator.setCardOnHandSelected(card, true);
+				operator.getGameListener().setCardSelected(card, true);
 			}
 		}
 		else //select new
 		{
 			cardShown = card;
-			operator.setCardOnHandSelected(card, true);
-			operator.setConfirmEnabled(true);
+			operator.getGameListener().setCardSelected(card, true);
+			operator.getGameListener().setConfirmEnabled(true);
 		}
 	}
 

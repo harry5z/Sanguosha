@@ -67,17 +67,17 @@ public class PeachOperation extends Operation
 	@Override
 	public void onCancelledBy(PlayerClientComplete player) 
 	{
-		player.setConfirmEnabled(false);
-		player.setCancelEnabled(false);
-		player.setCardOnHandSelected(peach, false);
+		player.getGameListener().setConfirmEnabled(false);
+		player.getGameListener().setCancelEnabled(false);
+		player.getGameListener().setCardSelected(peach, false);
 	}
 
 	@Override
 	public void onConfirmedBy(PlayerClientComplete player) 
 	{
 		player.setOperation(null);
-		player.setCardOnHandSelected(peach, false);
-		player.setCancelEnabled(false);
+		player.getGameListener().setCardSelected(peach, false);
+		player.getGameListener().setCancelEnabled(false);
 		player.sendToMaster(new UseOfCards(source,peach,getNext()));
 	}
 

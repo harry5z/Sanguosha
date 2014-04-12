@@ -138,9 +138,9 @@ public class PlayerClientSimple extends PlayerServerSimple
 	{
 		disposalListener.onCardDisposed(card);
 	}
-	public void showCards(List<? extends Card> equipments)
+	public void showCards(List<? extends Card> cards)
 	{
-		for(Card card : equipments)
+		for(Card card : cards)
 			showCard(card);
 	}
 	@Override
@@ -156,11 +156,10 @@ public class PlayerClientSimple extends PlayerServerSimple
 	 * @return the equipment discarded
 	 */
 	@Override
-	public Equipment unequip(EquipmentType type)
+	public void unequip(EquipmentType type)
 	{
-		Equipment e = super.unequip(type);
 		equipmentListener.onUnequipped(type);
-		return e;
+		super.unequip(type);
 	}
 	/**
 	 * equip new equipment, return the old one. Return null if nothing is replaced
@@ -169,11 +168,10 @@ public class PlayerClientSimple extends PlayerServerSimple
 	 * @return old equipment, null if no old equipment
 	 */
 	@Override
-	public Equipment equip(Equipment equipment)
+	public void equip(Equipment equipment)
 	{
-		Equipment e = super.equip(equipment);
+		super.equip(equipment);
 		equipmentListener.onEquipped(equipment);
-		return e;
 	}
 
 	/**

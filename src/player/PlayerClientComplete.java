@@ -3,8 +3,8 @@ package player;
 import heroes.Blank;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import listener.ClientListener;
 import listener.GameListener;
 import net.Client;
 import update.Stage;
@@ -19,10 +19,10 @@ import core.PlayerInfo;
  * @author Harry
  *
  */
-public class PlayerClientComplete extends PlayerClientSimple implements ClientListener
+public class PlayerClientComplete extends PlayerClientSimple
 {
 	//******** in-game properties ***********
-	private ArrayList<Card> cardsOnHand;
+	private List<Card> cardsOnHand;
 	private int attackLimit;//limit of attacks can be used in one TURN_DEAL, by default 1
 	private int attackUsed;//number of attacks already used this TURN_DEAL
 	private int wineLimit;//limit of wines can be used in on TURN_DEAL, by default 1
@@ -32,15 +32,14 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 	private GameListener gameListener;
 	//private settings
 	private Stage currentStage;
-	private ArrayList<PlayerClientSimple> otherPlayers;
+	private List<PlayerClientSimple> otherPlayers;
 		
 		
 	//in-game interactive properties
 	private Card cardActivated;
 	private Operation operation;
-	private ArrayList<Card> cardsUsedThisTurn;
+	private List<Card> cardsUsedThisTurn;
 	private Client client;
-	private Update updateToSend;
 	public PlayerClientComplete(String name, int position) 
 	{
 		super(name, position);
@@ -63,7 +62,6 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 		cardActivated = null;
 
 		currentStage = null;
-		updateToSend = null;
 		operation = null;
 		
 		attackLimit = 1;
@@ -73,12 +71,6 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 		isWineUsed = false;
 	}
 	
-	@Override
-	public void onNotified(Update update)
-	{
-		update.playerOperation(this);
-	}
-
 	public void registerGameListener(GameListener listener)
 	{
 		gameListener = listener;
@@ -87,13 +79,13 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 	{
 		return gameListener;
 	}
-	public ArrayList<Card> getCardsOnHand()
+	public List<Card> getCardsOnHand()
 	{
 		return cardsOnHand;
 	}
 	public void setDeckSize(int size)
 	{
-		gameListener.onDeckSizeUpdated(size);
+		gameListener.updateDeckSize(size);
 	}
 	@Override
 	public void addCard(Card card)
@@ -140,7 +132,7 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 		otherPlayers.add(p);
 		gameListener.onPlayerAdded(p);
 	}
-	public ArrayList<PlayerClientSimple> getOtherPlayers()
+	public List<PlayerClientSimple> getOtherPlayers()
 	{
 		return otherPlayers;
 	}
@@ -168,13 +160,13 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 	 */
 	public void startDealing()
 	{
-		gameListener.onEndSetEnabled(true);
+		gameListener.setEndEnabled(true);
 		for(Card card : cardsOnHand)
 		{
 			if(card.isActivatableBy(this))
-				gameListener.onCardSetSelectable(card, true);
+				gameListener.setCardSelectable(card, true);
 			else
-				gameListener.onCardSetSelectable(card, false);
+				gameListener.setCardSelectable(card, false);
 		}
 	}
 	/**
@@ -225,20 +217,12 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 		cardActivated = null;
 		setAllCardsOnHandSelectable(false);
 		setAllTargetsSelectableExcludingSelf(false);
-		gameListener.onConfirmSetEnabled(false);
-		gameListener.onCancelSetEnabled(false);
-		gameListener.onEndSetEnabled(false);
+		gameListener.setConfirmEnabled(false);
+		gameListener.setCancelEnabled(false);
+		gameListener.setEndEnabled(false);
 	}
 
 	//**************** methods related to interactions ****************
-	public Update getUpdateToSend()
-	{
-		return updateToSend;
-	}
-	public void setUpdateToSend(Update update)
-	{
-		updateToSend = update;
-	}
 	public void setOperation(Operation op)
 	{
 		operation = op;
@@ -247,17 +231,17 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 	{
 		for(PlayerOriginal p : otherPlayers)
 			if(p.isAlive())
-				gameListener.onTargetSetSelectable(p.getPlayerInfo(), selectable);
+				gameListener.setTargetSelectable(p.getPlayerInfo(), selectable);
 	}
 	public void setAllTargetsSelectableIncludingSelf(boolean selectable)
 	{
 		setAllTargetsSelectableExcludingSelf(selectable);
-		gameListener.onTargetSetSelectable(getPlayerInfo(), selectable);
+		gameListener.setTargetSelectable(getPlayerInfo(), selectable);
 	}
 	public void setAllCardsOnHandSelectable(boolean selectable)
 	{
 		for(Card card : cardsOnHand)
-			setCardSelectable(card,selectable);
+			gameListener.setCardSelectable(card,selectable);
 	}
 	/**
 	 * select a card on hand, done by Gui
@@ -294,66 +278,26 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 	{
 		operation.onPlayerSelected(this, player);
 	}
-	/**
-	 * unselect a card on hand, done by Gui
-	 * <li>{@link GameListener} notified
-	 * @param card
-	 */
-	public void setCardOnHandSelected(Card card, boolean isSelected)
-	{
-		if(isSelected)
-			gameListener.onCardSelected(card);
-		else
-			gameListener.onCardUnselected(card);
-	}
+	
 	public void setCardSelectableByName(String cardName,boolean selectable)
 	{
 		for(Card card : cardsOnHand)
 			if(card.getName().equals(cardName))
-				gameListener.onCardSetSelectable(card,selectable);
+				gameListener.setCardSelectable(card,selectable);
 	}
 	public void setCardSelectableByType(CardType cardType,boolean selectable)
 	{
 		for(Card card : cardsOnHand)
 			if(card.getType() == cardType)
-				gameListener.onCardSetSelectable(card,selectable);
-	}
-	public void setCardSelectable(Card card, boolean selectable)
-	{
-		gameListener.onCardSetSelectable(card, selectable);
-	}
-	public void setTargetSelectable(PlayerInfo player,boolean selectable)
-	{
-		gameListener.onTargetSetSelectable(player, selectable);
-	}
-	/**
-	 * update of gui
-	 * <li>{@link GameListener}
-	 * @param player
-	 */
-	public void selectTarget(PlayerInfo player)
-	{
-		gameListener.onTargetSelected(player);
+				gameListener.setCardSelectable(card,selectable);
 	}
 
-	public void unselectTarget(PlayerInfo player)
-	{
-		gameListener.onTargetUnselected(player);
-	}
-	public void setConfirmEnabled(boolean isEnabled)
-	{
-		gameListener.onConfirmSetEnabled(isEnabled);
-	}
-	public void setCancelEnabled(boolean isEnabled)
-	{
-		gameListener.onCancelSetEnabled(isEnabled);
-	}
 	/**
 	 * called by user clicking "confirm"
 	 */
 	public void confirm()
 	{
-		gameListener.onClearMessage();
+		gameListener.clearMessage();
 		disableAll();
 		Operation temp = operation;
 		operation = null;
@@ -367,7 +311,7 @@ public class PlayerClientComplete extends PlayerClientSimple implements ClientLi
 	 */
 	public void cancel()
 	{
-		gameListener.onClearMessage();
+		gameListener.clearMessage();
 		cardActivated = null;
 		Operation temp = operation;
 		operation = null;

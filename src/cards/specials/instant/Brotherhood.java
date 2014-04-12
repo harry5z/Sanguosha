@@ -25,11 +25,9 @@ public class Brotherhood extends Instant
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerClientComplete player,Update next) 
+	public Operation createOperation(PlayerClientComplete player, Update next) 
 	{
-		player.setCardOnHandSelected(this, true);
-		player.setCancelEnabled(true);
-		player.setConfirmEnabled(true);
+		player.getGameListener().setConfirmEnabled(true);
 		return new BrotherhoodOperation(player,this,next);
 	}
 }

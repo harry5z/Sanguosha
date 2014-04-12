@@ -69,13 +69,13 @@ public class AttackOperation extends Operation
 	{
 		for(PlayerClientSimple p : source.getOtherPlayers())
 			if(p.isAlive() && source.isPlayerInRange(p,source.getNumberOfPlayersAlive()))//if p is alive an in attack range
-				source.setTargetSelectable(p.getPlayerInfo(), true);//in the future, add skill decisions
+				source.getGameListener().setTargetSelectable(p.getPlayerInfo(), true);//in the future, add skill decisions
 	}
 	private void endOfTargetOperation(PlayerClientComplete player)
 	{
-		player.setCancelEnabled(false);
+		player.getGameListener().setCancelEnabled(false);
 		if(dodge != null)
-			player.setCardOnHandSelected(dodge, false);
+			player.getGameListener().setCardSelected(dodge, false);
 		player.setAllCardsOnHandSelectable(false);
 	}
 	@Override
@@ -113,8 +113,8 @@ public class AttackOperation extends Operation
 			{
 				player.setOperation(this);//push it to operation
 				player.setCardSelectableByName(Dodge.DODGE, true);//enable dodges
-				player.setCancelEnabled(true);//enable cancel (choose not to dodge)
-				player.getGameListener().onSetMessage("You are attacked by "+source.getName()+", do you want to dodge?");
+				player.getGameListener().setCancelEnabled(true);//enable cancel (choose not to dodge)
+				player.getGameListener().setMessage("You are attacked by "+source.getName()+", do you want to dodge?");
 			}
 			else if(stage == AFTER_USING_DODGE)
 			{
@@ -183,21 +183,21 @@ public class AttackOperation extends Operation
 			if(target == null)//set a target
 			{
 				target = player.getPlayerInfo();
-				operator.selectTarget(target);
-				operator.setConfirmEnabled(true);//target set, can confirm the attack
-				operator.setCancelEnabled(true);//can cancel as well
+				operator.getGameListener().setTargetSelected(target, true);
+				operator.getGameListener().setConfirmEnabled(true);//target set, can confirm the attack
+				operator.getGameListener().setCancelEnabled(true);//can cancel as well
 			}
 			else if(player.matches(target))//cancel target
 			{
-				operator.unselectTarget(target);
+				operator.getGameListener().setTargetSelected(target, false);
 				target = null;
-				operator.setConfirmEnabled(false);
+				operator.getGameListener().setConfirmEnabled(false);
 			}
 			else//change target
 			{
-				operator.unselectTarget(target);
+				operator.getGameListener().setTargetSelected(target, false);
 				target = player.getPlayerInfo();
-				operator.selectTarget(target);
+				operator.getGameListener().setTargetSelected(target, true);
 			}
 		}
 		else
@@ -215,8 +215,8 @@ public class AttackOperation extends Operation
 				amount++;
 				player.useWine();
 			}
-			player.unselectTarget(target);
-			player.setCardOnHandSelected(attack, false);
+			player.getGameListener().setTargetSelected(target, false);
+			player.getGameListener().setCardSelected(attack, false);
 			damage = new Damage(amount,attack.getElement(),source,target,this);
 			stage = BEFORE_TARGET_LOCKED;
 			player.sendToMaster(new UseOfCards(source,attack,this));
@@ -236,15 +236,15 @@ public class AttackOperation extends Operation
 		if(stage == TARGET_SELECTION)//not sent yet
 		{
 			cancelOperation(player,attack);
-			player.setCardOnHandSelected(attack, false);
-			player.setCancelEnabled(false);
+			player.getGameListener().setCardSelected(attack, false);
+			player.getGameListener().setCancelEnabled(false);
 		}
 		else if(stage == USING_DODGE)//target operation
 		{
 			if(dodge != null)//unselect dodge
 			{
-				player.setCardOnHandSelected(dodge, false);
-				player.setConfirmEnabled(false);
+				player.getGameListener().setCardSelected(dodge, false);
+				player.getGameListener().setConfirmEnabled(false);
 				dodge = null;
 				player.setOperation(this);//push back to operation active
 			}
@@ -260,9 +260,9 @@ public class AttackOperation extends Operation
 	}
 	private void cancelOperation(PlayerClientComplete operator, Card card)
 	{
-		operator.setConfirmEnabled(false);//unable to confirm
+		operator.getGameListener().setConfirmEnabled(false);//unable to confirm
 		if(target != null)
-			operator.unselectTarget(target);//target not selected
+			operator.getGameListener().setTargetSelected(target, false);//target not selected
 		operator.setAllTargetsSelectableExcludingSelf(false);
 	}
 	@Override
@@ -272,23 +272,23 @@ public class AttackOperation extends Operation
 		{
 			if(dodge != null)//unselect previous dodge
 			{
-				operator.setCardOnHandSelected(dodge, false);
+				operator.getGameListener().setCardSelected(dodge, false);
 				if(dodge.equals(card))//unselect dodge
 				{
 					dodge = null;
-					operator.setConfirmEnabled(false);
+					operator.getGameListener().setConfirmEnabled(false);
 				}
 				else//change
 				{
 					dodge = card;
-					operator.setCardOnHandSelected(card, true);
+					operator.getGameListener().setCardSelected(card, true);
 				}
 			}
 			else //select a new dodge
 			{
 				dodge = card;
-				operator.setCardOnHandSelected(card, true);
-				operator.setConfirmEnabled(true);
+				operator.getGameListener().setCardSelected(card, true);
+				operator.getGameListener().setConfirmEnabled(true);
 			}
 		}
 		else

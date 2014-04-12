@@ -52,7 +52,7 @@ public class StealOperation extends SpecialOperation
 			if(t.getCardsOnHandCount() != 0 || t.isEquipped())//TODO or if has decision area cards
 			{
 				player.setOperation(this);
-				player.getGameListener().onSetMessage("Choose a card to steal");
+				player.getGameListener().setMessage("Choose a card to steal");
 				player.getGameListener().onDisplayCardSelectionPane(player.findMatch(target), true, true, true);
 			}
 			else
@@ -119,7 +119,7 @@ public class StealOperation extends SpecialOperation
 	@Override
 	public void onCardSelected(PlayerClientComplete operator, Card card) 
 	{
-		operator.getGameListener().onClearMessage();
+		operator.getGameListener().clearMessage();
 		operator.setOperation(null);
 		if(card == null) //card on hand
 		{

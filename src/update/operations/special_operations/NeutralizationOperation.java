@@ -65,7 +65,7 @@ public class NeutralizationOperation extends Operation
 		if(player.isAlive() && !cancelledPlayers.contains(player.getPlayerInfo()))
 		{
 			player.setCardSelectableByName(Neutralization.NEUTRALIZATION, true);
-			player.getGameListener().onSetMessage(next.getCurrentTarget().getName()+" is the target of "+next.getName()+", do you use Neutralization?");
+			player.getGameListener().setMessage(next.getCurrentTarget().getName()+" is the target of "+next.getName()+", do you use Neutralization?");
 			player.setCancelEnabled(true);
 		}
 	}

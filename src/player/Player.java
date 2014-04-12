@@ -315,63 +315,54 @@ public abstract class Player
 	{
 		return weapon;
 	}
-	public Equipment unequip(EquipmentType type)
+	public void unequip(EquipmentType type)
 	{
-		Equipment temp = null;
-		if(type == EquipmentType.WEAPON)
+		switch(type)
 		{
-			temp = weapon;
-			weapon = null;
-			weaponEquipped = false;
+			case WEAPON:
+				weapon = null;
+				weaponEquipped = false;
+				break;
+			case SHIELD:
+				shield = null;
+				shieldEquipped = false;
+				break;
+			case HORSEPLUS:
+				horsePlus = null;
+				horsePlusEquipped = false;
+				break;
+			case HORSEMINUS:
+				horseMinus = null;
+				horseMinusEquipped = false;
+				break;
 		}
-		else if(type == EquipmentType.SHIELD)
-		{
-			temp = shield;
-			shield = null;
-			shieldEquipped = false;
-		}
-		else if(type == EquipmentType.HORSEPLUS)
-		{
-			temp = horsePlus;
-			horsePlus = null;
-			horsePlusEquipped = false;
-		}
-		else if(type == EquipmentType.HORSEMINUS)
-		{
-			temp = horseMinus;
-			horseMinus = null;
-			horseMinusEquipped = false;
-		}
-		return temp;
 	}
 
-	public Equipment equip(Equipment equipment)
+	public void equip(Equipment equipment)
 	{
-		Equipment temp = null;
 		switch(equipment.getEquipmentType())
 		{
 			case HORSEPLUS:
-				temp = unequip(EquipmentType.HORSEPLUS);
+				unequip(EquipmentType.HORSEPLUS);
 				horsePlus = (HorsePlus) equipment;
 				horsePlusEquipped = true;
 				break;
 			case HORSEMINUS:
-				temp = unequip(EquipmentType.HORSEMINUS);
+				unequip(EquipmentType.HORSEMINUS);
 				horseMinus = (HorseMinus)equipment;
 				horseMinusEquipped = true;
 				break;
 			case WEAPON:
-				temp = unequip(EquipmentType.WEAPON);
+				unequip(EquipmentType.WEAPON);
 				weapon = (Weapon)equipment;
 				weaponEquipped = true;
 				break;
 			case SHIELD:
-				temp = unequip(EquipmentType.SHIELD);
+				unequip(EquipmentType.SHIELD);
 				shield = (Shield)equipment;
 				shieldEquipped = true;
 				break;
 		}
-		return temp;
 	}
 
 	//************** methods related to range/distance *************

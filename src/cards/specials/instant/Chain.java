@@ -24,8 +24,7 @@ public class Chain extends Instant
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerClientComplete player,
-			Update next) {
+	protected Operation createOperation(PlayerClientComplete player, Update next) {
 		// TODO Auto-generated method stub
 		return null;
 	}

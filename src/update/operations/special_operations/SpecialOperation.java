@@ -62,27 +62,32 @@ public abstract class SpecialOperation extends Operation
 
 	public abstract PlayerInfo getCurrentTarget();
 
+	/**
+	 * select a card as the card in reaction
+	 * @param operator
+	 * @param card
+	 */
 	protected void cardSelectedAsReaction(PlayerClientComplete operator, Card card)
 	{
 		if(reactionCard != null)//unselect previous
 		{
-			operator.setCardOnHandSelected(reactionCard, false);
+			operator.getGameListener().setCardSelected(reactionCard, false);
 			if(reactionCard.equals(card))//unselect
 			{
 				reactionCard = null;
-				operator.setConfirmEnabled(false);
+				operator.getGameListener().setConfirmEnabled(false);
 			}
 			else//change
 			{
 				reactionCard = card;
-				operator.setCardOnHandSelected(card, true);
+				operator.getGameListener().setCardSelected(card, true);
 			}
 		}
 		else //select new
 		{
 			reactionCard = card;
-			operator.setCardOnHandSelected(card, true);
-			operator.setConfirmEnabled(true);
+			operator.getGameListener().setCardSelected(card, true);
+			operator.getGameListener().setConfirmEnabled(true);
 		}
 	}
 	public PlayerInfo getCurrentPlayer()
@@ -154,4 +159,23 @@ public abstract class SpecialOperation extends Operation
 	 * @return name
 	 */
 	public abstract String getName();
+	
+	/**
+	 * Cancel the operation, which includes
+	 * <ul>
+	 * <li> set card unselected </li>
+	 * <li> set confirm disabled </li>
+	 * <li> set cancel disabled </li>
+	 * <li> set operation to null </li>
+	 * </ul>
+	 * @param player
+	 * @param card
+	 */
+	protected void cancelOperation(PlayerClientComplete player, Card card)
+	{
+		player.getGameListener().setCardSelected(card, false);
+		player.getGameListener().setConfirmEnabled(false);
+		player.getGameListener().setCancelEnabled(false);
+		player.setOperation(null);
+	}
 }

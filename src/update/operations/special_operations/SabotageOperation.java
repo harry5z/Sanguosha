@@ -7,6 +7,7 @@ import update.DisposalOfCards;
 import update.Unequip;
 import update.Update;
 import update.UseOfCards;
+import utils.OperationUtil;
 import cards.Card;
 import cards.equipments.Equipment;
 import core.PlayerInfo;
@@ -46,7 +47,7 @@ public class SabotageOperation extends SpecialOperation
 			if(t.getCardsOnHandCount() != 0 || t.isEquipped())//TODO or if has decision area cards
 			{
 				player.setOperation(this);
-				player.getGameListener().onSetMessage("Choose a card to dispose");
+				player.getGameListener().setMessage("Choose a card to dispose");
 				player.getGameListener().onDisplayCardSelectionPane(player.findMatch(target), true, true, true);
 			}
 			else
@@ -57,33 +58,13 @@ public class SabotageOperation extends SpecialOperation
 	@Override
 	public void onPlayerSelected(PlayerClientComplete operator,	PlayerOriginal player) 
 	{
-		if(target == null)//select target
-		{
-			target = player.getPlayerInfo();
-			operator.selectTarget(target);//target selected
-			operator.setConfirmEnabled(true);//can confirm
-		}
-		else
-		{
-			if(player.matches(target))//cancel
-			{
-				operator.unselectTarget(target);//no target
-				operator.setConfirmEnabled(false);//cannot confirm
-				target = null;
-			}
-			else//change
-			{
-				operator.unselectTarget(target);
-				target = player.getPlayerInfo();
-				operator.selectTarget(target);
-			}
-		}
+		target = OperationUtil.selectTarget(operator, target, player);
 	}
 
 	@Override
 	public void onCardSelected(PlayerClientComplete operator, Card card) 
 	{
-		operator.getGameListener().onClearMessage();
+		operator.getGameListener().clearMessage();
 		operator.setOperation(null);
 		if(card == null) //card on hand
 		{

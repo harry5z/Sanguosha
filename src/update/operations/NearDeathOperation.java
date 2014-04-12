@@ -79,13 +79,13 @@ public class NearDeathOperation extends Operation
 			if(player.matches(currentPlayer))
 			{
 				player.setOperation(this);//push to operation
-				player.setCancelEnabled(true);//can refuse to give peach
+				player.getGameListener().setCancelEnabled(true);//can refuse to give peach
 				player.setCardSelectableByName(Peach.PEACH, true);//peach enabled
-				player.getGameListener().onSetMessage(dyingPlayer.getName() + " is dying, do you use a peach?");
+				player.getGameListener().setMessage(dyingPlayer.getName() + " is dying, do you use a peach?");
 				if(player.matches(dyingPlayer))//if dying player himself
 				{
 					player.setCardSelectableByName(Wine.WINE, true);//wine also usable
-					player.getGameListener().onSetMessage("You are dying, do you use wine or peach?");
+					player.getGameListener().setMessage("You are dying, do you use wine or peach?");
 				}
 			}
 			return;
@@ -117,7 +117,7 @@ public class NearDeathOperation extends Operation
 				((PeachOperation)operation).setTarget(dyingPlayer);
 			}
 		
-			operator.setConfirmEnabled(true);
+			operator.getGameListener().setConfirmEnabled(true);
 		}
 		else
 		{
@@ -126,7 +126,7 @@ public class NearDeathOperation extends Operation
 			{
 				operation = null;
 				cardChosen = null;
-				operator.setCancelEnabled(true);
+				operator.getGameListener().setCancelEnabled(true);
 			}
 			else //change selection
 			{
@@ -143,7 +143,7 @@ public class NearDeathOperation extends Operation
 	{
 		if(operation == null)//refuse to give peach
 		{
-			player.setCancelEnabled(false);
+			player.getGameListener().setCancelEnabled(false);
 			player.setAllCardsOnHandSelectable(false);
 			sendToNextPlayer(player);
 		}
@@ -152,7 +152,7 @@ public class NearDeathOperation extends Operation
 			cardChosen = null;
 			operation.onCancelledBy(player);
 			operation = null;
-			player.setCancelEnabled(true);
+			player.getGameListener().setCancelEnabled(true);
 			player.setOperation(this);//push back to operation
 		}
 	}

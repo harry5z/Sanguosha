@@ -84,25 +84,19 @@ public class CardRackGui extends JPanel implements CardOnHandListener
 		cards.clear();
 		repaint();
 	}
-	protected void selectCard(Card card)
+	protected void setCardSelected(Card card, boolean selected)
 	{
 		for(CardGui c : cards)
 		{
 			if(c.getCard().equals(card))
 			{
-				c.select();
+				if(selected)
+					c.select();
+				else
+					c.unselect();
 				return;
 			}
 		}
-	}
-	protected void unselectCard(Card card)
-	{
-		for(CardGui c : cards)
-			if(c.getCard().equals(card))
-			{
-				c.unselect();
-				return;
-			}
 	}
 	protected void setCardSelectable(Card card, boolean selectable)
 	{

@@ -26,11 +26,9 @@ public class Duel extends Instant
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerClientComplete player,Update next)
+	protected Operation createOperation(PlayerClientComplete player, Update next) 
 	{
-		player.setCardOnHandSelected(this, true);
 		player.setAllTargetsSelectableExcludingSelf(true);
-		player.setCancelEnabled(true);
 		return new DuelOperation(player.getPlayerInfo(),player.getCurrentStage().getSource(),this,next);
 	}
 }

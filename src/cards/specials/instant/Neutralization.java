@@ -24,17 +24,14 @@ public class Neutralization extends Instant
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerClientComplete player,Update next)
-	{
-		player.setCardOnHandSelected(this, true);
-		player.setCancelEnabled(true);
-		player.setConfirmEnabled(true);
-		return null;
-	}
-
-	@Override
 	public boolean isActivatableBy(PlayerClientComplete player) 
 	{
 		return false;
+	}
+
+	@Override
+	protected Operation createOperation(PlayerClientComplete player, Update next) 
+	{
+		return null;
 	}
 }

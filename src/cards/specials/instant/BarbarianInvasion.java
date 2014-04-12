@@ -26,11 +26,9 @@ public class BarbarianInvasion extends Instant
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerClientComplete player, Update next)
+	protected Operation createOperation(PlayerClientComplete player, Update next) 
 	{
-		player.setCardOnHandSelected(this, true);
-		player.setCancelEnabled(true);
-		player.setConfirmEnabled(true);
+		player.getGameListener().setConfirmEnabled(true);
 		return new BarbarianInvasionOperation(player,this,next);
 	}
 }

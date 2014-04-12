@@ -1,6 +1,7 @@
 package update;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import player.PlayerClientComplete;
@@ -15,7 +16,7 @@ public class DisposalOfCards extends Update
 	 */
 	private static final long serialVersionUID = 3876124827025507624L;
 	private PlayerInfo source;
-	private ArrayList<Card> cards;
+	private List<Card> cards;
 	private boolean random = false;
 
 	public DisposalOfCards(PlayerInfo source,Card card,Update next)
@@ -37,7 +38,7 @@ public class DisposalOfCards extends Update
 		this.cards = new ArrayList<Card>(1);
 		this.random = true;
 	}
-	public DisposalOfCards(PlayerInfo source,ArrayList<Card> cards,Update next)
+	public DisposalOfCards(PlayerInfo source,List<Card> cards,Update next)
 	{
 		super(next);
 		this.source = source;

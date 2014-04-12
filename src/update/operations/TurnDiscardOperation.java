@@ -52,7 +52,7 @@ public class TurnDiscardOperation extends Operation
 			{
 				player.setOperation(this);//push to operation
 				player.setAllCardsOnHandSelectable(true);//discard any card on hand
-				player.getGameListener().onSetMessage("You need to discard "+numToDiscard+" cards");
+				player.getGameListener().setMessage("You need to discard "+numToDiscard+" cards");
 			}
 		}
 	}
@@ -69,10 +69,10 @@ public class TurnDiscardOperation extends Operation
 		if(cardsSelected.contains(card))//unselect
 		{
 			cardsSelected.remove(card);//unselect
-			operator.setCardOnHandSelected(card, false);//graphically unselect
+			operator.getGameListener().setCardSelected(card, false);//graphically unselect
 			if(cardsSelected.size() == 0)//no card selected
 			{
-				operator.setConfirmEnabled(false);//cannot confirm
+				operator.getGameListener().setConfirmEnabled(false);//cannot confirm
 			}
 		}
 		else//select. Note that if more than needed cards are selected, remove the first selected
@@ -80,10 +80,10 @@ public class TurnDiscardOperation extends Operation
 			int current = operator.getCardsOnHandCount();
 			int goal = operator.getCardOnHandLimit();
 			if(goal + cardsSelected.size() == current)
-				operator.setCardOnHandSelected(cardsSelected.remove(0),false);//remove first
+				operator.getGameListener().setCardSelected(cardsSelected.remove(0),false);//remove first
 			cardsSelected.add(card);
-			operator.setCardOnHandSelected(card, true);
-			operator.setConfirmEnabled(true);
+			operator.getGameListener().setCardSelected(card, true);
+			operator.getGameListener().setConfirmEnabled(true);
 		}
 	}
 
