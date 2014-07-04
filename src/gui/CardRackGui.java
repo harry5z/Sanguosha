@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import listener.CardOnHandListener;
+import listeners.CardOnHandListener;
 import cards.Card;
 
 /**

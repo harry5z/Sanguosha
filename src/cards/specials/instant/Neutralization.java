@@ -1,8 +1,8 @@
 package cards.specials.instant;
 
-import player.PlayerClientComplete;
-import update.Update;
-import update.operations.Operation;
+import commands.Command;
+import commands.operations.Operation;
+import player.PlayerComplete;
 
 
 public class Neutralization extends Instant
@@ -24,13 +24,13 @@ public class Neutralization extends Instant
 	}
 
 	@Override
-	public boolean isActivatableBy(PlayerClientComplete player) 
+	public boolean isActivatableBy(PlayerComplete player) 
 	{
 		return false;
 	}
 
 	@Override
-	protected Operation createOperation(PlayerClientComplete player, Update next) 
+	protected Operation createOperation(PlayerComplete player, Command next) 
 	{
 		return null;
 	}

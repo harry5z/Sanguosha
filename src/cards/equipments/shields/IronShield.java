@@ -1,8 +1,8 @@
 package cards.equipments.shields;
 
+import commands.Damage;
 import cards.Card;
 import cards.basics.Attack;
-import update.Damage;
 
 public class IronShield extends Shield
 {

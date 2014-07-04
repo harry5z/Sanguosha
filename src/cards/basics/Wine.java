@@ -1,9 +1,9 @@
 package cards.basics;
 
-import player.PlayerClientComplete;
-import update.Update;
-import update.operations.Operation;
-import update.operations.WineOperation;
+import commands.Command;
+import commands.operations.Operation;
+import commands.operations.WineOperation;
+import player.PlayerComplete;
 
 
 public class Wine extends Basic
@@ -23,7 +23,7 @@ public class Wine extends Basic
 		return WINE;
 	}
 	@Override
-	public Operation onActivatedBy(PlayerClientComplete player, Update next) 
+	public Operation onActivatedBy(PlayerComplete player, Command next) 
 	{
 		player.setCardOnHandSelected(this, true);
 		player.setCancelEnabled(true);
@@ -31,7 +31,7 @@ public class Wine extends Basic
 		return new WineOperation(player.getPlayerInfo(),this,next);
 	}
 	@Override
-	public boolean isActivatableBy(PlayerClientComplete player) 
+	public boolean isActivatableBy(PlayerComplete player) 
 	{
 		return player.getWineUsed() < player.getWineLimit() && !player.isWineUsed();
 	}

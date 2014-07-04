@@ -1,10 +1,10 @@
 package cards.specials.instant;
 
-import player.PlayerClientComplete;
-import player.PlayerClientSimple;
-import update.Update;
-import update.operations.Operation;
-import update.operations.special_operations.SabotageOperation;
+import commands.Command;
+import commands.operations.Operation;
+import commands.operations.special_operations.SabotageOperation;
+import player.PlayerComplete;
+import player.PlayerSimple;
 
 public class Sabotage extends Instant
 {
@@ -26,10 +26,10 @@ public class Sabotage extends Instant
 	}
 
 	@Override
-	protected Operation createOperation(PlayerClientComplete player, Update next) 
+	protected Operation createOperation(PlayerComplete player, Command next) 
 	{
-		for(PlayerClientSimple other : player.getOtherPlayers())
-			if(other.getCardsOnHandCount() != 0 || other.isEquipped())//target must have something
+		for(PlayerSimple other : player.getOtherPlayers())
+			if(other.getHandCount() != 0 || other.isEquipped())//target must have something
 				player.getGameListener().setTargetSelectable(other.getPlayerInfo(), true);
 		return new SabotageOperation(player.getPlayerInfo(),this,next);
 	}

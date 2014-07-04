@@ -3,15 +3,25 @@ package core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
-import update.Damage.Element;
+import commands.Damage.Element;
 import cards.Card;
 import cards.Card.Suit;
-import cards.basics.*;
+import cards.basics.Attack;
+import cards.basics.Dodge;
+import cards.basics.Peach;
+import cards.basics.Wine;
 import cards.equipments.HorseMinus;
 import cards.equipments.HorsePlus;
-import cards.equipments.shields.*;
-import cards.specials.instant.*;
+import cards.equipments.shields.IronShield;
+import cards.equipments.shields.RattanArmor;
+import cards.equipments.shields.SilverLion;
+import cards.specials.instant.BarbarianInvasion;
+import cards.specials.instant.Duel;
+import cards.specials.instant.FireAttack;
+import cards.specials.instant.Harvest;
+import cards.specials.instant.Neutralization;
 /**
  * The deck used in game
  * @author Harry
@@ -32,12 +42,16 @@ public class Deck
 	private Element thunder = Element.THUNDER;
 	private Element fire = Element.FIRE;
 	
-	public Deck(boolean useEx, boolean useBattle)
+	public enum DeckPack
+	{
+		STANDARD, EX, BATTLE;
+	}
+	public Deck(Set<DeckPack> packs)
 	{
 		random = new Random();
 		used = new ArrayList<Card>();
 		deck = new ArrayList<Card>();
-		initializeDeck(useEx,useBattle);
+		initializeDeck(packs);
 	}
 	public Card draw()
 	{
@@ -289,12 +303,12 @@ public class Deck
 		initSpecialBattle();
 		initEquipmentBattle();
 	}
-	private void initializeDeck(boolean useEX, boolean useBATTLE)
+	private void initializeDeck(Set<DeckPack> packs)
 	{
 		initOriginal();
-		if(useEX)
+		if(packs.contains(DeckPack.EX))
 			initEX();
-		if(useBATTLE)
+		if(packs.contains(DeckPack.BATTLE))
 			initBattle();
 		resetDeck();
 	}

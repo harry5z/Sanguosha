@@ -1,6 +1,6 @@
 package gui;
 
-import heroes.Hero;
+import heroes.original.HeroOriginal;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -20,7 +20,7 @@ public class HeroGui extends JButton
 	 * 
 	 */
 	private static final long serialVersionUID = 5926706015812873971L;
-	private Hero hero;
+	private HeroOriginal hero;
 	public static final int WIDTH = CardRackGui.HEIGHT;
 	public static final int HEIGHT = WIDTH;
 	private boolean selected = false;
@@ -43,14 +43,14 @@ public class HeroGui extends JButton
 		selected = false;
 		repaint();
 	}
-	public void setHero(Hero hero)
+	public void setHero(HeroOriginal hero)
 	{
 		this.hero = hero;
 		setText(hero.getName());
 		repaint();
 	}
 	
-	public Hero getHero()
+	public HeroOriginal getHero()
 	{
 		return hero;
 	}

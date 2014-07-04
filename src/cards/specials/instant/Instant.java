@@ -1,8 +1,8 @@
 package cards.specials.instant;
 
-import player.PlayerClientComplete;
-import update.Update;
-import update.operations.Operation;
+import commands.Command;
+import commands.operations.Operation;
+import player.PlayerComplete;
 import cards.specials.Special;
 
 public abstract class Instant extends Special
@@ -18,13 +18,13 @@ public abstract class Instant extends Special
 	}
 	
 	@Override
-	public boolean isActivatableBy(PlayerClientComplete player) 
+	public boolean isActivatableBy(PlayerComplete player) 
 	{
 		return true;
 	}
 	
 	@Override
-	public Operation onActivatedBy(PlayerClientComplete player,Update next)
+	public Operation onActivatedBy(PlayerComplete player,Command next)
 	{
 		player.getGameListener().setCardSelected(this, true);
 		player.getGameListener().setCancelEnabled(true);
@@ -46,5 +46,5 @@ public abstract class Instant extends Special
 	 * @param next
 	 * @return
 	 */
-	protected abstract Operation createOperation(PlayerClientComplete player,Update next);
+	protected abstract Operation createOperation(PlayerComplete player,Command next);
 }

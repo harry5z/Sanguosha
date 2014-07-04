@@ -1,8 +1,8 @@
 package cards.basics;
 
-import player.PlayerClientComplete;
-import update.Update;
-import update.operations.Operation;
+import commands.Command;
+import commands.operations.Operation;
+import player.PlayerComplete;
 
 public class Dodge extends Basic
 {
@@ -25,12 +25,12 @@ public class Dodge extends Basic
 		return DODGE;
 	}
 	@Override
-	public boolean isActivatableBy(PlayerClientComplete player) 
+	public boolean isActivatableBy(PlayerComplete player) 
 	{
 		return false;
 	}
 	@Override
-	public Operation onActivatedBy(PlayerClientComplete player,Update next) 
+	public Operation onActivatedBy(PlayerComplete player,Command next) 
 	{
 		System.err.println("Dodge: should not be executed");
 		return null;

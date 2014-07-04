@@ -1,9 +1,9 @@
 package cards.specials.instant;
 
-import player.PlayerClientComplete;
-import update.Update;
-import update.operations.Operation;
-import update.operations.special_operations.BarbarianInvasionOperation;
+import commands.Command;
+import commands.operations.Operation;
+import commands.operations.special_operations.BarbarianInvasionOperation;
+import player.PlayerComplete;
 
 
 public class BarbarianInvasion extends Instant
@@ -26,7 +26,7 @@ public class BarbarianInvasion extends Instant
 	}
 
 	@Override
-	protected Operation createOperation(PlayerClientComplete player, Update next) 
+	protected Operation createOperation(PlayerComplete player, Command next) 
 	{
 		player.getGameListener().setConfirmEnabled(true);
 		return new BarbarianInvasionOperation(player,this,next);

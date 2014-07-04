@@ -1,8 +1,8 @@
 package cards.equipments.shields;
 
-import player.PlayerClientComplete;
-import update.Damage;
-import update.Update;
+import commands.Command;
+import commands.Damage;
+import player.PlayerComplete;
 import cards.Card;
 import cards.equipments.Equipment;
 
@@ -21,7 +21,7 @@ public abstract class Shield extends Equipment
 	public abstract boolean mustReactTo(Card card);
 	
 	//public abstract boolean hasEffectOn(Update update);
-	public void onUnequipped(PlayerClientComplete player, Update update)
+	public void onUnequipped(PlayerComplete player, Command update)
 	{
 		
 	}

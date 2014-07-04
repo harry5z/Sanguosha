@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import listener.FrameworkListener;
+import listeners.FrameworkListener;
 import core.Framework4Gui;
 
 public class FrameworkGui extends JFrame implements Runnable,FrameworkListener

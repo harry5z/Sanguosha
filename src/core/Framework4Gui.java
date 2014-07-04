@@ -1,18 +1,10 @@
 package core;
 
-import listener.FrameworkListener;
+import listeners.FrameworkListener;
 
 public interface Framework4Gui {
 
-	/**
-	 * start the game
-	 */
-	public void start();
-	
-	/**
-	 * reset the game
-	 */
-	public void reset();
+
 	
 	/**
 	 * register a framework listener

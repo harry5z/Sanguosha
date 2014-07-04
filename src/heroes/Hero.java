@@ -1,91 +1,55 @@
 package heroes;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.awt.Image;
+import java.util.Set;
 
 import skills.Skill;
 
-/**
- * Hero class, consisting of all heroes
- * @author Harry
- *
- */
-public abstract class Hero implements Serializable
+public interface Hero 
 {
 	/**
-	 * 
+	 * Four forces of heroes
+	 * @author Harry
 	 */
-	private static final long serialVersionUID = -7101963032096808206L;
-	public static final int WEI = 1;
-	public static final int SHU = 2;
-	public static final int WU = 3;
-	public static final int QUN = 4;
-	
-	public static final int MALE = 1;
-	public static final int FEMALE = 2;
-	
-	private String name;//unique for every hero
-	private int force;// WEI/SHU/WU/QUN
-	private int sex;//MALE / FEMALE
-	private int healthLimit;//usually 3 or 4
-	private int cardsOnHandLimit;//usually equal to current health, unless changed by skills
-	private ArrayList<Skill> skills;//not implememented yet
-	
-	public Hero(int healthLimit, int force, int sex, String name)
+	public enum Force
 	{
-		this.name = name;
-		this.force = force;
-		this.sex = sex;
-		this.healthLimit = healthLimit;
-		this.cardsOnHandLimit = healthLimit;
-		this.skills = new ArrayList<Skill>();
+		WEI, SHU, WU, QUN, FORCELESS;
+	}
+	
+	public enum Gender
+	{
+		MALE, FEMALE, GENDERLESS;
 	}
 
-	public String getName()
-	{
-		return name;
-	}
-	public void changeHealthLimitTo(int n)
-	{
-		healthLimit = n;
-	}
-	public void changeHealthLimitBy(int n)
-	{
-		healthLimit += n;
-	}
-	public int getHealthLimit()
-	{
-		return healthLimit;
-	}
+	public String getName();
 
-	public void changeCardLimitTo(int n)
-	{
-		cardsOnHandLimit = n;
-	}
-	public void changeCardLimitBy(int n)
-	{
-		cardsOnHandLimit += n;
-	}
-	public int getCardOnHandLimit()
-	{
-		return cardsOnHandLimit;
-	}
+	public void changeHealthLimitTo(int n);
 
+	public void changeHealthLimitBy(int n);
 
+	public int getHealthLimit();
 
-	public void changeSex(int n){sex = n;}
-	public int getSex(){return sex;}
-	public void changeForce(int n){force = n;}
-	public int getForce(){return force;}
+	public void changeCardLimitTo(int n);
 
+	public void changeCardLimitBy(int n);
 
-
-
+	public int getCardOnHandLimit();
 	
+	public Gender getGender();
+
+	public Force getForce();
+
+	public Set<Skill> getSkills();
+	/**
+	 * get the image of the hero
+	 * @return the hero's picture
+	 */
+	public abstract Image getHeroImage();
 	
-	
-	
-	
-	
-	
+	/**
+	 * get the image of the card that represents this hero
+	 * @return an image of a hero card
+	 */
+	public abstract Image getCardImage();
+
 }

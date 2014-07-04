@@ -7,9 +7,6 @@ import javax.swing.JButton;
 
 public class ButtonGui extends JButton
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 772977252526814797L;
 	public static final int WIDTH = 100;
 	public static final int HEIGHT = 50;

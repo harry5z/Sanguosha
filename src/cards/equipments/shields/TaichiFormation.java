@@ -1,7 +1,7 @@
 package cards.equipments.shields;
 
+import commands.Damage;
 import cards.Card;
-import update.Damage;
 
 public class TaichiFormation extends Shield
 {

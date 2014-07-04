@@ -1,8 +1,8 @@
 package cards.specials.delayed;
 
-import player.PlayerClientComplete;
-import update.Update;
-import update.operations.Operation;
+import commands.Command;
+import commands.operations.Operation;
+import player.PlayerComplete;
 
 public class Lightning extends Delayed
 {
@@ -23,14 +23,14 @@ public class Lightning extends Delayed
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerClientComplete player,
-			Update next) {
+	public Operation onActivatedBy(PlayerComplete player,
+			Command next) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean isActivatableBy(PlayerClientComplete player) {
+	public boolean isActivatableBy(PlayerComplete player) {
 		//if(player.canBeTargetedBy(this);
 		return true;
 	}

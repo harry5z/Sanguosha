@@ -1,6 +1,6 @@
 package utils;
 
-import player.PlayerClientComplete;
+import player.PlayerComplete;
 import player.PlayerOriginal;
 import core.PlayerInfo;
 
@@ -18,7 +18,7 @@ public class OperationUtil
 	 * @param newTarget
 	 * @return
 	 */
-	public static PlayerInfo selectTarget(PlayerClientComplete operator, PlayerInfo currentTarget, PlayerOriginal newTarget)
+	public static PlayerInfo selectTarget(PlayerComplete operator, PlayerInfo currentTarget, PlayerOriginal newTarget)
 	{
 		if(currentTarget == null)//select target
 		{
@@ -28,7 +28,7 @@ public class OperationUtil
 		}
 		else
 		{
-			if(newTarget.matches(currentTarget))//cancel
+			if(newTarget.equals(currentTarget))//cancel
 			{
 				operator.getGameListener().setTargetSelected(currentTarget, true);;//no target
 				operator.getGameListener().setConfirmEnabled(false);//cannot confirm

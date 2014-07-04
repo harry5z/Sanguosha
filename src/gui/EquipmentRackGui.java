@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
-import listener.EquipmentListener;
+import listeners.EquipmentListener;
 
 public class EquipmentRackGui extends JPanel implements EquipmentListener
 {

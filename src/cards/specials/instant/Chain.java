@@ -1,8 +1,8 @@
 package cards.specials.instant;
 
-import player.PlayerClientComplete;
-import update.Update;
-import update.operations.Operation;
+import commands.Command;
+import commands.operations.Operation;
+import player.PlayerComplete;
 
 public class Chain extends Instant
 {
@@ -24,7 +24,7 @@ public class Chain extends Instant
 	}
 
 	@Override
-	protected Operation createOperation(PlayerClientComplete player, Update next) {
+	protected Operation createOperation(PlayerComplete player, Command next) {
 		// TODO Auto-generated method stub
 		return null;
 	}

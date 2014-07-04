@@ -1,7 +1,7 @@
 package cards.equipments.shields;
 
-import update.Damage;
-import update.Damage.Element;
+import commands.Damage;
+import commands.Damage.Element;
 import cards.Card;
 import cards.basics.Attack;
 import cards.specials.instant.ArrowSalvo;

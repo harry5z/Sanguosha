@@ -1,9 +1,9 @@
 package cards.specials.instant;
 
-import player.PlayerClientComplete;
-import update.Update;
-import update.operations.Operation;
-import update.operations.special_operations.ArrowSalvoOperation;
+import commands.Command;
+import commands.operations.Operation;
+import commands.operations.special_operations.ArrowSalvoOperation;
+import player.PlayerComplete;
 
 
 public class ArrowSalvo extends Instant
@@ -26,7 +26,7 @@ public class ArrowSalvo extends Instant
 	}
 
 	@Override
-	protected Operation createOperation(PlayerClientComplete player, Update next) 
+	protected Operation createOperation(PlayerComplete player, Command next) 
 	{
 		player.getGameListener().setConfirmEnabled(true);
 		return new ArrowSalvoOperation(player,this,next);

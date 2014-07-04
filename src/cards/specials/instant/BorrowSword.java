@@ -1,10 +1,10 @@
 package cards.specials.instant;
 
+import commands.Command;
+import commands.operations.Operation;
 import cards.equipments.Equipment.EquipmentType;
 import player.Player;
-import player.PlayerClientComplete;
-import update.Update;
-import update.operations.Operation;
+import player.PlayerComplete;
 
 public class BorrowSword extends Instant
 {
@@ -26,7 +26,7 @@ public class BorrowSword extends Instant
 	}
 
 	@Override
-	public boolean isActivatableBy(PlayerClientComplete player) {
+	public boolean isActivatableBy(PlayerComplete player) {
 		for(Player p : player.getOtherPlayers())
 			if(p.isEquipped(EquipmentType.WEAPON))
 				return true;
@@ -34,7 +34,7 @@ public class BorrowSword extends Instant
 	}
 
 	@Override
-	protected Operation createOperation(PlayerClientComplete player, Update next) {
+	protected Operation createOperation(PlayerComplete player, Command next) {
 		// TODO Auto-generated method stub
 		return null;
 	}

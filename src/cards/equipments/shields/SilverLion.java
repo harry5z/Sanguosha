@@ -1,9 +1,9 @@
 package cards.equipments.shields;
 
-import player.PlayerClientComplete;
-import update.Damage;
-import update.IncreaseOfHealth;
-import update.Update;
+import commands.Command;
+import commands.Damage;
+import commands.IncreaseOfHealth;
+import player.PlayerComplete;
 import cards.Card;
 
 public class SilverLion extends Shield
@@ -26,7 +26,7 @@ public class SilverLion extends Shield
 	}
 
 	@Override
-	public void onUnequipped(PlayerClientComplete player, Update update)
+	public void onUnequipped(PlayerComplete player, Command update)
 	{
 		if(player.getHealthCurrent() < player.getHealthLimit())
 			update.insertNext(new IncreaseOfHealth(player.getPlayerInfo(), null));

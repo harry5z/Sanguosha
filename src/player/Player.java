@@ -1,12 +1,14 @@
 package player;
 
-import heroes.Hero;
+import heroes.original.HeroOriginal;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import listener.CardDisposalListener;
-import listener.CardOnHandListener;
+import listeners.CardDisposalListener;
+import listeners.CardOnHandListener;
 import cards.Card;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
@@ -26,7 +28,7 @@ public abstract class Player
 	//********* personal properties *********
 	private String name;
 	private int position;
-	private Hero hero;
+	private HeroOriginal hero;
 	
 	//********* in-game properties ***********
 	private int healthCurrent;
@@ -34,11 +36,7 @@ public abstract class Player
 	
 	private boolean flipped;//whether player is flipped (not implemented yet)
 	private boolean isAlive;//whether player is alive
-	private boolean isDying;//whether player is in the near-death stage
-	private boolean weaponEquipped;
-	private boolean shieldEquipped;
-	private boolean horsePlusEquipped;
-	private boolean horseMinusEquipped;
+	private boolean dying;//whether player is in the near-death stage
 	
 	//********* cards other than cardsOnHand, public to all other players *********
 	private Weapon weapon;
@@ -46,28 +44,20 @@ public abstract class Player
 	private HorsePlus horsePlus;
 	private HorseMinus horseMinus;
 	
-	public Player(String name)
-	{
-		//init personal properties
-		this.name = name;
-		init();
-	}
+	private final PlayerInfo info;
+	
 	public Player(String name, int position)
 	{
 		this.name = name;
 		this.position = position;
+		this.info = new PlayerInfo(name, position);
 		init();
 	}
 	private void init()
 	{
 		//init in-game properties
 		isAlive = true;
-		isDying = false;
-		weaponEquipped = false;
-		shieldEquipped = false;
-		horsePlusEquipped = false;
-		horseMinusEquipped = false;
-
+		dying = false;
 		
 		//init other properties
 		weapon = null;
@@ -75,15 +65,15 @@ public abstract class Player
 		horsePlus = null;
 		horseMinus = null;
 	}
-	public PlayerInfo getPlayerInfo()
+	public final PlayerInfo getPlayerInfo()
 	{
-		return new PlayerInfo(name,position);
+		return info;
 	}
 	/**
 	 * upon setting a hero
 	 * @param hero
 	 */
-	public void setHero(Hero hero)
+	public void setHero(HeroOriginal hero)
 	{
 		this.hero = hero;
 		healthCurrent = hero.getHealthLimit();
@@ -100,7 +90,7 @@ public abstract class Player
 	{
 		this.name = name;
 	}
-	public Hero getHero()
+	public HeroOriginal getHero()
 	{
 		return hero;
 	}
@@ -129,7 +119,7 @@ public abstract class Player
 	public void kill()
 	{
 		isAlive = false;
-		isDying = false;
+		dying = false;
 	}
 	public boolean isAlive()
 	{
@@ -137,11 +127,11 @@ public abstract class Player
 	}
 	public boolean isDying()
 	{
-		return isDying;
+		return dying;
 	}
 	public void setIsDying(boolean isDying)
 	{
-		this.isDying = isDying;
+		this.dying = isDying;
 	}
 	/**
 	 * change of health limit, if current health is greater than health limit after change,
@@ -179,9 +169,9 @@ public abstract class Player
 		healthCurrent = n;
 		hero.changeCardLimitTo(healthCurrent);
 		if(healthCurrent < 1)//is dying
-			isDying = true;
+			dying = true;
 		else
-			isDying = false;
+			dying = false;
 	}
 	/**
 	 * strict change of health (i.e. no damage, does not invoke skills).
@@ -192,9 +182,9 @@ public abstract class Player
 		healthCurrent += n;
 		hero.changeCardLimitTo(healthCurrent);
 		if(healthCurrent < 1)//is dying
-			isDying = true;
+			dying = true;
 		else
-			isDying = false;
+			dying = false;
 	}
 	public int getHealthCurrent()
 	{
@@ -211,7 +201,7 @@ public abstract class Player
 	 * <li>{@link CardOnHandListener} notified
 	 * @param cards
 	 */
-	public void addCards(List<Card> cards)
+	public void addCards(Collection<Card> cards)
 	{
 		for(Card card : cards)
 			addCard(card);
@@ -222,7 +212,7 @@ public abstract class Player
 	 * <li>{@link CardOnHandListener} notified
 	 * @param cards
 	 */
-	public void useCards(List<Card> cards)
+	public void useCards(Collection<Card> cards)
 	{
 		for(Card card : cards)
 			useCard(card);
@@ -233,7 +223,7 @@ public abstract class Player
 	 * <li>{@link CardDisposalListener} notified
 	 * @param cards
 	 */
-	public void discardCards(List<Card> cards)
+	public void discardCards(Collection<Card> cards)
 	{
 		for(Card card : cards)
 			discardCard(card);
@@ -245,49 +235,63 @@ public abstract class Player
 	 */
 	public abstract void removeCardFromHand(Card card);
 	
-	public abstract int getCardsOnHandCount();
-	
-	public List<Equipment> getEquipments()
-	{
-		List<Equipment> list = new ArrayList<Equipment>();
-		if(weaponEquipped)
-			list.add(weapon);
-		if(shieldEquipped)
-			list.add(shield);
-		if(horsePlusEquipped)
-			list.add(horsePlus);
-		if(horseMinusEquipped)
-			list.add(horseMinus);
-		return list;
-	}
+	/**
+	 * Check the number of cards on hand
+	 * @return number of cards on hand
+	 */
+	public abstract int getHandCount();
+
 	//**************** methods related to equipments ******************
+	/**
+	 * get all currently equipped equipments
+	 * @return a set of equipments
+	 */
+	public Set<Equipment> getEquipments()
+	{
+		Set<Equipment> set = new HashSet<Equipment>();
+		if(weapon != null)
+			set.add(weapon);
+		if(shield != null)
+			set.add(shield);
+		if(horsePlus != null)
+			set.add(horsePlus);
+		if(horseMinus != null)
+			set.add(horseMinus);
+		return set;
+	}
+	/**
+	 * Check whether player is equipped with anything
+	 * @return true if any of weapon/shield/horse is equipped
+	 */
 	public boolean isEquipped()
 	{
-		return weaponEquipped || shieldEquipped || 
-				horsePlusEquipped || horseMinusEquipped;
+		return weapon != null || shield != null || 
+				horsePlus != null || horseMinus != null;
 	}
+	/**
+	 * Check whether player is equipped with a specific equipment
+	 * @param e : the equipment
+	 * @return true if player is equipped with e, false otherwise
+	 */
 	public boolean isEquippedWith(Equipment e)
 	{
 		return e.equals(weapon) || e.equals(shield) || e.equals(horseMinus) || e.equals(horsePlus);
 	}
+	/**
+	 * Check whether player is equipped with a specific type of equipment
+	 * @param type : the equipment type
+	 * @return true if player is equipped such type of equipment, false otherwise
+	 */
 	public boolean isEquipped(EquipmentType type)
 	{
-		switch(type)
-		{
-			case WEAPON:
-				return weaponEquipped;
-			case SHIELD:
-				return shieldEquipped;
-			case HORSEPLUS:
-				return horsePlusEquipped;
-			case HORSEMINUS:
-				return horseMinusEquipped;
-			default:
-				System.err.println("error: equipment type unidentified");
-				return false;
-		}
+		return getEquipment(type) != null;
 	}
-
+	/**
+	 * Obtain equipment by type<br>
+	 * It is suggested to check whether player is equipped first
+	 * @param type : equipment type
+	 * @return equipment of the type, or null if not equipped
+	 */
 	public Equipment getEquipment(EquipmentType type)
 	{
 		switch(type)
@@ -321,23 +325,24 @@ public abstract class Player
 		{
 			case WEAPON:
 				weapon = null;
-				weaponEquipped = false;
 				break;
 			case SHIELD:
 				shield = null;
-				shieldEquipped = false;
 				break;
 			case HORSEPLUS:
 				horsePlus = null;
-				horsePlusEquipped = false;
 				break;
 			case HORSEMINUS:
 				horseMinus = null;
-				horseMinusEquipped = false;
 				break;
 		}
 	}
 
+	/**
+	 * equip a new equipment, overriding the old one
+	 * if exists
+	 * @param equipment : new equipment
+	 */
 	public void equip(Equipment equipment)
 	{
 		switch(equipment.getEquipmentType())
@@ -345,22 +350,18 @@ public abstract class Player
 			case HORSEPLUS:
 				unequip(EquipmentType.HORSEPLUS);
 				horsePlus = (HorsePlus) equipment;
-				horsePlusEquipped = true;
 				break;
 			case HORSEMINUS:
 				unequip(EquipmentType.HORSEMINUS);
 				horseMinus = (HorseMinus)equipment;
-				horseMinusEquipped = true;
 				break;
 			case WEAPON:
 				unequip(EquipmentType.WEAPON);
 				weapon = (Weapon)equipment;
-				weaponEquipped = true;
 				break;
 			case SHIELD:
 				unequip(EquipmentType.SHIELD);
 				shield = (Shield)equipment;
-				shieldEquipped = true;
 				break;
 		}
 	}
@@ -368,13 +369,14 @@ public abstract class Player
 	//************** methods related to range/distance *************
 	/**
 	 * Attack range, not distance
+	 * <li> 1 by default
 	 * @return attack range
 	 */
 	public int getAttackRange()
 	{
-		if(weaponEquipped)
+		if(weapon != null)
 			return weapon.getRange();//plus weapon range
-		return 1;
+		return 1; // by difault 1
 	}
 	/**
 	 * Distance to another player, given number of players alive
@@ -387,7 +389,7 @@ public abstract class Player
 		int smaller = Math.min(position, player.position);
 		int larger = Math.max(position, player.position);
 		int shorter = Math.min(larger - smaller, smaller + numberOfPlayersAlive - larger);
-		if(isEquipped(EquipmentType.HORSEMINUS))
+		if(horseMinus != null)
 			shorter--;//minus horse range
 		if(player.isEquipped(EquipmentType.HORSEPLUS))
 			shorter++;//plus other player's horse range
@@ -413,8 +415,6 @@ public abstract class Player
 	{
 		return getDistanceTo(player, numberOfPlayersAlive) <= 1;
 	}
-	//************** methods related to damage *******************
-	public abstract void takeDamage(int amount);
 
 	@Override
 	public int hashCode()
@@ -424,19 +424,11 @@ public abstract class Player
 	@Override
 	public boolean equals(Object obj)
 	{
-		if(!(obj instanceof Player))
-			return false;
+		if(obj instanceof PlayerInfo)
+			return position == (((PlayerInfo)obj).getPosition());
+		else if(obj instanceof Player)
+			return position == ((Player)obj).position;
 		else
-			return position == (((Player)obj).position);
+			return false;
 	}
-	/**
-	 * Use this for most comparisons
-	 * @param p
-	 * @return 
-	 */
-	public boolean matches(PlayerInfo p)
-	{
-		return position == p.getPosition();
-	}
-	
 }

@@ -1,5 +1,5 @@
 package gui;
-import heroes.Blank;
+import heroes.original.Blank;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -9,9 +9,9 @@ import java.util.*;
 import javax.swing.*;
 
 import cards.Card;
-import player.PlayerClientComplete;
-import player.PlayerClientSimple;
-import listener.GameListener;
+import player.PlayerComplete;
+import player.PlayerSimple;
+import listeners.GameListener;
 import core.PlayerInfo;
 
 /**
@@ -36,15 +36,15 @@ public class PanelGui extends JPanel implements GameListener,Runnable
 	private CardSelectionPane pane;
 	private JPanel customizedPanel;
 	
-	private PlayerClientComplete myself;
-	private ArrayList<PlayerGui> otherPlayers;
+	private PlayerComplete myself;
+	private List<PlayerGui> otherPlayers;
 	private ButtonGui confirm;
 	private ButtonGui cancel;
 	private ButtonGui end;
 	
 	private JLabel deckSize;
 	private MessageBoxGui messageBox;
-	public PanelGui(PlayerClientComplete player)
+	public PanelGui(PlayerComplete player)
 	{
 		setLayout(null);
 		myself = player;
@@ -94,7 +94,7 @@ public class PanelGui extends JPanel implements GameListener,Runnable
 		add(messageBox);
 	}
 	@Override
-	public void onPlayerAdded(PlayerClientSimple player)
+	public void onPlayerAdded(PlayerSimple player)
 	{
 		player.registerCardDisposalListener(disposalGui);
 		PlayerGui p = new PlayerGui(player,this);
@@ -119,7 +119,7 @@ public class PanelGui extends JPanel implements GameListener,Runnable
 		}
 		else if(obj instanceof PlayerGui)
 		{
-			PlayerClientSimple player = ((PlayerGui)obj).getPlayer();
+			PlayerSimple player = ((PlayerGui)obj).getPlayer();
 			myself.choosePlayer(player);
 		}
 		else if(obj instanceof HeroGui)
@@ -148,7 +148,7 @@ public class PanelGui extends JPanel implements GameListener,Runnable
 	public void setTargetSelected(PlayerInfo player, boolean selected)
 	{
 		for(PlayerGui p : otherPlayers)
-			if(p.getPlayer().matches(player))
+			if(p.getPlayer().equals(player))
 			{
 				if(selected)
 				{
@@ -172,10 +172,10 @@ public class PanelGui extends JPanel implements GameListener,Runnable
 	@Override
 	public void setTargetSelectable(PlayerInfo player, boolean selectable)
 	{
-		if(myself.matches(player))
+		if(myself.equals(player))
 			heroGui.setEnabled(selectable);
 		for(PlayerGui p : otherPlayers)
-			if(p.getPlayer().matches(player))
+			if(p.getPlayer().equals(player))
 			{
 				p.setEnabled(selectable);
 				return;
@@ -197,9 +197,9 @@ public class PanelGui extends JPanel implements GameListener,Runnable
 		end.setEnabled(isEnabled);
 	}
 	@Override
-	public void updateDeckSize(int size)
+	public void setDeckSize(int size)
 	{
-		deckSize.setText(""+size);
+		deckSize.setText(Integer.toString(size));
 	}
 	@Override
 	public void setMessage(String message)
@@ -223,7 +223,7 @@ public class PanelGui extends JPanel implements GameListener,Runnable
 		f.setVisible(true);
 	}
 	@Override
-	public void onDisplayCardSelectionPane(PlayerClientSimple player, boolean showHand, boolean showEquipments, boolean showDecisions) 
+	public void onDisplayCardSelectionPane(PlayerSimple player, boolean showHand, boolean showEquipments, boolean showDecisions) 
 	{
 		pane = new CardSelectionPane(player,showHand,showEquipments,showDecisions,this);
 		pane.setLocation((WIDTH-pane.getWidth())/2,(HEIGHT-CardRackGui.HEIGHT-pane.getHeight())/2);

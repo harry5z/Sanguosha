@@ -1,9 +1,9 @@
 package cards.specials.instant;
 
-import player.PlayerClientComplete;
-import update.Update;
-import update.operations.Operation;
-import update.operations.special_operations.DuelOperation;
+import commands.Command;
+import commands.operations.Operation;
+import commands.operations.special_operations.DuelOperation;
+import player.PlayerComplete;
 
 
 
@@ -26,7 +26,7 @@ public class Duel extends Instant
 	}
 
 	@Override
-	protected Operation createOperation(PlayerClientComplete player, Update next) 
+	protected Operation createOperation(PlayerComplete player, Command next) 
 	{
 		player.setAllTargetsSelectableExcludingSelf(true);
 		return new DuelOperation(player.getPlayerInfo(),player.getCurrentStage().getSource(),this,next);

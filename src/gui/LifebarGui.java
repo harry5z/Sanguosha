@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import listener.HealthListener;
+import listeners.HealthListener;
 
 /**
  * life bar. current health is represented as green dots, lost health is represented as red dots

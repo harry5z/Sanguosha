@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import player.PlayerClientSimple;
+import player.PlayerSimple;
 import cards.equipments.Equipment;
 
 public class CardSelectionPane extends JPanel
@@ -25,13 +25,13 @@ public class CardSelectionPane extends JPanel
 	 * @param showEquipments
 	 * @param showDecisions
 	 */
-	public CardSelectionPane(PlayerClientSimple player, boolean showHand, boolean showEquipments, boolean showDecisions, ActionListener listener)
+	public CardSelectionPane(PlayerSimple player, boolean showHand, boolean showEquipments, boolean showDecisions, ActionListener listener)
 	{
 		int verticalLocation = 0;
 		setLayout(null);
 		if(showHand)
 		{
-			int amount = player.getCardsOnHandCount();
+			int amount = player.getHandCount();
 			if(amount != 0)
 			{
 				JLabel label = new LabelGui("Cards on Hand");

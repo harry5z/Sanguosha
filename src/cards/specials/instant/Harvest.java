@@ -1,9 +1,9 @@
 package cards.specials.instant;
 
-import player.PlayerClientComplete;
-import update.Update;
-import update.operations.Operation;
-import update.operations.special_operations.HarvestOperation;
+import commands.Command;
+import commands.operations.Operation;
+import commands.operations.special_operations.HarvestOperation;
+import player.PlayerComplete;
 
 public class Harvest extends Instant
 {
@@ -25,7 +25,7 @@ public class Harvest extends Instant
 	}
 
 	@Override
-	protected Operation createOperation(PlayerClientComplete player, Update next) 
+	protected Operation createOperation(PlayerComplete player, Command next) 
 	{
 		player.getGameListener().setConfirmEnabled(true);
 		return new HarvestOperation(player,this,next);

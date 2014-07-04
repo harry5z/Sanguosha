@@ -1,9 +1,9 @@
 package cards.specials.instant;
 
-import player.PlayerClientComplete;
-import update.Update;
-import update.operations.Operation;
-import update.operations.special_operations.CreationOperation;
+import commands.Command;
+import commands.operations.Operation;
+import commands.operations.special_operations.CreationOperation;
+import player.PlayerComplete;
 
 public class Creation extends Instant
 {
@@ -24,7 +24,7 @@ public class Creation extends Instant
 	}
 
 	@Override
-	protected Operation createOperation(PlayerClientComplete player, Update next) 
+	protected Operation createOperation(PlayerComplete player, Command next) 
 	{
 		player.getGameListener().setConfirmEnabled(true);
 		return new CreationOperation(player.getPlayerInfo(),player.getCurrentStage().getSource(),this,next);

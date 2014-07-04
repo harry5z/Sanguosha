@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import listener.CardDisposalListener;
+import listeners.CardDisposalListener;
 import cards.Card;
 
 /**

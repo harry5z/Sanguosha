@@ -1,9 +1,9 @@
 package cards.specials.instant;
 
-import player.PlayerClientComplete;
-import update.Update;
-import update.operations.Operation;
-import update.operations.special_operations.BrotherhoodOperation;
+import commands.Command;
+import commands.operations.Operation;
+import commands.operations.special_operations.BrotherhoodOperation;
+import player.PlayerComplete;
 
 public class Brotherhood extends Instant
 {
@@ -25,7 +25,7 @@ public class Brotherhood extends Instant
 	}
 
 	@Override
-	public Operation createOperation(PlayerClientComplete player, Update next) 
+	public Operation createOperation(PlayerComplete player, Command next) 
 	{
 		player.getGameListener().setConfirmEnabled(true);
 		return new BrotherhoodOperation(player,this,next);
