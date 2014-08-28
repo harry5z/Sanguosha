@@ -13,7 +13,7 @@ import net.client.ClientUI;
  * @author Harry
  *
  */
-public interface UIClientCommand extends ClientCommand {
+public interface UIClientCommand extends Command<Client> {
 
 	/**
 	 * <strong>IMPORTANT: Do NOT override this method</strong><br><br>

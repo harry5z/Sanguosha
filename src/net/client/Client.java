@@ -4,7 +4,6 @@ import gui.net.client.ClientFrameGui;
 
 import java.io.IOException;
 
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 

@@ -49,7 +49,7 @@ public class Room extends ServerEntity {
 	public boolean onReceivedConnection(Connection connection) {
 		synchronized (entranceLock) {
 			if (connections.size() == roomConfig.getCapacity()) {
-				connection.send(/*TODO error command */ null);
+				connection.send(/* TODO error command */ null);
 				return false;
 			}
 			if (connections.contains(connection)) {
@@ -58,7 +58,7 @@ public class Room extends ServerEntity {
 			}
 			connections.add(connection);
 			connection.setConnectionListener(this);
-			Log.log(TAG, "Player entered room "+id);
+			Log.log(TAG, "Player entered room " + id);
 			connection.send(new RoomDisplayUIClientCommand(getRoomInfo()));
 			return true;
 		}

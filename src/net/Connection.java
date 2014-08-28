@@ -48,7 +48,11 @@ public class Connection {
 							@SuppressWarnings("unchecked")
 							@Override
 							public void run() {
-								((Command<? super ConnectionListener>) obj).execute(listener, Connection.this);
+								try {
+									((Command<? super ConnectionListener>) obj).execute(listener, Connection.this);
+								} catch (ClassCastException e) {
+									Log.e(TAG, "Command sent to the wrong object: "+e.getMessage());
+								}
 							}
 						}).start();
 					} 

@@ -14,8 +14,9 @@ import java.util.concurrent.Future;
 import net.Connection;
 import net.ConnectionListener;
 import net.Message;
+import net.client.Client;
 
-import commands.ClientCommand;
+import commands.Command;
 import commands.MessageDisplayUIClientCommand;
 
 /**
@@ -44,7 +45,7 @@ public abstract class ServerEntity implements ConnectionListener {
 		this.sentToAllClients(new MessageDisplayUIClientCommand(message));
 	}
 	
-	public void sentToAllClients(final ClientCommand command) {
+	public void sentToAllClients(final Command<Client> command) {
 		List<Callable<Void>> updates = new ArrayList<Callable<Void>>();
 		try {
 			for (final Connection connection : connections) {
