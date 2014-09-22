@@ -46,7 +46,8 @@ public class Room extends ServerEntity {
 	public boolean onReceivedConnection(Connection connection) {
 		synchronized (entranceLock) {
 			if (connections.size() == roomConfig.getCapacity()) {
-				connection.send(/* TODO error command */ null);
+				// TODO error command
+				// connection.send(null);
 				return false;
 			}
 			if (connections.contains(connection)) {

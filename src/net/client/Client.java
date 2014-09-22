@@ -1,8 +1,10 @@
 package net.client;
 
 import gui.net.client.ClientFrameGui;
+import gui.net.client.test.ClientFrameTestGui;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -26,19 +28,22 @@ public class Client {
 		this.connector = new Connector();
 	}
 
-	public void connect() {
+	/**
+	 * Try to connect to game server
+	 * 
+	 * @return the connection object if successful, null if failed
+	 */
+	public Connection connect() {
 		try {
-			Connection connection = connector.connect();
+		    Connection connection = connector.connect();
 			connection.setConnectionListener(this.getClientListener());
 			connection.activate();
 			Log.log(TAG, "Listening to Server...");
+			return connection;
 		} catch (IOException e) {
 			listener.onConnectionLost(null, "Connection Failed");
+			return null;
 		}
-	}
-
-	public Connector getConnector() {
-		return connector;
 	}
 
 	public void registerClientListener(ConnectionListener listener) {
@@ -61,8 +66,14 @@ public class Client {
 		} catch (Exception e) {
 		    // If Nimbus is not available, you can set the GUI to another look and feel.
 		}
-		ClientFrameGui gui = new ClientFrameGui(client);
-		client.registerClientListener(gui);
+		if (Arrays.asList(args).contains("test")) {
+			ClientFrameTestGui gui = new ClientFrameTestGui();
+			client.registerClientListener(gui);
+			gui.toRoom(client);
+		} else {
+			ClientFrameGui gui = new ClientFrameGui(client);
+			client.registerClientListener(gui);
+		}
 	}
 
 }

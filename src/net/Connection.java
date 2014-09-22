@@ -21,6 +21,9 @@ public class Connection {
 	 * Only one thread can send command at a time
 	 */
 	public final Object writeLock = new Object();
+	/**
+	 * Only one thread can check on connection at a time
+	 */
 	public final Object accessLock = new Object();
 	private final Socket socket;
 	private final ObjectOutputStream out;

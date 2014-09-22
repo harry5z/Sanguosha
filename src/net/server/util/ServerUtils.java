@@ -20,6 +20,12 @@ public class ServerUtils {
 
 	private ServerUtils() {}
 	
+	/**
+	 * Send a command to all connections concurrently
+	 * 
+	 * @param command : command to send
+	 * @param connections : connections to receive the command
+	 */
 	public static void sendCommandToConnections(final Command<?> command, Collection<Connection> connections) {
 		List<Callable<Void>> updates = new ArrayList<Callable<Void>>();
 		try {

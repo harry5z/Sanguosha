@@ -40,6 +40,7 @@ public class WelcomeSessionGui extends JPanel implements ClientPanel<WelcomeSess
 
 	@Override
 	public ClientMessageListener getMessageListener() {
+		// TODO display message
 		return null;
 	}
 
