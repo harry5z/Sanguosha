@@ -1,23 +1,10 @@
 package net.server;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import net.Connection;
 import net.ConnectionListener;
-import net.Message;
-import net.client.Client;
-
-import commands.Command;
-import commands.MessageDisplayUIClientCommand;
 
 /**
  * This class represents a generic server-side object, like
@@ -29,8 +16,8 @@ import commands.MessageDisplayUIClientCommand;
  *
  */
 public abstract class ServerEntity implements ConnectionListener {
-	private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 	protected final Set<Connection> connections = new HashSet<Connection>();
+	
 	/**
 	 * Receive a connection from another source<br><br>
 	 * 
@@ -41,29 +28,13 @@ public abstract class ServerEntity implements ConnectionListener {
 	 */
 	public abstract boolean onReceivedConnection(Connection connection);
 	
-	public void onSentChatMessage(Message message) {
-		this.sentToAllClients(new MessageDisplayUIClientCommand(message));
-	}
+	/**
+	 * Connection left this entity.
+	 * 
+	 * @param connection : connection left
+	 */
+	public abstract void onConnectionLeft(Connection connection);
+
 	
-	public void sentToAllClients(final Command<Client> command) {
-		List<Callable<Void>> updates = new ArrayList<Callable<Void>>();
-		try {
-			for (final Connection connection : connections) {
-				updates.add(new Callable<Void>() {
-					@Override
-					public Void call() throws IOException {
-						connection.send(command);
-						return null;
-					}
-				});
-			}
-			List<Future<Void>> results = executor.invokeAll(updates);
-			for (Future<Void> result : results)
-				result.get();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		}
-	}
+
 }

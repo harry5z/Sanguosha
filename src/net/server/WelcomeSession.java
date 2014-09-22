@@ -2,8 +2,8 @@ package net.server;
 
 import net.Connection;
 import utils.Log;
-
-import commands.welcome_commands.WelcomeSessionDisplayClientCommand;
+import commands.welcome.WelcomeSessionDisplayClientCommand;
+import commands.welcome.WelcomeSessionExitClientCommand;
 
 /**
  * This class represents the welcome session (before user login)
@@ -16,7 +16,7 @@ public class WelcomeSession extends ServerEntity {
 	private final ServerEntity lobby;
 
 	public WelcomeSession() {
-		this.lobby = new Lobby();
+		this.lobby = new Lobby(this);
 	}
 
 	@Override
@@ -27,6 +27,17 @@ public class WelcomeSession extends ServerEntity {
 		connection.send(new WelcomeSessionDisplayClientCommand());
 		return true;
 	}
+	
+	@Override
+	public void onConnectionLeft(Connection connection) {
+		synchronized (connection.accessLock) {
+			if (!connections.contains(connection)) {
+				return;
+			}
+			connection.send(new WelcomeSessionExitClientCommand());
+			connections.remove(connection);
+		}
+	}
 
 	public void enterLobby(Connection connection) {
 		synchronized(connection.accessLock) {
@@ -35,14 +46,13 @@ public class WelcomeSession extends ServerEntity {
 					connections.remove(connection);
 			}
 			else
-				Log.e(TAG, "Connection does not exist...");
+				Log.error(TAG, "Connection does not exist...");
 		}
 	}
 
 	@Override
-	public void onConnectionLost(Connection connection) {
-		Log.e(TAG, "Client connection lost");
+	public void onConnectionLost(Connection connection, String message) {
+		Log.error(TAG, "Client connection lost. " + message);
 		connections.remove(connection);
-		
 	}
 }

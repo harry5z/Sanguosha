@@ -17,10 +17,10 @@ import utils.Log;
  * @author Harry
  * 
  */
-public class Client implements ConnectionListener {
+public class Client {
 	private static final String TAG = "Client";
 	private final Connector connector;
-	private ClientUI listener;
+	private ConnectionListener listener;
 
 	public Client() {
 		this.connector = new Connector();
@@ -29,12 +29,11 @@ public class Client implements ConnectionListener {
 	public void connect() {
 		try {
 			Connection connection = connector.connect();
-			listener.onConnectionSuccessful();
-			connection.setConnectionListener(this);
+			connection.setConnectionListener(this.getClientListener());
 			connection.activate();
 			Log.log(TAG, "Listening to Server...");
 		} catch (IOException e) {
-			listener.onConnectionFailed("Connection Failed");
+			listener.onConnectionLost(null, "Connection Failed");
 		}
 	}
 
@@ -42,11 +41,11 @@ public class Client implements ConnectionListener {
 		return connector;
 	}
 
-	public void registerClientListener(ClientUI listener) {
+	public void registerClientListener(ConnectionListener listener) {
 		this.listener = listener;
 	}
 
-	public ClientUI getClientListener() {
+	public ConnectionListener getClientListener() {
 		return listener;
 	}
 
@@ -66,8 +65,4 @@ public class Client implements ConnectionListener {
 		client.registerClientListener(gui);
 	}
 
-	@Override
-	public void onConnectionLost(Connection connection) {
-		listener.onConnectionFailed("Connection Lost");
-	}
 }

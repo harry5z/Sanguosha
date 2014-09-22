@@ -51,16 +51,16 @@ public class Connection {
 								try {
 									((Command<? super ConnectionListener>) obj).execute(listener, Connection.this);
 								} catch (ClassCastException e) {
-									Log.e(TAG, "Command sent to the wrong object: "+e.getMessage());
+									Log.error(TAG, "Command sent to the wrong object: "+e.getMessage());
 								}
 							}
 						}).start();
 					} 
 					catch (ClassCastException | ClassNotFoundException e) {
-						Log.e(TAG, "Received unidentified object");
+						Log.error(TAG, "Received unidentified object");
 					}
 					catch (IOException e) { // This is fatal
-						listener.onConnectionLost(Connection.this);
+						listener.onConnectionLost(Connection.this, "Unknown IO Exception");
 						e.printStackTrace();
 						return; // exit eval loop
 					}
@@ -80,7 +80,7 @@ public class Connection {
 	 * 
 	 * @param command : the command to be sent
 	 */
-	public void send(Command<? extends ConnectionListener> command) {
+	public void send(Command<?> command) {
 		synchronized (writeLock) {
 			try {
 				out.writeObject(command);
@@ -88,8 +88,8 @@ public class Connection {
 				out.reset();
 			}
 			catch (IOException e) {
-				Log.e(TAG, "I/O Exception when sending command");
-				listener.onConnectionLost(this);
+				Log.error(TAG, "I/O Exception when sending command");
+				listener.onConnectionLost(this, "Fail to send command");
 			}
 		}
 	}

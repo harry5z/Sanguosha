@@ -14,7 +14,7 @@ public class Log {
 	 * @param tag : sender of message
 	 * @param message : text of message
 	 */
-	public static void e(String tag, String message) {
+	public static void error(String tag, String message) {
 		System.err.println("[ERROR] " + tag + ": " + message);
 	}
 	

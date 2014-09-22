@@ -58,7 +58,7 @@ public class Server {
 							session.onReceivedConnection(connection);
 						} 
 						catch (IOException e) {
-							Log.e(TAG, "I/O Exception");
+							Log.error(TAG, "I/O Exception");
 							e.printStackTrace();
 						}
 					}
@@ -66,7 +66,7 @@ public class Server {
 			}
 		} 
 		catch (IOException e) {
-			Log.e(TAG, "error creating server socket");
+			Log.error(TAG, "error creating server socket");
 			e.printStackTrace();
 		} 
 		catch (RejectedExecutionException e) {

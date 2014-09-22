@@ -1,6 +1,6 @@
 package net.server;
 
-import commands.room_commands.RoomDisplayUIClientCommand;
+import commands.room.DisplayRoomUIClientCommand;
 import net.Connection;
 import utils.Log;
 import utils.RoomIDUtil;
@@ -14,23 +14,19 @@ public class Room extends ServerEntity {
 	 * unique room id
 	 */
 	private final int id;
-	private final RoomInfo info;
 	private Game game;
-	private RoomListener listener;
 	public final GameConfig gameConfig;
 	public final RoomConfig roomConfig;
 
 	public Room(GameConfig config, RoomConfig roomConfig, Lobby lobby) {
 		this.lobby = lobby;
 		this.id = RoomIDUtil.getAvailableID();
-		this.info = new RoomInfo(id, roomConfig);
 		this.gameConfig = config;
 		this.roomConfig = roomConfig;
 	}
 
 	public RoomInfo getRoomInfo() {
-		info.setOccupancy(connections.size());
-		return info;
+		return new RoomInfo(id, roomConfig, connections.size());
 	}
 	
 	/**
@@ -41,10 +37,11 @@ public class Room extends ServerEntity {
 		return id;
 	}
 
-	public void registerRoomListener(RoomListener listener) {
-		this.listener = listener;
-	}
-
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @return false if room is full, or if room does not exist any more
+	 */
 	@Override
 	public boolean onReceivedConnection(Connection connection) {
 		synchronized (entranceLock) {
@@ -53,20 +50,29 @@ public class Room extends ServerEntity {
 				return false;
 			}
 			if (connections.contains(connection)) {
-				Log.e(TAG, "Connection already in room");
+				Log.error(TAG, "Connection already in room");
 				return false;
 			}
 			connections.add(connection);
 			connection.setConnectionListener(this);
 			Log.log(TAG, "Player entered room " + id);
-			connection.send(new RoomDisplayUIClientCommand(getRoomInfo()));
+			connection.send(new DisplayRoomUIClientCommand(this.getRoomInfo()));
 			return true;
 		}
 	}
-
-	public void addPlayer(Connection thread) {
-		connections.add(thread);
-		listener.onPlayerAdded(thread);
+	
+	@Override
+	public void onConnectionLeft(Connection connection) {
+		synchronized (entranceLock) {
+			synchronized (connection.accessLock) {
+				if (!connections.contains(connection)) {
+					return;
+				}
+				connections.remove(connection);
+				lobby.onUpdateRoomInfo(this);
+				lobby.onReceivedConnection(connection);
+			}
+		}
 	}
 
 	/**
@@ -88,13 +94,11 @@ public class Room extends ServerEntity {
 	}
 
 	@Override
-	public void onConnectionLost(Connection connection) {
+	public void onConnectionLost(Connection connection, String message) {
 		synchronized (entranceLock) {
-			Log.e(TAG, "Connection Lost");
+			Log.error(TAG, "Connection Lost");
 			connections.remove(connection);
-			if (connections.isEmpty()) {
-				lobby.removeRoom(this);
-			}
+			lobby.onUpdateRoomInfo(this);
 		}
 	}
 

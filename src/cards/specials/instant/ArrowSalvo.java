@@ -2,7 +2,7 @@ package cards.specials.instant;
 
 import commands.Command;
 import commands.operations.Operation;
-import commands.operations.special_operations.ArrowSalvoOperation;
+import commands.operations.special.ArrowSalvoOperation;
 import player.PlayerComplete;
 
 

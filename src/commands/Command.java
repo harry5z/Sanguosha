@@ -3,7 +3,6 @@ package commands;
 import java.io.Serializable;
 
 import net.Connection;
-import net.ConnectionListener;
 
 /**
  * The only recognized communication class over network, all interactions must
@@ -12,12 +11,12 @@ import net.ConnectionListener;
  * @author Harry
  *
  */
-public interface Command<T extends ConnectionListener> extends Serializable {
+public interface Command<T> extends Serializable {
 	/**
 	 * The general method for command callback
 	 * 
-	 * @param listener : a {@linkplain ConnectionListener} object that command will execute on
+	 * @param listener : an object that command will execute on
 	 * @param connection : connection that sends the command
 	 */
-	public void execute(T listener, Connection connection);
+	public void execute(T object, Connection connection);
 }

@@ -9,19 +9,17 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import net.Message;
 import net.client.Client;
+import net.client.ClientMessageListener;
 import net.client.ClientPanel;
 
-public class ConnectScreenGui extends JPanel implements ClientPanel {
+public class ConnectScreenGui extends JPanel implements ClientPanel<ConnectScreenGui> {
 	private static final long serialVersionUID = -948793753026200428L;
-	private final Client client;
-	private JButton connect;
+	private JButton connectButton;
 
 	public ConnectScreenGui(Client client) {
-		this.client = client;
 		setLayout(new GridLayout(0, 1));
-		this.connect = new ControlButtonGui("Connect", new ActionListener() {
+		this.connectButton = new ControlButtonGui("Connect", new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new Thread(new Runnable() {
@@ -32,29 +30,18 @@ public class ConnectScreenGui extends JPanel implements ClientPanel {
 				}).start();
 			}
 		});
-		add(connect);
+		add(connectButton);
 	}
 
 	@Override
-	public void onConnectionFailed(String message) {
-		connect.setText("Reconnect");
+	public ClientMessageListener getMessageListener() {
+		return null;
 	}
 
 	@Override
-	public void onConnectionSuccessful() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onMessageReceived(Message message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public JPanel getContent() {
+	public ConnectScreenGui getContent() {
 		return this;
 	}
+
 
 }

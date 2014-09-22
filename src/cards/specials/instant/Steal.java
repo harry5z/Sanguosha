@@ -2,7 +2,7 @@ package cards.specials.instant;
 
 import commands.Command;
 import commands.operations.Operation;
-import commands.operations.special_operations.StealOperation;
+import commands.operations.special.StealOperation;
 import player.PlayerComplete;
 import player.PlayerSimple;
 

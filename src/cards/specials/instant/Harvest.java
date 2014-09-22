@@ -2,7 +2,7 @@ package cards.specials.instant;
 
 import commands.Command;
 import commands.operations.Operation;
-import commands.operations.special_operations.HarvestOperation;
+import commands.operations.special.HarvestOperation;
 import player.PlayerComplete;
 
 public class Harvest extends Instant

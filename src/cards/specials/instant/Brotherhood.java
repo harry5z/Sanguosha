@@ -2,7 +2,7 @@ package cards.specials.instant;
 
 import commands.Command;
 import commands.operations.Operation;
-import commands.operations.special_operations.BrotherhoodOperation;
+import commands.operations.special.BrotherhoodOperation;
 import player.PlayerComplete;
 
 public class Brotherhood extends Instant

@@ -1,6 +1,11 @@
 package net.client;
 
-public interface ClientUI extends ClientPanel {
+import javax.swing.JPanel;
 
-	public void onNewPanelDisplayed(ClientPanel panel);
+public interface ClientUI {
+
+	public void onNewPanelDisplayed(ClientPanel<? extends JPanel> panel);
+
+	public <T extends JPanel> ClientPanel<T> getPanel();
+
 }

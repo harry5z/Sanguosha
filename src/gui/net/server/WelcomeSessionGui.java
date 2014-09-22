@@ -12,11 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.Connection;
-import net.Message;
+import net.client.ClientMessageListener;
 import net.client.ClientPanel;
-import commands.welcome_commands.EnterLobbyServerCommand;
+import commands.welcome.EnterLobbyServerCommand;
 
-public class WelcomeSessionGui extends JPanel implements ClientPanel {
+public class WelcomeSessionGui extends JPanel implements ClientPanel<WelcomeSessionGui> {
 	
 	private static final long serialVersionUID = -3932061499692049816L;
 
@@ -34,26 +34,13 @@ public class WelcomeSessionGui extends JPanel implements ClientPanel {
 	}
 
 	@Override
-	public void onConnectionFailed(String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onConnectionSuccessful() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onMessageReceived(Message message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public JPanel getContent() {
+	public WelcomeSessionGui getContent() {
 		return this;
+	}
+
+	@Override
+	public ClientMessageListener getMessageListener() {
+		return null;
 	}
 
 }

@@ -1,7 +1,5 @@
 package net.server;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,24 +7,30 @@ import java.util.stream.Collectors;
 import javax.swing.Timer;
 
 import net.Connection;
+import net.server.util.ServerUtils;
 import utils.Log;
 import utils.RoomIDUtil;
-import commands.lobby_commands.LobbyDisplayUIClientCommand;
+
+import commands.lobby.DisplayLobbyUIClientCommand;
+import commands.lobby.RemoveRoomLobbyUIClientCommand;
+import commands.lobby.UpdateRoomLobbyUIClientCommand;
 
 public class Lobby extends ServerEntity {
 	private static final String TAG = "Lobby";
 	private final List<Room> rooms;
 	private Timer timer;
+	private WelcomeSession session;
 
-	public Lobby() {
+	public Lobby(WelcomeSession session) {
+		this.session = session;
 		rooms = new ArrayList<Room>();
-		timer = new Timer(3000, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Lobby.this.sentToAllClients(new LobbyDisplayUIClientCommand(getRoomsInfo()));
-			}
-		});
-		timer.start();
+//		timer = new Timer(3000, new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				ServerUtils.sentCommandToConnections(new LobbyDisplayUIClientCommand(getRoomsInfo()), Lobby.this.connections);
+//			}
+//		});
+//		timer.start();
 	}
 	
 	/**
@@ -43,27 +47,54 @@ public class Lobby extends ServerEntity {
 						connections.remove(connection);
 				}
 				else
-					Log.e(TAG, "Connection does not exist");
+					Log.error(TAG, "Connection does not exist");
 			}
+			ServerUtils.sendCommandToConnections(new UpdateRoomLobbyUIClientCommand(room.getRoomInfo()), connections);
 		});
+		
 	}
+	
 	private List<RoomInfo> getRoomsInfo() {
 		return rooms.stream().map(room -> room.getRoomInfo()).collect(Collectors.toList());
 	}
+	
 	@Override
 	public boolean onReceivedConnection(Connection connection) {
 		synchronized (connection.accessLock) {
 			if (connections.contains(connection)) {
-				Log.e(TAG, "Connection already in lobby");
+				Log.error(TAG, "Connection already in lobby");
 				return false;
 			}
 			this.connections.add(connection);
 			connection.setConnectionListener(this);
 			Log.log(TAG, "Client has entered lobby");
-			connection.send(new LobbyDisplayUIClientCommand(getRoomsInfo()));
+			connection.send(new DisplayLobbyUIClientCommand(getRoomsInfo()));
 			return true;
 		}
 	}
+	
+	public void onUpdateRoomInfo(Room room) {
+		RoomInfo info = room.getRoomInfo();
+		if (info.getOccupancy() == 0) {
+			RoomIDUtil.returnID(room.getRoomID());
+			rooms.remove(room);
+			ServerUtils.sendCommandToConnections(new RemoveRoomLobbyUIClientCommand(info), connections);			
+		} else {
+			ServerUtils.sendCommandToConnections(new UpdateRoomLobbyUIClientCommand(info), connections);
+		}
+	}
+	
+	@Override
+	public void onConnectionLeft(Connection connection) {
+		synchronized (connection.accessLock) {
+			if (!connections.contains(connection)) {
+				return;
+			}
+			connections.remove(connection);
+			session.onReceivedConnection(connection);
+		}
+	}
+	
 	/**
 	 * Add a new room to the lobby with the following parameters:
 	 * 
@@ -84,14 +115,9 @@ public class Lobby extends ServerEntity {
 		this.proceedToRoom(room.getRoomID(), connection);
 	}
 	
-	public void removeRoom(Room room) {
-		RoomIDUtil.returnID(room.getRoomID());
-		rooms.remove(room);
-	}
-	
 	@Override
-	public void onConnectionLost(Connection connection) {
-		Log.e(TAG, "Connection is lost...");
+	public void onConnectionLost(Connection connection, String message) {
+		Log.error(TAG, "Connection is lost. " + message);
 		connections.remove(connection);
 	}
 

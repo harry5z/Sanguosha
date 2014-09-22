@@ -2,7 +2,7 @@ package cards.specials.instant;
 
 import commands.Command;
 import commands.operations.Operation;
-import commands.operations.special_operations.BarbarianInvasionOperation;
+import commands.operations.special.BarbarianInvasionOperation;
 import player.PlayerComplete;
 
 

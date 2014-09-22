@@ -2,7 +2,7 @@ package cards.specials.instant;
 
 import commands.Command;
 import commands.operations.Operation;
-import commands.operations.special_operations.FireAttackOperation;
+import commands.operations.special.FireAttackOperation;
 import player.PlayerComplete;
 import player.PlayerSimple;
 

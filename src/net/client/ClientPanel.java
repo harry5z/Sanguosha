@@ -2,19 +2,13 @@ package net.client;
 
 import javax.swing.JPanel;
 
-import net.Message;
-
 /**
  * @author Harry
  *
  */
-public interface ClientPanel {
+public interface ClientPanel<T extends JPanel> {
 	
-	public void onConnectionFailed(String message);
+	public T getContent();
 	
-	public void onConnectionSuccessful();
-	
-	public void onMessageReceived(Message message);
-	
-	JPanel getContent();
+	public ClientMessageListener getMessageListener();
 }

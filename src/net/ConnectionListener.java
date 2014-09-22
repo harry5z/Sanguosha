@@ -15,6 +15,7 @@ public interface ConnectionListener
 	 * client connection is lost
 	 * 
 	 * @param connection : the broken connection
+	 * @param message: error message
 	 */
-	public void onConnectionLost(Connection connection);
+	public void onConnectionLost(Connection connection, String message);
 }

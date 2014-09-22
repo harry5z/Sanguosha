@@ -13,15 +13,10 @@ public final class RoomInfo implements Serializable {
 	private int occupancy;
 	private final RoomConfig config;
 	
-	public RoomInfo(int id, RoomConfig config) {
+	public RoomInfo(int id, RoomConfig config, int occupancy) {
 		this.roomID = id;
 		this.config = config;
-		this.occupancy = 0;
-	}
-	
-	RoomInfo setOccupancy(int number) { 
-		this.occupancy = number;
-		return this;
+		this.occupancy = occupancy;
 	}
 	
 	public int getOccupancy() {
@@ -34,5 +29,18 @@ public final class RoomInfo implements Serializable {
 	
 	public RoomConfig getRoomConfig() {
 		return config;
+	}
+	
+	@Override
+	public int hashCode() {
+		return roomID;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof RoomInfo)) {
+			return false;
+		}
+		return roomID == ((RoomInfo) obj).roomID;
 	}
 }

@@ -2,7 +2,7 @@ package cards.specials.instant;
 
 import commands.Command;
 import commands.operations.Operation;
-import commands.operations.special_operations.DuelOperation;
+import commands.operations.special.DuelOperation;
 import player.PlayerComplete;
 
 
