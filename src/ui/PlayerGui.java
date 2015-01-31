@@ -1,4 +1,4 @@
-package gui;
+package ui;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -84,7 +84,7 @@ public class PlayerGui extends JButton
 		selected = false;
 		repaint();
 	}
-	private class HorizontalLifebarGui extends JPanel implements HealthListener
+	private static class HorizontalLifebarGui extends JPanel implements HealthListener
 	{
 		/**
 		 * 
@@ -156,7 +156,7 @@ public class PlayerGui extends JButton
 			}
 		}
 	}
-	private class PlayerEquipmentRackGui extends JPanel implements EquipmentListener
+	private static class PlayerEquipmentRackGui extends JPanel implements EquipmentListener
 	{
 		/**
 		 * 
@@ -231,7 +231,7 @@ public class PlayerGui extends JButton
 			}
 		}
 	}
-	private class PlayerCardGui extends JLabel implements CardOnHandListener
+	private static class PlayerCardGui extends JLabel implements CardOnHandListener
 	{
 		/**
 		 * 

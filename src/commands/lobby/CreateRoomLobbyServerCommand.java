@@ -1,5 +1,9 @@
 package commands.lobby;
 
+import verifiers.Verifier;
+
+import commands.Command;
+
 import net.Connection;
 import net.server.GameConfig;
 import net.server.Lobby;
@@ -34,6 +38,14 @@ public class CreateRoomLobbyServerCommand implements LobbyServerCommand {
 	@Override
 	public void execute(Lobby lobby, Connection connection) {
 		lobby.addRoom(game, room, connection);
+	}
+
+	@Override
+	public Verifier<Command<Lobby>> getVerifier() {
+		return command -> {
+			CreateRoomLobbyServerCommand.class.
+			
+		};
 	}
 
 }

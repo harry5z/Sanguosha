@@ -30,12 +30,9 @@ public class ServerUtils {
 		List<Callable<Void>> updates = new ArrayList<Callable<Void>>();
 		try {
 			for (final Connection connection : connections) {
-				updates.add(new Callable<Void>() {
-					@Override
-					public Void call() throws IOException {
-						connection.send(command);
-						return null;
-					}
+				updates.add(() -> {
+					connection.send(command);
+					return null;
 				});
 			}
 			List<Future<Void>> results = EXECUTOR.invokeAll(updates);

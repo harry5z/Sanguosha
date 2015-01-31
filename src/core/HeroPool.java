@@ -25,9 +25,9 @@ public class HeroPool
 	public HeroPool(Set<HeroPack> packs)
 	{
 		this.heroes = new HashSet<Hero>();
-		if (heroes.contains(HeroPack.STANDARD))
+		if (packs.contains(HeroPack.STANDARD))
 			initStandard();
-		if (heroes.contains(HeroPack.WIND))
+		if (packs.contains(HeroPack.WIND))
 			initWind();
 	}
 	

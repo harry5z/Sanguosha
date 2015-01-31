@@ -1,8 +1,5 @@
 package commands.operations.special;
 
-import gui.CardGui;
-import gui.PanelGui;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -16,6 +13,8 @@ import commands.Command;
 import commands.ReceiveCards;
 import commands.RecycleCards;
 import player.PlayerComplete;
+import ui.CardGui;
+import ui.PanelGui;
 import cards.Card;
 import core.Game;
 

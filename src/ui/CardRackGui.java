@@ -1,4 +1,4 @@
-package gui;
+package ui;
 
 import java.awt.Graphics;
 import java.awt.event.ActionListener;

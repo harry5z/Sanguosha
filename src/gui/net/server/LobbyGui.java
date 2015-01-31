@@ -1,8 +1,5 @@
 package gui.net.server;
 
-import gui.net.ControlButtonGui;
-import gui.net.LabelGui;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -20,6 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import ui.net.ControlButtonGui;
+import ui.net.LabelGui;
 import net.Connection;
 import net.client.ClientMessageListener;
 import net.client.ClientPanel;

@@ -49,18 +49,15 @@ public class Server {
 			Log.log(TAG, "waiting for connections...");
 			while (true) {
 				final Socket socket = serverSocket.accept();
-				executor.execute(new Runnable() {
-					@Override
-					public void run() {
-						Log.log(TAG, "receiving new connection...");
-						try {
-							Connection connection = new Connection(socket);
-							session.onReceivedConnection(connection);
-						} 
-						catch (IOException e) {
-							Log.error(TAG, "I/O Exception");
-							e.printStackTrace();
-						}
+				executor.execute(() -> {
+					Log.log(TAG, "receiving new connection...");
+					try {
+						Connection connection = new Connection(socket);
+						session.onReceivedConnection(connection);
+					} 
+					catch (IOException e) {
+						Log.error(TAG, "I/O Exception");
+						e.printStackTrace();
 					}
 				});
 			}

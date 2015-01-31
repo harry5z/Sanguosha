@@ -1,10 +1,16 @@
 package net.server;
 
-import commands.room.DisplayRoomUIClientCommand;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.Connection;
+import net.UserInfo;
+import net.server.util.ServerUtils;
 import utils.Log;
 import utils.RoomIDUtil;
-import core.Game;
+
+import commands.room.DisplayRoomUIClientCommand;
+import commands.room.UpdateRoomUIClientCommand;
 
 public class Room extends ServerEntity {
 	private static final String TAG = "Room";
@@ -14,7 +20,6 @@ public class Room extends ServerEntity {
 	 * unique room id
 	 */
 	private final int id;
-	private Game game;
 	public final GameConfig gameConfig;
 	public final RoomConfig roomConfig;
 
@@ -54,12 +59,29 @@ public class Room extends ServerEntity {
 				Log.error(TAG, "Connection already in room");
 				return false;
 			}
+			ServerUtils.sendCommandToConnections(new UpdateRoomUIClientCommand(getUserInfos(true)), connections);
 			connections.add(connection);
 			connection.setConnectionListener(this);
 			Log.log(TAG, "Player entered room " + id);
-			connection.send(new DisplayRoomUIClientCommand(this.getRoomInfo()));
+			connection.send(new DisplayRoomUIClientCommand(getRoomInfo(), getUserInfos(false)));
 			return true;
 		}
+	}
+	
+	/*
+	 * This is way too ugly, change later when I have actual users
+	 */
+	private List<UserInfo> getUserInfos(boolean optional) {
+		List<UserInfo> userInfos = new ArrayList<UserInfo>();
+		int i = 0;
+		for (Connection connection : connections) {
+			userInfos.add(new UserInfo("Player " + i, i));
+			i++;
+		}
+		if (optional) {
+			userInfos.add(new UserInfo("Player " + i, i));
+		}
+		return userInfos;
 	}
 	
 	@Override
@@ -72,6 +94,7 @@ public class Room extends ServerEntity {
 				connections.remove(connection);
 				lobby.onUpdateRoomInfo(this);
 				lobby.onReceivedConnection(connection);
+				ServerUtils.sendCommandToConnections(new UpdateRoomUIClientCommand(getUserInfos(false)), connections);
 			}
 		}
 	}
@@ -83,15 +106,6 @@ public class Room extends ServerEntity {
 	 */
 	public GameConfig getGameConfig() {
 		return this.gameConfig;
-	}
-
-	public void startGame() {
-		// this.game = new GameImpl();
-		this.game.start();
-	}
-
-	public void resetGame() {
-		game.reset();
 	}
 
 	@Override

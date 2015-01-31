@@ -1,4 +1,4 @@
-package gui.net;
+package ui.net;
 
 import java.awt.Font;
 

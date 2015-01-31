@@ -1,4 +1,4 @@
-package gui;
+package ui;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -23,9 +23,6 @@ import core.Constants;
 public class CardGui extends JButton
 {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8973362684095284243L;
 	public static final int WIDTH = 142;
 	public static final int HEIGHT = 200;
@@ -138,7 +135,7 @@ public class CardGui extends JButton
 		else if(n == 1)
 			return "A";
 		else
-			return n+"";
+			return Integer.toString(n);
 	}
 	public Card getCard()
 	{

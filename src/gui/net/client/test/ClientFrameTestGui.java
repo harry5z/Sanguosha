@@ -1,5 +1,7 @@
 package gui.net.client.test;
 
+import java.util.Random;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -11,6 +13,7 @@ import net.client.ClientUI;
 import utils.Log;
 import commands.lobby.test.EnterRoomTestLobbyServerCommand;
 import commands.welcome.EnterLobbyServerCommand;
+import core.Constants;
 
 /**
  * A test gui that goes directly into the room
@@ -25,7 +28,8 @@ public class ClientFrameTestGui implements ClientUI, ConnectionListener {
 	public ClientFrameTestGui() {
 		this.frame = new JFrame("Sanguosha");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocation((int) (Math.random() * 2400), (int) (Math.random() * 1300));
+		
+		frame.setLocation(new Random().nextInt(Constants.SCREEN_WIDTH), new Random().nextInt(Constants.SCREEN_HEIGHT));
 		frame.setVisible(true);
 	}
 	

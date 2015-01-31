@@ -1,4 +1,4 @@
-package gui;
+package ui;
 
 import heroes.original.HeroOriginal;
 

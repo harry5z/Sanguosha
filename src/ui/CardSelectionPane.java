@@ -1,4 +1,4 @@
-package gui;
+package ui;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -71,7 +71,7 @@ public class CardSelectionPane extends JPanel
 		repaint();
 	}
 	
-	private class LabelGui extends JLabel
+	private static class LabelGui extends JLabel
 	{
 		/**
 		 * 

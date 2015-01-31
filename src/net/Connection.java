@@ -42,20 +42,17 @@ public class Connection {
 	 */
 	public void activate() {
 		new Thread() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void run() {
 				while (true) { // evaluation loop
 					try {
 						final Object obj = in.readObject();
-						new Thread(new Runnable() {
-							@SuppressWarnings("unchecked")
-							@Override
-							public void run() {
-								try {
-									((Command<? super ConnectionListener>) obj).execute(listener, Connection.this);
-								} catch (ClassCastException e) {
-									Log.error(TAG, "Command sent to the wrong object: "+e.getMessage());
-								}
+						new Thread(() -> {
+							try {
+								((Command<? super ConnectionListener>) obj).execute(listener, Connection.this);
+							} catch (ClassCastException e) {
+								Log.error(TAG, "Command sent to the wrong object: "+e.getMessage());
 							}
 						}).start();
 					} 
