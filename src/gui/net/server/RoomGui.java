@@ -35,12 +35,7 @@ public class RoomGui extends JPanel implements ClientPanel<RoomGui> {
 		this.players = new ArrayList<PlayerUI>();
 		this.setPreferredSize(new Dimension(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 2));
 		JPanel ctrlButtonsPanel = new JPanel();
-		JButton leaveButton = new ControlButtonGui("Leave", new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				RoomGui.this.connection.send(new LeaveRoomServerCommand());
-			}
-		});
+		JButton leaveButton = new ControlButtonGui("Leave", e -> RoomGui.this.connection.send(new LeaveRoomServerCommand()));
 		ctrlButtonsPanel.add(leaveButton);
 		
 		JPanel playerPanel = new JPanel();

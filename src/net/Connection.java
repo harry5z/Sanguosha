@@ -83,9 +83,8 @@ public class Connection {
 	public void send(Command<?> command) {
 		synchronized (writeLock) {
 			try {
-				out.writeObject(command);
+				out.writeUnshared(command);
 				out.flush();
-				out.reset();
 			}
 			catch (IOException e) {
 				Log.error(TAG, "I/O Exception when sending command");
