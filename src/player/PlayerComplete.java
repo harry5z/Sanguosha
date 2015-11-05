@@ -32,7 +32,6 @@ public class PlayerComplete extends PlayerSimple
 	private GameListener gameListener;
 	//private settings
 	private Stage currentStage;
-	private List<PlayerSimple> otherPlayers;
 		
 		
 	//in-game interactive properties
@@ -40,8 +39,7 @@ public class PlayerComplete extends PlayerSimple
 	private Operation operation;
 	private List<Card> cardsUsedThisTurn;
 	private Connector client;
-	public PlayerComplete(String name, int position) 
-	{
+	public PlayerComplete(String name, int position) {
 		super(name, position);
 		init();
 	}
@@ -56,7 +54,6 @@ public class PlayerComplete extends PlayerSimple
 	{
 		cardsOnHand = new ArrayList<Card>();
 
-		otherPlayers = new ArrayList<PlayerSimple>();
 		cardsUsedThisTurn = new ArrayList<Card>();
 		//init in-game interactive properties
 		cardActivated = null;
@@ -121,21 +118,6 @@ public class PlayerComplete extends PlayerSimple
 	}
 
 	//************** methods related to properties ***************
-	/**
-	 * <li>{@link GameListener} notified
-	 * @param player
-	 */
-	public void addOtherPlayer(PlayerInfo player)
-	{
-		PlayerSimple p = new PlayerSimple(player.getName(),player.getPosition());
-		p.setHero(new Blank());
-		otherPlayers.add(p);
-		gameListener.onPlayerAdded(p);
-	}
-	public List<PlayerSimple> getOtherPlayers()
-	{
-		return otherPlayers;
-	}
 	/**
 	 * <li>Send update to master
 	 * <li>Clear operation

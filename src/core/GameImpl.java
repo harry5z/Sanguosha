@@ -4,46 +4,48 @@ import heroes.original.Blank;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import net.server.Room;
-import net.server.Server;
-import commands.Command;
-import commands.DrawCardsFromDeck;
-import commands.Stage;
-import player.Player;
-import player.PlayerServerSimple;
+import listeners.server.ServerInGameCardOnHandListener;
+import commands.game.EnterGameRoomGameClientCommand;
+import net.server.GameConfig;
+import net.server.GameRoom;
+import player.PlayerComplete;
 /**
  * The game framework. Currently only the original game (Emperor-loyalist-rebel-usurper), but in the future
  * may add other kinds (1v1, 3v3, Total War, etc.)
  * @author Harry
  *
  */
-public class GameImpl implements Game
-{
-	private List<PlayerServerSimple> players;
-	private Room room; // the room where the game is held
+public class GameImpl implements Game {
+	private List<PlayerComplete> players;
+	private Set<String> playerNames;
+	private GameRoom room; // the room where the game is held
 	private Deck deck;//deck, currently only original game deck as well
-	public GameImpl(Room room)
-	{
+	private GameConfig config;
+	
+	public GameImpl(GameRoom room, GameConfig config, List<PlayerInfo> playerInfos) {
 		this.room = room;
-		players = new ArrayList<PlayerServerSimple>();
+		this.config = config;
+		this.deck = new Deck(config.getDeckPacks());
+		this.players = playerInfos.stream().map(info -> new PlayerComplete(info.getName(), info.getPosition())).collect(Collectors.toList());
+		this.playerNames = playerInfos.stream().map(info -> info.getName()).collect(Collectors.toSet());
+		for (PlayerComplete player : players) {
+			player.setHero(new Blank()); // no heroes now..
+			player.registerCardOnHandListener(new ServerInGameCardOnHandListener(player.getName(), playerNames, room));
+		}
 	}
 
 	@Override
-	public ArrayList<PlayerInfo> getPlayers() 
-	{
-		ArrayList<PlayerInfo> temp = new ArrayList<PlayerInfo>();
-		for(Player p : players)
-			temp.add(new PlayerInfo(p.getName(),p.getPosition()));
-		return temp;
+	public List<PlayerInfo> getPlayers() {
+		return this.players.stream().map(player -> player.getPlayerInfo()).collect(Collectors.toList());
 	}
 	@Override
-	public void addPlayer(PlayerInfo player)
-	{
-		int position = players.size()+1;
-		PlayerServerSimple p = new PlayerServerSimple(player.getName()+" "+position,position);
-		p.setHero(new Blank());
-		players.add(p);
+	public void addPlayer(PlayerInfo info) {
+		PlayerComplete player = new PlayerComplete(info.getName(), info.getPosition());
+		player.setHero(new Blank()); // no heroes now..
+		players.add(player);
 	}
 	@Override
 	public PlayerInfo getNextPlayerAlive(PlayerInfo current)
@@ -59,36 +61,28 @@ public class GameImpl implements Game
 		return null;//should not reach here
 	}
 	@Override
-	public PlayerServerSimple findMatch(PlayerInfo p)
-	{
-		for(PlayerServerSimple player : players)
-			if(player.equals(p))
-				return player;
-		return null;
-	}
-	@Override
-	public Deck getDeck()
-	{
+	public Deck getDeck() {
 		return deck;
 	}
 	@Override
-	public void start()
-	{
-		deck = new Deck(true,true);
-		for(PlayerInfo p : getPlayers())
-			room.sendToAllClients(new DrawCardsFromDeck(p,deck.drawMany(4),deck.getDeckSize()));
-		Stage start = new Stage(players.get(0).getPlayerInfo(),Stage.TURN_START_BEGINNING);
-		room.sendToAllClients(start);
+	public void start() {
+		room.sendCommandToPlayers(
+			this.players.stream().collect(
+				Collectors.toMap(
+					player -> player.getName(), 
+					player -> new EnterGameRoomGameClientCommand(getPlayers(), player.getPlayerInfo())
+				)
+			)
+		);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (PlayerComplete player : players) {
+			player.addCards(deck.drawMany(4));
+		}
 	}
-	@Override
-	public void reset()
-	{
-		deck = null;
-		players = new ArrayList<PlayerServerSimple>();
-	}
-	@Override
-	public void sendToAllClients(Command update)
-	{
-		master.sendToAllClients(update);
-	}
+
 }

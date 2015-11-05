@@ -10,37 +10,28 @@ import player.Player;
  * @author Harry
  *
  */
-public class PlayerInfo implements Serializable
-{
+public class PlayerInfo implements Serializable {
 	private static final long serialVersionUID = -6855827509699547590L;
 	private final String name;
 	private final int position;
-	public PlayerInfo(String name,int position)
-	{
+	public PlayerInfo(String name,int position) {
 		this.name = name;
 		this.position = position;
 	}
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
-	public int getPosition()
-	{
+	public int getPosition() {
 		return position;
 	}
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		return Integer.toString(position).hashCode();
 	}
 	@Override
-	public boolean equals(Object obj)
-	{
-		if(obj instanceof PlayerInfo)
-			return position == ((PlayerInfo)obj).position;
-		else if(obj instanceof Player)
-			return position == ((Player)obj).getPosition();
-		else
-			return false;
+	public boolean equals(Object obj) {
+		return obj instanceof PlayerInfo
+			? position == ((PlayerInfo) obj).position
+			: false;
 	}
 }

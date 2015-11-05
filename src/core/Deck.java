@@ -42,26 +42,25 @@ public class Deck
 	private Element thunder = Element.THUNDER;
 	private Element fire = Element.FIRE;
 	
-	public enum DeckPack
-	{
+	public enum DeckPack {
 		STANDARD, EX, BATTLE;
 	}
-	public Deck(Set<DeckPack> packs)
-	{
+	
+	public Deck(Set<DeckPack> packs) {
 		random = new Random();
 		used = new ArrayList<Card>();
 		deck = new ArrayList<Card>();
 		initializeDeck(packs);
 	}
-	public Card draw()
-	{
+	
+	public Card draw() {
 		Card c = deck.remove(deck.size()-1);//always draw from top
 		if(deck.size() == 0)
 			resetDeck();
 		return c;
 	}
-	public List<Card> drawMany(int amount)
-	{
+	
+	public List<Card> drawMany(int amount) {
 		List<Card> cards = new ArrayList<Card>(amount);
 		for(int i = 0;i < amount;i++)
 			cards.add(draw());

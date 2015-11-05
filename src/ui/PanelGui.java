@@ -3,15 +3,20 @@ import heroes.original.Blank;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import cards.Card;
+import listeners.GameListener;
+import net.client.ClientMessageListener;
+import net.client.ClientPanel;
 import player.PlayerComplete;
 import player.PlayerSimple;
-import listeners.GameListener;
+import cards.Card;
 import core.PlayerInfo;
 
 /**
@@ -19,7 +24,7 @@ import core.PlayerInfo;
  * @author Harry
  *
  */
-public class PanelGui extends JPanel implements GameListener,Runnable
+public class PanelGui extends JPanel implements GameListener,Runnable, ClientPanel<PanelGui>
 {
 	/**
 	 * 
@@ -44,10 +49,10 @@ public class PanelGui extends JPanel implements GameListener,Runnable
 	
 	private JLabel deckSize;
 	private MessageBoxGui messageBox;
-	public PanelGui(PlayerComplete player)
+	public PanelGui(PlayerInfo player)
 	{
 		setLayout(null);
-		myself = player;
+		myself = new PlayerComplete(player.getName(), player.getPosition());
 		
 		cardRack = new CardRackGui(this);
 		equipmentRack = new EquipmentRackGui(this);
@@ -93,6 +98,30 @@ public class PanelGui extends JPanel implements GameListener,Runnable
 		add(deckSize);
 		add(messageBox);
 	}
+	public void addPlayer(PlayerInfo info) {
+		PlayerSimple player = new PlayerSimple(info.getName(), info.getPosition());
+		player.setHero(new Blank()); // remove later
+		player.registerCardDisposalListener(disposalGui);
+		PlayerGui p = new PlayerGui(player,this);
+		otherPlayers.add(p);
+		p.setLocation(WIDTH-(otherPlayers.size())*PlayerGui.WIDTH,0);
+		add(p);
+		repaint();
+	}
+	
+	public CardRackGui getCardRackUI() {
+		return cardRack;
+	}
+	
+	public PlayerSimple getPlayer(String name) {
+		for (PlayerGui ui : otherPlayers) {
+			if (ui.getPlayer().getName().equals(name)) {
+				return ui.getPlayer();
+			}
+		}
+		return null; // throw later
+	}
+	
 	@Override
 	public void onPlayerAdded(PlayerSimple player)
 	{
@@ -253,5 +282,13 @@ public class PanelGui extends JPanel implements GameListener,Runnable
 			validate();
 			repaint();
 		}
+	}
+	@Override
+	public PanelGui getContent() {
+		return this;
+	}
+	@Override
+	public ClientMessageListener getMessageListener() {
+		return null; // message box
 	}
 }

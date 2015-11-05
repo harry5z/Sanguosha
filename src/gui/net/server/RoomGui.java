@@ -18,9 +18,8 @@ import net.client.ClientMessageListener;
 import net.client.ClientPanel;
 import net.server.RoomInfo;
 import ui.net.ControlButtonGui;
-
 import commands.room.LeaveRoomServerCommand;
-
+import commands.room.StartGameServerCommand;
 import core.Constants;
 
 public class RoomGui extends JPanel implements ClientPanel<RoomGui> {
@@ -36,7 +35,9 @@ public class RoomGui extends JPanel implements ClientPanel<RoomGui> {
 		this.setPreferredSize(new Dimension(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 2));
 		JPanel ctrlButtonsPanel = new JPanel();
 		JButton leaveButton = new ControlButtonGui("Leave", e -> RoomGui.this.connection.send(new LeaveRoomServerCommand()));
+		JButton startButton = new ControlButtonGui("Start", e -> RoomGui.this.connection.send(new StartGameServerCommand()));
 		ctrlButtonsPanel.add(leaveButton);
+		ctrlButtonsPanel.add(startButton);
 		
 		JPanel playerPanel = new JPanel();
 		playerPanel.setLayout(new GridLayout(2, 4, HGAP, VGAP));

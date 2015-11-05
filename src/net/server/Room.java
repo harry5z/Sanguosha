@@ -12,6 +12,9 @@ import utils.RoomIDUtil;
 import commands.room.DisplayRoomUIClientCommand;
 import commands.room.UpdateRoomUIClientCommand;
 
+import core.Game;
+import core.GameImpl;
+
 public class Room extends ServerEntity {
 	private static final String TAG = "Room";
 	private final Object entranceLock = new Object();
@@ -32,6 +35,16 @@ public class Room extends ServerEntity {
 
 	public RoomInfo getRoomInfo() {
 		return new RoomInfo(id, roomConfig, connections.size());
+	}
+	
+	public void startGame() {
+		synchronized (entranceLock) {
+			GameRoom room = new GameRoom(this, this.connections, this.gameConfig);
+			for (Connection connection : connections) {
+				connection.setConnectionListener(room);
+			}
+			room.startGame();
+		}
 	}
 	
 	/**

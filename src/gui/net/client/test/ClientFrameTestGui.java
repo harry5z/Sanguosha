@@ -29,7 +29,7 @@ public class ClientFrameTestGui implements ClientUI, ConnectionListener {
 		this.frame = new JFrame("Sanguosha");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		frame.setLocation(new Random().nextInt(Constants.SCREEN_WIDTH), new Random().nextInt(Constants.SCREEN_HEIGHT));
+		frame.setLocation(new Random().nextInt(Constants.SCREEN_WIDTH-1000), new Random().nextInt(Constants.SCREEN_HEIGHT-720));
 		frame.setVisible(true);
 	}
 	

@@ -18,16 +18,8 @@ public class ConnectScreenGui extends JPanel implements ClientPanel<ConnectScree
 
 	public ConnectScreenGui(Client client) {
 		setLayout(new GridLayout(0, 1));
-		this.connectButton = new ControlButtonGui("Connect", new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						client.connect();
-					}
-				}).start();
-			}
+		this.connectButton = new ControlButtonGui("Connect", e -> {
+			new Thread(() -> client.connect()).start();
 		});
 		add(connectButton);
 	}
