@@ -1,14 +1,14 @@
 package player;
 
 import heroes.original.HeroOriginal;
+import listeners.game.CardDisposalListener;
+import listeners.game.CardOnHandListener;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import listeners.CardDisposalListener;
-import listeners.CardOnHandListener;
 import cards.Card;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import commands.game.client.EnterGameRoomGameClientCommand;
 import listeners.server.ServerInGameCardOnHandListener;
-import commands.game.EnterGameRoomGameClientCommand;
 import net.server.GameConfig;
 import net.server.GameRoom;
 import player.PlayerComplete;
@@ -75,7 +75,7 @@ public class GameImpl implements Game {
 			)
 		);
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

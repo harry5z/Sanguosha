@@ -1,6 +1,7 @@
 package player;
 
 import heroes.original.Blank;
+import listeners.game.GameListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,6 @@ import net.client.Connector;
 import commands.Command;
 import commands.Stage;
 import commands.operations.Operation;
-import listeners.GameListener;
 import cards.Card;
 import cards.Card.CardType;
 import core.PlayerInfo;

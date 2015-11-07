@@ -1,9 +1,8 @@
 package commands.lobby;
 
-import gui.net.server.LobbyGui;
 import net.Connection;
 import net.client.ClientUI;
-
+import ui.client.LobbyGui;
 import commands.Command;
 
 public abstract class LobbyUIClientCommand implements Command<ClientUI> {

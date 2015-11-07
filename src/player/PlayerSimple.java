@@ -3,13 +3,13 @@ package player;
 import java.util.Collection;
 import java.util.List;
 
-import listeners.CardDisposalListener;
-import listeners.CardOnHandListener;
-import listeners.EquipmentListener;
-import listeners.HealthListener;
 import cards.Card;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
+import listeners.game.CardDisposalListener;
+import listeners.game.CardOnHandListener;
+import listeners.game.EquipmentListener;
+import listeners.game.HealthListener;
 
 /**
  * client side simple player implementation, used to hold information of "other players"

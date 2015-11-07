@@ -15,7 +15,7 @@ import commands.Command;
  * @author Harry
  * 
  */
-public class Connection {
+public class Connection implements Channel {
 	private static final String TAG = "Connection";
 	/**
 	 * Only one thread can send command at a time
@@ -74,12 +74,12 @@ public class Connection {
 	}
 
 	/**
-	 * Send command to server / client <br>
+	 * <p>{@inheritDoc}</p>
+	 * 
 	 * This method is <strong>synchronized</strong>
 	 * on {@linkplain Connection#writeLock}
-	 * 
-	 * @param command : the command to be sent
 	 */
+	@Override
 	public void send(Command<?> command) {
 		synchronized (writeLock) {
 			try {

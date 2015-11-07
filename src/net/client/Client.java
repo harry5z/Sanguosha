@@ -1,8 +1,5 @@
 package net.client;
 
-import gui.net.client.ClientFrameGui;
-import gui.net.client.test.ClientFrameTestGui;
-
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -12,6 +9,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import net.Connection;
 import net.ConnectionListener;
+import ui.client.ClientFrameGui;
+import ui.client.test.ClientFrameTestGui;
 import utils.Log;
 
 /**

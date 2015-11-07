@@ -3,11 +3,11 @@ package listeners.server;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import listeners.CardOnHandListener;
 import net.server.GameRoom;
 import cards.Card;
-import commands.game.UpdateOtherPlayerCardGameClientCommand;
-import commands.game.UpdatePlayerCardGameClientCommand;
+import commands.game.client.UpdateOtherPlayerCardGameClientCommand;
+import commands.game.client.UpdatePlayerCardGameClientCommand;
+import listeners.game.CardOnHandListener;
 
 public class ServerInGameCardOnHandListener implements CardOnHandListener {
 

@@ -2,7 +2,7 @@ package core.server;
 
 import net.server.Server;
 import commands.GraphicsUpdate;
-import listeners.EquipmentListener;
+import listeners.game.EquipmentListener;
 import player.PlayerComplete;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;

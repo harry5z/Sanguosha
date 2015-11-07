@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import commands.game.client.GameClientCommand;
 import net.Connection;
-
-import commands.game.GameClientCommand;
-
 import core.Game;
 import core.GameImpl;
 import core.PlayerInfo;

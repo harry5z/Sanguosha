@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import commands.Command;
 import commands.operations.Operation;
+import net.client.GamePanel;
 import player.PlayerComplete;
 import utils.UIDProvider;
 
@@ -72,6 +73,8 @@ public abstract class Card implements Serializable {
 	 * @return the corresponding operation
 	 */
 	public abstract Operation onActivatedBy(PlayerComplete player, Command next);
+	
+	public abstract Operation generateOperation(GamePanel panel);
 
 	/**
 	 * decides whether the card is activatable by player during TURN_DEAL

@@ -13,10 +13,10 @@ import commands.Command;
 import commands.ReceiveCards;
 import commands.RecycleCards;
 import player.PlayerComplete;
-import ui.CardGui;
-import ui.PanelGui;
+import ui.game.CardGui;
 import cards.Card;
 import core.Game;
+import net.client.GamePanel;
 
 public class HarvestOperation extends AreaOfEffectOperation
 {
@@ -100,7 +100,7 @@ public class HarvestOperation extends AreaOfEffectOperation
 		{
 			setBackground(new Color(222,184,135));
 			int size = all.size();
-			int width = CardGui.WIDTH * (size > 4 ? 4 : size) + PanelGui.WIDTH/4;
+			int width = CardGui.WIDTH * (size > 4 ? 4 : size) + GamePanel.WIDTH/4;
 			int height = LABEL_HEIGHT + CardGui.HEIGHT * ((size-1) / 4 + 1);
 			setSize(width, height);
 			setLayout(null);
@@ -112,8 +112,8 @@ public class HarvestOperation extends AreaOfEffectOperation
 			
 			JPanel cardPanel = new JPanel();
 			cardPanel.setLayout(null);
-			cardPanel.setSize(width - PanelGui.WIDTH/4,height-LABEL_HEIGHT);
-			cardPanel.setLocation(PanelGui.WIDTH/8,LABEL_HEIGHT);
+			cardPanel.setSize(width - GamePanel.WIDTH/4,height-LABEL_HEIGHT);
+			cardPanel.setLocation(GamePanel.WIDTH/8,LABEL_HEIGHT);
 			int x = 0;
 			int y = 0;
 			for(Card card : all)

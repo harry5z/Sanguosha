@@ -1,13 +1,11 @@
 package commands.lobby;
 
-import gui.net.server.LobbyGui;
-
 import java.util.List;
 
 import net.Connection;
 import net.client.ClientUI;
 import net.server.RoomInfo;
-
+import ui.client.LobbyGui;
 import commands.Command;
 
 /**

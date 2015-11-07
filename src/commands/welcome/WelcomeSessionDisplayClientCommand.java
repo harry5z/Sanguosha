@@ -1,9 +1,8 @@
 package commands.welcome;
 
-import gui.net.server.WelcomeSessionGui;
 import net.Connection;
 import net.client.ClientUI;
-
+import ui.client.WelcomeSessionGui;
 import commands.Command;
 
 public class WelcomeSessionDisplayClientCommand implements Command<ClientUI> {

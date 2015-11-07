@@ -1,16 +1,13 @@
 package commands.room;
 
-import gui.net.server.RoomGui;
-
 import java.util.List;
-import java.util.Set;
 
+import commands.Command;
 import net.Connection;
 import net.UserInfo;
 import net.client.ClientUI;
 import net.server.RoomInfo;
-
-import commands.Command;
+import ui.client.RoomGui;
 
 public class DisplayRoomUIClientCommand implements Command<ClientUI> {
 	private static final long serialVersionUID = -5995153324243633984L;

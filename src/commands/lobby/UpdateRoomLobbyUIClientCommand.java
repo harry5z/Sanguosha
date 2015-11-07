@@ -1,8 +1,8 @@
 package commands.lobby;
 
-import gui.net.server.LobbyGui;
 import net.Connection;
 import net.server.RoomInfo;
+import ui.client.LobbyGui;
 
 public class UpdateRoomLobbyUIClientCommand extends LobbyUIClientCommand {
 

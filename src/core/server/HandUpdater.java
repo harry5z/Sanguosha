@@ -2,7 +2,7 @@ package core.server;
 
 import net.server.Server;
 import commands.GraphicsUpdate;
-import listeners.CardOnHandListener;
+import listeners.game.CardOnHandListener;
 import player.PlayerComplete;
 import cards.Card;
 
