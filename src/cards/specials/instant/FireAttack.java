@@ -1,10 +1,11 @@
 package cards.specials.instant;
 
+import player.PlayerComplete;
+import player.PlayerSimple;
+
 import commands.Command;
 import commands.operations.Operation;
 import commands.operations.special.FireAttackOperation;
-import player.PlayerComplete;
-import player.PlayerSimple;
 
 public class FireAttack extends Instant
 {

@@ -1,9 +1,10 @@
 package commands.operations.special;
 
-import commands.Command;
+import player.PlayerComplete;
 import cards.Card;
 import cards.basics.Attack;
-import player.PlayerComplete;
+
+import commands.Command;
 
 public class BarbarianInvasionOperation extends AreaOfEffectOperation
 {

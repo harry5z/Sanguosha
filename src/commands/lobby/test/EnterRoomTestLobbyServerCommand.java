@@ -2,6 +2,7 @@ package commands.lobby.test;
 
 import net.Connection;
 import net.server.Lobby;
+
 import commands.lobby.LobbyServerCommand;
 
 public class EnterRoomTestLobbyServerCommand implements LobbyServerCommand {

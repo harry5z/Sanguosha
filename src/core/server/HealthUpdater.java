@@ -1,9 +1,10 @@
 package core.server;
 
-import net.server.Server;
-import commands.GraphicsUpdate;
 import listeners.game.HealthListener;
+import net.server.Server;
 import player.PlayerComplete;
+
+import commands.GraphicsUpdate;
 
 public class HealthUpdater extends GraphicsUpdater implements HealthListener
 {

@@ -1,10 +1,11 @@
 package core.server;
 
-import net.server.Server;
-import commands.GraphicsUpdate;
 import listeners.game.CardDisposalListener;
+import net.server.Server;
 import player.PlayerComplete;
 import cards.Card;
+
+import commands.GraphicsUpdate;
 
 public class DisposalUpdater extends GraphicsUpdater implements CardDisposalListener
 {

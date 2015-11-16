@@ -1,9 +1,10 @@
 package cards.specials.instant;
 
+import player.PlayerComplete;
+
 import commands.Command;
 import commands.operations.Operation;
 import commands.operations.special.DuelOperation;
-import player.PlayerComplete;
 
 
 

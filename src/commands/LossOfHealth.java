@@ -1,9 +1,10 @@
 package commands;
 
-import commands.operations.NearDeathOperation;
-
 import player.Player;
 import player.PlayerComplete;
+
+import commands.operations.NearDeathOperation;
+
 import core.Game;
 import core.PlayerInfo;
 

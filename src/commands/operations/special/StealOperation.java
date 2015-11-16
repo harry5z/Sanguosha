@@ -2,14 +2,16 @@ package commands.operations.special;
 
 import java.util.Random;
 
+import player.PlayerComplete;
+import player.PlayerOriginal;
+import player.PlayerSimple;
+import cards.Card;
+import cards.equipments.Equipment;
+
 import commands.Command;
 import commands.Unequip;
 import commands.UseOfCards;
-import player.PlayerComplete;
-import player.PlayerSimple;
-import player.PlayerOriginal;
-import cards.Card;
-import cards.equipments.Equipment;
+
 import core.PlayerInfo;
 
 public class StealOperation extends SpecialOperation

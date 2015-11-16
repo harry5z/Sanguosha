@@ -2,12 +2,14 @@ package net.client;
 
 import java.util.List;
 
-import commands.game.server.GameServerCommand;
-import commands.operations.Operation;
-import core.PlayerInfo;
 import net.Channel;
 import ui.game.CardGui;
 import ui.game.GamePanelUI;
+
+import commands.game.server.GameServerCommand;
+import commands.operations.Operation;
+
+import core.PlayerInfo;
 
 /**
  * Main Display gui, also monitors card/target selections, confirm/cancel/end

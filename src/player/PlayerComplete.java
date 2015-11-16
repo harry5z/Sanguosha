@@ -1,17 +1,17 @@
 package player;
 
-import heroes.original.Blank;
-import listeners.game.GameListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import listeners.game.GameListener;
 import net.client.Connector;
+import cards.Card;
+import cards.Card.CardType;
+
 import commands.Command;
 import commands.Stage;
 import commands.operations.Operation;
-import cards.Card;
-import cards.Card.CardType;
+
 import core.PlayerInfo;
 
 /**
@@ -118,16 +118,6 @@ public class PlayerComplete extends PlayerSimple
 	}
 
 	//************** methods related to properties ***************
-	/**
-	 * <li>Send update to master
-	 * <li>Clear operation
-	 * @param update
-	 */
-	public void sendToServer(Command update)
-	{
-		operation = null;
-		client.sendToServer(update);
-	}
 	public void setCurrentStage(Stage update)
 	{
 		currentStage = update;

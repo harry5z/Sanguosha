@@ -1,10 +1,11 @@
 package cards.basics;
 
+import player.PlayerComplete;
+
 import commands.Command;
 import commands.Damage.Element;
 import commands.operations.AttackOperation;
 import commands.operations.Operation;
-import player.PlayerComplete;
 
 public class Attack extends Basic {
 	/**

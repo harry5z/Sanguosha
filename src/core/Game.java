@@ -2,8 +2,6 @@ package core;
 
 import java.util.List;
 
-import net.ConnectionListener;
-
 public interface Game {
 	
 	/**

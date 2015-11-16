@@ -1,11 +1,12 @@
 package core.server;
 
-import net.server.Server;
-import commands.GraphicsUpdate;
 import listeners.game.EquipmentListener;
+import net.server.Server;
 import player.PlayerComplete;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
+
+import commands.GraphicsUpdate;
 
 public class EquipmentUpdater extends GraphicsUpdater implements EquipmentListener
 {

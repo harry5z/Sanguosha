@@ -1,9 +1,10 @@
 package cards.specials.instant;
 
+import player.PlayerComplete;
+
 import commands.Command;
 import commands.operations.Operation;
 import commands.operations.special.CreationOperation;
-import player.PlayerComplete;
 
 public class Creation extends Instant
 {

@@ -1,9 +1,10 @@
 package cards.specials.instant;
 
+import player.PlayerComplete;
+
 import commands.Command;
 import commands.operations.Operation;
 import commands.operations.special.HarvestOperation;
-import player.PlayerComplete;
 
 public class Harvest extends Instant
 {

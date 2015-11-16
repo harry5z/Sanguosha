@@ -3,13 +3,15 @@ package commands.operations.special;
 import java.util.ArrayList;
 import java.util.List;
 
-import commands.Command;
-import commands.Damage;
-import commands.UseOfCards;
 import player.PlayerComplete;
 import player.PlayerOriginal;
 import cards.Card;
 import cards.equipments.Equipment.EquipmentType;
+
+import commands.Command;
+import commands.Damage;
+import commands.UseOfCards;
+
 import core.PlayerInfo;
 
 public abstract class AreaOfEffectOperation extends SpecialOperation

@@ -1,10 +1,11 @@
 package core.server;
 
-import net.server.Server;
-import commands.GraphicsUpdate;
 import listeners.game.CardOnHandListener;
+import net.server.Server;
 import player.PlayerComplete;
 import cards.Card;
+
+import commands.GraphicsUpdate;
 
 public class HandUpdater extends GraphicsUpdater implements CardOnHandListener
 {

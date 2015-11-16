@@ -1,9 +1,10 @@
 package commands.operations.special;
 
+import player.PlayerComplete;
+import cards.Card;
+
 import commands.Command;
 import commands.IncreaseOfHealth;
-import cards.Card;
-import player.PlayerComplete;
 
 public class BrotherhoodOperation extends AreaOfEffectOperation
 {

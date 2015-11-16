@@ -1,11 +1,13 @@
 package commands.operations;
 
-import commands.Command;
-import commands.IncreaseOfHealth;
-import commands.UseOfCards;
 import player.PlayerComplete;
 import player.PlayerOriginal;
 import cards.Card;
+
+import commands.Command;
+import commands.IncreaseOfHealth;
+import commands.UseOfCards;
+
 import core.Game;
 import core.PlayerInfo;
 

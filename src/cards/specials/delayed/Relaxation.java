@@ -1,8 +1,9 @@
 package cards.specials.delayed;
 
+import player.PlayerComplete;
+
 import commands.Command;
 import commands.operations.Operation;
-import player.PlayerComplete;
 
 public class Relaxation extends Delayed
 {

@@ -1,15 +1,17 @@
 package commands.operations;
 
-import commands.Command;
-import commands.Damage;
-import commands.UseOfCards;
 import player.PlayerComplete;
-import player.PlayerSimple;
 import player.PlayerOriginal;
+import player.PlayerSimple;
 import cards.Card;
 import cards.basics.Attack;
 import cards.basics.Dodge;
 import cards.equipments.Equipment.EquipmentType;
+
+import commands.Command;
+import commands.Damage;
+import commands.UseOfCards;
+
 import core.Game;
 import core.PlayerInfo;
 

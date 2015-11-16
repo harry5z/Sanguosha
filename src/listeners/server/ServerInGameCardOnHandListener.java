@@ -3,22 +3,17 @@ package listeners.server;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import listeners.game.CardOnHandListener;
 import net.server.GameRoom;
 import cards.Card;
+
 import commands.game.client.UpdateOtherPlayerCardGameClientCommand;
 import commands.game.client.UpdatePlayerCardGameClientCommand;
-import listeners.game.CardOnHandListener;
 
-public class ServerInGameCardOnHandListener implements CardOnHandListener {
+public class ServerInGameCardOnHandListener extends ServerInGamePlayerListener implements CardOnHandListener {
 
-	private final String name;
-	private final Set<String> otherNames;
-	private final GameRoom room;
-	
 	public ServerInGameCardOnHandListener(String name, Set<String> allNames, GameRoom room) {
-		this.name = name;
-		this.room = room;
-		this.otherNames = allNames.stream().filter(n -> !n.equals(name)).collect(Collectors.toSet());
+		super(name, allNames, room);
 	}
 	@Override
 	public void onCardAdded(Card card) {

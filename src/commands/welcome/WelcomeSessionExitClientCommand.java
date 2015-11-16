@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import net.Connection;
 import net.client.ClientUI;
+
 import commands.Command;
 
 public class WelcomeSessionExitClientCommand implements Command<ClientUI> {

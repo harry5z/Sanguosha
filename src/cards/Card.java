@@ -2,11 +2,12 @@ package cards;
 
 import java.io.Serializable;
 
-import commands.Command;
-import commands.operations.Operation;
 import net.client.GamePanel;
 import player.PlayerComplete;
 import utils.UIDProvider;
+
+import commands.Command;
+import commands.operations.Operation;
 
 public abstract class Card implements Serializable {
 

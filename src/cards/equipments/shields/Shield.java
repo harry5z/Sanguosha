@@ -1,10 +1,11 @@
 package cards.equipments.shields;
 
-import commands.Command;
-import commands.Damage;
 import player.PlayerComplete;
 import cards.Card;
 import cards.equipments.Equipment;
+
+import commands.Command;
+import commands.Damage;
 
 public abstract class Shield extends Equipment
 {

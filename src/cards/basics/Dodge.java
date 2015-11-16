@@ -1,8 +1,9 @@
 package cards.basics;
 
+import player.PlayerComplete;
+
 import commands.Command;
 import commands.operations.Operation;
-import player.PlayerComplete;
 
 public class Dodge extends Basic
 {

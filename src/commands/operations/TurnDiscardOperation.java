@@ -2,11 +2,13 @@ package commands.operations;
 
 import java.util.ArrayList;
 
-import commands.Command;
-import commands.DisposalOfCards;
 import player.PlayerComplete;
 import player.PlayerOriginal;
 import cards.Card;
+
+import commands.Command;
+import commands.DisposalOfCards;
+
 import core.Game;
 import core.PlayerInfo;
 

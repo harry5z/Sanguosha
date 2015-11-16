@@ -1,7 +1,6 @@
 package core;
 
 import heroes.Hero;
-import heroes.original.HeroOriginal;
 
 import java.util.Collections;
 import java.util.HashSet;

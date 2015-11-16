@@ -1,8 +1,9 @@
 package commands.operations.decision;
 
+import cards.Card;
+
 import commands.Command;
 import commands.operations.Operation;
-import cards.Card;
 
 public abstract class DecisionOperation extends Operation
 {

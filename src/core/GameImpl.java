@@ -2,16 +2,18 @@ package core;
 
 import heroes.original.Blank;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import commands.game.client.EnterGameRoomGameClientCommand;
 import listeners.server.ServerInGameCardOnHandListener;
+import listeners.server.ServerInGameEquipmentListener;
+import listeners.server.ServerInGameHealthListener;
 import net.server.GameConfig;
 import net.server.GameRoom;
 import player.PlayerComplete;
+
+import commands.game.client.EnterGameRoomGameClientCommand;
 /**
  * The game framework. Currently only the original game (Emperor-loyalist-rebel-usurper), but in the future
  * may add other kinds (1v1, 3v3, Total War, etc.)
@@ -34,6 +36,8 @@ public class GameImpl implements Game {
 		for (PlayerComplete player : players) {
 			player.setHero(new Blank()); // no heroes now..
 			player.registerCardOnHandListener(new ServerInGameCardOnHandListener(player.getName(), playerNames, room));
+			player.registerEquipmentListener(new ServerInGameEquipmentListener(player.getName(), playerNames, room));
+			player.registerHealthListener(new ServerInGameHealthListener(player.getName(), playerNames, room));
 		}
 	}
 

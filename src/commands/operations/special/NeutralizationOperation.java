@@ -3,12 +3,14 @@ package commands.operations.special;
 import java.util.ArrayList;
 import java.util.List;
 
-import commands.UseOfCards;
-import commands.operations.Operation;
 import player.PlayerComplete;
 import player.PlayerOriginal;
 import cards.Card;
 import cards.specials.instant.Neutralization;
+
+import commands.UseOfCards;
+import commands.operations.Operation;
+
 import core.Game;
 import core.PlayerInfo;
 

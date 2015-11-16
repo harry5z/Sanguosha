@@ -1,10 +1,11 @@
 package cards.specials.instant;
 
-import commands.Command;
-import commands.operations.Operation;
-import cards.equipments.Equipment.EquipmentType;
 import player.Player;
 import player.PlayerComplete;
+import cards.equipments.Equipment.EquipmentType;
+
+import commands.Command;
+import commands.operations.Operation;
 
 public class BorrowSword extends Instant
 {

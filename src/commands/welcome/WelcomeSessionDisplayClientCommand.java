@@ -3,6 +3,7 @@ package commands.welcome;
 import net.Connection;
 import net.client.ClientUI;
 import ui.client.WelcomeSessionGui;
+
 import commands.Command;
 
 public class WelcomeSessionDisplayClientCommand implements Command<ClientUI> {

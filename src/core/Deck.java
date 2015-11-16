@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import commands.Damage.Element;
 import cards.Card;
 import cards.Card.Suit;
 import cards.basics.Attack;
@@ -22,6 +21,8 @@ import cards.specials.instant.Duel;
 import cards.specials.instant.FireAttack;
 import cards.specials.instant.Harvest;
 import cards.specials.instant.Neutralization;
+
+import commands.Damage.Element;
 /**
  * The deck used in game
  * @author Harry

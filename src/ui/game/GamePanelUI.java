@@ -103,6 +103,14 @@ public class GamePanelUI extends JPanel implements GameListener {
 	public CardRackGui getCardRackUI() {
 		return cardRack;
 	}
+	
+	public EquipmentRackGui getEquipmentRackUI() {
+		return equipmentRack;
+	}
+	
+	public LifebarGui getLifebar() {
+		return healthGui;
+	}
 
 	public PlayerSimple getPlayer(String name) {
 		for (PlayerGui ui : otherPlayers) {

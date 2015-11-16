@@ -1,10 +1,10 @@
 package commands.game.client;
 
-import cards.Card;
 import net.Connection;
 import net.client.ClientUI;
 import ui.game.CardRackGui;
 import ui.game.GamePanelUI;
+import cards.Card;
 
 public class UpdatePlayerCardGameClientCommand implements GameClientCommand {
 	private static final long serialVersionUID = 5370641268667157302L;

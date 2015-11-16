@@ -1,15 +1,17 @@
 package commands.operations.special;
 
+import player.PlayerComplete;
+import player.PlayerOriginal;
+import player.PlayerSimple;
+import utils.OperationUtil;
+import cards.Card;
+import cards.equipments.Equipment;
+
 import commands.Command;
 import commands.DisposalOfCards;
 import commands.Unequip;
 import commands.UseOfCards;
-import player.PlayerComplete;
-import player.PlayerSimple;
-import player.PlayerOriginal;
-import utils.OperationUtil;
-import cards.Card;
-import cards.equipments.Equipment;
+
 import core.PlayerInfo;
 
 public class SabotageOperation extends SpecialOperation

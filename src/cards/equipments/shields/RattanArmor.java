@@ -1,11 +1,12 @@
 package cards.equipments.shields;
 
-import commands.Damage;
-import commands.Damage.Element;
 import cards.Card;
 import cards.basics.Attack;
 import cards.specials.instant.ArrowSalvo;
 import cards.specials.instant.BarbarianInvasion;
+
+import commands.Damage;
+import commands.Damage.Element;
 
 public class RattanArmor extends Shield
 {

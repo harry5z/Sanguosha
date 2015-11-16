@@ -1,9 +1,10 @@
 package commands.operations.special;
 
-import commands.Command;
+import player.PlayerComplete;
 import cards.Card;
 import cards.basics.Dodge;
-import player.PlayerComplete;
+
+import commands.Command;
 
 public class ArrowSalvoOperation extends AreaOfEffectOperation
 {

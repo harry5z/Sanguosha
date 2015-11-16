@@ -12,9 +12,6 @@ import utils.RoomIDUtil;
 import commands.room.DisplayRoomUIClientCommand;
 import commands.room.UpdateRoomUIClientCommand;
 
-import core.Game;
-import core.GameImpl;
-
 public class Room extends ServerEntity {
 	private static final String TAG = "Room";
 	private final Object entranceLock = new Object();

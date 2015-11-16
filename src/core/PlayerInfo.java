@@ -2,8 +2,6 @@ package core;
 
 import java.io.Serializable;
 
-import player.Player;
-
 /**
  * A small but representative class of Player, since players are uniquely identified by
  * names and positions

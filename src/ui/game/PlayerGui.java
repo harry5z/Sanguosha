@@ -10,15 +10,15 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import cards.Card;
-import cards.equipments.Equipment;
-import cards.equipments.Equipment.EquipmentType;
-import core.Constants;
 import listeners.game.CardOnHandListener;
 import listeners.game.EquipmentListener;
 import listeners.game.HealthListener;
 import net.client.GamePanel;
 import player.PlayerSimple;
+import cards.Card;
+import cards.equipments.Equipment;
+import cards.equipments.Equipment.EquipmentType;
+import core.Constants;
 
 /**
  * Gui of other players, shows life bar, equipments, count of cards on hand, etc. 

@@ -13,6 +13,7 @@ import net.client.ClientMessageListener;
 import net.client.ClientPanel;
 import ui.client.components.ControlButtonGui;
 import ui.client.components.LabelGui;
+
 import commands.welcome.EnterLobbyServerCommand;
 
 public class WelcomeSessionGui extends JPanel implements ClientPanel<WelcomeSessionGui> {

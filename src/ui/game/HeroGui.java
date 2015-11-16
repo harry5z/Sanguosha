@@ -1,17 +1,16 @@
 package ui.game;
 
 import heroes.original.HeroOriginal;
-import net.client.GamePanel;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import net.client.GamePanel;
 import core.Constants;
 
 

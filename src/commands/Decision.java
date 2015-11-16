@@ -1,8 +1,10 @@
 package commands;
 
-import commands.operations.decision.DecisionOperation;
 import player.PlayerComplete;
 import cards.Card;
+
+import commands.operations.decision.DecisionOperation;
+
 import core.Game;
 import core.PlayerInfo;
 

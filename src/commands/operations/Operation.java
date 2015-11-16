@@ -1,7 +1,8 @@
 package commands.operations;
 
-import commands.game.server.GameServerCommand;
 import listeners.client.PlayerActionListener;
+
+import commands.game.server.GameServerCommand;
 /**
  * An operation that listens to user actions (confirm, cancel, select cards/targets, etc.)
  * @author Harry

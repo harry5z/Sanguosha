@@ -1,8 +1,9 @@
 package commands;
 
+import player.PlayerComplete;
+
 import commands.operations.TurnDiscardOperation;
 
-import player.PlayerComplete;
 import core.Game;
 import core.PlayerInfo;
 

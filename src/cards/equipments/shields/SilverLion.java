@@ -1,10 +1,11 @@
 package cards.equipments.shields;
 
+import player.PlayerComplete;
+import cards.Card;
+
 import commands.Command;
 import commands.Damage;
 import commands.IncreaseOfHealth;
-import player.PlayerComplete;
-import cards.Card;
 
 public class SilverLion extends Shield
 {
