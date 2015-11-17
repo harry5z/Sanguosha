@@ -45,6 +45,17 @@ public class GameImpl implements Game {
 	public List<PlayerInfo> getPlayers() {
 		return this.players.stream().map(player -> player.getPlayerInfo()).collect(Collectors.toList());
 	}
+	
+	@Override
+	public PlayerComplete findPlayer(PlayerInfo info) {
+		for (PlayerComplete player : this.players) {
+			if (player.getName().equals(info.getName())) {
+				return player;
+			}
+		}
+		throw new RuntimeException("Player " + info.getName() + "does not exist?");
+	}
+	
 	@Override
 	public void addPlayer(PlayerInfo info) {
 		PlayerComplete player = new PlayerComplete(info.getName(), info.getPosition());

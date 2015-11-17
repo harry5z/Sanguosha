@@ -35,7 +35,7 @@ public class CardSelectionPane extends JPanel
 			if(amount != 0)
 			{
 				JLabel label = new LabelGui("Cards on Hand");
-				CardRackGui hand = new CardRackGui(listener);
+				CardRackGui hand = new CardRackGui(null);
 				for(int i = 0; i < amount;i++)
 					hand.addCardGui(new CardGui(),true);
 
@@ -52,7 +52,7 @@ public class CardSelectionPane extends JPanel
 			if(player.isEquipped())
 			{
 				JLabel label = new LabelGui("Equipments");
-				CardRackGui equipments = new CardRackGui(listener);
+				CardRackGui equipments = new CardRackGui(null);
 				for(Equipment e : player.getEquipments())
 					equipments.addCardGui(new CardGui(e), true);
 				

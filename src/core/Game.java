@@ -2,6 +2,8 @@ package core;
 
 import java.util.List;
 
+import player.PlayerComplete;
+
 public interface Game {
 	
 	/**
@@ -16,6 +18,8 @@ public interface Game {
 	public List<PlayerInfo> getPlayers();
 	
 	public void addPlayer(PlayerInfo player);
+	
+	public PlayerComplete findPlayer(PlayerInfo info);
 	
 	public PlayerInfo getNextPlayerAlive(PlayerInfo current);
 

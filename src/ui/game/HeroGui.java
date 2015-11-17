@@ -13,56 +13,57 @@ import javax.swing.JButton;
 import net.client.GamePanel;
 import core.Constants;
 
+public class HeroGui extends JButton {
 
-public class HeroGui extends JButton
-{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5926706015812873971L;
+	
 	private HeroOriginal hero;
 	public static final int WIDTH = CardRackGui.HEIGHT;
 	public static final int HEIGHT = WIDTH;
 	private boolean selected = false;
-	public HeroGui(GamePanel panel)
-	{
+
+	public HeroGui(GamePanel panel) {
 		hero = null;
 		setEnabled(false);
-		setSize(WIDTH,HEIGHT);
+		setSize(WIDTH, HEIGHT);
 		setFont(new Font(Font.MONOSPACED, Font.BOLD, 50));
-		setLocation(GamePanelUI.WIDTH-LifebarGui.WIDTH-WIDTH,GamePanelUI.HEIGHT-HEIGHT);
+		setLocation(GamePanelUI.WIDTH - LifebarGui.WIDTH - WIDTH, GamePanelUI.HEIGHT - HEIGHT);
 		addActionListener(e -> panel.getCurrentOperation().onSelfClicked(this));
 	}
-	protected void select()
-	{
+
+	protected void select() {
 		selected = true;
 		repaint();
 	}
-	protected void unselect()
-	{
+
+	protected void unselect() {
 		selected = false;
 		repaint();
 	}
-	public void setHero(HeroOriginal hero)
-	{
+
+	public synchronized void setSelected(boolean selected) {
+		this.selected = selected;
+		repaint();
+	}
+
+	public synchronized void setHero(HeroOriginal hero) {
 		this.hero = hero;
 		setText(hero.getName());
 		repaint();
 	}
-	
-	public HeroOriginal getHero()
-	{
+
+	public synchronized HeroOriginal getHero() {
 		return hero;
 	}
+
 	@Override
-	public void paint(Graphics g)
-	{
+	public void paint(Graphics g) {
 		super.paint(g);
-		if(selected)
+		if (selected)
 			g.setColor(Color.RED);
 		else
 			g.setColor(Color.BLACK);
 		((Graphics2D) g).setStroke(new BasicStroke(Constants.BORDER_WIDTH));
-		g.drawRect(0, 0, WIDTH, HEIGHT);	
+		g.drawRect(0, 0, WIDTH, HEIGHT);
 	}
 }
