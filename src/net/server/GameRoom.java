@@ -38,8 +38,8 @@ public class GameRoom extends ServerEntity {
 
 	}
 	
-	public void startGame() {
-		game.start();
+	public Game getGame() {
+		return game;
 	}
 	
 	public void sendCommandToPlayers(Map<String, GameClientCommand> commands) {

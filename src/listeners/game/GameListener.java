@@ -1,7 +1,5 @@
 package listeners.game;
 
-import java.awt.event.ActionListener;
-
 import javax.swing.JPanel;
 
 import player.PlayerSimple;

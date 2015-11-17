@@ -6,8 +6,7 @@ import cards.Card;
 
 import commands.Command;
 import commands.IncreaseOfHealth;
-import commands.UseOfCards;
-
+import commands.game.server.UseOfCardsInGameServerCommand;
 import core.Game;
 import core.PlayerInfo;
 
@@ -80,7 +79,7 @@ public class PeachOperation extends Operation
 		player.setOperation(null);
 		player.getGameListener().setCardSelected(peach, false);
 		player.getGameListener().setCancelEnabled(false);
-		player.sendToServer(new UseOfCards(source,peach,getNext()));
+		player.sendToServer(new UseOfCardsInGameServerCommand(source,peach,getNext()));
 	}
 
 }

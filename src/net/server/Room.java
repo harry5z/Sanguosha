@@ -40,7 +40,7 @@ public class Room extends ServerEntity {
 			for (Connection connection : connections) {
 				connection.setConnectionListener(room);
 			}
-			room.startGame();
+			room.getGame().start();
 		}
 	}
 	

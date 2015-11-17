@@ -7,8 +7,7 @@ import player.PlayerComplete;
 import player.PlayerOriginal;
 import cards.Card;
 import cards.specials.instant.Neutralization;
-
-import commands.UseOfCards;
+import commands.game.server.UseOfCardsInGameServerCommand;
 import commands.operations.Operation;
 
 import core.Game;
@@ -131,7 +130,7 @@ public class NeutralizationOperation extends Operation
 		player.setAllCardsOnHandSelectable(false);
 		Card temp = neutralization;
 		neutralization = null;
-		player.sendToServer(new UseOfCards(player.getPlayerInfo(),temp,this));
+		player.sendToServer(new UseOfCardsInGameServerCommand(player.getPlayerInfo(),temp,this));
 	}
 
 }

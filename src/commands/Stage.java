@@ -18,17 +18,7 @@ public class Stage extends Command
 	 * 
 	 */
 	private static final long serialVersionUID = -1512958754082503787L;
-	public static final byte TURN_START_BEGINNING = 1;
-	public static final byte TURN_START = 2;
-	public static final byte TURN_DECISION_BEGINNING = 3;
-	public static final byte TURN_DECISION = 4;
-	public static final byte TURN_DRAW = 5;
-	public static final byte TURN_DEAL_BEGINNING = 6;
-	public static final byte TURN_DEAL = 7;
-	public static final byte TURN_DISCARD_BEGINNING = 8;
-	public static final byte TURN_DISCARD = 9;
-	public static final byte TURN_DISCARD_END = 10;
-	public static final byte TURN_END = 11;
+
 	
 	private PlayerInfo source;
 	private int stage;

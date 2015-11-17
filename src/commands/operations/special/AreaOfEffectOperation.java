@@ -10,8 +10,7 @@ import cards.equipments.Equipment.EquipmentType;
 
 import commands.Command;
 import commands.Damage;
-import commands.UseOfCards;
-
+import commands.game.server.UseOfCardsInGameServerCommand;
 import core.PlayerInfo;
 
 public abstract class AreaOfEffectOperation extends SpecialOperation
@@ -85,13 +84,13 @@ public abstract class AreaOfEffectOperation extends SpecialOperation
 		{
 			sent = true;
 			player.getGameListener().setCardSelected(aoe, false);
-			player.sendToServer(new UseOfCards(source,aoe,this));
+			player.sendToServer(new UseOfCardsInGameServerCommand(source,aoe,this));
 		}
 		else//target reacted
 		{
 			player.getGameListener().setCardSelected(reactionCard, false);
 			setStage(AFTER);
-			player.sendToServer(new UseOfCards(currentTarget,reactionCard,this));
+			player.sendToServer(new UseOfCardsInGameServerCommand(currentTarget,reactionCard,this));
 		}
 	}
 	@Override

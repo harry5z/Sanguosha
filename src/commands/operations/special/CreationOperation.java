@@ -2,7 +2,7 @@ package commands.operations.special;
 
 import commands.Command;
 import commands.DrawCardsFromDeck;
-import commands.UseOfCards;
+import commands.game.server.UseOfCardsInGameServerCommand;
 import cards.Card;
 import player.PlayerOriginal;
 import player.PlayerComplete;
@@ -50,7 +50,7 @@ public class CreationOperation extends SpecialOperation
 		player.setOperation(null);
 		player.getGameListener().setCardOnHandSelected(creation, false);
 		player.getGameListener().setCancelEnabled(false);
-		player.sendToServer(new UseOfCards(source,creation,this));
+		player.sendToServer(new UseOfCardsInGameServerCommand(source,creation,this));
 	}
 
 	@Override

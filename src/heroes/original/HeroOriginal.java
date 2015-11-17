@@ -14,13 +14,35 @@ import skills.Skill;
  */
 public abstract class HeroOriginal implements Hero
 {
+	/**
+	 * Unique name for each hero
+	 */
+	private final String name;
 	
-	private final String name;//unique for every hero
-	private final Force force;// WEI/SHU/WU/QUN
-	private final Gender gender;//MALE / FEMALE
-	private int healthLimit;//usually 3 or 4
-	private int cardsOnHandLimit;//usually equal to current health, unless changed by skills
-	private final Set<Skill> skills;//not implememented yet
+	/**
+	 * Wei/Shu/Wu/Qun
+	 */
+	private final Force force;
+	
+	/**
+	 * Male/Female
+	 */
+	private final Gender gender;
+	
+	/**
+	 * Usually 3 or 4
+	 */
+	private int healthLimit;
+	
+	/**
+	 * Usually equal to current health, though some skills may affect it
+	 */
+	private int cardsOnHandLimit;
+	
+	/**
+	 * Hero's set of skills
+	 */
+	private final Set<Skill> skills;
 	
 	/**
 	 * Construct a hero with given health limit, force, gender, name, and a set of skills

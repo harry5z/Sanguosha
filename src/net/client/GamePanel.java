@@ -41,18 +41,24 @@ public class GamePanel implements ClientPanel<GamePanelUI> {
 			
 			@Override
 			public void onCardClicked(CardGui card){
-				GamePanel.this.currentOperation = card.getCard().generateOperation(GamePanel.this);
+				GamePanel.this.pushOperation(card.getCard().generateOperation());
+			}
+
+			@Override
+			public void onActivated(GamePanel panel) {
+				
 			}
 			
 		};
 	}
 	
-	public Operation getCurrentOperation() {
-		return currentOperation;
+	public synchronized void pushOperation(Operation operation) {
+		operation.onActivated(this);
+		this.currentOperation = operation;
 	}
 	
-	public GamePanelUI getPanel() {
-		return panel;
+	public synchronized Operation getCurrentOperation() {
+		return currentOperation;
 	}
 	
 	@Override

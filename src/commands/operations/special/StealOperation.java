@@ -10,8 +10,7 @@ import cards.equipments.Equipment;
 
 import commands.Command;
 import commands.Unequip;
-import commands.UseOfCards;
-
+import commands.game.server.UseOfCardsInGameServerCommand;
 import core.PlayerInfo;
 
 public class StealOperation extends SpecialOperation
@@ -162,7 +161,7 @@ public class StealOperation extends SpecialOperation
 	{
 		onCancelledBy(player);
 		player.setOperation(null);
-		player.sendToServer(new UseOfCards(source,steal,this));		
+		player.sendToServer(new UseOfCardsInGameServerCommand(source,steal,this));		
 	}
 
 	@Override

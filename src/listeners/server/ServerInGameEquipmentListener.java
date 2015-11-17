@@ -9,11 +9,6 @@ import ui.game.GamePanelUI;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
 
-import commands.game.client.RemoveOtherPlayerEquipmentGameClientCommand;
-import commands.game.client.RemovePlayerEquipmentGameClientCommand;
-import commands.game.client.UpdateOtherPlayerEquipmentGameClientCommand;
-import commands.game.client.UpdatePlayerEquipmentGameClientCommand;
-
 public class ServerInGameEquipmentListener extends ServerInGamePlayerListener implements EquipmentListener {
 
 	public ServerInGameEquipmentListener(String name, Set<String> allNames, GameRoom room) {

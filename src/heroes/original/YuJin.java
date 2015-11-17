@@ -6,13 +6,9 @@ import skills.Skill;
 
 public class YuJin extends HeroOriginal
 {
-	public class Sturdy implements Skill
-	{
-		
-	}
 	public YuJin() 
 	{
-		super(4,Force.WEI,Gender.MALE,"YuJin", new Sturdy());
+		super(4,Force.WEI,Gender.MALE,"YuJin");
 	}
 
 	@Override

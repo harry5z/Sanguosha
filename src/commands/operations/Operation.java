@@ -1,8 +1,8 @@
 package commands.operations;
 
-import listeners.client.PlayerActionListener;
-
 import commands.game.server.GameServerCommand;
+import listeners.client.PlayerActionListener;
+import net.client.GamePanel;
 /**
  * An operation that listens to user actions (confirm, cancel, select cards/targets, etc.)
  * @author Harry
@@ -11,6 +11,8 @@ import commands.game.server.GameServerCommand;
 public interface Operation extends PlayerActionListener {
 	
 	public GameServerCommand generateCommand();
+	
+	public void onActivated(GamePanel panel);
 
 //	/**
 //	 * called when a player is selected as target by operator

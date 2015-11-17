@@ -6,8 +6,7 @@ import cards.Card;
 
 import commands.Command;
 import commands.IncreaseOfHealth;
-import commands.UseOfCards;
-
+import commands.game.server.UseOfCardsInGameServerCommand;
 import core.Game;
 import core.PlayerInfo;
 
@@ -71,12 +70,12 @@ public class WineOperation extends Operation
 		player.getGameListener().setCancelEnabled(false);
 		if(player.isDying())//can increase health by 1
 		{
-			player.sendToServer(new UseOfCards(source,wine,new IncreaseOfHealth(source,getNext())));
+			player.sendToServer(new UseOfCardsInGameServerCommand(source,wine,new IncreaseOfHealth(source,getNext())));
 		}
 		else//can increase attack damage by 1
 		{
 			player.useWine();
-			player.sendToServer(new UseOfCards(source,wine,getNext()));
+			player.sendToServer(new UseOfCardsInGameServerCommand(source,wine,getNext()));
 		}
 	}
 

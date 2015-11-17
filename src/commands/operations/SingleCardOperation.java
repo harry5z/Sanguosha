@@ -5,8 +5,7 @@ import player.PlayerOriginal;
 import cards.Card;
 
 import commands.Command;
-import commands.UseOfCards;
-
+import commands.game.server.UseOfCardsInGameServerCommand;
 import core.Game;
 import core.PlayerInfo;
 
@@ -65,7 +64,7 @@ public class SingleCardOperation extends Operation
 		player.setOperation(null);
 		player.setCardOnHandSelected(card, false);
 		player.setCancelEnabled(false);
-		player.sendToServer(new UseOfCards(source,card,getNext()));		
+		player.sendToServer(new UseOfCardsInGameServerCommand(source,card,getNext()));		
 	}
 
 }

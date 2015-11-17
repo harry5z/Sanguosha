@@ -3,8 +3,8 @@ package commands.operations.special;
 import commands.Command;
 import commands.Damage;
 import commands.DisposalOfCards;
-import commands.UseOfCards;
 import commands.Damage.Element;
+import commands.game.server.UseOfCardsInGameServerCommand;
 import cards.Card;
 import player.PlayerOriginal;
 import player.PlayerComplete;
@@ -114,7 +114,7 @@ public class FireAttackOperation extends SpecialOperation
 			player.unselectTarget(target);
 			player.setCardOnHandSelected(fireAttack, false);
 			player.setAllTargetsSelectableIncludingSelf(false);
-			player.sendToServer(new UseOfCards(player.getPlayerInfo(),fireAttack,this));
+			player.sendToServer(new UseOfCardsInGameServerCommand(player.getPlayerInfo(),fireAttack,this));
 		}
 		else if(sent && shown)//confirm damage
 		{

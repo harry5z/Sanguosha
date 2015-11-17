@@ -10,8 +10,7 @@ import cards.equipments.Equipment.EquipmentType;
 
 import commands.Command;
 import commands.Damage;
-import commands.UseOfCards;
-
+import commands.game.server.UseOfCardsInGameServerCommand;
 import core.Game;
 import core.PlayerInfo;
 
@@ -221,13 +220,13 @@ public class AttackOperation extends Operation
 			player.getGameListener().setCardSelected(attack, false);
 			damage = new Damage(amount,attack.getElement(),source,target,this);
 			stage = BEFORE_TARGET_LOCKED;
-			player.sendToServer(new UseOfCards(source,attack,this));
+			player.sendToServer(new UseOfCardsInGameServerCommand(source,attack,this));
 		}
 		else if(player.equals(target))//target dodged
 		{
 			stage = AFTER_USING_DODGE;
 			endOfTargetOperation(player);
-			player.sendToServer(new UseOfCards(target,dodge,this));
+			player.sendToServer(new UseOfCardsInGameServerCommand(target,dodge,this));
 		}
 		else
 			System.err.println("AttackEvent: Invalid confirmation at stage "+stage);

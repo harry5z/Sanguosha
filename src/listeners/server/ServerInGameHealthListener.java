@@ -3,11 +3,7 @@ package listeners.server;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import commands.game.client.GameClientCommand;
-import commands.game.client.UpdateOtherPlayerEquipmentGameClientCommand;
 import listeners.game.HealthListener;
-import net.Connection;
-import net.client.ClientUI;
 import net.server.GameRoom;
 import ui.game.GamePanelUI;
 

@@ -2,7 +2,7 @@ package commands.operations.special;
 
 import commands.Command;
 import commands.Damage;
-import commands.UseOfCards;
+import commands.game.server.UseOfCardsInGameServerCommand;
 import cards.Card;
 import cards.basics.Attack;
 import player.PlayerOriginal;
@@ -100,7 +100,7 @@ public class DuelOperation extends SpecialOperation
 			player.unselectTarget(target);
 			player.setCardOnHandSelected(duel, false);
 			player.setOperation(null);
-			player.sendToServer(new UseOfCards(source,duel,this));
+			player.sendToServer(new UseOfCardsInGameServerCommand(source,duel,this));
 		}
 		else//target reacted
 		{
@@ -111,7 +111,7 @@ public class DuelOperation extends SpecialOperation
 			source = temp;
 			Card c = reactionCard;
 			reactionCard = null;
-			player.sendToServer(new UseOfCards(player.getPlayerInfo(),c,this));
+			player.sendToServer(new UseOfCardsInGameServerCommand(player.getPlayerInfo(),c,this));
 		}
 	}
 

@@ -10,8 +10,7 @@ import cards.equipments.Equipment;
 import commands.Command;
 import commands.DisposalOfCards;
 import commands.Unequip;
-import commands.UseOfCards;
-
+import commands.game.server.UseOfCardsInGameServerCommand;
 import core.PlayerInfo;
 
 public class SabotageOperation extends SpecialOperation
@@ -101,7 +100,7 @@ public class SabotageOperation extends SpecialOperation
 	{
 		onCancelledBy(player);
 		player.setOperation(null);
-		player.sendToServer(new UseOfCards(source,sabotage,this));		
+		player.sendToServer(new UseOfCardsInGameServerCommand(source,sabotage,this));		
 	}
 
 	@Override
