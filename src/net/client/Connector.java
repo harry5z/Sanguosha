@@ -3,6 +3,7 @@ package net.client;
 import java.io.IOException;
 import java.net.Socket;
 
+import net.ClientConnection;
 import net.Connection;
 import net.server.Server;
 /**
@@ -52,7 +53,7 @@ public class Connector
 	public Connection connect() throws IOException
 	{
 		Socket socket = new Socket(serverHost,serverPort);
-		Connection connection = new Connection(socket);
+		Connection connection = new ClientConnection(socket);
 		return connection;
 	}
 

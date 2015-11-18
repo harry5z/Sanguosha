@@ -15,7 +15,8 @@ import commands.Command;
  * @author Harry
  * 
  */
-public class Connection implements Channel {
+public abstract class Connection implements Channel {
+	
 	private static final String TAG = "Connection";
 	/**
 	 * Only one thread can send command at a time
@@ -28,7 +29,7 @@ public class Connection implements Channel {
 	private final Socket socket;
 	private final ObjectOutputStream out;
 	private final ObjectInputStream in;
-	private ConnectionListener listener;
+	protected ConnectionListener listener;
 
 	public Connection(Socket socket) throws IOException {
 		this.socket = socket;
@@ -42,20 +43,12 @@ public class Connection implements Channel {
 	 */
 	public void activate() {
 		new Thread() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public void run() {
 				while (true) { // evaluation loop
 					try {
 						final Object obj = in.readObject();
-						new Thread(() -> {
-							try {
-								((Command<? super ConnectionListener>) obj).execute(listener, Connection.this);
-							} catch (ClassCastException e) {
-								Log.error(TAG, "Command sent to the wrong object: "+e.getMessage());
-								e.printStackTrace();
-							}
-						}).start();
+						new Thread(() -> processReceivedObject(obj)).start();
 					} 
 					catch (ClassCastException | ClassNotFoundException e) {
 						Log.error(TAG, "Received unidentified object");
@@ -69,22 +62,23 @@ public class Connection implements Channel {
 			}
 		}.start();
 	}
-
+	
+	protected abstract void processReceivedObject(Object obj);
+	
 	public void setConnectionListener(ConnectionListener listener) {
 		this.listener = listener;
 	}
 
 	/**
-	 * <p>{@inheritDoc}</p>
 	 * 
 	 * This method is <strong>synchronized</strong>
 	 * on {@linkplain Connection#writeLock}
+	 * 
 	 */
-	@Override
-	public void send(Command<?> command) {
+	protected void sendCommandPacket(CommandPacket packet) {
 		synchronized (writeLock) {
 			try {
-				out.writeUnshared(command);
+				out.writeUnshared(packet);
 				out.flush();
 			}
 			catch (IOException e) {

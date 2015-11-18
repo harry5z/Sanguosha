@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 
 import net.Connection;
+import net.ServerConnection;
 import utils.Log;
 
 /**
@@ -52,7 +53,7 @@ public class Server {
 				executor.execute(() -> {
 					Log.log(TAG, "receiving new connection...");
 					try {
-						Connection connection = new Connection(socket);
+						Connection connection = new ServerConnection(socket);
 						session.onReceivedConnection(connection);
 					} 
 					catch (IOException e) {

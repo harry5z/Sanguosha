@@ -47,7 +47,6 @@ public abstract class Equipment extends Card {
 
 	@Override
 	public boolean isActivatableBy(PlayerComplete player) {
-		System.out.println("CHECK");
 		return true;
 	}
 }
