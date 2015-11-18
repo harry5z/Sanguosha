@@ -60,15 +60,15 @@ public class GamePanelUI extends JPanel implements GameListener {
 		messageBox.setLocation(equipmentRack.getWidth(), HEIGHT - cardRack.getHeight() - MessageBoxGui.HEIGHT);
 		pane = null;
 
-		myself.setHero(new Blank());// change in the future
-		heroGui.setHero(myself.getHero());
-
 		myself.registerGameListener(this);
 		myself.registerCardOnHandListener(cardRack);
 		myself.registerEquipmentListener(equipmentRack);
 		myself.registerHealthListener(healthGui);
 		myself.registerCardDisposalListener(disposalGui);
-
+		myself.setHero(new Blank());// change in the future
+		healthGui.onSetHealthLimit(myself.getHero().getHealthLimit()); // change in the future
+		healthGui.onSetHealthCurrent(myself.getHero().getHealthLimit()); // change in the future
+		heroGui.setHero(myself.getHero());
 		confirm = new ButtonGui("Confirm", e -> panel.getCurrentOperation().onConfirmed());
 		confirm.setLocation(0, HEIGHT - CardRackGui.HEIGHT - ButtonGui.HEIGHT);
 		cancel = new ButtonGui("Cancel", e -> panel.getCurrentOperation().onCanceled());
@@ -91,9 +91,9 @@ public class GamePanelUI extends JPanel implements GameListener {
 
 	public synchronized void addPlayer(PlayerInfo info) {
 		PlayerSimple player = new PlayerSimple(info.getName(), info.getPosition());
-		player.setHero(new Blank()); // remove later
 		player.registerCardDisposalListener(disposalGui);
 		PlayerGui p = new PlayerGui(player, panel);
+		player.setHero(new Blank()); // remove later
 		otherPlayers.add(p);
 		p.setLocation(WIDTH - (otherPlayers.size()) * PlayerGui.WIDTH, 0);
 		add(p);

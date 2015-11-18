@@ -13,7 +13,6 @@ public abstract class Instant extends Special {
 
 	@Override
 	public boolean isActivatableBy(PlayerComplete player) {
-		System.out.println("Instant check");
 		return true;
 	}
 }

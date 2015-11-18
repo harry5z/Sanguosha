@@ -53,7 +53,7 @@ public class PlayerGui extends JButton implements Activatable {
 		add(name);
 
 		// temp
-		JLabel hero = new JLabel(player.getHero().getName());
+		JLabel hero = new JLabel("TEMP");
 		hero.setSize(WIDTH, PICTURE_HEIGHT);
 		hero.setFont(new Font(Font.MONOSPACED, Font.BOLD, 40));
 		hero.setHorizontalAlignment(JLabel.CENTER);

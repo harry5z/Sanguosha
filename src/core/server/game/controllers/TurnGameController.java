@@ -18,7 +18,7 @@ public class TurnGameController implements GameController {
 	public TurnGameController(GameRoom room) {
 		this.room = room;
 		this.game = room.getGame();
-		this.currentPlayer = game.findPlayer(player -> player.getPosition() == 1);
+		this.currentPlayer = game.findPlayer(player -> player.getPosition() == 0);
 		this.currentStage = TurnStage.START_BEGINNING;
 	}
 	

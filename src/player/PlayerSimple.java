@@ -5,6 +5,7 @@ import java.util.Collection;
 import cards.Card;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
+import heroes.original.HeroOriginal;
 import listeners.game.CardDisposalListener;
 import listeners.game.CardOnHandListener;
 import listeners.game.EquipmentListener;
@@ -37,8 +38,6 @@ public class PlayerSimple extends Player {
 	 */
 	public void registerHealthListener(HealthListener listener) {
 		healthListener = listener;
-		healthListener.onSetHealthLimit(getHero().getHealthLimit());
-		healthListener.onSetHealthCurrent(getHealthCurrent());
 	}
 
 	/**
@@ -128,6 +127,13 @@ public class PlayerSimple extends Player {
 		cardsCount--;
 		cardsOnHandListener.onCardRemoved(card);
 		disposalListener.onCardUsed(card);
+	}
+	
+	@Override
+	public void setHero(HeroOriginal hero) {
+		super.setHero(hero);
+		healthListener.onSetHealthLimit(hero.getHealthLimit());
+		healthListener.onSetHealthCurrent(hero.getHealthLimit());
 	}
 
 	/**

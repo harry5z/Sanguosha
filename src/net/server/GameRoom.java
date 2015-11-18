@@ -41,11 +41,11 @@ public class GameRoom extends ServerEntity {
 		return game;
 	}
 	
-	public void sendCommandToPlayers(Map<String, GameClientCommand> commands) {
+	public synchronized void sendCommandToPlayers(Map<String, GameClientCommand> commands) {
 		commands.forEach((name, command) -> this.connectionMap.get(name).send(command));
 	}
 	
-	public void sendCommandToPlayer(String name, GameClientCommand command) {
+	public synchronized void sendCommandToPlayer(String name, GameClientCommand command) {
 		this.connectionMap.get(name).send(command);
 	}
 	

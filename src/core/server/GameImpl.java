@@ -42,22 +42,9 @@ public class GameImpl implements Game {
 		this.players = playerInfos.stream()
 			.map(info -> new PlayerComplete(info.getName(), info.getPosition()))
 			.collect(Collectors.toList());
-		this.room.sendCommandToPlayers(
-			this.players.stream().collect(
-				Collectors.toMap(
-					player -> player.getName(),
-					player -> new EnterGameRoomGameClientCommand(getPlayersInfo(), player.getPlayerInfo())
-				)
-			)
-		);
+
 		this.playerNames = playerInfos.stream().map(info -> info.getName()).collect(Collectors.toSet());
 		this.controllers = new Stack<>();
-		for (PlayerComplete player : players) {
-			player.setHero(new Blank()); // no heroes now..
-			player.registerCardOnHandListener(new ServerInGameCardOnHandListener(player.getName(), playerNames, room));
-			player.registerEquipmentListener(new ServerInGameEquipmentListener(player.getName(), playerNames, room));
-			player.registerHealthListener(new ServerInGameHealthListener(player.getName(), playerNames, room));
-		}
 	}
 
 	@Override
@@ -104,8 +91,21 @@ public class GameImpl implements Game {
 
 	@Override
 	public void start() {
+		this.room.sendCommandToPlayers(
+			this.players.stream().collect(
+				Collectors.toMap(
+					player -> player.getName(),
+					player -> new EnterGameRoomGameClientCommand(getPlayersInfo(), player.getPlayerInfo())
+				)
+			)
+		);
+		for (PlayerComplete player : players) {
+			player.registerCardOnHandListener(new ServerInGameCardOnHandListener(player.getName(), playerNames, room));
+			player.registerEquipmentListener(new ServerInGameEquipmentListener(player.getName(), playerNames, room));
+			player.registerHealthListener(new ServerInGameHealthListener(player.getName(), playerNames, room));
+			player.setHero(new Blank()); // no heroes now..
+		}
 		this.controllers.push(new TurnGameController(room));
-
 		for (PlayerComplete player : players) {
 			player.addCards(deck.drawMany(4));
 		}

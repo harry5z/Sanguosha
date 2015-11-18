@@ -33,10 +33,8 @@ public class DealOperation implements Operation {
 		GamePanelUI panelUI = panel.getContent();
 		panelUI.showCountdownBar();
 		PlayerComplete player = panelUI.getSelf();
-		System.out.println("Deal activated");
 		for(CardGui cardUI : panelUI.getCardRackUI().getCardUIs()) {
 			if (cardUI.getCard().isActivatableBy(player)) {
-				System.out.println(cardUI.getCard().getName() + " activated");
 				cardUI.setActivatable(true);
 			}
 		}
