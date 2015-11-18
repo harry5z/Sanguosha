@@ -4,8 +4,8 @@ import player.PlayerComplete;
 import player.PlayerSimple;
 
 import commands.Command;
-import commands.operations.Operation;
 import commands.operations.special.SabotageOperation;
+import core.client.game.operations.Operation;
 
 public class Sabotage extends Instant
 {

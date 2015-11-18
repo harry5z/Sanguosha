@@ -25,23 +25,23 @@ import core.PlayerInfo;
 public abstract class Player
 {
 	//********* personal properties *********
-	private String name;
-	private int position;
-	private HeroOriginal hero;
+	protected String name;
+	protected int position;
+	protected HeroOriginal hero;
 	
 	//********* in-game properties ***********
-	private int healthCurrent;
+	protected int healthCurrent;
 
 	
-	private boolean flipped;//whether player is flipped (not implemented yet)
-	private boolean isAlive;//whether player is alive
-	private boolean dying;//whether player is in the near-death stage
+	protected boolean flipped;//whether player is flipped (not implemented yet)
+	protected boolean isAlive;//whether player is alive
+	protected boolean dying;//whether player is in the near-death stage
 	
 	//********* cards other than cardsOnHand, public to all other players *********
-	private Weapon weapon;
-	private Shield shield;
-	private HorsePlus horsePlus;
-	private HorseMinus horseMinus;
+	protected Weapon weapon;
+	protected Shield shield;
+	protected HorsePlus horsePlus;
+	protected HorseMinus horseMinus;
 	
 	private final PlayerInfo info;
 	

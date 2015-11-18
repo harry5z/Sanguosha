@@ -1,7 +1,7 @@
 package cards.specials.delayed;
 
 import commands.Command;
-import commands.operations.Operation;
+import core.client.game.operations.Operation;
 import player.PlayerComplete;
 
 public class Starvation extends Delayed

@@ -23,12 +23,14 @@ public class UpdateOtherPlayerCardGameClientCommand implements GameClientCommand
 
 	@Override
 	public void execute(ClientUI ui, Connection connection) {
-		PlayerSimple player = ui.<GamePanelUI>getPanel().getContent().getPlayer(name);
-		if (add) {
-			player.addCards(Collections.nCopies(amount, null));
-		} else {
-			for (int i = 0; i < amount; i++) {
-				player.removeCardFromHand(null);
+		synchronized (ui) {
+			PlayerSimple player = ui.<GamePanelUI>getPanel().getContent().getPlayer(name);
+			if (add) {
+				player.addCards(Collections.nCopies(amount, null));
+			} else {
+				for (int i = 0; i < amount; i++) {
+					player.removeCardFromHand(null);
+				}
 			}
 		}
 	}

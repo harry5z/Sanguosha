@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import player.Player;
 import player.PlayerComplete;
-import core.Game;
 import core.PlayerInfo;
+import core.server.Game;
 
 public class NewPlayer extends Command
 {
@@ -24,7 +24,7 @@ public class NewPlayer extends Command
 	public void ServerOperation(Game framework)
 	{
 		framework.addPlayer(newPlayer);
-		allPlayers = framework.getPlayers();
+		allPlayers = framework.getPlayersInfo();
 		framework.sendToAllClients(this);
 	}
 	@Override

@@ -11,8 +11,9 @@ import cards.equipments.Equipment.EquipmentType;
 import commands.Command;
 import commands.Damage;
 import commands.game.server.UseOfCardsInGameServerCommand;
-import core.Game;
 import core.PlayerInfo;
+import core.client.game.operations.Operation;
+import core.server.Game;
 
 /**
  * The "Attack" event, multistage and very complicated, as many skills and equipment 
@@ -20,7 +21,7 @@ import core.PlayerInfo;
  * @author Harry
  *
  */
-public class AttackOperation extends Operation
+public class AttackOperation implements Operation
 {
 	/**
 	 * 
@@ -54,18 +55,7 @@ public class AttackOperation extends Operation
 	private Attack attack;//in the future, there will be transformed attacks, so it will be changed
 	private Card dodge;//the dodge that target uses
 	private Damage damage;//the damage that this attack carries
-	
-	public AttackOperation(PlayerComplete source, Attack attack, Command next)
-	{
-		super(next);
-		this.source = source.getPlayerInfo();
-		target = null;
-		this.attack = attack;
-		stage = TARGET_SELECTION;
-		dodgeable = true;
-		dodge = null;
-		enableTargets(source);
-	}
+
 	private void enableTargets(PlayerComplete source)
 	{
 		for(PlayerSimple p : source.getOtherPlayers())

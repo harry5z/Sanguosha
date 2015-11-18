@@ -1,6 +1,6 @@
 package commands;
 
-import core.Game;
+import core.server.Game;
 
 /**
  * Client-side graphical update, which will not be

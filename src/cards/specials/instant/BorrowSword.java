@@ -5,7 +5,7 @@ import player.PlayerComplete;
 import cards.equipments.Equipment.EquipmentType;
 
 import commands.Command;
-import commands.operations.Operation;
+import core.client.game.operations.Operation;
 
 public class BorrowSword extends Instant
 {

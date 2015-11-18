@@ -4,9 +4,8 @@ import player.Player;
 import player.PlayerComplete;
 
 import commands.operations.NearDeathOperation;
-
-import core.Game;
 import core.PlayerInfo;
+import core.server.Game;
 
 public class LossOfHealth extends Command
 {

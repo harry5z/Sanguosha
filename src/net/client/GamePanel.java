@@ -1,15 +1,13 @@
 package net.client;
 
 import java.util.List;
-
-import net.Channel;
-import ui.game.CardGui;
-import ui.game.GamePanelUI;
-
-import commands.game.server.GameServerCommand;
-import commands.operations.Operation;
+import java.util.Stack;
 
 import core.PlayerInfo;
+import core.client.game.operations.Operation;
+import net.Channel;
+import ui.game.Activatable;
+import ui.game.GamePanelUI;
 
 /**
  * Main Display gui, also monitors card/target selections, confirm/cancel/end
@@ -21,44 +19,38 @@ import core.PlayerInfo;
 public class GamePanel implements ClientPanel<GamePanelUI> {
 
 	private final GamePanelUI panel;
-	private Operation currentOperation;
-	private final Operation defaultOperation;
+	private final Stack<Operation> currentOperations;
+	private Channel channel;
 	
 	public GamePanel(PlayerInfo info, List<PlayerInfo> players, Channel channel) {
 		this.panel = new GamePanelUI(info, this);
+		this.channel = channel;
 		for (PlayerInfo player : players) {
 			if (!player.equals(info)) {
 				panel.addPlayer(player);
 			}
 		}
-		this.currentOperation = this.defaultOperation = new Operation() {
-
-			@Override
-			public GameServerCommand generateCommand() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			@Override
-			public void onCardClicked(CardGui card){
-				GamePanel.this.pushOperation(card.getCard().generateOperation());
-			}
-
-			@Override
-			public void onActivated(GamePanel panel) {
-				
-			}
-			
-		};
+		this.currentOperations = new Stack<>();
 	}
 	
-	public synchronized void pushOperation(Operation operation) {
-		operation.onActivated(this);
-		this.currentOperation = operation;
+	public synchronized void pushOperation(Operation operation, Activatable source) {
+		if (source != null) {
+			source.setActivated(true);
+		}
+		operation.onActivated(this, source);
+		currentOperations.push(operation);
+	}
+	
+	public synchronized void popOperation() {
+		currentOperations.pop();
 	}
 	
 	public synchronized Operation getCurrentOperation() {
-		return currentOperation;
+		return currentOperations.peek();
+	}
+	
+	public Channel getChannel() {
+		return channel;
 	}
 	
 	@Override

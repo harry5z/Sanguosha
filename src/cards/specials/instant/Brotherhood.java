@@ -1,8 +1,8 @@
 package cards.specials.instant;
 
 import commands.Command;
-import commands.operations.Operation;
 import commands.operations.special.BrotherhoodOperation;
+import core.client.game.operations.Operation;
 import player.PlayerComplete;
 
 public class Brotherhood extends Instant

@@ -53,6 +53,7 @@ public class Connection implements Channel {
 								((Command<? super ConnectionListener>) obj).execute(listener, Connection.this);
 							} catch (ClassCastException e) {
 								Log.error(TAG, "Command sent to the wrong object: "+e.getMessage());
+								e.printStackTrace();
 							}
 						}).start();
 					} 

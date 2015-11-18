@@ -13,14 +13,14 @@ import javax.swing.JButton;
 import net.client.GamePanel;
 import core.Constants;
 
-public class HeroGui extends JButton {
+public class HeroGui extends JButton implements Activatable {
 
 	private static final long serialVersionUID = 5926706015812873971L;
 	
 	private HeroOriginal hero;
 	public static final int WIDTH = CardRackGui.HEIGHT;
 	public static final int HEIGHT = WIDTH;
-	private boolean selected = false;
+	private boolean activated = false;
 
 	public HeroGui(GamePanel panel) {
 		hero = null;
@@ -32,17 +32,23 @@ public class HeroGui extends JButton {
 	}
 
 	protected void select() {
-		selected = true;
+		activated = true;
 		repaint();
 	}
 
 	protected void unselect() {
-		selected = false;
+		activated = false;
 		repaint();
 	}
+	
+	@Override
+	public synchronized void setActivatable(boolean activatable) {
+		setEnabled(activatable);
+	}
 
-	public synchronized void setSelected(boolean selected) {
-		this.selected = selected;
+	@Override
+	public synchronized void setActivated(boolean activated) {
+		this.activated = activated;
 		repaint();
 	}
 
@@ -59,7 +65,7 @@ public class HeroGui extends JButton {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		if (selected)
+		if (activated)
 			g.setColor(Color.RED);
 		else
 			g.setColor(Color.BLACK);

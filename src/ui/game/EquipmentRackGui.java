@@ -92,4 +92,5 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener
 			System.err.println("EquipmentRack: Unidentified Error");
 		}
 	}
+	
 }

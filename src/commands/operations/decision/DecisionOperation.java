@@ -3,7 +3,7 @@ package commands.operations.decision;
 import cards.Card;
 
 import commands.Command;
-import commands.operations.Operation;
+import core.client.game.operations.Operation;
 
 public abstract class DecisionOperation extends Operation
 {

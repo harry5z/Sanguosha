@@ -5,8 +5,8 @@ import java.util.List;
 
 import player.PlayerComplete;
 import cards.Card;
-import core.Game;
 import core.PlayerInfo;
+import core.server.Game;
 
 /**
  * Used for core to recycle cards

@@ -4,8 +4,8 @@ import java.util.List;
 
 import player.PlayerComplete;
 import cards.Card;
-import core.Game;
 import core.PlayerInfo;
+import core.server.Game;
 
 /**
  * player's request of cards from deck

@@ -17,8 +17,7 @@ import cards.Card;
 import commands.Command;
 import commands.ReceiveCards;
 import commands.RecycleCards;
-
-import core.Game;
+import core.server.Game;
 
 public class HarvestOperation extends AreaOfEffectOperation
 {

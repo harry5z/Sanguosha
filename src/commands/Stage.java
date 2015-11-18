@@ -3,9 +3,8 @@ package commands;
 import player.PlayerComplete;
 
 import commands.operations.TurnDiscardOperation;
-
-import core.Game;
 import core.PlayerInfo;
+import core.server.Game;
 
 /**
  * stage update, controls basic game flow

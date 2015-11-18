@@ -1,8 +1,8 @@
 package cards.basics;
 
 import commands.Command;
-import commands.operations.Operation;
 import commands.operations.PeachOperation;
+import core.client.game.operations.Operation;
 import player.PlayerComplete;
 
 

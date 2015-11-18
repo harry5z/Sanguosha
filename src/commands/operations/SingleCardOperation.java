@@ -6,8 +6,9 @@ import cards.Card;
 
 import commands.Command;
 import commands.game.server.UseOfCardsInGameServerCommand;
-import core.Game;
 import core.PlayerInfo;
+import core.client.game.operations.Operation;
+import core.server.Game;
 
 public class SingleCardOperation extends Operation
 {

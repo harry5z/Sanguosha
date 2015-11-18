@@ -1,6 +1,6 @@
 package commands.game.server;
 
-import core.Game;
+import core.server.Game;
 import net.Connection;
 import net.server.GameRoom;
 

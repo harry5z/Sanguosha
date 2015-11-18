@@ -19,13 +19,22 @@ public class ServerInGameEquipmentListener extends ServerInGamePlayerListener im
 	public void onEquipped(Equipment equipment) {
 		room.sendCommandToPlayer(
 			name, 
-			(ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getEquipmentRackUI().onEquipped(equipment)
+			(ui, connection) -> {
+				synchronized (ui) {
+					ui.<GamePanelUI>getPanel().getContent().getSelf().equip(equipment);
+				}
+			}
 		);
+		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
 			otherNames.stream().collect(
 				Collectors.toMap(
 					n -> n, 
-					n -> ((ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getPlayer(name).equip(equipment))
+					n -> ((ui, connection) -> {
+						synchronized (ui) {
+							ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).equip(equipment);
+						}
+					})
 				)
 			)
 		);
@@ -35,13 +44,22 @@ public class ServerInGameEquipmentListener extends ServerInGamePlayerListener im
 	public void onUnequipped(EquipmentType type) {
 		room.sendCommandToPlayer(
 			name,
-			(ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getEquipmentRackUI().onUnequipped(type)
+			(ui, connection) -> {
+				synchronized (ui) {
+					ui.<GamePanelUI>getPanel().getContent().getSelf().unequip(type);
+				}
+			}
 		);
+		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
 			otherNames.stream().collect(
 				Collectors.toMap(
 					n -> n, 
-					n -> ((ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getPlayer(name).unequip(type))
+					n -> ((ui, connection) -> {
+						synchronized (ui) {
+							ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).unequip(type);
+						}
+					})
 				)
 			)
 		);

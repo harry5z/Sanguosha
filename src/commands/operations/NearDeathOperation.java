@@ -8,9 +8,9 @@ import cards.basics.Wine;
 
 import commands.Command;
 import commands.DeathEvent;
-
-import core.Game;
 import core.PlayerInfo;
+import core.client.game.operations.Operation;
+import core.server.Game;
 
 /**
  * The near-death event, has high priority and is invoked immediately after a player's

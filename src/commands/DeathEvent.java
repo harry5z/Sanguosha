@@ -1,8 +1,8 @@
 package commands;
 
 import player.PlayerComplete;
-import core.Game;
 import core.PlayerInfo;
+import core.server.Game;
 
 /**
  * The event of the death of a player

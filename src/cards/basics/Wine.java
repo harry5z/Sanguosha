@@ -3,8 +3,8 @@ package cards.basics;
 import player.PlayerComplete;
 
 import commands.Command;
-import commands.operations.Operation;
 import commands.operations.WineOperation;
+import core.client.game.operations.Operation;
 
 
 public class Wine extends Basic

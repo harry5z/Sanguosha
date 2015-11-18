@@ -15,10 +15,6 @@ public abstract class PlayerOriginal extends Player
 	}
 	private Role role;
 	
-	public PlayerOriginal(String name)
-	{
-		super(name);
-	}
 	public PlayerOriginal(String name, int position)
 	{
 		super(name,position);

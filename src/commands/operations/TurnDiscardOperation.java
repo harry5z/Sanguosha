@@ -8,9 +8,9 @@ import cards.Card;
 
 import commands.Command;
 import commands.DisposalOfCards;
-
-import core.Game;
 import core.PlayerInfo;
+import core.client.game.operations.Operation;
+import core.server.Game;
 
 /**
  * Operation that forces a player to discard extra cards on hand if player holds

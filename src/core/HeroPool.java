@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import core.server.Game;
+
 /**
  * This class is mainly used by a {@link Game} to 
  * specify what packs of heroes are allowed.

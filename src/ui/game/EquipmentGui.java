@@ -6,7 +6,7 @@ import javax.swing.JButton;
 
 import cards.equipments.Equipment;
 
-public class EquipmentGui extends JButton {
+public class EquipmentGui extends JButton implements Activatable {
 	/**
 	 * 
 	 */
@@ -55,4 +55,16 @@ public class EquipmentGui extends JButton {
 	//
 	// g.drawString(equipment.getName(), 0,20);
 	// }
+
+	@Override
+	public synchronized void setActivated(boolean activated) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public synchronized void setActivatable(boolean activatable) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -73,6 +73,7 @@ public class Room extends ServerEntity {
 			connections.add(connection);
 			connection.setConnectionListener(this);
 			Log.log(TAG, "Player entered room " + id);
+			// race condition
 			connection.send(new DisplayRoomUIClientCommand(getRoomInfo(), getUserInfos(false)));
 			return true;
 		}

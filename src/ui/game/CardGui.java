@@ -22,7 +22,7 @@ import core.Constants;
  * @author Harry
  *
  */
-public class CardGui extends JButton {
+public class CardGui extends JButton implements Activatable {
 
 	private static final long serialVersionUID = -8973362684095284243L;
 	public static final int WIDTH = 142;
@@ -35,7 +35,7 @@ public class CardGui extends JButton {
 	private BufferedImage img;
 	private BufferedImage img_darker;
 	private float alpha = 1f;
-	private boolean selected = false;
+	private boolean activated = false;
 
 	public CardGui(Card card) {
 		this.card = card;
@@ -72,19 +72,25 @@ public class CardGui extends JButton {
 			System.err.println("File not found");
 		}
 	}
+	
+	@Override
+	public synchronized void setActivatable(boolean activatable) {
+		setEnabled(activatable);
+	}
+
+	@Override
+	public synchronized void setActivated(boolean activated) {
+		this.activated = activated;
+		repaint();
+	}
 
 	protected void select() {
-		selected = true;
+		activated = true;
 		repaint();
 	}
 
 	protected void unselect() {
-		selected = false;
-		repaint();
-	}
-	
-	public synchronized void setSelected(boolean selected) {
-		this.selected = selected;
+		activated = false;
 		repaint();
 	}
 
@@ -158,7 +164,7 @@ public class CardGui extends JButton {
 		} else {
 			graphics.drawImage(img, 0, 0, null);
 		}
-		if (selected) {
+		if (activated) {
 			graphics.setColor(Color.RED);
 			graphics.setStroke(new BasicStroke(Constants.BORDER_WIDTH));
 			graphics.drawRect(0, 0, WIDTH, HEIGHT);

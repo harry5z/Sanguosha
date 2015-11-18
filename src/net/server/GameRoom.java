@@ -9,10 +9,9 @@ import java.util.Set;
 import net.Connection;
 
 import commands.game.client.GameClientCommand;
-
-import core.Game;
-import core.GameImpl;
 import core.PlayerInfo;
+import core.server.Game;
+import core.server.GameImpl;
 
 public class GameRoom extends ServerEntity {
 	
@@ -26,7 +25,7 @@ public class GameRoom extends ServerEntity {
 		this.connectionMap = new HashMap<>();
 		
 		// begin ugly part because connection doesn't have unique user information yet
-		int i = 1;
+		int i = 0;
 		List<PlayerInfo> players = new ArrayList<>();
 		for (Connection connection : this.connections) {
 			this.connectionMap.put("Player " + i, connection);

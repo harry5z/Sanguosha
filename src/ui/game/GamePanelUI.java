@@ -89,7 +89,7 @@ public class GamePanelUI extends JPanel implements GameListener {
 		add(messageBox);
 	}
 
-	public void addPlayer(PlayerInfo info) {
+	public synchronized void addPlayer(PlayerInfo info) {
 		PlayerSimple player = new PlayerSimple(info.getName(), info.getPosition());
 		player.setHero(new Blank()); // remove later
 		player.registerCardDisposalListener(disposalGui);
@@ -102,6 +102,23 @@ public class GamePanelUI extends JPanel implements GameListener {
 
 	public CardRackGui getCardRackUI() {
 		return cardRack;
+	}
+	
+	public HeroGui getHeroUI() {
+		return heroGui;
+	}
+	
+	public PlayerComplete getSelf() {
+		return myself;
+	}
+	
+	public synchronized PlayerGui getOtherPlayerUI(PlayerInfo other) {
+		for (PlayerGui ui : otherPlayers) {
+			if (ui.getPlayer().getPlayerInfo().equals(other)) {
+				return ui;
+			}
+		}
+		throw new RuntimeException("No Other player ui found");
 	}
 	
 	public EquipmentRackGui getEquipmentRackUI() {
@@ -229,5 +246,9 @@ public class GamePanelUI extends JPanel implements GameListener {
 			validate();
 			repaint();
 		}
+	}
+
+	public void showCountdownBar() {
+		// TODO implement action bar for self
 	}
 }

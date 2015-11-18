@@ -3,7 +3,7 @@ package cards;
 import java.io.Serializable;
 
 import commands.Command;
-import commands.operations.Operation;
+import core.client.game.operations.Operation;
 import player.PlayerComplete;
 import utils.UIDProvider;
 
@@ -64,15 +64,10 @@ public abstract class Card implements Serializable {
 	public abstract String getName();
 
 	/**
-	 * returns an operation corresponding to this card, with the next update set
-	 * to be "next"
+	 * returns an operation corresponding to this card
 	 * 
-	 * @param player
-	 * @param next
 	 * @return the corresponding operation
 	 */
-	public abstract Operation onActivatedBy(PlayerComplete player, Command next);
-	
 	public abstract Operation generateOperation();
 
 	/**

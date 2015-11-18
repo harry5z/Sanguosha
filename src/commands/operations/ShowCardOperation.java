@@ -4,8 +4,9 @@ import player.PlayerComplete;
 import player.PlayerOriginal;
 import cards.Card;
 import cards.Card.CardType;
-import core.Game;
 import core.PlayerInfo;
+import core.client.game.operations.Operation;
+import core.server.Game;
 
 public class ShowCardOperation extends Operation
 {

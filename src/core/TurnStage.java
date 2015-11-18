@@ -1,4 +1,4 @@
-package core.server.game;
+package core;
 
 public enum TurnStage {
 	START_BEGINNING,

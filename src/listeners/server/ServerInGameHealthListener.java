@@ -16,13 +16,22 @@ public class ServerInGameHealthListener extends ServerInGamePlayerListener imple
 	public void onSetHealthLimit(int limit) {
 		room.sendCommandToPlayer(
 			name, 
-			(ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getLifebar().onSetHealthLimit(limit)
+			(ui, connection) -> {
+				synchronized (ui) {
+					ui.<GamePanelUI>getPanel().getContent().getSelf().changeHealthCurrentTo(limit);
+				}
+			}
 		);
+		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
 			otherNames.stream().collect(
 				Collectors.toMap(
 					n -> n, 
-					n -> ((ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getPlayer(name).changeHealthLimitTo(limit))
+					n -> ((ui, connection) -> {
+						synchronized (ui) {
+							ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).changeHealthLimitTo(limit);
+						}
+					})
 				)
 			)
 		);
@@ -32,13 +41,22 @@ public class ServerInGameHealthListener extends ServerInGamePlayerListener imple
 	public void onSetHealthCurrent(int current) {
 		room.sendCommandToPlayer(
 			name, 
-			(ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getLifebar().onSetHealthCurrent(current)
+			(ui, connection) -> {
+				synchronized (ui) {
+					ui.<GamePanelUI>getPanel().getContent().getSelf().changeHealthCurrentTo(current);
+				}
+			}
 		);
+		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
 			otherNames.stream().collect(
 				Collectors.toMap(
 					n -> n, 
-					n -> ((ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getPlayer(name).changeHealthCurrentTo(current))
+					n -> ((ui, connection) -> {
+						synchronized (ui) {
+							ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).changeHealthCurrentTo(current);
+						}
+					})
 				)
 			)
 		);
@@ -48,13 +66,22 @@ public class ServerInGameHealthListener extends ServerInGamePlayerListener imple
 	public void onHealthChangedBy(int amount) {
 		room.sendCommandToPlayer(
 			name, 
-			(ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getLifebar().onHealthChangedBy(amount)
+			(ui, connection) -> {
+				synchronized (ui) {
+					ui.<GamePanelUI>getPanel().getContent().getSelf().changeHealthCurrentBy(amount);
+				}
+			}
 		);
+		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
 			otherNames.stream().collect(
 				Collectors.toMap(
 					n -> n, 
-					n -> ((ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getPlayer(name).changeHealthCurrentBy(amount))
+					n -> ((ui, connection) -> {
+						synchronized (ui) {
+							ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).changeHealthCurrentBy(amount);
+						}
+					})
 				)
 			)
 		);		
@@ -64,13 +91,22 @@ public class ServerInGameHealthListener extends ServerInGamePlayerListener imple
 	public void onDeath() {
 		room.sendCommandToPlayer(
 			name, 
-			(ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getLifebar().onDeath()
+			(ui, connection) -> {
+				synchronized (ui) {
+					ui.<GamePanelUI>getPanel().getContent().getSelf().kill();
+				}
+			}
 		);
+		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
 			otherNames.stream().collect(
 				Collectors.toMap(
 					n -> n, 
-					n -> ((ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getPlayer(name).kill())
+					n -> ((ui, connection) -> {
+						synchronized (ui) {
+							ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).kill();
+						}
+					})
 				)
 			)
 		);

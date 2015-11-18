@@ -4,8 +4,8 @@ import player.PlayerComplete;
 import player.PlayerSimple;
 
 import commands.Command;
-import commands.operations.Operation;
 import commands.operations.special.StealOperation;
+import core.client.game.operations.Operation;
 
 public class Steal extends Instant
 {

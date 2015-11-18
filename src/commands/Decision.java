@@ -4,9 +4,8 @@ import player.PlayerComplete;
 import cards.Card;
 
 import commands.operations.decision.DecisionOperation;
-
-import core.Game;
 import core.PlayerInfo;
+import core.server.Game;
 
 public class Decision extends Command
 {

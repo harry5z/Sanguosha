@@ -1,11 +1,9 @@
 package cards.basics;
 
-import player.PlayerComplete;
-
-import commands.Command;
 import commands.Damage.Element;
-import commands.operations.AttackOperation;
-import commands.operations.Operation;
+import core.client.game.operations.InitiateAttackOperation;
+import core.client.game.operations.Operation;
+import player.PlayerComplete;
 
 public class Attack extends Basic {
 	/**
@@ -43,10 +41,8 @@ public class Attack extends Basic {
 	}
 
 	@Override
-	public Operation onActivatedBy(PlayerComplete player, Command next) {
-		player.setCancelEnabled(true);// can cancel
-		player.setCardOnHandSelected(this, true);
-		return new AttackOperation(player, this, next);
+	public Operation generateOperation() {
+		return new InitiateAttackOperation();
 	}
 
 }

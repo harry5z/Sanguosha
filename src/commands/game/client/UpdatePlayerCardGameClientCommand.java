@@ -1,10 +1,10 @@
 package commands.game.client;
 
+import cards.Card;
 import net.Connection;
 import net.client.ClientUI;
-import ui.game.CardRackGui;
+import player.PlayerComplete;
 import ui.game.GamePanelUI;
-import cards.Card;
 
 public class UpdatePlayerCardGameClientCommand implements GameClientCommand {
 	private static final long serialVersionUID = 5370641268667157302L;
@@ -19,11 +19,13 @@ public class UpdatePlayerCardGameClientCommand implements GameClientCommand {
 
 	@Override
 	public void execute(ClientUI ui, Connection connection) {
-		CardRackGui rack = ui.<GamePanelUI>getPanel().getContent().getCardRackUI();
-		if (add) {
-			rack.onCardAdded(card);
-		} else {
-			rack.onCardRemoved(card);
+		synchronized (ui) {
+			PlayerComplete player = ui.<GamePanelUI>getPanel().getContent().getSelf();
+			if (add) {
+				player.addCard(card);
+			} else {
+				player.removeCardFromHand(card);
+			}
 		}
 	}
 

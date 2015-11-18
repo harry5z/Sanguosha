@@ -27,7 +27,7 @@ import core.Constants;
  * @author Harry
  *
  */
-public class PlayerGui extends JButton {
+public class PlayerGui extends JButton implements Activatable {
 
 	private static final long serialVersionUID = 7793033583166480640L;
 
@@ -39,7 +39,7 @@ public class PlayerGui extends JButton {
 	private static final int EQUIPMENTBAR_HEIGHT = 20;
 	private static final int CARDCOUNT_HEIGHT = 20;
 	private PlayerSimple player;
-	private boolean selected = false;
+	private boolean activated = false;
 
 	public PlayerGui(PlayerSimple player, GamePanel panel) {
 		this.player = player;
@@ -75,13 +75,24 @@ public class PlayerGui extends JButton {
 		addActionListener(e -> panel.getCurrentOperation().onPlayerClicked(this));
 	}
 
+	@Override
+	public void setActivatable(boolean activatable) {
+		setEnabled(activatable);
+	}
+	
+	@Override
+	public void setActivated(boolean activated) {
+		this.activated = activated;
+		repaint();
+	}
+	
 	protected void select() {
-		selected = true;
+		activated = true;
 		repaint();
 	}
 
 	protected void unselect() {
-		selected = false;
+		activated = false;
 		repaint();
 	}
 
@@ -256,11 +267,15 @@ public class PlayerGui extends JButton {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		if (selected)
+		if (activated)
 			g.setColor(Color.RED);
 		else
 			g.setColor(Color.BLACK);
 		((Graphics2D) g).setStroke(new BasicStroke(Constants.BORDER_WIDTH));
 		g.drawRect(0, 0, WIDTH, HEIGHT);
+	}
+
+	public void showCountdownBar() {
+		// TODO implement (countdown bar)
 	}
 }

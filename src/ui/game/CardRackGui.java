@@ -54,6 +54,7 @@ public class CardRackGui extends JPanel implements CardOnHandListener {
 		cardGui.setEnabled(enabled);
 		cardGui.addActionListener(listener);
 		cards.add(cardGui);
+		System.out.println(" Add card, size " + cards.size());
 		add(cardGui, 0);
 		resetLocations();
 		repaint();
@@ -117,6 +118,11 @@ public class CardRackGui extends JPanel implements CardOnHandListener {
 		for (int i = 0; i < size; i++) {
 			cards.get(i).setLocation(i * stepLength, 0);
 		}
+	}
+
+	public List<CardGui> getCardUIs() {
+		System.out.println("size" + cards.size());
+		return cards;
 	}
 
 }

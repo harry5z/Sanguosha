@@ -4,8 +4,8 @@ import player.PlayerComplete;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
 import cards.equipments.shields.Shield;
-import core.Game;
 import core.PlayerInfo;
+import core.server.Game;
 
 public class Unequip extends Command
 {

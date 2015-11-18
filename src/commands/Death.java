@@ -6,8 +6,8 @@ import java.util.List;
 import player.PlayerComplete;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
-import core.Game;
 import core.PlayerInfo;
+import core.server.Game;
 
 /**
  * Death update

@@ -6,8 +6,8 @@ import java.util.List;
 import player.PlayerComplete;
 import cards.Card;
 import cards.equipments.Equipment;
-import core.Game;
 import core.PlayerInfo;
+import core.server.Game;
 
 public class DisposalOfEquipment extends Command
 {

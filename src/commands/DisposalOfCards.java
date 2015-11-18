@@ -6,8 +6,8 @@ import java.util.Random;
 
 import player.PlayerComplete;
 import cards.Card;
-import core.Game;
 import core.PlayerInfo;
+import core.server.Game;
 
 public class DisposalOfCards extends Command
 {

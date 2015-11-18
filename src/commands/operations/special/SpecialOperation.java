@@ -1,11 +1,11 @@
 package commands.operations.special;
 
 import commands.Command;
-import commands.operations.Operation;
 import player.PlayerComplete;
 import cards.Card;
-import core.Game;
 import core.PlayerInfo;
+import core.client.game.operations.Operation;
+import core.server.Game;
 
 public abstract class SpecialOperation extends Operation
 {

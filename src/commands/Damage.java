@@ -8,8 +8,8 @@ import commands.operations.NearDeathOperation;
 import player.PlayerComplete;
 import cards.Card;
 import cards.equipments.Equipment.EquipmentType;
-import core.Game;
 import core.PlayerInfo;
+import core.server.Game;
 
 /**
  * Damage update
