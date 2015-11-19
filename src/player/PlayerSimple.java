@@ -137,8 +137,8 @@ public class PlayerSimple extends Player {
 	}
 
 	/**
-	 * <li>{@link CardDisposalListener} notified
-	 * 
+	 * <li>{@link CardDisposalListener} notified</li>
+	 * <li>{@link CardOnHandListener} notified</li>
 	 * @param card
 	 */
 	@Override

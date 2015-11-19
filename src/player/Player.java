@@ -208,7 +208,8 @@ public abstract class Player
 
 	public abstract void useCard(Card card);
 	/**
-	 * <li>{@link CardOnHandListener} notified
+	 * <li>{@link CardOnHandListener} notified</li>
+	 * <li>{@link CardDisposalListener} notified</li>
 	 * @param cards
 	 */
 	public void useCards(Collection<Card> cards)
@@ -219,7 +220,9 @@ public abstract class Player
 
 	public abstract void discardCard(Card card);
 	/**
-	 * <li>{@link CardDisposalListener} notified
+	 * <li>{@link CardDisposalListener} notified</li>
+	 * <li>{@link CardOnHandListener} notified</li>
+	 * 
 	 * @param cards
 	 */
 	public void discardCards(Collection<Card> cards)

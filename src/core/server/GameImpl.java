@@ -12,6 +12,7 @@ import core.PlayerInfo;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.TurnGameController;
 import heroes.original.Blank;
+import listeners.server.ServerInGameCardDisposalListener;
 import listeners.server.ServerInGameCardOnHandListener;
 import listeners.server.ServerInGameEquipmentListener;
 import listeners.server.ServerInGameHealthListener;
@@ -77,9 +78,10 @@ public class GameImpl implements Game {
 	@Override
 	public PlayerComplete getNextPlayerAlive(PlayerComplete current) {
 		int pos = current.getPosition();
-		for (int i = pos + 1; i != pos; i = (i + 1) % players.size()) {
-			if (players.get(i).isAlive())
+		for (int i = (pos + 1) % players.size(); i != pos; i = (i + 1) % players.size()) {
+			if (players.get(i).isAlive()) {
 				return players.get(i);
+			}
 		}
 		throw new RuntimeException("Can't find next player alive");// should not reach here
 	}
@@ -103,6 +105,7 @@ public class GameImpl implements Game {
 			player.registerCardOnHandListener(new ServerInGameCardOnHandListener(player.getName(), playerNames, room));
 			player.registerEquipmentListener(new ServerInGameEquipmentListener(player.getName(), playerNames, room));
 			player.registerHealthListener(new ServerInGameHealthListener(player.getName(), playerNames, room));
+			player.registerCardDisposalListener(new ServerInGameCardDisposalListener(player.getName(), playerNames, room));
 			player.setHero(new Blank()); // no heroes now..
 		}
 		this.controllers.push(new TurnGameController(room));
@@ -127,11 +130,11 @@ public class GameImpl implements Game {
 		player.addCards(deck.drawMany(amount));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public GameController getGameController() {
-		return controllers.peek();
+	public <T extends GameController> T getGameController() {
+		return (T) controllers.peek();
 	}
-
 	@Override
 	public void pushGameController(GameController controller) {
 		// TODO checks and stuff?

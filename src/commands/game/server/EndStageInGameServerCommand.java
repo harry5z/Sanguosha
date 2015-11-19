@@ -9,7 +9,7 @@ public class EndStageInGameServerCommand extends InGameServerCommand {
 
 	@Override
 	public void execute(Game game) {
-		((TurnGameController) game.getGameController()).nextStage();
+		game.<TurnGameController>getGameController().nextStage();
 		game.getGameController().proceed();
 	}
 

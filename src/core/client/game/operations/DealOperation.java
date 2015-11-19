@@ -14,6 +14,12 @@ public class DealOperation implements Operation {
 	
 	@Override
 	public void onEnded() {
+		GamePanelUI panelUI = panel.getContent();
+		panelUI.setEndEnabled(false);
+		for(CardGui cardUI : panelUI.getCardRackUI().getCardUIs()) {
+			cardUI.setActivatable(false);
+		}
+		// resetting weapon/skills, etc.
 		panel.getChannel().send(new EndStageInGameServerCommand());
 	}
 	
@@ -38,6 +44,7 @@ public class DealOperation implements Operation {
 				cardUI.setActivatable(true);
 			}
 		}
+		panelUI.setEndEnabled(true);
 		// if (player.getWeapon()...) check weapon use
 		// skills
 	}

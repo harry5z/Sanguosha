@@ -23,8 +23,9 @@ public class ServerInGameCardOnHandListener extends ServerInGamePlayerListener i
 
 	@Override
 	public void onCardRemoved(Card card) {
-		room.sendCommandToPlayer(name, new UpdatePlayerCardGameClientCommand(card, false));
-		room.sendCommandToPlayers(otherNames.stream().collect(Collectors.toMap(n -> n, n -> new UpdateOtherPlayerCardGameClientCommand(name, false, 1))));
+		// server side calling disposal results in double removal of a card, this is hacky
+//		room.sendCommandToPlayer(name, new UpdatePlayerCardGameClientCommand(card, false));
+//		room.sendCommandToPlayers(otherNames.stream().collect(Collectors.toMap(n -> n, n -> new UpdateOtherPlayerCardGameClientCommand(name, false, 1))));
 	}
 
 }

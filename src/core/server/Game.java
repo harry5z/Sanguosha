@@ -33,7 +33,7 @@ public interface Game {
 	
 	public PlayerComplete getNextPlayerAlive(PlayerComplete current);
 	
-	public GameController getGameController();
+	public <T extends GameController> T getGameController();
 	
 	public void pushGameController(GameController controller);
 

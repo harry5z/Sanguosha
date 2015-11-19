@@ -3,6 +3,7 @@ package core.server.game.controllers;
 import java.util.stream.Collectors;
 
 import commands.game.client.DealStartGameClientCommmand;
+import commands.game.client.DiscardGameClientCommand;
 import core.TurnStage;
 import core.server.Game;
 import net.server.GameRoom;
@@ -27,6 +28,10 @@ public class TurnGameController implements GameController {
 		if (currentStage == TurnStage.DEAL_BEGINNING) {
 			currentPlayer = game.getNextPlayerAlive(currentPlayer);
 		}
+	}
+	
+	public PlayerComplete getCurrentPlayer() {
+		return currentPlayer;
 	}
 	
 	@Override
@@ -73,13 +78,37 @@ public class TurnGameController implements GameController {
 				);
 				return;
 			case DISCARD_BEGINNING:
-				break;
+				currentStage = currentStage.nextStage();
+				proceed();
+				return;
 			case DISCARD:
-				break;
+				int amount = currentPlayer.getHandCount() - currentPlayer.getCardOnHandLimit();
+				if (amount > 0) {
+					room.sendCommandToPlayers(
+						game.getPlayersInfo().stream().collect(
+							Collectors.toMap(
+								info -> info.getName(), 
+								info -> new DiscardGameClientCommand(currentPlayer.getPlayerInfo(), amount)
+							)
+						)
+					);
+				} else {
+					for (PlayerComplete player : game.getPlayers()) {
+						player.clearDisposalArea();
+					}
+					currentStage = currentStage.nextStage();
+					proceed();
+				}
+				return;
 			case DISCARD_END:
-				break;
+				currentStage = currentStage.nextStage();
+				proceed();
+				return;
 			case END:
-				break;
+				currentStage = currentStage.nextStage();
+				currentPlayer = game.getNextPlayerAlive(currentPlayer);
+				proceed();
+				return;
 			default:
 				break;
 		}

@@ -2,8 +2,6 @@ package net.client;
 
 import javax.swing.JPanel;
 
-import core.client.game.operations.Operation;
-
 /**
  * @author Harry
  *

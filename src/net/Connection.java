@@ -6,7 +6,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import utils.Log;
-import commands.Command;
 
 /**
  * This class includes information about a single client-server connection. For
