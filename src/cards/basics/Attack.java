@@ -6,10 +6,9 @@ import core.client.game.operations.Operation;
 import player.PlayerComplete;
 
 public class Attack extends Basic {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 4346640648436436523L;
+	
 	private Element element;// Normal, Fire, Thunder
 
 	public static final String ATTACK = "Attack";
@@ -27,12 +26,16 @@ public class Attack extends Basic {
 
 	@Override
 	public String getName() {
-		if (element == Element.NORMAL)
-			return ATTACK;
-		else if (element == Element.FIRE)
-			return FIRE_ATTACK;
-		else
-			return THUNDER_ATTACK;
+		switch (element) {
+			case FIRE:
+				return FIRE_ATTACK;
+			case NORMAL:
+				return ATTACK;
+			case THUNDER:
+				return THUNDER_ATTACK;
+			default:
+				return null;
+		}
 	}
 
 	@Override

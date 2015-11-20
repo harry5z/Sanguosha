@@ -103,7 +103,7 @@ public class GameImpl implements Game {
 		);
 		for (PlayerComplete player : players) {
 			player.registerCardOnHandListener(new ServerInGameCardOnHandListener(player.getName(), playerNames, room));
-			player.registerEquipmentListener(new ServerInGameEquipmentListener(player.getName(), playerNames, room));
+			player.registerEquipmentListener(new ServerInGameEquipmentListener(player, playerNames, room));
 			player.registerHealthListener(new ServerInGameHealthListener(player.getName(), playerNames, room));
 			player.registerCardDisposalListener(new ServerInGameCardDisposalListener(player.getName(), playerNames, room));
 			player.setHero(new Blank()); // no heroes now..
@@ -139,6 +139,11 @@ public class GameImpl implements Game {
 	public void pushGameController(GameController controller) {
 		// TODO checks and stuff?
 		controllers.push(controller);
+	}
+	
+	@Override
+	public void popGameController() {
+		controllers.pop();
 	}
 
 }

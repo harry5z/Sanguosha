@@ -36,6 +36,8 @@ public interface Game {
 	public <T extends GameController> T getGameController();
 	
 	public void pushGameController(GameController controller);
+	
+	public void popGameController();
 
 	public Deck getDeck();
 }

@@ -2,8 +2,8 @@ package core.server.game.controllers;
 
 import java.util.stream.Collectors;
 
-import commands.game.client.DealStartGameClientCommmand;
-import commands.game.client.DiscardGameClientCommand;
+import commands.game.client.DealStartGameUIClientCommmand;
+import commands.game.client.DiscardGameUIClientCommand;
 import core.TurnStage;
 import core.server.Game;
 import net.server.GameRoom;
@@ -72,7 +72,7 @@ public class TurnGameController implements GameController {
 					game.getPlayersInfo().stream().collect(
 						Collectors.toMap(
 							info -> info.getName(), 
-							info -> new DealStartGameClientCommmand(currentPlayer.getPlayerInfo())
+							info -> new DealStartGameUIClientCommmand(currentPlayer.getPlayerInfo())
 						)
 					)
 				);
@@ -88,7 +88,7 @@ public class TurnGameController implements GameController {
 						game.getPlayersInfo().stream().collect(
 							Collectors.toMap(
 								info -> info.getName(), 
-								info -> new DiscardGameClientCommand(currentPlayer.getPlayerInfo(), amount)
+								info -> new DiscardGameUIClientCommand(currentPlayer.getPlayerInfo(), amount)
 							)
 						)
 					);

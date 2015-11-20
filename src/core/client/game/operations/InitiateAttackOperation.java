@@ -1,7 +1,9 @@
 package core.client.game.operations;
 
+import commands.game.server.InitiateAttackGameServerCommand;
 import core.PlayerInfo;
 import net.client.GamePanel;
+import player.PlayerComplete;
 import ui.game.Activatable;
 import ui.game.CardGui;
 import ui.game.GamePanelUI;
@@ -50,14 +52,21 @@ public class InitiateAttackOperation implements Operation {
 	public void onCanceled() {
 		if (targetUI != null) {
 			targetUI.setActivated(false);
+			panel.getContent().setConfirmEnabled(false);
 		}
+		for (PlayerGui other : panel.getContent().getOtherPlayers()) {
+			other.setActivatable(false);
+		}
+		panel.getContent().setCancelEnabled(false);
 		activator.setActivated(false);
 		panel.popOperation();
 	}
 	
 	@Override
 	public void onConfirmed() {
-		panel.getChannel().send(null); // TODO
+		onCanceled();
+		panel.getCurrentOperation().onConfirmed();
+		panel.getChannel().send(new InitiateAttackGameServerCommand(source, targetUI.getPlayer().getPlayerInfo(), ((CardGui) activator).getCard()));
 	}
 
 	@Override
@@ -65,7 +74,13 @@ public class InitiateAttackOperation implements Operation {
 		this.activator = activator;
 		this.panel = panel;
 		GamePanelUI panelUI = panel.getContent();
-		this.source = panelUI.getSelf().getPlayerInfo();
+		PlayerComplete self = panelUI.getSelf();
+		this.source = self.getPlayerInfo();
+		for (PlayerGui other : panelUI.getOtherPlayers()) {
+			if (self.isPlayerInRange(other.getPlayer(), panelUI.getNumberOfPlayers())) {
+				other.setActivatable(true);
+			}
+		}
 		panelUI.setCancelEnabled(true);
 	}
 

@@ -14,13 +14,27 @@ public class DealOperation implements Operation {
 	
 	@Override
 	public void onEnded() {
+		onConfirmed();
+		// resetting weapon/skills, etc.
+		panel.getChannel().send(new EndStageInGameServerCommand());
+	}
+	
+	/**
+	 * <p>{@inheritDoc}</p>
+	 * 
+	 * <p>
+	 * Deal itself will not enable confirm button,
+	 * but other operations may, so this is a way to
+	 * clean up the UI changes made by Deal operation
+	 * </p>
+	 */
+	@Override
+	public void onConfirmed() {
 		GamePanelUI panelUI = panel.getContent();
 		panelUI.setEndEnabled(false);
 		for(CardGui cardUI : panelUI.getCardRackUI().getCardUIs()) {
 			cardUI.setActivatable(false);
 		}
-		// resetting weapon/skills, etc.
-		panel.getChannel().send(new EndStageInGameServerCommand());
 	}
 	
 	@Override

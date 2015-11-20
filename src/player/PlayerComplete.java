@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cards.Card;
-import cards.Card.CardType;
 import commands.Stage;
-import core.PlayerInfo;
 import core.client.game.operations.Operation;
 import core.server.game.controllers.GameController;
 import listeners.game.GameListener;
-import net.client.Connector;
 
 /**
  * client side complete implementation of player, used as player himself
@@ -29,12 +26,8 @@ public class PlayerComplete extends PlayerSimple
 	
 	private GameListener gameListener;
 	//private settings
-	private Stage currentStage;
-		
 		
 	//in-game interactive properties
-	private Card cardActivated;
-	private Operation operation;
 	private List<Card> cardsUsedThisTurn;
 	public PlayerComplete(String name, int position) {
 		super(name, position);
@@ -47,11 +40,6 @@ public class PlayerComplete extends PlayerSimple
 
 		cardsUsedThisTurn = new ArrayList<Card>();
 		//init in-game interactive properties
-		cardActivated = null;
-
-		currentStage = null;
-		operation = null;
-		
 		attackLimit = 1;
 		attackUsed = 0;
 		wineLimit = 1;
@@ -107,15 +95,6 @@ public class PlayerComplete extends PlayerSimple
 		cardsOnHand.remove(card);
 	}
 
-	//************** methods related to properties ***************
-	public void setCurrentStage(Stage update)
-	{
-		currentStage = update;
-	}
-	public Stage getCurrentStage()
-	{
-		return currentStage;
-	}
 //	//**************** methods related to game flow ***************
 //	/**
 //	 * <li>{@link GameListener} notified

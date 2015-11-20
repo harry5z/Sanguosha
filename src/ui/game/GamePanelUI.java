@@ -108,8 +108,16 @@ public class GamePanelUI extends JPanel implements GameListener {
 		return heroGui;
 	}
 	
+	public List<PlayerGui> getOtherPlayers() {
+		return otherPlayers;
+	}
+	
 	public PlayerComplete getSelf() {
 		return myself;
+	}
+	
+	public int getNumberOfPlayers() {
+		return otherPlayers.size() + 1;
 	}
 	
 	public synchronized PlayerGui getOtherPlayerUI(PlayerInfo other) {

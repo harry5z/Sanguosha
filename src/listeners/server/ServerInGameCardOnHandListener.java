@@ -7,7 +7,7 @@ import listeners.game.CardOnHandListener;
 import net.server.GameRoom;
 import cards.Card;
 
-import commands.game.client.UpdateOtherPlayerCardGameClientCommand;
+import commands.game.client.UpdateOtherPlayerCardGameUIClientCommand;
 import commands.game.client.UpdatePlayerCardGameClientCommand;
 
 public class ServerInGameCardOnHandListener extends ServerInGamePlayerListener implements CardOnHandListener {
@@ -18,7 +18,7 @@ public class ServerInGameCardOnHandListener extends ServerInGamePlayerListener i
 	@Override
 	public void onCardAdded(Card card) {
 		room.sendCommandToPlayer(name, new UpdatePlayerCardGameClientCommand(card, true));
-		room.sendCommandToPlayers(otherNames.stream().collect(Collectors.toMap(n -> n, n -> new UpdateOtherPlayerCardGameClientCommand(name, true, 1))));
+		room.sendCommandToPlayers(otherNames.stream().collect(Collectors.toMap(n -> n, n -> new UpdateOtherPlayerCardGameUIClientCommand(name, true, 1))));
 	}
 
 	@Override
