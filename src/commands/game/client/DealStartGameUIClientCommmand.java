@@ -17,7 +17,7 @@ public class DealStartGameUIClientCommmand extends GameUIClientCommand {
 	@Override
 	public void execute(GamePanel panel) {
 		GamePanelUI panelUI = panel.getContent();
-		if (panelUI.getSelf().equals(currentPlayer)) {
+		if (panelUI.getSelf().getPlayerInfo().equals(currentPlayer)) {
 			panel.pushOperation(new DealOperation(), null);
 		} else {
 			panelUI.getOtherPlayerUI(currentPlayer).showCountdownBar();

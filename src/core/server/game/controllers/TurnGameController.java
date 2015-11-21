@@ -6,14 +6,16 @@ import commands.game.client.DealStartGameUIClientCommmand;
 import commands.game.client.DiscardGameUIClientCommand;
 import core.TurnStage;
 import core.server.Game;
+import exceptions.server.game.InvalidPlayerCommandException;
 import net.server.GameRoom;
 import player.PlayerComplete;
+import player.PlayerCompleteServer;
 
 public class TurnGameController implements GameController {
 
 	private final GameRoom room;
 	private final Game game;
-	private PlayerComplete currentPlayer;
+	private PlayerCompleteServer currentPlayer;
 	private TurnStage currentStage;
 	
 	public TurnGameController(GameRoom room) {
@@ -24,10 +26,27 @@ public class TurnGameController implements GameController {
 	}
 	
 	public void nextStage() {
-		currentStage = currentStage.nextStage();
-		if (currentStage == TurnStage.DEAL_BEGINNING) {
-			currentPlayer = game.getNextPlayerAlive(currentPlayer);
+		switch (currentStage) {
+			case END:
+				currentPlayer = game.getNextPlayerAlive(currentPlayer);
+				while (currentPlayer.isFlipped()) {
+					currentPlayer.flip();
+					currentPlayer = game.getNextPlayerAlive(currentPlayer);
+				}
+				break;
+			case DEAL:
+				try {
+					currentPlayer.setWineUsed(0);
+					currentPlayer.setAttackUsed(0);
+				} catch (InvalidPlayerCommandException e) {
+					e.printStackTrace();
+				}
+				break;
+			default:
+				break;
 		}
+		currentStage = currentStage.nextStage();
+		proceed();
 	}
 	
 	public PlayerComplete getCurrentPlayer() {
@@ -36,7 +55,7 @@ public class TurnGameController implements GameController {
 	
 	@Override
 	public void proceed() {
-		for (PlayerComplete player : game.getPlayers()) {
+		for (PlayerCompleteServer player : game.getPlayers()) {
 			if (player.makeAction(this)) {
 				return;
 			}
@@ -68,6 +87,7 @@ public class TurnGameController implements GameController {
 				proceed();
 				return;
 			case DEAL:
+				System.out.println(currentPlayer.getPlayerInfo());
 				room.sendCommandToPlayers(
 					game.getPlayersInfo().stream().collect(
 						Collectors.toMap(
@@ -107,6 +127,10 @@ public class TurnGameController implements GameController {
 			case END:
 				currentStage = currentStage.nextStage();
 				currentPlayer = game.getNextPlayerAlive(currentPlayer);
+				while (currentPlayer.isFlipped()) {
+					currentPlayer.flip();
+					currentPlayer = game.getNextPlayerAlive(currentPlayer);
+				}
 				proceed();
 				return;
 			default:
@@ -119,7 +143,7 @@ public class TurnGameController implements GameController {
 		this.currentStage = stage;
 	}
 	
-	public void setCurrentPlayer(PlayerComplete player) {
+	public void setCurrentPlayer(PlayerCompleteServer player) {
 		this.currentPlayer = player;
 	}
 

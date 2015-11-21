@@ -12,8 +12,9 @@ import cards.Card;
 import core.PlayerInfo;
 import heroes.original.Blank;
 import listeners.game.GameListener;
+import listeners.game.client.ClientPlayerStatusListener;
 import net.client.GamePanel;
-import player.PlayerComplete;
+import player.PlayerCompleteClient;
 import player.PlayerSimple;
 
 public class GamePanelUI extends JPanel implements GameListener {
@@ -30,7 +31,7 @@ public class GamePanelUI extends JPanel implements GameListener {
 	private CardSelectionPane pane;
 	private JPanel customizedPanel;
 
-	private PlayerComplete myself;
+	private PlayerCompleteClient myself;
 	private List<PlayerGui> otherPlayers;
 	private ButtonGui confirm;
 	private ButtonGui cancel;
@@ -44,7 +45,7 @@ public class GamePanelUI extends JPanel implements GameListener {
 	public GamePanelUI(PlayerInfo player, GamePanel panel) {
 		this.panel = panel;
 		setLayout(null);
-		myself = new PlayerComplete(player.getName(), player.getPosition());
+		myself = new PlayerCompleteClient(player.getName(), player.getPosition());
 
 		cardRack = new CardRackGui(panel);
 		equipmentRack = new EquipmentRackGui(panel);
@@ -65,6 +66,7 @@ public class GamePanelUI extends JPanel implements GameListener {
 		myself.registerEquipmentListener(equipmentRack);
 		myself.registerHealthListener(healthGui);
 		myself.registerCardDisposalListener(disposalGui);
+		myself.registerPlayerStatusListener(new ClientPlayerStatusListener(this));
 		myself.setHero(new Blank());// change in the future
 		healthGui.onSetHealthLimit(myself.getHero().getHealthLimit()); // change in the future
 		healthGui.onSetHealthCurrent(myself.getHero().getHealthLimit()); // change in the future
@@ -112,7 +114,7 @@ public class GamePanelUI extends JPanel implements GameListener {
 		return otherPlayers;
 	}
 	
-	public PlayerComplete getSelf() {
+	public PlayerCompleteClient getSelf() {
 		return myself;
 	}
 	
@@ -123,6 +125,15 @@ public class GamePanelUI extends JPanel implements GameListener {
 	public synchronized PlayerGui getOtherPlayerUI(PlayerInfo other) {
 		for (PlayerGui ui : otherPlayers) {
 			if (ui.getPlayer().getPlayerInfo().equals(other)) {
+				return ui;
+			}
+		}
+		throw new RuntimeException("No Other player ui found");
+	}
+	
+	public synchronized PlayerGui getOtherPlayerUI(String name) {
+		for (PlayerGui ui : otherPlayers) {
+			if (ui.getPlayer().getPlayerInfo().getName().equals(name)) {
 				return ui;
 			}
 		}

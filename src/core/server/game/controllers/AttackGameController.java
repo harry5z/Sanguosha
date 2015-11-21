@@ -7,6 +7,7 @@ import cards.basics.Dodge;
 import commands.game.client.RequestDodgeGameUIClientCommand;
 import core.PlayerInfo;
 import core.server.Game;
+import exceptions.server.game.InvalidPlayerCommandException;
 import net.server.GameRoom;
 import player.PlayerComplete;
 
@@ -60,8 +61,17 @@ public class AttackGameController implements GameController {
 		if (!(card instanceof Dodge) || !target.getCardsOnHand().contains(card)) {
 			throw new RuntimeException("Card is not dodge or target does not have this card");
 		}
-		target.useCard(card);
-		target.useAttack();
+		try {
+			target.useCard(card);
+		} catch (InvalidPlayerCommandException e) {
+			try {
+				target.setAttackUsed(target.getAttackUsed() - 1);
+			} catch (InvalidPlayerCommandException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			return;
+		}
 		stage = AttackStage.AFTER_USING_DODGE;
 		proceed();
 	}

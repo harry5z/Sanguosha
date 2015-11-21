@@ -1,4 +1,4 @@
-package listeners.server;
+package listeners.game.server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import cards.Card;
 import commands.game.client.GameClientCommand;
 import core.Deck;
+import exceptions.server.game.InvalidPlayerCommandException;
 import listeners.game.CardDisposalListener;
 import net.server.GameRoom;
 import ui.game.GamePanelUI;
@@ -29,14 +30,26 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 		this.cards.add(card);
 		room.sendCommandToPlayer(
 			name, 
-			(ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getSelf().useCard(card)
+			(ui, connection) -> {
+				try {
+					ui.<GamePanelUI>getPanel().getContent().getSelf().useCard(card);
+				} catch (InvalidPlayerCommandException e) {
+					e.printStackTrace();
+				}
+			}
 		);
 		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
 			otherNames.stream().collect(
 				Collectors.toMap(
 					n -> n, 
-					n -> ((ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).useCard(card))
+					n -> ((ui, connection) -> {
+						try {
+							ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).useCard(card);
+						} catch (InvalidPlayerCommandException e) {
+							e.printStackTrace();
+						}
+					})
 				)
 			)
 		);
@@ -47,14 +60,26 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 		this.cards.add(card);
 		room.sendCommandToPlayer(
 			name, 
-			(ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getSelf().discardCard(card)
+			(ui, connection) -> {
+				try {
+					ui.<GamePanelUI>getPanel().getContent().getSelf().discardCard(card);
+				} catch (InvalidPlayerCommandException e) {
+					e.printStackTrace();
+				}
+			}
 		);
 		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
 			otherNames.stream().collect(
 				Collectors.toMap(
 					n -> n, 
-					n -> ((ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).discardCard(card))
+					n -> ((ui, connection) -> {
+						try {
+							ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).discardCard(card);
+						} catch (InvalidPlayerCommandException e) {
+							e.printStackTrace();
+						}
+					})
 				)
 			)
 		);		

@@ -20,7 +20,7 @@ public class DiscardGameUIClientCommand extends GameUIClientCommand {
 	@Override
 	public void execute(GamePanel panel) {
 		GamePanelUI panelUI = panel.getContent();
-		if (panelUI.getSelf().equals(currentPlayer)) {
+		if (panelUI.getSelf().getPlayerInfo().equals(currentPlayer)) {
 			panel.pushOperation(new DiscardOperation(amount), null);
 		} else {
 			panelUI.getOtherPlayerUI(currentPlayer).showCountdownBar();

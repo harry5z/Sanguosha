@@ -1,4 +1,4 @@
-package listeners.server;
+package listeners.game.server;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -6,9 +6,8 @@ import java.util.stream.Collectors;
 import listeners.game.CardOnHandListener;
 import net.server.GameRoom;
 import cards.Card;
-
-import commands.game.client.UpdateOtherPlayerCardGameUIClientCommand;
-import commands.game.client.UpdatePlayerCardGameClientCommand;
+import commands.game.client.sync.SyncOtherPlayerCardGameUIClientCommand;
+import commands.game.client.sync.SyncPlayerCardGameClientCommand;
 
 public class ServerInGameCardOnHandListener extends ServerInGamePlayerListener implements CardOnHandListener {
 
@@ -17,8 +16,15 @@ public class ServerInGameCardOnHandListener extends ServerInGamePlayerListener i
 	}
 	@Override
 	public void onCardAdded(Card card) {
-		room.sendCommandToPlayer(name, new UpdatePlayerCardGameClientCommand(card, true));
-		room.sendCommandToPlayers(otherNames.stream().collect(Collectors.toMap(n -> n, n -> new UpdateOtherPlayerCardGameUIClientCommand(name, true, 1))));
+		room.sendCommandToPlayer(name, new SyncPlayerCardGameClientCommand(card, true));
+		room.sendCommandToPlayers(
+			otherNames.stream().collect(
+				Collectors.toMap(
+					n -> n, 
+					n -> new SyncOtherPlayerCardGameUIClientCommand(name, true, 1)
+				)
+			)
+		);
 	}
 
 	@Override

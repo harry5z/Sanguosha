@@ -1,6 +1,6 @@
 package core.client.game.operations;
 
-import listeners.client.PlayerActionListener;
+import listeners.game.client.PlayerActionListener;
 import net.client.GamePanel;
 import ui.game.Activatable;
 /**

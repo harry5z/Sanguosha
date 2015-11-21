@@ -1,11 +1,13 @@
-package commands.game.client;
+package commands.game.client.sync;
 
 import java.util.Collections;
 
+import commands.game.client.GameUIClientCommand;
+import exceptions.server.game.InvalidPlayerCommandException;
 import net.client.GamePanel;
 import player.PlayerSimple;
 
-public class UpdateOtherPlayerCardGameUIClientCommand extends GameUIClientCommand {
+public class SyncOtherPlayerCardGameUIClientCommand extends GameUIClientCommand {
 
 	private static final long serialVersionUID = 7418973417086495080L;
 	
@@ -13,7 +15,7 @@ public class UpdateOtherPlayerCardGameUIClientCommand extends GameUIClientComman
 	private final boolean add;
 	private final int amount;
 	
-	public UpdateOtherPlayerCardGameUIClientCommand(String name, boolean add, int amount) {
+	public SyncOtherPlayerCardGameUIClientCommand(String name, boolean add, int amount) {
 		this.name = name;
 		this.add = add;
 		this.amount = amount;
@@ -26,7 +28,11 @@ public class UpdateOtherPlayerCardGameUIClientCommand extends GameUIClientComman
 			player.addCards(Collections.nCopies(amount, null));
 		} else {
 			for (int i = 0; i < amount; i++) {
-				player.removeCardFromHand(null);
+				try {
+					player.removeCardFromHand(null);
+				} catch (InvalidPlayerCommandException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

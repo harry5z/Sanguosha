@@ -5,6 +5,7 @@ import java.util.List;
 import cards.Card;
 import core.server.Game;
 import core.server.game.controllers.TurnGameController;
+import exceptions.server.game.InvalidPlayerCommandException;
 
 public class DiscardGameServerCommand extends InGameServerCommand {
 
@@ -18,7 +19,12 @@ public class DiscardGameServerCommand extends InGameServerCommand {
 
 	@Override
 	public void execute(Game game) {
-		game.<TurnGameController>getGameController().getCurrentPlayer().discardCards(cards);
+		try {
+			game.<TurnGameController>getGameController().getCurrentPlayer().discardCards(cards);
+		} catch (InvalidPlayerCommandException e) {
+			e.printStackTrace();
+			return;
+		}
 		game.<TurnGameController>getGameController().proceed();
 	}
 

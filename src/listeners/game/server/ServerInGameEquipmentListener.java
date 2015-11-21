@@ -1,4 +1,4 @@
-package listeners.server;
+package listeners.game.server;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
 import core.Deck;
+import exceptions.server.game.InvalidPlayerCommandException;
 import listeners.game.EquipmentListener;
 import net.server.GameRoom;
 import player.PlayerComplete;
@@ -30,14 +31,26 @@ public class ServerInGameEquipmentListener extends ServerInGamePlayerListener im
 		}
 		room.sendCommandToPlayer(
 			name, 
-			(ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getSelf().equip(equipment)
+			(ui, connection) -> {
+				try {
+					ui.<GamePanelUI>getPanel().getContent().getSelf().equip(equipment);
+				} catch (InvalidPlayerCommandException e) {
+					e.printStackTrace();
+				}
+			}
 		);
 		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
 			otherNames.stream().collect(
 				Collectors.toMap(
 					n -> n, 
-					n -> ((ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).equip(equipment))
+					n -> ((ui, connection) -> {
+						try {
+							ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).equip(equipment);
+						} catch (InvalidPlayerCommandException e) {
+							e.printStackTrace();
+						}
+					})
 				)
 			)
 		);
@@ -48,14 +61,26 @@ public class ServerInGameEquipmentListener extends ServerInGamePlayerListener im
 		deck.discard(player.getEquipment(type));
 		room.sendCommandToPlayer(
 			name,
-			(ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getSelf().unequip(type)
+			(ui, connection) -> {
+				try {
+					ui.<GamePanelUI>getPanel().getContent().getSelf().unequip(type);
+				} catch (InvalidPlayerCommandException e) {
+					e.printStackTrace();
+				}
+			}
 		);
 		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
 			otherNames.stream().collect(
 				Collectors.toMap(
 					n -> n, 
-					n -> ((ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).unequip(type))
+					n -> ((ui, connection) -> {
+						try {
+							ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).unequip(type);
+						} catch (InvalidPlayerCommandException e) {
+							e.printStackTrace();
+						}
+					})
 				)
 			)
 		);

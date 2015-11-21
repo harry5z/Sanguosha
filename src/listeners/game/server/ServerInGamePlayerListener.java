@@ -1,4 +1,4 @@
-package listeners.server;
+package listeners.game.server;
 
 import java.util.Set;
 import java.util.stream.Collectors;

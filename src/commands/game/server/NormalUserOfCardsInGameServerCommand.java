@@ -5,6 +5,7 @@ import java.util.Set;
 import cards.Card;
 import core.PlayerInfo;
 import core.server.Game;
+import exceptions.server.game.InvalidPlayerCommandException;
 
 public class NormalUserOfCardsInGameServerCommand extends UseOfCardsInGameServerCommand {
 
@@ -16,7 +17,12 @@ public class NormalUserOfCardsInGameServerCommand extends UseOfCardsInGameServer
 
 	@Override
 	public void execute(Game game) {
-		game.findPlayer(getSource()).useCards(getCardsUsed());
+		try {
+			game.findPlayer(getSource()).useCards(getCardsUsed());
+		} catch (InvalidPlayerCommandException e) {
+			e.printStackTrace();
+			return;
+		}
 	}
 
 }

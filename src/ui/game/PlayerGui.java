@@ -278,4 +278,12 @@ public class PlayerGui extends JButton implements Activatable {
 	public void showCountdownBar() {
 		// TODO implement (countdown bar)
 	}
+
+	public void setWineUsed(boolean used) {
+		// TODO implement (ui)
+	}
+
+	public void flip(boolean flipped) {
+		// TODO implement
+	}
 }

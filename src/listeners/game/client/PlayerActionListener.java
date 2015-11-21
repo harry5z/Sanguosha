@@ -1,4 +1,4 @@
-package listeners.client;
+package listeners.game.client;
 
 import ui.game.CardGui;
 import ui.game.EquipmentGui;

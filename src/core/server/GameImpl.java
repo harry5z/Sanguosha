@@ -12,13 +12,14 @@ import core.PlayerInfo;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.TurnGameController;
 import heroes.original.Blank;
-import listeners.server.ServerInGameCardDisposalListener;
-import listeners.server.ServerInGameCardOnHandListener;
-import listeners.server.ServerInGameEquipmentListener;
-import listeners.server.ServerInGameHealthListener;
+import listeners.game.server.ServerInGameCardDisposalListener;
+import listeners.game.server.ServerInGameCardOnHandListener;
+import listeners.game.server.ServerInGameEquipmentListener;
+import listeners.game.server.ServerInGameHealthListener;
+import listeners.game.server.ServerInGamePlayerStatusListener;
 import net.server.GameConfig;
 import net.server.GameRoom;
-import player.PlayerComplete;
+import player.PlayerCompleteServer;
 
 /**
  * The game framework. Currently only the original game
@@ -29,7 +30,7 @@ import player.PlayerComplete;
  *
  */
 public class GameImpl implements Game {
-	private List<PlayerComplete> players;
+	private List<PlayerCompleteServer> players;
 	private Set<String> playerNames;
 	private GameRoom room; // the room where the game is held
 	private Deck deck;// deck, currently only original game deck as well
@@ -41,7 +42,7 @@ public class GameImpl implements Game {
 		this.config = config;
 		this.deck = new Deck(config.getDeckPacks());
 		this.players = playerInfos.stream()
-			.map(info -> new PlayerComplete(info.getName(), info.getPosition()))
+			.map(info -> new PlayerCompleteServer(info.getName(), info.getPosition()))
 			.collect(Collectors.toList());
 
 		this.playerNames = playerInfos.stream().map(info -> info.getName()).collect(Collectors.toSet());
@@ -54,13 +55,13 @@ public class GameImpl implements Game {
 	}
 
 	@Override
-	public List<PlayerComplete> getPlayers() {
+	public List<PlayerCompleteServer> getPlayers() {
 		return players;
 	}
 
 	@Override
-	public PlayerComplete findPlayer(PlayerInfo info) {
-		for (PlayerComplete player : this.players) {
+	public PlayerCompleteServer findPlayer(PlayerInfo info) {
+		for (PlayerCompleteServer player : this.players) {
 			if (player.getName().equals(info.getName())) {
 				return player;
 			}
@@ -70,13 +71,13 @@ public class GameImpl implements Game {
 
 	@Override
 	public void addPlayer(PlayerInfo info) {
-		PlayerComplete player = new PlayerComplete(info.getName(), info.getPosition());
+		PlayerCompleteServer player = new PlayerCompleteServer(info.getName(), info.getPosition());
 		player.setHero(new Blank()); // no heroes now..
 		players.add(player);
 	}
 
 	@Override
-	public PlayerComplete getNextPlayerAlive(PlayerComplete current) {
+	public PlayerCompleteServer getNextPlayerAlive(PlayerCompleteServer current) {
 		int pos = current.getPosition();
 		for (int i = (pos + 1) % players.size(); i != pos; i = (i + 1) % players.size()) {
 			if (players.get(i).isAlive()) {
@@ -101,23 +102,24 @@ public class GameImpl implements Game {
 				)
 			)
 		);
-		for (PlayerComplete player : players) {
+		for (PlayerCompleteServer player : players) {
 			player.registerCardOnHandListener(new ServerInGameCardOnHandListener(player.getName(), playerNames, room));
 			player.registerEquipmentListener(new ServerInGameEquipmentListener(player, playerNames, room));
 			player.registerHealthListener(new ServerInGameHealthListener(player.getName(), playerNames, room));
 			player.registerCardDisposalListener(new ServerInGameCardDisposalListener(player.getName(), playerNames, room));
+			player.registerPlayerStatusListener(new ServerInGamePlayerStatusListener(player.getName(), playerNames, room));
 			player.setHero(new Blank()); // no heroes now..
 		}
 		this.controllers.push(new TurnGameController(room));
-		for (PlayerComplete player : players) {
+		for (PlayerCompleteServer player : players) {
 			player.addCards(deck.drawMany(4));
 		}
 		getGameController().proceed();
 	}
 
 	@Override
-	public PlayerComplete findPlayer(Predicate<PlayerComplete> predicate) {
-		for (PlayerComplete player : this.players) {
+	public PlayerCompleteServer findPlayer(Predicate<PlayerCompleteServer> predicate) {
+		for (PlayerCompleteServer player : this.players) {
 			if (predicate.test(player)) {
 				return player;
 			}
@@ -126,7 +128,7 @@ public class GameImpl implements Game {
 	}
 
 	@Override
-	public void drawCards(PlayerComplete player, int amount) {
+	public void drawCards(PlayerCompleteServer player, int amount) {
 		player.addCards(deck.drawMany(amount));
 	}
 

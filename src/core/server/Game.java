@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import core.Deck;
 import core.PlayerInfo;
 import core.server.game.controllers.GameController;
-import player.PlayerComplete;
+import player.PlayerCompleteServer;
 
 public interface Game {
 	
@@ -21,17 +21,17 @@ public interface Game {
 	 */
 	public List<PlayerInfo> getPlayersInfo();
 	
-	public List<PlayerComplete> getPlayers();
+	public List<PlayerCompleteServer> getPlayers();
 	
-	public void drawCards(PlayerComplete player, int amount);
+	public void drawCards(PlayerCompleteServer player, int amount);
 	
 	public void addPlayer(PlayerInfo player);
 	
-	public PlayerComplete findPlayer(PlayerInfo info);
+	public PlayerCompleteServer findPlayer(PlayerInfo info);
 	
-	public PlayerComplete findPlayer(Predicate<PlayerComplete> predicate);
+	public PlayerCompleteServer findPlayer(Predicate<PlayerCompleteServer> predicate);
 	
-	public PlayerComplete getNextPlayerAlive(PlayerComplete current);
+	public PlayerCompleteServer getNextPlayerAlive(PlayerCompleteServer current);
 	
 	public <T extends GameController> T getGameController();
 	

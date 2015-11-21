@@ -5,6 +5,7 @@ import java.util.Collection;
 import cards.Card;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
+import exceptions.server.game.InvalidPlayerCommandException;
 import heroes.original.HeroOriginal;
 import listeners.game.CardDisposalListener;
 import listeners.game.CardOnHandListener;
@@ -121,9 +122,10 @@ public class PlayerSimple extends Player {
 	 * <li>{@link CardDisposalListener} notified
 	 * 
 	 * @param card
+	 * @throws InvalidPlayerCommandException 
 	 */
 	@Override
-	public void useCard(Card card) {
+	public void useCard(Card card) throws InvalidPlayerCommandException {
 		cardsCount--;
 		cardsOnHandListener.onCardRemoved(card);
 		disposalListener.onCardUsed(card);
@@ -142,7 +144,7 @@ public class PlayerSimple extends Player {
 	 * @param card
 	 */
 	@Override
-	public void discardCard(Card card) {
+	public void discardCard(Card card) throws InvalidPlayerCommandException {
 		cardsCount--;
 		cardsOnHandListener.onCardRemoved(card);
 		disposalListener.onCardDisposed(card);
@@ -178,7 +180,7 @@ public class PlayerSimple extends Player {
 	}
 
 	@Override
-	public void removeCardFromHand(Card card) {
+	public void removeCardFromHand(Card card) throws InvalidPlayerCommandException {
 		cardsCount--;
 		cardsOnHandListener.onCardRemoved(card);
 	}
@@ -188,9 +190,10 @@ public class PlayerSimple extends Player {
 	 * <li>{@link EquipmentListener} notified
 	 * 
 	 * @param type
+	 * @throws InvalidPlayerCommandException 
 	 */
 	@Override
-	public void unequip(EquipmentType type) {
+	public void unequip(EquipmentType type) throws InvalidPlayerCommandException {
 		equipmentListener.onUnequipped(type);
 		super.unequip(type);
 	}
@@ -201,9 +204,10 @@ public class PlayerSimple extends Player {
 	 * 
 	 * @param equipment
 	 *            : new equipment
+	 * @throws InvalidPlayerCommandException 
 	 */
 	@Override
-	public void equip(Equipment equipment) {
+	public void equip(Equipment equipment) throws InvalidPlayerCommandException {
 		super.equip(equipment);
 		equipmentListener.onEquipped(equipment);
 	}

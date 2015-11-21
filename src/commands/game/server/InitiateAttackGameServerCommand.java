@@ -4,8 +4,10 @@ import cards.Card;
 import core.PlayerInfo;
 import core.server.Game;
 import core.server.game.controllers.AttackGameController;
+import exceptions.server.game.InvalidPlayerCommandException;
 import net.Connection;
 import net.server.GameRoom;
+import player.PlayerCompleteServer;
 
 public class InitiateAttackGameServerCommand implements GameServerCommand {
 	
@@ -24,8 +26,24 @@ public class InitiateAttackGameServerCommand implements GameServerCommand {
 	@Override
 	public void execute(GameRoom room, Connection connection) {
 		Game game = room.getGame();
-		game.findPlayer(source).useAttack();
-		game.findPlayer(source).useCard(card);
+		PlayerCompleteServer player = game.findPlayer(source);
+		try {
+			player.useAttack();
+		} catch (InvalidPlayerCommandException e) {
+			e.printStackTrace();
+			return;
+		}
+		try {
+			player.useCard(card);
+		} catch (InvalidPlayerCommandException e) {
+			try {
+				player.setAttackUsed(player.getAttackUsed() - 1);
+			} catch (InvalidPlayerCommandException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			return;
+		}
 		game.pushGameController(new AttackGameController(source, target, room));
 		game.getGameController().proceed();
 	}
