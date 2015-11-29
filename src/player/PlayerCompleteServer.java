@@ -3,6 +3,8 @@ package player;
 import cards.Card;
 import core.server.game.controllers.GameController;
 import exceptions.server.game.InvalidPlayerCommandException;
+import listeners.game.CardDisposalListener;
+import listeners.game.CardOnHandListener;
 import listeners.game.PlayerStatusListener;
 
 public class PlayerCompleteServer extends PlayerComplete {
@@ -58,5 +60,15 @@ public class PlayerCompleteServer extends PlayerComplete {
 			throw new InvalidPlayerCommandException("Wine used cannot be smaller than 0");
 		}
 		super.setWineUsed(amount);
+	}
+	
+	@Override
+	protected void cardOnHandListenerAction(CardOnHandListener listener, Card card) {
+		
+	}
+	
+	@Override
+	protected void cardDisposalListenerAction(CardDisposalListener listener, Card card) {
+
 	}
 }

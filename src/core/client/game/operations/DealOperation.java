@@ -1,6 +1,6 @@
 package core.client.game.operations;
 
-import commands.game.server.EndStageInGameServerCommand;
+import commands.game.server.ingame.EndStageInGameServerCommand;
 import net.client.GamePanel;
 import player.PlayerComplete;
 import ui.game.Activatable;

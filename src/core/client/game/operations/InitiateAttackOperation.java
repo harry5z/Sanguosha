@@ -1,5 +1,6 @@
 package core.client.game.operations;
 
+import cards.basics.Attack;
 import commands.game.server.InitiateAttackGameServerCommand;
 import core.PlayerInfo;
 import net.client.GamePanel;
@@ -66,7 +67,7 @@ public class InitiateAttackOperation implements Operation {
 	public void onConfirmed() {
 		onCanceled();
 		panel.getCurrentOperation().onConfirmed();
-		panel.getChannel().send(new InitiateAttackGameServerCommand(source, targetUI.getPlayer().getPlayerInfo(), ((CardGui) activator).getCard()));
+		panel.getChannel().send(new InitiateAttackGameServerCommand(source, targetUI.getPlayer().getPlayerInfo(), (Attack) ((CardGui) activator).getCard()));
 	}
 
 	@Override

@@ -7,22 +7,13 @@ import java.util.Set;
 
 import cards.Card;
 import cards.Card.Suit;
-import cards.basics.Attack;
-import cards.basics.Dodge;
-import cards.basics.Peach;
-import cards.basics.Wine;
+import cards.basics.*;
 import cards.equipments.HorseMinus;
 import cards.equipments.HorsePlus;
-import cards.equipments.shields.IronShield;
-import cards.equipments.shields.RattanArmor;
-import cards.equipments.shields.SilverLion;
-import cards.specials.instant.BarbarianInvasion;
-import cards.specials.instant.Duel;
-import cards.specials.instant.FireAttack;
-import cards.specials.instant.Harvest;
-import cards.specials.instant.Neutralization;
-
-import commands.Damage.Element;
+import cards.equipments.shields.*;
+import cards.equipments.weapons.*;
+import cards.specials.instant.*;
+import core.server.game.Damage.Element;
 import utils.Log;
 
 /**
@@ -226,14 +217,14 @@ public class Deck {
 	private void initOriginal() {
 		initAttack();
 		initDodge();
-		// initPeach();
-		initInstant();
+		initPeach();
+		// initInstant();
 		// initDelayed();
 		initEquipment();
 	}
 
 	private void initEX() {
-		// used.add(new IcySword(2,spade));
+		used.add(new IcySword(2,spade));
 		used.add(new IronShield(2, club));
 		// used.add(new Lightning(12,heart));
 		used.add(new Neutralization(12, diamond));
@@ -305,8 +296,8 @@ public class Deck {
 	}
 
 	private void initBattle() {
-		// initBasicBattle();
-		initSpecialBattle();
+		initBasicBattle();
+		// initSpecialBattle();
 		initEquipmentBattle();
 	}
 

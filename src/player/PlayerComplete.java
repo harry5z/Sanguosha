@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import cards.Card;
+import cards.equipments.Equipment;
 import commands.Stage;
 import core.client.game.operations.Operation;
 import core.server.game.controllers.GameController;
@@ -68,38 +69,12 @@ public class PlayerComplete extends PlayerSimple {
 	}
 
 	@Override
-	public void useCard(Card card) throws InvalidPlayerCommandException {
-		if (!cardsOnHand.contains(card)) {
-			throw new InvalidPlayerCommandException("useCard: Card " + card + " is not on player's hand");
-		}
-		cardsOnHand.remove(card);
-		super.useCard(card);
-	}
-	
-	@Override
-	public void useCards(Collection<Card> cards) throws InvalidPlayerCommandException {
-		if (!cardsOnHand.containsAll(cards)) {
-			throw new InvalidPlayerCommandException("useCards: Some cards are not on player's hand");
-		}
-		super.useCards(cards);
-	}
-
-	@Override
-	public void discardCard(Card card) throws InvalidPlayerCommandException {
-		if (!cardsOnHand.contains(card)) {
-			throw new InvalidPlayerCommandException("dicardCard: Card " + card + " is not on player's hand");
-		}
-		cardsOnHand.remove(card);
-		super.discardCard(card);
-	}
-
-	@Override
 	public void removeCardFromHand(Card card) throws InvalidPlayerCommandException {
 		if (!cardsOnHand.contains(card)) {
 			throw new InvalidPlayerCommandException("removeCardFromHand: Card " + card + " is not on player's hand");
 		}
-		super.removeCardFromHand(card);
 		cardsOnHand.remove(card);
+		super.removeCardFromHand(card);
 	}
 
 	// //**************** methods related to game flow ***************
@@ -324,7 +299,7 @@ public class PlayerComplete extends PlayerSimple {
 		super.flip();
 		statusListener.onFlip(isFlipped());
 	}
-
+	
 	public void setAttackLimit(int limit) throws InvalidPlayerCommandException {
 		if (limit != getAttackLimit()) {
 			attackLimit = limit;

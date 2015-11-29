@@ -9,11 +9,11 @@ import cards.basics.Dodge;
 import cards.equipments.Equipment.EquipmentType;
 
 import commands.Command;
-import commands.Damage;
-import commands.game.server.UseOfCardsInGameServerCommand;
+import commands.game.server.ingame.UseOfCardsInGameServerCommand;
 import core.PlayerInfo;
 import core.client.game.operations.Operation;
 import core.server.Game;
+import core.server.game.Damage;
 
 /**
  * The "Attack" event, multistage and very complicated, as many skills and equipment 

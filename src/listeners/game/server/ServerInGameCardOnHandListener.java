@@ -3,11 +3,11 @@ package listeners.game.server;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import listeners.game.CardOnHandListener;
-import net.server.GameRoom;
 import cards.Card;
 import commands.game.client.sync.SyncOtherPlayerCardGameUIClientCommand;
 import commands.game.client.sync.SyncPlayerCardGameClientCommand;
+import listeners.game.CardOnHandListener;
+import net.server.GameRoom;
 
 public class ServerInGameCardOnHandListener extends ServerInGamePlayerListener implements CardOnHandListener {
 
@@ -30,8 +30,8 @@ public class ServerInGameCardOnHandListener extends ServerInGamePlayerListener i
 	@Override
 	public void onCardRemoved(Card card) {
 		// server side calling disposal results in double removal of a card, this is hacky
-//		room.sendCommandToPlayer(name, new UpdatePlayerCardGameClientCommand(card, false));
-//		room.sendCommandToPlayers(otherNames.stream().collect(Collectors.toMap(n -> n, n -> new UpdateOtherPlayerCardGameClientCommand(name, false, 1))));
+		room.sendCommandToPlayer(name, new SyncPlayerCardGameClientCommand(card, false));
+		room.sendCommandToPlayers(otherNames.stream().collect(Collectors.toMap(n -> n, n -> new SyncOtherPlayerCardGameUIClientCommand(name, false, 1))));
 	}
 
 }

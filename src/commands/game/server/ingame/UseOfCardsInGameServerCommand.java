@@ -1,4 +1,4 @@
-package commands.game.server;
+package commands.game.server.ingame;
 
 import java.util.Set;
 

@@ -1,7 +1,7 @@
 package core.client.game.operations;
 
 import cards.basics.Dodge;
-import commands.game.server.DodgeReactionInGameServerCommand;
+import commands.game.server.ingame.DodgeReactionInGameServerCommand;
 import net.client.GamePanel;
 import ui.game.Activatable;
 import ui.game.CardGui;

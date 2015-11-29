@@ -127,8 +127,12 @@ public class PlayerSimple extends Player {
 	@Override
 	public void useCard(Card card) throws InvalidPlayerCommandException {
 		cardsCount--;
-		cardsOnHandListener.onCardRemoved(card);
+		cardOnHandListenerAction(cardsOnHandListener, card);
 		disposalListener.onCardUsed(card);
+	}
+	
+	protected void cardOnHandListenerAction(CardOnHandListener listener, Card card) {
+		listener.onCardRemoved(card);
 	}
 	
 	@Override
@@ -146,7 +150,7 @@ public class PlayerSimple extends Player {
 	@Override
 	public void discardCard(Card card) throws InvalidPlayerCommandException {
 		cardsCount--;
-		cardsOnHandListener.onCardRemoved(card);
+		cardOnHandListenerAction(cardsOnHandListener, card);
 		disposalListener.onCardDisposed(card);
 	}
 
@@ -194,8 +198,13 @@ public class PlayerSimple extends Player {
 	 */
 	@Override
 	public void unequip(EquipmentType type) throws InvalidPlayerCommandException {
+		cardDisposalListenerAction(disposalListener, getEquipment(type));
 		equipmentListener.onUnequipped(type);
 		super.unequip(type);
+	}
+	
+	protected void cardDisposalListenerAction(CardDisposalListener listener, Card card) {
+		listener.onCardDisposed(card);
 	}
 
 	/**

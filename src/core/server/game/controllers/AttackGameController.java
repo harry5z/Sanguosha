@@ -3,15 +3,19 @@ package core.server.game.controllers;
 import java.util.stream.Collectors;
 
 import cards.Card;
+import cards.basics.Attack;
 import cards.basics.Dodge;
+import cards.equipments.Equipment.EquipmentType;
 import commands.game.client.RequestDodgeGameUIClientCommand;
 import core.PlayerInfo;
 import core.server.Game;
+import core.server.game.Damage;
+import core.server.game.Damage.Element;
 import exceptions.server.game.InvalidPlayerCommandException;
 import net.server.GameRoom;
-import player.PlayerComplete;
+import player.PlayerCompleteServer;
 
-public class AttackGameController implements GameController {
+public class AttackGameController implements GameController, DodgeUsableGameController {
 
 	public enum AttackStage {
 		TARGET_SELECTION, // client side
@@ -38,30 +42,34 @@ public class AttackGameController implements GameController {
 	}
 	
 	private AttackStage stage;
-	private PlayerComplete source;
-	private PlayerComplete target;
+	private PlayerCompleteServer source;
+	private PlayerCompleteServer target;
+	private Damage damage;
 	private final GameRoom room;
 	private final Game game;
+	private final Attack attack;
 	
-	public AttackGameController(PlayerInfo source, PlayerInfo target, GameRoom room) {
+	public AttackGameController(PlayerInfo source, PlayerInfo target, Attack card, GameRoom room) {
 		this.stage = AttackStage.TARGET_LOCKED;
 		this.room = room;
 		this.game = room.getGame();
 		this.source = game.findPlayer(source);
 		this.target = game.findPlayer(target);
+		this.damage = new Damage(this.source, this.target);
+		if (card != null) {
+			this.damage.setElement(card.getElement());
+			this.attack = card;
+		} else {
+			this.attack = new Attack(Element.NORMAL, 0, null);
+		}
 	}
 	
-	public void targetReacted(Card card) {
-		if (card == null) {
-			// target gives up reacting
-			stage = AttackStage.ATTACK_NOT_DODGED_PREVENTION;
-			proceed();
-			return;
-		}
-		if (!(card instanceof Dodge) || !target.getCardsOnHand().contains(card)) {
-			throw new RuntimeException("Card is not dodge or target does not have this card");
-		}
+	@Override
+	public void onDodgeUsed(Card card) {
 		try {
+			if (!(card instanceof Dodge) || !target.getCardsOnHand().contains(card)) {
+				throw new InvalidPlayerCommandException("Card is not dodge or target does not have this card");
+			}
 			target.useCard(card);
 		} catch (InvalidPlayerCommandException e) {
 			try {
@@ -75,6 +83,13 @@ public class AttackGameController implements GameController {
 		stage = AttackStage.AFTER_USING_DODGE;
 		proceed();
 	}
+	
+	@Override
+	public void onDodgeNotUsed() {
+		// target gives up reacting
+		stage = AttackStage.ATTACK_NOT_DODGED_PREVENTION;
+		proceed();
+	}
 
 	@Override
 	public void proceed() {
@@ -84,7 +99,19 @@ public class AttackGameController implements GameController {
 			case BEFORE_TARGET_LOCKED:
 				break;
 			case TARGET_LOCKED:
-				stage = stage.nextStage();
+				if (source.isWineUsed()) {
+					this.damage.setAmount(this.damage.getAmount() + 1);
+					try {
+						this.source.setWineUsed(0);
+					} catch (InvalidPlayerCommandException e) {
+						e.printStackTrace();
+					}
+				}
+				if (source.isEquipped(EquipmentType.SHIELD) && !source.getShield().mustReactTo(attack)) {
+					stage = AttackStage.END;
+				} else {
+					stage = stage.nextStage();
+				}
 				proceed();
 				break;
 			case AFTER_TARGET_LOCKED_SKILLS:
@@ -135,7 +162,10 @@ public class AttackGameController implements GameController {
 				proceed();
 				break;
 			case DAMAGE:
-				target.changeHealthCurrentBy(-1);
+				if (target.isEquipped(EquipmentType.SHIELD)) {
+					target.getShield().modifyDamage(damage);
+				}
+				damage.apply();
 				stage = stage.nextStage();
 				proceed();
 				break;

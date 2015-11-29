@@ -1,8 +1,8 @@
-package commands.game.server;
+package commands.game.server.ingame;
 
 import cards.Card;
 import core.server.Game;
-import core.server.game.controllers.AttackGameController;
+import core.server.game.controllers.DodgeUsableGameController;
 
 public class DodgeReactionInGameServerCommand extends InGameServerCommand {
 
@@ -15,7 +15,11 @@ public class DodgeReactionInGameServerCommand extends InGameServerCommand {
 	}
 	@Override
 	public void execute(Game game) {
-		game.<AttackGameController>getGameController().targetReacted(dodge);
+		if (dodge != null) {
+			game.<DodgeUsableGameController>getGameController().onDodgeUsed(dodge);
+		} else {
+			game.<DodgeUsableGameController>getGameController().onDodgeNotUsed();
+		}
 	}
 
 }

@@ -2,7 +2,6 @@ package cards;
 
 import java.io.Serializable;
 
-import commands.Command;
 import core.client.game.operations.Operation;
 import player.PlayerComplete;
 import utils.UIDProvider;

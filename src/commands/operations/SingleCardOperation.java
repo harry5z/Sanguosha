@@ -5,7 +5,7 @@ import player.PlayerOriginal;
 import cards.Card;
 
 import commands.Command;
-import commands.game.server.UseOfCardsInGameServerCommand;
+import commands.game.server.ingame.UseOfCardsInGameServerCommand;
 import core.PlayerInfo;
 import core.client.game.operations.Operation;
 import core.server.Game;

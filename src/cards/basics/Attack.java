@@ -1,8 +1,8 @@
 package cards.basics;
 
-import commands.Damage.Element;
 import core.client.game.operations.InitiateAttackOperation;
 import core.client.game.operations.Operation;
+import core.server.game.Damage.Element;
 import player.PlayerComplete;
 
 public class Attack extends Basic {

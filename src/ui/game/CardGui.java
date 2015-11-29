@@ -70,6 +70,8 @@ public class CardGui extends JButton implements Activatable {
 			img_darker = ImageIO.read(getClass().getResource("cards/" + name + "_darker.png"));
 		} catch (IOException e) {
 			System.err.println("File not found");
+		} catch (Exception e) {
+			System.err.println(name);
 		}
 	}
 	

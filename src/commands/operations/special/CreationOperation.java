@@ -2,7 +2,7 @@ package commands.operations.special;
 
 import commands.Command;
 import commands.DrawCardsFromDeck;
-import commands.game.server.UseOfCardsInGameServerCommand;
+import commands.game.server.ingame.UseOfCardsInGameServerCommand;
 import cards.Card;
 import player.PlayerOriginal;
 import player.PlayerComplete;

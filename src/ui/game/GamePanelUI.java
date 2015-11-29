@@ -41,6 +41,8 @@ public class GamePanelUI extends JPanel implements GameListener {
 	private MessageBoxGui messageBox;
 	
 	private final GamePanel panel;
+	
+	private int cancelSetCount;
 
 	public GamePanelUI(PlayerInfo player, GamePanel panel) {
 		this.panel = panel;
@@ -77,6 +79,8 @@ public class GamePanelUI extends JPanel implements GameListener {
 		cancel.setLocation(ButtonGui.WIDTH, HEIGHT - CardRackGui.HEIGHT - ButtonGui.HEIGHT);
 		end = new ButtonGui("End", e -> panel.getCurrentOperation().onEnded());
 		end.setLocation(ButtonGui.WIDTH * 2, HEIGHT - CardRackGui.HEIGHT - ButtonGui.HEIGHT);
+		
+		cancelSetCount = 0;
 
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		add(cardRack);
@@ -211,9 +215,20 @@ public class GamePanelUI extends JPanel implements GameListener {
 
 	@Override
 	public void setCancelEnabled(boolean isEnabled) {
-		cancel.setEnabled(isEnabled);
+		if (isEnabled) {
+			cancelSetCount++;
+			cancel.setEnabled(true);
+		} else {
+			cancelSetCount--;
+			if (cancelSetCount == 0) {
+				cancel.setEnabled(false);
+			}
+			if (cancelSetCount < 0) {
+				throw new RuntimeException("Cancel disabled more than enabled");
+			}
+		}
 	}
-
+	
 	@Override
 	public void setEndEnabled(boolean isEnabled) {
 		end.setEnabled(isEnabled);
@@ -266,7 +281,7 @@ public class GamePanelUI extends JPanel implements GameListener {
 			repaint();
 		}
 	}
-
+	
 	public void showCountdownBar() {
 		// TODO implement action bar for self
 	}

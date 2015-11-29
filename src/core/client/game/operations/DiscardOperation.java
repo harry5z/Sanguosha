@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import commands.game.server.DiscardGameServerCommand;
+import commands.game.server.ingame.DiscardInGameServerCommand;
 import net.client.GamePanel;
 import ui.game.Activatable;
 import ui.game.CardGui;
@@ -26,7 +26,7 @@ public class DiscardOperation implements Operation {
 			cardUI.setActivatable(false);
 		}
 		panel.getContent().setConfirmEnabled(false);
-		panel.getChannel().send(new DiscardGameServerCommand(cards.stream().map(ui -> ui.getCard()).collect(Collectors.toList())));
+		panel.getChannel().send(new DiscardInGameServerCommand(cards.stream().map(ui -> ui.getCard()).collect(Collectors.toList())));
 	}
 
 	@Override

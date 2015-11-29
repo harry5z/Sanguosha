@@ -1,13 +1,13 @@
 package commands.operations.special;
 
 import commands.Command;
-import commands.Damage;
-import commands.game.server.UseOfCardsInGameServerCommand;
+import commands.game.server.ingame.UseOfCardsInGameServerCommand;
 import cards.Card;
 import cards.basics.Attack;
 import player.PlayerOriginal;
 import player.PlayerComplete;
 import core.PlayerInfo;
+import core.server.game.Damage;
 
 public class DuelOperation extends SpecialOperation
 {

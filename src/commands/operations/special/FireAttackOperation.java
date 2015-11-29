@@ -1,14 +1,14 @@
 package commands.operations.special;
 
 import commands.Command;
-import commands.Damage;
 import commands.DisposalOfCards;
-import commands.Damage.Element;
-import commands.game.server.UseOfCardsInGameServerCommand;
+import commands.game.server.ingame.UseOfCardsInGameServerCommand;
 import cards.Card;
 import player.PlayerOriginal;
 import player.PlayerComplete;
 import core.PlayerInfo;
+import core.server.game.Damage;
+import core.server.game.Damage.Element;
 
 public class FireAttackOperation extends SpecialOperation
 {

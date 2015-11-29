@@ -1,6 +1,7 @@
 package commands.game.server;
 
-import cards.Card;
+import cards.basics.Attack;
+import cards.equipments.Equipment.EquipmentType;
 import core.PlayerInfo;
 import core.server.Game;
 import core.server.game.controllers.AttackGameController;
@@ -15,12 +16,12 @@ public class InitiateAttackGameServerCommand implements GameServerCommand {
 
 	private final PlayerInfo source;
 	private final PlayerInfo target;
-	private final Card card;
+	private final Attack attack;
 	
-	public InitiateAttackGameServerCommand(PlayerInfo source, PlayerInfo target, Card card) {
+	public InitiateAttackGameServerCommand(PlayerInfo source, PlayerInfo target, Attack attack) {
 		this.source = source;
 		this.target = target;
-		this.card = card;
+		this.attack = attack;
 	}
 
 	@Override
@@ -33,18 +34,24 @@ public class InitiateAttackGameServerCommand implements GameServerCommand {
 			e.printStackTrace();
 			return;
 		}
-		try {
-			player.useCard(card);
-		} catch (InvalidPlayerCommandException e) {
+		if (attack != null) {
 			try {
-				player.setAttackUsed(player.getAttackUsed() - 1);
-			} catch (InvalidPlayerCommandException e1) {
-				e1.printStackTrace();
+				player.useCard(attack);
+				PlayerCompleteServer target = game.findPlayer(this.target);
+				if (target.isEquipped(EquipmentType.SHIELD) && !target.getShield().mustReactTo(attack)) {
+					throw new InvalidPlayerCommandException("target does not need to react to this attack");
+				}
+			} catch (InvalidPlayerCommandException e) {
+				try {
+					player.setAttackUsed(player.getAttackUsed() - 1);
+				} catch (InvalidPlayerCommandException e1) {
+					e1.printStackTrace();
+				}
+				e.printStackTrace();
+				return;
 			}
-			e.printStackTrace();
-			return;
 		}
-		game.pushGameController(new AttackGameController(source, target, room));
+		game.pushGameController(new AttackGameController(source, target, attack, room));
 		game.getGameController().proceed();
 	}
 

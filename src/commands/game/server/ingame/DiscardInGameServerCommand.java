@@ -1,4 +1,4 @@
-package commands.game.server;
+package commands.game.server.ingame;
 
 import java.util.List;
 
@@ -7,13 +7,13 @@ import core.server.Game;
 import core.server.game.controllers.TurnGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 
-public class DiscardGameServerCommand extends InGameServerCommand {
+public class DiscardInGameServerCommand extends InGameServerCommand {
 
 	private static final long serialVersionUID = -2110615050430784494L;
 
 	private final List<Card> cards;
 	
-	public DiscardGameServerCommand(List<Card> cards) {
+	public DiscardInGameServerCommand(List<Card> cards) {
 		this.cards = cards;
 	}
 

@@ -340,15 +340,27 @@ public abstract class Player {
 	public void unequip(EquipmentType type) throws InvalidPlayerCommandException {
 		switch (type) {
 			case WEAPON:
+				if (weapon == null) {
+					throw new InvalidPlayerCommandException("weapon is not equipped");
+				}
 				weapon = null;
 				break;
 			case SHIELD:
+				if (weapon == null) {
+					throw new InvalidPlayerCommandException("shield is not equipped");
+				}
 				shield = null;
 				break;
 			case HORSEPLUS:
+				if (weapon == null) {
+					throw new InvalidPlayerCommandException("horsePlus is not equipped");
+				}
 				horsePlus = null;
 				break;
 			case HORSEMINUS:
+				if (weapon == null) {
+					throw new InvalidPlayerCommandException("horseMinus is not equipped");
+				}
 				horseMinus = null;
 				break;
 		}
@@ -361,21 +373,20 @@ public abstract class Player {
 	 *            : new equipment
 	 */
 	public void equip(Equipment equipment) throws InvalidPlayerCommandException {
+		if (isEquipped(equipment.getEquipmentType())) {
+			unequip(equipment.getEquipmentType());
+		}
 		switch (equipment.getEquipmentType()) {
 			case HORSEPLUS:
-				unequip(EquipmentType.HORSEPLUS);
 				horsePlus = (HorsePlus) equipment;
 				break;
 			case HORSEMINUS:
-				unequip(EquipmentType.HORSEMINUS);
 				horseMinus = (HorseMinus) equipment;
 				break;
 			case WEAPON:
-				unequip(EquipmentType.WEAPON);
 				weapon = (Weapon) equipment;
 				break;
 			case SHIELD:
-				unequip(EquipmentType.SHIELD);
 				shield = (Shield) equipment;
 				break;
 		}

@@ -10,7 +10,7 @@ import cards.equipments.Equipment;
 import commands.Command;
 import commands.DisposalOfCards;
 import commands.Unequip;
-import commands.game.server.UseOfCardsInGameServerCommand;
+import commands.game.server.ingame.UseOfCardsInGameServerCommand;
 import core.PlayerInfo;
 
 public class SabotageOperation extends SpecialOperation

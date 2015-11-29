@@ -1,6 +1,7 @@
 package cards.equipments;
 
 import cards.Card;
+import core.client.game.operations.EquipOperation;
 import core.client.game.operations.Operation;
 import player.PlayerComplete;
 
@@ -41,8 +42,7 @@ public abstract class Equipment extends Card {
 
 	@Override
 	public Operation generateOperation() {
-		// TODO
-		return null;
+		return new EquipOperation();
 	}
 
 	@Override

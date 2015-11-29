@@ -25,10 +25,6 @@ public class ServerInGameEquipmentListener extends ServerInGamePlayerListener im
 	
 	@Override
 	public void onEquipped(Equipment equipment) {
-		Equipment existing = player.getEquipment(equipment.getEquipmentType());
-		if (existing != null) {
-			deck.discard(existing);
-		}
 		room.sendCommandToPlayer(
 			name, 
 			(ui, connection) -> {
