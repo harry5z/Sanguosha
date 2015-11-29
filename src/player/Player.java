@@ -346,19 +346,19 @@ public abstract class Player {
 				weapon = null;
 				break;
 			case SHIELD:
-				if (weapon == null) {
+				if (shield == null) {
 					throw new InvalidPlayerCommandException("shield is not equipped");
 				}
 				shield = null;
 				break;
 			case HORSEPLUS:
-				if (weapon == null) {
+				if (horsePlus == null) {
 					throw new InvalidPlayerCommandException("horsePlus is not equipped");
 				}
 				horsePlus = null;
 				break;
 			case HORSEMINUS:
-				if (weapon == null) {
+				if (horseMinus == null) {
 					throw new InvalidPlayerCommandException("horseMinus is not equipped");
 				}
 				horseMinus = null;

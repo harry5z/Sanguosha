@@ -322,6 +322,9 @@ public class PlayerComplete extends PlayerSimple {
 	public void setWineUsed(int amount) throws InvalidPlayerCommandException {
 		if (amount != getWineUsed()) {
 			wineUsed = amount;
+			if (wineUsed == 0) {
+				isWineUsed = false;
+			}
 			statusListener.onSetWineUsed(amount);
 		}
 	}

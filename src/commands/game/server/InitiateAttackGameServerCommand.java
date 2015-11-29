@@ -37,10 +37,6 @@ public class InitiateAttackGameServerCommand implements GameServerCommand {
 		if (attack != null) {
 			try {
 				player.useCard(attack);
-				PlayerCompleteServer target = game.findPlayer(this.target);
-				if (target.isEquipped(EquipmentType.SHIELD) && !target.getShield().mustReactTo(attack)) {
-					throw new InvalidPlayerCommandException("target does not need to react to this attack");
-				}
 			} catch (InvalidPlayerCommandException e) {
 				try {
 					player.setAttackUsed(player.getAttackUsed() - 1);

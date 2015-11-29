@@ -107,7 +107,7 @@ public class AttackGameController implements GameController, DodgeUsableGameCont
 						e.printStackTrace();
 					}
 				}
-				if (source.isEquipped(EquipmentType.SHIELD) && !source.getShield().mustReactTo(attack)) {
+				if (target.isEquipped(EquipmentType.SHIELD) && !target.getShield().mustReactTo(attack)) {
 					stage = AttackStage.END;
 				} else {
 					stage = stage.nextStage();

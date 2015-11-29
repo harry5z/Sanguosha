@@ -69,6 +69,6 @@ public class PlayerCompleteServer extends PlayerComplete {
 	
 	@Override
 	protected void cardDisposalListenerAction(CardDisposalListener listener, Card card) {
-
+		
 	}
 }
