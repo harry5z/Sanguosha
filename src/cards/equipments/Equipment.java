@@ -1,9 +1,9 @@
 package cards.equipments;
 
 import cards.Card;
+import core.client.ClientGameInfo;
 import core.client.game.operations.EquipOperation;
 import core.client.game.operations.Operation;
-import player.PlayerComplete;
 
 /**
  * The "Equipment" type of cards, consisting of all equipments
@@ -46,7 +46,7 @@ public abstract class Equipment extends Card {
 	}
 
 	@Override
-	public boolean isActivatableBy(PlayerComplete player) {
+	public boolean isActivatable(ClientGameInfo game) {
 		return true;
 	}
 }

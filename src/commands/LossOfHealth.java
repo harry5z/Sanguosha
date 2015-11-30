@@ -51,7 +51,7 @@ public class LossOfHealth extends Command
 		}
 		else
 		{
-			for(Player p : player.getOtherPlayers())
+			for(Player p : player.getOtherPlayersUI())
 			{
 				if(p.equals(target))
 				{

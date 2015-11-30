@@ -55,7 +55,7 @@ public class InitiateAttackOperation implements Operation {
 			targetUI.setActivated(false);
 			panel.getContent().setConfirmEnabled(false);
 		}
-		for (PlayerGui other : panel.getContent().getOtherPlayers()) {
+		for (PlayerGui other : panel.getContent().getOtherPlayersUI()) {
 			other.setActivatable(false);
 		}
 		panel.getContent().setCancelEnabled(false);
@@ -77,7 +77,7 @@ public class InitiateAttackOperation implements Operation {
 		GamePanelUI panelUI = panel.getContent();
 		PlayerComplete self = panelUI.getSelf();
 		this.source = self.getPlayerInfo();
-		for (PlayerGui other : panelUI.getOtherPlayers()) {
+		for (PlayerGui other : panelUI.getOtherPlayersUI()) {
 			if (self.isPlayerInRange(other.getPlayer(), panelUI.getNumberOfPlayers())) {
 				other.setActivatable(true);
 			}

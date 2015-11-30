@@ -4,12 +4,14 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import cards.Card;
 import core.PlayerInfo;
+import core.client.ClientGameInfo;
 import heroes.original.Blank;
 import listeners.game.GameListener;
 import listeners.game.client.ClientPlayerStatusListener;
@@ -17,7 +19,7 @@ import net.client.GamePanel;
 import player.PlayerCompleteClient;
 import player.PlayerSimple;
 
-public class GamePanelUI extends JPanel implements GameListener {
+public class GamePanelUI extends JPanel implements GameListener, ClientGameInfo {
 	private static final long serialVersionUID = 2519723480954332278L;
 
 	public static final int WIDTH = 1600;
@@ -114,14 +116,21 @@ public class GamePanelUI extends JPanel implements GameListener {
 		return heroGui;
 	}
 	
-	public List<PlayerGui> getOtherPlayers() {
+	public List<PlayerGui> getOtherPlayersUI() {
 		return otherPlayers;
 	}
 	
+	@Override
+	public List<PlayerSimple> getOtherPlayers() {
+		return otherPlayers.stream().map(ui -> ui.getPlayer()).collect(Collectors.toList());
+	}
+	
+	@Override
 	public PlayerCompleteClient getSelf() {
 		return myself;
 	}
 	
+	@Override
 	public int getNumberOfPlayers() {
 		return otherPlayers.size() + 1;
 	}
@@ -152,6 +161,7 @@ public class GamePanelUI extends JPanel implements GameListener {
 		return healthGui;
 	}
 
+	@Override
 	public PlayerSimple getPlayer(String name) {
 		for (PlayerGui ui : otherPlayers) {
 			if (ui.getPlayer().getName().equals(name)) {

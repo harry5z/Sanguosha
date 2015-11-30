@@ -2,7 +2,6 @@ package core.client.game.operations;
 
 import commands.game.server.ingame.EndStageInGameServerCommand;
 import net.client.GamePanel;
-import player.PlayerComplete;
 import ui.game.Activatable;
 import ui.game.CardGui;
 import ui.game.EquipmentGui;
@@ -52,9 +51,8 @@ public class DealOperation implements Operation {
 		this.panel = panel;
 		GamePanelUI panelUI = panel.getContent();
 		panelUI.showCountdownBar();
-		PlayerComplete player = panelUI.getSelf();
 		for(CardGui cardUI : panelUI.getCardRackUI().getCardUIs()) {
-			if (cardUI.getCard().isActivatableBy(player)) {
+			if (cardUI.getCard().isActivatable(panelUI)) {
 				cardUI.setActivatable(true);
 			}
 		}

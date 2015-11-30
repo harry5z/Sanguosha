@@ -2,8 +2,8 @@ package cards;
 
 import java.io.Serializable;
 
+import core.client.ClientGameInfo;
 import core.client.game.operations.Operation;
-import player.PlayerComplete;
 import utils.UIDProvider;
 
 public abstract class Card implements Serializable {
@@ -75,7 +75,7 @@ public abstract class Card implements Serializable {
 	 * @param player
 	 * @return true if activatable, false if not
 	 */
-	public abstract boolean isActivatableBy(PlayerComplete player);
+	public abstract boolean isActivatable(ClientGameInfo game);
 
 	public CardType getType() {
 		return type;
@@ -100,9 +100,9 @@ public abstract class Card implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Card))
+		if (!(obj instanceof Card)) {
 			return false;
-		Card other = (Card) obj;
-		return isReal ? id == other.id : false;
+		}
+		return isReal ? id == ((Card) obj).id : false;
 	}
 }

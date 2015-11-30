@@ -28,7 +28,7 @@ public class FireAttack extends Instant
 	@Override
 	protected Operation createOperation(PlayerComplete player, Command next) 
 	{
-		for(PlayerSimple other : player.getOtherPlayers())
+		for(PlayerSimple other : player.getOtherPlayersUI())
 			if(other.getHandCount() != 0)// target must have card on hand
 				player.getGameListener().setTargetSelectable(other.getPlayerInfo(), true);
 		if(player.getHandCount() > 1) // self have card (other than fire attack) on hand

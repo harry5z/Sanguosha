@@ -1,16 +1,10 @@
 package player;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import cards.Card;
-import cards.equipments.Equipment;
-import commands.Stage;
-import core.client.game.operations.Operation;
-import core.server.game.controllers.GameController;
 import exceptions.server.game.InvalidPlayerCommandException;
-import listeners.game.GameListener;
 import listeners.game.PlayerStatusListener;
 
 /**

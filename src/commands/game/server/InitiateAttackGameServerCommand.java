@@ -1,7 +1,6 @@
 package commands.game.server;
 
 import cards.basics.Attack;
-import cards.equipments.Equipment.EquipmentType;
 import core.PlayerInfo;
 import core.server.Game;
 import core.server.game.controllers.AttackGameController;

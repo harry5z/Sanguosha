@@ -1,9 +1,9 @@
 package cards.basics;
 
+import core.client.ClientGameInfo;
 import core.client.game.operations.InitiateAttackOperation;
 import core.client.game.operations.Operation;
 import core.server.game.Damage.Element;
-import player.PlayerComplete;
 
 public class Attack extends Basic {
 
@@ -39,8 +39,8 @@ public class Attack extends Basic {
 	}
 
 	@Override
-	public boolean isActivatableBy(PlayerComplete player) {
-		return player.getAttackUsed() < player.getAttackLimit();
+	public boolean isActivatable(ClientGameInfo game) {
+		return game.getSelf().getAttackUsed() < game.getSelf().getAttackLimit();
 	}
 
 	@Override

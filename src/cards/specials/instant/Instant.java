@@ -1,7 +1,7 @@
 package cards.specials.instant;
 
 import cards.specials.Special;
-import player.PlayerComplete;
+import core.client.ClientGameInfo;
 
 public abstract class Instant extends Special {
 	
@@ -12,7 +12,7 @@ public abstract class Instant extends Special {
 	}
 
 	@Override
-	public boolean isActivatableBy(PlayerComplete player) {
+	public boolean isActivatable(ClientGameInfo game) {
 		return true;
 	}
 }

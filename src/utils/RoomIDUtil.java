@@ -10,6 +10,7 @@ import java.util.PriorityQueue;
  *
  */
 public class RoomIDUtil {
+	
 	private static final PriorityQueue<Integer> PQ = new PriorityQueue<Integer>();
 	/**
 	 * invariant: PQ.isEmpty() || (PQ.poll() < availableID)
@@ -24,8 +25,9 @@ public class RoomIDUtil {
 	 * @return availableID : next available ID
 	 */
 	public synchronized static int getAvailableID() {
-		if (!PQ.isEmpty()) 
+		if (!PQ.isEmpty()) {
 			return PQ.poll();
+		}
 		return availableID++;
 	}
 	
@@ -34,9 +36,10 @@ public class RoomIDUtil {
 	 * @param id : id to be removed
 	 */
 	public synchronized static void returnID(int id) {
-		if (id == availableID - 1)
+		if (id == availableID - 1) {
 			availableID = id;
-		else
+		} else {
 			PQ.add(id);
+		}
 	}
 }

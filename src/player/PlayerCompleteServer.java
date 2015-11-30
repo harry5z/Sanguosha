@@ -5,7 +5,6 @@ import core.server.game.controllers.GameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 import listeners.game.CardDisposalListener;
 import listeners.game.CardOnHandListener;
-import listeners.game.PlayerStatusListener;
 
 public class PlayerCompleteServer extends PlayerComplete {
 

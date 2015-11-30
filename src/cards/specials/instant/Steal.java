@@ -29,7 +29,7 @@ public class Steal extends Instant
 	@Override
 	protected Operation createOperation(PlayerComplete player, Command next)
 	{
-		for(PlayerSimple other : player.getOtherPlayers())
+		for(PlayerSimple other : player.getOtherPlayersUI())
 		{
 			if(!player.isPlayerInDistance(other, player.getNumberOfPlayersAlive())) //has to be in reach distance
 				continue;

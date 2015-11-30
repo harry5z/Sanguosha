@@ -29,7 +29,7 @@ public class Sabotage extends Instant
 	@Override
 	protected Operation createOperation(PlayerComplete player, Command next) 
 	{
-		for(PlayerSimple other : player.getOtherPlayers())
+		for(PlayerSimple other : player.getOtherPlayersUI())
 			if(other.getHandCount() != 0 || other.isEquipped())//target must have something
 				player.getGameListener().setTargetSelectable(other.getPlayerInfo(), true);
 		return new SabotageOperation(player.getPlayerInfo(),this,next);
