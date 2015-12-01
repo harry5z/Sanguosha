@@ -8,8 +8,8 @@ public class IronShield extends Shield {
 
 	private static final long serialVersionUID = 4370802087723597065L;
 
-	public IronShield(int num, Suit suit) {
-		super(num, suit);
+	public IronShield(int num, Suit suit, int id) {
+		super(num, suit, id);
 	}
 
 	@Override

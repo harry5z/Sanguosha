@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import core.client.ClientGameInfo;
 import core.client.game.operations.Operation;
-import utils.UIDProvider;
 
 public abstract class Card implements Serializable {
 
@@ -26,8 +25,8 @@ public abstract class Card implements Serializable {
 	private int number;// 1-13, note that A,J,Q,K are not numeric
 	private Suit suit; // 1.Diamond 2.Club 3.Heart 4.Spade
 	private CardType type; // 1.Basic 2.Special 3.Equipment
-	private int id; // unique id
-	private boolean isReal;
+	private final int id; // unique id
+	private final boolean isReal;
 
 	/**
 	 * Initialization of normal cards
@@ -36,16 +35,17 @@ public abstract class Card implements Serializable {
 	 * @param suit
 	 * @param type
 	 */
-	public Card(int number, Suit suit, CardType type) {
+	public Card(int number, Suit suit, CardType type, int id) {
 		this.number = number;
 		this.type = type;
 		this.suit = suit;
-		if (suit == Suit.DIAMOND || suit == Suit.HEART)
+		if (suit == Suit.DIAMOND || suit == Suit.HEART) {
 			color = Color.RED;
-		else
+		} else {
 			color = Color.BLACK;
-		id = UIDProvider.getUID();
-		isReal = true;
+		}
+		this.id = id;
+		this.isReal = true;
 	}
 
 	/**
@@ -57,6 +57,7 @@ public abstract class Card implements Serializable {
 	public Card(Color color, CardType type) {
 		this.color = color;
 		this.type = type;
+		this.id = -1;
 		isReal = false;
 	}
 

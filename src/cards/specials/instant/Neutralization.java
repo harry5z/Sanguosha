@@ -9,8 +9,8 @@ public class Neutralization extends Instant {
 
 	public static final String NEUTRALIZATION = "Neutralization";
 
-	public Neutralization(int num, Suit suit) {
-		super(num, suit);
+	public Neutralization(int num, Suit suit, int id) {
+		super(num, suit, id);
 	}
 
 	@Override

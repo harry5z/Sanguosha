@@ -13,9 +13,9 @@ public class Creation extends Instant
 	 */
 	private static final long serialVersionUID = -5695736855862242617L;
 	public static final String CREATION = "Creation";
-	public Creation(int num, Suit suit)
+	public Creation(int num, Suit suit, int id)
 	{
-		super(num, suit);
+		super(num, suit, id);
 	}
 
 	@Override

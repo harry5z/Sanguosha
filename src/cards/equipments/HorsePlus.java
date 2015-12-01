@@ -6,8 +6,8 @@ public class HorsePlus extends Equipment {
 	
 	private String name;
 
-	public HorsePlus(int num, Suit suit, String name) {
-		super(num, suit, EquipmentType.HORSEPLUS);
+	public HorsePlus(int num, Suit suit, int id, String name) {
+		super(num, suit, EquipmentType.HORSEPLUS, id);
 		this.name = name;
 	}
 

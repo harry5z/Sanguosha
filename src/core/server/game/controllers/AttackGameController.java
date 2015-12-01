@@ -60,7 +60,7 @@ public class AttackGameController implements GameController, DodgeUsableGameCont
 			this.damage.setElement(card.getElement());
 			this.attack = card;
 		} else {
-			this.attack = new Attack(Element.NORMAL, 0, null);
+			this.attack = new Attack(Element.NORMAL, -1, null, -1);
 		}
 	}
 	

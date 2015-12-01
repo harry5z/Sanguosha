@@ -15,8 +15,8 @@ public class Attack extends Basic {
 	public static final String FIRE_ATTACK = "Attack(Fire)";
 	public static final String THUNDER_ATTACK = "Attack(Thunder)";
 
-	public Attack(Element e, int num, Suit suit) {
-		super(num, suit);
+	public Attack(Element e, int num, Suit suit, int id) {
+		super(num, suit, id);
 		element = e;
 	}
 

@@ -4,8 +4,8 @@ public class KylinBow extends Weapon {
 
 	private static final long serialVersionUID = -5406945570873385619L;
 
-	public KylinBow(int num, Suit suit) {
-		super(5, num, suit);
+	public KylinBow(int num, Suit suit, int id) {
+		super(5, num, suit, id);
 	}
 
 	@Override

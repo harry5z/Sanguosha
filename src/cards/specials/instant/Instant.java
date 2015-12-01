@@ -7,8 +7,8 @@ public abstract class Instant extends Special {
 	
 	private static final long serialVersionUID = -9048643013272059145L;
 
-	public Instant(int num, Suit suit) {
-		super(num, suit, true);
+	public Instant(int num, Suit suit, int id) {
+		super(num, suit, true, id);
 	}
 
 	@Override

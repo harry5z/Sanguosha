@@ -14,9 +14,9 @@ public class Harvest extends Instant
 	 */
 	private static final long serialVersionUID = -3333097112836442800L;
 
-	public Harvest(int num, Suit suit)
+	public Harvest(int num, Suit suit, int id)
 	{
-		super(num, suit);
+		super(num, suit, id);
 	}
 
 	@Override

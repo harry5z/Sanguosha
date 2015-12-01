@@ -14,8 +14,8 @@ public abstract class Special extends Card {
 
 	private boolean instant;
 
-	public Special(int num, Suit suit, boolean isInstant) {
-		super(num, suit, CardType.SPECIAL);
+	public Special(int num, Suit suit, boolean isInstant, int id) {
+		super(num, suit, CardType.SPECIAL, id);
 		instant = isInstant;
 	}
 

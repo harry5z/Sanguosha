@@ -7,8 +7,8 @@ public class Lightning extends Delayed {
 
 	private static final long serialVersionUID = -8502796453884676779L;
 
-	public Lightning(int num, Suit suit) {
-		super(num, suit);
+	public Lightning(int num, Suit suit, int id) {
+		super(num, suit, id);
 	}
 
 	@Override

@@ -6,8 +6,8 @@ public class ArrowSalvo extends Instant {
 
 	private static final long serialVersionUID = -1395738598490175305L;
 
-	public ArrowSalvo(int num, Suit suit) {
-		super(num, suit);
+	public ArrowSalvo(int num, Suit suit, int id) {
+		super(num, suit, id);
 	}
 
 	@Override

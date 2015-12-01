@@ -11,11 +11,11 @@ import java.util.PriorityQueue;
  */
 public class RoomIDUtil {
 	
-	private static final PriorityQueue<Integer> PQ = new PriorityQueue<Integer>();
+	private static final PriorityQueue<Integer> queue = new PriorityQueue<Integer>();
 	/**
 	 * invariant: PQ.isEmpty() || (PQ.poll() < availableID)
 	 */
-	private static int availableID = 0;
+	private static volatile int availableID = 0;
 	
 	// This class is not to be initialized
 	private RoomIDUtil() {}
@@ -25,8 +25,8 @@ public class RoomIDUtil {
 	 * @return availableID : next available ID
 	 */
 	public synchronized static int getAvailableID() {
-		if (!PQ.isEmpty()) {
-			return PQ.poll();
+		if (!queue.isEmpty()) {
+			return queue.poll();
 		}
 		return availableID++;
 	}
@@ -39,7 +39,7 @@ public class RoomIDUtil {
 		if (id == availableID - 1) {
 			availableID = id;
 		} else {
-			PQ.add(id);
+			queue.add(id);
 		}
 	}
 }

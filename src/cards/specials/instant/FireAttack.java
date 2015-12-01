@@ -14,9 +14,9 @@ public class FireAttack extends Instant
 	 */
 	private static final long serialVersionUID = -3725224946954164125L;
 	public static final String FIRE_ATTACK = "Fire Attack";
-	public FireAttack(int num, Suit suit)
+	public FireAttack(int num, Suit suit, int id)
 	{
-		super(num, suit);
+		super(num, suit, id);
 	}
 
 	@Override

@@ -10,8 +10,8 @@ public class Peach extends Basic {
 	
 	public static final String PEACH = "Peach";
 
-	public Peach(int num, Suit suit) {
-		super(num, suit);
+	public Peach(int num, Suit suit, int id) {
+		super(num, suit, id);
 	}
 
 	@Override

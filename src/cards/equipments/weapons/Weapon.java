@@ -8,8 +8,8 @@ public abstract class Weapon extends Equipment {
 	
 	private int range;// 1 - 5 currently
 
-	public Weapon(int range, int num, Suit suit) {
-		super(num, suit, EquipmentType.WEAPON);
+	public Weapon(int range, int num, Suit suit, int id) {
+		super(num, suit, EquipmentType.WEAPON, id);
 		this.range = range;
 	}
 

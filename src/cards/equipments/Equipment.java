@@ -22,8 +22,8 @@ public abstract class Equipment extends Card {
 		WEAPON, SHIELD, HORSEPLUS, HORSEMINUS
 	}
 
-	public Equipment(int num, Suit suit, EquipmentType equipmentType) {
-		super(num, suit, CardType.EQUIPMENT);
+	public Equipment(int num, Suit suit, EquipmentType equipmentType, int id) {
+		super(num, suit, CardType.EQUIPMENT, id);
 		this.equipped = false;
 		this.equipmentType = equipmentType;
 	}

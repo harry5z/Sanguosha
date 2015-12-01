@@ -4,8 +4,8 @@ public class ChuKoNu extends Weapon {
 
 	private static final long serialVersionUID = 1620384786441396718L;
 
-	public ChuKoNu(int num, Suit suit) {
-		super(1, num, suit);
+	public ChuKoNu(int num, Suit suit, int id) {
+		super(1, num, suit, id);
 	}
 
 	@Override

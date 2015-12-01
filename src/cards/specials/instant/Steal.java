@@ -15,9 +15,9 @@ public class Steal extends Instant
 	 */
 	private static final long serialVersionUID = -3401311157667464458L;
 
-	public Steal(int num, Suit suit) 
+	public Steal(int num, Suit suit, int id) 
 	{
-		super(num, suit);
+		super(num, suit, id);
 	}
 
 	@Override

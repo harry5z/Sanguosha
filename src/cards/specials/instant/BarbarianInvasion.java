@@ -6,8 +6,8 @@ public class BarbarianInvasion extends Instant {
 
 	private static final long serialVersionUID = 8054906715946205031L;
 
-	public BarbarianInvasion(int num, Suit suit) {
-		super(num, suit);
+	public BarbarianInvasion(int num, Suit suit, int id) {
+		super(num, suit, id);
 	}
 
 	@Override

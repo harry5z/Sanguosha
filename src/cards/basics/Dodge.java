@@ -9,8 +9,8 @@ public class Dodge extends Basic {
 
 	public static final String DODGE = "Dodge";
 
-	public Dodge(int num, Suit suit) {
-		super(num, suit);
+	public Dodge(int num, Suit suit, int id) {
+		super(num, suit, id);
 	}
 
 	@Override

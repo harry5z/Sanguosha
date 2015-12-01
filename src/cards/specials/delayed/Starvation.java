@@ -7,8 +7,8 @@ public class Starvation extends Delayed {
 
 	private static final long serialVersionUID = -5348625255975178503L;
 
-	public Starvation(int num, Suit suit) {
-		super(num, suit);
+	public Starvation(int num, Suit suit, int id) {
+		super(num, suit, id);
 	}
 
 	@Override

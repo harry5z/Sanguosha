@@ -12,8 +12,8 @@ import cards.Card;
 public abstract class Basic extends Card {
 	private static final long serialVersionUID = -4758707277276652122L;
 
-	public Basic(int num, Suit suit) {
-		super(num, suit, CardType.BASIC);
+	public Basic(int num, Suit suit, int id) {
+		super(num, suit, CardType.BASIC, id);
 	}
 
 	public Basic(Color color) {

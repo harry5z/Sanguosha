@@ -15,9 +15,9 @@ public class Sabotage extends Instant
 	 */
 	private static final long serialVersionUID = -2917645089871877494L;
 
-	public Sabotage(int num, Suit suit) 
+	public Sabotage(int num, Suit suit, int id) 
 	{
-		super(num, suit);
+		super(num, suit, id);
 	}
 
 	@Override

@@ -15,9 +15,9 @@ public class Duel extends Instant
 	 */
 	private static final long serialVersionUID = -301334501587512526L;
 	public static final String Duel = "Duel";
-	public Duel(int num, Suit suit) 
+	public Duel(int num, Suit suit, int id) 
 	{
-		super(num, suit);
+		super(num, suit, id);
 	}
 
 	@Override

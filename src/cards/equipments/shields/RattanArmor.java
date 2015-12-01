@@ -11,8 +11,8 @@ public class RattanArmor extends Shield {
 
 	private static final long serialVersionUID = -4377220192386216241L;
 
-	public RattanArmor(int num, Suit suit) {
-		super(num, suit);
+	public RattanArmor(int num, Suit suit, int id) {
+		super(num, suit, id);
 	}
 
 	@Override

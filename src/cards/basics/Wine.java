@@ -11,8 +11,8 @@ public class Wine extends Basic {
 
 	public static final String WINE = "Wine";
 
-	public Wine(int num, Suit suit) {
-		super(num, suit);
+	public Wine(int num, Suit suit, int id) {
+		super(num, suit, id);
 	}
 
 	@Override

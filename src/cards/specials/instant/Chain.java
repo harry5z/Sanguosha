@@ -13,9 +13,9 @@ public class Chain extends Instant
 	 */
 	private static final long serialVersionUID = -4842163599907076818L;
 
-	public Chain(int num, Suit suit) 
+	public Chain(int num, Suit suit, int id) 
 	{
-		super(num, suit);
+		super(num, suit, id);
 	}
 
 	@Override
