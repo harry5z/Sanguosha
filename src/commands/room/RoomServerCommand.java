@@ -1,8 +1,7 @@
 package commands.room;
 
-import net.server.Room;
-
 import commands.ServerCommand;
+import core.server.Room;
 
 /**
  * This interface represents {@linkplain ServerCommand}s that will be executed

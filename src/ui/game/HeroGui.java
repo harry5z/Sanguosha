@@ -1,7 +1,5 @@
 package ui.game;
 
-import heroes.original.HeroOriginal;
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -10,10 +8,13 @@ import java.awt.Graphics2D;
 
 import javax.swing.JButton;
 
-import net.client.GamePanel;
 import core.Constants;
+import core.client.GamePanel;
+import core.heroes.Hero;
+import core.heroes.original.HeroOriginal;
+import ui.game.interfaces.HeroUI;
 
-public class HeroGui extends JButton implements Activatable {
+public class HeroGui extends JButton implements HeroUI<HeroOriginal> {
 
 	private static final long serialVersionUID = 5926706015812873971L;
 	
@@ -22,25 +23,15 @@ public class HeroGui extends JButton implements Activatable {
 	public static final int HEIGHT = WIDTH;
 	private boolean activated = false;
 
-	public HeroGui(GamePanel panel) {
+	public HeroGui(GamePanel<? extends Hero> panel) {
 		hero = null;
 		setEnabled(false);
 		setSize(WIDTH, HEIGHT);
 		setFont(new Font(Font.MONOSPACED, Font.BOLD, 50));
-		setLocation(GamePanelUI.WIDTH - LifebarGui.WIDTH - WIDTH, GamePanelUI.HEIGHT - HEIGHT);
+		setLocation(GamePanelGui.WIDTH - LifebarGui.WIDTH - WIDTH, GamePanelGui.HEIGHT - HEIGHT);
 		addActionListener(e -> panel.getCurrentOperation().onSelfClicked(this));
 	}
 
-	protected void select() {
-		activated = true;
-		repaint();
-	}
-
-	protected void unselect() {
-		activated = false;
-		repaint();
-	}
-	
 	@Override
 	public synchronized void setActivatable(boolean activatable) {
 		setEnabled(activatable);
@@ -52,12 +43,14 @@ public class HeroGui extends JButton implements Activatable {
 		repaint();
 	}
 
+	@Override
 	public synchronized void setHero(HeroOriginal hero) {
 		this.hero = hero;
 		setText(hero.getName());
 		repaint();
 	}
 
+	@Override
 	public synchronized HeroOriginal getHero() {
 		return hero;
 	}

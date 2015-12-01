@@ -1,13 +1,13 @@
 package commands.game.server;
 
 import cards.basics.Attack;
-import core.PlayerInfo;
-import core.server.Game;
+import core.player.PlayerCompleteServer;
+import core.player.PlayerInfo;
+import core.server.GameRoom;
+import core.server.game.Game;
 import core.server.game.controllers.AttackGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 import net.Connection;
-import net.server.GameRoom;
-import player.PlayerCompleteServer;
 
 public class InitiateAttackGameServerCommand implements GameServerCommand {
 	

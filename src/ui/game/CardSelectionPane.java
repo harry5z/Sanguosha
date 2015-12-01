@@ -8,8 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import player.PlayerSimple;
 import cards.equipments.Equipment;
+import core.player.PlayerSimple;
 
 public class CardSelectionPane extends JPanel
 {

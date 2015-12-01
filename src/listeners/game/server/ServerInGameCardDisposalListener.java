@@ -2,17 +2,16 @@ package listeners.game.server;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import cards.Card;
-import commands.game.client.GameClientCommand;
+import commands.game.client.sync.SyncCommandsUtil;
+import commands.game.client.sync.disposal.SyncCardDisposedGameUIClientCommand;
+import commands.game.client.sync.disposal.SyncCardUsedGameUIClientCommand;
+import commands.game.client.sync.disposal.SyncDisposalAreaRefreshGameUIClientCommand;
 import core.Deck;
-import exceptions.server.game.InvalidPlayerCommandException;
+import core.server.GameRoom;
 import listeners.game.CardDisposalListener;
-import net.server.GameRoom;
-import ui.game.GamePanelUI;
 
 public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener implements CardDisposalListener {
 	
@@ -28,29 +27,11 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 	@Override
 	public void onCardUsed(Card card) {
 		this.cards.add(card);
-		room.sendCommandToPlayer(
-			name, 
-			(ui, connection) -> {
-				try {
-					ui.<GamePanelUI>getPanel().getContent().getSelf().useCard(card);
-				} catch (InvalidPlayerCommandException e) {
-					e.printStackTrace();
-				}
-			}
-		);
-		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
-			otherNames.stream().collect(
-				Collectors.toMap(
-					n -> n, 
-					n -> ((ui, connection) -> {
-						try {
-							ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).useCard(card);
-						} catch (InvalidPlayerCommandException e) {
-							e.printStackTrace();
-						}
-					})
-				)
+			SyncCommandsUtil.generateMapForSameCommand(
+				name, 
+				otherNames, 
+				new SyncCardUsedGameUIClientCommand(name, card)
 			)
 		);
 	}
@@ -58,31 +39,13 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 	@Override
 	public void onCardDisposed(Card card) {
 		this.cards.add(card);
-		room.sendCommandToPlayer(
-			name, 
-			(ui, connection) -> {
-				try {
-					ui.<GamePanelUI>getPanel().getContent().getSelf().discardCard(card);
-				} catch (InvalidPlayerCommandException e) {
-					e.printStackTrace();
-				}
-			}
-		);
-		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
-			otherNames.stream().collect(
-				Collectors.toMap(
-					n -> n, 
-					n -> ((ui, connection) -> {
-						try {
-							ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).discardCard(card);
-						} catch (InvalidPlayerCommandException e) {
-							e.printStackTrace();
-						}
-					})
-				)
+			SyncCommandsUtil.generateMapForSameCommand(
+				name, 
+				otherNames, 
+				new SyncCardDisposedGameUIClientCommand(name, card)
 			)
-		);		
+		);
 	}
 
 	@Override
@@ -90,10 +53,13 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 		if (cards.size() > 0) {
 			deck.discardAll(cards);
 			cards.clear();
-			GameClientCommand command = (ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getSelf().clearDisposalArea();
-			Map<String, GameClientCommand> map = otherNames.stream().collect(Collectors.toMap(n -> n, n -> command));
-			map.put(name, command);
-			room.sendCommandToPlayers(map);
+			room.sendCommandToPlayers(
+				SyncCommandsUtil.generateMapForSameCommand(
+					name, 
+					otherNames, 
+					new SyncDisposalAreaRefreshGameUIClientCommand()
+				)
+			);
 		}
 	}
 

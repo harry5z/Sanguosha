@@ -3,19 +3,17 @@ package ui.client.test;
 import java.util.Random;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import net.Connection;
-import net.ConnectionListener;
-import net.client.Client;
-import net.client.ClientPanel;
-import net.client.ClientUI;
-import utils.Log;
 
 import commands.lobby.test.EnterRoomTestLobbyServerCommand;
 import commands.welcome.EnterLobbyServerCommand;
-
 import core.Constants;
+import core.client.ClientFrame;
+import core.client.ClientPanel;
+import core.client.ClientPanelUI;
+import net.Connection;
+import net.ConnectionListener;
+import net.client.Client;
+import utils.Log;
 
 /**
  * A test gui that goes directly into the room
@@ -23,9 +21,9 @@ import core.Constants;
  * @author Harry
  *
  */
-public class ClientFrameTestGui implements ClientUI, ConnectionListener {
+public class ClientFrameTestGui implements ClientFrame, ConnectionListener {
 	private final JFrame frame;
-	private ClientPanel<? extends JPanel> panel;
+	private ClientPanel<? extends ClientPanelUI> panel;
 
 	public ClientFrameTestGui() {
 		this.frame = new JFrame("Sanguosha");
@@ -49,12 +47,12 @@ public class ClientFrameTestGui implements ClientUI, ConnectionListener {
 	}
 
 	@Override
-	public synchronized void onNewPanelDisplayed(ClientPanel<? extends JPanel> panel) {
+	public synchronized void onNewPanelDisplayed(ClientPanel<? extends ClientPanelUI> panel) {
 		if (this.panel != null) {
-			frame.remove(this.panel.getContent());
+			frame.remove(this.panel.getContent().getPanel());
 		}
 		this.panel = panel;
-		frame.add(panel.getContent());
+		frame.add(panel.getContent().getPanel());
 		frame.pack();
 		notify();
 	}
@@ -66,7 +64,7 @@ public class ClientFrameTestGui implements ClientUI, ConnectionListener {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends JPanel> ClientPanel<T> getPanel() {
+	public <T extends ClientPanelUI> ClientPanel<T> getPanel() {
 		return (ClientPanel<T>) panel;
 	}
 

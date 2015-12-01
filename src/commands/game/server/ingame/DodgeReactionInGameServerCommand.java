@@ -1,7 +1,7 @@
 package commands.game.server.ingame;
 
 import cards.Card;
-import core.server.Game;
+import core.server.game.Game;
 import core.server.game.controllers.DodgeUsableGameController;
 
 public class DodgeReactionInGameServerCommand extends InGameServerCommand {

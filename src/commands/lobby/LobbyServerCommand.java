@@ -1,8 +1,7 @@
 package commands.lobby;
 
-import net.server.Lobby;
-
 import commands.ServerCommand;
+import core.server.Lobby;
 
 
 /**

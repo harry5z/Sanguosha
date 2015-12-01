@@ -5,14 +5,15 @@ import java.awt.Font;
 import javax.swing.JButton;
 
 import cards.equipments.Equipment;
+import ui.game.interfaces.EquipmentUI;
 
-public class EquipmentGui extends JButton implements Activatable {
-	/**
-	 * 
-	 */
+public class EquipmentGui extends JButton implements EquipmentUI {
+
 	private static final long serialVersionUID = -7493423607741338720L;
+	
 	public static final int WIDTH = EquipmentRackGui.WIDTH;
 	public static final int HEIGHT = EquipmentRackGui.HEIGHT / 4;
+	
 	private Equipment equipment;
 
 	public EquipmentGui(int verticalLocation) {
@@ -38,6 +39,7 @@ public class EquipmentGui extends JButton implements Activatable {
 		// repaint();
 	}
 
+	@Override
 	public synchronized Equipment getEquipment() {
 		return equipment;
 	}

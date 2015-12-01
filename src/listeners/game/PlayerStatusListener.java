@@ -12,6 +12,8 @@ public interface PlayerStatusListener {
 	
 	public void onSetWineUsed(int amount);
 	
+	public void onResetWineEffective();
+	
 	public void onFlip(boolean flipped);
 	
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.client.GamePanel;
+import net.client.GamePanel<? extends Hero>;
 import player.PlayerComplete;
 import ui.game.CardGui;
 import cards.Card;
@@ -17,7 +17,7 @@ import cards.Card;
 import commands.Command;
 import commands.ReceiveCards;
 import commands.RecycleCards;
-import core.server.Game;
+import core.server.game.Game;
 
 public class HarvestOperation extends AreaOfEffectOperation
 {
@@ -101,7 +101,7 @@ public class HarvestOperation extends AreaOfEffectOperation
 		{
 			setBackground(new Color(222,184,135));
 			int size = all.size();
-			int width = CardGui.WIDTH * (size > 4 ? 4 : size) + GamePanel.WIDTH/4;
+			int width = CardGui.WIDTH * (size > 4 ? 4 : size) + GamePanel<? extends Hero>.WIDTH/4;
 			int height = LABEL_HEIGHT + CardGui.HEIGHT * ((size-1) / 4 + 1);
 			setSize(width, height);
 			setLayout(null);
@@ -113,8 +113,8 @@ public class HarvestOperation extends AreaOfEffectOperation
 			
 			JPanel cardPanel = new JPanel();
 			cardPanel.setLayout(null);
-			cardPanel.setSize(width - GamePanel.WIDTH/4,height-LABEL_HEIGHT);
-			cardPanel.setLocation(GamePanel.WIDTH/8,LABEL_HEIGHT);
+			cardPanel.setSize(width - GamePanel<? extends Hero>.WIDTH/4,height-LABEL_HEIGHT);
+			cardPanel.setLocation(GamePanel<? extends Hero>.WIDTH/8,LABEL_HEIGHT);
 			int x = 0;
 			int y = 0;
 			for(Card card : all)

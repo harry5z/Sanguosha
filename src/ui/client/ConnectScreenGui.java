@@ -5,12 +5,13 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import core.client.ClientPanel;
+import core.client.ClientPanelUI;
 import net.client.Client;
 import net.client.ClientMessageListener;
-import net.client.ClientPanel;
 import ui.client.components.ControlButtonGui;
 
-public class ConnectScreenGui extends JPanel implements ClientPanel<ConnectScreenGui> {
+public class ConnectScreenGui extends JPanel implements ClientPanelUI, ClientPanel<ConnectScreenGui> {
 	private static final long serialVersionUID = -948793753026200428L;
 	private JButton connectButton;
 
@@ -29,6 +30,11 @@ public class ConnectScreenGui extends JPanel implements ClientPanel<ConnectScree
 
 	@Override
 	public ConnectScreenGui getContent() {
+		return this;
+	}
+
+	@Override
+	public JPanel getPanel() {
 		return this;
 	}
 

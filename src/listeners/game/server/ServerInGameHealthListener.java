@@ -1,11 +1,14 @@
 package listeners.game.server;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
+import commands.game.client.sync.SyncCommandsUtil;
+import commands.game.client.sync.health.SyncDeathGameUIClientCommand;
+import commands.game.client.sync.health.SyncHealthCurrentChangedGameUIClientCommand;
+import commands.game.client.sync.health.SyncHealthCurrentGameUIClientCommand;
+import commands.game.client.sync.health.SyncHealthLimitGameUIClientCommand;
+import core.server.GameRoom;
 import listeners.game.HealthListener;
-import net.server.GameRoom;
-import ui.game.GamePanelUI;
 
 public class ServerInGameHealthListener extends ServerInGamePlayerListener implements HealthListener {
 
@@ -15,70 +18,46 @@ public class ServerInGameHealthListener extends ServerInGamePlayerListener imple
 	
 	@Override
 	public void onSetHealthLimit(int limit) {
-		room.sendCommandToPlayer(
-			name, 
-			(ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getSelf().changeHealthCurrentTo(limit)
-		);
-		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
-			otherNames.stream().collect(
-				Collectors.toMap(
-					n -> n, 
-					n -> ((ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).changeHealthLimitTo(limit))
-				)
+			SyncCommandsUtil.generateMapForSameCommand(
+				name, 
+				otherNames, 
+				new SyncHealthLimitGameUIClientCommand(name, limit)
 			)
 		);
 	}
 
 	@Override
 	public void onSetHealthCurrent(int current) {
-		room.sendCommandToPlayer(
-			name, 
-			(ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getSelf().changeHealthCurrentTo(current)
-		);
-		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
-			otherNames.stream().collect(
-				Collectors.toMap(
-					n -> n, 
-					n -> ((ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).changeHealthCurrentTo(current))
-				)
+			SyncCommandsUtil.generateMapForSameCommand(
+				name, 
+				otherNames, 
+				new SyncHealthCurrentGameUIClientCommand(name, current)
 			)
 		);
 	}
 
 	@Override
 	public void onHealthChangedBy(int amount) {
-		room.sendCommandToPlayer(
-			name, 
-			(ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getSelf().changeHealthCurrentBy(amount)
-		);
-		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
-			otherNames.stream().collect(
-				Collectors.toMap(
-					n -> n, 
-					n -> ((ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).changeHealthCurrentBy(amount))
-				)
+			SyncCommandsUtil.generateMapForSameCommand(
+				name, 
+				otherNames, 
+				new SyncHealthCurrentChangedGameUIClientCommand(name, amount)
 			)
 		);		
 	}
 
 	@Override
 	public void onDeath() {
-		room.sendCommandToPlayer(
-			name, 
-			(ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getSelf().kill()
-		);
-		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
-			otherNames.stream().collect(
-				Collectors.toMap(
-					n -> n, 
-					n -> ((ui, connection) -> ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).kill())
-				)
+			SyncCommandsUtil.generateMapForSameCommand(
+				name, 
+				otherNames, 
+				new SyncDeathGameUIClientCommand(name)
 			)
-		);
+		);	
 	}
 
 }

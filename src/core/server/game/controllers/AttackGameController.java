@@ -7,13 +7,13 @@ import cards.basics.Attack;
 import cards.basics.Dodge;
 import cards.equipments.Equipment.EquipmentType;
 import commands.game.client.RequestDodgeGameUIClientCommand;
-import core.PlayerInfo;
-import core.server.Game;
+import core.player.PlayerCompleteServer;
+import core.player.PlayerInfo;
+import core.server.GameRoom;
 import core.server.game.Damage;
+import core.server.game.Game;
 import core.server.game.Damage.Element;
 import exceptions.server.game.InvalidPlayerCommandException;
-import net.server.GameRoom;
-import player.PlayerCompleteServer;
 
 public class AttackGameController implements GameController, DodgeUsableGameController {
 
@@ -99,13 +99,9 @@ public class AttackGameController implements GameController, DodgeUsableGameCont
 			case BEFORE_TARGET_LOCKED:
 				break;
 			case TARGET_LOCKED:
-				if (source.isWineUsed()) {
+				if (source.isWineEffective()) {
 					this.damage.setAmount(this.damage.getAmount() + 1);
-					try {
-						this.source.setWineUsed(0);
-					} catch (InvalidPlayerCommandException e) {
-						e.printStackTrace();
-					}
+					this.source.resetWineEffective();
 				}
 				if (target.isEquipped(EquipmentType.SHIELD) && !target.getShield().mustReactTo(attack)) {
 					stage = AttackStage.END;

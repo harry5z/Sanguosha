@@ -13,14 +13,15 @@ import javax.swing.JPanel;
 import commands.room.LeaveRoomServerCommand;
 import commands.room.StartGameServerCommand;
 import core.Constants;
+import core.client.ClientPanel;
+import core.client.ClientPanelUI;
+import core.server.RoomInfo;
 import net.Connection;
 import net.UserInfo;
 import net.client.ClientMessageListener;
-import net.client.ClientPanel;
-import net.server.RoomInfo;
 import ui.client.components.ControlButtonGui;
 
-public class RoomGui extends JPanel implements ClientPanel<RoomGui> {
+public class RoomGui extends JPanel implements ClientPanelUI, ClientPanel<RoomGui> {
 	private static final long serialVersionUID = 2664732095891084244L;
 	private static final int HGAP = Constants.SCREEN_WIDTH / 160;
 	private static final int VGAP = Constants.SCREEN_HEIGHT / 90;
@@ -63,6 +64,11 @@ public class RoomGui extends JPanel implements ClientPanel<RoomGui> {
 		return this;
 	}
 
+	@Override
+	public JPanel getPanel() {
+		return this;
+	}
+	
 	@Override
 	public ClientMessageListener getMessageListener() {
 		return null;

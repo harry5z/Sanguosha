@@ -1,11 +1,10 @@
 package commands;
 
-import player.Player;
-import player.PlayerComplete;
-
 import commands.operations.NearDeathOperation;
-import core.PlayerInfo;
-import core.server.Game;
+import core.player.Player;
+import core.player.PlayerComplete;
+import core.player.PlayerInfo;
+import core.server.game.Game;
 
 public class LossOfHealth extends Command
 {

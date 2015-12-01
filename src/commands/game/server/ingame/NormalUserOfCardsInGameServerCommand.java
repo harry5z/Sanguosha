@@ -3,8 +3,8 @@ package commands.game.server.ingame;
 import java.util.Set;
 
 import cards.Card;
-import core.PlayerInfo;
-import core.server.Game;
+import core.player.PlayerInfo;
+import core.server.game.Game;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class NormalUserOfCardsInGameServerCommand extends UseOfCardsInGameServerCommand {

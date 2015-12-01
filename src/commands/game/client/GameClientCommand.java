@@ -1,9 +1,9 @@
 package commands.game.client;
 
-import net.client.ClientUI;
-
 import commands.Command;
+import core.client.ClientFrame;
+import core.heroes.Hero;
 
-public interface GameClientCommand extends Command<ClientUI> {
+public interface GameClientCommand<T extends Hero> extends Command<ClientFrame> {
 
 }

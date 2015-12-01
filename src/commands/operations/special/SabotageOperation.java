@@ -1,8 +1,5 @@
 package commands.operations.special;
 
-import player.PlayerComplete;
-import player.PlayerOriginal;
-import player.PlayerSimple;
 import utils.OperationUtil;
 import cards.Card;
 import cards.equipments.Equipment;
@@ -11,7 +8,10 @@ import commands.Command;
 import commands.DisposalOfCards;
 import commands.Unequip;
 import commands.game.server.ingame.UseOfCardsInGameServerCommand;
-import core.PlayerInfo;
+import core.player.PlayerComplete;
+import core.player.PlayerInfo;
+import core.player.PlayerOriginal;
+import core.player.PlayerSimple;
 
 public class SabotageOperation extends SpecialOperation
 {

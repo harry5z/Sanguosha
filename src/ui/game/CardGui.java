@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import cards.Card;
 import cards.Card.Suit;
 import core.Constants;
+import ui.game.interfaces.CardUI;
 
 /**
  * Gui class for cards (on hand and at diposal area)
@@ -22,7 +23,7 @@ import core.Constants;
  * @author Harry
  *
  */
-public class CardGui extends JButton implements Activatable {
+public class CardGui extends JButton implements CardUI {
 
 	private static final long serialVersionUID = -8973362684095284243L;
 	public static final int WIDTH = 142;
@@ -140,6 +141,7 @@ public class CardGui extends JButton implements Activatable {
 			return Integer.toString(n);
 	}
 
+	@Override
 	public Card getCard() {
 		return card;
 	}

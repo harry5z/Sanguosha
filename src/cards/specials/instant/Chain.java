@@ -1,9 +1,8 @@
 package cards.specials.instant;
 
-import player.PlayerComplete;
-
 import commands.Command;
 import core.client.game.operations.Operation;
+import core.player.PlayerComplete;
 
 public class Chain extends Instant
 {

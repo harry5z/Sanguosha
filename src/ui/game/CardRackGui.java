@@ -8,8 +8,11 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import cards.Card;
+import core.client.GamePanel;
+import core.heroes.Hero;
 import listeners.game.CardOnHandListener;
-import net.client.GamePanel;
+import ui.game.interfaces.CardRackUI;
+import ui.game.interfaces.CardUI;
 
 /**
  * card rack (cards on hand) gui
@@ -17,18 +20,18 @@ import net.client.GamePanel;
  * @author Harry
  *
  */
-public class CardRackGui extends JPanel implements CardOnHandListener {
+public class CardRackGui extends JPanel implements CardOnHandListener, CardRackUI {
 	private static final long serialVersionUID = -7373800552773539354L;
-	public static final int WIDTH = GamePanelUI.WIDTH - EquipmentRackGui.WIDTH - HeroGui.WIDTH - LifebarGui.WIDTH;
+	public static final int WIDTH = GamePanelGui.WIDTH - EquipmentRackGui.WIDTH - HeroGui.WIDTH - LifebarGui.WIDTH;
 
 	public static final int HEIGHT = 200;
 	private final ActionListener listener;
 	private List<CardGui> cards;
 
-	public CardRackGui(GamePanel panel) {
+	public CardRackGui(GamePanel<? extends Hero> panel) {
 		setLayout(null);
 		setSize(WIDTH, HEIGHT);
-		setLocation(EquipmentRackGui.WIDTH, GamePanelUI.HEIGHT - HEIGHT);
+		setLocation(EquipmentRackGui.WIDTH, GamePanelGui.HEIGHT - HEIGHT);
 		cards = new ArrayList<CardGui>();
 		this.listener = e -> panel.getCurrentOperation().onCardClicked((CardGui) e.getSource());
 	}
@@ -119,7 +122,8 @@ public class CardRackGui extends JPanel implements CardOnHandListener {
 		}
 	}
 
-	public List<CardGui> getCardUIs() {
+	@Override
+	public List<? extends CardUI> getCardUIs() {
 		return cards;
 	}
 

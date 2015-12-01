@@ -9,11 +9,11 @@ import cards.equipments.Equipment;
 import commands.game.client.DealStartGameUIClientCommmand;
 import commands.game.client.DiscardGameUIClientCommand;
 import core.TurnStage;
-import core.server.Game;
+import core.player.PlayerComplete;
+import core.player.PlayerCompleteServer;
+import core.server.GameRoom;
+import core.server.game.Game;
 import exceptions.server.game.InvalidPlayerCommandException;
-import net.server.GameRoom;
-import player.PlayerComplete;
-import player.PlayerCompleteServer;
 
 public class TurnGameController implements 
 	GameController, 
@@ -45,6 +45,7 @@ public class TurnGameController implements
 			case DEAL:
 				try {
 					currentPlayer.setWineUsed(0);
+					currentPlayer.resetWineEffective();
 					currentPlayer.setAttackUsed(0);
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();

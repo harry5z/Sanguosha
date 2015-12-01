@@ -2,23 +2,24 @@ package core.client.game.operations;
 
 import cards.basics.Attack;
 import commands.game.server.InitiateAttackGameServerCommand;
-import core.PlayerInfo;
-import net.client.GamePanel;
-import player.PlayerComplete;
-import ui.game.Activatable;
-import ui.game.CardGui;
-import ui.game.GamePanelUI;
-import ui.game.PlayerGui;
+import core.client.GamePanel;
+import core.heroes.Hero;
+import core.player.PlayerComplete;
+import core.player.PlayerInfo;
+import ui.game.interfaces.Activatable;
+import ui.game.interfaces.CardUI;
+import ui.game.interfaces.ClientGameUI;
+import ui.game.interfaces.PlayerUI;
 
 public class InitiateAttackOperation implements Operation {
 
-	private GamePanel panel;
+	private GamePanel<? extends Hero> panel;
 	private Activatable activator;
 	private PlayerInfo source;
-	private PlayerGui targetUI;
+	private PlayerUI targetUI;
 	
 	@Override
-	public void onPlayerClicked(PlayerGui player) {
+	public void onPlayerClicked(PlayerUI player) {
 		PlayerInfo info = player.getPlayer().getPlayerInfo();
 		if (targetUI == null) {
 			targetUI = player;
@@ -36,7 +37,7 @@ public class InitiateAttackOperation implements Operation {
 	}
 	
 	@Override
-	public void onCardClicked(CardGui card) {
+	public void onCardClicked(CardUI card) {
 		onCanceled();
 		if (card != activator) {
 			panel.getCurrentOperation().onCardClicked(card);
@@ -55,7 +56,7 @@ public class InitiateAttackOperation implements Operation {
 			targetUI.setActivated(false);
 			panel.getContent().setConfirmEnabled(false);
 		}
-		for (PlayerGui other : panel.getContent().getOtherPlayersUI()) {
+		for (PlayerUI other : panel.getContent().getOtherPlayersUI()) {
 			other.setActivatable(false);
 		}
 		panel.getContent().setCancelEnabled(false);
@@ -67,17 +68,17 @@ public class InitiateAttackOperation implements Operation {
 	public void onConfirmed() {
 		onCanceled();
 		panel.getCurrentOperation().onConfirmed();
-		panel.getChannel().send(new InitiateAttackGameServerCommand(source, targetUI.getPlayer().getPlayerInfo(), (Attack) ((CardGui) activator).getCard()));
+		panel.getChannel().send(new InitiateAttackGameServerCommand(source, targetUI.getPlayer().getPlayerInfo(), (Attack) ((CardUI) activator).getCard()));
 	}
 
 	@Override
-	public void onActivated(GamePanel panel, Activatable activator) {
+	public void onActivated(GamePanel<? extends Hero> panel, Activatable activator) {
 		this.activator = activator;
 		this.panel = panel;
-		GamePanelUI panelUI = panel.getContent();
+		ClientGameUI<? extends Hero> panelUI = panel.getContent();
 		PlayerComplete self = panelUI.getSelf();
 		this.source = self.getPlayerInfo();
-		for (PlayerGui other : panelUI.getOtherPlayersUI()) {
+		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
 			if (self.isPlayerInRange(other.getPlayer(), panelUI.getNumberOfPlayers())) {
 				other.setActivatable(true);
 			}

@@ -3,7 +3,7 @@ package commands.game.server.ingame;
 import java.util.List;
 
 import cards.Card;
-import core.server.Game;
+import core.server.game.Game;
 import core.server.game.controllers.TurnGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 

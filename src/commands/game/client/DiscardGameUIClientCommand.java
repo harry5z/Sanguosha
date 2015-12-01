@@ -1,11 +1,12 @@
 package commands.game.client;
 
-import core.PlayerInfo;
+import core.client.GamePanel;
 import core.client.game.operations.DiscardOperation;
-import net.client.GamePanel;
-import ui.game.GamePanelUI;
+import core.heroes.Hero;
+import core.player.PlayerInfo;
+import ui.game.interfaces.ClientGameUI;
 
-public class DiscardGameUIClientCommand extends GameUIClientCommand {
+public class DiscardGameUIClientCommand extends GeneralGameUIClientCommand {
 
 	private static final long serialVersionUID = 2390690749143332929L;
 	
@@ -18,8 +19,8 @@ public class DiscardGameUIClientCommand extends GameUIClientCommand {
 	}
 	
 	@Override
-	public void execute(GamePanel panel) {
-		GamePanelUI panelUI = panel.getContent();
+	public void execute(GamePanel<? extends Hero> panel) {
+		ClientGameUI<? extends Hero> panelUI = panel.getContent();
 		if (panelUI.getSelf().getPlayerInfo().equals(currentPlayer)) {
 			panel.pushOperation(new DiscardOperation(amount), null);
 		} else {

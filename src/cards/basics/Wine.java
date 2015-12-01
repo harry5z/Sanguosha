@@ -3,7 +3,7 @@ package cards.basics;
 import core.client.ClientGameInfo;
 import core.client.game.operations.Operation;
 import core.client.game.operations.WineOperation;
-import player.PlayerCompleteClient;
+import core.player.PlayerCompleteClient;
 
 public class Wine extends Basic {
 

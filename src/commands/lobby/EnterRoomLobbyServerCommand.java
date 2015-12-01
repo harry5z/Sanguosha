@@ -1,7 +1,7 @@
 package commands.lobby;
 
+import core.server.Lobby;
 import net.Connection;
-import net.server.Lobby;
 
 /**
  * This Command lets player enter a room from lobby

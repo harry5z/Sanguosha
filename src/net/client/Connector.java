@@ -3,7 +3,6 @@ package net.client;
 import java.io.IOException;
 import java.net.Socket;
 
-import net.ClientConnection;
 import net.Connection;
 import net.server.Server;
 /**

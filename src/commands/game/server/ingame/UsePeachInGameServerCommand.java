@@ -1,7 +1,7 @@
 package commands.game.server.ingame;
 
 import cards.Card;
-import core.server.Game;
+import core.server.game.Game;
 import core.server.game.controllers.PeachUsableGameController;
 
 public class UsePeachInGameServerCommand extends InGameServerCommand {

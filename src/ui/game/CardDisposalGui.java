@@ -35,7 +35,7 @@ public class CardDisposalGui extends JPanel implements CardDisposalListener, Act
 		this.parent = parentPanel;
 		setLayout(null);
 		setSize(WIDTH,HEIGHT);
-		setLocation((GamePanelUI.WIDTH-WIDTH)/2,(GamePanelUI.HEIGHT-HEIGHT)/2);
+		setLocation((GamePanelGui.WIDTH-WIDTH)/2,(GamePanelGui.HEIGHT-HEIGHT)/2);
 		usage = new CardRackGui(null);
 		usage.setSize(WIDTH, CardGui.HEIGHT);
 		usage.setLocation(0,0);

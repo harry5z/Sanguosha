@@ -25,7 +25,7 @@ public class LifebarGui extends JPanel implements HealthListener {
 
 	public LifebarGui() {
 		setSize(WIDTH, HEIGHT);
-		setLocation(GamePanelUI.WIDTH - WIDTH, GamePanelUI.HEIGHT - HEIGHT);
+		setLocation(GamePanelGui.WIDTH - WIDTH, GamePanelGui.HEIGHT - HEIGHT);
 		setLayout(null);
 		limit = 0;
 		current = 0;

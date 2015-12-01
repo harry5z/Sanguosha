@@ -1,16 +1,16 @@
 package listeners.game.server;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
+import commands.game.client.sync.SyncCommandsUtil;
+import commands.game.client.sync.equipment.SyncEquipGameUIClientCommand;
+import commands.game.client.sync.equipment.SyncUnequipGameUIClientCommand;
 import core.Deck;
-import exceptions.server.game.InvalidPlayerCommandException;
+import core.player.PlayerComplete;
+import core.server.GameRoom;
 import listeners.game.EquipmentListener;
-import net.server.GameRoom;
-import player.PlayerComplete;
-import ui.game.GamePanelUI;
 
 public class ServerInGameEquipmentListener extends ServerInGamePlayerListener implements EquipmentListener {
 	
@@ -25,29 +25,11 @@ public class ServerInGameEquipmentListener extends ServerInGamePlayerListener im
 	
 	@Override
 	public void onEquipped(Equipment equipment) {
-		room.sendCommandToPlayer(
-			name, 
-			(ui, connection) -> {
-				try {
-					ui.<GamePanelUI>getPanel().getContent().getSelf().equip(equipment);
-				} catch (InvalidPlayerCommandException e) {
-					e.printStackTrace();
-				}
-			}
-		);
-		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
-			otherNames.stream().collect(
-				Collectors.toMap(
-					n -> n, 
-					n -> ((ui, connection) -> {
-						try {
-							ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).equip(equipment);
-						} catch (InvalidPlayerCommandException e) {
-							e.printStackTrace();
-						}
-					})
-				)
+			SyncCommandsUtil.generateMapForSameCommand(
+				name, 
+				otherNames, 
+				new SyncEquipGameUIClientCommand(name, equipment)
 			)
 		);
 	}
@@ -55,30 +37,12 @@ public class ServerInGameEquipmentListener extends ServerInGamePlayerListener im
 	@Override
 	public void onUnequipped(EquipmentType type) {
 		deck.discard(player.getEquipment(type));
-		room.sendCommandToPlayer(
-			name,
-			(ui, connection) -> {
-				try {
-					ui.<GamePanelUI>getPanel().getContent().getSelf().unequip(type);
-				} catch (InvalidPlayerCommandException e) {
-					e.printStackTrace();
-				}
-			}
-		);
-		final String playerName = name; // To avoid referencing "this" while serializing
 		room.sendCommandToPlayers(
-			otherNames.stream().collect(
-				Collectors.toMap(
-					n -> n, 
-					n -> ((ui, connection) -> {
-						try {
-							ui.<GamePanelUI>getPanel().getContent().getPlayer(playerName).unequip(type);
-						} catch (InvalidPlayerCommandException e) {
-							e.printStackTrace();
-						}
-					})
-				)
-			)
+			SyncCommandsUtil.generateMapForSameCommand(
+				name, 
+				otherNames, 
+				new SyncUnequipGameUIClientCommand(name, type)
+			)	
 		);
 	}
 

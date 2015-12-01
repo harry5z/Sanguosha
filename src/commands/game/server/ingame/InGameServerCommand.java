@@ -1,9 +1,9 @@
 package commands.game.server.ingame;
 
 import commands.game.server.GameServerCommand;
-import core.server.Game;
+import core.server.GameRoom;
+import core.server.game.Game;
 import net.Connection;
-import net.server.GameRoom;
 
 public abstract class InGameServerCommand implements GameServerCommand {
 

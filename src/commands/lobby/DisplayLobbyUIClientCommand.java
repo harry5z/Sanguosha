@@ -3,18 +3,18 @@ package commands.lobby;
 import java.util.List;
 
 import net.Connection;
-import net.client.ClientUI;
-import net.server.RoomInfo;
 import ui.client.LobbyGui;
 
 import commands.Command;
+import core.client.ClientFrame;
+import core.server.RoomInfo;
 
 /**
  * This Command draws the lobby GUI on client's screen
  * @author Harry
  *
  */
-public class DisplayLobbyUIClientCommand implements Command<ClientUI> {
+public class DisplayLobbyUIClientCommand implements Command<ClientFrame> {
 	private static final long serialVersionUID = 2969055754383503593L;
 	private final List<RoomInfo> rooms;
 	
@@ -27,7 +27,7 @@ public class DisplayLobbyUIClientCommand implements Command<ClientUI> {
 	}
 	
 	@Override
-	public void execute(ClientUI ui, Connection connection) {
+	public void execute(ClientFrame ui, Connection connection) {
 		ui.onNewPanelDisplayed(new LobbyGui(rooms, connection));
 	}
 }

@@ -1,15 +1,16 @@
 package core.client.game.operations;
 
 import commands.game.server.ingame.EndStageInGameServerCommand;
-import net.client.GamePanel;
-import ui.game.Activatable;
-import ui.game.CardGui;
-import ui.game.EquipmentGui;
-import ui.game.GamePanelUI;
+import core.client.GamePanel;
+import core.heroes.Hero;
+import ui.game.interfaces.Activatable;
+import ui.game.interfaces.CardUI;
+import ui.game.interfaces.ClientGameUI;
+import ui.game.interfaces.EquipmentUI;
 
 public class DealOperation implements Operation {
 
-	private GamePanel panel;
+	private GamePanel<? extends Hero> panel;
 	
 	@Override
 	public void onEnded() {
@@ -29,29 +30,29 @@ public class DealOperation implements Operation {
 	 */
 	@Override
 	public void onConfirmed() {
-		GamePanelUI panelUI = panel.getContent();
+		ClientGameUI<? extends Hero> panelUI = panel.getContent();
 		panelUI.setEndEnabled(false);
-		for(CardGui cardUI : panelUI.getCardRackUI().getCardUIs()) {
+		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
 			cardUI.setActivatable(false);
 		}
 	}
 	
 	@Override
-	public void onCardClicked(CardGui card) {
+	public void onCardClicked(CardUI card) {
 		panel.pushOperation(card.getCard().generateOperation(), card);
 	}
 	
 	@Override
-	public void onEquipmentClicked(EquipmentGui equipment) {
+	public void onEquipmentClicked(EquipmentUI equipment) {
 		panel.pushOperation(equipment.getEquipment().generateOperation(), equipment);
 	}
 
 	@Override
-	public void onActivated(GamePanel panel, Activatable source) {
+	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
 		this.panel = panel;
-		GamePanelUI panelUI = panel.getContent();
+		ClientGameUI<? extends Hero> panelUI = panel.getContent();
 		panelUI.showCountdownBar();
-		for(CardGui cardUI : panelUI.getCardRackUI().getCardUIs()) {
+		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
 			if (cardUI.getCard().isActivatable(panelUI)) {
 				cardUI.setActivatable(true);
 			}

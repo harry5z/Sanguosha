@@ -1,8 +1,8 @@
 package commands;
 
-import player.PlayerComplete;
-import core.PlayerInfo;
-import core.server.Game;
+import core.player.PlayerComplete;
+import core.player.PlayerInfo;
+import core.server.game.Game;
 
 public class IncreaseOfHealth extends SourceTargetAmount
 {

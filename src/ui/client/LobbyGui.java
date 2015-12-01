@@ -17,16 +17,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import net.Connection;
-import net.client.ClientMessageListener;
-import net.client.ClientPanel;
-import net.server.RoomInfo;
-import ui.client.components.ControlButtonGui;
-import ui.client.components.LabelGui;
 import commands.lobby.CreateRoomLobbyServerCommand;
 import commands.lobby.EnterRoomLobbyServerCommand;
+import core.client.ClientPanel;
+import core.client.ClientPanelUI;
+import core.server.RoomInfo;
+import net.Connection;
+import net.client.ClientMessageListener;
+import ui.client.components.ControlButtonGui;
+import ui.client.components.LabelGui;
 
-public class LobbyGui extends JPanel implements ClientPanel<LobbyGui> {
+public class LobbyGui extends JPanel implements ClientPanelUI, ClientPanel<LobbyGui> {
 	private static final long serialVersionUID = 2778859336381008271L;
 	private static final Comparator<RoomInfo> COMPARATOR = (room1, room2) -> Integer.compare(room1.getRoomID(), room2.getRoomID());
 	private final Connection connection;
@@ -81,6 +82,11 @@ public class LobbyGui extends JPanel implements ClientPanel<LobbyGui> {
 	
 	@Override
 	public LobbyGui getContent() {
+		return this;
+	}
+
+	@Override
+	public JPanel getPanel() {
 		return this;
 	}
 

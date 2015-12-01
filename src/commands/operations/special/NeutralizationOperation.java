@@ -3,14 +3,14 @@ package commands.operations.special;
 import java.util.ArrayList;
 import java.util.List;
 
-import player.PlayerComplete;
-import player.PlayerOriginal;
 import cards.Card;
 import cards.specials.instant.Neutralization;
 import commands.game.server.ingame.UseOfCardsInGameServerCommand;
-import core.PlayerInfo;
 import core.client.game.operations.Operation;
-import core.server.Game;
+import core.player.PlayerComplete;
+import core.player.PlayerInfo;
+import core.player.PlayerOriginal;
+import core.server.game.Game;
 
 public class NeutralizationOperation extends Operation
 {

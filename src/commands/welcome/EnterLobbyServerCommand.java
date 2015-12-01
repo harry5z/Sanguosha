@@ -1,7 +1,7 @@
 package commands.welcome;
 
+import core.server.WelcomeSession;
 import net.Connection;
-import net.server.WelcomeSession;
 
 public class EnterLobbyServerCommand implements WelcomeSessionServerCommand {
 	private static final long serialVersionUID = 3018744020722565195L;

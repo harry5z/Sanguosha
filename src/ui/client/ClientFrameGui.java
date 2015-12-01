@@ -1,18 +1,18 @@
 package ui.client;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
+import core.client.ClientFrame;
+import core.client.ClientPanel;
+import core.client.ClientPanelUI;
 import net.Connection;
 import net.ConnectionListener;
 import net.client.Client;
-import net.client.ClientPanel;
-import net.client.ClientUI;
 import utils.Log;
 
-public class ClientFrameGui implements ClientUI, ConnectionListener {
+public class ClientFrameGui implements ClientFrame, ConnectionListener {
 	private final JFrame frame;
-	private ClientPanel<? extends JPanel> panel;
+	private ClientPanel<? extends ClientPanelUI> panel;
 
 	public ClientFrameGui(Client client) {
 		frame = new JFrame("Sanguosha");
@@ -23,12 +23,12 @@ public class ClientFrameGui implements ClientUI, ConnectionListener {
 	}
 
 	@Override
-	public void onNewPanelDisplayed(ClientPanel<? extends JPanel> panel) {
+	public synchronized void onNewPanelDisplayed(ClientPanel<? extends ClientPanelUI> panel) {
 		if (panel != null) {
-			frame.remove(this.panel.getContent());
+			frame.remove(this.panel.getContent().getPanel());
 		}
 		this.panel = panel;
-		frame.add(panel.getContent());
+		frame.add(panel.getContent().getPanel());
 		frame.pack();
 	}
 	
@@ -39,7 +39,7 @@ public class ClientFrameGui implements ClientUI, ConnectionListener {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends JPanel> ClientPanel<T> getPanel() {
+	public <T extends ClientPanelUI> ClientPanel<T> getPanel() {
 		return (ClientPanel<T>) panel;
 	}
 

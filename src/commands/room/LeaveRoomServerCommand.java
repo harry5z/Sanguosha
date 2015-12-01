@@ -1,7 +1,7 @@
 package commands.room;
 
+import core.server.Room;
 import net.Connection;
-import net.server.Room;
 
 public class LeaveRoomServerCommand implements RoomServerCommand {
 

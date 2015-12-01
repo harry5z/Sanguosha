@@ -1,16 +1,16 @@
 package commands.operations;
 
-import player.PlayerComplete;
-import player.PlayerOriginal;
 import cards.Card;
 import cards.basics.Peach;
 import cards.basics.Wine;
 
 import commands.Command;
 import commands.DeathEvent;
-import core.PlayerInfo;
 import core.client.game.operations.Operation;
-import core.server.Game;
+import core.player.PlayerComplete;
+import core.player.PlayerInfo;
+import core.player.PlayerOriginal;
+import core.server.game.Game;
 
 /**
  * The near-death event, has high priority and is invoked immediately after a player's

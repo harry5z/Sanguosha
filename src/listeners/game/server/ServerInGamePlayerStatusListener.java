@@ -3,14 +3,16 @@ package listeners.game.server;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import commands.game.client.sync.SyncAttackLimitsSetGameUIClientCommand;
-import commands.game.client.sync.SyncAttackUsedGameUIClientCommand;
-import commands.game.client.sync.SyncAttackUsedSetGameUIClientCommand;
-import commands.game.client.sync.SyncFlipGameUIClientCommand;
-import commands.game.client.sync.SyncWineUsedGameUIClientCommand;
-import commands.game.client.sync.SyncWineUsedsSetGameUIClientCommand;
+import commands.game.client.sync.SyncCommandsUtil;
+import commands.game.client.sync.status.SyncAttackLimitsSetGameUIClientCommand;
+import commands.game.client.sync.status.SyncAttackUsedGameUIClientCommand;
+import commands.game.client.sync.status.SyncAttackUsedSetGameUIClientCommand;
+import commands.game.client.sync.status.SyncFlipGameUIClientCommand;
+import commands.game.client.sync.status.SyncResetWineEffectiveGameUIClientCommand;
+import commands.game.client.sync.status.SyncWineUsedGameUIClientCommand;
+import commands.game.client.sync.status.SyncWineUsedsSetGameUIClientCommand;
+import core.server.GameRoom;
 import listeners.game.PlayerStatusListener;
-import net.server.GameRoom;
 
 public class ServerInGamePlayerStatusListener extends ServerInGamePlayerListener implements PlayerStatusListener {
 
@@ -20,13 +22,11 @@ public class ServerInGamePlayerStatusListener extends ServerInGamePlayerListener
 
 	@Override
 	public void onWineUsed() {
-		final String name = this.name;
 		room.sendCommandToPlayers(
-			otherNames.stream().collect(
-				Collectors.toMap(
-					n -> n, 
-					n -> new SyncWineUsedGameUIClientCommand(name)
-				)
+			SyncCommandsUtil.generateMapForSameCommand(
+				name, 
+				otherNames, 
+				new SyncWineUsedGameUIClientCommand(name)
 			)
 		);
 	}
@@ -50,16 +50,25 @@ public class ServerInGamePlayerStatusListener extends ServerInGamePlayerListener
 	public void onSetWineUsed(int amount) {
 		room.sendCommandToPlayer(name, new SyncWineUsedsSetGameUIClientCommand(amount));
 	}
+	
+	@Override
+	public void onResetWineEffective() {
+		room.sendCommandToPlayers(
+			SyncCommandsUtil.generateMapForSameCommand(
+				name, 
+				otherNames, 
+				new SyncResetWineEffectiveGameUIClientCommand(name)
+			)
+		);
+	}
 
 	@Override
 	public void onFlip(boolean flipped) {
-		final String name = this.name;
 		room.sendCommandToPlayers(
-			otherNames.stream().collect(
-				Collectors.toMap(
-					n -> n, 
-					n -> new SyncFlipGameUIClientCommand(name, flipped)
-				)
+			SyncCommandsUtil.generateMapForSameCommand(
+				name, 
+				otherNames, 
+				new SyncFlipGameUIClientCommand(name, flipped)
 			)
 		);
 	}

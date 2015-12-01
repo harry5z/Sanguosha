@@ -3,7 +3,7 @@ package commands.game.server.ingame;
 import java.util.Set;
 
 import cards.Card;
-import core.PlayerInfo;
+import core.player.PlayerInfo;
 
 /**
  * use of cards by a player, used cards are displayed in the disposal area until an event

@@ -5,15 +5,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import commands.game.server.ingame.DiscardInGameServerCommand;
-import net.client.GamePanel;
-import ui.game.Activatable;
-import ui.game.CardGui;
-import ui.game.GamePanelUI;
+import core.client.GamePanel;
+import core.heroes.Hero;
+import ui.game.interfaces.Activatable;
+import ui.game.interfaces.CardUI;
+import ui.game.interfaces.ClientGameUI;
 
 public class DiscardOperation implements Operation {
 	
-	private GamePanel panel;
-	private List<CardGui> cards = new ArrayList<>();
+	private GamePanel<? extends Hero> panel;
+	private List<CardUI> cards = new ArrayList<>();
 	private final int amount;
 	
 	public DiscardOperation(int amount) {
@@ -22,7 +23,7 @@ public class DiscardOperation implements Operation {
 	
 	@Override
 	public void onConfirmed() {
-		for(CardGui cardUI : panel.getContent().getCardRackUI().getCardUIs()) {
+		for(CardUI cardUI : panel.getContent().getCardRackUI().getCardUIs()) {
 			cardUI.setActivatable(false);
 		}
 		panel.getContent().setConfirmEnabled(false);
@@ -30,7 +31,7 @@ public class DiscardOperation implements Operation {
 	}
 
 	@Override
-	public void onCardClicked(CardGui card) {
+	public void onCardClicked(CardUI card) {
 		if (cards.remove(card)) {
 			card.setActivated(false);
 			if (cards.size() == 0) {
@@ -50,11 +51,11 @@ public class DiscardOperation implements Operation {
 	}
 
 	@Override
-	public void onActivated(GamePanel panel, Activatable source) {
+	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
 		this.panel = panel;
-		GamePanelUI panelUI = panel.getContent();
+		ClientGameUI<? extends Hero> panelUI = panel.getContent();
 		panelUI.showCountdownBar();
-		for(CardGui cardUI : panelUI.getCardRackUI().getCardUIs()) {
+		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
 			cardUI.setActivatable(true);
 		}
 	}

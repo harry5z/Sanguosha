@@ -1,10 +1,11 @@
 package commands.game.client;
 
-import core.PlayerInfo;
+import core.client.GamePanel;
 import core.client.game.operations.DodgeOperation;
-import net.client.GamePanel;
+import core.heroes.Hero;
+import core.player.PlayerInfo;
 
-public class RequestDodgeGameUIClientCommand extends GameUIClientCommand {
+public class RequestDodgeGameUIClientCommand extends GeneralGameUIClientCommand {
 	
 	private static final long serialVersionUID = -4208580489692790341L;
 
@@ -15,7 +16,7 @@ public class RequestDodgeGameUIClientCommand extends GameUIClientCommand {
 	}
 
 	@Override
-	public void execute(GamePanel panel) {
+	public void execute(GamePanel<? extends Hero> panel) {
 		if (panel.getContent().getSelf().getPlayerInfo().equals(target)) {
 			panel.pushOperation(new DodgeOperation(), null);
 		} else {

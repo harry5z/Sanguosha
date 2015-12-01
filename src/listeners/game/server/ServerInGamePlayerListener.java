@@ -3,7 +3,7 @@ package listeners.game.server;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import net.server.GameRoom;
+import core.server.GameRoom;
 
 public abstract class ServerInGamePlayerListener {
 

@@ -7,8 +7,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 
+import core.server.WelcomeSession;
 import net.Connection;
-import net.ServerConnection;
 import utils.Log;
 
 /**

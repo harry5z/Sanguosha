@@ -2,14 +2,16 @@ package core.client.game.operations;
 
 import cards.Card;
 import commands.Command;
-import net.client.GamePanel;
-import ui.game.Activatable;
+import core.client.GamePanel;
+import core.heroes.Hero;
 import ui.game.CardGui;
+import ui.game.interfaces.Activatable;
+import ui.game.interfaces.CardUI;
 
 public abstract class SimpleCardOperation implements Operation {
 
 	private CardGui card;
-	private GamePanel panel;
+	private GamePanel<? extends Hero> panel;
 
 	@Override
 	public final void onCanceled() {
@@ -22,13 +24,14 @@ public abstract class SimpleCardOperation implements Operation {
 	@Override
 	public final void onConfirmed() {
 		onCanceled();
+		panel.getCurrentOperation().onConfirmed();
 		panel.getChannel().send(getCommand(card == null ? null : card.getCard()));
 	}
 	
 	protected abstract Command<?> getCommand(Card card);
 
 	@Override
-	public final void onCardClicked(CardGui card) {
+	public final void onCardClicked(CardUI card) {
 		onCanceled();
 		if (card != this.card) {
 			panel.getCurrentOperation().onCardClicked(card);
@@ -42,7 +45,7 @@ public abstract class SimpleCardOperation implements Operation {
 	}
 
 	@Override
-	public final void onActivated(GamePanel panel, Activatable source) {
+	public final void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
 		this.panel = panel;
 		this.card = (CardGui) source;
 		panel.getContent().setConfirmEnabled(true);

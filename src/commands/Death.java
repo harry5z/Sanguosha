@@ -3,11 +3,11 @@ package commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import player.PlayerComplete;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
-import core.PlayerInfo;
-import core.server.Game;
+import core.player.PlayerComplete;
+import core.player.PlayerInfo;
+import core.server.game.Game;
 
 /**
  * Death update

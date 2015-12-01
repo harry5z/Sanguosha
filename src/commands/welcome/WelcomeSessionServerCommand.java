@@ -1,7 +1,7 @@
 package commands.welcome;
 
-import net.server.WelcomeSession;
 import commands.ServerCommand;
+import core.server.WelcomeSession;
 
 /**
  * This interface represents {@linkplain ServerCommand}s that will be executed

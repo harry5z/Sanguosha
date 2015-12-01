@@ -2,10 +2,10 @@ package commands;
 
 import java.util.List;
 
-import player.PlayerComplete;
 import cards.Card;
-import core.PlayerInfo;
-import core.server.Game;
+import core.player.PlayerComplete;
+import core.player.PlayerInfo;
+import core.server.game.Game;
 
 /**
  * player's request of cards from deck

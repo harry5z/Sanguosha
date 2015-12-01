@@ -3,6 +3,9 @@ package net.server;
 import java.util.HashSet;
 import java.util.Set;
 
+import core.server.Lobby;
+import core.server.Room;
+import core.server.WelcomeSession;
 import net.Connection;
 import net.ConnectionListener;
 

@@ -1,7 +1,7 @@
 package commands;
 
 import net.Connection;
-import net.ServerConnection;
+import net.server.ServerConnection;
 import net.server.ServerEntity;
 
 public class RequestResendServerCommand implements Command<ServerEntity> {

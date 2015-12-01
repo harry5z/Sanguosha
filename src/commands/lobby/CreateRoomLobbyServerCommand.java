@@ -1,9 +1,9 @@
 package commands.lobby;
 
+import core.server.Lobby;
+import core.server.RoomConfig;
+import core.server.game.GameConfig;
 import net.Connection;
-import net.server.GameConfig;
-import net.server.Lobby;
-import net.server.RoomConfig;
 
 /**
  * This Command attempts to create a new room 

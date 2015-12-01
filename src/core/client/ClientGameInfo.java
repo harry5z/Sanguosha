@@ -2,8 +2,8 @@ package core.client;
 
 import java.util.List;
 
-import player.PlayerCompleteClient;
-import player.PlayerSimple;
+import core.player.PlayerCompleteClient;
+import core.player.PlayerSimple;
 
 public interface ClientGameInfo {
 

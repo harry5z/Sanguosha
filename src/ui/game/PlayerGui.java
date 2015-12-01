@@ -10,15 +10,17 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import listeners.game.CardOnHandListener;
-import listeners.game.EquipmentListener;
-import listeners.game.HealthListener;
-import net.client.GamePanel;
-import player.PlayerSimple;
 import cards.Card;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
 import core.Constants;
+import core.client.GamePanel;
+import core.heroes.Hero;
+import core.player.PlayerSimple;
+import listeners.game.CardOnHandListener;
+import listeners.game.EquipmentListener;
+import listeners.game.HealthListener;
+import ui.game.interfaces.PlayerUI;
 
 /**
  * Gui of other players, shows life bar, equipments, count of cards on hand,
@@ -27,7 +29,7 @@ import core.Constants;
  * @author Harry
  *
  */
-public class PlayerGui extends JButton implements Activatable {
+public class PlayerGui extends JButton implements PlayerUI {
 
 	private static final long serialVersionUID = 7793033583166480640L;
 
@@ -41,7 +43,7 @@ public class PlayerGui extends JButton implements Activatable {
 	private PlayerSimple player;
 	private boolean activated = false;
 
-	public PlayerGui(PlayerSimple player, GamePanel panel) {
+	public PlayerGui(PlayerSimple player, GamePanel<? extends Hero> panel) {
 		this.player = player;
 		setSize(WIDTH, HEIGHT);
 		setLayout(null);
@@ -83,16 +85,6 @@ public class PlayerGui extends JButton implements Activatable {
 	@Override
 	public void setActivated(boolean activated) {
 		this.activated = activated;
-		repaint();
-	}
-	
-	protected void select() {
-		activated = true;
-		repaint();
-	}
-
-	protected void unselect() {
-		activated = false;
 		repaint();
 	}
 
@@ -260,6 +252,7 @@ public class PlayerGui extends JButton implements Activatable {
 		}
 	}
 
+	@Override
 	public PlayerSimple getPlayer() {
 		return player;
 	}
@@ -275,14 +268,17 @@ public class PlayerGui extends JButton implements Activatable {
 		g.drawRect(0, 0, WIDTH, HEIGHT);
 	}
 
+	@Override
 	public void showCountdownBar() {
 		// TODO implement (countdown bar)
 	}
 
+	@Override
 	public void setWineUsed(boolean used) {
 		// TODO implement (ui)
 	}
 
+	@Override
 	public void flip(boolean flipped) {
 		// TODO implement
 	}

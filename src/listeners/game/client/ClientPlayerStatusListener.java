@@ -1,13 +1,14 @@
 package listeners.game.client;
 
+import core.heroes.original.HeroOriginal;
 import listeners.game.PlayerStatusListener;
-import ui.game.GamePanelUI;
+import ui.game.interfaces.ClientGameUI;
 
 public class ClientPlayerStatusListener implements PlayerStatusListener {
 	
-	private final GamePanelUI ui;
+	private final ClientGameUI<HeroOriginal> ui;
 	
-	public ClientPlayerStatusListener(GamePanelUI ui) {
+	public ClientPlayerStatusListener(ClientGameUI<HeroOriginal> ui) {
 		this.ui = ui;
 	}
 
@@ -38,6 +39,11 @@ public class ClientPlayerStatusListener implements PlayerStatusListener {
 
 	@Override
 	public void onFlip(boolean flipped) {
+		// TODO ui
+	}
+
+	@Override
+	public void onResetWineEffective() {
 		// TODO ui
 	}
 

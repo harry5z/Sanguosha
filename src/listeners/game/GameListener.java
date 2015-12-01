@@ -2,9 +2,9 @@ package listeners.game;
 
 import javax.swing.JPanel;
 
-import player.PlayerSimple;
 import cards.Card;
-import core.PlayerInfo;
+import core.player.PlayerInfo;
+import core.player.PlayerSimple;
 
 public interface GameListener
 {
@@ -35,21 +35,7 @@ public interface GameListener
 	 * @param selectable
 	 */
 	public void setTargetSelectable(PlayerInfo player, boolean selectable);
-	/**
-	 * invoked to enable/disable confirm button
-	 * @param isEnabled
-	 */
-	public void setConfirmEnabled(boolean isEnabled);
-	/**
-	 * invoked to enable/disable cancel button
-	 * @param isEnabled
-	 */
-	public void setCancelEnabled(boolean isEnabled);
-	/**
-	 * invoked to enable/disable end button
-	 * @param isEnabled
-	 */
-	public void setEndEnabled(boolean isEnabled);
+
 	/**
 	 * update the size of game deck
 	 * @param size

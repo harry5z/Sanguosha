@@ -1,13 +1,13 @@
 package listeners.game.server;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import cards.Card;
-import commands.game.client.sync.SyncOtherPlayerCardGameUIClientCommand;
-import commands.game.client.sync.SyncPlayerCardGameClientCommand;
+import commands.game.client.sync.SyncCommandsUtil;
+import commands.game.client.sync.cardonhand.SyncOtherPlayerCardGameUIClientCommand;
+import commands.game.client.sync.cardonhand.SyncPlayerCardGameUIClientCommand;
+import core.server.GameRoom;
 import listeners.game.CardOnHandListener;
-import net.server.GameRoom;
 
 public class ServerInGameCardOnHandListener extends ServerInGamePlayerListener implements CardOnHandListener {
 
@@ -16,21 +16,26 @@ public class ServerInGameCardOnHandListener extends ServerInGamePlayerListener i
 	}
 	@Override
 	public void onCardAdded(Card card) {
-		room.sendCommandToPlayer(name, new SyncPlayerCardGameClientCommand(card, true));
 		room.sendCommandToPlayers(
-			otherNames.stream().collect(
-				Collectors.toMap(
-					n -> n, 
-					n -> new SyncOtherPlayerCardGameUIClientCommand(name, true, 1)
-				)
+			SyncCommandsUtil.generateMapForDifferentCommand(
+				name, 
+				otherNames, 
+				new SyncPlayerCardGameUIClientCommand(card, true), 
+				new SyncOtherPlayerCardGameUIClientCommand(name, true, 1)
 			)
 		);
 	}
 
 	@Override
 	public void onCardRemoved(Card card) {
-		room.sendCommandToPlayer(name, new SyncPlayerCardGameClientCommand(card, false));
-		room.sendCommandToPlayers(otherNames.stream().collect(Collectors.toMap(n -> n, n -> new SyncOtherPlayerCardGameUIClientCommand(name, false, 1))));
+		room.sendCommandToPlayers(
+			SyncCommandsUtil.generateMapForDifferentCommand(
+				name, 
+				otherNames, 
+				new SyncPlayerCardGameUIClientCommand(card, false), 
+				new SyncOtherPlayerCardGameUIClientCommand(name, false, 1)
+			)
+		);	
 	}
 
 }

@@ -3,7 +3,7 @@ package cards.specials.instant;
 import cards.equipments.Equipment.EquipmentType;
 import core.client.ClientGameInfo;
 import core.client.game.operations.Operation;
-import player.PlayerSimple;
+import core.player.PlayerSimple;
 
 public class BorrowSword extends Instant {
 

@@ -1,7 +1,7 @@
 package cards.specials.instant;
 
 import core.client.game.operations.Operation;
-import player.PlayerComplete;
+import core.player.PlayerComplete;
 
 public class Neutralization extends Instant {
 

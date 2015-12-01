@@ -4,9 +4,9 @@ import commands.Command;
 import commands.game.server.ingame.UseOfCardsInGameServerCommand;
 import cards.Card;
 import cards.basics.Attack;
-import player.PlayerOriginal;
-import player.PlayerComplete;
-import core.PlayerInfo;
+import core.player.PlayerComplete;
+import core.player.PlayerInfo;
+import core.player.PlayerOriginal;
 import core.server.game.Damage;
 
 public class DuelOperation extends SpecialOperation

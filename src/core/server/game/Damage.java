@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cards.Card;
-import player.PlayerCompleteServer;
+import core.player.PlayerCompleteServer;
 
 /**
  * Damage

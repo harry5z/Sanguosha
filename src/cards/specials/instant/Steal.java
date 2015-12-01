@@ -1,11 +1,10 @@
 package cards.specials.instant;
 
-import player.PlayerComplete;
-import player.PlayerSimple;
-
 import commands.Command;
 import commands.operations.special.StealOperation;
 import core.client.game.operations.Operation;
+import core.player.PlayerComplete;
+import core.player.PlayerSimple;
 
 public class Steal extends Instant
 {

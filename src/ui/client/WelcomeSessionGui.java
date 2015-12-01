@@ -8,15 +8,15 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import commands.welcome.EnterLobbyServerCommand;
+import core.client.ClientPanel;
+import core.client.ClientPanelUI;
 import net.Connection;
 import net.client.ClientMessageListener;
-import net.client.ClientPanel;
 import ui.client.components.ControlButtonGui;
 import ui.client.components.LabelGui;
 
-import commands.welcome.EnterLobbyServerCommand;
-
-public class WelcomeSessionGui extends JPanel implements ClientPanel<WelcomeSessionGui> {
+public class WelcomeSessionGui extends JPanel implements ClientPanelUI, ClientPanel<WelcomeSessionGui> {
 	
 	private static final long serialVersionUID = -3932061499692049816L;
 
@@ -35,6 +35,11 @@ public class WelcomeSessionGui extends JPanel implements ClientPanel<WelcomeSess
 
 	@Override
 	public WelcomeSessionGui getContent() {
+		return this;
+	}
+	
+	@Override
+	public JPanel getPanel() {
 		return this;
 	}
 
