@@ -33,11 +33,16 @@ public interface Game {
 	
 	public PlayerCompleteServer getNextPlayerAlive(PlayerCompleteServer current);
 	
+	public PlayerCompleteServer getCurrentPlayer();
+	
 	public <T extends GameController> T getGameController();
 	
 	public void pushGameController(GameController controller);
 	
+	public void pushNextGameController(GameController controller);
+
 	public void popGameController();
 
 	public Deck getDeck();
+
 }

@@ -14,13 +14,6 @@ import core.player.PlayerCompleteServer;
  */
 public class Damage {
 	
-	public static final byte TARGET_HERO_SKILLS = 1;
-	public static final byte TARGET_EQUIPMENT_SKILLS = 2;
-	public static final byte TARGET_CHECK_CHAINED = 3;
-	public static final byte TARGET_DAMAGE = 4;
-	public static final byte SOURCE_HERO_SKILLS_AFTER_DAMAGE = 5;
-	public static final byte TARGET_HERO_SKILLS_AFTER_DAMAGE = 6;
-
 	public enum Element {
 		NORMAL, FIRE, THUNDER;
 	}

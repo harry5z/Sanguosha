@@ -5,6 +5,7 @@ import java.util.Set;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
 import commands.game.client.sync.SyncCommandsUtil;
+import commands.game.client.sync.disposal.SyncDisposalAreaRefreshGameUIClientCommand;
 import commands.game.client.sync.equipment.SyncEquipGameUIClientCommand;
 import commands.game.client.sync.equipment.SyncUnequipGameUIClientCommand;
 import core.Deck;
@@ -43,6 +44,13 @@ public class ServerInGameEquipmentListener extends ServerInGamePlayerListener im
 				otherNames, 
 				new SyncUnequipGameUIClientCommand(name, type)
 			)	
+		);
+		room.sendCommandToPlayers(
+			SyncCommandsUtil.generateMapForSameCommand(
+				name, 
+				otherNames, 
+				new SyncDisposalAreaRefreshGameUIClientCommand()
+			)
 		);
 	}
 

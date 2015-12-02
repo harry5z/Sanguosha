@@ -1,7 +1,7 @@
 package cards.specials.instant;
 
+import core.client.ClientGameInfo;
 import core.client.game.operations.Operation;
-import core.player.PlayerComplete;
 
 public class Neutralization extends Instant {
 
@@ -17,15 +17,14 @@ public class Neutralization extends Instant {
 	public String getName() {
 		return NEUTRALIZATION;
 	}
-
+	
 	@Override
-	public boolean isActivatable(PlayerComplete player) {
+	public boolean isActivatable(ClientGameInfo game) {
 		return false;
 	}
 
 	@Override
 	public Operation generateOperation() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

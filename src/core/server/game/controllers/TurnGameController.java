@@ -58,7 +58,7 @@ public class TurnGameController implements
 		proceed();
 	}
 	
-	public PlayerComplete getCurrentPlayer() {
+	public PlayerCompleteServer getCurrentPlayer() {
 		return currentPlayer;
 	}
 	
@@ -96,7 +96,7 @@ public class TurnGameController implements
 				proceed();
 				return;
 			case DEAL:
-				for (PlayerComplete player : game.getPlayers()) {
+				for (PlayerCompleteServer player : game.getPlayers()) {
 					player.clearDisposalArea();
 				}
 				room.sendCommandToPlayers(

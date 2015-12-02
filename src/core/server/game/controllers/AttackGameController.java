@@ -158,12 +158,9 @@ public class AttackGameController implements GameController, DodgeUsableGameCont
 				proceed();
 				break;
 			case DAMAGE:
-				if (target.isEquipped(EquipmentType.SHIELD)) {
-					target.getShield().modifyDamage(damage);
-				}
-				damage.apply();
+				game.pushGameController(new DamageGameController(damage, game));
 				stage = stage.nextStage();
-				proceed();
+				game.getGameController().proceed();
 				break;
 			case END:
 				source.clearDisposalArea();

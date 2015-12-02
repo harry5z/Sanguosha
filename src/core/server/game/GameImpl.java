@@ -85,6 +85,11 @@ public class GameImpl implements Game {
 		}
 		throw new RuntimeException("Can't find next player alive");// should not reach here
 	}
+	
+	@Override
+	public PlayerCompleteServer getCurrentPlayer() {
+		return ((TurnGameController) controllers.lastElement()).getCurrentPlayer();
+	}
 
 	@Override
 	public Deck getDeck() {
@@ -140,6 +145,11 @@ public class GameImpl implements Game {
 	public void pushGameController(GameController controller) {
 		// TODO checks and stuff?
 		controllers.push(controller);
+	}
+	
+	@Override
+	public void pushNextGameController(GameController controller) {
+		controllers.add(1, controller);
 	}
 	
 	@Override
