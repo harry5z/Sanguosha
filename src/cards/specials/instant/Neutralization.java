@@ -1,7 +1,8 @@
 package cards.specials.instant;
 
-import core.client.ClientGameInfo;
+import core.GameState;
 import core.client.game.operations.Operation;
+import core.client.game.operations.instants.NeutralizationOperation;
 
 public class Neutralization extends Instant {
 
@@ -19,13 +20,13 @@ public class Neutralization extends Instant {
 	}
 	
 	@Override
-	public boolean isActivatable(ClientGameInfo game) {
+	public boolean isActivatable(GameState game) {
 		return false;
 	}
 
 	@Override
 	public Operation generateOperation() {
-		return null;
+		return new NeutralizationOperation();
 	}
 
 }

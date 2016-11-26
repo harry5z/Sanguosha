@@ -6,7 +6,7 @@ import core.server.game.Game;
 
 public class DamageGameController implements GameController {
 	
-	public enum DamageStage {
+	public static enum DamageStage {
 		TARGET_HERO_SKILLS,
 		TARGET_EQUIPMENT_SKILLS,
 		TARGET_CHECK_CHAINED,

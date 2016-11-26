@@ -1,7 +1,7 @@
 package cards.equipments;
 
 import cards.Card;
-import core.client.ClientGameInfo;
+import core.GameState;
 import core.client.game.operations.EquipOperation;
 import core.client.game.operations.Operation;
 
@@ -46,7 +46,7 @@ public abstract class Equipment extends Card {
 	}
 
 	@Override
-	public boolean isActivatable(ClientGameInfo game) {
+	public boolean isActivatable(GameState game) {
 		return true;
 	}
 }

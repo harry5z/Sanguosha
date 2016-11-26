@@ -2,12 +2,12 @@ package ui.game.interfaces;
 
 import java.util.List;
 
-import core.client.ClientGameInfo;
+import core.GameState;
 import core.client.ClientPanelUI;
 import core.heroes.Hero;
 import core.player.PlayerInfo;
 
-public interface ClientGameUI<T extends Hero> extends ClientPanelUI, ClientGameInfo {
+public interface ClientGameUI<T extends Hero> extends ClientPanelUI, GameState {
 
 	/**
 	 * invoked to enable/disable confirm button

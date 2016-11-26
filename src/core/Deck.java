@@ -25,6 +25,7 @@ import cards.equipments.shields.RattanArmor;
 import cards.equipments.shields.SilverLion;
 import cards.equipments.weapons.IcySword;
 import cards.specials.instant.BarbarianInvasion;
+import cards.specials.instant.Creation;
 import cards.specials.instant.Duel;
 import cards.specials.instant.FireAttack;
 import cards.specials.instant.Harvest;
@@ -189,10 +190,10 @@ public class Deck {
 		// used.add(new BarbarianInvasion(7,CLUB, util.getUID()));
 		used.add(new BarbarianInvasion(13, SPADE, util.getUID()));
 
-		// used.add(new Creation(7,HEART, util.getUID()));
-		// used.add(new Creation(8,HEART, util.getUID()));
-		// used.add(new Creation(9,HEART, util.getUID()));
-		// used.add(new Creation(11,HEART, util.getUID()));
+		used.add(new Creation(7, HEART, util.getUID()));
+		used.add(new Creation(8, HEART, util.getUID()));
+		used.add(new Creation(9, HEART, util.getUID()));
+		used.add(new Creation(11, HEART, util.getUID()));
 
 		// used.add(new BorrowSword(12,CLUB, util.getUID()));
 		// used.add(new BorrowSword(13,CLUB, util.getUID()));

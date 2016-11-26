@@ -13,6 +13,9 @@ import core.player.PlayerComplete;
 import core.player.PlayerCompleteServer;
 import core.server.GameRoom;
 import core.server.game.Game;
+import core.server.game.controllers.interfaces.EquipmentUsableGameController;
+import core.server.game.controllers.interfaces.PeachUsableGameController;
+import core.server.game.controllers.interfaces.WineUsableGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class TurnGameController implements 

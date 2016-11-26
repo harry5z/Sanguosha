@@ -22,7 +22,7 @@ public class DiscardGameUIClientCommand extends GeneralGameUIClientCommand {
 	public void execute(GamePanel<? extends Hero> panel) {
 		ClientGameUI<? extends Hero> panelUI = panel.getContent();
 		if (panelUI.getSelf().getPlayerInfo().equals(currentPlayer)) {
-			panel.pushOperation(new DiscardOperation(amount), null);
+			panel.pushOperation(new DiscardOperation(amount));
 		} else {
 			panelUI.getOtherPlayerUI(currentPlayer).showCountdownBar();
 		}

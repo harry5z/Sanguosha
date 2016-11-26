@@ -1,6 +1,6 @@
 package cards.basics;
 
-import core.client.ClientGameInfo;
+import core.GameState;
 import core.client.game.operations.Operation;
 
 public class Dodge extends Basic {
@@ -19,7 +19,7 @@ public class Dodge extends Basic {
 	}
 
 	@Override
-	public boolean isActivatable(ClientGameInfo game) {
+	public boolean isActivatable(GameState game) {
 		return false;
 	}
 

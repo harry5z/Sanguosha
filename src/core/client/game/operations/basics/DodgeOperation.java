@@ -1,8 +1,9 @@
-package core.client.game.operations;
+package core.client.game.operations.basics;
 
 import cards.basics.Dodge;
 import commands.game.server.ingame.DodgeReactionInGameServerCommand;
 import core.client.GamePanel;
+import core.client.game.operations.Operation;
 import core.heroes.Hero;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;

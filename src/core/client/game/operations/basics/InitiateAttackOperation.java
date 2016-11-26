@@ -1,8 +1,9 @@
-package core.client.game.operations;
+package core.client.game.operations.basics;
 
 import cards.basics.Attack;
 import commands.game.server.InitiateAttackGameServerCommand;
 import core.client.GamePanel;
+import core.client.game.operations.Operation;
 import core.heroes.Hero;
 import core.player.PlayerComplete;
 import core.player.PlayerInfo;

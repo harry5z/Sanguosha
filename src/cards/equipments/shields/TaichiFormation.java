@@ -9,7 +9,6 @@ public class TaichiFormation extends Shield {
 
 	public TaichiFormation(int num, Suit suit, int id) {
 		super(num, suit, id);
-
 	}
 
 	@Override

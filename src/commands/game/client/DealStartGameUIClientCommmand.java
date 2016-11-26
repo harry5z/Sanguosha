@@ -19,7 +19,7 @@ public class DealStartGameUIClientCommmand extends GeneralGameUIClientCommand {
 	public void execute(GamePanel<? extends Hero> panel) {
 		ClientGameUI<? extends Hero> panelUI = panel.getContent();
 		if (panelUI.getSelf().getPlayerInfo().equals(currentPlayer)) {
-			panel.pushOperation(new DealOperation(), null);
+			panel.pushOperation(new DealOperation());
 		} else {
 			panelUI.getOtherPlayerUI(currentPlayer).showCountdownBar();
 		}

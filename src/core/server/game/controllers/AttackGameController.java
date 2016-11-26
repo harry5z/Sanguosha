@@ -13,11 +13,12 @@ import core.server.GameRoom;
 import core.server.game.Damage;
 import core.server.game.Game;
 import core.server.game.Damage.Element;
+import core.server.game.controllers.interfaces.DodgeUsableGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class AttackGameController implements GameController, DodgeUsableGameController {
 
-	public enum AttackStage {
+	public static enum AttackStage {
 		TARGET_SELECTION, // client side
 		BEFORE_TARGET_LOCKED, // client side
 		TARGET_LOCKED,
@@ -60,7 +61,7 @@ public class AttackGameController implements GameController, DodgeUsableGameCont
 			this.damage.setElement(card.getElement());
 			this.attack = card;
 		} else {
-			this.attack = new Attack(Element.NORMAL, -1, null, -1);
+			this.attack = new Attack();
 		}
 	}
 	
@@ -167,8 +168,6 @@ public class AttackGameController implements GameController, DodgeUsableGameCont
 				target.clearDisposalArea();
 				game.popGameController();
 				game.getGameController().proceed();
-				break;
-			default:
 				break;
 		}
 	}

@@ -1,7 +1,7 @@
 package cards.specials.instant;
 
 import cards.specials.Special;
-import core.client.ClientGameInfo;
+import core.GameState;
 
 public abstract class Instant extends Special {
 	
@@ -10,9 +10,13 @@ public abstract class Instant extends Special {
 	public Instant(int num, Suit suit, int id) {
 		super(num, suit, true, id);
 	}
+	
+	public Instant() {
+		super(true);
+	}
 
 	@Override
-	public boolean isActivatable(ClientGameInfo game) {
+	public boolean isActivatable(GameState game) {
 		return true;
 	}
 }

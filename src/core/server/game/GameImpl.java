@@ -59,6 +59,22 @@ public class GameImpl implements Game {
 	}
 
 	@Override
+	public List<PlayerCompleteServer> getPlayersAlive() {
+		return players.stream().filter(player -> player.isAlive()).collect(Collectors.toList());
+	}
+	
+	@Override
+	public int getNumberOfPlayersAlive() {
+		int count = 0;
+		for (PlayerCompleteServer player : players) {
+			if (player.isAlive()) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
+	@Override
 	public PlayerCompleteServer findPlayer(PlayerInfo info) {
 		for (PlayerCompleteServer player : this.players) {
 			if (player.getName().equals(info.getName())) {

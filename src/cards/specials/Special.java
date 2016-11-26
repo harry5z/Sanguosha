@@ -18,6 +18,11 @@ public abstract class Special extends Card {
 		super(num, suit, CardType.SPECIAL, id);
 		instant = isInstant;
 	}
+	
+	public Special(boolean isInstant) {
+		super(Color.COLORLESS, CardType.SPECIAL);
+		this.instant = isInstant;
+	}
 
 	public boolean isInstant() {
 		return instant;

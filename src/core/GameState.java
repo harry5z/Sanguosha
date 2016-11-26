@@ -1,11 +1,11 @@
-package core.client;
+package core;
 
 import java.util.List;
 
 import core.player.PlayerCompleteClient;
 import core.player.PlayerSimple;
 
-public interface ClientGameInfo {
+public interface GameState {
 
 	public List<PlayerSimple> getOtherPlayers();
 

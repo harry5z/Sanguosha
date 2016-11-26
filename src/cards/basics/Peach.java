@@ -1,8 +1,8 @@
 package cards.basics;
 
-import core.client.ClientGameInfo;
+import core.GameState;
 import core.client.game.operations.Operation;
-import core.client.game.operations.PeachOperation;
+import core.client.game.operations.basics.PeachOperation;
 
 public class Peach extends Basic {
 
@@ -20,7 +20,7 @@ public class Peach extends Basic {
 	}
 
 	@Override
-	public boolean isActivatable(ClientGameInfo game) {
+	public boolean isActivatable(GameState game) {
 		return game.getSelf().getHealthCurrent() < game.getSelf().getHealthLimit();
 	}
 

@@ -2,7 +2,7 @@ package cards;
 
 import java.io.Serializable;
 
-import core.client.ClientGameInfo;
+import core.GameState;
 import core.client.game.operations.Operation;
 
 public abstract class Card implements Serializable {
@@ -76,7 +76,7 @@ public abstract class Card implements Serializable {
 	 * @param player
 	 * @return true if activatable, false if not
 	 */
-	public abstract boolean isActivatable(ClientGameInfo game);
+	public abstract boolean isActivatable(GameState game);
 
 	public CardType getType() {
 		return type;

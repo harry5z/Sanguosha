@@ -23,6 +23,10 @@ public interface Game {
 	
 	public List<PlayerCompleteServer> getPlayers();
 	
+	public List<PlayerCompleteServer> getPlayersAlive();
+	
+	public int getNumberOfPlayersAlive();
+
 	public void drawCards(PlayerCompleteServer player, int amount);
 	
 	public void addPlayer(PlayerInfo player);

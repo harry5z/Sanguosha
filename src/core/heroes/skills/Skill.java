@@ -1,12 +1,17 @@
 package core.heroes.skills;
 
-public interface Skill
-{
-	public boolean onBeginningStage();
-	public boolean onDecisionStage();
-	public boolean onCardDrawingStage();
-	public boolean onPlayingStageBegin();
-	
+import cards.Card;
+import core.GameState;
+
+public interface Skill {
+
 	public String getName();
+
 	public String getDescription();
+	
+	default public boolean canBeTargeted(Card card, GameState state) {
+		return canBeTargeted(state);
+	}
+	
+	public boolean canBeTargeted(GameState state);
 }

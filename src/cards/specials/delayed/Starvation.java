@@ -1,6 +1,6 @@
 package cards.specials.delayed;
 
-import core.client.ClientGameInfo;
+import core.GameState;
 import core.client.game.operations.Operation;
 
 public class Starvation extends Delayed {
@@ -17,7 +17,7 @@ public class Starvation extends Delayed {
 	}
 
 	@Override
-	public boolean isActivatable(ClientGameInfo game) {
+	public boolean isActivatable(GameState game) {
 		return true;
 	}
 

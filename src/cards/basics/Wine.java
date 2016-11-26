@@ -1,8 +1,8 @@
 package cards.basics;
 
-import core.client.ClientGameInfo;
+import core.GameState;
 import core.client.game.operations.Operation;
-import core.client.game.operations.WineOperation;
+import core.client.game.operations.basics.WineOperation;
 import core.player.PlayerCompleteClient;
 
 public class Wine extends Basic {
@@ -21,7 +21,7 @@ public class Wine extends Basic {
 	}
 
 	@Override
-	public boolean isActivatable(ClientGameInfo game) {
+	public boolean isActivatable(GameState game) {
 		PlayerCompleteClient player = game.getSelf();
 		return player.getWineUsed() < player.getWineLimit() && !player.isWineUsed();
 	}

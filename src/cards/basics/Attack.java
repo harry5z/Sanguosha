@@ -1,8 +1,8 @@
 package cards.basics;
 
-import core.client.ClientGameInfo;
-import core.client.game.operations.InitiateAttackOperation;
+import core.GameState;
 import core.client.game.operations.Operation;
+import core.client.game.operations.basics.InitiateAttackOperation;
 import core.server.game.Damage.Element;
 
 public class Attack extends Basic {
@@ -14,6 +14,13 @@ public class Attack extends Basic {
 	public static final String ATTACK = "Attack";
 	public static final String FIRE_ATTACK = "Attack(Fire)";
 	public static final String THUNDER_ATTACK = "Attack(Thunder)";
+	
+	/**
+	 * Creates a transformed Attack card
+	 */
+	public Attack() {
+		element = Element.NORMAL;
+	}
 
 	public Attack(Element e, int num, Suit suit, int id) {
 		super(num, suit, id);
@@ -39,7 +46,7 @@ public class Attack extends Basic {
 	}
 
 	@Override
-	public boolean isActivatable(ClientGameInfo game) {
+	public boolean isActivatable(GameState game) {
 		return game.getSelf().getAttackUsed() < game.getSelf().getAttackLimit();
 	}
 

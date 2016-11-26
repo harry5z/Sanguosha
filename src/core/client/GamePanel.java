@@ -9,6 +9,10 @@ import ui.game.interfaces.ClientGameUI;
 public interface GamePanel<T extends Hero> extends ClientPanel<ClientGameUI<T>> {
 
 	public void pushOperation(Operation operation, Activatable source);
+	
+	default public void pushOperation(Operation operation) {
+		pushOperation(operation, null);
+	}
 
 	public void popOperation();
 

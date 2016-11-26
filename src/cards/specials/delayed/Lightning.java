@@ -1,6 +1,6 @@
 package cards.specials.delayed;
 
-import core.client.ClientGameInfo;
+import core.GameState;
 import core.client.game.operations.Operation;
 
 public class Lightning extends Delayed {
@@ -17,8 +17,8 @@ public class Lightning extends Delayed {
 	}
 
 	@Override
-	public boolean isActivatable(ClientGameInfo game) {
-		// if(player.canBeTargetedBy(this);
+	public boolean isActivatable(GameState game) {
+//		 if(game.getSelf().canBeTargetedBy(this);
 		return true;
 	}
 

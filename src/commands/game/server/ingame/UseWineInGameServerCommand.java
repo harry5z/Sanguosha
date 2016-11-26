@@ -2,7 +2,7 @@ package commands.game.server.ingame;
 
 import cards.Card;
 import core.server.game.Game;
-import core.server.game.controllers.WineUsableGameController;
+import core.server.game.controllers.interfaces.WineUsableGameController;
 
 public class UseWineInGameServerCommand extends InGameServerCommand {
 
