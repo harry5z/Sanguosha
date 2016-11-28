@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import core.Deck;
+import core.event.Event;
+import core.event.EventHandler;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.controllers.GameController;
+import exceptions.server.game.GameFlowInterruptedException;
 
 public interface Game {
 	
@@ -48,5 +51,11 @@ public interface Game {
 	public void popGameController();
 
 	public Deck getDeck();
+	
+	public <T extends Event> void registerEventHandler(EventHandler<T> handler);
+	
+	public <T extends Event> void removeEventHandler(EventHandler<T> handler);
+	
+	public <T extends Event> void emit(T event) throws GameFlowInterruptedException;
 
 }

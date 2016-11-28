@@ -24,7 +24,7 @@ public class ClientFrameGui implements ClientFrame, ConnectionListener {
 
 	@Override
 	public synchronized void onNewPanelDisplayed(ClientPanel<? extends ClientPanelUI> panel) {
-		if (panel != null) {
+		if (this.panel != null) {
 			frame.remove(this.panel.getContent().getPanel());
 		}
 		this.panel = panel;

@@ -1,21 +1,20 @@
 package core.server.game.controllers;
 
-import java.util.stream.Collectors;
-
 import cards.Card;
 import cards.basics.Peach;
 import cards.basics.Wine;
 import cards.equipments.Equipment;
-import commands.game.client.DealStartGameUIClientCommmand;
-import commands.game.client.DiscardGameUIClientCommand;
 import core.TurnStage;
-import core.player.PlayerComplete;
+import core.event.DealTurnEvent;
+import core.event.DiscardTurnEvent;
+import core.event.DrawTurnEvent;
 import core.player.PlayerCompleteServer;
 import core.server.GameRoom;
 import core.server.game.Game;
 import core.server.game.controllers.interfaces.EquipmentUsableGameController;
 import core.server.game.controllers.interfaces.PeachUsableGameController;
 import core.server.game.controllers.interfaces.WineUsableGameController;
+import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class TurnGameController implements 
@@ -24,13 +23,11 @@ public class TurnGameController implements
 	PeachUsableGameController,
 	EquipmentUsableGameController {
 
-	private final GameRoom room;
 	private final Game game;
 	private PlayerCompleteServer currentPlayer;
 	private TurnStage currentStage;
 	
 	public TurnGameController(GameRoom room) {
-		this.room = room;
 		this.game = room.getGame();
 		this.currentPlayer = game.findPlayer(player -> player.getPosition() == 0);
 		this.currentStage = TurnStage.START_BEGINNING;
@@ -67,85 +64,55 @@ public class TurnGameController implements
 	
 	@Override
 	public void proceed() {
-		for (PlayerCompleteServer player : game.getPlayers()) {
-			if (player.makeAction(this)) {
-				return;
-			}
-		}
 		switch (currentStage) {
 			case START_BEGINNING:
-				currentStage = currentStage.nextStage();
-				proceed();
+				this.nextStage();
 				return;
 			case START:
-				currentStage = currentStage.nextStage();
-				proceed();
+				this.nextStage();
 				return;
 			case DECISION_BEGINNING:
-				currentStage = currentStage.nextStage();
-				proceed();
+				this.nextStage();
 				return;
 			case DECISION:
-				currentStage = currentStage.nextStage();
-				proceed();
+				this.nextStage();
 				return;
 			case DRAW:
-				game.drawCards(currentPlayer, 2);
-				currentStage = currentStage.nextStage();
-				proceed();
+				try {
+					this.game.emit(new DrawTurnEvent());
+				} catch (GameFlowInterruptedException e1) {
+					// Do no proceed automatically
+					return;
+				}
+				this.nextStage();
 				return;
 			case DEAL_BEGINNING:
-				currentStage = currentStage.nextStage();
-				proceed();
+				this.nextStage();
 				return;
 			case DEAL:
-				for (PlayerCompleteServer player : game.getPlayers()) {
-					player.clearDisposalArea();
+				try {
+					this.game.emit(new DealTurnEvent());
+				} catch (GameFlowInterruptedException e) {
+					// Do nothing
 				}
-				room.sendCommandToPlayers(
-					game.getPlayersInfo().stream().collect(
-						Collectors.toMap(
-							info -> info.getName(), 
-							info -> new DealStartGameUIClientCommmand(currentPlayer.getPlayerInfo())
-						)
-					)
-				);
 				return;
 			case DISCARD_BEGINNING:
-				currentStage = currentStage.nextStage();
-				proceed();
+				this.nextStage();
 				return;
 			case DISCARD:
-				int amount = currentPlayer.getHandCount() - currentPlayer.getCardOnHandLimit();
-				if (amount > 0) {
-					room.sendCommandToPlayers(
-						game.getPlayersInfo().stream().collect(
-							Collectors.toMap(
-								info -> info.getName(), 
-								info -> new DiscardGameUIClientCommand(currentPlayer.getPlayerInfo(), amount)
-							)
-						)
-					);
-				} else {
-					for (PlayerComplete player : game.getPlayers()) {
-						player.clearDisposalArea();
-					}
-					currentStage = currentStage.nextStage();
-					proceed();
+				try {
+					this.game.emit(new DiscardTurnEvent());
+				} catch (GameFlowInterruptedException e) {
+					// Do no proceed automatically
+					return;
 				}
+				this.nextStage();
 				return;
 			case DISCARD_END:
-				currentStage = currentStage.nextStage();
-				proceed();
+				this.nextStage();
 				return;
 			case END:
-				currentStage = currentStage.nextStage();
-				currentPlayer = game.getNextPlayerAlive(currentPlayer);
-				while (currentPlayer.isFlipped()) {
-					currentPlayer.flip();
-					currentPlayer = game.getNextPlayerAlive(currentPlayer);
-				}
-				proceed();
+				this.nextStage();
 				return;
 			default:
 				break;

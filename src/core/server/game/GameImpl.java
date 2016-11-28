@@ -1,6 +1,9 @@
 package core.server.game;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.function.Predicate;
@@ -8,12 +11,15 @@ import java.util.stream.Collectors;
 
 import commands.game.client.EnterOriginalGameRoomGameClientCommand;
 import core.Deck;
+import core.event.Event;
+import core.event.EventHandler;
 import core.heroes.original.Blank;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.GameRoom;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.TurnGameController;
+import exceptions.server.game.GameFlowInterruptedException;
 import listeners.game.server.ServerInGameCardDisposalListener;
 import listeners.game.server.ServerInGameCardOnHandListener;
 import listeners.game.server.ServerInGameEquipmentListener;
@@ -35,6 +41,7 @@ public class GameImpl implements Game {
 	private Deck deck;// deck, currently only original game deck as well
 	private GameConfig config;
 	private Stack<GameController> controllers;
+	private Map<Class<? extends Event>, List<EventHandler<? extends Event>>> eventHandlers;
 
 	public GameImpl(GameRoom room, GameConfig config, List<PlayerInfo> playerInfos) {
 		this.room = room;
@@ -46,6 +53,7 @@ public class GameImpl implements Game {
 
 		this.playerNames = playerInfos.stream().map(info -> info.getName()).collect(Collectors.toSet());
 		this.controllers = new Stack<>();
+		this.eventHandlers = new HashMap<>();
 	}
 
 	@Override
@@ -128,7 +136,8 @@ public class GameImpl implements Game {
 			player.registerHealthListener(new ServerInGameHealthListener(player.getName(), playerNames, room));
 			player.registerCardDisposalListener(new ServerInGameCardDisposalListener(player.getName(), playerNames, room));
 			player.registerPlayerStatusListener(new ServerInGamePlayerStatusListener(player.getName(), playerNames, room));
-			player.setHero(new Blank()); // no heroes now..
+			player.setHero(new Blank()); // TODO: add heroes
+			player.onGameReady(this);
 		}
 		this.controllers.push(new TurnGameController(room));
 		for (PlayerCompleteServer player : players) {
@@ -171,6 +180,38 @@ public class GameImpl implements Game {
 	@Override
 	public void popGameController() {
 		controllers.pop();
+	}
+	
+	@Override
+	public <T extends Event> void registerEventHandler(EventHandler<T> handler) {
+		Class<T> c = handler.getEventClass();
+		if (this.eventHandlers.containsKey(c)) {
+			this.eventHandlers.get(c).add(handler);
+		} else {
+			List<EventHandler<? extends Event>> list = new ArrayList<>();
+			list.add(handler);
+			this.eventHandlers.put(c, list);
+		}
+	}
+	
+	@Override
+	public <T extends Event> void removeEventHandler(EventHandler<T> handler) {
+		Class<T> c = handler.getEventClass();
+		if (!this.eventHandlers.containsKey(c)) {
+			throw new RuntimeException("handler not found");
+		}
+		this.eventHandlers.get(c).remove(handler);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends Event> void emit(T event) throws GameFlowInterruptedException {
+		if (this.eventHandlers.containsKey(event.getClass())) {
+			List<EventHandler<? extends Event>> handlers = this.eventHandlers.get(event.getClass());
+			for (EventHandler<? extends Event> handler : handlers) {
+				((EventHandler<T>)handler).handle(event, this, this.room);
+			}
+		}
 	}
 
 }

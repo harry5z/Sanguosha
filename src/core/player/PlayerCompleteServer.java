@@ -1,7 +1,10 @@
 package core.player;
 
 import cards.Card;
-import core.server.game.controllers.GameController;
+import core.event.DealTurnEventHandler;
+import core.event.DrawTurnEventHandler;
+import core.server.game.Game;
+import core.server.game.controllers.DiscardTurnEventHandler;
 import exceptions.server.game.InvalidPlayerCommandException;
 import listeners.game.CardDisposalListener;
 import listeners.game.CardOnHandListener;
@@ -12,14 +15,6 @@ public class PlayerCompleteServer extends PlayerComplete {
 		super(name, position);
 	}
 
-	public boolean makeAction(GameController controller) {
-		for (Card card : this.getCardsOnHand()) {
-			// if card has action
-		}
-		// if (this.hero.makeAction(controller)) ...
-		return false;
-	}
-	
 	@Override
 	public void useAttack() throws InvalidPlayerCommandException {
 		if (getAttackUsed() >= getAttackLimit()) {
@@ -68,5 +63,12 @@ public class PlayerCompleteServer extends PlayerComplete {
 	@Override
 	protected void cardDisposalListenerAction(CardDisposalListener listener, Card card) {
 		
+	}
+	
+	public void onGameReady(Game game) {
+		/* setup event listeners */
+		game.registerEventHandler(new DealTurnEventHandler(this));
+		game.registerEventHandler(new DrawTurnEventHandler(this));
+		game.registerEventHandler(new DiscardTurnEventHandler(this));
 	}
 }

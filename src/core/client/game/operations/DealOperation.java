@@ -51,7 +51,6 @@ public class DealOperation implements Operation {
 	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
 		this.panel = panel;
 		ClientGameUI<? extends Hero> panelUI = panel.getContent();
-		panelUI.showCountdownBar();
 		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
 			if (cardUI.getCard().isActivatable(panelUI)) {
 				cardUI.setActivatable(true);

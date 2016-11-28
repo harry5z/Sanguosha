@@ -15,7 +15,7 @@ import core.server.game.GameImpl;
 import net.Connection;
 import net.server.ServerEntity;
 
-public class GameRoom extends ServerEntity {
+public class GameRoom extends ServerEntity implements ConnectionController {
 	
 	private final Room room;
 	private final Game game;
@@ -43,10 +43,12 @@ public class GameRoom extends ServerEntity {
 		return game;
 	}
 	
+	@Override
 	public synchronized void sendCommandToPlayers(Map<String, GameClientCommand<? extends Hero>> commands) {
 		commands.forEach((name, command) -> this.connectionMap.get(name).send(command));
 	}
 	
+	@Override
 	public synchronized void sendCommandToPlayer(String name, GameClientCommand<? extends Hero> command) {
 		this.connectionMap.get(name).send(command);
 	}
