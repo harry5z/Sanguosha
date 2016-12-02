@@ -1,6 +1,5 @@
 package core.server.game;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +10,12 @@ import java.util.stream.Collectors;
 
 import commands.game.client.EnterOriginalGameRoomGameClientCommand;
 import core.Deck;
-import core.event.Event;
-import core.event.EventHandler;
+import core.event.game.GameEvent;
+import core.event.handlers.EventHandler;
 import core.heroes.original.Blank;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
+import core.server.ConnectionController;
 import core.server.GameRoom;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.TurnGameController;
@@ -25,6 +25,7 @@ import listeners.game.server.ServerInGameCardOnHandListener;
 import listeners.game.server.ServerInGameEquipmentListener;
 import listeners.game.server.ServerInGameHealthListener;
 import listeners.game.server.ServerInGamePlayerStatusListener;
+import utils.Log;
 
 /**
  * The game framework. Currently only the original game
@@ -35,14 +36,73 @@ import listeners.game.server.ServerInGamePlayerStatusListener;
  *
  */
 public class GameImpl implements Game {
+	private static final String TAG = "Game";
 	private List<PlayerCompleteServer> players;
 	private Set<String> playerNames;
 	private GameRoom room; // the room where the game is held
 	private Deck deck;// deck, currently only original game deck as well
 	private GameConfig config;
 	private Stack<GameController> controllers;
-	private Map<Class<? extends Event>, List<EventHandler<? extends Event>>> eventHandlers;
+	private TurnGameController turnController;
+	/*
+	 * A map from event types to a map from players to event handlers of that type. Implicitly allowing up
+	 * to only one handler for each player for each event type
+	 */
+	private Map<Class<? extends GameEvent>, Map<PlayerCompleteServer, EventHandlerStack>> gameEventHandlers;
 
+	private class EventHandlerStack {
+		
+		private class Node {
+			Node next;
+			EventHandler<? extends GameEvent> handler;
+			
+			public Node(EventHandler<? extends GameEvent> handler) {
+				this.handler = handler;
+				this.next = null;
+			}
+		}
+		
+		Node root;
+		
+		public EventHandlerStack(EventHandler<? extends GameEvent> handler) {
+			this.root = new Node(handler);
+		}
+		
+		void push(EventHandler<? extends GameEvent> handler) {
+			Node node = new Node(handler);
+			node.next = this.root;
+			this.root = node;
+		}
+		
+		void remove(EventHandler<? extends GameEvent> handler) {
+			if (this.root == null) {
+				Log.log(TAG, "no matching handler found: no handler for the event");
+				return;
+			}
+			
+			if (this.root.handler.equals(handler)) {
+				this.root = this.root.next;
+				return;
+			}
+			
+			for (Node current = this.root, next = current.next; next != null; current = next, next = next.next) {
+				if (next.handler.equals(handler)) {
+					current.next = next.next;
+					handler.onRemoved(GameImpl.this, GameImpl.this.room);
+					return;
+				}
+			}
+			Log.log(TAG, "no matching handler found");
+		}
+		
+		@SuppressWarnings("unchecked")
+		<T extends GameEvent> void handle(T event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
+			for (Node current = this.root; current != null; current = current.next) {
+				((EventHandler<T>)current.handler).handle(event, game, connection);
+			}
+		}
+	}
+	
 	public GameImpl(GameRoom room, GameConfig config, List<PlayerInfo> playerInfos) {
 		this.room = room;
 		this.config = config;
@@ -53,7 +113,7 @@ public class GameImpl implements Game {
 
 		this.playerNames = playerInfos.stream().map(info -> info.getName()).collect(Collectors.toSet());
 		this.controllers = new Stack<>();
-		this.eventHandlers = new HashMap<>();
+		this.gameEventHandlers = new HashMap<>();
 	}
 
 	@Override
@@ -98,6 +158,12 @@ public class GameImpl implements Game {
 		player.setHero(new Blank()); // no heroes now..
 		players.add(player);
 	}
+	
+	private PlayerCompleteServer getNextPlayer(PlayerCompleteServer current) {
+		int pos = current.getPosition();
+		pos = (pos + 1) % this.players.size();
+		return this.players.get(pos);
+	}
 
 	@Override
 	public PlayerCompleteServer getNextPlayerAlive(PlayerCompleteServer current) {
@@ -112,7 +178,7 @@ public class GameImpl implements Game {
 	
 	@Override
 	public PlayerCompleteServer getCurrentPlayer() {
-		return ((TurnGameController) controllers.lastElement()).getCurrentPlayer();
+		return this.turnController.getCurrentPlayer();
 	}
 
 	@Override
@@ -139,7 +205,7 @@ public class GameImpl implements Game {
 			player.setHero(new Blank()); // TODO: add heroes
 			player.onGameReady(this);
 		}
-		this.controllers.push(new TurnGameController(room));
+		this.turnController = new TurnGameController(room);
 		for (PlayerCompleteServer player : players) {
 			player.addCards(deck.drawMany(4));
 		}
@@ -164,7 +230,7 @@ public class GameImpl implements Game {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends GameController> T getGameController() {
-		return (T) controllers.peek();
+		return this.controllers.isEmpty() ? (T) this.turnController : (T) controllers.peek();
 	}
 	@Override
 	public void pushGameController(GameController controller) {
@@ -183,34 +249,50 @@ public class GameImpl implements Game {
 	}
 	
 	@Override
-	public <T extends Event> void registerEventHandler(EventHandler<T> handler) {
+	public <T extends GameEvent> void registerEventHandler(EventHandler<T> handler) {
 		Class<T> c = handler.getEventClass();
-		if (this.eventHandlers.containsKey(c)) {
-			this.eventHandlers.get(c).add(handler);
-		} else {
-			List<EventHandler<? extends Event>> list = new ArrayList<>();
-			list.add(handler);
-			this.eventHandlers.put(c, list);
-		}
-	}
-	
-	@Override
-	public <T extends Event> void removeEventHandler(EventHandler<T> handler) {
-		Class<T> c = handler.getEventClass();
-		if (!this.eventHandlers.containsKey(c)) {
-			throw new RuntimeException("handler not found");
-		}
-		this.eventHandlers.get(c).remove(handler);
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends Event> void emit(T event) throws GameFlowInterruptedException {
-		if (this.eventHandlers.containsKey(event.getClass())) {
-			List<EventHandler<? extends Event>> handlers = this.eventHandlers.get(event.getClass());
-			for (EventHandler<? extends Event> handler : handlers) {
-				((EventHandler<T>)handler).handle(event, this, this.room);
+		Map<PlayerCompleteServer, EventHandlerStack> handlerStackMap = this.gameEventHandlers.get(c);
+		if (handlerStackMap != null) {
+			if (handlerStackMap.containsKey(handler.getPlayerSource())) {
+				handlerStackMap.get(handler.getPlayerSource()).push(handler);
+			} else {
+				handlerStackMap.put(handler.getPlayerSource(), new EventHandlerStack(handler));
 			}
+		} else {
+			Map<PlayerCompleteServer, EventHandlerStack> handlerMap = new HashMap<>();
+			handlerMap.put(handler.getPlayerSource(), new EventHandlerStack(handler));
+			this.gameEventHandlers.put(c, handlerMap);
+		}
+	}
+	
+	@Override
+	public <T extends GameEvent> void removeEventHandler(EventHandler<T> handler) {
+		Class<T> c = handler.getEventClass();
+		Map<PlayerCompleteServer, EventHandlerStack> map = this.gameEventHandlers.get(c);
+		if (map == null) {
+			throw new RuntimeException("handler not found, never registered in map");
+		}
+		EventHandlerStack stack = map.get(handler.getPlayerSource());
+		if (stack == null) {
+			throw new RuntimeException("handler not found, never registered for player");
+		}
+		stack.remove(handler);
+	}
+	
+	@Override
+	public <T extends GameEvent> void emit(T event) throws GameFlowInterruptedException {
+		if (this.gameEventHandlers.containsKey(event.getClass())) {
+			Map<PlayerCompleteServer, EventHandlerStack> handlers = this.gameEventHandlers.get(event.getClass());
+			PlayerCompleteServer currentCheckedPlayer = this.getCurrentPlayer();
+			PlayerCompleteServer initialPlayer = currentCheckedPlayer;
+			
+			do {
+				if (handlers.containsKey(currentCheckedPlayer)) {
+					handlers.get(currentCheckedPlayer).handle(event, this, this.room);
+				}
+				currentCheckedPlayer = this.getNextPlayer(currentCheckedPlayer);
+			} while (initialPlayer != currentCheckedPlayer);
+			
 		}
 	}
 

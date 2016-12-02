@@ -2,7 +2,6 @@ package cards.equipments.shields;
 
 import cards.Card;
 import cards.equipments.Equipment;
-import core.server.game.Damage;
 
 public abstract class Shield extends Equipment {
 
@@ -13,7 +12,5 @@ public abstract class Shield extends Equipment {
 	}
 
 	public abstract boolean mustReactTo(Card card);
-
-	public abstract void modifyDamage(Damage damage);
 
 }

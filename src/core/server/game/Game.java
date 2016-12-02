@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import core.Deck;
-import core.event.Event;
-import core.event.EventHandler;
+import core.event.game.GameEvent;
+import core.event.handlers.EventHandler;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.controllers.GameController;
@@ -52,10 +52,10 @@ public interface Game {
 
 	public Deck getDeck();
 	
-	public <T extends Event> void registerEventHandler(EventHandler<T> handler);
+	public <T extends GameEvent> void registerEventHandler(EventHandler<T> handler);
 	
-	public <T extends Event> void removeEventHandler(EventHandler<T> handler);
+	public <T extends GameEvent> void removeEventHandler(EventHandler<T> handler);
 	
-	public <T extends Event> void emit(T event) throws GameFlowInterruptedException;
+	public <T extends GameEvent> void emit(T event) throws GameFlowInterruptedException;
 
 }

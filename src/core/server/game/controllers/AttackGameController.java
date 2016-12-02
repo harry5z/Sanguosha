@@ -1,22 +1,19 @@
 package core.server.game.controllers;
 
-import java.util.stream.Collectors;
-
 import cards.Card;
 import cards.basics.Attack;
 import cards.basics.Dodge;
 import cards.equipments.Equipment.EquipmentType;
-import commands.game.client.RequestDodgeGameUIClientCommand;
+import core.event.game.dodge.RequestDodgeEvent;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.GameRoom;
 import core.server.game.Damage;
-import core.server.game.Game;
-import core.server.game.Damage.Element;
 import core.server.game.controllers.interfaces.DodgeUsableGameController;
+import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
-public class AttackGameController implements GameController, DodgeUsableGameController {
+public class AttackGameController extends AbstractGameController implements DodgeUsableGameController {
 
 	public static enum AttackStage {
 		TARGET_SELECTION, // client side
@@ -46,14 +43,11 @@ public class AttackGameController implements GameController, DodgeUsableGameCont
 	private PlayerCompleteServer source;
 	private PlayerCompleteServer target;
 	private Damage damage;
-	private final GameRoom room;
-	private final Game game;
 	private final Attack attack;
 	
 	public AttackGameController(PlayerInfo source, PlayerInfo target, Attack card, GameRoom room) {
+		super(room.getGame());
 		this.stage = AttackStage.TARGET_LOCKED;
-		this.room = room;
-		this.game = room.getGame();
 		this.source = game.findPlayer(source);
 		this.target = game.findPlayer(target);
 		this.damage = new Damage(this.source, this.target);
@@ -124,15 +118,11 @@ public class AttackGameController implements GameController, DodgeUsableGameCont
 				proceed();
 				break;
 			case USING_DODGE:
-				final PlayerInfo targetInfo = this.target.getPlayerInfo();
-				room.sendCommandToPlayers(
-					game.getPlayersInfo().stream().collect(
-						Collectors.toMap(
-							info -> info.getName(),
-							info -> new RequestDodgeGameUIClientCommand(targetInfo)
-						)
-					)
-				);
+				try {
+					this.game.emit(new RequestDodgeEvent(this.target.getPlayerInfo()));
+				} catch (GameFlowInterruptedException e) {
+					// Do nothing
+				}
 				break;
 			case AFTER_USING_DODGE:
 				stage = stage.nextStage();
@@ -166,8 +156,7 @@ public class AttackGameController implements GameController, DodgeUsableGameCont
 			case END:
 				source.clearDisposalArea();
 				target.clearDisposalArea();
-				game.popGameController();
-				game.getGameController().proceed();
+				this.onCompleted();
 				break;
 		}
 	}

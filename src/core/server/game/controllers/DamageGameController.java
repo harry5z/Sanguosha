@@ -1,10 +1,11 @@
 package core.server.game.controllers;
 
-import cards.equipments.Equipment.EquipmentType;
+import core.event.game.damage.TargetEquipmentCheckDamageEvent;
 import core.server.game.Damage;
 import core.server.game.Game;
+import exceptions.server.game.GameFlowInterruptedException;
 
-public class DamageGameController implements GameController {
+public class DamageGameController extends AbstractGameController {
 	
 	public static enum DamageStage {
 		TARGET_HERO_SKILLS,
@@ -23,12 +24,11 @@ public class DamageGameController implements GameController {
 	}
 	
 	private final Damage damage;
-	private final Game game;
 	private DamageStage stage;
 	
 	public DamageGameController(Damage damage, Game game) {
+		super(game);
 		this.damage = damage;
-		this.game = game;
 		this.stage = DamageStage.TARGET_HERO_SKILLS;
 	}
 
@@ -41,8 +41,10 @@ public class DamageGameController implements GameController {
 					stage = stage.nextStage();
 					continue;
 				case TARGET_EQUIPMENT_SKILLS:
-					if (damage.getTarget().isEquipped(EquipmentType.SHIELD)) {
-						damage.getTarget().getShield().modifyDamage(damage);
+					try {
+						this.game.emit(new TargetEquipmentCheckDamageEvent(damage));
+					} catch (GameFlowInterruptedException e) {
+						// Do nothing
 					}
 					stage = stage.nextStage();
 					continue;
@@ -63,8 +65,7 @@ public class DamageGameController implements GameController {
 					stage = stage.nextStage();
 					continue;
 				case END:
-					game.popGameController();
-					game.getGameController().proceed();
+					this.onCompleted();
 					return;
 				default:
 					return;

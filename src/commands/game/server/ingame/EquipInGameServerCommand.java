@@ -2,7 +2,7 @@ package commands.game.server.ingame;
 
 import cards.equipments.Equipment;
 import core.server.game.Game;
-import core.server.game.controllers.interfaces.EquipmentUsableGameController;
+import core.server.game.controllers.EquipGameController;
 
 public class EquipInGameServerCommand extends InGameServerCommand {
 	
@@ -16,7 +16,8 @@ public class EquipInGameServerCommand extends InGameServerCommand {
 
 	@Override
 	public void execute(Game game) {
-		game.<EquipmentUsableGameController>getGameController().onEquipped(equipment);
+		game.pushGameController(new EquipGameController(game, game.getCurrentPlayer(), equipment));
+		game.getGameController().proceed();
 	}
 
 }

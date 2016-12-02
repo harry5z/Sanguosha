@@ -4,6 +4,8 @@ import cards.Card;
 import core.GameState;
 import core.client.game.operations.EquipOperation;
 import core.client.game.operations.Operation;
+import core.player.PlayerCompleteServer;
+import core.server.game.Game;
 
 /**
  * The "Equipment" type of cards, consisting of all equipments
@@ -49,4 +51,13 @@ public abstract class Equipment extends Card {
 	public boolean isActivatable(GameState game) {
 		return true;
 	}
+	
+	public void onEquipped(Game game, PlayerCompleteServer owner) {
+		// I really don't know whether this is "clean" as it involves game and server side stuff
+	}
+	
+	public void onUnequipped(Game game, PlayerCompleteServer owner) {
+		// I really don't know whether this is "clean" as it involves game and server side stuff
+	}
+	
 }

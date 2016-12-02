@@ -1,6 +1,8 @@
-package core.event;
+package core.event.handlers.turn;
 
 import commands.game.client.DealStartGameUIClientCommmand;
+import core.event.game.turn.DealTurnEvent;
+import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;

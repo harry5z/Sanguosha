@@ -1,10 +1,13 @@
 package core.player;
 
 import cards.Card;
-import core.event.DealTurnEventHandler;
-import core.event.DrawTurnEventHandler;
+import core.event.handlers.dodge.RequestDodgeEventHandler;
+import core.event.handlers.equipment.EquipCommonEventHandler;
+import core.event.handlers.equipment.UnequipCommonEventHandler;
+import core.event.handlers.turn.DealTurnEventHandler;
+import core.event.handlers.turn.DiscardTurnEventHandler;
+import core.event.handlers.turn.DrawTurnEventHandler;
 import core.server.game.Game;
-import core.server.game.controllers.DiscardTurnEventHandler;
 import exceptions.server.game.InvalidPlayerCommandException;
 import listeners.game.CardDisposalListener;
 import listeners.game.CardOnHandListener;
@@ -70,5 +73,8 @@ public class PlayerCompleteServer extends PlayerComplete {
 		game.registerEventHandler(new DealTurnEventHandler(this));
 		game.registerEventHandler(new DrawTurnEventHandler(this));
 		game.registerEventHandler(new DiscardTurnEventHandler(this));
+		game.registerEventHandler(new RequestDodgeEventHandler(this));
+		game.registerEventHandler(new UnequipCommonEventHandler(this));
+		game.registerEventHandler(new EquipCommonEventHandler(this));
 	}
 }

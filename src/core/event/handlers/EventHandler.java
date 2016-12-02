@@ -1,5 +1,6 @@
-package core.event;
+package core.event.handlers;
 
+import core.event.Event;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;
@@ -12,6 +13,8 @@ public interface EventHandler<T extends Event> {
 	public Class<T> getEventClass();
 	
 	public PlayerCompleteServer getPlayerSource();
+	
+	public void onRemoved(Game game, ConnectionController connection);
 
 	public void deactivate(/* reactivate callback? */);
 }

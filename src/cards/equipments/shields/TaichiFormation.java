@@ -21,9 +21,4 @@ public class TaichiFormation extends Shield {
 		return true;
 	}
 
-	@Override
-	public void modifyDamage(Damage damage) {
-
-	}
-
 }

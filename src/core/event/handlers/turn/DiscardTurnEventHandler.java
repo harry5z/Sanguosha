@@ -1,10 +1,10 @@
-package core.server.game.controllers;
+package core.event.handlers.turn;
 
 import java.util.stream.Collectors;
 
 import commands.game.client.DiscardGameUIClientCommand;
-import core.event.AbstractEventHandler;
-import core.event.DiscardTurnEvent;
+import core.event.game.turn.DiscardTurnEvent;
+import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;

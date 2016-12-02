@@ -3,15 +3,13 @@ package core.server.game.controllers;
 import cards.Card;
 import cards.basics.Peach;
 import cards.basics.Wine;
-import cards.equipments.Equipment;
 import core.TurnStage;
-import core.event.DealTurnEvent;
-import core.event.DiscardTurnEvent;
-import core.event.DrawTurnEvent;
+import core.event.game.turn.DealTurnEvent;
+import core.event.game.turn.DiscardTurnEvent;
+import core.event.game.turn.DrawTurnEvent;
 import core.player.PlayerCompleteServer;
 import core.server.GameRoom;
 import core.server.game.Game;
-import core.server.game.controllers.interfaces.EquipmentUsableGameController;
 import core.server.game.controllers.interfaces.PeachUsableGameController;
 import core.server.game.controllers.interfaces.WineUsableGameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -20,8 +18,7 @@ import exceptions.server.game.InvalidPlayerCommandException;
 public class TurnGameController implements 
 	GameController, 
 	WineUsableGameController, 
-	PeachUsableGameController,
-	EquipmentUsableGameController {
+	PeachUsableGameController {
 
 	private final Game game;
 	private PlayerCompleteServer currentPlayer;
@@ -71,10 +68,10 @@ public class TurnGameController implements
 			case START:
 				this.nextStage();
 				return;
-			case DECISION_BEGINNING:
+			case JUDGMENT_BEGINNING:
 				this.nextStage();
 				return;
-			case DECISION:
+			case JUDGMENT:
 				this.nextStage();
 				return;
 			case DRAW:
@@ -173,15 +170,4 @@ public class TurnGameController implements
 		proceed();
 	}
 	
-	@Override
-	public void onEquipped(Equipment equipment) {
-		try {
-			currentPlayer.removeCardFromHand(equipment);
-			currentPlayer.equip(equipment);
-		} catch (InvalidPlayerCommandException e) {
-			e.printStackTrace();
-		}
-		proceed();
-	}
-
 }

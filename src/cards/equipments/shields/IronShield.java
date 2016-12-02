@@ -22,9 +22,4 @@ public class IronShield extends Shield {
 		return !(card instanceof Attack && card.getColor() == Color.BLACK);
 	}
 
-	@Override
-	public void modifyDamage(Damage damage) {
-
-	}
-
 }

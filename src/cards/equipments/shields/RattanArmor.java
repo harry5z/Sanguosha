@@ -4,7 +4,9 @@ import cards.Card;
 import cards.basics.Attack;
 import cards.specials.instant.ArrowSalvo;
 import cards.specials.instant.BarbarianInvasion;
-import core.server.game.Damage;
+import core.event.handlers.damage.RattenArmorCheckDamageEventHandler;
+import core.player.PlayerCompleteServer;
+import core.server.game.Game;
 import core.server.game.Damage.Element;
 
 public class RattanArmor extends Shield {
@@ -30,12 +32,15 @@ public class RattanArmor extends Shield {
 			return true;
 		}
 	}
-
+	
 	@Override
-	public void modifyDamage(Damage damage) {
-		if (damage.getElement() == Element.FIRE) {
-			damage.setAmount(damage.getAmount() + 1);
-		}
+	public void onEquipped(Game game, PlayerCompleteServer owner) {
+		game.registerEventHandler(new RattenArmorCheckDamageEventHandler(owner));
+	}
+	
+	@Override
+	public void onUnequipped(Game game, PlayerCompleteServer owner) {
+		game.removeEventHandler(new RattenArmorCheckDamageEventHandler(owner));
 	}
 
 }
