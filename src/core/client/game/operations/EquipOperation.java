@@ -5,7 +5,7 @@ import cards.equipments.Equipment;
 import commands.Command;
 import commands.game.server.ingame.EquipInGameServerCommand;
 
-public class EquipOperation extends SimpleCardOperation {
+public class EquipOperation extends AbstractCardUsageOperation {
 
 	@Override
 	protected Command<?> getCommand(Card card) {

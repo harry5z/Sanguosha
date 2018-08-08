@@ -1,13 +1,13 @@
-package core.event.game.dodge;
+package core.event.game.basic;
 
 import core.event.game.AbstractGameEvent;
 import core.player.PlayerInfo;
 
-public class RequestDodgeEvent extends AbstractGameEvent {
+public class AbstractBasicGameEvent extends AbstractGameEvent {
 
 	private PlayerInfo targetInfo;
 	
-	public RequestDodgeEvent(PlayerInfo targetInfo) {
+	public AbstractBasicGameEvent(PlayerInfo targetInfo) {
 		this.targetInfo = targetInfo;
 	}
 	

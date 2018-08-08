@@ -8,11 +8,6 @@ public class RequestNeutralizationGameUIClientCommand extends GeneralGameUIClien
 
 	private static final long serialVersionUID = 1979788663683644681L;
 	
-	
-	public RequestNeutralizationGameUIClientCommand() {
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
 	protected void execute(GamePanel<? extends Hero> panel) {
 		panel.pushOperation(new NeutralizationOperation());

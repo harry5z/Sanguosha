@@ -1,10 +1,13 @@
 package cards.specials.instant;
 
 import core.client.game.operations.Operation;
+import core.client.game.operations.instants.BarbarianInvasionOperation;
 
 public class BarbarianInvasion extends Instant {
 
 	private static final long serialVersionUID = 8054906715946205031L;
+	
+	public static final String BARBARIAN_INVASION = "Barbarian Invasion";
 
 	public BarbarianInvasion(int num, Suit suit, int id) {
 		super(num, suit, id);
@@ -12,13 +15,12 @@ public class BarbarianInvasion extends Instant {
 
 	@Override
 	public String getName() {
-		return "Barbarian Invasion";
+		return BARBARIAN_INVASION;
 	}
 
 	@Override
 	public Operation generateOperation() {
-		// TODO Auto-generated method stub
-		return null;
+		return new BarbarianInvasionOperation();
 	}
 
 }

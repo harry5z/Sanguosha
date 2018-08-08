@@ -1,7 +1,8 @@
 package core.player;
 
 import cards.Card;
-import core.event.handlers.dodge.RequestDodgeEventHandler;
+import core.event.handlers.basic.RequestAttackEventHandler;
+import core.event.handlers.basic.RequestDodgeEventHandler;
 import core.event.handlers.equipment.EquipCommonEventHandler;
 import core.event.handlers.equipment.UnequipCommonEventHandler;
 import core.event.handlers.turn.DealTurnEventHandler;
@@ -60,12 +61,12 @@ public class PlayerCompleteServer extends PlayerComplete {
 	
 	@Override
 	protected void cardOnHandListenerAction(CardOnHandListener listener, Card card) {
-		
+		// Do nothing on server side
 	}
 	
 	@Override
 	protected void cardDisposalListenerAction(CardDisposalListener listener, Card card) {
-		
+		// Do nothing on server side
 	}
 	
 	public void onGameReady(Game game) {
@@ -74,6 +75,7 @@ public class PlayerCompleteServer extends PlayerComplete {
 		game.registerEventHandler(new DrawTurnEventHandler(this));
 		game.registerEventHandler(new DiscardTurnEventHandler(this));
 		game.registerEventHandler(new RequestDodgeEventHandler(this));
+		game.registerEventHandler(new RequestAttackEventHandler(this));
 		game.registerEventHandler(new UnequipCommonEventHandler(this));
 		game.registerEventHandler(new EquipCommonEventHandler(this));
 	}

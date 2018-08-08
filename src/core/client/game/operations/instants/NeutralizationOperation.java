@@ -73,8 +73,9 @@ public class NeutralizationOperation implements Operation {
 	@Override
 	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
 		this.panel = panel;
-		if (panel.getCurrentOperation() != null) {
+		if (panel.getCurrentOperation() instanceof NeutralizationOperation) {
 			panel.getCurrentOperation().onEnded();
+			panel.popOperation();
 		}
 		for (CardUI cardUI: panel.getContent().getCardRackUI().getCardUIs()) {
 			if (cardUI.getCard() instanceof Neutralization) {

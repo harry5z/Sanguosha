@@ -1,7 +1,7 @@
 package commands.game.client;
 
 import core.client.GamePanel;
-import core.client.game.operations.basics.DodgeOperation;
+import core.client.game.operations.basics.DodgeReactionOperation;
 import core.heroes.Hero;
 import core.player.PlayerInfo;
 
@@ -18,11 +18,10 @@ public class RequestDodgeGameUIClientCommand extends GeneralGameUIClientCommand 
 	@Override
 	public void execute(GamePanel<? extends Hero> panel) {
 		if (panel.getContent().getSelf().getPlayerInfo().equals(target)) {
-			panel.pushOperation(new DodgeOperation());
+			panel.pushOperation(new DodgeReactionOperation());
 		} else {
 			panel.getContent().getOtherPlayerUI(target).showCountdownBar();
 		}
-		
 	}
 
 }

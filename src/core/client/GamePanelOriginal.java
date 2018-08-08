@@ -1,5 +1,6 @@
 package core.client;
 
+import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
 
@@ -53,7 +54,11 @@ public class GamePanelOriginal implements GamePanel<HeroOriginal> {
 	
 	@Override
 	public synchronized Operation getCurrentOperation() {
-		return currentOperations.peek();
+		try {
+			return currentOperations.peek();
+		} catch (EmptyStackException e) {
+			return null;
+		}
 	}
 	
 	@Override

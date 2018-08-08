@@ -7,14 +7,15 @@ import java.util.stream.Collectors;
 import commands.game.client.GameClientCommand;
 import core.heroes.Hero;
 
-public class SyncCommandsUtil {
+public final class SyncCommandsUtil {
 
 	private SyncCommandsUtil() {}
 	
 	public static Map<String, GameClientCommand<? extends Hero>> generateMapForSameCommand(
 		String name, 
 		Set<String> otherNames, 
-		GameClientCommand<? extends Hero> command) {
+		GameClientCommand<? extends Hero> command
+	) {
 		Map<String, GameClientCommand<? extends Hero>> map = otherNames.stream().collect(Collectors.toMap(n -> n, n -> command));
 		map.put(name, command);
 		return map;
@@ -24,7 +25,8 @@ public class SyncCommandsUtil {
 		String name, 
 		Set<String> otherNames, 
 		GameClientCommand<? extends Hero> selfCommand,
-		GameClientCommand<? extends Hero> othersCommand) {
+		GameClientCommand<? extends Hero> othersCommand
+	) {
 		Map<String, GameClientCommand<? extends Hero>> map = otherNames.stream().collect(Collectors.toMap(n -> n, n -> othersCommand));
 		map.put(name, selfCommand);
 		return map;

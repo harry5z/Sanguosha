@@ -1,7 +1,7 @@
-package core.event.handlers.dodge;
+package core.event.handlers.basic;
 
 import commands.game.client.RequestDodgeGameUIClientCommand;
-import core.event.game.dodge.RequestDodgeEvent;
+import core.event.game.basic.RequestDodgeEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;

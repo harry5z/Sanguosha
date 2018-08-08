@@ -4,14 +4,17 @@ import cards.Card;
 import commands.Command;
 import core.client.GamePanel;
 import core.heroes.Hero;
+import core.player.PlayerInfo;
 import ui.game.CardGui;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
+import ui.game.interfaces.ClientGameUI;
 
-public abstract class SimpleCardOperation implements Operation {
+public abstract class AbstractCardUsageOperation implements Operation {
 
 	private CardGui card;
 	private GamePanel<? extends Hero> panel;
+	protected PlayerInfo source;
 
 	@Override
 	public final void onCanceled() {
@@ -48,6 +51,8 @@ public abstract class SimpleCardOperation implements Operation {
 	public final void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
 		this.panel = panel;
 		this.card = (CardGui) source;
+		ClientGameUI<? extends Hero> panelUI = panel.getContent();
+		this.source = panelUI.getSelf().getPlayerInfo();
 		panel.getContent().setConfirmEnabled(true);
 		panel.getContent().setCancelEnabled(true);
 	}

@@ -4,7 +4,7 @@ import cards.Card;
 import cards.basics.Attack;
 import cards.basics.Dodge;
 import cards.equipments.Equipment.EquipmentType;
-import core.event.game.dodge.RequestDodgeEvent;
+import core.event.game.basic.RequestDodgeEvent;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.GameRoom;

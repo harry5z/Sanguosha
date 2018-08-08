@@ -183,11 +183,11 @@ public class Deck {
 		// used.add(new Steal(4,DIAMOND, util.getUID()));
 		// used.add(new Steal(11,SPADE, util.getUID()));
 
-		used.add(new Harvest(3, HEART, util.getUID()));
-		used.add(new Harvest(4, HEART, util.getUID()));
+//		used.add(new Harvest(3, HEART, util.getUID()));
+//		used.add(new Harvest(4, HEART, util.getUID()));
 
-		// used.add(new BarbarianInvasion(7,SPADE, util.getUID()));
-		// used.add(new BarbarianInvasion(7,CLUB, util.getUID()));
+		used.add(new BarbarianInvasion(7,SPADE, util.getUID()));
+		used.add(new BarbarianInvasion(7,CLUB, util.getUID()));
 		used.add(new BarbarianInvasion(13, SPADE, util.getUID()));
 
 		used.add(new Creation(7, HEART, util.getUID()));
@@ -235,7 +235,7 @@ public class Deck {
 		initAttack();
 		initDodge();
 		initPeach();
-		// initInstant();
+		initInstant();
 		// initDelayed();
 		initEquipment();
 	}

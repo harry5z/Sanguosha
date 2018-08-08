@@ -26,6 +26,7 @@ public class GameRoom extends ServerEntity implements ConnectionController {
 		this.room = room;
 		this.connectionMap = new HashMap<>();
 		
+		// TODO: Fix this when we have actual player info
 		// begin ugly part because connection doesn't have unique user information yet
 		int i = 0;
 		List<PlayerInfo> players = new ArrayList<>();
@@ -41,6 +42,11 @@ public class GameRoom extends ServerEntity implements ConnectionController {
 	
 	public Game getGame() {
 		return game;
+	}
+	
+	@Override
+	public synchronized void sendCommandToAllPlayers(GameClientCommand<? extends Hero> command) {
+		this.connectionMap.forEach((name, connection) -> connection.send(command));
 	}
 	
 	@Override

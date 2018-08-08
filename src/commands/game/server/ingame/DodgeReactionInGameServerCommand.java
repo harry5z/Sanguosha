@@ -13,6 +13,7 @@ public class DodgeReactionInGameServerCommand extends InGameServerCommand {
 	public DodgeReactionInGameServerCommand(Card card) {
 		this.dodge = card;
 	}
+	
 	@Override
 	public void execute(Game game) {
 		if (dodge != null) {

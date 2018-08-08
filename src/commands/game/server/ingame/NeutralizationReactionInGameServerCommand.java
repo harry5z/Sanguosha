@@ -22,6 +22,7 @@ public class NeutralizationReactionInGameServerCommand extends InGameServerComma
 	public void execute(Game game) {
 		if (neutralization != null) {
 			try {
+				// TODO: move usage of card into a separate command since things may happen in between
 				game.findPlayer(source).useCard(neutralization);
 				game.<SpecialGameController>getGameController().onNeutralized();
 			} catch (InvalidPlayerCommandException e) {

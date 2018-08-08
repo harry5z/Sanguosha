@@ -231,11 +231,9 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 			cancel.setEnabled(true);
 		} else {
 			cancelSetCount--;
-			if (cancelSetCount == 0) {
+			if (cancelSetCount <= 0) {
+				cancelSetCount = 0;
 				cancel.setEnabled(false);
-			}
-			if (cancelSetCount < 0) {
-				throw new RuntimeException("Cancel disabled more than enabled");
 			}
 		}
 	}

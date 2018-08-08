@@ -292,7 +292,6 @@ public class GameImpl implements Game {
 				}
 				currentCheckedPlayer = this.getNextPlayer(currentCheckedPlayer);
 			} while (initialPlayer != currentCheckedPlayer);
-			
 		}
 	}
 
