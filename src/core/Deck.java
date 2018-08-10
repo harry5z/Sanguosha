@@ -24,11 +24,11 @@ import cards.equipments.shields.IronShield;
 import cards.equipments.shields.RattanArmor;
 import cards.equipments.shields.SilverLion;
 import cards.equipments.weapons.IcySword;
+import cards.specials.instant.ArrowSalvo;
 import cards.specials.instant.BarbarianInvasion;
 import cards.specials.instant.Creation;
 import cards.specials.instant.Duel;
 import cards.specials.instant.FireAttack;
-import cards.specials.instant.Harvest;
 import cards.specials.instant.Neutralization;
 import utils.CardIDUtil;
 import utils.Log;
@@ -168,7 +168,7 @@ public class Deck {
 		used.add(new Duel(1, SPADE, util.getUID()));
 		used.add(new Duel(1, CLUB, util.getUID()));
 		used.add(new Duel(1, DIAMOND, util.getUID()));
-		// used.add(new ArrowSalvo(1, HEART, util.getUID()));
+		used.add(new ArrowSalvo(1, HEART, util.getUID()));
 		// used.add(new Brotherhood(1, HEART, util.getUID()));
 		// used.add(new Sabotage(3,SPADE, util.getUID()));
 		// used.add(new Sabotage(3,CLUB, util.getUID()));
@@ -236,8 +236,8 @@ public class Deck {
 		initDodge();
 		initPeach();
 		initInstant();
-		// initDelayed();
-		initEquipment();
+//		initDelayed();
+//		initEquipment();
 	}
 
 	private void initEX() {
