@@ -1,24 +1,35 @@
 package core.server.game.controllers;
 
 import cards.Card;
-import cards.basics.Peach;
 import cards.basics.Wine;
-import core.TurnStage;
 import core.event.game.turn.DealTurnEvent;
 import core.event.game.turn.DiscardTurnEvent;
 import core.event.game.turn.DrawTurnEvent;
 import core.player.PlayerCompleteServer;
 import core.server.GameRoom;
 import core.server.game.Game;
-import core.server.game.controllers.interfaces.PeachUsableGameController;
 import core.server.game.controllers.interfaces.WineUsableGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
+import utils.EnumWithNextStage;
 
 public class TurnGameController implements 
 	GameController, 
-	WineUsableGameController, 
-	PeachUsableGameController {
+	WineUsableGameController {
+	
+	public static enum TurnStage implements EnumWithNextStage<TurnStage> {
+		START_BEGINNING,
+		START,
+		JUDGMENT_BEGINNING,
+		JUDGMENT,
+		DRAW,
+		DEAL_BEGINNING,
+		DEAL,
+		DISCARD_BEGINNING,
+		DISCARD,
+		DISCARD_END,
+		END;
+	}
 
 	private final Game game;
 	private PlayerCompleteServer currentPlayer;
@@ -88,6 +99,7 @@ public class TurnGameController implements
 				return;
 			case DEAL:
 				try {
+					this.currentPlayer.clearDisposalArea();
 					this.game.emit(new DealTurnEvent());
 				} catch (GameFlowInterruptedException e) {
 					// Do nothing
@@ -147,27 +159,4 @@ public class TurnGameController implements
 		}
 		proceed();
 	}
-	
-	@Override
-	public void onPeachUsed(Card card) {
-		try {
-			if (card != null) { 
-				if (!(card instanceof Peach)) {
-					throw new InvalidPlayerCommandException("card " + card + " is not peach");
-				}
-				if (!currentPlayer.getCardsOnHand().contains(card)) {
-					throw new InvalidPlayerCommandException("card " + card + " is not on current player's hand");
-				}
-			}
-			if (currentPlayer.getHealthCurrent() == currentPlayer.getHealthLimit()) {
-				throw new InvalidPlayerCommandException("player health is maximum");
-			}
-			currentPlayer.useCard(card);
-			currentPlayer.changeHealthCurrentBy(1);
-		} catch (InvalidPlayerCommandException e) {
-			e.printStackTrace();
-		}
-		proceed();
-	}
-	
 }

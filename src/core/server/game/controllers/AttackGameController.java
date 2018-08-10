@@ -12,10 +12,11 @@ import core.server.game.Damage;
 import core.server.game.controllers.interfaces.DodgeUsableGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
+import utils.EnumWithNextStage;
 
 public class AttackGameController extends AbstractGameController implements DodgeUsableGameController {
 
-	public static enum AttackStage {
+	public static enum AttackStage implements EnumWithNextStage<AttackStage> {
 		TARGET_SELECTION, // client side
 		BEFORE_TARGET_LOCKED, // client side
 		TARGET_LOCKED,
@@ -31,12 +32,6 @@ public class AttackGameController extends AbstractGameController implements Dodg
 		BEFORE_DAMAGE,
 		DAMAGE,
 		END;
-		
-		private static final AttackStage[] VALUES = values();
-		
-		public AttackStage nextStage() {
-			return VALUES[(this.ordinal() + 1) % VALUES.length];
-		}
 	}
 	
 	private AttackStage stage;

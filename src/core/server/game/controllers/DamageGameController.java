@@ -4,10 +4,11 @@ import core.event.game.damage.TargetEquipmentCheckDamageEvent;
 import core.server.game.Damage;
 import core.server.game.Game;
 import exceptions.server.game.GameFlowInterruptedException;
+import utils.EnumWithNextStage;
 
 public class DamageGameController extends AbstractGameController {
 	
-	public static enum DamageStage {
+	public static enum DamageStage implements EnumWithNextStage<DamageStage> {
 		TARGET_HERO_SKILLS,
 		TARGET_EQUIPMENT_SKILLS,
 		TARGET_CHECK_CHAINED,
@@ -15,12 +16,6 @@ public class DamageGameController extends AbstractGameController {
 		SOURCE_HERO_SKILLS_AFTER_DAMAGE,
 		SKILLS_AFTER_DAMAGE,
 		END;
-
-		private static final DamageStage[] VALUES = values();
-		
-		public DamageStage nextStage() {
-			return VALUES[(this.ordinal() + 1) % VALUES.length];
-		}
 	}
 	
 	private final Damage damage;

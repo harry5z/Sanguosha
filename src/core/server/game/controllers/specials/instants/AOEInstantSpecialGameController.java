@@ -33,7 +33,12 @@ public abstract class AOEInstantSpecialGameController extends AbstractInstantSpe
 				this.proceed();
 				break;
 			case NEUTRALIZATION:
-				this.room.sendCommandToAllPlayers(new RequestNeutralizationGameUIClientCommand());
+				if (this.canBeNeutralized()) {
+					this.room.sendCommandToAllPlayers(new RequestNeutralizationGameUIClientCommand());
+				} else {
+					this.stage = this.stage.nextStage();
+					this.proceed();
+				}
 				break;
 			case EFFECT:
 				if (this.neutralized) {
@@ -61,5 +66,9 @@ public abstract class AOEInstantSpecialGameController extends AbstractInstantSpe
 	}
 	
 	protected abstract void takeEffect();
+	
+	protected boolean canBeNeutralized() {
+		return true;
+	}
 
 }

@@ -5,22 +5,22 @@ import commands.game.server.GameServerCommand;
 import core.player.PlayerInfo;
 import core.server.GameRoom;
 import core.server.game.Game;
-import core.server.game.controllers.specials.instants.BarbarianInvasionGameController;
+import core.server.game.controllers.specials.instants.BrotherhoodGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 import net.Connection;
 
-public class InitiateBarbarianInvasionInGameServerCommand implements GameServerCommand {
+public class InitiateBrotherhoodInGameServerCommand implements GameServerCommand {
 
 	private static final long serialVersionUID = 1L;
 	
 	private final PlayerInfo source;
 	private final Card card;
-
-	public InitiateBarbarianInvasionInGameServerCommand(PlayerInfo source, Card card) {
+	
+	public InitiateBrotherhoodInGameServerCommand(PlayerInfo source, Card card) {
 		this.source = source;
 		this.card = card;
 	}
-
+	
 	@Override
 	public void execute(GameRoom room, Connection connection) {
 		Game game = room.getGame();
@@ -32,7 +32,7 @@ public class InitiateBarbarianInvasionInGameServerCommand implements GameServerC
 				return;
 			}
 		}
-		game.pushGameController(new BarbarianInvasionGameController(source, room));
+		game.pushGameController(new BrotherhoodGameController(source, room));
 		game.getGameController().proceed();
 	}
 

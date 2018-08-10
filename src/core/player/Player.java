@@ -193,6 +193,10 @@ public abstract class Player {
 	public int getHealthCurrent() {
 		return healthCurrent;
 	}
+	
+	public boolean isDamaged() {
+		return this.getHealthCurrent() < this.getHealthLimit();
+	}
 
 	// **************** methods related to cards on hand ***************
 	public int getCardOnHandLimit() {

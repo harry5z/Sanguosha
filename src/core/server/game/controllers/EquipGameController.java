@@ -7,19 +7,14 @@ import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
+import utils.EnumWithNextStage;
 
 public class EquipGameController extends AbstractGameController {
 
-	public static enum EquipStage {
+	public static enum EquipStage implements EnumWithNextStage<EquipStage> {
 		UNEQUIP,
 		EQUIP,
 		END;
-		
-		private static final EquipStage[] VALUES = values();
-		
-		public EquipStage nextStage() {
-			return VALUES[(this.ordinal() + 1) % VALUES.length];
-		}
 	}
 	
 	private EquipStage stage;

@@ -26,6 +26,7 @@ import cards.equipments.shields.SilverLion;
 import cards.equipments.weapons.IcySword;
 import cards.specials.instant.ArrowSalvo;
 import cards.specials.instant.BarbarianInvasion;
+import cards.specials.instant.Brotherhood;
 import cards.specials.instant.Creation;
 import cards.specials.instant.Duel;
 import cards.specials.instant.FireAttack;
@@ -169,7 +170,7 @@ public class Deck {
 		used.add(new Duel(1, CLUB, util.getUID()));
 		used.add(new Duel(1, DIAMOND, util.getUID()));
 		used.add(new ArrowSalvo(1, HEART, util.getUID()));
-		// used.add(new Brotherhood(1, HEART, util.getUID()));
+		used.add(new Brotherhood(1, HEART, util.getUID()));
 		// used.add(new Sabotage(3,SPADE, util.getUID()));
 		// used.add(new Sabotage(3,CLUB, util.getUID()));
 		// used.add(new Sabotage(4,SPADE, util.getUID()));
@@ -183,8 +184,8 @@ public class Deck {
 		// used.add(new Steal(4,DIAMOND, util.getUID()));
 		// used.add(new Steal(11,SPADE, util.getUID()));
 
-//		used.add(new Harvest(3, HEART, util.getUID()));
-//		used.add(new Harvest(4, HEART, util.getUID()));
+		// used.add(new Harvest(3, HEART, util.getUID()));
+		// used.add(new Harvest(4, HEART, util.getUID()));
 
 		used.add(new BarbarianInvasion(7,SPADE, util.getUID()));
 		used.add(new BarbarianInvasion(7,CLUB, util.getUID()));
