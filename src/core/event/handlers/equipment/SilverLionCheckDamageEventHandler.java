@@ -1,4 +1,4 @@
-package core.event.handlers.damage;
+package core.event.handlers.equipment;
 
 import core.event.game.damage.TargetEquipmentCheckDamageEvent;
 import core.player.PlayerCompleteServer;

@@ -88,11 +88,10 @@ public class TurnGameController implements
 			case DRAW:
 				try {
 					this.game.emit(new DrawTurnEvent());
-				} catch (GameFlowInterruptedException e1) {
-					// Do no proceed automatically
-					return;
+					this.nextStage();
+				} catch (GameFlowInterruptedException e) {
+					e.resume();
 				}
-				this.nextStage();
 				return;
 			case DEAL_BEGINNING:
 				this.nextStage();
@@ -101,8 +100,9 @@ public class TurnGameController implements
 				try {
 					this.currentPlayer.clearDisposalArea();
 					this.game.emit(new DealTurnEvent());
+					this.nextStage();
 				} catch (GameFlowInterruptedException e) {
-					// Do nothing
+					e.resume();
 				}
 				return;
 			case DISCARD_BEGINNING:
@@ -111,11 +111,10 @@ public class TurnGameController implements
 			case DISCARD:
 				try {
 					this.game.emit(new DiscardTurnEvent());
+					this.nextStage();
 				} catch (GameFlowInterruptedException e) {
-					// Do no proceed automatically
-					return;
+					e.resume();
 				}
-				this.nextStage();
 				return;
 			case DISCARD_END:
 				this.nextStage();

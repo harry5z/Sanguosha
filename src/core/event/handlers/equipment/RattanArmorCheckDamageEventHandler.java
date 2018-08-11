@@ -1,4 +1,4 @@
-package core.event.handlers.damage;
+package core.event.handlers.equipment;
 
 import core.event.game.damage.TargetEquipmentCheckDamageEvent;
 import core.player.PlayerCompleteServer;
@@ -8,9 +8,9 @@ import core.server.game.Game;
 import core.server.game.Damage.Element;
 import exceptions.server.game.GameFlowInterruptedException;
 
-public class RattenArmorCheckDamageEventHandler extends AbstractTargetEquipmentCheckDamageEventHandler {
+public class RattanArmorCheckDamageEventHandler extends AbstractTargetEquipmentCheckDamageEventHandler {
 
-	public RattenArmorCheckDamageEventHandler(PlayerCompleteServer player) {
+	public RattanArmorCheckDamageEventHandler(PlayerCompleteServer player) {
 		super(player);
 	}
 

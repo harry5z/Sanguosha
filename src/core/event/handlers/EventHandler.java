@@ -14,7 +14,5 @@ public interface EventHandler<T extends Event> {
 	
 	public PlayerCompleteServer getPlayerSource();
 	
-	public void onRemoved(Game game, ConnectionController connection);
-
 	public void deactivate(/* reactivate callback? */);
 }

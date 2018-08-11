@@ -28,15 +28,16 @@ public class DiscardTurnEventHandler extends AbstractEventHandler<DiscardTurnEve
 		}
 		int amount = this.player.getHandCount() - this.player.getCardOnHandLimit();
 		if (amount > 0) {
-			connection.sendCommandToPlayers(
-				game.getPlayersInfo().stream().collect(
-					Collectors.toMap(
-						info -> info.getName(), 
-						info -> new DiscardGameUIClientCommand(this.player.getPlayerInfo(), amount)
+			throw new GameFlowInterruptedException(() -> {
+				connection.sendCommandToPlayers(
+					game.getPlayersInfo().stream().collect(
+						Collectors.toMap(
+							info -> info.getName(), 
+							info -> new DiscardGameUIClientCommand(this.player.getPlayerInfo(), amount)
+						)
 					)
-				)
-			);
-			throw new GameFlowInterruptedException();
+				);
+			});
 		}
 	}
 

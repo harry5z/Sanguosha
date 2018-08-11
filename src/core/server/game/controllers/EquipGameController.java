@@ -37,22 +37,22 @@ public class EquipGameController extends AbstractGameController {
 				} catch (InvalidPlayerCommandException e) {
 					
 				}
-				this.stage = this.stage.nextStage(); // proceed to next stage regardless
 				try {
 					this.game.emit(new UnequipEvent(this.player, this.equipment.getEquipmentType()));
+					this.stage = this.stage.nextStage(); // proceed to next stage regardless
+					this.proceed();
 				} catch (GameFlowInterruptedException e) {
-					return;
+					e.resume();
 				}
-				this.proceed();
 				break;
 			case EQUIP:
-				this.stage = this.stage.nextStage(); // proceed to next stage regardless
 				try {
 					this.game.emit(new EquipEvent(this.player, this.equipment));
+					this.stage = this.stage.nextStage(); // proceed to next stage regardless
+					this.proceed();
 				} catch (GameFlowInterruptedException e) {
-					return;
+					e.resume();
 				}
-				this.proceed();
 				break;
 			case END:
 				this.onCompleted();

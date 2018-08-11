@@ -4,9 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import commands.game.client.RequestNeutralizationGameUIClientCommand;
+import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.GameRoom;
+import exceptions.server.game.GameFlowInterruptedException;
 
 public abstract class AOEInstantSpecialGameController extends AbstractInstantSpecialGameController {
 	
@@ -29,8 +31,13 @@ public abstract class AOEInstantSpecialGameController extends AbstractInstantSpe
 		switch(stage) {
 			case TARGET_LOCKED:
 				this.seenTargets.add(this.currentTarget);
-				this.stage = this.stage.nextStage();
-				this.proceed();
+				try {
+					this.game.emit(this.getTargetEffectivenessEvent());
+					this.stage = this.stage.nextStage();
+					this.proceed();
+				} catch (GameFlowInterruptedException e) {
+					e.resume();
+				}
 				break;
 			case NEUTRALIZATION:
 				if (this.canBeNeutralized()) {
@@ -64,6 +71,12 @@ public abstract class AOEInstantSpecialGameController extends AbstractInstantSpe
 				break;
 		}
 	}
+	
+	public void setStage(SpecialStage stage) {
+		this.stage = stage;
+	}
+	
+	protected abstract AOETargetEffectivenessEvent getTargetEffectivenessEvent();
 	
 	protected abstract void takeEffect();
 	

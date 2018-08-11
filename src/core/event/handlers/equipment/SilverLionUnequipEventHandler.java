@@ -4,6 +4,7 @@ import core.event.game.UnequipEvent;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;
+import core.server.game.controllers.HealGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class SilverLionUnequipEventHandler extends AbstractShieldUnequipEventHandler {
@@ -18,8 +19,11 @@ public class SilverLionUnequipEventHandler extends AbstractShieldUnequipEventHan
 			return;
 		}
 		
-		if (this.player.getHealthCurrent() < this.player.getHealthLimit()) {
-			this.player.changeHealthCurrentBy(1); // TODO push game controller
+		if (this.player.isDamaged()) {
+			throw new GameFlowInterruptedException(() -> {
+				game.pushGameController(new HealGameController(this.player.getPlayerInfo(), this.player.getPlayerInfo(), game));
+				game.getGameController().proceed();
+			});
 		}
 	}
 

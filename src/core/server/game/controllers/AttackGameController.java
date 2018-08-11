@@ -3,7 +3,7 @@ package core.server.game.controllers;
 import cards.Card;
 import cards.basics.Attack;
 import cards.basics.Dodge;
-import cards.equipments.Equipment.EquipmentType;
+import core.event.game.basic.AttackEvent;
 import core.event.game.basic.RequestDodgeEvent;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
@@ -54,6 +54,10 @@ public class AttackGameController extends AbstractGameController implements Dodg
 		}
 	}
 	
+	public void setStage(AttackStage stage) {
+		this.stage = stage;
+	}
+	
 	@Override
 	public void onDodgeUsed(Card card) {
 		try {
@@ -93,12 +97,14 @@ public class AttackGameController extends AbstractGameController implements Dodg
 					this.damage.setAmount(this.damage.getAmount() + 1);
 					this.source.resetWineEffective();
 				}
-				if (target.isEquipped(EquipmentType.SHIELD) && !target.getShield().mustReactTo(attack)) {
-					stage = AttackStage.END;
-				} else {
-					stage = stage.nextStage();
+				
+				try {
+					this.game.emit(new AttackEvent(this.target.getPlayerInfo(), this.attack, this));
+					this.stage = this.stage.nextStage();
+					this.proceed();
+				} catch (GameFlowInterruptedException e) {
+					e.resume();
 				}
-				proceed();
 				break;
 			case AFTER_TARGET_LOCKED_SKILLS:
 				stage = stage.nextStage();

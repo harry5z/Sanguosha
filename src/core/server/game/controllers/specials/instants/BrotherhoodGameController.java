@@ -1,5 +1,7 @@
 package core.server.game.controllers.specials.instants;
 
+import core.event.game.instants.AOETargetEffectivenessEvent;
+import core.event.game.instants.BrotherhoodTargetEffectivenessEvent;
 import core.player.PlayerInfo;
 import core.server.GameRoom;
 import core.server.game.controllers.HealGameController;
@@ -23,6 +25,11 @@ public class BrotherhoodGameController extends AOEInstantSpecialGameController {
 	protected boolean canBeNeutralized() {
 		// only consider players that is not at full health
 		return this.currentTarget.isDamaged();
+	}
+
+	@Override
+	protected AOETargetEffectivenessEvent getTargetEffectivenessEvent() {
+		return new BrotherhoodTargetEffectivenessEvent(this.currentTarget, this);
 	}
 
 }

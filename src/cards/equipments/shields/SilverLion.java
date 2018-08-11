@@ -1,7 +1,6 @@
 package cards.equipments.shields;
 
-import cards.Card;
-import core.event.handlers.damage.SilverLionCheckDamageEventHandler;
+import core.event.handlers.equipment.SilverLionCheckDamageEventHandler;
 import core.event.handlers.equipment.SilverLionUnequipEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
@@ -17,11 +16,6 @@ public class SilverLion extends Shield {
 	@Override
 	public String getName() {
 		return "Silver Lion";
-	}
-
-	@Override
-	public boolean mustReactTo(Card card) {
-		return true;
 	}
 	
 	@Override

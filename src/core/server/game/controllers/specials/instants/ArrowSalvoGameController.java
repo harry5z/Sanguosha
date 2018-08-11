@@ -3,6 +3,8 @@ package core.server.game.controllers.specials.instants;
 import cards.Card;
 import cards.basics.Dodge;
 import core.event.game.basic.RequestDodgeEvent;
+import core.event.game.instants.AOETargetEffectivenessEvent;
+import core.event.game.instants.ArrowSalvoTargetEffectivenessEvent;
 import core.player.PlayerInfo;
 import core.server.GameRoom;
 import core.server.game.Damage;
@@ -44,6 +46,11 @@ public class ArrowSalvoGameController extends AOEInstantSpecialGameController im
 				this.proceed();
 			}
 		}
+	}
+	
+	@Override
+	protected AOETargetEffectivenessEvent getTargetEffectivenessEvent() {
+		return new ArrowSalvoTargetEffectivenessEvent(this.currentTarget, this);
 	}
 
 	@Override

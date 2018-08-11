@@ -22,11 +22,6 @@ public abstract class AbstractEventHandler<T extends Event> implements EventHand
 	}
 	
 	@Override
-	public void onRemoved(Game game, ConnectionController connection) {
-		// Do nothing
-	}
-	
-	@Override
 	public final void handle(T event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
 		if (this.activated && this.player.isAlive()) {
 			this.handleIfActivated(event, game, connection);

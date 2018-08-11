@@ -3,6 +3,8 @@ package core.server.game.controllers.specials.instants;
 import cards.Card;
 import cards.basics.Attack;
 import core.event.game.basic.RequestAttackEvent;
+import core.event.game.instants.AOETargetEffectivenessEvent;
+import core.event.game.instants.BarbarianInvasionTargetEffectivenessEvent;
 import core.player.PlayerInfo;
 import core.server.GameRoom;
 import core.server.game.Damage;
@@ -44,6 +46,11 @@ public class BarbarianInvasionGameController extends AOEInstantSpecialGameContro
 				this.proceed();
 			}
 		}
+	}
+
+	@Override
+	protected AOETargetEffectivenessEvent getTargetEffectivenessEvent() {
+		return new BarbarianInvasionTargetEffectivenessEvent(this.currentTarget, this);
 	}
 
 	@Override

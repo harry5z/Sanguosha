@@ -1,6 +1,5 @@
 package core.server.game;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,7 +14,6 @@ import core.event.handlers.EventHandler;
 import core.heroes.original.Blank;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
-import core.server.ConnectionController;
 import core.server.GameRoom;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.TurnGameController;
@@ -25,7 +23,8 @@ import listeners.game.server.ServerInGameCardOnHandListener;
 import listeners.game.server.ServerInGameEquipmentListener;
 import listeners.game.server.ServerInGameHealthListener;
 import listeners.game.server.ServerInGamePlayerStatusListener;
-import utils.Log;
+import utils.GameEventHandler;
+import utils.GameEventHandler.EventHandlerStack;
 
 /**
  * The game framework. Currently only the original game
@@ -44,65 +43,8 @@ public class GameImpl implements Game {
 	private GameConfig config;
 	private Stack<GameController> controllers;
 	private TurnGameController turnController;
-	/*
-	 * A map from event types to a map from players to event handlers of that type. Implicitly allowing up
-	 * to only one handler for each player for each event type
-	 */
-	private Map<Class<? extends GameEvent>, Map<PlayerCompleteServer, EventHandlerStack>> gameEventHandlers;
+	private GameEventHandler handlers;
 
-	private class EventHandlerStack {
-		
-		private class Node {
-			Node next;
-			EventHandler<? extends GameEvent> handler;
-			
-			public Node(EventHandler<? extends GameEvent> handler) {
-				this.handler = handler;
-				this.next = null;
-			}
-		}
-		
-		Node root;
-		
-		public EventHandlerStack(EventHandler<? extends GameEvent> handler) {
-			this.root = new Node(handler);
-		}
-		
-		void push(EventHandler<? extends GameEvent> handler) {
-			Node node = new Node(handler);
-			node.next = this.root;
-			this.root = node;
-		}
-		
-		void remove(EventHandler<? extends GameEvent> handler) {
-			if (this.root == null) {
-				Log.log(TAG, "no matching handler found: no handler for the event");
-				return;
-			}
-			
-			if (this.root.handler.equals(handler)) {
-				this.root = this.root.next;
-				return;
-			}
-			
-			for (Node current = this.root, next = current.next; next != null; current = next, next = next.next) {
-				if (next.handler.equals(handler)) {
-					current.next = next.next;
-					handler.onRemoved(GameImpl.this, GameImpl.this.room);
-					return;
-				}
-			}
-			Log.log(TAG, "no matching handler found");
-		}
-		
-		@SuppressWarnings("unchecked")
-		<T extends GameEvent> void handle(T event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
-			for (Node current = this.root; current != null; current = current.next) {
-				((EventHandler<T>)current.handler).handle(event, game, connection);
-			}
-		}
-	}
-	
 	public GameImpl(GameRoom room, GameConfig config, List<PlayerInfo> playerInfos) {
 		this.room = room;
 		this.config = config;
@@ -113,7 +55,7 @@ public class GameImpl implements Game {
 
 		this.playerNames = playerInfos.stream().map(info -> info.getName()).collect(Collectors.toSet());
 		this.controllers = new Stack<>();
-		this.gameEventHandlers = new HashMap<>();
+		this.handlers = new GameEventHandler();
 	}
 
 	@Override
@@ -250,49 +192,30 @@ public class GameImpl implements Game {
 	
 	@Override
 	public <T extends GameEvent> void registerEventHandler(EventHandler<T> handler) {
-		Class<T> c = handler.getEventClass();
-		Map<PlayerCompleteServer, EventHandlerStack> handlerStackMap = this.gameEventHandlers.get(c);
-		if (handlerStackMap != null) {
-			if (handlerStackMap.containsKey(handler.getPlayerSource())) {
-				handlerStackMap.get(handler.getPlayerSource()).push(handler);
-			} else {
-				handlerStackMap.put(handler.getPlayerSource(), new EventHandlerStack(handler));
-			}
-		} else {
-			Map<PlayerCompleteServer, EventHandlerStack> handlerMap = new HashMap<>();
-			handlerMap.put(handler.getPlayerSource(), new EventHandlerStack(handler));
-			this.gameEventHandlers.put(c, handlerMap);
-		}
+		this.handlers.registerEventHandler(handler);
 	}
 	
 	@Override
 	public <T extends GameEvent> void removeEventHandler(EventHandler<T> handler) {
-		Class<T> c = handler.getEventClass();
-		Map<PlayerCompleteServer, EventHandlerStack> map = this.gameEventHandlers.get(c);
-		if (map == null) {
-			throw new RuntimeException("handler not found, never registered in map");
-		}
-		EventHandlerStack stack = map.get(handler.getPlayerSource());
-		if (stack == null) {
-			throw new RuntimeException("handler not found, never registered for player");
-		}
-		stack.remove(handler);
+		this.handlers.removeEventHandler(handler);
 	}
 	
 	@Override
 	public <T extends GameEvent> void emit(T event) throws GameFlowInterruptedException {
-		if (this.gameEventHandlers.containsKey(event.getClass())) {
-			Map<PlayerCompleteServer, EventHandlerStack> handlers = this.gameEventHandlers.get(event.getClass());
-			PlayerCompleteServer currentCheckedPlayer = this.getCurrentPlayer();
-			PlayerCompleteServer initialPlayer = currentCheckedPlayer;
-			
-			do {
-				if (handlers.containsKey(currentCheckedPlayer)) {
-					handlers.get(currentCheckedPlayer).handle(event, this, this.room);
-				}
-				currentCheckedPlayer = this.getNextPlayer(currentCheckedPlayer);
-			} while (initialPlayer != currentCheckedPlayer);
+		Map<PlayerCompleteServer, EventHandlerStack> handlers = this.handlers.getHandlersForEvent(event);
+		if (handlers == null) {
+			return;
 		}
+		
+		PlayerCompleteServer currentCheckedPlayer = this.getCurrentPlayer();
+		PlayerCompleteServer initialPlayer = currentCheckedPlayer;
+		
+		do {
+			if (handlers.containsKey(currentCheckedPlayer)) {
+				handlers.get(currentCheckedPlayer).handle(event, this, this.room);
+			}
+			currentCheckedPlayer = this.getNextPlayer(currentCheckedPlayer);
+		} while (initialPlayer != currentCheckedPlayer);
 	}
 
 }

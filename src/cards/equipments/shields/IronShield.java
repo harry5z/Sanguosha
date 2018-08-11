@@ -1,8 +1,8 @@
 package cards.equipments.shields;
 
-import cards.Card;
-import cards.basics.Attack;
-import core.server.game.Damage;
+import core.event.handlers.equipment.IronShieldAttackEventHandler;
+import core.player.PlayerCompleteServer;
+import core.server.game.Game;
 
 public class IronShield extends Shield {
 
@@ -16,10 +16,14 @@ public class IronShield extends Shield {
 	public String getName() {
 		return "Iron Shield";
 	}
-
+	
 	@Override
-	public boolean mustReactTo(Card card) {
-		return !(card instanceof Attack && card.getColor() == Color.BLACK);
+	public void onEquipped(Game game, PlayerCompleteServer owner) {
+		game.registerEventHandler(new IronShieldAttackEventHandler(owner));
 	}
-
+	
+	@Override
+	public void onUnequipped(Game game, PlayerCompleteServer owner) {
+		game.removeEventHandler(new IronShieldAttackEventHandler(owner));
+	}
 }

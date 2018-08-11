@@ -110,7 +110,7 @@ General rule of equipments: at most one equipment can be equipped for each type 
 
 #### 1/18/2014:
 
-Added two shields: [Iron Shield](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/IronShield.java) and [Ratten Armor](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/RattanArmor.java):
+Added two shields: [Iron Shield](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/IronShield.java) and [Rattan Armor](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/shields/RattanArmor.java):
 
 Iron Shield: makes black "Attack" not effective
 
