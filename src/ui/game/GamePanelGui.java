@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import cards.Card;
+import core.Constants;
 import core.client.GamePanel;
 import core.heroes.original.Blank;
 import core.heroes.original.HeroOriginal;
@@ -26,8 +27,8 @@ import ui.game.interfaces.PlayerUI;
 public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<HeroOriginal> {
 	private static final long serialVersionUID = 2519723480954332278L;
 
-	public static final int WIDTH = 1600;
-	public static final int HEIGHT = 900;
+	public static final int WIDTH = Constants.SCREEN_WIDTH / 4 * 3;
+	public static final int HEIGHT = Constants.SCREEN_HEIGHT / 4 * 3;
 
 	private CardRackGui cardRack;
 	private EquipmentRackGui equipmentRack;

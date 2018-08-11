@@ -9,9 +9,9 @@ import core.server.game.Game;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
-public class UnequipCommonEventHandler extends AbstractEventHandler<UnequipEvent> {
+public class UnequipEventHandler extends AbstractEventHandler<UnequipEvent> {
 
-	public UnequipCommonEventHandler(PlayerCompleteServer player) {
+	public UnequipEventHandler(PlayerCompleteServer player) {
 		super(player);
 	}
 

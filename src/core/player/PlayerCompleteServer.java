@@ -3,8 +3,8 @@ package core.player;
 import cards.Card;
 import core.event.handlers.basic.RequestAttackEventHandler;
 import core.event.handlers.basic.RequestDodgeEventHandler;
-import core.event.handlers.equipment.EquipCommonEventHandler;
-import core.event.handlers.equipment.UnequipCommonEventHandler;
+import core.event.handlers.equipment.EquipEventHandler;
+import core.event.handlers.equipment.UnequipEventHandler;
 import core.event.handlers.turn.DealTurnEventHandler;
 import core.event.handlers.turn.DiscardTurnEventHandler;
 import core.event.handlers.turn.DrawTurnEventHandler;
@@ -76,7 +76,7 @@ public class PlayerCompleteServer extends PlayerComplete {
 		game.registerEventHandler(new DiscardTurnEventHandler(this));
 		game.registerEventHandler(new RequestDodgeEventHandler(this));
 		game.registerEventHandler(new RequestAttackEventHandler(this));
-		game.registerEventHandler(new UnequipCommonEventHandler(this));
-		game.registerEventHandler(new EquipCommonEventHandler(this));
+		game.registerEventHandler(new UnequipEventHandler(this));
+		game.registerEventHandler(new EquipEventHandler(this));
 	}
 }

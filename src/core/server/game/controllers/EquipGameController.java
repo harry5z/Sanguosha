@@ -2,7 +2,6 @@ package core.server.game.controllers;
 
 import cards.equipments.Equipment;
 import core.event.game.EquipEvent;
-import core.event.game.UnequipEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -37,13 +36,9 @@ public class EquipGameController extends AbstractGameController {
 				} catch (InvalidPlayerCommandException e) {
 					
 				}
-				try {
-					this.game.emit(new UnequipEvent(this.player, this.equipment.getEquipmentType()));
-					this.stage = this.stage.nextStage(); // proceed to next stage regardless
-					this.proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+				this.stage = this.stage.nextStage();
+				this.game.pushGameController(new UnequipGameController(this.game, this.player, this.equipment.getEquipmentType()));
+				this.game.getGameController().proceed();
 				break;
 			case EQUIP:
 				try {
