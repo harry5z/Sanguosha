@@ -1,33 +1,23 @@
 package cards.specials.instant;
 
-import commands.Command;
-import commands.operations.special.HarvestOperation;
 import core.client.game.operations.Operation;
-import core.player.PlayerComplete;
 
-public class Harvest extends Instant
-{
+public class Harvest extends Instant {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3333097112836442800L;
+	private static final long serialVersionUID = -1L;
 
-	public Harvest(int num, Suit suit, int id)
-	{
+	public Harvest(int num, Suit suit, int id) {
 		super(num, suit, id);
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return "Harvest";
 	}
 
 	@Override
-	protected Operation createOperation(PlayerComplete player, Command next) 
-	{
-		player.getGameListener().setConfirmEnabled(true);
-		return new HarvestOperation(player,this,next);
+	public Operation generateOperation() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

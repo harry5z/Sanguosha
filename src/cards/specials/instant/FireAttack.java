@@ -1,37 +1,23 @@
 package cards.specials.instant;
 
-import commands.Command;
-import commands.operations.special.FireAttackOperation;
 import core.client.game.operations.Operation;
-import core.player.PlayerComplete;
-import core.player.PlayerSimple;
 
-public class FireAttack extends Instant
-{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3725224946954164125L;
+public class FireAttack extends Instant {
+	private static final long serialVersionUID = -1L;
 	public static final String FIRE_ATTACK = "Fire Attack";
-	public FireAttack(int num, Suit suit, int id)
-	{
+
+	public FireAttack(int num, Suit suit, int id) {
 		super(num, suit, id);
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return FIRE_ATTACK;
 	}
 
 	@Override
-	protected Operation createOperation(PlayerComplete player, Command next) 
-	{
-		for(PlayerSimple other : player.getOtherPlayersUI())
-			if(other.getHandCount() != 0)// target must have card on hand
-				player.getGameListener().setTargetSelectable(other.getPlayerInfo(), true);
-		if(player.getHandCount() > 1) // self have card (other than fire attack) on hand
-			player.getGameListener().setTargetSelectable(player.getPlayerInfo(), true);
-		return new FireAttackOperation(player,this,next);
+	public Operation generateOperation() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
