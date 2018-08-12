@@ -2,19 +2,22 @@ package commands.game.server.ingame;
 
 import cards.Card;
 import commands.game.server.GameServerCommand;
+import core.player.PlayerInfo;
 import core.server.GameRoom;
 import core.server.game.Game;
-import core.server.game.controllers.specials.instants.CreationGameController;
+import core.server.game.controllers.specials.instants.DuelGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 import net.Connection;
 
-public class InitiateCreationInGameServerCommand implements GameServerCommand {
+public class InitiateDuelInGameServerCommand implements GameServerCommand {
 
-	private static final long serialVersionUID = -3218714908165332927L;
-
+	private static final long serialVersionUID = 1L;
+	
+	private final PlayerInfo target;
 	private final Card card;
 
-	public InitiateCreationInGameServerCommand(Card card) {
+	public InitiateDuelInGameServerCommand(PlayerInfo target, Card card) {
+		this.target = target;
 		this.card = card;
 	}
 
@@ -31,8 +34,9 @@ public class InitiateCreationInGameServerCommand implements GameServerCommand {
 		}
 		
 		game.pushGameController(
-			new CreationGameController(
+			new DuelGameController(
 				game.getCurrentPlayer().getPlayerInfo(), 
+				this.target,
 				room
 			)
 		);

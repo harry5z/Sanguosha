@@ -30,7 +30,7 @@ public class BarbarianInvasionGameController extends AOEInstantSpecialGameContro
 			try {
 				this.game.emit(new RequestAttackEvent(this.currentTarget.getPlayerInfo()));
 			} catch (GameFlowInterruptedException e) {
-				// Do nothing
+				e.resume();
 			}
 		} else {
 			this.stage = this.stage.nextStage();

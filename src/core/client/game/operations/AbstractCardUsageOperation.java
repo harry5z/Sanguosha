@@ -1,7 +1,7 @@
 package core.client.game.operations;
 
 import cards.Card;
-import commands.Command;
+import commands.game.server.GameServerCommand;
 import core.client.GamePanel;
 import core.heroes.Hero;
 import core.player.PlayerInfo;
@@ -31,7 +31,7 @@ public abstract class AbstractCardUsageOperation implements Operation {
 		panel.getChannel().send(getCommand(card == null ? null : card.getCard()));
 	}
 	
-	protected abstract Command<?> getCommand(Card card);
+	protected abstract GameServerCommand getCommand(Card card);
 
 	@Override
 	public final void onCardClicked(CardUI card) {

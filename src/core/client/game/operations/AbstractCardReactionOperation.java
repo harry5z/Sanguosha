@@ -9,8 +9,8 @@ import ui.game.interfaces.CardUI;
 
 public abstract class AbstractCardReactionOperation implements Operation {
 
-	private GamePanel<? extends Hero> panel;
-	private CardUI card;
+	protected GamePanel<? extends Hero> panel;
+	protected CardUI card;
 	
 	@Override
 	public void onConfirmed() {

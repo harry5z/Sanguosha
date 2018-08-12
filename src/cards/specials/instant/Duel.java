@@ -1,6 +1,7 @@
 package cards.specials.instant;
 
 import core.client.game.operations.Operation;
+import core.client.game.operations.instants.DuelOperation;
 
 public class Duel extends Instant {
 	private static final long serialVersionUID = -1L;
@@ -17,7 +18,6 @@ public class Duel extends Instant {
 
 	@Override
 	public Operation generateOperation() {
-		// TODO Auto-generated method stub
-		return null;
+		return new DuelOperation();
 	}
 }
