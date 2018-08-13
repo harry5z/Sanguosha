@@ -31,6 +31,7 @@ import cards.specials.instant.Creation;
 import cards.specials.instant.Duel;
 import cards.specials.instant.FireAttack;
 import cards.specials.instant.Neutralization;
+import cards.specials.instant.Sabotage;
 import utils.CardIDUtil;
 import utils.Log;
 
@@ -171,12 +172,12 @@ public class Deck {
 		used.add(new Duel(1, DIAMOND, util.getUID()));
 		used.add(new ArrowSalvo(1, HEART, util.getUID()));
 		used.add(new Brotherhood(1, HEART, util.getUID()));
-		// used.add(new Sabotage(3,SPADE, util.getUID()));
-		// used.add(new Sabotage(3,CLUB, util.getUID()));
-		// used.add(new Sabotage(4,SPADE, util.getUID()));
-		// used.add(new Sabotage(4,CLUB, util.getUID()));
-		// used.add(new Sabotage(12,SPADE, util.getUID()));
-		// used.add(new Sabotage(12,HEART, util.getUID()));
+		used.add(new Sabotage(3,SPADE, util.getUID()));
+		used.add(new Sabotage(3,CLUB, util.getUID()));
+		used.add(new Sabotage(4,SPADE, util.getUID()));
+		used.add(new Sabotage(4,CLUB, util.getUID()));
+		used.add(new Sabotage(12,SPADE, util.getUID()));
+		used.add(new Sabotage(12,HEART, util.getUID()));
 		//
 		// used.add(new Steal(3,SPADE, util.getUID()));
 		// used.add(new Steal(3,DIAMOND, util.getUID()));

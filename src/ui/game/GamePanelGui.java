@@ -3,6 +3,7 @@ package ui.game;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import core.Constants;
 import core.client.GamePanel;
 import core.heroes.original.Blank;
 import core.heroes.original.HeroOriginal;
+import core.player.PlayerCardZone;
 import core.player.PlayerCompleteClient;
 import core.player.PlayerInfo;
 import core.player.PlayerSimple;
@@ -35,8 +37,8 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 	private HeroGui heroGui;
 	private LifebarGui healthGui;
 	private CardDisposalGui disposalGui;
-	private CardSelectionPane pane;
-	private JPanel customizedPanel;
+	private CardSelectionPane selectionPane;
+	private JPanel customizedSelectionPane;
 
 	private PlayerCompleteClient myself;
 	private List<PlayerGui> otherPlayers;
@@ -68,7 +70,7 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 		deckSize.setLocation(WIDTH - 100, PlayerGui.HEIGHT);
 		messageBox = new MessageBoxGui();
 		messageBox.setLocation(equipmentRack.getWidth(), HEIGHT - cardRack.getHeight() - MessageBoxGui.HEIGHT);
-		pane = null;
+		selectionPane = null;
 
 		myself.registerGameListener(this);
 		myself.registerCardOnHandListener(cardRack);
@@ -260,36 +262,39 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 	}
 
 	@Override
-	public void onDisplayCardSelectionPane(PlayerSimple player, boolean showHand, boolean showEquipments,
-			boolean showDecisions) {
-		// pane = new CardSelectionPane(player, showHand, showEquipments, showDecisions, this);
-		pane.setLocation((WIDTH - pane.getWidth()) / 2, (HEIGHT - CardRackGui.HEIGHT - pane.getHeight()) / 2);
-		add(pane);
-		setComponentZOrder(pane, 0); // foremost
-		pane.validate();
-		pane.repaint();
+	public void displayCardSelectionPane(PlayerSimple player, Collection<PlayerCardZone> zones) {
+		selectionPane = new CardSelectionPane(player, zones, this.panel);
+		selectionPane.setLocation((WIDTH - selectionPane.getWidth()) / 2, (HEIGHT - CardRackGui.HEIGHT - selectionPane.getHeight()) / 2);
+		add(selectionPane);
+		setComponentZOrder(selectionPane, 0); // foremost
+		selectionPane.validate();
+		selectionPane.repaint();
 	}
 
 	@Override
-	public void onDisplayCustomizedSelectionPaneAtCenter(JPanel panel) {
-		this.onRemoveCustomizedSelectionPane();
-		customizedPanel = panel;
-		customizedPanel.setLocation((WIDTH - customizedPanel.getWidth()) / 2,
-				(HEIGHT - CardRackGui.HEIGHT - customizedPanel.getHeight()) / 2);
-		add(customizedPanel);
-		setComponentZOrder(customizedPanel, 0); // foremost
-		customizedPanel.validate();
-		customizedPanel.repaint();
+	public void displayCustomizedSelectionPaneAtCenter(JPanel panel) {
+		this.removeSelectionPane();
+		customizedSelectionPane = panel;
+		customizedSelectionPane.setLocation((WIDTH - customizedSelectionPane.getWidth()) / 2,
+				(HEIGHT - CardRackGui.HEIGHT - customizedSelectionPane.getHeight()) / 2);
+		add(customizedSelectionPane);
+		setComponentZOrder(customizedSelectionPane, 0); // foremost
+		customizedSelectionPane.validate();
+		customizedSelectionPane.repaint();
 	}
 
 	@Override
-	public void onRemoveCustomizedSelectionPane() {
-		if (customizedPanel != null) {
-			remove(customizedPanel);
-			customizedPanel = null;
-			validate();
-			repaint();
+	public void removeSelectionPane() {
+		if (this.selectionPane != null) {
+			this.remove(this.selectionPane);
+			this.selectionPane = null;
 		}
+		if (this.customizedSelectionPane != null) {
+			this.remove(this.customizedSelectionPane);
+			this.customizedSelectionPane = null;
+		}
+		this.validate();
+		this.repaint();
 	}
 	
 	@Override

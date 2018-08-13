@@ -2,90 +2,81 @@ package ui.game;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionListener;
+import java.util.Collection;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import cards.equipments.Equipment;
+import core.client.GamePanel;
+import core.heroes.Hero;
+import core.player.PlayerCardZone;
 import core.player.PlayerSimple;
 
-public class CardSelectionPane extends JPanel
-{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1339809013970250865L;
+public class CardSelectionPane extends JPanel {
+	private static final long serialVersionUID = -1L;
 
 	/**
 	 * Display player's hand/equipments/decisionArea
+	 * 
 	 * @param player
 	 * @param showHand
 	 * @param showEquipments
-	 * @param showDecisions
+	 * @param showDelayed
 	 */
-	public CardSelectionPane(PlayerSimple player, boolean showHand, boolean showEquipments, boolean showDecisions, ActionListener listener)
-	{
+	public CardSelectionPane(PlayerSimple player, Collection<PlayerCardZone> zones, GamePanel<? extends Hero> panel) {
 		int verticalLocation = 0;
 		setLayout(null);
-		if(showHand)
-		{
+		if (zones.contains(PlayerCardZone.HAND)) {
 			int amount = player.getHandCount();
-			if(amount != 0)
-			{
+			if (amount != 0) {
 				JLabel label = new LabelGui("Cards on Hand");
-				CardRackGui hand = new CardRackGui(null);
-				for(int i = 0; i < amount;i++)
-					hand.addCardGui(new CardGui(),true);
+				CardRackGui hand = new CardRackGui(panel, PlayerCardZone.HAND);
+				for (int i = 0; i < amount; i++) {
+					hand.addCardGui(new CardGui(), true);
+				}
 
-				label.setLocation(0,verticalLocation);
+				label.setLocation(0, verticalLocation);
 				add(label);
 				verticalLocation += LabelGui.HEIGHT;
-				hand.setLocation(0,verticalLocation);
+				hand.setLocation(0, verticalLocation);
 				add(hand);
 				verticalLocation += CardRackGui.HEIGHT;
 			}
 		}
-		if(showEquipments)
-		{
-			if(player.isEquipped())
-			{
+		if (zones.contains(PlayerCardZone.EQUIPMENT)) {
+			if (player.isEquipped()) {
 				JLabel label = new LabelGui("Equipments");
-				CardRackGui equipments = new CardRackGui(null);
-				for(Equipment e : player.getEquipments())
+				CardRackGui equipments = new CardRackGui(panel, PlayerCardZone.EQUIPMENT);
+				for (Equipment e : player.getEquipments()) {
 					equipments.addCardGui(new CardGui(e), true);
-				
-				label.setLocation(0,verticalLocation);
+				}
+
+				label.setLocation(0, verticalLocation);
 				add(label);
 				verticalLocation += LabelGui.HEIGHT;
-				
-				equipments.setLocation(0,verticalLocation);
+
+				equipments.setLocation(0, verticalLocation);
 				add(equipments);
 				verticalLocation += CardRackGui.HEIGHT;
 			}
 		}
-//		if(showDecisions) // not yet implemented
-//			size++;
+		// TODO: show Delayed zone
 		setSize(CardRackGui.WIDTH, verticalLocation);
 		repaint();
 	}
-	
-	private static class LabelGui extends JLabel
-	{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -3890008522268599582L;
+
+	private static class LabelGui extends JLabel {
+		private static final long serialVersionUID = -1L;
 		public static final int HEIGHT = 30;
-		public LabelGui(String text)
-		{
+
+		public LabelGui(String text) {
 			super(text);
 			setBackground(Color.RED);
 			setSize(CardRackGui.WIDTH, HEIGHT);
 			setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
-			setHorizontalAlignment(JButton.CENTER); //text in the middle
-
+			setHorizontalAlignment(JButton.CENTER); // text in the middle
 		}
 	}
 }

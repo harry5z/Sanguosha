@@ -23,7 +23,7 @@ public class IronShieldAttackEventHandler extends AbstractEventHandler<AttackEve
 
 	@Override
 	protected void handleIfActivated(AttackEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
-		if (!this.player.getPlayerInfo().equals(event.getTargetInfo())) {
+		if (!this.player.getPlayerInfo().equals(event.getTarget())) {
 			return;
 		}
 		

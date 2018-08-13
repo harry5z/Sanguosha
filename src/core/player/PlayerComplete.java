@@ -72,6 +72,24 @@ public class PlayerComplete extends PlayerSimple {
 		cardsOnHand.remove(card);
 		super.removeCardFromHand(card);
 	}
+	
+	@Override
+	public void useCard(Card card) throws InvalidPlayerCommandException {
+		if (!cardsOnHand.contains(card)) {
+			throw new InvalidPlayerCommandException("useCard: Card " + card + " is not on player's hand");
+		}
+		cardsOnHand.remove(card);
+		super.useCard(card);
+	}
+	
+	@Override
+	public void discardCard(Card card) throws InvalidPlayerCommandException {
+		if (!cardsOnHand.contains(card)) {
+			throw new InvalidPlayerCommandException("discardCard: Card " + card + " is not on player's hand");
+		}
+		cardsOnHand.remove(card);
+		super.discardCard(card);
+	}
 
 	// ************** methods related to in-game properties ****************
 	@Override

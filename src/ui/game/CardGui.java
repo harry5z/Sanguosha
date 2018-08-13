@@ -14,8 +14,10 @@ import javax.swing.JButton;
 
 import cards.Card;
 import cards.Card.Suit;
+import cards.equipments.Equipment;
 import core.Constants;
 import ui.game.interfaces.CardUI;
+import ui.game.interfaces.EquipmentUI;
 
 /**
  * Gui class for cards (on hand and at diposal area)
@@ -23,7 +25,7 @@ import ui.game.interfaces.CardUI;
  * @author Harry
  *
  */
-public class CardGui extends JButton implements CardUI {
+public class CardGui extends JButton implements CardUI, EquipmentUI {
 
 	private static final long serialVersionUID = -8973362684095284243L;
 	public static final int WIDTH = 142;
@@ -145,6 +147,11 @@ public class CardGui extends JButton implements CardUI {
 	public Card getCard() {
 		return card;
 	}
+	
+	@Override
+	public Equipment getEquipment() {
+		return (Equipment)card;
+	}
 
 	@Override
 	public void paint(Graphics g) {
@@ -188,4 +195,5 @@ public class CardGui extends JButton implements CardUI {
 			return false;
 		return card.equals(((CardGui) obj).getCard());
 	}
+
 }

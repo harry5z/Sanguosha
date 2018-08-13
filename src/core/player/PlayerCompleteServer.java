@@ -5,6 +5,7 @@ import core.event.handlers.basic.RequestAttackEventHandler;
 import core.event.handlers.basic.RequestDodgeEventHandler;
 import core.event.handlers.equipment.EquipEventHandler;
 import core.event.handlers.equipment.UnequipEventHandler;
+import core.event.handlers.instant.PlayerCardSelectionEventHandler;
 import core.event.handlers.turn.DealTurnEventHandler;
 import core.event.handlers.turn.DiscardTurnEventHandler;
 import core.event.handlers.turn.DrawTurnEventHandler;
@@ -78,5 +79,6 @@ public class PlayerCompleteServer extends PlayerComplete {
 		game.registerEventHandler(new RequestAttackEventHandler(this));
 		game.registerEventHandler(new UnequipEventHandler(this));
 		game.registerEventHandler(new EquipEventHandler(this));
+		game.registerEventHandler(new PlayerCardSelectionEventHandler(this));
 	}
 }

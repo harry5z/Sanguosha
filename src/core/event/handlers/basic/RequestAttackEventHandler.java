@@ -21,7 +21,7 @@ public class RequestAttackEventHandler extends AbstractEventHandler<RequestAttac
 
 	@Override
 	protected void handleIfActivated(RequestAttackEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
-		connection.sendCommandToPlayer(this.player.getName(), new RequestAttackGameUIClientCommand(event.getTargetInfo()));
+		connection.sendCommandToPlayer(this.player.getName(), new RequestAttackGameUIClientCommand(event.getTarget()));
 	}
 
 }

@@ -21,7 +21,7 @@ public class RequestDodgeEventHandler extends AbstractEventHandler<RequestDodgeE
 
 	@Override
 	protected void handleIfActivated(RequestDodgeEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
-		connection.sendCommandToPlayer(this.player.getName(), new RequestDodgeGameUIClientCommand(event.getTargetInfo()));
+		connection.sendCommandToPlayer(this.player.getName(), new RequestDodgeGameUIClientCommand(event.getTarget()));
 	}
 
 }

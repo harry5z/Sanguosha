@@ -22,7 +22,7 @@ public class RattanArmorAttackEventHandler extends AbstractEventHandler<AttackEv
 
 	@Override
 	protected void handleIfActivated(AttackEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
-		if (!this.player.getPlayerInfo().equals(event.getTargetInfo())) {
+		if (!this.player.getPlayerInfo().equals(event.getTarget())) {
 			return;
 		}
 		

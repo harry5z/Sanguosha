@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import cards.Card;
 import core.client.GamePanel;
 import core.heroes.Hero;
+import core.player.PlayerCardZone;
 import listeners.game.CardOnHandListener;
 import ui.game.interfaces.CardRackUI;
 import ui.game.interfaces.CardUI;
@@ -28,14 +29,32 @@ public class CardRackGui extends JPanel implements CardOnHandListener, CardRackU
 	private final ActionListener listener;
 	private List<CardGui> cards;
 
-	public CardRackGui(GamePanel<? extends Hero> panel) {
+	public CardRackGui(GamePanel<? extends Hero> panel, PlayerCardZone zone) {
 		setLayout(null);
 		setSize(WIDTH, HEIGHT);
 		setLocation(EquipmentRackGui.WIDTH, GamePanelGui.HEIGHT - HEIGHT);
 		cards = new ArrayList<CardGui>();
-		this.listener = e -> panel.getCurrentOperation().onCardClicked((CardGui) e.getSource());
+		switch(zone) {
+			case HAND:
+				this.listener = e -> panel.getCurrentOperation().onCardClicked((CardGui) e.getSource());
+				break;
+			case EQUIPMENT:
+				this.listener = e -> panel.getCurrentOperation().onEquipmentClicked((CardGui) e.getSource());
+				break;
+			case DELAYED:
+				// TODO: implement
+				this.listener = null;
+				break;
+			default:
+				this.listener = null;
+				break;
+		}
 	}
-
+	
+	public CardRackGui(GamePanel<? extends Hero> panel) {
+		this(panel, PlayerCardZone.HAND);
+	}
+	
 	@Override
 	public void onCardAdded(Card card) {
 		addCardGui(new CardGui(card), false);

@@ -1,6 +1,7 @@
 package cards.specials.instant;
 
 import core.client.game.operations.Operation;
+import core.client.game.operations.instants.SabotageOperation;
 
 public class Sabotage extends Instant {
 
@@ -17,7 +18,6 @@ public class Sabotage extends Instant {
 
 	@Override
 	public Operation generateOperation() {
-		// TODO Auto-generated method stub
-		return null;
+		return new SabotageOperation();
 	}
 }

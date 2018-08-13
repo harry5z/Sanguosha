@@ -4,7 +4,7 @@ import cards.basics.Attack;
 import core.player.PlayerInfo;
 import core.server.game.controllers.AttackGameController;
 
-public class AttackEvent extends AbstractBasicGameEvent {
+public class AttackEvent extends AbstractSingleTargetGameEvent {
 	
 	private final AttackGameController controller;
 	private Attack card;
