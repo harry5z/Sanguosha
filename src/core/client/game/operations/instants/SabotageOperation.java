@@ -1,6 +1,6 @@
 package core.client.game.operations.instants;
 
-import commands.game.server.GameServerCommand;
+import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateSabotageInGameServerCommand;
 import core.client.game.operations.AbstractSingleTargetCardOperation;
 import core.heroes.Hero;
@@ -11,7 +11,7 @@ import ui.game.interfaces.PlayerUI;
 public class SabotageOperation extends AbstractSingleTargetCardOperation {
 
 	@Override
-	protected GameServerCommand getCommand() {
+	protected InGameServerCommand getCommand() {
 		return new InitiateSabotageInGameServerCommand(this.targetUI.getPlayer().getPlayerInfo(), ((CardUI) this.activator).getCard());
 	}
 

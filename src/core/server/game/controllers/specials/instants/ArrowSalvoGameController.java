@@ -6,8 +6,8 @@ import core.event.game.basic.RequestDodgeEvent;
 import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.ArrowSalvoTargetEffectivenessEvent;
 import core.player.PlayerInfo;
-import core.server.GameRoom;
 import core.server.game.Damage;
+import core.server.game.Game;
 import core.server.game.controllers.DamageGameController;
 import core.server.game.controllers.interfaces.DodgeUsableGameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -18,8 +18,8 @@ public class ArrowSalvoGameController extends AOEInstantSpecialGameController im
 	private boolean effective;
 	private boolean hasReacted;
 
-	public ArrowSalvoGameController(PlayerInfo source, GameRoom room) {
-		super(source, room, false);
+	public ArrowSalvoGameController(PlayerInfo source, Game game) {
+		super(source, game, false);
 		this.effective = true;
 		this.hasReacted = false;
 	}

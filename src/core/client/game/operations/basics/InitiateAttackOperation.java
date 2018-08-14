@@ -1,8 +1,8 @@
 package core.client.game.operations.basics;
 
 import cards.basics.Attack;
-import commands.game.server.GameServerCommand;
-import commands.game.server.InitiateAttackGameServerCommand;
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.InitiateAttackInGameServerCommand;
 import core.client.game.operations.AbstractSingleTargetCardOperation;
 import core.heroes.Hero;
 import core.player.PlayerComplete;
@@ -13,8 +13,8 @@ import ui.game.interfaces.PlayerUI;
 public class InitiateAttackOperation extends AbstractSingleTargetCardOperation {
 
 	@Override
-	protected GameServerCommand getCommand() {
-		return new InitiateAttackGameServerCommand(
+	protected InGameServerCommand getCommand() {
+		return new InitiateAttackInGameServerCommand(
 			this.source,
 			this.targetUI.getPlayer().getPlayerInfo(),
 			(Attack) ((CardUI) this.activator).getCard()

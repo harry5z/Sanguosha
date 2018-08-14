@@ -5,8 +5,8 @@ import cards.basics.Attack;
 import core.event.game.basic.RequestAttackEvent;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
-import core.server.GameRoom;
 import core.server.game.Damage;
+import core.server.game.Game;
 import core.server.game.controllers.DamageGameController;
 import core.server.game.controllers.interfaces.AttackUsableGameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -16,8 +16,8 @@ public class DuelGameController extends SingleTargetInstantSpecialGameController
 	
 	private PlayerCompleteServer currentAttackUser;
 	
-	public DuelGameController(PlayerInfo source, PlayerInfo target, GameRoom room) {
-		super(source, target, room);
+	public DuelGameController(PlayerInfo source, PlayerInfo target, Game game) {
+		super(source, target, game);
 		this.currentAttackUser = this.target;
 	}
 

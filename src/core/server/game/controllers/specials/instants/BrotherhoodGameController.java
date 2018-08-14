@@ -3,13 +3,13 @@ package core.server.game.controllers.specials.instants;
 import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.BrotherhoodTargetEffectivenessEvent;
 import core.player.PlayerInfo;
-import core.server.GameRoom;
+import core.server.game.Game;
 import core.server.game.controllers.HealGameController;
 
 public class BrotherhoodGameController extends AOEInstantSpecialGameController {
 
-	public BrotherhoodGameController(PlayerInfo source, GameRoom room) {
-		super(source, room, true);
+	public BrotherhoodGameController(PlayerInfo source, Game game) {
+		super(source, game, true);
 	}
 
 	@Override

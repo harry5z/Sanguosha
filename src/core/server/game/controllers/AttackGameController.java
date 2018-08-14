@@ -7,8 +7,8 @@ import core.event.game.basic.AttackEvent;
 import core.event.game.basic.RequestDodgeEvent;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
-import core.server.GameRoom;
 import core.server.game.Damage;
+import core.server.game.Game;
 import core.server.game.controllers.interfaces.DodgeUsableGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
@@ -40,8 +40,8 @@ public class AttackGameController extends AbstractGameController implements Dodg
 	private Damage damage;
 	private final Attack attack;
 	
-	public AttackGameController(PlayerInfo source, PlayerInfo target, Attack card, GameRoom room) {
-		super(room.getGame());
+	public AttackGameController(PlayerInfo source, PlayerInfo target, Attack card, Game game) {
+		super(game);
 		this.stage = AttackStage.TARGET_LOCKED;
 		this.source = game.findPlayer(source);
 		this.target = game.findPlayer(target);

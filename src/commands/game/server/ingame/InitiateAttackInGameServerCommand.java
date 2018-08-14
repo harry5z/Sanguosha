@@ -1,15 +1,13 @@
-package commands.game.server;
+package commands.game.server.ingame;
 
 import cards.basics.Attack;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
-import core.server.GameRoom;
 import core.server.game.Game;
 import core.server.game.controllers.AttackGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
-import net.Connection;
 
-public class InitiateAttackGameServerCommand implements GameServerCommand {
+public class InitiateAttackInGameServerCommand extends InGameServerCommand {
 	
 	private static final long serialVersionUID = -4460787768760646177L;
 
@@ -17,15 +15,14 @@ public class InitiateAttackGameServerCommand implements GameServerCommand {
 	private final PlayerInfo target;
 	private final Attack attack;
 	
-	public InitiateAttackGameServerCommand(PlayerInfo source, PlayerInfo target, Attack attack) {
+	public InitiateAttackInGameServerCommand(PlayerInfo source, PlayerInfo target, Attack attack) {
 		this.source = source;
 		this.target = target;
 		this.attack = attack;
 	}
 
 	@Override
-	public void execute(GameRoom room, Connection connection) {
-		Game game = room.getGame();
+	public void execute(Game game) {
 		PlayerCompleteServer player = game.findPlayer(source);
 		try {
 			player.useAttack();
@@ -46,7 +43,7 @@ public class InitiateAttackGameServerCommand implements GameServerCommand {
 				return;
 			}
 		}
-		game.pushGameController(new AttackGameController(source, target, attack, room));
+		game.pushGameController(new AttackGameController(source, target, attack, game));
 		game.getGameController().proceed();
 	}
 

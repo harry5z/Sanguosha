@@ -6,8 +6,8 @@ import core.event.game.basic.RequestAttackEvent;
 import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.BarbarianInvasionTargetEffectivenessEvent;
 import core.player.PlayerInfo;
-import core.server.GameRoom;
 import core.server.game.Damage;
+import core.server.game.Game;
 import core.server.game.controllers.DamageGameController;
 import core.server.game.controllers.interfaces.AttackUsableGameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -18,8 +18,8 @@ public class BarbarianInvasionGameController extends AOEInstantSpecialGameContro
 	private boolean effective;
 	private boolean hasReacted;
 
-	public BarbarianInvasionGameController(PlayerInfo source, GameRoom room) {
-		super(source, room, false);
+	public BarbarianInvasionGameController(PlayerInfo source, Game game) {
+		super(source, game, false);
 		this.effective = true;
 		this.hasReacted = false;
 	}

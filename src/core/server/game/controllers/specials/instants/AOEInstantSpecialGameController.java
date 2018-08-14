@@ -3,11 +3,11 @@ package core.server.game.controllers.specials.instants;
 import java.util.HashSet;
 import java.util.Set;
 
-import commands.game.client.RequestNeutralizationGameUIClientCommand;
+import core.event.game.basic.RequestNeutralizationEvent;
 import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
-import core.server.GameRoom;
+import core.server.game.Game;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public abstract class AOEInstantSpecialGameController extends AbstractInstantSpecialGameController {
@@ -15,8 +15,8 @@ public abstract class AOEInstantSpecialGameController extends AbstractInstantSpe
 	protected PlayerCompleteServer currentTarget;
 	private Set<PlayerCompleteServer> seenTargets;
 
-	public AOEInstantSpecialGameController(PlayerInfo source, GameRoom room, boolean includeSelf) {
-		super(source, room);
+	public AOEInstantSpecialGameController(PlayerInfo source, Game game, boolean includeSelf) {
+		super(source, game);
 		this.seenTargets = new HashSet<>();
 		if (includeSelf) {
 			this.currentTarget = this.source;
@@ -41,7 +41,11 @@ public abstract class AOEInstantSpecialGameController extends AbstractInstantSpe
 				break;
 			case NEUTRALIZATION:
 				if (this.canBeNeutralized()) {
-					this.room.sendCommandToAllPlayers(new RequestNeutralizationGameUIClientCommand());
+					try {
+						this.game.emit(new RequestNeutralizationEvent(this.currentTarget.getPlayerInfo()));
+					} catch (GameFlowInterruptedException e) {
+						e.resume();
+					}
 				} else {
 					this.stage = this.stage.nextStage();
 					this.proceed();

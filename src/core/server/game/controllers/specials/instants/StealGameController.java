@@ -9,7 +9,7 @@ import cards.equipments.Equipment;
 import core.event.game.instants.PlayerCardSelectionEvent;
 import core.player.PlayerCardZone;
 import core.player.PlayerInfo;
-import core.server.GameRoom;
+import core.server.game.Game;
 import core.server.game.controllers.ReceiveCardsGameController;
 import core.server.game.controllers.UnequipGameController;
 import core.server.game.controllers.interfaces.CardSelectableGameController;
@@ -18,8 +18,8 @@ import exceptions.server.game.InvalidPlayerCommandException;
 
 public class StealGameController extends SingleTargetInstantSpecialGameController implements CardSelectableGameController {
 
-	public StealGameController(PlayerInfo source, PlayerInfo target, GameRoom room) {
-		super(source, target, room);
+	public StealGameController(PlayerInfo source, PlayerInfo target, Game game) {
+		super(source, target, game);
 	}
 
 	@Override

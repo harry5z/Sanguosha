@@ -1,20 +1,21 @@
 package core.server.game.controllers.specials.instants;
 
-import commands.game.client.RequestNeutralizationGameUIClientCommand;
+import core.event.game.basic.RequestNeutralizationEvent;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
-import core.server.GameRoom;
+import core.server.game.Game;
+import exceptions.server.game.GameFlowInterruptedException;
 
 public abstract class SingleTargetInstantSpecialGameController extends AbstractInstantSpecialGameController {
 	
 	protected PlayerCompleteServer target;
 
-	public SingleTargetInstantSpecialGameController(PlayerInfo source, GameRoom room) {
-		this(source, source, room);
+	public SingleTargetInstantSpecialGameController(PlayerInfo source, Game game) {
+		this(source, source, game);
 	}
 	
-	public SingleTargetInstantSpecialGameController(PlayerInfo source, PlayerInfo target, GameRoom room) {
-		super(source, room);
+	public SingleTargetInstantSpecialGameController(PlayerInfo source, PlayerInfo target, Game game) {
+		super(source, game);
 		this.target = game.findPlayer(target);
 	}
 
@@ -27,7 +28,11 @@ public abstract class SingleTargetInstantSpecialGameController extends AbstractI
 				this.proceed();
 				break;
 			case NEUTRALIZATION:
-				this.room.sendCommandToAllPlayers(new RequestNeutralizationGameUIClientCommand());
+				try {
+					this.game.emit(new RequestNeutralizationEvent(this.target.getPlayerInfo()));
+				} catch (GameFlowInterruptedException e) {
+					e.resume();
+				}
 				break;
 			case EFFECT:
 				if (!this.neutralized) {

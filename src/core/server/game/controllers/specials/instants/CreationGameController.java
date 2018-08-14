@@ -1,12 +1,12 @@
 package core.server.game.controllers.specials.instants;
 
 import core.player.PlayerInfo;
-import core.server.GameRoom;
+import core.server.game.Game;
 
 public class CreationGameController extends SingleTargetInstantSpecialGameController {
 
-	public CreationGameController(PlayerInfo source, GameRoom room) {
-		super(source, room);
+	public CreationGameController(PlayerInfo source, Game game) {
+		super(source, game);
 	}
 
 	@Override

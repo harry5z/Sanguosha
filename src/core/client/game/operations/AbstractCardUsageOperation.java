@@ -1,7 +1,7 @@
 package core.client.game.operations;
 
 import cards.Card;
-import commands.game.server.GameServerCommand;
+import commands.game.server.ingame.InGameServerCommand;
 import core.client.GamePanel;
 import core.heroes.Hero;
 import core.player.PlayerInfo;
@@ -31,8 +31,6 @@ public abstract class AbstractCardUsageOperation implements Operation {
 		panel.getChannel().send(getCommand(card == null ? null : card.getCard()));
 	}
 	
-	protected abstract GameServerCommand getCommand(Card card);
-
 	@Override
 	public final void onCardClicked(CardUI card) {
 		onCanceled();
@@ -56,5 +54,7 @@ public abstract class AbstractCardUsageOperation implements Operation {
 		panel.getContent().setConfirmEnabled(true);
 		panel.getContent().setCancelEnabled(true);
 	}
+	
+	protected abstract InGameServerCommand getCommand(Card card);
 
 }

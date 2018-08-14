@@ -2,7 +2,6 @@ package core.server.game.controllers.specials.instants;
 
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
-import core.server.GameRoom;
 import core.server.game.Game;
 
 public abstract class AbstractInstantSpecialGameController implements InstantSpecialGameController {
@@ -10,14 +9,12 @@ public abstract class AbstractInstantSpecialGameController implements InstantSpe
 	protected SpecialStage stage;
 	protected PlayerCompleteServer source;
 	protected final Game game;
-	protected final GameRoom room;
 	protected boolean neutralized;
 	protected int neutralizedCount;
 	
-	public AbstractInstantSpecialGameController(PlayerInfo source, GameRoom room) {
+	public AbstractInstantSpecialGameController(PlayerInfo source, Game game) {
 		this.stage = SpecialStage.TARGET_LOCKED;
-		this.room = room;
-		this.game = room.getGame();
+		this.game = game;
 		this.source = game.findPlayer(source);
 		this.neutralized = false;
 		this.neutralizedCount = 0;

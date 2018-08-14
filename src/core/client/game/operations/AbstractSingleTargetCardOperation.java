@@ -1,6 +1,6 @@
 package core.client.game.operations;
 
-import commands.game.server.GameServerCommand;
+import commands.game.server.ingame.InGameServerCommand;
 import core.client.GamePanel;
 import core.heroes.Hero;
 import core.player.PlayerComplete;
@@ -80,7 +80,7 @@ public abstract class AbstractSingleTargetCardOperation implements Operation {
 		this.setupTargetSelection();
 	}
 	
-	protected abstract GameServerCommand getCommand();
+	protected abstract InGameServerCommand getCommand();
 	
 	protected abstract void setupTargetSelection();
 
