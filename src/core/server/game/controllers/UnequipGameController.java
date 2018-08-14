@@ -1,11 +1,12 @@
 package core.server.game.controllers;
 
+import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
-import core.event.game.UnequipEvent;
 import core.event.game.UnequipItemAbilityEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import exceptions.server.game.GameFlowInterruptedException;
+import exceptions.server.game.InvalidPlayerCommandException;
 import utils.EnumWithNextStage;
 
 public class UnequipGameController extends AbstractGameController {
@@ -32,12 +33,14 @@ public class UnequipGameController extends AbstractGameController {
 	public void proceed() {
 		switch(this.stage) {
 			case DISCARD_EQUIPMENT:
+				Equipment equipment = this.player.getEquipment(this.type);
 				try {
-					this.game.emit(new UnequipEvent(this.player, this.type));
+					this.player.unequip(this.type);
+					equipment.onUnequipped(this.game, this.player);
 					this.stage = this.stage.nextStage();
-					this.proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
+					this.game.getGameController().proceed();
+				} catch (InvalidPlayerCommandException e) {
+					e.printStackTrace();
 				}
 				break;
 			case HERO_ABILITY:

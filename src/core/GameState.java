@@ -14,5 +14,7 @@ public interface GameState {
 	public PlayerCompleteClient getSelf();
 
 	public int getNumberOfPlayers();
+	
+	public int getNumberOfPlayersAlive();
 
 }

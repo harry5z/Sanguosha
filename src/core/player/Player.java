@@ -375,9 +375,6 @@ public abstract class Player {
 	 *            : new equipment
 	 */
 	public void equip(Equipment equipment) throws InvalidPlayerCommandException {
-		if (isEquipped(equipment.getEquipmentType())) {
-			unequip(equipment.getEquipmentType());
-		}
 		switch (equipment.getEquipmentType()) {
 			case HORSEPLUS:
 				horsePlus = (HorsePlus) equipment;

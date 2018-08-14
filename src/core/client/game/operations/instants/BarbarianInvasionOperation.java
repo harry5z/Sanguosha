@@ -9,7 +9,7 @@ public class BarbarianInvasionOperation extends AbstractCardUsageOperation {
 
 	@Override
 	protected GameServerCommand getCommand(Card card) {
-		return new InitiateBarbarianInvasionInGameServerCommand(this.source, card);
+		return new InitiateBarbarianInvasionInGameServerCommand(card);
 	}
 
 }

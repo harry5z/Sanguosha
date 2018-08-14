@@ -1,10 +1,10 @@
 package core.server.game.controllers;
 
+import java.util.Set;
+
 import cards.equipments.Equipment;
-import core.event.game.EquipEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
-import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 import utils.EnumWithNextStage;
 
@@ -32,21 +32,30 @@ public class EquipGameController extends AbstractGameController {
 		switch (this.stage) {
 			case UNEQUIP:
 				try {
+					// TODO: convert to controller
 					this.player.removeCardFromHand(this.equipment);
 				} catch (InvalidPlayerCommandException e) {
 					
 				}
+				
+				// discard old equipment (if any) at the same slot
+				if (this.player.isEquipped(this.equipment.getEquipmentType())) {
+					Equipment old  = this.player.getEquipment(this.equipment.getEquipmentType());
+					this.game.pushGameController(new UnequipGameController(this.game, this.player, this.equipment.getEquipmentType())
+						.setNextController(new RecycleCardsGameController(this.game, this.player, Set.of(old)))
+					);
+				}
 				this.stage = this.stage.nextStage();
-				this.game.pushGameController(new UnequipGameController(this.game, this.player, this.equipment.getEquipmentType()));
 				this.game.getGameController().proceed();
 				break;
 			case EQUIP:
 				try {
-					this.game.emit(new EquipEvent(this.player, this.equipment));
-					this.stage = this.stage.nextStage(); // proceed to next stage regardless
+					this.player.equip(this.equipment);
+					this.equipment.onEquipped(this.game, this.player);
+					this.stage = this.stage.nextStage();
 					this.proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
+				} catch (InvalidPlayerCommandException e) {
+					e.printStackTrace();
 				}
 				break;
 			case END:

@@ -9,7 +9,7 @@ public class ArrowSalvoOperation extends AbstractCardUsageOperation {
 
 	@Override
 	protected GameServerCommand getCommand(Card card) {
-		return new InitiateArrowSalvoInGameServerCommand(this.source, card);
+		return new InitiateArrowSalvoInGameServerCommand(card);
 	}
 
 }

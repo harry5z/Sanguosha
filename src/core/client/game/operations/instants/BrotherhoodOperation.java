@@ -9,7 +9,7 @@ public class BrotherhoodOperation extends AbstractCardUsageOperation {
 
 	@Override
 	protected GameServerCommand getCommand(Card card) {
-		return new InitiateBrotherhoodInGameServerCommand(this.source, card);
+		return new InitiateBrotherhoodInGameServerCommand(card);
 	}
 
 }

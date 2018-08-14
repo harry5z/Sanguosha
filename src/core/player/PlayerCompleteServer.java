@@ -1,18 +1,13 @@
 package core.player;
 
-import cards.Card;
 import core.event.handlers.basic.RequestAttackEventHandler;
 import core.event.handlers.basic.RequestDodgeEventHandler;
-import core.event.handlers.equipment.EquipEventHandler;
-import core.event.handlers.equipment.UnequipEventHandler;
 import core.event.handlers.instant.PlayerCardSelectionEventHandler;
 import core.event.handlers.turn.DealTurnEventHandler;
 import core.event.handlers.turn.DiscardTurnEventHandler;
 import core.event.handlers.turn.DrawTurnEventHandler;
 import core.server.game.Game;
 import exceptions.server.game.InvalidPlayerCommandException;
-import listeners.game.CardDisposalListener;
-import listeners.game.CardOnHandListener;
 
 public class PlayerCompleteServer extends PlayerComplete {
 
@@ -60,16 +55,6 @@ public class PlayerCompleteServer extends PlayerComplete {
 		super.setWineUsed(amount);
 	}
 	
-	@Override
-	protected void cardOnHandListenerAction(CardOnHandListener listener, Card card) {
-		// Do nothing on server side
-	}
-	
-	@Override
-	protected void cardDisposalListenerAction(CardDisposalListener listener, Card card) {
-		// Do nothing on server side
-	}
-	
 	public void onGameReady(Game game) {
 		/* setup event listeners */
 		game.registerEventHandler(new DealTurnEventHandler(this));
@@ -77,8 +62,6 @@ public class PlayerCompleteServer extends PlayerComplete {
 		game.registerEventHandler(new DiscardTurnEventHandler(this));
 		game.registerEventHandler(new RequestDodgeEventHandler(this));
 		game.registerEventHandler(new RequestAttackEventHandler(this));
-		game.registerEventHandler(new UnequipEventHandler(this));
-		game.registerEventHandler(new EquipEventHandler(this));
 		game.registerEventHandler(new PlayerCardSelectionEventHandler(this));
 	}
 }

@@ -140,7 +140,7 @@ public class GameImpl implements Game {
 		);
 		for (PlayerCompleteServer player : players) {
 			player.registerCardOnHandListener(new ServerInGameCardOnHandListener(player.getName(), playerNames, room));
-			player.registerEquipmentListener(new ServerInGameEquipmentListener(player, playerNames, room));
+			player.registerEquipmentListener(new ServerInGameEquipmentListener(player.getName(), playerNames, room));
 			player.registerHealthListener(new ServerInGameHealthListener(player.getName(), playerNames, room));
 			player.registerCardDisposalListener(new ServerInGameCardDisposalListener(player.getName(), playerNames, room));
 			player.registerPlayerStatusListener(new ServerInGamePlayerStatusListener(player.getName(), playerNames, room));

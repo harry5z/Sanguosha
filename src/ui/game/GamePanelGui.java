@@ -146,6 +146,17 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 	}
 	
 	@Override
+	public int getNumberOfPlayersAlive() {
+		int count = this.myself.isAlive() ? 1 : 0;
+		for (PlayerGui player : this.otherPlayers) {
+			if (player.getPlayer().isAlive()) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
+	@Override
 	public synchronized PlayerUI getOtherPlayerUI(PlayerInfo other) {
 		for (PlayerGui ui : otherPlayers) {
 			if (ui.getPlayer().getPlayerInfo().equals(other)) {

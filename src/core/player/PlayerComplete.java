@@ -27,9 +27,6 @@ public class PlayerComplete extends PlayerSimple {
 
 	// private settings
 
-	// in-game interactive properties
-	private List<Card> cardsUsedThisTurn;
-
 	private PlayerStatusListener statusListener;
 
 	public PlayerComplete(String name, int position) {
@@ -40,7 +37,6 @@ public class PlayerComplete extends PlayerSimple {
 	private void init() {
 		cardsOnHand = new ArrayList<Card>();
 
-		cardsUsedThisTurn = new ArrayList<Card>();
 		// init in-game interactive properties
 		attackLimit = 1;
 		attackUsed = 0;

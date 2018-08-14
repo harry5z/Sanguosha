@@ -10,18 +10,18 @@ import core.event.game.instants.PlayerCardSelectionEvent;
 import core.player.PlayerCardZone;
 import core.player.PlayerInfo;
 import core.server.GameRoom;
-import core.server.game.controllers.RecycleCardsGameController;
+import core.server.game.controllers.ReceiveCardsGameController;
 import core.server.game.controllers.UnequipGameController;
 import core.server.game.controllers.interfaces.CardSelectableGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
-public class SabotageGameController extends SingleTargetInstantSpecialGameController implements CardSelectableGameController {
+public class StealGameController extends SingleTargetInstantSpecialGameController implements CardSelectableGameController {
 
-	public SabotageGameController(PlayerInfo source, PlayerInfo target, GameRoom room) {
+	public StealGameController(PlayerInfo source, PlayerInfo target, GameRoom room) {
 		super(source, target, room);
 	}
-	
+
 	@Override
 	protected void takeEffect() {
 		try {
@@ -34,16 +34,19 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 			e.resume();
 		}
 	}
-
+	
 	@Override
 	public void onCardSelected(Card card, PlayerCardZone zone) {
+		this.stage = this.stage.nextStage();
 		switch(zone) {
 			case HAND:
 				try {
 					// TODO: convert to discard controller
 					List<Card> cards = this.target.getCardsOnHand();
-					// By default discard a random card from hand
-					this.target.discardCard(cards.get(new Random().nextInt(cards.size())));
+					// By default steal a random card from hand
+					Card stolenCard = cards.get(new Random().nextInt(cards.size()));
+					this.target.removeCardFromHand(stolenCard);
+					this.game.pushGameController(new ReceiveCardsGameController(this.game, this.source, Set.of(stolenCard)));
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}
@@ -53,7 +56,7 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 					Equipment equipment = (Equipment) card;
 					this.game.pushGameController(
 						new UnequipGameController(this.game, this.target, equipment.getEquipmentType())
-							.setNextController(new RecycleCardsGameController(this.game, this.target, Set.of(equipment)))
+							.setNextController(new ReceiveCardsGameController(this.game, this.source, Set.of(equipment)))
 					);
 				} catch (ClassCastException e) {
 					e.printStackTrace();
@@ -63,7 +66,7 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 				// TODO: implement
 				break;
 		}
-		this.stage = this.stage.nextStage();
 		this.game.getGameController().proceed();
 	}
+
 }

@@ -9,6 +9,7 @@ import static core.server.game.Damage.Element.NORMAL;
 import static core.server.game.Damage.Element.THUNDER;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,7 @@ import cards.specials.instant.Duel;
 import cards.specials.instant.FireAttack;
 import cards.specials.instant.Neutralization;
 import cards.specials.instant.Sabotage;
+import cards.specials.instant.Steal;
 import utils.CardIDUtil;
 import utils.Log;
 
@@ -90,9 +92,10 @@ public class Deck {
 		Log.log(TAG, "card " + card.getName() + " discarded. Used deck size: " + used.size());
 	}
 
-	public void discardAll(List<? extends Card> cards) {
-		used.addAll(cards);
-		Log.log(TAG, cards.size() + " cards are discarded. Used deck size: " + used.size());
+	public void discardAll(Collection<? extends Card> cards) {
+		for (Card card : cards) {
+			this.discard(card);
+		}
 	}
 
 	/**
@@ -178,12 +181,12 @@ public class Deck {
 		used.add(new Sabotage(4,CLUB, util.getUID()));
 		used.add(new Sabotage(12,SPADE, util.getUID()));
 		used.add(new Sabotage(12,HEART, util.getUID()));
-		//
-		// used.add(new Steal(3,SPADE, util.getUID()));
-		// used.add(new Steal(3,DIAMOND, util.getUID()));
-		// used.add(new Steal(4,SPADE, util.getUID()));
-		// used.add(new Steal(4,DIAMOND, util.getUID()));
-		// used.add(new Steal(11,SPADE, util.getUID()));
+
+		used.add(new Steal(3,SPADE, util.getUID()));
+		used.add(new Steal(3,DIAMOND, util.getUID()));
+		used.add(new Steal(4,SPADE, util.getUID()));
+		used.add(new Steal(4,DIAMOND, util.getUID()));
+		used.add(new Steal(11,SPADE, util.getUID()));
 
 		// used.add(new Harvest(3, HEART, util.getUID()));
 		// used.add(new Harvest(4, HEART, util.getUID()));

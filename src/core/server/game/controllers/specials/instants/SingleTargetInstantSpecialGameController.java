@@ -20,6 +20,7 @@ public abstract class SingleTargetInstantSpecialGameController extends AbstractI
 
 	@Override
 	public final void proceed() {
+		// TODO: server side sanity check
 		switch(this.stage) {
 			case TARGET_LOCKED:
 				this.stage = this.stage.nextStage();

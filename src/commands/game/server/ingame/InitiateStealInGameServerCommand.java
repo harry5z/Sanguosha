@@ -5,19 +5,19 @@ import core.player.PlayerInfo;
 import core.server.GameRoom;
 import core.server.game.Game;
 import core.server.game.controllers.GameController;
-import core.server.game.controllers.specials.instants.DuelGameController;
+import core.server.game.controllers.specials.instants.StealGameController;
 
-public class InitiateDuelInGameServerCommand extends AbstractInitiationInGameServerCommand {
+public class InitiateStealInGameServerCommand extends AbstractInitiationInGameServerCommand {
 
 	private static final long serialVersionUID = 1L;
 	
-	public InitiateDuelInGameServerCommand(PlayerInfo target, Card card) {
+	public InitiateStealInGameServerCommand(PlayerInfo target, Card card) {
 		super(target, card);
 	}
 
 	@Override
 	protected GameController getController(Game game, PlayerInfo target, GameRoom room) {
-		return new DuelGameController(game.getCurrentPlayer().getPlayerInfo(), target, room);
+		return new StealGameController(game.getCurrentPlayer().getPlayerInfo(), target, room);
 	}
 
 }

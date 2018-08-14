@@ -4,7 +4,6 @@ import cards.Card;
 import commands.game.client.GeneralGameUIClientCommand;
 import core.client.GamePanel;
 import core.heroes.Hero;
-import exceptions.server.game.InvalidPlayerCommandException;
 
 public class SyncCardDisposedGameUIClientCommand extends GeneralGameUIClientCommand {
 	
@@ -20,14 +19,10 @@ public class SyncCardDisposedGameUIClientCommand extends GeneralGameUIClientComm
 
 	@Override
 	protected void execute(GamePanel<? extends Hero> panel) {
-		try {
-			if (panel.getContent().getSelf().getName().equals(name)) {
-				panel.getContent().getSelf().discardCard(card);
-			} else {
-				panel.getContent().getPlayer(name).discardCard(card);
-			}
-		} catch (InvalidPlayerCommandException e) {
-			e.printStackTrace();
+		if (panel.getContent().getSelf().getName().equals(name)) {
+			panel.getContent().getSelf().getDisposalListener().onCardDisposed(card);
+		} else {
+			panel.getContent().getPlayer(name).getDisposalListener().onCardDisposed(card);
 		}
 	}
 
