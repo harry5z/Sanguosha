@@ -38,6 +38,11 @@ public class NeutralizationOperation extends AbstractCardReactionOperation {
 	protected boolean isCardActivatable(Card card) {
 		return card instanceof Neutralization;
 	}
+	
+	@Override
+	protected boolean isCancelEnabled() {
+		return true;
+	}
 
 	@Override
 	protected InGameServerCommand getCommand(Card card) {

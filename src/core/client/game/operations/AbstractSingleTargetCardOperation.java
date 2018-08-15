@@ -58,6 +58,7 @@ public abstract class AbstractSingleTargetCardOperation implements Operation {
 		for (PlayerUI other : this.panel.getContent().getOtherPlayersUI()) {
 			other.setActivatable(false);
 		}
+		this.panel.getContent().getHeroUI().setActivatable(false);
 		this.panel.getContent().setCancelEnabled(false);
 		this.activator.setActivated(false);
 		this.panel.popOperation();

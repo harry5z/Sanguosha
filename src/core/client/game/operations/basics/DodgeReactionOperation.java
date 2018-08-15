@@ -12,6 +12,11 @@ public class DodgeReactionOperation extends AbstractCardReactionOperation {
 	protected boolean isCardActivatable(Card card) {
 		return card instanceof Dodge;
 	}
+	
+	@Override
+	protected boolean isCancelEnabled() {
+		return true;
+	}
 
 	@Override
 	protected InGameServerCommand getCommand(Card card) {

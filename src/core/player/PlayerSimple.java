@@ -166,7 +166,7 @@ public class PlayerSimple extends Player {
 	 * @param card
 	 */
 	public void showCard(Card card) {
-		disposalListener.onCardDisposed(card);
+		disposalListener.onCardShown(card);
 	}
 
 	/**

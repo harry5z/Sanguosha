@@ -319,7 +319,7 @@ public class Deck {
 
 	private void initBattle() {
 		initBasicBattle();
-		// initSpecialBattle();
+		initSpecialBattle();
 		initEquipmentBattle();
 	}
 

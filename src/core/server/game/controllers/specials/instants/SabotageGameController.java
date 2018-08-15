@@ -24,6 +24,13 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 	
 	@Override
 	protected void takeEffect() {
+		// TODO: add Delayed
+		if (this.target.getHandCount() == 0 && !this.target.isEquipped()) {
+			// if no card left on target, Sabotage is ineffective
+			this.stage = this.stage.nextStage();
+			this.proceed();
+			return;
+		}
 		try {
 			this.game.emit(new PlayerCardSelectionEvent(
 				this.source.getPlayerInfo(),

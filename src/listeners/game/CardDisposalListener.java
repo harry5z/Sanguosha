@@ -14,6 +14,8 @@ public interface CardDisposalListener
 	 * @param card
 	 */
 	public void onCardDisposed(Card card);
+	
+	public void onCardShown(Card card);
 
 	/**
 	 * refresh the disposal area

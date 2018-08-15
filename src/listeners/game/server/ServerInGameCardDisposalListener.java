@@ -5,6 +5,7 @@ import java.util.Set;
 import cards.Card;
 import commands.game.client.sync.SyncCommandsUtil;
 import commands.game.client.sync.disposal.SyncCardDisposedGameUIClientCommand;
+import commands.game.client.sync.disposal.SyncCardShownGameUIClientCommand;
 import commands.game.client.sync.disposal.SyncCardUsedGameUIClientCommand;
 import commands.game.client.sync.disposal.SyncDisposalAreaRefreshGameUIClientCommand;
 import core.Deck;
@@ -41,6 +42,17 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 				name, 
 				otherNames, 
 				new SyncCardDisposedGameUIClientCommand(name, card)
+			)
+		);
+	}
+	
+	@Override
+	public void onCardShown(Card card) {
+		room.sendCommandToPlayers(
+			SyncCommandsUtil.generateMapForSameCommand(
+				name, 
+				otherNames, 
+				new SyncCardShownGameUIClientCommand(name, card)
 			)
 		);
 	}

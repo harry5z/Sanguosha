@@ -20,7 +20,6 @@ import core.player.PlayerCompleteClient;
 import core.player.PlayerInfo;
 import core.player.PlayerSimple;
 import listeners.game.GameListener;
-import listeners.game.client.ClientPlayerStatusListener;
 import ui.game.interfaces.CardRackUI;
 import ui.game.interfaces.ClientGameUI;
 import ui.game.interfaces.HeroUI;
@@ -77,11 +76,11 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 		myself.registerEquipmentListener(equipmentRack);
 		myself.registerHealthListener(healthGui);
 		myself.registerCardDisposalListener(disposalGui);
-		myself.registerPlayerStatusListener(new ClientPlayerStatusListener(this));
+		myself.registerPlayerStatusListener(heroGui);
 		myself.setHero(new Blank());// change in the future
 		healthGui.onSetHealthLimit(myself.getHero().getHealthLimit()); // change in the future
 		healthGui.onSetHealthCurrent(myself.getHero().getHealthLimit()); // change in the future
-		heroGui.setHero(myself.getHero());
+		heroGui.setPlayer(myself);
 		confirm = new ButtonGui("Confirm", e -> panel.getCurrentOperation().onConfirmed());
 		confirm.setLocation(0, HEIGHT - CardRackGui.HEIGHT - ButtonGui.HEIGHT);
 		cancel = new ButtonGui("Cancel", e -> panel.getCurrentOperation().onCanceled());

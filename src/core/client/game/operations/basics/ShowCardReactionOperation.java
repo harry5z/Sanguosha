@@ -1,26 +1,27 @@
 package core.client.game.operations.basics;
 
 import cards.Card;
-import cards.basics.Attack;
-import commands.game.server.ingame.AttackReactionInGameServerCommand;
 import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
 import core.client.game.operations.AbstractCardReactionOperation;
+import core.player.PlayerCardZone;
 
-public class AttackReactionOperation extends AbstractCardReactionOperation {
+public class ShowCardReactionOperation extends AbstractCardReactionOperation {
 
 	@Override
 	protected boolean isCardActivatable(Card card) {
-		return card instanceof Attack;
+		// any card can be shown
+		return true;
 	}
 	
 	@Override
 	protected boolean isCancelEnabled() {
-		return true;
+		return false;
 	}
 
 	@Override
 	protected InGameServerCommand getCommand(Card card) {
-		return new AttackReactionInGameServerCommand(card);
+		return new PlayerCardSelectionInGameServerCommand(card, PlayerCardZone.HAND);
 	}
-
+	
 }

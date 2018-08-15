@@ -30,6 +30,10 @@ public abstract class AbstractCardReactionOperation implements Operation {
 			this.card.setActivated(false);
 			this.panel.getContent().setConfirmEnabled(false);
 			this.card = null;
+			if (!this.isCancelEnabled()) {
+				// Cancel disabled when no card selected
+				this.panel.getContent().setCancelEnabled(false);
+			}
 		} else {
 			this.panel.getContent().setConfirmEnabled(false);
 			this.panel.getContent().setCancelEnabled(false);
@@ -47,6 +51,10 @@ public abstract class AbstractCardReactionOperation implements Operation {
 			this.card = card;
 			this.card.setActivated(true);
 			this.panel.getContent().setConfirmEnabled(true);
+			if (!this.isCancelEnabled()) {
+				// Cancel enabled when card is selected
+				this.panel.getContent().setCancelEnabled(true);
+			}
 		} else if (this.card == card) {
 			this.card.setActivated(false);
 			this.card = null;
@@ -55,6 +63,10 @@ public abstract class AbstractCardReactionOperation implements Operation {
 			this.card.setActivated(false);
 			card.setActivated(true);
 			this.card = card;
+			if (!this.isCancelEnabled()) {
+				// Cancel disabled when no card selected
+				this.panel.getContent().setCancelEnabled(false);
+			}
 		}
 	}
 
@@ -66,9 +78,13 @@ public abstract class AbstractCardReactionOperation implements Operation {
 				cardUI.setActivatable(true);
 			}
 		}
-		// TODO activate possible skills
-		panel.getContent().setCancelEnabled(true);
+		if (this.isCancelEnabled()) {
+			// TODO activate possible skills
+			panel.getContent().setCancelEnabled(true);
+		}
 	}
+	
+	protected abstract boolean isCancelEnabled();
 	
 	protected abstract boolean isCardActivatable(Card card);
 	
