@@ -1,4 +1,4 @@
-package ui.game;
+package ui.game.custom;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,6 +13,8 @@ import core.client.GamePanel;
 import core.heroes.Hero;
 import core.player.PlayerCardZone;
 import core.player.PlayerSimple;
+import ui.game.CardGui;
+import ui.game.CardRackGui;
 
 public class CardSelectionPane extends JPanel {
 	private static final long serialVersionUID = -1L;

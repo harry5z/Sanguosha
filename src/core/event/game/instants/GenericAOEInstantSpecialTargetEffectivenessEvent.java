@@ -3,12 +3,12 @@ package core.event.game.instants;
 import core.player.PlayerCompleteServer;
 import core.server.game.controllers.specials.instants.AOEInstantSpecialGameController;
 
-public class AbstractAOEInstantSpecialTargetEffectivenessEvent implements AOEInstantSpecialTargetEffectivenessEvent {
+public class GenericAOEInstantSpecialTargetEffectivenessEvent implements AOEInstantSpecialTargetEffectivenessEvent {
 	
 	private final PlayerCompleteServer target;
 	private final AOEInstantSpecialGameController controller;
 	
-	public AbstractAOEInstantSpecialTargetEffectivenessEvent(PlayerCompleteServer target, AOEInstantSpecialGameController controller) {
+	public GenericAOEInstantSpecialTargetEffectivenessEvent(PlayerCompleteServer target, AOEInstantSpecialGameController controller) {
 		this.target = target;
 		this.controller = controller;
 	}

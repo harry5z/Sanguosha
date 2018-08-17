@@ -4,7 +4,7 @@ import core.client.GamePanel;
 import core.client.game.operations.instants.NeutralizationOperation;
 import core.heroes.Hero;
 
-public class RequestNeutralizationGameUIClientCommand extends GeneralGameUIClientCommand {
+public class RequestNeutralizationGameUIClientCommand extends AbstractGameUIClientCommand {
 
 	private static final long serialVersionUID = 1979788663683644681L;
 	

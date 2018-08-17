@@ -1,11 +1,11 @@
 package commands.game.client.sync.status;
 
-import commands.game.client.GeneralGameUIClientCommand;
+import commands.game.client.AbstractGameUIClientCommand;
 import core.client.GamePanel;
 import core.heroes.Hero;
 import exceptions.server.game.InvalidPlayerCommandException;
 
-public class SyncAttackUsedSetGameUIClientCommand extends GeneralGameUIClientCommand {
+public class SyncAttackUsedSetGameUIClientCommand extends AbstractGameUIClientCommand {
 	
 	private static final long serialVersionUID = 7479944347797215425L;
 	

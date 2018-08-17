@@ -72,7 +72,7 @@ public class CardRackGui extends JPanel implements CardOnHandListener, CardRackU
 		}
 	}
 
-	protected synchronized void addCardGui(CardGui cardGui, boolean enabled) {
+	public synchronized void addCardGui(CardGui cardGui, boolean enabled) {
 		cardGui.setEnabled(enabled);
 		cardGui.addActionListener(listener);
 		cards.add(cardGui);

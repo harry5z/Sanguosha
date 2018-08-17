@@ -6,7 +6,7 @@ import core.heroes.Hero;
 import core.player.PlayerInfo;
 import ui.game.interfaces.ClientGameUI;
 
-public class DiscardGameUIClientCommand extends GeneralGameUIClientCommand {
+public class DiscardGameUIClientCommand extends AbstractGameUIClientCommand {
 
 	private static final long serialVersionUID = 2390690749143332929L;
 	

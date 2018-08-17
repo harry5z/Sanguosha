@@ -6,7 +6,7 @@ import core.heroes.Hero;
 import core.player.PlayerInfo;
 import ui.game.interfaces.ClientGameUI;
 
-public class DealStartGameUIClientCommmand extends GeneralGameUIClientCommand {
+public class DealStartGameUIClientCommmand extends AbstractGameUIClientCommand {
 
 	private static final long serialVersionUID = 5784317669561501939L;
 

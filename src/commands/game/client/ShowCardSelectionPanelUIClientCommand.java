@@ -8,7 +8,7 @@ import core.heroes.Hero;
 import core.player.PlayerCardZone;
 import core.player.PlayerInfo;
 
-public class ShowCardSelectionPanelUIClientCommand extends GeneralGameUIClientCommand {
+public class ShowCardSelectionPanelUIClientCommand extends AbstractGameUIClientCommand {
 
 	private static final long serialVersionUID = 1L;
 	

@@ -8,6 +8,7 @@ import core.heroes.Hero;
 import core.player.PlayerCardZone;
 import core.player.PlayerInfo;
 import core.player.PlayerSimple;
+import ui.game.custom.CardSelectionPane;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.EquipmentUI;
@@ -41,6 +42,6 @@ public class PlayerCardSelectionOperation implements Operation {
 	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
 		this.panel = panel;
 		PlayerSimple target = panel.getContent().getPlayer(this.target.getName());
-		panel.getContent().displayCardSelectionPane(target, this.zones);
+		panel.getContent().displayCustomizedSelectionPaneAtCenter(new CardSelectionPane(target, this.zones, panel));
 	}
 }

@@ -4,7 +4,7 @@ import core.client.game.operations.basics.ShowCardReactionOperation;
 import core.heroes.Hero;
 import core.player.PlayerInfo;
 
-public class RequestShowCardGameUIClientCommand extends GeneralGameUIClientCommand {
+public class RequestShowCardGameUIClientCommand extends AbstractGameUIClientCommand {
 
 	private static final long serialVersionUID = 1L;
 	

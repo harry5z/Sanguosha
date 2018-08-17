@@ -5,7 +5,7 @@ import core.client.game.operations.basics.AttackReactionOperation;
 import core.heroes.Hero;
 import core.player.PlayerInfo;
 
-public class RequestAttackGameUIClientCommand extends GeneralGameUIClientCommand {
+public class RequestAttackGameUIClientCommand extends AbstractGameUIClientCommand {
 
 	private static final long serialVersionUID = 1L;
 	

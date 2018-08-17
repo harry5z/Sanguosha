@@ -1,12 +1,12 @@
 package commands.game.client.sync.equipment;
 
 import cards.equipments.Equipment;
-import commands.game.client.GeneralGameUIClientCommand;
+import commands.game.client.AbstractGameUIClientCommand;
 import core.client.GamePanel;
 import core.heroes.Hero;
 import exceptions.server.game.InvalidPlayerCommandException;
 
-public class SyncEquipGameUIClientCommand extends GeneralGameUIClientCommand {
+public class SyncEquipGameUIClientCommand extends AbstractGameUIClientCommand {
 
 	private static final long serialVersionUID = -9130336753281283554L;
 

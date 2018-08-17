@@ -46,7 +46,7 @@ public abstract class Connection implements Channel {
 			public void run() {
 				while (true) { // evaluation loop
 					try {
-						final Object obj = in.readObject();
+						final Object obj = in.readUnshared();
 						new Thread(() -> processReceivedObject(obj)).start();
 					} 
 					catch (ClassCastException | ClassNotFoundException e) {

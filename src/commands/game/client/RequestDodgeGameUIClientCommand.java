@@ -5,7 +5,7 @@ import core.client.game.operations.basics.DodgeReactionOperation;
 import core.heroes.Hero;
 import core.player.PlayerInfo;
 
-public class RequestDodgeGameUIClientCommand extends GeneralGameUIClientCommand {
+public class RequestDodgeGameUIClientCommand extends AbstractGameUIClientCommand {
 	
 	private static final long serialVersionUID = -4208580489692790341L;
 

@@ -1,10 +1,10 @@
 package commands.game.client.sync.status;
 
-import commands.game.client.GeneralGameUIClientCommand;
+import commands.game.client.AbstractGameUIClientCommand;
 import core.client.GamePanel;
 import core.heroes.Hero;
 
-public class SyncResetWineEffectiveGameUIClientCommand extends GeneralGameUIClientCommand {
+public class SyncResetWineEffectiveGameUIClientCommand extends AbstractGameUIClientCommand {
 
 	private static final long serialVersionUID = 373001483127652341L;
 

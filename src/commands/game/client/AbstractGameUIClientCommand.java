@@ -6,7 +6,7 @@ import core.heroes.Hero;
 import net.Connection;
 import ui.game.interfaces.ClientGameUI;
 
-public abstract class GeneralGameUIClientCommand implements GameClientCommand<Hero> {
+public abstract class AbstractGameUIClientCommand implements GameClientCommand<Hero> {
 
 	private static final long serialVersionUID = 6779995165111144810L;
 

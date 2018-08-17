@@ -60,10 +60,10 @@ public abstract class AOEInstantSpecialGameController extends AbstractInstantSpe
 				}
 				break;
 			case EFFECT_TAKEN:
-				this.currentTarget.clearDisposalArea();
 				PlayerCompleteServer nextTarget = this.game.getNextPlayerAlive(this.currentTarget);
 				if (this.seenTargets.contains(nextTarget)) {
 					game.popGameController();
+					this.onSettled();
 					game.getGameController().proceed();
 					return;
 				}
@@ -87,5 +87,7 @@ public abstract class AOEInstantSpecialGameController extends AbstractInstantSpe
 	protected boolean canBeNeutralized() {
 		return true;
 	}
+	
+	protected void onSettled() {}
 
 }

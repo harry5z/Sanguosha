@@ -8,7 +8,7 @@ import core.event.game.basic.RequestUseCardEvent.RequestUseCardPredicate;
 import core.heroes.Hero;
 import core.player.PlayerInfo;
 
-public class RequestUseCardGameUIClientCommand extends GeneralGameUIClientCommand {
+public class RequestUseCardGameUIClientCommand extends AbstractGameUIClientCommand {
 
 	private static final long serialVersionUID = 1L;
 	

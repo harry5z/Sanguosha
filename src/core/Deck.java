@@ -31,6 +31,7 @@ import cards.specials.instant.Brotherhood;
 import cards.specials.instant.Creation;
 import cards.specials.instant.Duel;
 import cards.specials.instant.FireAttack;
+import cards.specials.instant.Harvest;
 import cards.specials.instant.Neutralization;
 import cards.specials.instant.Sabotage;
 import cards.specials.instant.Steal;
@@ -188,8 +189,8 @@ public class Deck {
 		used.add(new Steal(4,DIAMOND, util.getUID()));
 		used.add(new Steal(11,SPADE, util.getUID()));
 
-		// used.add(new Harvest(3, HEART, util.getUID()));
-		// used.add(new Harvest(4, HEART, util.getUID()));
+		used.add(new Harvest(3, HEART, util.getUID()));
+		used.add(new Harvest(4, HEART, util.getUID()));
 
 		used.add(new BarbarianInvasion(7,SPADE, util.getUID()));
 		used.add(new BarbarianInvasion(7,CLUB, util.getUID()));

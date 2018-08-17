@@ -2,13 +2,13 @@ package commands.game.client.sync.cardonhand;
 
 import java.util.Collections;
 
-import commands.game.client.GeneralGameUIClientCommand;
+import commands.game.client.AbstractGameUIClientCommand;
 import core.client.GamePanel;
 import core.heroes.Hero;
 import core.player.PlayerSimple;
 import exceptions.server.game.InvalidPlayerCommandException;
 
-public class SyncOtherPlayerCardGameUIClientCommand extends GeneralGameUIClientCommand {
+public class SyncOtherPlayerCardGameUIClientCommand extends AbstractGameUIClientCommand {
 
 	private static final long serialVersionUID = 7418973417086495080L;
 	

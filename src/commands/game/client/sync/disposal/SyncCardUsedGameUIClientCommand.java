@@ -1,11 +1,11 @@
 package commands.game.client.sync.disposal;
 
 import cards.Card;
-import commands.game.client.GeneralGameUIClientCommand;
+import commands.game.client.AbstractGameUIClientCommand;
 import core.client.GamePanel;
 import core.heroes.Hero;
 
-public class SyncCardUsedGameUIClientCommand extends GeneralGameUIClientCommand {
+public class SyncCardUsedGameUIClientCommand extends AbstractGameUIClientCommand {
 	
 	private static final long serialVersionUID = -3052922194486998505L;
 
