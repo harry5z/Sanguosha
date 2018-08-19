@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 
 import core.Constants;
 import core.client.GamePanel;
@@ -24,6 +26,7 @@ public class HeroGui extends JButton implements HeroUI<HeroOriginal> {
 	public static final int WIDTH = CardRackGui.HEIGHT;
 	public static final int HEIGHT = WIDTH;
 	private boolean activated = false;
+	private JComponent chain = null;
 
 	public HeroGui(GamePanel<? extends Hero> panel) {
 		setEnabled(false);
@@ -83,11 +86,6 @@ public class HeroGui extends JButton implements HeroUI<HeroOriginal> {
 	}
 
 	@Override
-	public void flip(boolean flipped) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public void onWineUsed() {
 		// TODO Auto-generated method stub
 		
@@ -127,5 +125,32 @@ public class HeroGui extends JButton implements HeroUI<HeroOriginal> {
 	public void onFlip(boolean flipped) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void setFlipped(boolean flipped) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setChained(boolean chained) {
+		if (!chained && this.chain != null) {
+			this.remove(this.chain);
+			this.chain = null;
+		} else if (chained) {
+			JLabel chain = new JLabel("Chained");
+			chain.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+			chain.setSize(WIDTH, 30);
+			chain.setHorizontalAlignment(CENTER);
+			chain.setAlignmentY(TOP_ALIGNMENT);
+			this.chain = chain;
+			this.add(chain);
+		}
+	}
+
+	@Override
+	public void onChained(boolean chained) {
+		this.setChained(chained);
 	}
 }

@@ -94,6 +94,18 @@ public class PlayerComplete extends PlayerSimple {
 		statusListener.onFlip(isFlipped());
 	}
 	
+	@Override
+	public void chain() {
+		super.chain();
+		this.statusListener.onChained(this.isChained());
+	}
+	
+	@Override
+	public void setChained(boolean chained) {
+		super.setChained(chained);
+		this.statusListener.onChained(chained);
+	}
+	
 	public void setAttackLimit(int limit) throws InvalidPlayerCommandException {
 		if (limit != getAttackLimit()) {
 			attackLimit = limit;

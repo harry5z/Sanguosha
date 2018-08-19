@@ -33,6 +33,7 @@ public abstract class Player {
 	private int healthCurrent;
 
 	private boolean flipped;// whether player is flipped (not implemented yet)
+	private boolean chained; // whether player is chained (by Chain)
 	private boolean isAlive;// whether player is alive
 	private boolean dying;// whether player is in the near-death stage
 
@@ -56,6 +57,7 @@ public abstract class Player {
 		// init in-game properties
 		isAlive = true;
 		dying = false;
+		chained = false;
 
 		// init other properties
 		weapon = null;
@@ -110,6 +112,18 @@ public abstract class Player {
 
 	public void flip() {
 		flipped = !flipped;
+	}
+	
+	public final boolean isChained() {
+		return this.chained;
+	}
+	
+	public void chain() {
+		this.chained = !this.chained;
+	}
+	
+	public void setChained(boolean chained) {
+		this.chained = chained;
 	}
 
 	// **************** methods related to health *******************

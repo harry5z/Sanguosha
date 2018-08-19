@@ -10,6 +10,8 @@ public interface PlayerUI extends Activatable {
 
 	public void setWineUsed(boolean used);
 
-	public void flip(boolean flipped);
+	public void setFlipped(boolean flipped);
+	
+	public void setChained(boolean chained);
 
 }

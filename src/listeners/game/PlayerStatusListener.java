@@ -16,4 +16,6 @@ public interface PlayerStatusListener {
 	
 	public void onFlip(boolean flipped);
 	
+	public void onChained(boolean chained);
+	
 }

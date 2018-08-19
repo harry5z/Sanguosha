@@ -1,12 +1,12 @@
 package listeners.game.server;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import commands.game.client.sync.SyncCommandsUtil;
 import commands.game.client.sync.status.SyncAttackLimitsSetGameUIClientCommand;
 import commands.game.client.sync.status.SyncAttackUsedGameUIClientCommand;
 import commands.game.client.sync.status.SyncAttackUsedSetGameUIClientCommand;
+import commands.game.client.sync.status.SyncChainGameUIClientCommand;
 import commands.game.client.sync.status.SyncFlipGameUIClientCommand;
 import commands.game.client.sync.status.SyncResetWineEffectiveGameUIClientCommand;
 import commands.game.client.sync.status.SyncWineUsedGameUIClientCommand;
@@ -71,6 +71,11 @@ public class ServerInGamePlayerStatusListener extends ServerInGamePlayerListener
 				new SyncFlipGameUIClientCommand(name, flipped)
 			)
 		);
+	}
+	
+	@Override
+	public void onChained(boolean chained) {
+		room.sendCommandToAllPlayers(new SyncChainGameUIClientCommand(this.name, chained));
 	}
 
 }

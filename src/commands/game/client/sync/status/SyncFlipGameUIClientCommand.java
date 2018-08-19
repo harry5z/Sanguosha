@@ -23,7 +23,7 @@ public class SyncFlipGameUIClientCommand extends AbstractGameUIClientCommand {
 		if (player.getName().equals(name) && player.isFlipped() != flipped) {
 			player.flip();
 		} else {
-			panel.getContent().getOtherPlayerUI(name).flip(flipped);
+			panel.getContent().getOtherPlayerUI(name).setFlipped(flipped);
 		}
 	}
 
