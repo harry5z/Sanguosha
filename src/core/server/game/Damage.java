@@ -23,6 +23,7 @@ public class Damage {
 	private List<Card> cardsCausingDamage;
 	private PlayerCompleteServer source;
 	private PlayerCompleteServer target;
+	private boolean isChainedDamage;
 
 	/**
 	 * Default setup of damage, used as simple damage caused by 1 card:
@@ -45,6 +46,7 @@ public class Damage {
 		this.amount = 1;
 		this.source = source;
 		this.target = target;
+		this.isChainedDamage = false;
 		this.cardsCausingDamage = new ArrayList<Card>(1);
 		this.cardsCausingDamage.add(cardUsed);
 	}
@@ -54,6 +56,7 @@ public class Damage {
 		this.amount = 1;
 		this.source = source;
 		this.target = target;
+		this.isChainedDamage = false;
 		this.cardsCausingDamage = new ArrayList<Card>();
 	}
 	
@@ -75,8 +78,8 @@ public class Damage {
 		this.element = element;
 		this.source = source;
 		this.target = target;
+		this.isChainedDamage = false;
 		this.cardsCausingDamage = null;
-
 	}
 
 	/**
@@ -136,8 +139,22 @@ public class Damage {
 		return target;
 	}
 	
+	public void setIsChainedDamage(boolean isChainedDamage) {
+		this.isChainedDamage = isChainedDamage;
+	}
+	
+	public boolean isChainedDamage() {
+		return isChainedDamage;
+	}
+	
 	public void apply() {
 		target.changeHealthCurrentBy(-amount);
+	}
+	
+	public Damage clone() {
+		Damage damage = new Damage(this.amount, this.element, this.source, this.target);
+		damage.setIsChainedDamage(this.isChainedDamage);
+		return damage;
 	}
 
 }
