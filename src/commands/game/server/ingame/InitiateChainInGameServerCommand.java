@@ -5,6 +5,7 @@ import java.util.Queue;
 import cards.Card;
 import core.player.PlayerInfo;
 import core.server.game.Game;
+import core.server.game.controllers.ReceiveCardsGameController;
 import core.server.game.controllers.specials.instants.ChainGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 
@@ -32,7 +33,12 @@ public class InitiateChainInGameServerCommand extends InGameServerCommand {
 			}
 		}
 		
-		game.pushGameController(new ChainGameController(game.getCurrentPlayer().getPlayerInfo(), game, this.targets));
+		if (this.targets.isEmpty()) {
+			// "Recast"
+			game.pushGameController(new ReceiveCardsGameController(game, game.getCurrentPlayer(), game.getDeck().drawMany(1)));
+		} else {
+			game.pushGameController(new ChainGameController(game.getCurrentPlayer().getPlayerInfo(), game, this.targets));
+		}
 		game.getGameController().proceed();
 	}
 

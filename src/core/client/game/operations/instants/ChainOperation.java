@@ -15,7 +15,7 @@ import ui.game.interfaces.PlayerUI;
 public class ChainOperation extends AbstractMultiTargetCardOperation {
 
 	public ChainOperation() {
-		super(1, 2);
+		super(0, 2);
 	}
 
 	@Override

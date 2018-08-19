@@ -90,6 +90,9 @@ public abstract class AbstractMultiTargetCardOperation implements Operation {
 		PlayerComplete self = panelUI.getSelf();
 		this.source = self.getPlayerInfo();
 		this.setupTargetSelection();
+		if (this.targets.size() >= this.minTargets) {
+			panel.getContent().setConfirmEnabled(true);
+		}
 	}
 	
 	protected abstract InGameServerCommand getCommand();
