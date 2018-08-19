@@ -300,5 +300,7 @@ public class PlayerGui extends JButton implements PlayerUI {
 			this.chain = chain;
 			this.add(chain);
 		}
+		this.validate();
+		this.repaint();
 	}
 }

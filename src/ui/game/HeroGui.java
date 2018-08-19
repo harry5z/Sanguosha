@@ -147,6 +147,8 @@ public class HeroGui extends JButton implements HeroUI<HeroOriginal> {
 			this.chain = chain;
 			this.add(chain);
 		}
+		this.validate();
+		this.repaint();
 	}
 
 	@Override

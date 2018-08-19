@@ -28,6 +28,7 @@ import cards.equipments.weapons.IcySword;
 import cards.specials.instant.ArrowSalvo;
 import cards.specials.instant.BarbarianInvasion;
 import cards.specials.instant.Brotherhood;
+import cards.specials.instant.Chain;
 import cards.specials.instant.Creation;
 import cards.specials.instant.Duel;
 import cards.specials.instant.FireAttack;
@@ -298,12 +299,12 @@ public class Deck {
 		used.add(new Neutralization(1, HEART, util.getUID()));
 		used.add(new Neutralization(13, SPADE, util.getUID()));
 		used.add(new Neutralization(13, HEART, util.getUID()));
-		// used.add(new Chain(10,CLUB, util.getUID()));
-		// used.add(new Chain(11,SPADE, util.getUID()));
-		// used.add(new Chain(11,CLUB, util.getUID()));
-		// used.add(new Chain(12,SPADE, util.getUID()));
-		// used.add(new Chain(12,CLUB, util.getUID()));
-		// used.add(new Chain(13,CLUB, util.getUID()));
+		used.add(new Chain(10,CLUB, util.getUID()));
+		used.add(new Chain(11,SPADE, util.getUID()));
+		used.add(new Chain(11,CLUB, util.getUID()));
+		used.add(new Chain(12,SPADE, util.getUID()));
+		used.add(new Chain(12,CLUB, util.getUID()));
+		used.add(new Chain(13,CLUB, util.getUID()));
 
 		// used.add(new Starvation(4,CLUB, util.getUID()));
 		// used.add(new Starvation(10,SPADE, util.getUID()));
