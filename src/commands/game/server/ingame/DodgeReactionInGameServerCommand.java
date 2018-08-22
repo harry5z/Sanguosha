@@ -2,7 +2,7 @@ package commands.game.server.ingame;
 
 import cards.Card;
 import core.server.game.Game;
-import core.server.game.controllers.interfaces.DodgeUsableGameController;
+import core.server.game.controllers.DodgeGameController;
 
 public class DodgeReactionInGameServerCommand extends InGameServerCommand {
 
@@ -17,10 +17,11 @@ public class DodgeReactionInGameServerCommand extends InGameServerCommand {
 	@Override
 	public void execute(Game game) {
 		if (dodge != null) {
-			game.<DodgeUsableGameController>getGameController().onDodgeUsed(dodge);
+			game.<DodgeGameController>getGameController().onDodgeUsed(dodge);
 		} else {
-			game.<DodgeUsableGameController>getGameController().onDodgeNotUsed();
+			game.<DodgeGameController>getGameController().onDodgeNotUsed();
 		}
+		game.getGameController().proceed();
 	}
 
 }

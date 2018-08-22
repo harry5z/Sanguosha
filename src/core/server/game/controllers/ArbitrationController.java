@@ -33,31 +33,31 @@ public class ArbitrationController extends AbstractGameController {
 		switch (this.stage) {
 			case ARBITRATION:
 				this.arbitrationCard = this.game.getDeck().draw();
-				this.target.showCard(this.arbitrationCard);
-				try {
-					// manually cause a delay - very ugly
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					
-				}
 				this.stage = this.stage.nextStage();
+				this.proceed();
 				break;
 			case POST_ARBITRATION_SKILLS:
 				this.stage = this.stage.nextStage();
+				this.game.getGameController().proceed();
 				break;
 			case ARBITRATION_CARD_DISPOSAL:
 				this.stage = this.stage.nextStage();
-				this.game.pushGameController(new RecycleCardsGameController(this.game, this.target, Set.of(this.arbitrationCard)));
+				this.game.pushGameController(new RecycleCardsGameController(
+					this.game,
+					this.target,
+					Set.of(this.arbitrationCard)
+				));
 				this.game.getGameController().proceed();
+				break;
 			case END:
-				this.onCompleted();
+				this.onUnloaded();
+				this.game.getGameController().proceed();
 				break;
 		}
-
 	}
 	
 	@Override
-	protected void onNextControllerLoaded(AbstractGameController controller) {
+	protected void onNextControllerLoaded(GameController controller) {
 		((ArbitrationRequiredGameController) controller).onArbitrationCompleted(this.arbitrationCard);
 	}
 

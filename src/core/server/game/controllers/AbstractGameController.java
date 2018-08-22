@@ -12,13 +12,14 @@ public abstract class AbstractGameController implements GameController {
 		this.next = null;
 	}
 	
-	protected void onCompleted() {
+	protected final void onUnloaded() {
 		this.game.popGameController();
 		if (this.next != null) {
 			this.game.pushGameController(this.next);
 			this.onNextControllerLoaded(this.next);
+		} else {
+			this.onNextControllerLoaded(this.game.getGameController());
 		}
-		this.game.getGameController().proceed();
 	}
 	
 	public AbstractGameController setNextController(AbstractGameController next) {
@@ -30,6 +31,6 @@ public abstract class AbstractGameController implements GameController {
 		this.next = null;
 	}
 	
-	protected void onNextControllerLoaded(AbstractGameController controller) {}
+	protected void onNextControllerLoaded(GameController controller) {}
 
 }

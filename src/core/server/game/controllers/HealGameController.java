@@ -52,7 +52,8 @@ public final class HealGameController extends AbstractGameController {
 				this.proceed();
 				break;
 			case END:
-				this.onCompleted();
+				this.onUnloaded();
+				this.game.getGameController().proceed();
 				break;
 		}
 	}

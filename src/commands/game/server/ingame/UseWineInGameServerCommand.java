@@ -17,6 +17,7 @@ public class UseWineInGameServerCommand extends InGameServerCommand {
 	@Override
 	public void execute(Game game) {
 		game.<WineUsableGameController>getGameController().onWineUsed(wine);
+		game.getGameController().proceed();
 	}
 
 }

@@ -28,10 +28,17 @@ public abstract class SingleTargetInstantSpecialGameController extends AbstractI
 				this.proceed();
 				break;
 			case NEUTRALIZATION:
-				try {
-					this.game.emit(new RequestNeutralizationEvent(this.target.getPlayerInfo()));
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
+				// WARNING: may need another initiator if some player died during neutralization check
+				if (this.neutralizedCount >= this.game.getNumberOfPlayersAlive()) {
+					this.neutralizedCount = 0;
+					this.stage = this.stage.nextStage();
+					this.proceed();
+				} else if (this.neutralizedCount == 0) {
+					try {
+						this.game.emit(new RequestNeutralizationEvent(this.target.getPlayerInfo()));
+					} catch (GameFlowInterruptedException e) {
+						e.resume();
+					}
 				}
 				break;
 			case EFFECT:

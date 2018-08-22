@@ -60,7 +60,6 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 		if (this.shownCard == null) {
 			this.shownCard = card;
 			this.target.showCard(card);
-			this.takeEffect();
 		} else {
 			// check if Fire Attack is effective
 			this.stage = this.stage.nextStage();
@@ -73,7 +72,6 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 				}
 				this.game.pushGameController(new DamageGameController(new Damage(1, Element.FIRE, this.source, this.target), this.game));
 			}
-			this.game.getGameController().proceed();
 		}
 	}
 

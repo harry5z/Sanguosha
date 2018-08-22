@@ -67,13 +67,11 @@ public class BarbarianInvasionGameController extends AOEInstantSpecialGameContro
 		// mark it not effective for the current target
 		this.hasReacted = true;
 		this.effective = false;
-		this.proceed();
 	}
 
 	@Override
 	public void onAttackNotUsed() {
 		this.hasReacted = true;
-		this.proceed();
 	}
 
 }

@@ -41,10 +41,17 @@ public abstract class MultiTargetInstantSpecialGameController extends AbstractIn
 				break;
 			case NEUTRALIZATION:
 				if (this.canBeNeutralized()) {
-					try {
-						this.game.emit(new RequestNeutralizationEvent(this.currentTarget.getPlayerInfo()));
-					} catch (GameFlowInterruptedException e) {
-						e.resume();
+					// WARNING: may need another initiator if some player died during neutralization check
+					if (this.neutralizedCount >= this.game.getNumberOfPlayersAlive()) {
+						this.neutralizedCount = 0;
+						this.stage = this.stage.nextStage();
+						this.proceed();
+					} else if (this.neutralizedCount == 0) {
+						try {
+							this.game.emit(new RequestNeutralizationEvent(this.currentTarget.getPlayerInfo()));
+						} catch (GameFlowInterruptedException e) {
+							e.resume();
+						}
 					}
 				} else {
 					this.stage = this.stage.nextStage();

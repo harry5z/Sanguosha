@@ -152,10 +152,8 @@ public class TurnGameController implements
 			}
 			currentPlayer.useCard(card);
 			currentPlayer.useWine();
-			proceed();
 		} catch (InvalidPlayerCommandException e) {
 			e.printStackTrace();
 		}
-		proceed();
 	}
 }

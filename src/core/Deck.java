@@ -24,6 +24,7 @@ import cards.equipments.HorsePlus;
 import cards.equipments.shields.IronShield;
 import cards.equipments.shields.RattanArmor;
 import cards.equipments.shields.SilverLion;
+import cards.equipments.shields.TaichiFormation;
 import cards.equipments.weapons.IcySword;
 import cards.specials.instant.ArrowSalvo;
 import cards.specials.instant.BarbarianInvasion;
@@ -228,8 +229,8 @@ public class Deck {
 		// used.add(new SerpentSpear(12,SPADE, util.getUID()));
 		// used.add(new Halbert(12,DIAMOND, util.getUID()));
 
-		// used.add(new TaichiFormation(2,CLUB, util.getUID()));
-		// used.add(new TaichiFormation(2,SPADE, util.getUID()));
+		used.add(new TaichiFormation(2,CLUB, util.getUID()));
+		used.add(new TaichiFormation(2,SPADE, util.getUID()));
 		used.add(new HorsePlus(5, SPADE, util.getUID(), "Flash"));
 		used.add(new HorseMinus(5, HEART, util.getUID(), "RedHare"));
 		used.add(new HorsePlus(5, CLUB, util.getUID(), "Dilu"));
@@ -244,7 +245,7 @@ public class Deck {
 		initPeach();
 		initInstant();
 //		initDelayed();
-//		initEquipment();
+		initEquipment();
 	}
 
 	private void initEX() {

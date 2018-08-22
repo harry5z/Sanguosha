@@ -44,7 +44,6 @@ public class DuelGameController extends SingleTargetInstantSpecialGameController
 		}
 		// change attack user and continue
 		this.currentAttackUser = this.currentAttackUser == this.target ? this.source : this.target;
-		this.takeEffect();
 	}
 
 	@Override
@@ -54,8 +53,6 @@ public class DuelGameController extends SingleTargetInstantSpecialGameController
 		PlayerCompleteServer damageTarget = this.currentAttackUser;
 		PlayerCompleteServer damageSource = damageTarget == this.target ? this.source : this.target;
 		this.game.pushGameController(new DamageGameController(new Damage(damageSource, damageTarget), this.game));
-		this.game.getGameController().proceed();
-		
 	}
 
 }

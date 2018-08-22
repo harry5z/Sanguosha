@@ -71,6 +71,5 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 				break;
 		}
 		this.stage = this.stage.nextStage();
-		this.game.getGameController().proceed();
 	}
 }

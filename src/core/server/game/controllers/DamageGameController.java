@@ -80,7 +80,8 @@ public class DamageGameController extends AbstractGameController {
 							}
 						}
 					}
-					this.onCompleted();
+					this.onUnloaded();
+					this.game.getGameController().proceed();
 					return;
 				default:
 					return;

@@ -1,17 +1,13 @@
 package core.server.game.controllers.specials.instants;
 
-import cards.Card;
-import cards.basics.Dodge;
-import core.event.game.basic.RequestDodgeEvent;
 import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.ArrowSalvoTargetEffectivenessEvent;
 import core.player.PlayerInfo;
 import core.server.game.Damage;
 import core.server.game.Game;
 import core.server.game.controllers.DamageGameController;
+import core.server.game.controllers.DodgeGameController;
 import core.server.game.controllers.interfaces.DodgeUsableGameController;
-import exceptions.server.game.GameFlowInterruptedException;
-import exceptions.server.game.InvalidPlayerCommandException;
 
 public class ArrowSalvoGameController extends AOEInstantSpecialGameController implements DodgeUsableGameController {
 
@@ -27,11 +23,8 @@ public class ArrowSalvoGameController extends AOEInstantSpecialGameController im
 	@Override
 	protected void takeEffect() {
 		if (!this.hasReacted) {
-			try {
-				this.game.emit(new RequestDodgeEvent(this.currentTarget.getPlayerInfo()));
-			} catch (GameFlowInterruptedException e) {
-				// Do nothing
-			}
+			this.game.pushGameController(new DodgeGameController(this.game, this.currentTarget));
+			this.game.getGameController().proceed();
 		} else {
 			this.stage = this.stage.nextStage();
 			this.hasReacted = false;
@@ -54,16 +47,7 @@ public class ArrowSalvoGameController extends AOEInstantSpecialGameController im
 	}
 
 	@Override
-	public void onDodgeUsed(Card card) {
-		try {
-			if (!(card instanceof Dodge) || !this.currentTarget.getCardsOnHand().contains(card)) {
-				throw new InvalidPlayerCommandException("Card is not dodge or target does not have this card");
-			}
-			this.currentTarget.useCard(card);
-		} catch (InvalidPlayerCommandException e) {
-			e.printStackTrace();
-			return;
-		}
+	public void onDodged() {
 		// mark it not effective for the current target
 		this.hasReacted = true;
 		this.effective = false;
@@ -71,7 +55,7 @@ public class ArrowSalvoGameController extends AOEInstantSpecialGameController im
 	}
 
 	@Override
-	public void onDodgeNotUsed() {
+	public void onNotDodged() {
 		this.hasReacted = true;
 		this.proceed();
 	}

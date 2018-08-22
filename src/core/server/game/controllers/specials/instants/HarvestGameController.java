@@ -64,7 +64,6 @@ public class HarvestGameController extends AOEInstantSpecialGameController imple
 		}
 		
 		this.game.pushGameController(new ReceiveCardsGameController(this.game, this.currentTarget, Set.of(card)));
-		this.game.getGameController().proceed();
 	}
 
 	@Override

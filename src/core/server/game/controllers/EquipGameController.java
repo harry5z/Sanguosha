@@ -59,7 +59,8 @@ public class EquipGameController extends AbstractGameController {
 				}
 				break;
 			case END:
-				this.onCompleted();
+				this.onUnloaded();
+				this.game.getGameController().proceed();
 				break;
 		}
 	}

@@ -24,18 +24,11 @@ public abstract class AbstractInstantSpecialGameController implements InstantSpe
 	public void onNeutralized() {
 		this.neutralized = !this.neutralized;
 		this.neutralizedCount = 0;
-		this.proceed();
 	}
 	
 	@Override
 	public void onNeutralizationCanceled() {
 		this.neutralizedCount++;
-		// WARNING: may need another initiator if some player died during neutralization check
-		if (this.neutralizedCount >= this.game.getNumberOfPlayersAlive()) {
-			this.neutralizedCount = 0;
-			this.stage = this.stage.nextStage();
-			this.proceed();
-		}
 	}
 	
 }

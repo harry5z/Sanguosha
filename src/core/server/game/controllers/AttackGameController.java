@@ -1,35 +1,23 @@
 package core.server.game.controllers;
 
-import cards.Card;
 import cards.basics.Attack;
-import cards.basics.Dodge;
 import core.event.game.basic.AttackEvent;
-import core.event.game.basic.RequestDodgeEvent;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Damage;
 import core.server.game.Game;
 import core.server.game.controllers.interfaces.DodgeUsableGameController;
 import exceptions.server.game.GameFlowInterruptedException;
-import exceptions.server.game.InvalidPlayerCommandException;
 import utils.EnumWithNextStage;
 
 public class AttackGameController extends AbstractGameController implements DodgeUsableGameController {
 
 	public static enum AttackStage implements EnumWithNextStage<AttackStage> {
-		TARGET_SELECTION, // client side
-		BEFORE_TARGET_LOCKED, // client side
 		TARGET_LOCKED,
 		AFTER_TARGET_LOCKED_SKILLS,
 		AFTER_TARGET_LOCKED_WEAPONS,
-		DODGE_DECISION, // Taichi Formation
-		USING_DODGE,
-		AFTER_USING_DODGE,
-		ATTACK_DODGED_SKILLS,
+		DODGE,
 		ATTACK_DODGED_WEAPONS,
-		ATTACK_NOT_DODGED_PREVENTION,
-		ATTACK_NOT_DODGED_ADDITION,
-		BEFORE_DAMAGE,
 		DAMAGE,
 		END;
 	}
@@ -59,39 +47,8 @@ public class AttackGameController extends AbstractGameController implements Dodg
 	}
 	
 	@Override
-	public void onDodgeUsed(Card card) {
-		try {
-			if (!(card instanceof Dodge) || !target.getCardsOnHand().contains(card)) {
-				throw new InvalidPlayerCommandException("Card is not dodge or target does not have this card");
-			}
-			target.useCard(card);
-		} catch (InvalidPlayerCommandException e) {
-			try {
-				target.setAttackUsed(target.getAttackUsed() - 1);
-			} catch (InvalidPlayerCommandException e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-			return;
-		}
-		stage = AttackStage.AFTER_USING_DODGE;
-		proceed();
-	}
-	
-	@Override
-	public void onDodgeNotUsed() {
-		// target gives up reacting
-		stage = AttackStage.ATTACK_NOT_DODGED_PREVENTION;
-		proceed();
-	}
-
-	@Override
 	public void proceed() {
 		switch (stage) {
-			case TARGET_SELECTION:
-				break;
-			case BEFORE_TARGET_LOCKED:
-				break;
 			case TARGET_LOCKED:
 				if (source.isWineEffective()) {
 					this.damage.setAmount(this.damage.getAmount() + 1);
@@ -114,39 +71,12 @@ public class AttackGameController extends AbstractGameController implements Dodg
 				stage = stage.nextStage();
 				proceed();
 				break;
-			case DODGE_DECISION:
-				stage = stage.nextStage();
-				proceed();
-				break;
-			case USING_DODGE:
-				try {
-					this.game.emit(new RequestDodgeEvent(this.target.getPlayerInfo()));
-				} catch (GameFlowInterruptedException e) {
-					// Do nothing
-				}
-				break;
-			case AFTER_USING_DODGE:
-				stage = stage.nextStage();
-				proceed();
-				break;
-			case ATTACK_DODGED_SKILLS:
-				stage = stage.nextStage();
-				proceed();
+			case DODGE:
+				this.game.pushGameController(new DodgeGameController(this.game, this.target));
+				this.game.getGameController().proceed();
 				break;
 			case ATTACK_DODGED_WEAPONS:
 				stage = AttackStage.END;
-				proceed();
-				break;
-			case ATTACK_NOT_DODGED_PREVENTION:
-				stage = stage.nextStage();
-				proceed();
-				break;
-			case ATTACK_NOT_DODGED_ADDITION:
-				stage = stage.nextStage();
-				proceed();
-				break;
-			case BEFORE_DAMAGE:
-				stage = stage.nextStage();
 				proceed();
 				break;
 			case DAMAGE:
@@ -157,9 +87,20 @@ public class AttackGameController extends AbstractGameController implements Dodg
 			case END:
 				source.clearDisposalArea();
 				target.clearDisposalArea();
-				this.onCompleted();
+				this.onUnloaded();
+				this.game.getGameController().proceed();
 				break;
 		}
+	}
+
+	@Override
+	public void onDodged() {
+		this.stage = AttackStage.ATTACK_DODGED_WEAPONS;
+	}
+
+	@Override
+	public void onNotDodged() {
+		this.stage = AttackStage.DAMAGE;
 	}
 
 }

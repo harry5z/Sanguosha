@@ -73,7 +73,6 @@ public class StealGameController extends SingleTargetInstantSpecialGameControlle
 				// TODO: implement
 				break;
 		}
-		this.game.getGameController().proceed();
 	}
 
 }
