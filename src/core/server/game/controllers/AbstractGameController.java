@@ -5,7 +5,7 @@ import core.server.game.Game;
 public abstract class AbstractGameController implements GameController {
 	
 	protected final Game game;
-	private GameController next;
+	private AbstractGameController next;
 	
 	public AbstractGameController(Game game) {
 		this.game = game;
@@ -16,11 +16,12 @@ public abstract class AbstractGameController implements GameController {
 		this.game.popGameController();
 		if (this.next != null) {
 			this.game.pushGameController(this.next);
+			this.onNextControllerLoaded(this.next);
 		}
 		this.game.getGameController().proceed();
 	}
 	
-	public AbstractGameController setNextController(GameController next) {
+	public AbstractGameController setNextController(AbstractGameController next) {
 		this.next = next;
 		return this;
 	}
@@ -28,5 +29,7 @@ public abstract class AbstractGameController implements GameController {
 	public void removeNextController() {
 		this.next = null;
 	}
+	
+	protected void onNextControllerLoaded(AbstractGameController controller) {}
 
 }
