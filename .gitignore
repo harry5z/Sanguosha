@@ -10,3 +10,7 @@ bin/
 
 # Mac OS X hidden file
 .DS_Store
+
+# Eclipse config files
+.classpath
+.project
