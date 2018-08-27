@@ -3,17 +3,17 @@ package cards.specials.delayed;
 import core.GameState;
 import core.client.game.operations.Operation;
 
-public class Relaxation extends Delayed {
+public class Oblivion extends Delayed {
 
 	private static final long serialVersionUID = -2295098976558504164L;
 
-	public Relaxation(int num, Suit suit, int id) {
+	public Oblivion(int num, Suit suit, int id) {
 		super(num, suit, id);
 	}
 
 	@Override
 	public String getName() {
-		return "Relaxation";
+		return "Oblivion";
 	}
 
 	@Override

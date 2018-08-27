@@ -11,6 +11,7 @@ import core.server.game.Game;
 import core.server.game.controllers.interfaces.WineUsableGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
+import utils.DelayedStackItem;
 import utils.EnumWithNextStage;
 
 public class TurnGameController implements 
@@ -20,8 +21,8 @@ public class TurnGameController implements
 	public static enum TurnStage implements EnumWithNextStage<TurnStage> {
 		START_BEGINNING,
 		START,
-		JUDGMENT_BEGINNING,
-		JUDGMENT,
+		DELAYED_ARBITRATION_BEGINNING,
+		DELAYED_ARBITRATION,
 		DRAW,
 		DEAL_BEGINNING,
 		DEAL,
@@ -79,11 +80,23 @@ public class TurnGameController implements
 			case START:
 				this.nextStage();
 				return;
-			case JUDGMENT_BEGINNING:
-				this.nextStage();
+			case DELAYED_ARBITRATION_BEGINNING:
+				if (this.currentPlayer.getDelayedStack().isEmpty()) {
+					this.currentStage = TurnStage.DRAW;
+					this.proceed();
+				} else {
+					this.nextStage();
+				}
 				return;
-			case JUDGMENT:
-				this.nextStage();
+			case DELAYED_ARBITRATION:
+				if (this.currentPlayer.getDelayedStack().isEmpty()) {
+					this.currentStage = TurnStage.DRAW;
+					this.proceed();
+				} else {
+					DelayedStackItem item = this.currentPlayer.getDelayedStack().peek();
+					this.game.pushGameController(item.type.getController(this.game, this.currentPlayer, this));
+					this.game.getGameController().proceed();
+				}
 				return;
 			case DRAW:
 				try {

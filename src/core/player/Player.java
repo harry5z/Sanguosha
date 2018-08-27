@@ -3,9 +3,8 @@ package core.player;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Stack;
 
-import listeners.game.CardDisposalListener;
-import listeners.game.CardOnHandListener;
 import cards.Card;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
@@ -14,7 +13,12 @@ import cards.equipments.HorsePlus;
 import cards.equipments.shields.Shield;
 import cards.equipments.weapons.Weapon;
 import core.heroes.original.HeroOriginal;
+import exceptions.server.game.GameStateErrorException;
 import exceptions.server.game.InvalidPlayerCommandException;
+import listeners.game.CardDisposalListener;
+import listeners.game.CardOnHandListener;
+import utils.DelayedStackItem;
+import utils.DelayedType;
 
 /**
  * The player class, defines common traits of different implementations of
@@ -43,6 +47,9 @@ public abstract class Player {
 	private Shield shield;
 	private HorsePlus horsePlus;
 	private HorseMinus horseMinus;
+	
+	// Delayed Special
+	private Stack<DelayedStackItem> delayedStack;
 
 	private final PlayerInfo info;
 
@@ -64,6 +71,8 @@ public abstract class Player {
 		shield = null;
 		horsePlus = null;
 		horseMinus = null;
+		
+		this.delayedStack = new Stack<>();
 	}
 
 	public final PlayerInfo getPlayerInfo() {
@@ -352,6 +361,18 @@ public abstract class Player {
 	public Weapon getWeapon() {
 		return weapon;
 	}
+	
+	public void addDelayed(Card card, DelayedType type) {
+		DelayedStackItem item = new DelayedStackItem(card, type);
+		if (this.delayedStack.contains(item)) {
+			throw new GameStateErrorException("Delayed type " + type.toString() + " already exists");
+		}
+		this.delayedStack.push(item);
+	}
+	
+	public Stack<DelayedStackItem> getDelayedStack() {
+		return this.delayedStack;
+	}
 
 	public void unequip(EquipmentType type) throws InvalidPlayerCommandException {
 		switch (type) {
@@ -415,7 +436,7 @@ public abstract class Player {
 	public int getAttackRange() {
 		if (weapon != null)
 			return weapon.getRange();// plus weapon range
-		return 1; // by difault 1
+		return 1; // by default 1
 	}
 
 	/**
@@ -443,7 +464,7 @@ public abstract class Player {
 	 * @param numberOfPlayersAlive
 	 * @return true on yes, false on no
 	 */
-	public boolean isPlayerInRange(Player player, int numberOfPlayersAlive) {
+	public boolean isPlayerInAttackRange(Player player, int numberOfPlayersAlive) {
 		return getDistanceTo(player, numberOfPlayersAlive) <= getAttackRange();
 	}
 
