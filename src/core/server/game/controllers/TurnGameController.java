@@ -8,6 +8,7 @@ import cards.basics.Wine;
 import core.event.game.turn.DealStartTurnEvent;
 import core.event.game.turn.DealTurnEvent;
 import core.event.game.turn.DiscardTurnEvent;
+import core.event.game.turn.DrawStartTurnEvent;
 import core.event.game.turn.DrawTurnEvent;
 import core.player.PlayerCompleteServer;
 import core.server.GameRoom;
@@ -27,6 +28,7 @@ public class TurnGameController implements
 		START,
 		DELAYED_ARBITRATION_BEGINNING,
 		DELAYED_ARBITRATION,
+		DRAW_BEGINNING,
 		DRAW,
 		DEAL_BEGINNING,
 		DEAL,
@@ -89,7 +91,7 @@ public class TurnGameController implements
 			case DELAYED_ARBITRATION_BEGINNING:
 				this.delayedQueue = this.currentPlayer.getDelayedQueue();
 				if (delayedQueue.isEmpty()) {
-					this.currentStage = TurnStage.DRAW;
+					this.currentStage = TurnStage.DRAW_BEGINNING;
 					this.proceed();
 				} else {
 					this.nextStage();
@@ -97,12 +99,20 @@ public class TurnGameController implements
 				return;
 			case DELAYED_ARBITRATION:
 				if (this.delayedQueue.isEmpty()) {
-					this.currentStage = TurnStage.DRAW;
+					this.currentStage = TurnStage.DRAW_BEGINNING;
 					this.proceed();
 				} else {
 					DelayedStackItem item = this.delayedQueue.poll();
 					this.game.pushGameController(item.type.getController(this.game, this.currentPlayer, this));
 					this.game.getGameController().proceed();
+				}
+				return;
+			case DRAW_BEGINNING:
+				try {
+					this.game.emit(new DrawStartTurnEvent(this));
+					this.nextStage();
+				} catch (GameFlowInterruptedException e) {
+					e.resume();
 				}
 				return;
 			case DRAW:

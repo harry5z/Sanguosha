@@ -28,6 +28,7 @@ import cards.equipments.shields.TaichiFormation;
 import cards.equipments.weapons.IcySword;
 import cards.specials.delayed.Lightning;
 import cards.specials.delayed.Oblivion;
+import cards.specials.delayed.Starvation;
 import cards.specials.instant.ArrowSalvo;
 import cards.specials.instant.BarbarianInvasion;
 import cards.specials.instant.Brotherhood;
@@ -309,8 +310,8 @@ public class Deck {
 		used.add(new Chain(12,CLUB, util.getUID()));
 		used.add(new Chain(13,CLUB, util.getUID()));
 
-		// used.add(new Starvation(4,CLUB, util.getUID()));
-		// used.add(new Starvation(10,SPADE, util.getUID()));
+		used.add(new Starvation(4,CLUB, util.getUID()));
+		used.add(new Starvation(10,SPADE, util.getUID()));
 	}
 
 	private void initEquipmentBattle() {

@@ -1,36 +1,29 @@
-package core.client.game.operations.basics;
+package core.client.game.operations.delayed;
 
-import cards.basics.Attack;
 import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateAttackInGameServerCommand;
+import commands.game.server.ingame.InitiateStarvationInGameServerCommand;
 import core.client.game.operations.AbstractSingleTargetCardOperation;
 import core.heroes.Hero;
-import core.player.PlayerComplete;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.ClientGameUI;
 import ui.game.interfaces.PlayerUI;
+import utils.DelayedType;
 
-public class InitiateAttackOperation extends AbstractSingleTargetCardOperation {
+public class StarvationOperation extends AbstractSingleTargetCardOperation {
 
 	@Override
 	protected InGameServerCommand getCommand() {
-		return new InitiateAttackInGameServerCommand(
-			this.source,
-			this.targetUI.getPlayer().getPlayerInfo(),
-			(Attack) ((CardUI) this.activator).getCard()
-		);
+		return new InitiateStarvationInGameServerCommand(this.targetUI.getPlayer().getPlayerInfo(), ((CardUI) this.activator).getCard());
 	}
-	
+
 	@Override
 	protected void setupTargetSelection() {
 		ClientGameUI<? extends Hero> panelUI = this.panel.getContent();
-		PlayerComplete self = panelUI.getSelf();
 		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
-			if (self.isPlayerInAttackRange(other.getPlayer(), panelUI.getNumberOfPlayersAlive())) {
+			if (panelUI.getSelf().isPlayerInDistance(other.getPlayer(), panelUI.getNumberOfPlayersAlive()) && !other.getPlayer().hasDelayedType(DelayedType.STARVATION)) {
 				other.setActivatable(true);
 			}
 		}
 		panelUI.setCancelEnabled(true);
 	}
-
 }
