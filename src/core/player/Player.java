@@ -374,8 +374,9 @@ public abstract class Player {
 	
 	public Queue<DelayedStackItem> getDelayedQueue() {
 		Queue<DelayedStackItem> queue = new LinkedList<>();
-		for (DelayedStackItem item : this.delayedStack) {
-			queue.add(item);
+		// Stack's iterator is FIFO order - a bug in Java implementation
+		for (int i = this.delayedStack.size() - 1; i >= 0; i--) {
+			queue.add(this.delayedStack.get(i));
 		}
 		return queue;
 	}

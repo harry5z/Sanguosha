@@ -1,5 +1,6 @@
 package core.server.game.controllers.specials.delayed;
 
+import cards.Card;
 import core.event.game.basic.RequestNeutralizationEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
@@ -22,12 +23,14 @@ public abstract class AbstractDelayedArbitrationController extends AbstractSpeci
 	protected DelayedArbitrationStage stage;
 	protected PlayerCompleteServer target;
 	protected final TurnGameController currentTurn;
+	protected boolean effective;
 
 	public AbstractDelayedArbitrationController(Game game, PlayerCompleteServer target, TurnGameController turn) {
 		super(game);
 		this.stage = DelayedArbitrationStage.NEUTRALIZATION;
 		this.target = target;
 		this.currentTurn = turn;
+		this.effective = false;
 	}
 
 	@Override
@@ -57,7 +60,9 @@ public abstract class AbstractDelayedArbitrationController extends AbstractSpeci
 				this.game.getGameController().proceed();
 				break;
 			case EFFECT:
-				this.takeEffect();
+				if (this.effective) {
+					this.takeEffect();
+				}
 				this.stage = this.stage.nextStage();
 				this.game.getGameController().proceed();
 				break;
@@ -69,8 +74,15 @@ public abstract class AbstractDelayedArbitrationController extends AbstractSpeci
 		}
 	}
 	
+	@Override
+	public void onArbitrationCompleted(Card card) {
+		this.effective = this.isArbitrationEffective(card);
+	}
+	
 	protected abstract void takeEffect();
 	
 	protected abstract void beforeEnd();
+	
+	protected abstract boolean isArbitrationEffective(Card card);
 	
 }

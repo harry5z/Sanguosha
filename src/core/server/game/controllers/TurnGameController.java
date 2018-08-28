@@ -5,6 +5,7 @@ import java.util.Queue;
 
 import cards.Card;
 import cards.basics.Wine;
+import core.event.game.turn.DealStartTurnEvent;
 import core.event.game.turn.DealTurnEvent;
 import core.event.game.turn.DiscardTurnEvent;
 import core.event.game.turn.DrawTurnEvent;
@@ -113,7 +114,12 @@ public class TurnGameController implements
 				}
 				return;
 			case DEAL_BEGINNING:
-				this.nextStage();
+				try {
+					this.game.emit(new DealStartTurnEvent(this));
+					this.nextStage();
+				} catch (GameFlowInterruptedException e) {
+					e.resume();
+				}
 				return;
 			case DEAL:
 				try {

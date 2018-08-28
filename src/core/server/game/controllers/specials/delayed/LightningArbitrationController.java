@@ -13,28 +13,18 @@ import utils.DelayedType;
 
 public class LightningArbitrationController extends AbstractDelayedArbitrationController {
 	
-	private boolean effective;
-
 	public LightningArbitrationController(Game game, PlayerCompleteServer target, TurnGameController turn) {
 		super(game, target, turn);
-		this.effective = false;
 	}
 
 	@Override
-	public void onArbitrationCompleted(Card card) {
-		int num = card.getNumber();
-		if (card.getSuit() == Suit.SPADE && num >= 2 && num <= 9) {
-			this.effective = true;
-		} else {
-			this.effective = false;
-		}
+	public boolean isArbitrationEffective(Card card) {
+		return card.getSuit() == Suit.SPADE && card.getNumber() >= 2 && card.getNumber() <= 9;
 	}
 
 	@Override
 	protected void takeEffect() {
-		if (this.effective) {
-			this.game.pushGameController(new DamageGameController(new Damage(3, Element.THUNDER, null, this.target), this.game));
-		}
+		this.game.pushGameController(new DamageGameController(new Damage(3, Element.THUNDER, null, this.target), this.game));
 	}
 
 	@Override

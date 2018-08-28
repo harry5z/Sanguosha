@@ -1,6 +1,5 @@
 package ui.game;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -31,7 +30,7 @@ public class DelayedBarGui extends JPanel implements DelayedListener {
 	public void onDelayedAdded(Card card, DelayedType type) {
 		DelayedIcon icon = new DelayedIcon(new DelayedStackItem(card, type));
 		this.stack.push(icon);
-		this.add(icon);
+		this.add(icon, 0);
 		this.validate();
 		this.repaint();
 	}
@@ -64,7 +63,13 @@ public class DelayedBarGui extends JPanel implements DelayedListener {
 			try {
 				switch(item.type) {
 					case LIGHTNING:
-						icon = ImageIO.read(getClass().getResource("cards/Lightning_marker.png"));
+						this.icon = ImageIO.read(getClass().getResource("cards/Lightning_marker.png"));
+						break;
+					case OBLIVION:
+						this.icon = ImageIO.read(getClass().getResource("cards/Oblivion_marker.png"));
+						break;
+					case STARVATION:
+						this.icon = ImageIO.read(getClass().getResource("cards/Starvation_marker.png"));
 						break;
 				}
 			}  catch (IOException e) {

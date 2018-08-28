@@ -27,6 +27,7 @@ import cards.equipments.shields.SilverLion;
 import cards.equipments.shields.TaichiFormation;
 import cards.equipments.weapons.IcySword;
 import cards.specials.delayed.Lightning;
+import cards.specials.delayed.Oblivion;
 import cards.specials.instant.ArrowSalvo;
 import cards.specials.instant.BarbarianInvasion;
 import cards.specials.instant.Brotherhood;
@@ -213,9 +214,9 @@ public class Deck {
 	}
 
 	private void initDelayed() {
-		// used.add(new Relaxation(6,SPADE, util.getUID()));
-		// used.add(new Relaxation(6,HEART, util.getUID()));
-		// used.add(new Relaxation(6,CLUB, util.getUID()));
+		used.add(new Oblivion(6,SPADE, util.getUID()));
+		used.add(new Oblivion(6,HEART, util.getUID()));
+		used.add(new Oblivion(6,CLUB, util.getUID()));
 		used.add(new Lightning(1, SPADE, util.getUID()));
 	}
 

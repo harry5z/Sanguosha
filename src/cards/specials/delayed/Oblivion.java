@@ -2,6 +2,7 @@ package cards.specials.delayed;
 
 import core.GameState;
 import core.client.game.operations.Operation;
+import core.client.game.operations.delayed.OblivionOperation;
 
 public class Oblivion extends Delayed {
 
@@ -23,8 +24,7 @@ public class Oblivion extends Delayed {
 
 	@Override
 	public Operation generateOperation() {
-		// TODO Auto-generated method stub
-		return null;
+		return new OblivionOperation();
 	}
 
 }
