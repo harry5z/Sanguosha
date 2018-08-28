@@ -2,6 +2,8 @@ package core.player;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
@@ -362,7 +364,7 @@ public abstract class Player {
 		return weapon;
 	}
 	
-	public void addDelayed(Card card, DelayedType type) {
+	public void pushDelayed(Card card, DelayedType type) {
 		DelayedStackItem item = new DelayedStackItem(card, type);
 		if (this.delayedStack.contains(item)) {
 			throw new GameStateErrorException("Delayed type " + type.toString() + " already exists");
@@ -370,8 +372,33 @@ public abstract class Player {
 		this.delayedStack.push(item);
 	}
 	
-	public Stack<DelayedStackItem> getDelayedStack() {
-		return this.delayedStack;
+	public Queue<DelayedStackItem> getDelayedQueue() {
+		Queue<DelayedStackItem> queue = new LinkedList<>();
+		for (DelayedStackItem item : this.delayedStack) {
+			queue.add(item);
+		}
+		return queue;
+	}
+	
+	public boolean hasDelayedType(DelayedType type) {
+		for (DelayedStackItem item : this.delayedStack) {
+			if (item.type == type) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public DelayedStackItem removeDelayed(DelayedType type) {
+		DelayedStackItem ret = null;
+		for (DelayedStackItem item : this.delayedStack) {
+			if (item.type == type) {
+				ret = item;
+				break;
+			}
+		}
+		this.delayedStack.remove(ret);
+		return ret;
 	}
 
 	public void unequip(EquipmentType type) throws InvalidPlayerCommandException {

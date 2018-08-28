@@ -6,9 +6,10 @@ import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.TurnGameController;
 import core.server.game.controllers.specials.delayed.AbstractDelayedArbitrationController;
+import core.server.game.controllers.specials.delayed.LightningArbitrationController;
 
 public enum DelayedType implements Serializable {
-	LIGHTNING(null),
+	LIGHTNING((game, target, turn) -> new LightningArbitrationController(game, target, turn)),
 	OBLIVION(null),
 	STARVATION(null);
 	

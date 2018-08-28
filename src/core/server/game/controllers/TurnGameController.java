@@ -1,5 +1,8 @@
 package core.server.game.controllers;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import cards.Card;
 import cards.basics.Wine;
 import core.event.game.turn.DealTurnEvent;
@@ -35,11 +38,13 @@ public class TurnGameController implements
 	private final Game game;
 	private PlayerCompleteServer currentPlayer;
 	private TurnStage currentStage;
+	private Queue<DelayedStackItem> delayedQueue;
 	
 	public TurnGameController(GameRoom room) {
 		this.game = room.getGame();
 		this.currentPlayer = game.findPlayer(player -> player.getPosition() == 0);
 		this.currentStage = TurnStage.START_BEGINNING;
+		this.delayedQueue = new LinkedList<>();
 	}
 	
 	public void nextStage() {
@@ -81,7 +86,8 @@ public class TurnGameController implements
 				this.nextStage();
 				return;
 			case DELAYED_ARBITRATION_BEGINNING:
-				if (this.currentPlayer.getDelayedStack().isEmpty()) {
+				this.delayedQueue = this.currentPlayer.getDelayedQueue();
+				if (delayedQueue.isEmpty()) {
 					this.currentStage = TurnStage.DRAW;
 					this.proceed();
 				} else {
@@ -89,11 +95,11 @@ public class TurnGameController implements
 				}
 				return;
 			case DELAYED_ARBITRATION:
-				if (this.currentPlayer.getDelayedStack().isEmpty()) {
+				if (this.delayedQueue.isEmpty()) {
 					this.currentStage = TurnStage.DRAW;
 					this.proceed();
 				} else {
-					DelayedStackItem item = this.currentPlayer.getDelayedStack().peek();
+					DelayedStackItem item = this.delayedQueue.poll();
 					this.game.pushGameController(item.type.getController(this.game, this.currentPlayer, this));
 					this.game.getGameController().proceed();
 				}
@@ -122,6 +128,7 @@ public class TurnGameController implements
 				this.nextStage();
 				return;
 			case DISCARD:
+				this.currentPlayer.clearDisposalArea();
 				try {
 					this.game.emit(new DiscardTurnEvent());
 					this.nextStage();
@@ -133,6 +140,7 @@ public class TurnGameController implements
 				this.nextStage();
 				return;
 			case END:
+				this.currentPlayer.clearDisposalArea();
 				this.nextStage();
 				return;
 			default:

@@ -20,6 +20,7 @@ import core.server.game.controllers.TurnGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import listeners.game.server.ServerInGameCardDisposalListener;
 import listeners.game.server.ServerInGameCardOnHandListener;
+import listeners.game.server.ServerInGameDelayedListener;
 import listeners.game.server.ServerInGameEquipmentListener;
 import listeners.game.server.ServerInGameHealthListener;
 import listeners.game.server.ServerInGamePlayerStatusListener;
@@ -144,6 +145,7 @@ public class GameImpl implements Game {
 			player.registerHealthListener(new ServerInGameHealthListener(player.getName(), playerNames, room));
 			player.registerCardDisposalListener(new ServerInGameCardDisposalListener(player.getName(), playerNames, room));
 			player.registerPlayerStatusListener(new ServerInGamePlayerStatusListener(player.getName(), playerNames, room));
+			player.registerDelayedListener(new ServerInGameDelayedListener(player.getName(), playerNames, room));
 			player.setHero(new Blank()); // TODO: add heroes
 			player.onGameReady(this);
 		}

@@ -19,8 +19,8 @@ public abstract class AbstractDelayedArbitrationController extends AbstractSpeci
 		END;
 	}
 	
-	private DelayedArbitrationStage stage;
-	private PlayerCompleteServer target;
+	protected DelayedArbitrationStage stage;
+	protected PlayerCompleteServer target;
 	protected final TurnGameController currentTurn;
 
 	public AbstractDelayedArbitrationController(Game game, PlayerCompleteServer target, TurnGameController turn) {
@@ -49,6 +49,7 @@ public abstract class AbstractDelayedArbitrationController extends AbstractSpeci
 				break;
 			case ARBITRATION:
 				if (!this.neutralized) {
+					this.stage = this.stage.nextStage();
 					this.game.pushGameController(new ArbitrationController(this.game, this.target));
 				} else {
 					this.stage = DelayedArbitrationStage.END;

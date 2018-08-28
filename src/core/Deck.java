@@ -26,6 +26,7 @@ import cards.equipments.shields.RattanArmor;
 import cards.equipments.shields.SilverLion;
 import cards.equipments.shields.TaichiFormation;
 import cards.equipments.weapons.IcySword;
+import cards.specials.delayed.Lightning;
 import cards.specials.instant.ArrowSalvo;
 import cards.specials.instant.BarbarianInvasion;
 import cards.specials.instant.Brotherhood;
@@ -215,7 +216,7 @@ public class Deck {
 		// used.add(new Relaxation(6,SPADE, util.getUID()));
 		// used.add(new Relaxation(6,HEART, util.getUID()));
 		// used.add(new Relaxation(6,CLUB, util.getUID()));
-		// used.add(new Lightning(1, SPADE, util.getUID()));
+		used.add(new Lightning(1, SPADE, util.getUID()));
 	}
 
 	private void initEquipment() {
@@ -244,14 +245,14 @@ public class Deck {
 		initDodge();
 		initPeach();
 		initInstant();
-//		initDelayed();
+		initDelayed();
 		initEquipment();
 	}
 
 	private void initEX() {
 		used.add(new IcySword(2,SPADE, util.getUID()));
 		used.add(new IronShield(2, CLUB, util.getUID()));
-		// used.add(new Lightning(12,HEART, util.getUID()));
+		used.add(new Lightning(12,HEART, util.getUID()));
 		used.add(new Neutralization(12, DIAMOND, util.getUID()));
 	}
 
