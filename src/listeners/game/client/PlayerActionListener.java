@@ -12,6 +12,8 @@ public interface PlayerActionListener {
 	
 	default public void onEquipmentClicked(EquipmentUI equipment) {}
 	
+	default public void onDelayedClicked(CardUI card) {}
+	
 	default public void onConfirmed() {}
 	
 	default public void onCanceled() {}

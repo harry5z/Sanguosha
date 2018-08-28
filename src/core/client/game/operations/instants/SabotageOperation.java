@@ -19,8 +19,7 @@ public class SabotageOperation extends AbstractSingleTargetCardOperation {
 	protected void setupTargetSelection() {
 		ClientGameUI<? extends Hero> panelUI = this.panel.getContent();
 		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
-			// TODO: check Delayed zone
-			if (other.getPlayer().getHandCount() > 0 || other.getPlayer().isEquipped()) {
+			if (other.getPlayer().getHandCount() > 0 || other.getPlayer().isEquipped() || !other.getPlayer().getDelayedQueue().isEmpty()) {
 				other.setActivatable(true);
 			}
 		}

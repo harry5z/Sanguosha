@@ -42,8 +42,7 @@ public class CardRackGui extends JPanel implements CardOnHandListener, CardRackU
 				this.listener = e -> panel.getCurrentOperation().onEquipmentClicked((CardGui) e.getSource());
 				break;
 			case DELAYED:
-				// TODO: implement
-				this.listener = null;
+				this.listener = e -> panel.getCurrentOperation().onDelayedClicked((CardGui) e.getSource());
 				break;
 			default:
 				this.listener = null;

@@ -401,6 +401,18 @@ public abstract class Player {
 		this.delayedStack.remove(ret);
 		return ret;
 	}
+	
+	public DelayedStackItem removeDelayed(Card card) {
+		DelayedStackItem ret = null;
+		for (DelayedStackItem item : this.delayedStack) {
+			if (item.delayed.equals(card)) {
+				ret = item;
+				break;
+			}
+		}
+		this.delayedStack.remove(ret);
+		return ret;
+	}
 
 	public void unequip(EquipmentType type) throws InvalidPlayerCommandException {
 		switch (type) {

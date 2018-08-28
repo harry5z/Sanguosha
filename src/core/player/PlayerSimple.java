@@ -206,6 +206,13 @@ public class PlayerSimple extends Player {
 		this.delayedListener.onDelayedRemove(item.type);
 		return item;
 	}
+	
+	@Override
+	public DelayedStackItem removeDelayed(Card card) {
+		DelayedStackItem item = super.removeDelayed(card);
+		this.delayedListener.onDelayedRemove(item.type);
+		return item;
+	}
 
 	/**
 	 * discard an equipment

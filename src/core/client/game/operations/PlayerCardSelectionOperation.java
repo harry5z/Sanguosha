@@ -37,6 +37,13 @@ public class PlayerCardSelectionOperation implements Operation {
 		this.panel.popOperation();
 		this.panel.getChannel().send(new PlayerCardSelectionInGameServerCommand(equipment.getEquipment(), PlayerCardZone.EQUIPMENT));
 	}
+	
+	@Override
+	public void onDelayedClicked(CardUI card) {
+		this.panel.getContent().removeSelectionPane();
+		this.panel.popOperation();
+		this.panel.getChannel().send(new PlayerCardSelectionInGameServerCommand(card.getCard(), PlayerCardZone.DELAYED));
+	}
 
 	@Override
 	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {

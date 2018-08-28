@@ -3,6 +3,7 @@ package ui.game.custom;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.Collection;
+import java.util.Queue;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,6 +16,7 @@ import core.player.PlayerCardZone;
 import core.player.PlayerSimple;
 import ui.game.CardGui;
 import ui.game.CardRackGui;
+import utils.DelayedStackItem;
 
 public class CardSelectionPane extends JPanel {
 	private static final long serialVersionUID = -1L;
@@ -64,7 +66,24 @@ public class CardSelectionPane extends JPanel {
 				verticalLocation += CardRackGui.HEIGHT;
 			}
 		}
-		// TODO: show Delayed zone
+		if (zones.contains(PlayerCardZone.DELAYED)) {
+			Queue<DelayedStackItem> delayedQueue = player.getDelayedQueue();
+			if (!delayedQueue.isEmpty()) {
+				JLabel label = new LabelGui("Delayed");
+				CardRackGui delayed = new CardRackGui(panel, PlayerCardZone.DELAYED);
+				for (DelayedStackItem item : delayedQueue) {
+					delayed.addCardGui(new CardGui(item.delayed), true);
+				}
+
+				label.setLocation(0, verticalLocation);
+				add(label);
+				verticalLocation += LabelGui.HEIGHT;
+
+				delayed.setLocation(0, verticalLocation);
+				add(delayed);
+				verticalLocation += CardRackGui.HEIGHT;
+			}
+		}
 		setSize(CardRackGui.WIDTH, verticalLocation);
 		repaint();
 	}
