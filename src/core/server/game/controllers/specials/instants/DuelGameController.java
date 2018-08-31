@@ -25,10 +25,21 @@ public class DuelGameController extends SingleTargetInstantSpecialGameController
 	protected void takeEffect() {
 		try {
 			// Ask current attack user to use Attack
-			this.game.emit(new RequestAttackEvent(this.currentAttackUser.getPlayerInfo()));
+			this.game.emit(new RequestAttackEvent(
+				this.currentAttackUser.getPlayerInfo(),
+				"You are in a Duel against " +
+				(this.currentAttackUser == this.target ? this.source : this.target) +
+				", it's your turn to use Attack."
+			));
 		} catch (GameFlowInterruptedException e) {
 			e.resume();
 		}
+	}
+	
+
+	@Override
+	protected String getNeutralizationMessage() {
+		return this.source + " used Duel on " + this.target + ", use Neutralization?";
 	}
 
 	@Override

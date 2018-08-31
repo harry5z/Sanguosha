@@ -13,17 +13,23 @@ public class RequestUseCardGameUIClientCommand extends AbstractGameUIClientComma
 	private static final long serialVersionUID = 1L;
 	
 	private final PlayerInfo target;
+	private final String message;
 	private final Collection<RequestUseCardPredicate> predicates;
 	
-	public RequestUseCardGameUIClientCommand(PlayerInfo target, Collection<RequestUseCardPredicate> predicates) {
+	public RequestUseCardGameUIClientCommand(
+		PlayerInfo target,
+		String message,
+		Collection<RequestUseCardPredicate> predicates
+	) {
 		this.target = target;
+		this.message = message;
 		this.predicates = predicates;
 	}
 
 	@Override
 	protected void execute(GamePanel<? extends Hero> panel) {
 		if (panel.getContent().getSelf().getPlayerInfo().equals(this.target)) {
-			panel.pushOperation(new UseCardReactionOperation(this.predicates));
+			panel.pushOperation(new UseCardReactionOperation(this.message, this.predicates));
 		} else {
 			panel.getContent().getOtherPlayerUI(this.target).showCountdownBar();
 		}

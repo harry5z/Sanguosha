@@ -48,7 +48,10 @@ public abstract class MultiTargetInstantSpecialGameController extends AbstractIn
 						this.proceed();
 					} else if (this.neutralizedCount == 0) {
 						try {
-							this.game.emit(new RequestNeutralizationEvent(this.currentTarget.getPlayerInfo()));
+							this.game.emit(new RequestNeutralizationEvent(
+								this.currentTarget.getPlayerInfo(),
+								this.getNeutralizationMessage()
+							));
 						} catch (GameFlowInterruptedException e) {
 							e.resume();
 						}

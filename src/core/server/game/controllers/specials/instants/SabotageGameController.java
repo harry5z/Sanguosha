@@ -41,6 +41,11 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 			e.resume();
 		}
 	}
+	
+	@Override
+	protected String getNeutralizationMessage() {
+		return this.source + " used Sabotage on " + this.target + ", use Neutralization?";
+	}
 
 	@Override
 	public void onCardSelected(Card card, PlayerCardZone zone) {

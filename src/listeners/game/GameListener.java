@@ -40,8 +40,4 @@ public interface GameListener
 	 */
 	public void setDeckSize(int size);
 	
-	public void setMessage(String message);
-	
-	public void clearMessage();
-	
 }

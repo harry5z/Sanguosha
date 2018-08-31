@@ -43,6 +43,11 @@ public class StealGameController extends SingleTargetInstantSpecialGameControlle
 	}
 	
 	@Override
+	protected String getNeutralizationMessage() {
+		return this.source + " used Steal on " + this.target + ", use Neutralization?";
+	}
+	
+	@Override
 	public void onCardSelected(Card card, PlayerCardZone zone) {
 		this.stage = this.stage.nextStage();
 		switch(zone) {

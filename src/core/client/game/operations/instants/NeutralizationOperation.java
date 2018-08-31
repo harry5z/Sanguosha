@@ -12,6 +12,10 @@ import ui.game.interfaces.CardUI;
 
 public class NeutralizationOperation extends AbstractCardReactionOperation {
 
+	public NeutralizationOperation(String message) {
+		super(message);
+	}
+
 	@Override
 	public void onEnded() {
        if (this.card != null) {

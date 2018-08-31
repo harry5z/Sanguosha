@@ -9,15 +9,17 @@ public class RequestShowCardGameUIClientCommand extends AbstractGameUIClientComm
 	private static final long serialVersionUID = 1L;
 	
 	private final PlayerInfo target;
+	private final String message;
 	
-	public RequestShowCardGameUIClientCommand(PlayerInfo target) {
+	public RequestShowCardGameUIClientCommand(PlayerInfo target, String message) {
 		this.target = target;
+		this.message = message;
 	}
 
 	@Override
 	protected void execute(GamePanel<? extends Hero> panel) {
 		if (panel.getContent().getSelf().getPlayerInfo().equals(this.target)) {
-			panel.pushOperation(new ShowCardReactionOperation());
+			panel.pushOperation(new ShowCardReactionOperation(this.message));
 		} else {
 			panel.getContent().getOtherPlayerUI(this.target).showCountdownBar();
 		}

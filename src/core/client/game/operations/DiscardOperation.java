@@ -27,6 +27,7 @@ public class DiscardOperation implements Operation {
 			cardUI.setActivatable(false);
 		}
 		panel.getContent().setConfirmEnabled(false);
+		panel.getContent().clearMessage();
 		panel.getChannel().send(new DiscardInGameServerCommand(cards.stream().map(ui -> ui.getCard()).collect(Collectors.toList())));
 	}
 
@@ -54,6 +55,7 @@ public class DiscardOperation implements Operation {
 	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
 		this.panel = panel;
 		ClientGameUI<? extends Hero> panelUI = panel.getContent();
+		panelUI.setMessage("Select " + this.amount + " cards to discard");
 		panelUI.showCountdownBar();
 		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
 			cardUI.setActivatable(true);

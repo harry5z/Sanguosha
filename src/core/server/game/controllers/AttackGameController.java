@@ -72,7 +72,11 @@ public class AttackGameController extends AbstractGameController implements Dodg
 				proceed();
 				break;
 			case DODGE:
-				this.game.pushGameController(new DodgeGameController(this.game, this.target));
+				this.game.pushGameController(new DodgeGameController(
+					this.game,
+					this.target,
+					this.source + " used " + this.attack + " on you, use Dodge to counter?"
+				));
 				this.game.getGameController().proceed();
 				break;
 			case ATTACK_DODGED_WEAPONS:

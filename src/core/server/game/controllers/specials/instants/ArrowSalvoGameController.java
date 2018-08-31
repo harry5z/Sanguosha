@@ -23,7 +23,11 @@ public class ArrowSalvoGameController extends AOEInstantSpecialGameController im
 	@Override
 	protected void takeEffect() {
 		if (!this.hasReacted) {
-			this.game.pushGameController(new DodgeGameController(this.game, this.currentTarget));
+			this.game.pushGameController(new DodgeGameController(
+				this.game,
+				this.currentTarget,
+				this.source + " used Arrow Salvo on you, use Dodge to counter?"
+			));
 			this.game.getGameController().proceed();
 		} else {
 			this.stage = this.stage.nextStage();
@@ -39,6 +43,11 @@ public class ArrowSalvoGameController extends AOEInstantSpecialGameController im
 				this.proceed();
 			}
 		}
+	}
+	
+	@Override
+	protected String getNeutralizationMessage() {
+		return this.source + " used Arrow Salvo on " + this.currentTarget + ", use Neutralization?";
 	}
 	
 	@Override

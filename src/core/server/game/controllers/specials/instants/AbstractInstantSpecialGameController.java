@@ -31,4 +31,6 @@ public abstract class AbstractInstantSpecialGameController implements InstantSpe
 		this.neutralizedCount++;
 	}
 	
+	protected abstract String getNeutralizationMessage();
+	
 }

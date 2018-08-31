@@ -13,7 +13,11 @@ public class UseCardReactionOperation extends AbstractCardReactionOperation {
 	
 	private final Collection<RequestUseCardPredicate> predicates;
 	
-	public UseCardReactionOperation(Collection<RequestUseCardPredicate> predicates) {
+	public UseCardReactionOperation(
+		String message,
+		Collection<RequestUseCardPredicate> predicates
+	) {
+		super(message);
 		this.predicates = predicates;
 	}
 

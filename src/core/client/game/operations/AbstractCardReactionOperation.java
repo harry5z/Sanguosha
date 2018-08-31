@@ -11,6 +11,11 @@ public abstract class AbstractCardReactionOperation implements Operation {
 
 	protected GamePanel<? extends Hero> panel;
 	protected CardUI card;
+	private final String message;
+	
+	public AbstractCardReactionOperation(String message) {
+		this.message = message;
+	}
 	
 	@Override
 	public void onConfirmed() {
@@ -21,6 +26,7 @@ public abstract class AbstractCardReactionOperation implements Operation {
 			ui.setActivatable(false);
 		}
 		this.panel.popOperation();
+		this.panel.getContent().clearMessage();
 		this.panel.getChannel().send(this.getCommand(this.card.getCard()));
 	}
 	
@@ -41,6 +47,7 @@ public abstract class AbstractCardReactionOperation implements Operation {
 				ui.setActivatable(false);
 			}
 			this.panel.popOperation();
+			this.panel.getContent().clearMessage();
 			this.panel.getChannel().send(this.getCommand(null));
 		}
 	}
@@ -73,6 +80,7 @@ public abstract class AbstractCardReactionOperation implements Operation {
 	@Override
 	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
 		this.panel = panel;
+		panel.getContent().setMessage(this.message);
 		for (CardUI cardUI : panel.getContent().getCardRackUI().getCardUIs()) {
 			if (this.isCardActivatable(cardUI.getCard())) {
 				cardUI.setActivatable(true);

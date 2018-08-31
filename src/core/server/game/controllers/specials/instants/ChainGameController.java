@@ -24,4 +24,9 @@ public class ChainGameController extends MultiTargetInstantSpecialGameController
 		this.proceed();
 	}
 
+	@Override
+	protected String getNeutralizationMessage() {
+		return this.source + " used Chain on " + this.currentTarget + ", use Neutralization?";
+	}
+
 }

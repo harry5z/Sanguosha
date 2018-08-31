@@ -20,12 +20,14 @@ public class DodgeGameController extends AbstractGameController {
 		END,
 	}
 	
+	private String message;
 	private DodgeStage stage;
 	private PlayerCompleteServer target;
 	private boolean dodged;
 
-	public DodgeGameController(Game game, PlayerCompleteServer target) {
+	public DodgeGameController(Game game, PlayerCompleteServer target, String message) {
 		super(game);
+		this.message = message;
 		this.target = target;
 		this.stage = DodgeStage.ARIBTRATION;
 		this.dodged = false;
@@ -45,7 +47,7 @@ public class DodgeGameController extends AbstractGameController {
 				break;
 			case DODGE:
 				try {
-					this.game.emit(new RequestDodgeEvent(this.target.getPlayerInfo()));
+					this.game.emit(new RequestDodgeEvent(this.target.getPlayerInfo(), this.message));
 				} catch (GameFlowInterruptedException e) {
 					e.resume();
 				}

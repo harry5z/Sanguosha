@@ -8,6 +8,10 @@ import core.player.PlayerCardZone;
 
 public class ShowCardReactionOperation extends AbstractCardReactionOperation {
 
+	public ShowCardReactionOperation(String message) {
+		super(message);
+	}
+
 	@Override
 	protected boolean isCardActivatable(Card card) {
 		// any card can be shown

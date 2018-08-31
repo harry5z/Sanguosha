@@ -8,6 +8,11 @@ import ui.game.interfaces.Activatable;
 public class DecisionOperation implements Operation {
 	
 	private GamePanel<? extends Hero> panel;
+	private final String message;
+	
+	public DecisionOperation(String message) {
+		this.message = message;
+	}
 	
 	@Override
 	public void onConfirmed() {
@@ -24,6 +29,7 @@ public class DecisionOperation implements Operation {
 	@Override
 	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
 		this.panel = panel;
+		panel.getContent().setMessage(this.message);
 		panel.getContent().setConfirmEnabled(true);
 		panel.getContent().setCancelEnabled(true);
 	}
@@ -31,6 +37,7 @@ public class DecisionOperation implements Operation {
 	private void onDeactivated() {
 		this.panel.getContent().setConfirmEnabled(false);
 		this.panel.getContent().setCancelEnabled(false);
+		this.panel.getContent().clearMessage();
 		this.panel.popOperation();
 	}
 

@@ -21,7 +21,10 @@ public class RequestUseCardEventHandler extends AbstractEventHandler<RequestUseC
 
 	@Override
 	protected void handleIfActivated(RequestUseCardEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
-		connection.sendCommandToPlayer(this.player.getName(), new RequestUseCardGameUIClientCommand(event.getTarget(), event.getPredicates()));
+		connection.sendCommandToPlayer(
+			this.player.getName(),
+			new RequestUseCardGameUIClientCommand(event.getTarget(), event.getMessage(), event.getPredicates())
+		);
 	}
 
 }

@@ -2,10 +2,10 @@ package core.event.game.basic;
 
 import core.player.PlayerInfo;
 
-public class RequestDodgeEvent extends AbstractSingleTargetGameEvent {
+public class RequestDodgeEvent extends AbstractSingleTargetPlayerReactionEvent {
 
-	public RequestDodgeEvent(PlayerInfo targetInfo) {
-		super(targetInfo);
+	public RequestDodgeEvent(PlayerInfo targetInfo, String message) {
+		super(targetInfo, message);
 	}
 
 }

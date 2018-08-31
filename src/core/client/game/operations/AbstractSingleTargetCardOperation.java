@@ -60,6 +60,7 @@ public abstract class AbstractSingleTargetCardOperation implements Operation {
 		}
 		this.panel.getContent().getHeroUI().setActivatable(false);
 		this.panel.getContent().setCancelEnabled(false);
+		this.panel.getContent().clearMessage();
 		this.activator.setActivated(false);
 		this.panel.popOperation();
 	}
@@ -76,6 +77,7 @@ public abstract class AbstractSingleTargetCardOperation implements Operation {
 		this.activator = activator;
 		this.panel = panel;
 		ClientGameUI<? extends Hero> panelUI = panel.getContent();
+		panelUI.setMessage("Select one target.");
 		PlayerComplete self = panelUI.getSelf();
 		this.source = self.getPlayerInfo();
 		this.setupTargetSelection();

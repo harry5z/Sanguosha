@@ -44,6 +44,10 @@ public interface ClientGameUI<T extends Hero> extends ClientPanelUI, GameState {
 	public JPanel getSelectionPane();
 	
 	public void removeSelectionPane();
+	
+	public void setMessage(String message);
+	
+	public void clearMessage();
 
 	public void showCountdownBar();
 	

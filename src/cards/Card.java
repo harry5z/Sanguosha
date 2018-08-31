@@ -106,4 +106,9 @@ public abstract class Card implements Serializable {
 		}
 		return isReal ? id == ((Card) obj).id : false;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getName();
+	}
 }

@@ -2,7 +2,6 @@ package cards.specials.instant;
 
 import core.GameState;
 import core.client.game.operations.Operation;
-import core.client.game.operations.instants.NeutralizationOperation;
 
 public class Neutralization extends Instant {
 
@@ -26,7 +25,7 @@ public class Neutralization extends Instant {
 
 	@Override
 	public Operation generateOperation() {
-		return new NeutralizationOperation();
+		return null;
 	}
 
 }

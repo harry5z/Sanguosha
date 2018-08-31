@@ -28,7 +28,10 @@ public class BarbarianInvasionGameController extends AOEInstantSpecialGameContro
 	protected void takeEffect() {
 		if (!this.hasReacted) {
 			try {
-				this.game.emit(new RequestAttackEvent(this.currentTarget.getPlayerInfo()));
+				this.game.emit(new RequestAttackEvent(
+					this.currentTarget.getPlayerInfo(),
+					this.source + " used Barbarian Invasion on you, use Attack to counter?"
+				));
 			} catch (GameFlowInterruptedException e) {
 				e.resume();
 			}
@@ -46,6 +49,11 @@ public class BarbarianInvasionGameController extends AOEInstantSpecialGameContro
 				this.proceed();
 			}
 		}
+	}
+	
+	@Override
+	protected String getNeutralizationMessage() {
+		return this.source + " used Barbarian Invasion on " + this.currentTarget + ", use Neutralization?";
 	}
 
 	@Override

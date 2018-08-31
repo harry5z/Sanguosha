@@ -26,7 +26,10 @@ public class TaichiFormationDodgeArbitrationEventHandler extends AbstractEventHa
 			return;
 		}
 		game.pushGameController(new TaichiFormationGameController(game, this.player));
-		connection.sendCommandToAllPlayers(new DecisionUIClientCommand(this.player.getPlayerInfo()));
+		connection.sendCommandToAllPlayers(new DecisionUIClientCommand(
+			this.player.getPlayerInfo(),
+			"Use Taichi Formation?"
+		));
 		throw new GameFlowInterruptedException();
 	}
 

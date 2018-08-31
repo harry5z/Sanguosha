@@ -33,7 +33,10 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 				return;
 			}
 			try {
-				this.game.emit(new RequestShowCardEvent(this.target.getPlayerInfo()));
+				this.game.emit(new RequestShowCardEvent(
+					this.target.getPlayerInfo(),
+					this.source + " used Fire Attack on you, please show a card."
+				));
 			} catch (GameFlowInterruptedException e) {
 				e.resume();
 			}
@@ -46,13 +49,20 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 			}
 			try {
 				this.game.emit(
-					new RequestUseCardEvent(this.source.getPlayerInfo())
-						.addPredicate(RequestUseCardPredicate.sameSuit(this.shownCard.getSuit()))
+					new RequestUseCardEvent(
+						this.source.getPlayerInfo(),
+						"Discard a card of suit " + this.shownCard.getSuit().toString() + "to finish Fire Attack?"
+					).addPredicate(RequestUseCardPredicate.sameSuit(this.shownCard.getSuit()))
 				);
 			} catch (GameFlowInterruptedException e) {
 				e.resume();
 			}
 		}
+	}
+	
+	@Override
+	protected String getNeutralizationMessage() {
+		return this.source + " used Fire Attack on " + this.target + ", use Neutralization?";
 	}
 
 	@Override

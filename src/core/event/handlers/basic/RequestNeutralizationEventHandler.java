@@ -21,7 +21,7 @@ public class RequestNeutralizationEventHandler extends AbstractEventHandler<Requ
 
 	@Override
 	protected void handleIfActivated(RequestNeutralizationEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
-		connection.sendCommandToPlayer(this.player.getName(), new RequestNeutralizationGameUIClientCommand());
+		connection.sendCommandToPlayer(this.player.getName(), new RequestNeutralizationGameUIClientCommand(event.getMessage()));
 	}
 
 }

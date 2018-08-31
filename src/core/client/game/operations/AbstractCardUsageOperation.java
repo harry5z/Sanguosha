@@ -21,6 +21,7 @@ public abstract class AbstractCardUsageOperation implements Operation {
 		card.setActivated(false);
 		panel.getContent().setConfirmEnabled(false);
 		panel.getContent().setCancelEnabled(false);
+		panel.getContent().clearMessage();
 		panel.popOperation();
 	}
 
@@ -50,6 +51,7 @@ public abstract class AbstractCardUsageOperation implements Operation {
 		this.panel = panel;
 		this.card = (CardGui) source;
 		ClientGameUI<? extends Hero> panelUI = panel.getContent();
+		panelUI.setMessage("Use " + this.card.getCard() + "?");
 		this.source = panelUI.getSelf().getPlayerInfo();
 		panel.getContent().setConfirmEnabled(true);
 		panel.getContent().setCancelEnabled(true);

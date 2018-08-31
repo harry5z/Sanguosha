@@ -9,7 +9,7 @@ import cards.Card;
 import cards.Card.Suit;
 import core.player.PlayerInfo;
 
-public class RequestUseCardEvent extends AbstractSingleTargetGameEvent {
+public class RequestUseCardEvent extends AbstractSingleTargetPlayerReactionEvent {
 	
 	private Collection<RequestUseCardPredicate> predicates;
 	
@@ -21,8 +21,8 @@ public class RequestUseCardEvent extends AbstractSingleTargetGameEvent {
 		
 	}
 	
-	public RequestUseCardEvent(PlayerInfo target) {
-		super(target);
+	public RequestUseCardEvent(PlayerInfo target, String message) {
+		super(target, message);
 		this.predicates = new HashSet<>();
 	}
 	

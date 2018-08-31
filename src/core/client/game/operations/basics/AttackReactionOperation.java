@@ -8,6 +8,10 @@ import core.client.game.operations.AbstractCardReactionOperation;
 
 public class AttackReactionOperation extends AbstractCardReactionOperation {
 
+	public AttackReactionOperation(String message) {
+		super(message);
+	}
+
 	@Override
 	protected boolean isCardActivatable(Card card) {
 		return card instanceof Attack;

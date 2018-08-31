@@ -467,4 +467,9 @@ public abstract class Player {
 	public boolean equals(Object obj) {
 		return (obj instanceof Player) ? position == ((Player) obj).position : false;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getName();
+	}
 }

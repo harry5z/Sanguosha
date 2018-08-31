@@ -49,6 +49,11 @@ public class HarvestGameController extends AOEInstantSpecialGameController imple
 			e.resume();
 		}
 	}
+	
+	@Override
+	protected String getNeutralizationMessage() {
+		return this.currentTarget + " will select a card from Harvest, use Neutralization?";
+	}
 
 	@Override
 	public void onCardSelected(Card card, PlayerCardZone zone) {

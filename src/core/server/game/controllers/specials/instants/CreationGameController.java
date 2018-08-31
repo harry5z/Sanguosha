@@ -15,5 +15,10 @@ public class CreationGameController extends SingleTargetInstantSpecialGameContro
 		this.stage = this.stage.nextStage();
 		this.proceed();
 	}
+	
+	@Override
+	protected String getNeutralizationMessage() {
+		return this.source + " used Creation, use Neutralization?";
+	}
 
 }

@@ -22,6 +22,11 @@ public class BrotherhoodGameController extends AOEInstantSpecialGameController {
 	}
 	
 	@Override
+	protected String getNeutralizationMessage() {
+		return this.source + " used Brotherhood on " + this.currentTarget + ", use Neutralization?";
+	}
+	
+	@Override
 	protected boolean canBeNeutralized() {
 		// only consider players that is not at full health
 		return this.currentTarget.isDamaged();

@@ -35,7 +35,10 @@ public abstract class SingleTargetInstantSpecialGameController extends AbstractI
 					this.proceed();
 				} else if (this.neutralizedCount == 0) {
 					try {
-						this.game.emit(new RequestNeutralizationEvent(this.target.getPlayerInfo()));
+						this.game.emit(new RequestNeutralizationEvent(
+							this.target.getPlayerInfo(),
+							this.getNeutralizationMessage()
+						));
 					} catch (GameFlowInterruptedException e) {
 						e.resume();
 					}
