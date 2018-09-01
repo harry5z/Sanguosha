@@ -26,6 +26,11 @@ public class Attack extends Basic {
 		super(num, suit, id);
 		element = e;
 	}
+	
+	public Attack(Element e, int num, Suit suit) {
+		super(num, suit);
+		this.element = e;
+	}
 
 	public Element getElement() {
 		return element;

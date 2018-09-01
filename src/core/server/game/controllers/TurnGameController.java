@@ -3,8 +3,6 @@ package core.server.game.controllers;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import cards.Card;
-import cards.basics.Wine;
 import core.event.game.turn.DealStartTurnEvent;
 import core.event.game.turn.DealTurnEvent;
 import core.event.game.turn.DiscardTurnEvent;
@@ -13,15 +11,12 @@ import core.event.game.turn.DrawTurnEvent;
 import core.player.PlayerCompleteServer;
 import core.server.GameRoom;
 import core.server.game.Game;
-import core.server.game.controllers.interfaces.WineUsableGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 import utils.DelayedStackItem;
 import utils.EnumWithNextStage;
 
-public class TurnGameController implements 
-	GameController, 
-	WineUsableGameController {
+public class TurnGameController implements GameController {
 	
 	public static enum TurnStage implements EnumWithNextStage<TurnStage> {
 		START_BEGINNING,
@@ -173,24 +168,4 @@ public class TurnGameController implements
 		this.currentPlayer = player;
 	}
 	
-	@Override
-	public void onWineUsed(Card card) {
-		try {
-			if (card != null) { 
-				if (!(card instanceof Wine)) {
-					throw new InvalidPlayerCommandException("card " + card + " is not wine");
-				}
-				if (!currentPlayer.getCardsOnHand().contains(card)) {
-					throw new InvalidPlayerCommandException("card " + card + " is not on current player's hand");
-				}
-			}
-			if (currentPlayer.isWineUsed()) {
-				throw new InvalidPlayerCommandException("wine is already used");
-			}
-			currentPlayer.useCard(card);
-			currentPlayer.useWine();
-		} catch (InvalidPlayerCommandException e) {
-			e.printStackTrace();
-		}
-	}
 }

@@ -1,7 +1,7 @@
 package cards.equipments.shields;
 
 import core.event.handlers.equipment.RattanArmorAOEInstantSpecialTargetEffectivenessEventHandler;
-import core.event.handlers.equipment.RattanArmorAttackEventHandler;
+import core.event.handlers.equipment.RattanArmorAttackTargetEquipmentCheckEventHandler;
 import core.event.handlers.equipment.RattanArmorCheckDamageEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
@@ -22,14 +22,14 @@ public class RattanArmor extends Shield {
 	@Override
 	public void onEquipped(Game game, PlayerCompleteServer owner) {
 		game.registerEventHandler(new RattanArmorCheckDamageEventHandler(owner));
-		game.registerEventHandler(new RattanArmorAttackEventHandler(owner));
+		game.registerEventHandler(new RattanArmorAttackTargetEquipmentCheckEventHandler(owner));
 		game.registerEventHandler(new RattanArmorAOEInstantSpecialTargetEffectivenessEventHandler(owner));
 	}
 	
 	@Override
 	public void onUnequipped(Game game, PlayerCompleteServer owner) {
 		game.removeEventHandler(new RattanArmorCheckDamageEventHandler(owner));
-		game.removeEventHandler(new RattanArmorAttackEventHandler(owner));
+		game.removeEventHandler(new RattanArmorAttackTargetEquipmentCheckEventHandler(owner));
 		game.removeEventHandler(new RattanArmorAOEInstantSpecialTargetEffectivenessEventHandler(owner));
 	}
 

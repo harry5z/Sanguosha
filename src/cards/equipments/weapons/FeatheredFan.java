@@ -1,5 +1,9 @@
 package cards.equipments.weapons;
 
+import core.event.handlers.equipment.FeatheredFanWeaponAbilitiesCheckEventHandler;
+import core.player.PlayerCompleteServer;
+import core.server.game.Game;
+
 public class FeatheredFan extends Weapon {
 
 	private static final long serialVersionUID = -6161969993742726749L;
@@ -10,7 +14,17 @@ public class FeatheredFan extends Weapon {
 
 	@Override
 	public String getName() {
-		return "FeatheredFan";
+		return "Feathered Fan";
+	}
+	
+	@Override
+	public void onEquipped(Game game, PlayerCompleteServer owner) {
+		game.registerEventHandler(new FeatheredFanWeaponAbilitiesCheckEventHandler(owner));
+	}
+	
+	@Override
+	public void onUnequipped(Game game, PlayerCompleteServer owner) {
+		game.removeEventHandler(new FeatheredFanWeaponAbilitiesCheckEventHandler(owner));
 	}
 
 }

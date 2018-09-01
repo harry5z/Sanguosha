@@ -1,7 +1,8 @@
 package core.server.game.controllers;
 
 import cards.basics.Attack;
-import core.event.game.basic.AttackEvent;
+import core.event.game.basic.AttackOnLockWeaponAbilitiesCheckEvent;
+import core.event.game.basic.AttackTargetEquipmentCheckEvent;
 import core.event.game.damage.AttackDamageModifierEvent;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
@@ -17,6 +18,7 @@ public class AttackGameController extends AbstractGameController implements Dodg
 		TARGET_LOCKED,
 		AFTER_TARGET_LOCKED_SKILLS,
 		AFTER_TARGET_LOCKED_WEAPONS,
+		TARGET_EQUIPMENT_ABILITIES,
 		DODGE,
 		ATTACK_DODGED_WEAPONS,
 		DAMAGE_MODIFIERS,
@@ -28,7 +30,7 @@ public class AttackGameController extends AbstractGameController implements Dodg
 	private PlayerCompleteServer source;
 	private PlayerCompleteServer target;
 	private Damage damage;
-	private final Attack attack;
+	private Attack attack;
 	
 	public AttackGameController(PlayerInfo source, PlayerInfo target, Attack card, Game game) {
 		super(game);
@@ -37,42 +39,44 @@ public class AttackGameController extends AbstractGameController implements Dodg
 		this.target = game.findPlayer(target);
 		this.damage = new Damage(this.source, this.target);
 		if (card != null) {
-			this.damage.setElement(card.getElement());
 			this.attack = card;
 		} else {
 			this.attack = new Attack();
 		}
 	}
 	
-	public void setStage(AttackStage stage) {
-		this.stage = stage;
-	}
-	
 	@Override
 	public void proceed() {
 		switch (stage) {
 			case TARGET_LOCKED:
-				// TODO: Move this to AttackDamageModifierEvent
 				if (source.isWineEffective()) {
 					this.damage.setAmount(this.damage.getAmount() + 1);
 					this.source.resetWineEffective();
 				}
-				
-				try {
-					this.game.emit(new AttackEvent(this.target.getPlayerInfo(), this.attack, this));
-					this.stage = this.stage.nextStage();
-					this.proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+				this.stage = this.stage.nextStage();
+				this.proceed();
 				break;
 			case AFTER_TARGET_LOCKED_SKILLS:
 				stage = stage.nextStage();
 				proceed();
 				break;
 			case AFTER_TARGET_LOCKED_WEAPONS:
-				stage = stage.nextStage();
-				proceed();
+				try {
+					this.game.emit(new AttackOnLockWeaponAbilitiesCheckEvent(this.source, this.target, this));
+					this.stage = this.stage.nextStage();
+					this.proceed();
+				} catch (GameFlowInterruptedException e) {
+					e.resume();
+				}
+				break;
+			case TARGET_EQUIPMENT_ABILITIES:
+				try {
+					this.game.emit(new AttackTargetEquipmentCheckEvent(this.target.getPlayerInfo(), this.attack, this));
+					this.stage = this.stage.nextStage();
+					this.proceed();
+				} catch (GameFlowInterruptedException e) {
+					e.resume();
+				}
 				break;
 			case DODGE:
 				this.game.pushGameController(new DodgeGameController(
@@ -88,6 +92,7 @@ public class AttackGameController extends AbstractGameController implements Dodg
 				break;
 			case DAMAGE_MODIFIERS:
 				try {
+					this.damage.setElement(this.attack.getElement());
 					this.game.emit(new AttackDamageModifierEvent(this.damage));
 					this.stage = this.stage.nextStage();
 					this.proceed();
@@ -115,6 +120,18 @@ public class AttackGameController extends AbstractGameController implements Dodg
 	@Override
 	public void onNotDodged() {
 		this.stage = AttackStage.DAMAGE_MODIFIERS;
+	}
+	
+	public void setStage(AttackStage stage) {
+		this.stage = stage;
+	}
+	
+	public Attack getAttackCard() {
+		return this.attack;
+	}
+	
+	public void setAttackCard(Attack card) {
+		this.attack = card;
 	}
 
 }

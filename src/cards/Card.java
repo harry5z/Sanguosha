@@ -47,6 +47,22 @@ public abstract class Card implements Serializable {
 		this.id = id;
 		this.isReal = true;
 	}
+	
+	/**
+	 * initialization of transformed cards (from skills, equipments, etc.)
+	 */
+	public Card(int number, Suit suit, CardType type) {
+		this.number = number;
+		this.type = type;
+		this.suit = suit;
+		if (suit == Suit.DIAMOND || suit == Suit.HEART) {
+			color = Color.RED;
+		} else {
+			color = Color.BLACK;
+		}
+		this.id = -1;
+		this.isReal = false;
+	}
 
 	/**
 	 * initialization of transformed cards (from skills, equipments, etc.)
@@ -93,7 +109,7 @@ public abstract class Card implements Serializable {
 	public Suit getSuit() {
 		return suit;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return getName().hashCode();

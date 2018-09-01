@@ -1,6 +1,6 @@
 package core.event.handlers.equipment;
 
-import core.event.game.basic.AttackEvent;
+import core.event.game.basic.AttackTargetEquipmentCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
@@ -9,19 +9,19 @@ import core.server.game.Game;
 import core.server.game.controllers.AttackGameController.AttackStage;
 import exceptions.server.game.GameFlowInterruptedException;
 
-public class RattanArmorAttackEventHandler extends AbstractEventHandler<AttackEvent> {
+public class RattanArmorAttackTargetEquipmentCheckEventHandler extends AbstractEventHandler<AttackTargetEquipmentCheckEvent> {
 
-	public RattanArmorAttackEventHandler(PlayerCompleteServer player) {
+	public RattanArmorAttackTargetEquipmentCheckEventHandler(PlayerCompleteServer player) {
 		super(player);
 	}
 
 	@Override
-	public Class<AttackEvent> getEventClass() {
-		return AttackEvent.class;
+	public Class<AttackTargetEquipmentCheckEvent> getEventClass() {
+		return AttackTargetEquipmentCheckEvent.class;
 	}
 
 	@Override
-	protected void handleIfActivated(AttackEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
+	protected void handleIfActivated(AttackTargetEquipmentCheckEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
 		if (!this.player.getPlayerInfo().equals(event.getTarget())) {
 			return;
 		}

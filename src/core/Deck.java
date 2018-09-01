@@ -26,6 +26,7 @@ import cards.equipments.shields.RattanArmor;
 import cards.equipments.shields.SilverLion;
 import cards.equipments.shields.TaichiFormation;
 import cards.equipments.weapons.AncientFalchion;
+import cards.equipments.weapons.FeatheredFan;
 import cards.equipments.weapons.IcySword;
 import cards.specials.delayed.Lightning;
 import cards.specials.delayed.Oblivion;
@@ -318,7 +319,7 @@ public class Deck {
 	private void initEquipmentBattle() {
 		used.add(new AncientFalchion(1,SPADE, util.getUID()));
 		used.add(new SilverLion(1, CLUB, util.getUID()));
-		// used.add(new FeatheredFan(1,DIAMOND, util.getUID()));
+		used.add(new FeatheredFan(1,DIAMOND, util.getUID()));
 		used.add(new RattanArmor(2, SPADE, util.getUID()));
 		used.add(new RattanArmor(2, CLUB, util.getUID()));
 		used.add(new HorsePlus(13, DIAMOND, util.getUID(), "Hualiu"));

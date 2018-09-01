@@ -15,6 +15,10 @@ public abstract class Basic extends Card {
 	public Basic(int num, Suit suit, int id) {
 		super(num, suit, CardType.BASIC, id);
 	}
+	
+	public Basic(int num, Suit suit) {
+		super(num, suit, CardType.BASIC);
+	}
 
 	public Basic(Color color) {
 		super(color, CardType.BASIC);
