@@ -7,9 +7,9 @@ import core.server.ConnectionController;
 import core.server.game.Game;
 import exceptions.server.game.GameFlowInterruptedException;
 
-public class AncientNuggetFalchionAttackDamageEventHandler extends AbstractEventHandler<AttackDamageModifierEvent> {
+public class AncientFalchionAttackDamageEventHandler extends AbstractEventHandler<AttackDamageModifierEvent> {
 
-	public AncientNuggetFalchionAttackDamageEventHandler(PlayerCompleteServer player) {
+	public AncientFalchionAttackDamageEventHandler(PlayerCompleteServer player) {
 		super(player);
 	}
 
