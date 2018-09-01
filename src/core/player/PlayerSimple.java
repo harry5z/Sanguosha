@@ -9,8 +9,11 @@ import core.heroes.original.HeroOriginal;
 import exceptions.server.game.InvalidPlayerCommandException;
 import listeners.game.CardDisposalListener;
 import listeners.game.CardOnHandListener;
+import listeners.game.DelayedListener;
 import listeners.game.EquipmentListener;
 import listeners.game.HealthListener;
+import utils.DelayedStackItem;
+import utils.DelayedType;
 
 /**
  * client side simple player implementation, used to hold information of
@@ -25,6 +28,8 @@ public class PlayerSimple extends Player {
 	private CardOnHandListener cardsOnHandListener;
 	private EquipmentListener equipmentListener;
 	private CardDisposalListener disposalListener;
+	private DelayedListener delayedListener;
+	
 	private int cardsCount;
 
 	public PlayerSimple(String name, int position) {
@@ -66,6 +71,10 @@ public class PlayerSimple extends Player {
 	 */
 	public void registerCardDisposalListener(CardDisposalListener listener) {
 		disposalListener = listener;
+	}
+	
+	public void registerDelayedListener(DelayedListener listener) {
+		this.delayedListener = listener;
 	}
 
 	/**
@@ -183,6 +192,26 @@ public class PlayerSimple extends Player {
 	public void removeCardFromHand(Card card) throws InvalidPlayerCommandException {
 		cardsCount--;
 		cardsOnHandListener.onCardRemoved(card);
+	}
+	
+	@Override
+	public void pushDelayed(Card card, DelayedType type) {
+		super.pushDelayed(card, type);
+		this.delayedListener.onDelayedAdded(card, type);
+	}
+	
+	@Override
+	public DelayedStackItem removeDelayed(DelayedType type) {
+		DelayedStackItem item = super.removeDelayed(type);
+		this.delayedListener.onDelayedRemove(item.type);
+		return item;
+	}
+	
+	@Override
+	public DelayedStackItem removeDelayed(Card card) {
+		DelayedStackItem item = super.removeDelayed(card);
+		this.delayedListener.onDelayedRemove(item.type);
+		return item;
 	}
 
 	/**

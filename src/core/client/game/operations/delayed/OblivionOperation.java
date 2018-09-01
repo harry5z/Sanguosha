@@ -1,25 +1,26 @@
-package core.client.game.operations.instants;
+package core.client.game.operations.delayed;
 
 import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateSabotageInGameServerCommand;
+import commands.game.server.ingame.InitiateOblivionInGameServerCommand;
 import core.client.game.operations.AbstractSingleTargetCardOperation;
 import core.heroes.Hero;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.ClientGameUI;
 import ui.game.interfaces.PlayerUI;
+import utils.DelayedType;
 
-public class SabotageOperation extends AbstractSingleTargetCardOperation {
+public class OblivionOperation extends AbstractSingleTargetCardOperation {
 
 	@Override
 	protected InGameServerCommand getCommand() {
-		return new InitiateSabotageInGameServerCommand(this.targetUI.getPlayer().getPlayerInfo(), ((CardUI) this.activator).getCard());
+		return new InitiateOblivionInGameServerCommand(this.targetUI.getPlayer().getPlayerInfo(), ((CardUI) this.activator).getCard());
 	}
 
 	@Override
 	protected void setupTargetSelection() {
 		ClientGameUI<? extends Hero> panelUI = this.panel.getContent();
 		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
-			if (other.getPlayer().getHandCount() > 0 || other.getPlayer().isEquipped() || !other.getPlayer().getDelayedQueue().isEmpty()) {
+			if (!other.getPlayer().hasDelayedType(DelayedType.OBLIVION)) {
 				other.setActivatable(true);
 			}
 		}

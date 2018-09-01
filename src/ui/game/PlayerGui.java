@@ -47,7 +47,7 @@ public class PlayerGui extends JButton implements PlayerUI {
 
 	public PlayerGui(PlayerSimple player, GamePanel<? extends Hero> panel) {
 		this.player = player;
-		setSize(WIDTH, HEIGHT);
+		setSize(WIDTH, HEIGHT + 35);
 		setLayout(null);
 		setEnabled(false);
 		JLabel name = new JLabel(player.getName());
@@ -75,6 +75,12 @@ public class PlayerGui extends JButton implements PlayerUI {
 		PlayerEquipmentRackGui equipments = new PlayerEquipmentRackGui();
 		player.registerEquipmentListener(equipments);
 		add(equipments);
+		
+		DelayedBarGui delayedBar = new DelayedBarGui();
+		delayedBar.setSize(200, 35);
+		delayedBar.setLocation(0, HEIGHT);
+		player.registerDelayedListener(delayedBar);
+		add(delayedBar);
 
 		addActionListener(e -> panel.getCurrentOperation().onPlayerClicked(this));
 	}

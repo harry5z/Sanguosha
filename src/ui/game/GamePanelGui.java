@@ -34,6 +34,7 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 	private HeroGui heroGui;
 	private LifebarGui healthGui;
 	private CardDisposalGui disposalGui;
+	private DelayedBarGui delayedGui;
 	private JPanel customizedSelectionPane;
 
 	private PlayerCompleteClient myself;
@@ -59,11 +60,14 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 		heroGui = new HeroGui(panel);
 		healthGui = new LifebarGui();
 		disposalGui = new CardDisposalGui(this);
+		delayedGui = new DelayedBarGui();
 		otherPlayers = new ArrayList<PlayerGui>();
 		deckSize = new JLabel();
 		deckSize.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
 		deckSize.setSize(100, 100);
 		deckSize.setLocation(WIDTH - 100, PlayerGui.HEIGHT);
+		delayedGui.setSize(120, 35);
+		delayedGui.setLocation(WIDTH - 120, HEIGHT - CardRackGui.HEIGHT - 35);
 		messageBox = new MessageBoxGui();
 		messageBox.setLocation(equipmentRack.getWidth(), HEIGHT - cardRack.getHeight() - MessageBoxGui.HEIGHT);
 
@@ -73,6 +77,7 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 		myself.registerHealthListener(healthGui);
 		myself.registerCardDisposalListener(disposalGui);
 		myself.registerPlayerStatusListener(heroGui);
+		myself.registerDelayedListener(delayedGui);
 		myself.setHero(new Blank());// change in the future
 		healthGui.onSetHealthLimit(myself.getHero().getHealthLimit()); // change in the future
 		healthGui.onSetHealthCurrent(myself.getHero().getHealthLimit()); // change in the future
@@ -92,6 +97,7 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 		add(heroGui);
 		add(healthGui);
 		add(disposalGui);
+		add(delayedGui);
 		add(confirm);
 		add(cancel);
 		add(end);

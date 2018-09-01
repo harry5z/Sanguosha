@@ -24,8 +24,7 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 	
 	@Override
 	protected void takeEffect() {
-		// TODO: add Delayed
-		if (this.target.getHandCount() == 0 && !this.target.isEquipped()) {
+		if (this.target.getHandCount() == 0 && !this.target.isEquipped() && this.target.getDelayedQueue().isEmpty()) {
 			// if no card left on target, Sabotage is ineffective
 			this.stage = this.stage.nextStage();
 			this.proceed();
@@ -72,7 +71,8 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 				}
 				break;
 			case DELAYED:
-				// TODO: implement
+				this.target.removeDelayed(card);
+				this.game.pushGameController(new RecycleCardsGameController(this.game, this.target, Set.of(card)));
 				break;
 		}
 		this.stage = this.stage.nextStage();

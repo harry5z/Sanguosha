@@ -27,6 +27,9 @@ import cards.equipments.shields.SilverLion;
 import cards.equipments.shields.TaichiFormation;
 import cards.equipments.weapons.AncientNuggetFalchion;
 import cards.equipments.weapons.IcySword;
+import cards.specials.delayed.Lightning;
+import cards.specials.delayed.Oblivion;
+import cards.specials.delayed.Starvation;
 import cards.specials.instant.ArrowSalvo;
 import cards.specials.instant.BarbarianInvasion;
 import cards.specials.instant.Brotherhood;
@@ -213,10 +216,10 @@ public class Deck {
 	}
 
 	private void initDelayed() {
-		// used.add(new Relaxation(6,SPADE, util.getUID()));
-		// used.add(new Relaxation(6,HEART, util.getUID()));
-		// used.add(new Relaxation(6,CLUB, util.getUID()));
-		// used.add(new Lightning(1, SPADE, util.getUID()));
+		used.add(new Oblivion(6,SPADE, util.getUID()));
+		used.add(new Oblivion(6,HEART, util.getUID()));
+		used.add(new Oblivion(6,CLUB, util.getUID()));
+		used.add(new Lightning(1, SPADE, util.getUID()));
 	}
 
 	private void initEquipment() {
@@ -245,14 +248,14 @@ public class Deck {
 		initDodge();
 		initPeach();
 		initInstant();
-//		initDelayed();
+		initDelayed();
 		initEquipment();
 	}
 
 	private void initEX() {
 		used.add(new IcySword(2,SPADE, util.getUID()));
 		used.add(new IronShield(2, CLUB, util.getUID()));
-		// used.add(new Lightning(12,HEART, util.getUID()));
+		used.add(new Lightning(12,HEART, util.getUID()));
 		used.add(new Neutralization(12, DIAMOND, util.getUID()));
 	}
 
@@ -308,8 +311,8 @@ public class Deck {
 		used.add(new Chain(12,CLUB, util.getUID()));
 		used.add(new Chain(13,CLUB, util.getUID()));
 
-		// used.add(new Starvation(4,CLUB, util.getUID()));
-		// used.add(new Starvation(10,SPADE, util.getUID()));
+		used.add(new Starvation(4,CLUB, util.getUID()));
+		used.add(new Starvation(10,SPADE, util.getUID()));
 	}
 
 	private void initEquipmentBattle() {

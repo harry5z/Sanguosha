@@ -24,8 +24,7 @@ public class StealGameController extends SingleTargetInstantSpecialGameControlle
 
 	@Override
 	protected void takeEffect() {
-		// TODO: add Delayed
-		if (this.target.getHandCount() == 0 && !this.target.isEquipped()) {
+		if (this.target.getHandCount() == 0 && !this.target.isEquipped() && this.target.getDelayedQueue().isEmpty()) {
 			// if no card left on target, Sabotage is ineffective
 			this.stage = this.stage.nextStage();
 			this.proceed();
@@ -75,7 +74,9 @@ public class StealGameController extends SingleTargetInstantSpecialGameControlle
 				}
 				break;
 			case DELAYED:
-				// TODO: implement
+				this.target.removeDelayed(card);
+				System.out.println(card.getName());
+				this.game.pushGameController(new ReceiveCardsGameController(this.game, this.source, Set.of(card)));
 				break;
 		}
 	}

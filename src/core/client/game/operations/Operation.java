@@ -12,27 +12,4 @@ import ui.game.interfaces.Activatable;
 public interface Operation extends PlayerActionListener {
 	
 	public void onActivated(GamePanel<? extends Hero> panel, Activatable source);
-
-//	/**
-//	 * called when a player is selected as target by operator
-//	 * @param operator
-//	 * @param player
-//	 */
-//	public abstract void onPlayerSelected(PlayerComplete operator,PlayerOriginal player);
-//	
-//	/**
-//	 * called when a card is selected by operator
-//	 * @param card
-//	 */
-//	public abstract void onCardSelected(PlayerComplete operator, Card card);
-//	/**
-//	 * called when cancel is clicked by player
-//	 * @param player
-//	 */
-//	public abstract void onCancelledBy(PlayerComplete player);
-//	/**
-//	 * called when confirm is clicked by player
-//	 * @param player
-//	 */
-//	public abstract void onConfirmedBy(PlayerComplete player);
 }

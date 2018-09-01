@@ -24,8 +24,7 @@ public class StealOperation extends AbstractSingleTargetCardOperation {
 			PlayerSimple otherPlayer = other.getPlayer();
 			if (
 				panelUI.getSelf().isPlayerInDistance(otherPlayer, numPlayersAlive) &&
-				// TODO: check Delayed zone
-				(otherPlayer.getHandCount() > 0 || otherPlayer.isEquipped())
+				(otherPlayer.getHandCount() > 0 || otherPlayer.isEquipped() || !otherPlayer.getDelayedQueue().isEmpty())
 			) {
 				other.setActivatable(true);
 			}

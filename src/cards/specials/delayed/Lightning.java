@@ -2,6 +2,8 @@ package cards.specials.delayed;
 
 import core.GameState;
 import core.client.game.operations.Operation;
+import core.client.game.operations.delayed.LightningOperation;
+import utils.DelayedType;
 
 public class Lightning extends Delayed {
 
@@ -18,14 +20,12 @@ public class Lightning extends Delayed {
 
 	@Override
 	public boolean isActivatable(GameState game) {
-//		 if(game.getSelf().canBeTargetedBy(this);
-		return true;
+		return !game.getSelf().hasDelayedType(DelayedType.LIGHTNING);
 	}
 
 	@Override
 	public Operation generateOperation() {
-		// TODO Auto-generated method stub
-		return null;
+		return new LightningOperation();
 	}
 
 }

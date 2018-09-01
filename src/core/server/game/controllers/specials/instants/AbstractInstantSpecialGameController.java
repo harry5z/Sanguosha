@@ -3,21 +3,17 @@ package core.server.game.controllers.specials.instants;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
+import core.server.game.controllers.specials.AbstractSpecialGameController;
 
-public abstract class AbstractInstantSpecialGameController implements InstantSpecialGameController {
+public abstract class AbstractInstantSpecialGameController extends AbstractSpecialGameController {
 
 	protected SpecialStage stage;
 	protected PlayerCompleteServer source;
-	protected final Game game;
-	protected boolean neutralized;
-	protected int neutralizedCount;
 	
 	public AbstractInstantSpecialGameController(PlayerInfo source, Game game) {
+		super(game);
 		this.stage = SpecialStage.TARGET_LOCKED;
-		this.game = game;
 		this.source = game.findPlayer(source);
-		this.neutralized = false;
-		this.neutralizedCount = 0;
 	}
 	
 	@Override
@@ -30,7 +26,5 @@ public abstract class AbstractInstantSpecialGameController implements InstantSpe
 	public void onNeutralizationCanceled() {
 		this.neutralizedCount++;
 	}
-	
-	protected abstract String getNeutralizationMessage();
 	
 }

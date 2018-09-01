@@ -26,7 +26,7 @@ public class InitiateAttackOperation extends AbstractSingleTargetCardOperation {
 		ClientGameUI<? extends Hero> panelUI = this.panel.getContent();
 		PlayerComplete self = panelUI.getSelf();
 		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
-			if (self.isPlayerInRange(other.getPlayer(), panelUI.getNumberOfPlayers())) {
+			if (self.isPlayerInAttackRange(other.getPlayer(), panelUI.getNumberOfPlayersAlive())) {
 				other.setActivatable(true);
 			}
 		}
