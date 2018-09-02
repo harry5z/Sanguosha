@@ -122,6 +122,11 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 	}
 	
 	@Override
+	public EquipmentRackGui getEquipmentRackUI() {
+		return this.equipmentRack;
+	}
+
+	@Override
 	public HeroUI<HeroOriginal> getHeroUI() {
 		return heroGui;
 	}

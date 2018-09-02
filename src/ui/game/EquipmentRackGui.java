@@ -1,6 +1,7 @@
 package ui.game;
 
 import java.awt.event.ActionListener;
+import java.util.Collection;
 
 import javax.swing.JPanel;
 
@@ -86,6 +87,36 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener {
 			break;
 		default:
 			System.err.println("EquipmentRack: Unidentified Error");
+		}
+	}
+	
+	public void setActivatable(Collection<EquipmentType> types, boolean activatable) {
+		if (types.contains(EquipmentType.WEAPON)) {
+			this.weapon.setActivatable(activatable);
+		}
+		if (types.contains(EquipmentType.SHIELD)) {
+			this.shield.setActivatable(activatable);
+		}
+		if (types.contains(EquipmentType.HORSEPLUS)) {
+			this.horsePlus.setActivatable(activatable);
+		}
+		if (types.contains(EquipmentType.HORSEMINUS)) {
+			this.horseMinus.setActivatable(activatable);
+		}
+	}
+	
+	public void setActivated(Collection<EquipmentType> types, boolean activated) {
+		if (types.contains(EquipmentType.WEAPON)) {
+			this.weapon.setActivated(activated);
+		}
+		if (types.contains(EquipmentType.SHIELD)) {
+			this.shield.setActivated(activated);
+		}
+		if (types.contains(EquipmentType.HORSEPLUS)) {
+			this.horsePlus.setActivated(activated);
+		}
+		if (types.contains(EquipmentType.HORSEMINUS)) {
+			this.horseMinus.setActivated(activated);
 		}
 	}
 

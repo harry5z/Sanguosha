@@ -1,6 +1,7 @@
 package core.server.game.controllers;
 
 import cards.basics.Attack;
+import core.event.game.basic.AttackOnDodgedWeaponAbilitiesCheckEvent;
 import core.event.game.basic.AttackOnLockWeaponAbilitiesCheckEvent;
 import core.event.game.basic.AttackTargetEquipmentCheckEvent;
 import core.event.game.damage.AttackDamageModifierEvent;
@@ -87,8 +88,13 @@ public class AttackGameController extends AbstractGameController implements Dodg
 				this.game.getGameController().proceed();
 				break;
 			case ATTACK_DODGED_WEAPONS:
-				stage = AttackStage.END;
-				proceed();
+				try {
+					this.game.emit(new AttackOnDodgedWeaponAbilitiesCheckEvent(this.source, this));
+					this.stage = AttackStage.END;
+					this.proceed();
+				} catch (GameFlowInterruptedException e) {
+					e.resume();
+				}
 				break;
 			case DAMAGE_MODIFIERS:
 				try {

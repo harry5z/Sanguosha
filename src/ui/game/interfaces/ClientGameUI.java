@@ -8,6 +8,7 @@ import core.GameState;
 import core.client.ClientPanelUI;
 import core.heroes.Hero;
 import core.player.PlayerInfo;
+import ui.game.EquipmentRackGui;
 
 public interface ClientGameUI<T extends Hero> extends ClientPanelUI, GameState {
 
@@ -36,6 +37,8 @@ public interface ClientGameUI<T extends Hero> extends ClientPanelUI, GameState {
 	public HeroUI<T> getHeroUI();
 
 	public CardRackUI getCardRackUI();
+	
+	public EquipmentRackGui getEquipmentRackUI();
 
 	public List<? extends PlayerUI> getOtherPlayersUI();
 	
