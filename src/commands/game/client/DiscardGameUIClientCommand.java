@@ -1,31 +1,23 @@
 package commands.game.client;
 
-import core.client.GamePanel;
 import core.client.game.operations.DiscardOperation;
-import core.heroes.Hero;
+import core.client.game.operations.Operation;
 import core.player.PlayerInfo;
-import ui.game.interfaces.ClientGameUI;
 
-public class DiscardGameUIClientCommand extends AbstractGameUIClientCommand {
+public class DiscardGameUIClientCommand extends AbstractSingleTargetOperationGameClientCommand {
 
-	private static final long serialVersionUID = 2390690749143332929L;
+	private static final long serialVersionUID = 1L;
 	
-	private final PlayerInfo currentPlayer;
 	private final int amount;
 	
-	public DiscardGameUIClientCommand(PlayerInfo currentPlayer, int amount) {
-		this.currentPlayer = currentPlayer;
+	public DiscardGameUIClientCommand(PlayerInfo target, int amount) {
+		super(target);
 		this.amount = amount;
 	}
 	
 	@Override
-	public void execute(GamePanel<? extends Hero> panel) {
-		ClientGameUI<? extends Hero> panelUI = panel.getContent();
-		if (panelUI.getSelf().getPlayerInfo().equals(currentPlayer)) {
-			panel.pushOperation(new DiscardOperation(amount));
-		} else {
-			panelUI.getOtherPlayerUI(currentPlayer).showCountdownBar();
-		}
+	protected Operation getOperation() {
+		return new DiscardOperation(this.amount);
 	}
 
 }

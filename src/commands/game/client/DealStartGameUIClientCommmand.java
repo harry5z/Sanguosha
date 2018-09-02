@@ -1,28 +1,20 @@
 package commands.game.client;
 
-import core.client.GamePanel;
 import core.client.game.operations.DealOperation;
-import core.heroes.Hero;
+import core.client.game.operations.Operation;
 import core.player.PlayerInfo;
-import ui.game.interfaces.ClientGameUI;
 
-public class DealStartGameUIClientCommmand extends AbstractGameUIClientCommand {
+public class DealStartGameUIClientCommmand extends AbstractSingleTargetOperationGameClientCommand {
 
-	private static final long serialVersionUID = 5784317669561501939L;
-
-	private final PlayerInfo currentPlayer;
+	private static final long serialVersionUID = 1L;
 	
-	public DealStartGameUIClientCommmand(PlayerInfo currentPlayer) {
-		this.currentPlayer = currentPlayer;
+	public DealStartGameUIClientCommmand(PlayerInfo target) {
+		super(target);
 	}
+
 	@Override
-	public void execute(GamePanel<? extends Hero> panel) {
-		ClientGameUI<? extends Hero> panelUI = panel.getContent();
-		if (panelUI.getSelf().getPlayerInfo().equals(currentPlayer)) {
-			panel.pushOperation(new DealOperation());
-		} else {
-			panelUI.getOtherPlayerUI(currentPlayer).showCountdownBar();
-		}
+	protected Operation getOperation() {
+		return new DealOperation();
 	}
 
 }

@@ -16,7 +16,7 @@ public abstract class AbstractSingleTargetOperationGameClientCommand extends Abs
 	}
 
 	@Override
-	protected void execute(GamePanel<? extends Hero> panel) {
+	protected final void execute(GamePanel<? extends Hero> panel) {
 		if (panel.getContent().getSelf().getPlayerInfo().equals(this.target)) {
 			panel.pushOperation(this.getOperation());
 		} else {

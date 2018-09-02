@@ -1,29 +1,23 @@
 package commands.game.client;
 
-import core.client.GamePanel;
 import core.client.game.operations.DecisionOperation;
-import core.heroes.Hero;
+import core.client.game.operations.Operation;
 import core.player.PlayerInfo;
 
-public class DecisionUIClientCommand extends AbstractGameUIClientCommand {
+public class DecisionUIClientCommand extends AbstractSingleTargetOperationGameClientCommand {
 
 	private static final long serialVersionUID = 1L;
 	
-	private final PlayerInfo target;
 	private final String messsage;
 	
 	public DecisionUIClientCommand(PlayerInfo target, String message) {
-		this.target = target;
+		super(target);
 		this.messsage = message;
 	}
 
 	@Override
-	protected void execute(GamePanel<? extends Hero> panel) {
-		if (panel.getContent().getSelf().getPlayerInfo().equals(this.target)) {
-			panel.pushOperation(new DecisionOperation(this.messsage));
-		} else {
-			panel.getContent().getOtherPlayerUI(this.target).showCountdownBar();
-		}
+	protected Operation getOperation() {
+		return new DecisionOperation(this.messsage);
 	}
 
 }
