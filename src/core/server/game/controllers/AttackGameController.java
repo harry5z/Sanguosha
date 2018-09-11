@@ -3,6 +3,7 @@ package core.server.game.controllers;
 import cards.basics.Attack;
 import core.event.game.basic.AttackOnDodgedWeaponAbilitiesCheckEvent;
 import core.event.game.basic.AttackOnLockWeaponAbilitiesCheckEvent;
+import core.event.game.basic.AttackPreDamageWeaponAbilitiesCheckEvent;
 import core.event.game.basic.AttackTargetEquipmentCheckEvent;
 import core.event.game.damage.AttackDamageModifierEvent;
 import core.player.PlayerCompleteServer;
@@ -22,6 +23,7 @@ public class AttackGameController extends AbstractGameController implements Dodg
 		TARGET_EQUIPMENT_ABILITIES,
 		DODGE,
 		ATTACK_DODGED_WEAPONS,
+		PRE_DAMAGE_WEAPON_ABILITIES,
 		DAMAGE_MODIFIERS,
 		DAMAGE,
 		END;
@@ -96,6 +98,15 @@ public class AttackGameController extends AbstractGameController implements Dodg
 					e.resume();
 				}
 				break;
+			case PRE_DAMAGE_WEAPON_ABILITIES:
+				try {
+					this.game.emit(new AttackPreDamageWeaponAbilitiesCheckEvent(this.source, this.target, this));
+					this.stage = this.stage.nextStage();
+					this.proceed();
+				} catch (GameFlowInterruptedException e) {
+					e.resume();
+				}
+				break;
 			case DAMAGE_MODIFIERS:
 				try {
 					this.damage.setElement(this.attack.getElement());
@@ -125,7 +136,7 @@ public class AttackGameController extends AbstractGameController implements Dodg
 
 	@Override
 	public void onNotDodged() {
-		this.stage = AttackStage.DAMAGE_MODIFIERS;
+		this.stage = AttackStage.PRE_DAMAGE_WEAPON_ABILITIES;
 	}
 	
 	public void setStage(AttackStage stage) {

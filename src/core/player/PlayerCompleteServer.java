@@ -1,6 +1,7 @@
 package core.player;
 
 import core.event.handlers.basic.RequestAttackEventHandler;
+import core.event.handlers.basic.RequestDecisionEventHandler;
 import core.event.handlers.basic.RequestDodgeEventHandler;
 import core.event.handlers.basic.RequestNeutralizationEventHandler;
 import core.event.handlers.basic.RequestShowCardEventHandler;
@@ -63,6 +64,7 @@ public class PlayerCompleteServer extends PlayerComplete {
 		game.registerEventHandler(new DealTurnEventHandler(this));
 		game.registerEventHandler(new DrawTurnEventHandler(this));
 		game.registerEventHandler(new DiscardTurnEventHandler(this));
+		game.registerEventHandler(new RequestDecisionEventHandler(this));
 		game.registerEventHandler(new RequestDodgeEventHandler(this));
 		game.registerEventHandler(new RequestAttackEventHandler(this));
 		game.registerEventHandler(new RequestNeutralizationEventHandler(this));

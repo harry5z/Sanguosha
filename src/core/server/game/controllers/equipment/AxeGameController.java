@@ -38,7 +38,7 @@ public class AxeGameController
 	@Override
 	public void onDecisionMade(boolean confirmed) {
 		if (confirmed) {
-			this.controller.setStage(AttackStage.DAMAGE_MODIFIERS);
+			this.controller.setStage(AttackStage.PRE_DAMAGE_WEAPON_ABILITIES);
 		} else {
 			this.controller.setStage(AttackStage.END);
 		}
