@@ -1,7 +1,9 @@
 package core.client.game.operations;
 
+import java.util.Arrays;
 import java.util.Collection;
 
+import cards.equipments.Equipment.EquipmentType;
 import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
 import core.client.GamePanel;
 import core.heroes.Hero;
@@ -18,10 +20,16 @@ public class PlayerCardSelectionOperation implements Operation {
 	private GamePanel<? extends Hero> panel;
 	private final PlayerInfo target;
 	private final Collection<PlayerCardZone> zones;
+	private final Collection<EquipmentType> equipmentTypes;
 	
-	public PlayerCardSelectionOperation(PlayerInfo target, Collection<PlayerCardZone> zones) {
+	public PlayerCardSelectionOperation(
+		PlayerInfo target,
+		Collection<PlayerCardZone> zones,
+		Collection<EquipmentType> equipmentTypes
+	) {
 		this.target = target;
 		this.zones = zones;
+		this.equipmentTypes = equipmentTypes != null ? equipmentTypes : Arrays.asList(EquipmentType.values());
 	}
 
 	@Override
@@ -49,6 +57,6 @@ public class PlayerCardSelectionOperation implements Operation {
 	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
 		this.panel = panel;
 		PlayerSimple target = panel.getContent().getPlayer(this.target.getName());
-		panel.getContent().displayCustomizedSelectionPaneAtCenter(new CardSelectionPane(target, this.zones, panel));
+		panel.getContent().displayCustomizedSelectionPaneAtCenter(new CardSelectionPane(target, this.zones, this.equipmentTypes, panel));
 	}
 }

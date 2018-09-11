@@ -22,7 +22,15 @@ public class PlayerCardSelectionEventHandler extends AbstractEventHandler<Player
 	@Override
 	protected void handleIfActivated(PlayerCardSelectionEvent event, Game game, ConnectionController connection)
 		throws GameFlowInterruptedException {
-		connection.sendCommandToPlayer(this.player.getName(), new ShowCardSelectionPanelUIClientCommand(event.getSource(), event.getTarget(), event.getZones()));
+		connection.sendCommandToPlayer(
+			this.player.getName(),
+			new ShowCardSelectionPanelUIClientCommand(
+				event.getSource(),
+				event.getTarget(),
+				event.getZones(),
+				event.getEquipmentTypes()
+			)
+		);
 	}
 
 }

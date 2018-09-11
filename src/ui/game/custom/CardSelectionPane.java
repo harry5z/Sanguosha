@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import cards.equipments.Equipment;
+import cards.equipments.Equipment.EquipmentType;
 import core.client.GamePanel;
 import core.heroes.Hero;
 import core.player.PlayerCardZone;
@@ -21,15 +21,12 @@ import utils.DelayedStackItem;
 public class CardSelectionPane extends JPanel {
 	private static final long serialVersionUID = -1L;
 
-	/**
-	 * Display player's hand/equipments/decisionArea
-	 * 
-	 * @param player
-	 * @param showHand
-	 * @param showEquipments
-	 * @param showDelayed
-	 */
-	public CardSelectionPane(PlayerSimple player, Collection<PlayerCardZone> zones, GamePanel<? extends Hero> panel) {
+	public CardSelectionPane(
+		PlayerSimple player,
+		Collection<PlayerCardZone> zones,
+		Collection<EquipmentType> equipmentTypes,
+		GamePanel<? extends Hero> panel
+	) {
 		int verticalLocation = 0;
 		setLayout(null);
 		if (zones.contains(PlayerCardZone.HAND)) {
@@ -53,10 +50,11 @@ public class CardSelectionPane extends JPanel {
 			if (player.isEquipped()) {
 				JLabel label = new LabelGui("Equipments");
 				CardRackGui equipments = new CardRackGui(panel, PlayerCardZone.EQUIPMENT);
-				for (Equipment e : player.getEquipments()) {
-					equipments.addCardGui(new CardGui(e), true);
+				for (EquipmentType type : equipmentTypes) {
+					if (player.isEquipped(type)) {
+						equipments.addCardGui(new CardGui(player.getEquipment(type)), true);
+					}
 				}
-
 				label.setLocation(0, verticalLocation);
 				add(label);
 				verticalLocation += LabelGui.HEIGHT;

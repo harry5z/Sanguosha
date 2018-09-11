@@ -29,6 +29,7 @@ import cards.equipments.weapons.AncientFalchion;
 import cards.equipments.weapons.Axe;
 import cards.equipments.weapons.FeatheredFan;
 import cards.equipments.weapons.IcySword;
+import cards.equipments.weapons.KylinBow;
 import cards.specials.delayed.Lightning;
 import cards.specials.delayed.Oblivion;
 import cards.specials.delayed.Starvation;
@@ -228,8 +229,8 @@ public class Deck {
 		// used.add(new ChuKoNu(1, CLUB, util.getUID()));
 		// used.add(new ChuKoNu(1, DIAMOND, util.getUID()));
 		// used.add(new DoubleSword(2,SPADE, util.getUID()));
-		// used.add(new KylinBow(5,HEART, util.getUID()));
-		used.add(new Axe(5,DIAMOND, util.getUID()));
+		used.add(new KylinBow(5, HEART, util.getUID()));
+		used.add(new Axe(5, DIAMOND, util.getUID()));
 		// used.add(new DragonBlade(5,SPADE, util.getUID()))
 		// used.add(new IronSword(6,SPADE, util.getUID()));
 		// used.add(new SerpentSpear(12,SPADE, util.getUID()));
@@ -246,11 +247,11 @@ public class Deck {
 	}
 
 	private void initOriginal() {
-		initAttack();
-		initDodge();
-		initPeach();
-		initInstant();
-		initDelayed();
+//		initAttack();
+//		initDodge();
+//		initPeach();
+//		initInstant();
+//		initDelayed();
 		initEquipment();
 	}
 
@@ -262,24 +263,24 @@ public class Deck {
 	}
 
 	private void initBasicBattle() {
-		used.add(new Peach(2, DIAMOND, util.getUID()));
-		used.add(new Peach(3, DIAMOND, util.getUID()));
-		used.add(new Peach(5, HEART, util.getUID()));
-		used.add(new Peach(6, HEART, util.getUID()));
-
-		used.add(new Wine(3, SPADE, util.getUID()));
-		used.add(new Wine(3, CLUB, util.getUID()));
-		used.add(new Wine(9, SPADE, util.getUID()));
-		used.add(new Wine(9, CLUB, util.getUID()));
-		used.add(new Wine(9, DIAMOND, util.getUID()));
-
-		used.add(new Attack(FIRE, 3, HEART, util.getUID()));
-		used.add(new Attack(THUNDER, 4, SPADE, util.getUID()));
-		used.add(new Attack(FIRE, 4, DIAMOND, util.getUID()));
-		used.add(new Attack(THUNDER, 5, SPADE, util.getUID()));
-		used.add(new Attack(THUNDER, 5, CLUB, util.getUID()));
-		used.add(new Attack(FIRE, 5, DIAMOND, util.getUID()));
-		used.add(new Attack(THUNDER, 6, SPADE, util.getUID()));
+//		used.add(new Peach(2, DIAMOND, util.getUID()));
+//		used.add(new Peach(3, DIAMOND, util.getUID()));
+//		used.add(new Peach(5, HEART, util.getUID()));
+//		used.add(new Peach(6, HEART, util.getUID()));
+//
+//		used.add(new Wine(3, SPADE, util.getUID()));
+//		used.add(new Wine(3, CLUB, util.getUID()));
+//		used.add(new Wine(9, SPADE, util.getUID()));
+//		used.add(new Wine(9, CLUB, util.getUID()));
+//		used.add(new Wine(9, DIAMOND, util.getUID()));
+//
+//		used.add(new Attack(FIRE, 3, HEART, util.getUID()));
+//		used.add(new Attack(THUNDER, 4, SPADE, util.getUID()));
+//		used.add(new Attack(FIRE, 4, DIAMOND, util.getUID()));
+//		used.add(new Attack(THUNDER, 5, SPADE, util.getUID()));
+//		used.add(new Attack(THUNDER, 5, CLUB, util.getUID()));
+//		used.add(new Attack(FIRE, 5, DIAMOND, util.getUID()));
+//		used.add(new Attack(THUNDER, 6, SPADE, util.getUID()));
 		used.add(new Attack(THUNDER, 6, CLUB, util.getUID()));
 		used.add(new Attack(THUNDER, 7, SPADE, util.getUID()));
 		used.add(new Attack(FIRE, 7, HEART, util.getUID()));
@@ -293,10 +294,10 @@ public class Deck {
 		used.add(new Dodge(8, HEART, util.getUID()));
 		used.add(new Dodge(8, DIAMOND, util.getUID()));
 		used.add(new Dodge(9, HEART, util.getUID()));
-		used.add(new Dodge(10, DIAMOND, util.getUID()));
-		used.add(new Dodge(11, HEART, util.getUID()));
-		used.add(new Dodge(11, DIAMOND, util.getUID()));
-		used.add(new Dodge(12, HEART, util.getUID()));
+//		used.add(new Dodge(10, DIAMOND, util.getUID()));
+//		used.add(new Dodge(11, HEART, util.getUID()));
+//		used.add(new Dodge(11, DIAMOND, util.getUID()));
+//		used.add(new Dodge(12, HEART, util.getUID()));
 	}
 
 	private void initSpecialBattle() {
@@ -328,8 +329,8 @@ public class Deck {
 
 	private void initBattle() {
 		initBasicBattle();
-		initSpecialBattle();
-		initEquipmentBattle();
+//		initSpecialBattle();
+//		initEquipmentBattle();
 	}
 
 	private void initializeDeck(Set<DeckPack> packs) {

@@ -1,5 +1,9 @@
 package cards.equipments.weapons;
 
+import core.event.handlers.equipment.KylinBowAbilityCheckEventHandler;
+import core.player.PlayerCompleteServer;
+import core.server.game.Game;
+
 public class KylinBow extends Weapon {
 
 	private static final long serialVersionUID = -5406945570873385619L;
@@ -11,6 +15,16 @@ public class KylinBow extends Weapon {
 	@Override
 	public String getName() {
 		return "Kylin Bow";
+	}
+	
+	@Override
+	public void onEquipped(Game game, PlayerCompleteServer owner) {
+		game.registerEventHandler(new KylinBowAbilityCheckEventHandler(owner));
+	}
+	
+	@Override
+	public void onUnequipped(Game game, PlayerCompleteServer owner) {
+		game.removeEventHandler(new KylinBowAbilityCheckEventHandler(owner));
 	}
 
 }
