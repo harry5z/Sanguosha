@@ -1,6 +1,7 @@
 package core.server.game.controllers;
 
 import cards.basics.Attack;
+import core.event.game.basic.AttackEndEvent;
 import core.event.game.basic.AttackOnDodgedWeaponAbilitiesCheckEvent;
 import core.event.game.basic.AttackOnLockWeaponAbilitiesCheckEvent;
 import core.event.game.basic.AttackPreDamageWeaponAbilitiesCheckEvent;
@@ -19,7 +20,7 @@ public class AttackGameController extends AbstractGameController implements Dodg
 	public static enum AttackStage implements EnumWithNextStage<AttackStage> {
 		TARGET_LOCKED,
 		AFTER_TARGET_LOCKED_SKILLS,
-		AFTER_TARGET_LOCKED_WEAPONS,
+		AFTER_TARGET_LOCKED_WEAPON_ABILITIES,
 		TARGET_EQUIPMENT_ABILITIES,
 		DODGE,
 		ATTACK_DODGED_WEAPONS,
@@ -63,7 +64,7 @@ public class AttackGameController extends AbstractGameController implements Dodg
 				stage = stage.nextStage();
 				proceed();
 				break;
-			case AFTER_TARGET_LOCKED_WEAPONS:
+			case AFTER_TARGET_LOCKED_WEAPON_ABILITIES:
 				try {
 					this.game.emit(new AttackOnLockWeaponAbilitiesCheckEvent(this.source, this.target, this));
 					this.stage = this.stage.nextStage();
@@ -123,6 +124,11 @@ public class AttackGameController extends AbstractGameController implements Dodg
 				game.getGameController().proceed();
 				break;
 			case END:
+				try {
+					this.game.emit(new AttackEndEvent(this.source, this.target));
+				} catch (GameFlowInterruptedException e) {
+					// should not receive GameFlowInterruptedException
+				}
 				this.onUnloaded();
 				this.game.getGameController().proceed();
 				break;

@@ -29,6 +29,7 @@ import cards.equipments.weapons.AncientFalchion;
 import cards.equipments.weapons.Axe;
 import cards.equipments.weapons.FeatheredFan;
 import cards.equipments.weapons.IcySword;
+import cards.equipments.weapons.IronSword;
 import cards.equipments.weapons.KylinBow;
 import cards.specials.delayed.Lightning;
 import cards.specials.delayed.Oblivion;
@@ -232,7 +233,7 @@ public class Deck {
 		used.add(new KylinBow(5, HEART, util.getUID()));
 		used.add(new Axe(5, DIAMOND, util.getUID()));
 		// used.add(new DragonBlade(5,SPADE, util.getUID()))
-		// used.add(new IronSword(6,SPADE, util.getUID()));
+		used.add(new IronSword(6, SPADE, util.getUID()));
 		// used.add(new SerpentSpear(12,SPADE, util.getUID()));
 		// used.add(new Halbert(12,DIAMOND, util.getUID()));
 

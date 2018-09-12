@@ -60,4 +60,23 @@ public abstract class Equipment extends Card {
 		// I really don't know whether this is "clean" as it involves game and server side stuff
 	}
 	
+	/**
+	 * 
+	 * Called when the abilities of the equipment is (re)activated
+	 * @param game
+	 * @param owner
+	 */
+	public void onActivated(Game game, PlayerCompleteServer owner) {
+		this.onEquipped(game, owner);
+	}
+	
+	/**
+	 * Called when the abilities of the equipment is suppressed
+	 * @param game
+	 * @param owner
+	 */
+	public void onDeactivated(Game game, PlayerCompleteServer owner) {
+		this.onUnequipped(game, owner);
+	}
+	
 }
