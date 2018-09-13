@@ -71,6 +71,9 @@ public class EquipmentGui extends JButton implements EquipmentUI {
 
 	@Override
 	public synchronized void setActivatable(boolean activatable) {
+		if (this.equipment == null) {
+			return;
+		}
 		this.setEnabled(activatable);
 	}
 }
