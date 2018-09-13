@@ -10,10 +10,6 @@ public abstract class SingleTargetInstantSpecialGameController extends AbstractI
 	
 	protected PlayerCompleteServer target;
 
-	public SingleTargetInstantSpecialGameController(PlayerInfo source, Game game) {
-		this(source, source, game);
-	}
-	
 	public SingleTargetInstantSpecialGameController(PlayerInfo source, PlayerInfo target, Game game) {
 		super(source, game);
 		this.target = game.findPlayer(target);

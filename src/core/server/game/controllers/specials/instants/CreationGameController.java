@@ -6,7 +6,7 @@ import core.server.game.Game;
 public class CreationGameController extends SingleTargetInstantSpecialGameController {
 
 	public CreationGameController(PlayerInfo source, Game game) {
-		super(source, game);
+		super(source, source, game);
 	}
 
 	@Override

@@ -36,6 +36,7 @@ import cards.specials.delayed.Oblivion;
 import cards.specials.delayed.Starvation;
 import cards.specials.instant.ArrowSalvo;
 import cards.specials.instant.BarbarianInvasion;
+import cards.specials.instant.BorrowSword;
 import cards.specials.instant.Brotherhood;
 import cards.specials.instant.Chain;
 import cards.specials.instant.Creation;
@@ -211,8 +212,8 @@ public class Deck {
 		used.add(new Creation(9, HEART, util.getUID()));
 		used.add(new Creation(11, HEART, util.getUID()));
 
-		// used.add(new BorrowSword(12,CLUB, util.getUID()));
-		// used.add(new BorrowSword(13,CLUB, util.getUID()));
+		used.add(new BorrowSword(12, CLUB, util.getUID()));
+		used.add(new BorrowSword(13, CLUB, util.getUID()));
 
 		used.add(new Neutralization(11, SPADE, util.getUID()));
 		used.add(new Neutralization(12, CLUB, util.getUID()));

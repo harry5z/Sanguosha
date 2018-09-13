@@ -3,6 +3,7 @@ package cards.specials.instant;
 import cards.equipments.Equipment.EquipmentType;
 import core.GameState;
 import core.client.game.operations.Operation;
+import core.client.game.operations.instants.BorrowSwordOperation;
 import core.player.PlayerSimple;
 
 public class BorrowSword extends Instant {
@@ -20,8 +21,7 @@ public class BorrowSword extends Instant {
 
 	@Override
 	public Operation generateOperation() {
-		// TODO Auto-generated method stub
-		return null;
+		return new BorrowSwordOperation();
 	}
 
 	@Override
