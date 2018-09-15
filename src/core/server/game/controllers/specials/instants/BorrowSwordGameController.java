@@ -57,12 +57,7 @@ public class BorrowSwordGameController
 		this.actionTaken = true;
 		try {
 			this.target.useCard(card);
-			this.game.pushGameController(new AttackGameController(
-				this.target.getPlayerInfo(),
-				this.attackTarget.getPlayerInfo(),
-				(Attack) card,
-				this.game
-			));
+			this.game.pushGameController(new AttackGameController(this.target, this.attackTarget, (Attack) card, this.game));
 		} catch (InvalidPlayerCommandException e) {
 			e.printStackTrace();
 		}

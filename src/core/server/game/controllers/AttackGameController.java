@@ -8,7 +8,6 @@ import core.event.game.basic.AttackPreDamageWeaponAbilitiesCheckEvent;
 import core.event.game.basic.AttackTargetEquipmentCheckEvent;
 import core.event.game.damage.AttackDamageModifierEvent;
 import core.player.PlayerCompleteServer;
-import core.player.PlayerInfo;
 import core.server.game.Damage;
 import core.server.game.Game;
 import core.server.game.controllers.interfaces.DodgeUsableGameController;
@@ -36,11 +35,11 @@ public class AttackGameController extends AbstractGameController implements Dodg
 	private Damage damage;
 	private Attack attack;
 	
-	public AttackGameController(PlayerInfo source, PlayerInfo target, Attack card, Game game) {
+	public AttackGameController(PlayerCompleteServer source, PlayerCompleteServer target, Attack card, Game game) {
 		super(game);
 		this.stage = AttackStage.TARGET_LOCKED;
-		this.source = game.findPlayer(source);
-		this.target = game.findPlayer(target);
+		this.source = source;
+		this.target = target;
 		this.damage = new Damage(this.source, this.target);
 		if (card != null) {
 			this.attack = card;
@@ -92,9 +91,9 @@ public class AttackGameController extends AbstractGameController implements Dodg
 				break;
 			case ATTACK_DODGED_WEAPONS:
 				try {
-					this.game.emit(new AttackOnDodgedWeaponAbilitiesCheckEvent(this.source, this));
+					this.game.emit(new AttackOnDodgedWeaponAbilitiesCheckEvent(this.source, this.target, this));
 					this.stage = AttackStage.END;
-					this.proceed();
+					this.game.getGameController().proceed();
 				} catch (GameFlowInterruptedException e) {
 					e.resume();
 				}

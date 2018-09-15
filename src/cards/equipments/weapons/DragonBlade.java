@@ -1,5 +1,9 @@
 package cards.equipments.weapons;
 
+import core.event.handlers.equipment.DragonBladeAbilitiesCheckEventHandler;
+import core.player.PlayerCompleteServer;
+import core.server.game.Game;
+
 public class DragonBlade extends Weapon {
 
 	private static final long serialVersionUID = -3981887339364479189L;
@@ -10,7 +14,16 @@ public class DragonBlade extends Weapon {
 
 	@Override
 	public String getName() {
-		return "DragonBlade";
+		return "Dragon Blade";
+	}
+	
+	@Override
+	public void onEquipped(Game game, PlayerCompleteServer owner) {
+		game.registerEventHandler(new DragonBladeAbilitiesCheckEventHandler(owner));
+	}
+	
+	public void onUnequipped(Game game, PlayerCompleteServer owner) {
+		game.registerEventHandler(new DragonBladeAbilitiesCheckEventHandler(owner));
 	}
 
 }

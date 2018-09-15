@@ -43,7 +43,7 @@ public class InitiateAttackInGameServerCommand extends InGameServerCommand {
 				return;
 			}
 		}
-		game.pushGameController(new AttackGameController(source, target, attack, game));
+		game.pushGameController(new AttackGameController(player, game.findPlayer(target), attack, game));
 		game.getGameController().proceed();
 	}
 
