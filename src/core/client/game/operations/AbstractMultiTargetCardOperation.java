@@ -50,7 +50,7 @@ public abstract class AbstractMultiTargetCardOperation implements Operation {
 	
 	@Override
 	public void onCardClicked(CardUI card) {
-		this.onCanceled();
+		this.onDeactivated();
 		if (card != this.activator) {
 			this.panel.getCurrentOperation().onCardClicked(card);
 		}
@@ -58,26 +58,18 @@ public abstract class AbstractMultiTargetCardOperation implements Operation {
 	
 	@Override
 	public void onEnded() {
-		this.onCanceled();
+		this.onDeactivated();
 		this.panel.getCurrentOperation().onEnded();
 	}
 	
 	@Override
 	public void onCanceled() {
-		this.targets.forEach(target -> target.setActivated(false));
-		this.panel.getContent().setConfirmEnabled(false);
-		for (PlayerUI other : this.panel.getContent().getOtherPlayersUI()) {
-			other.setActivatable(false);
-		}
-		this.panel.getContent().getHeroUI().setActivatable(false);
-		this.panel.getContent().setCancelEnabled(false);
-		this.activator.setActivated(false);
-		this.panel.popOperation();
+		this.onDeactivated();
 	}
 	
 	@Override
 	public void onConfirmed() {
-		this.onCanceled();
+		this.onDeactivated();
 		this.panel.getCurrentOperation().onConfirmed();
 		this.panel.getChannel().send(this.getCommand());
 	}
@@ -93,6 +85,19 @@ public abstract class AbstractMultiTargetCardOperation implements Operation {
 		if (this.targets.size() >= this.minTargets) {
 			panel.getContent().setConfirmEnabled(true);
 		}
+	}
+	
+	@Override
+	public void onDeactivated() {
+		this.targets.forEach(target -> target.setActivated(false));
+		this.panel.getContent().setConfirmEnabled(false);
+		for (PlayerUI other : this.panel.getContent().getOtherPlayersUI()) {
+			other.setActivatable(false);
+		}
+		this.panel.getContent().getHeroUI().setActivatable(false);
+		this.panel.getContent().setCancelEnabled(false);
+		this.activator.setActivated(false);
+		this.panel.popOperation();
 	}
 	
 	protected abstract InGameServerCommand getCommand();

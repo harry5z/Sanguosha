@@ -18,23 +18,19 @@ public abstract class AbstractCardUsageOperation implements Operation {
 
 	@Override
 	public final void onCanceled() {
-		card.setActivated(false);
-		panel.getContent().setConfirmEnabled(false);
-		panel.getContent().setCancelEnabled(false);
-		panel.getContent().clearMessage();
-		panel.popOperation();
+		this.onDeactivated();
 	}
 
 	@Override
 	public final void onConfirmed() {
-		onCanceled();
+		this.onDeactivated();
 		panel.getCurrentOperation().onConfirmed();
 		panel.getChannel().send(getCommand(card == null ? null : card.getCard()));
 	}
 	
 	@Override
 	public final void onCardClicked(CardUI card) {
-		onCanceled();
+		this.onDeactivated();
 		if (card != this.card) {
 			panel.getCurrentOperation().onCardClicked(card);
 		}
@@ -42,7 +38,7 @@ public abstract class AbstractCardUsageOperation implements Operation {
 
 	@Override
 	public final void onEnded() {
-		onCanceled();
+		this.onDeactivated();
 		panel.getCurrentOperation().onEnded();
 	}
 
@@ -55,6 +51,15 @@ public abstract class AbstractCardUsageOperation implements Operation {
 		this.source = panelUI.getSelf().getPlayerInfo();
 		panel.getContent().setConfirmEnabled(true);
 		panel.getContent().setCancelEnabled(true);
+	}
+	
+	@Override
+	public void onDeactivated() {
+		card.setActivated(false);
+		panel.getContent().setConfirmEnabled(false);
+		panel.getContent().setCancelEnabled(false);
+		panel.getContent().clearMessage();
+		panel.popOperation();
 	}
 	
 	protected abstract InGameServerCommand getCommand(Card card);

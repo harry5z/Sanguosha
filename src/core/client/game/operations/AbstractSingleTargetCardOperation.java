@@ -37,7 +37,7 @@ public abstract class AbstractSingleTargetCardOperation implements Operation {
 	
 	@Override
 	public void onCardClicked(CardUI card) {
-		this.onCanceled();
+		this.onDeactivated();
 		if (card != this.activator) {
 			this.panel.getCurrentOperation().onCardClicked(card);
 		}
@@ -45,30 +45,19 @@ public abstract class AbstractSingleTargetCardOperation implements Operation {
 	
 	@Override
 	public void onEnded() {
-		this.onCanceled();
+		this.onDeactivated();
 		this.panel.getCurrentOperation().onEnded();
 	}
 	
 	@Override
 	public void onCanceled() {
-		if (this.targetUI != null) {
-			this.targetUI.setActivated(false);
-			this.panel.getContent().setConfirmEnabled(false);
-		}
-		for (PlayerUI other : this.panel.getContent().getOtherPlayersUI()) {
-			other.setActivatable(false);
-		}
-		this.panel.getContent().getHeroUI().setActivatable(false);
-		this.panel.getContent().setCancelEnabled(false);
-		this.panel.getContent().clearMessage();
-		this.activator.setActivated(false);
-		this.panel.popOperation();
+		this.onDeactivated();
 	}
 	
 	@Override
 	public void onConfirmed() {
 		this.onCanceled();
-		this.panel.getCurrentOperation().onConfirmed();
+		this.panel.getCurrentOperation().onConfirmed(); // DealOperation
 		this.panel.getChannel().send(this.getCommand());
 	}
 	
@@ -81,6 +70,22 @@ public abstract class AbstractSingleTargetCardOperation implements Operation {
 		PlayerComplete self = panelUI.getSelf();
 		this.source = self.getPlayerInfo();
 		this.setupTargetSelection();
+	}
+	
+	@Override
+	public void onDeactivated() {
+		if (this.targetUI != null) {
+			this.targetUI.setActivated(false);
+			this.panel.getContent().setConfirmEnabled(false);
+		}
+		for (PlayerUI other : this.panel.getContent().getOtherPlayersUI()) {
+			other.setActivatable(false);
+		}
+		this.panel.getContent().getHeroUI().setActivatable(false);
+		this.panel.getContent().setCancelEnabled(false);
+		this.panel.getContent().clearMessage();
+		this.activator.setActivated(false);
+		this.panel.popOperation();
 	}
 	
 	protected abstract InGameServerCommand getCommand();

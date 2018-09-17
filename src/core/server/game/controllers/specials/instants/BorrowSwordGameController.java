@@ -15,7 +15,6 @@ import core.server.game.controllers.ReceiveCardsGameController;
 import core.server.game.controllers.UnequipGameController;
 import core.server.game.controllers.interfaces.AttackUsableGameController;
 import exceptions.server.game.GameFlowInterruptedException;
-import exceptions.server.game.InvalidPlayerCommandException;
 
 public class BorrowSwordGameController
 	extends SingleTargetInstantSpecialGameController
@@ -55,12 +54,7 @@ public class BorrowSwordGameController
 	@Override
 	public void onAttackUsed(Card card) {
 		this.actionTaken = true;
-		try {
-			this.target.useCard(card);
-			this.game.pushGameController(new AttackGameController(this.target, this.attackTarget, (Attack) card, this.game));
-		} catch (InvalidPlayerCommandException e) {
-			e.printStackTrace();
-		}
+		this.game.pushGameController(new AttackGameController(this.target, this.attackTarget, (Attack) card, this.game));
 	}
 
 	@Override

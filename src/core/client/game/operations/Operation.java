@@ -12,4 +12,6 @@ import ui.game.interfaces.Activatable;
 public interface Operation extends PlayerActionListener {
 	
 	public void onActivated(GamePanel<? extends Hero> panel, Activatable source);
+	
+	default public void onDeactivated() {}
 }

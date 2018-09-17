@@ -19,14 +19,7 @@ public abstract class AbstractCardReactionOperation implements Operation {
 	
 	@Override
 	public void onConfirmed() {
-		this.card.setActivated(false);
-		this.panel.getContent().setConfirmEnabled(false);
-		this.panel.getContent().setCancelEnabled(false);
-		for (CardUI ui : this.panel.getContent().getCardRackUI().getCardUIs()) {
-			ui.setActivatable(false);
-		}
-		this.panel.popOperation();
-		this.panel.getContent().clearMessage();
+		this.onDeactivated();
 		this.panel.getChannel().send(this.getCommand(this.card.getCard()));
 	}
 	
@@ -41,15 +34,23 @@ public abstract class AbstractCardReactionOperation implements Operation {
 				this.panel.getContent().setCancelEnabled(false);
 			}
 		} else {
-			this.panel.getContent().setConfirmEnabled(false);
-			this.panel.getContent().setCancelEnabled(false);
-			for (CardUI ui : this.panel.getContent().getCardRackUI().getCardUIs()) {
-				ui.setActivatable(false);
-			}
-			this.panel.popOperation();
-			this.panel.getContent().clearMessage();
+			this.onDeactivated();
 			this.panel.getChannel().send(this.getCommand(null));
 		}
+	}
+	
+	@Override
+	public void onDeactivated() {
+		if (this.card != null) {
+			this.card.setActivated(false);
+		}
+		this.panel.getContent().setConfirmEnabled(false);
+		this.panel.getContent().setCancelEnabled(false);
+		for (CardUI ui : this.panel.getContent().getCardRackUI().getCardUIs()) {
+			ui.setActivatable(false);
+		}
+		this.panel.getContent().clearMessage();
+		this.panel.popOperation();
 	}
 	
 	@Override

@@ -34,7 +34,8 @@ public class DecisionOperation implements Operation {
 		panel.getContent().setCancelEnabled(true);
 	}
 	
-	private void onDeactivated() {
+	@Override
+	public void onDeactivated() {
 		this.panel.getContent().setConfirmEnabled(false);
 		this.panel.getContent().setCancelEnabled(false);
 		this.panel.getContent().clearMessage();

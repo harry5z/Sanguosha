@@ -10,8 +10,9 @@ import cards.equipments.Equipment.EquipmentType;
 import core.client.GamePanel;
 import core.heroes.Hero;
 import listeners.game.EquipmentListener;
+import ui.game.interfaces.EquipmentRackUI;
 
-public class EquipmentRackGui extends JPanel implements EquipmentListener {
+public class EquipmentRackGui extends JPanel implements EquipmentListener, EquipmentRackUI {
 
 	private static final long serialVersionUID = 8319619360735971266L;
 	
@@ -22,6 +23,7 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener {
 	private EquipmentGui shield;
 	private EquipmentGui horsePlus;
 	private EquipmentGui horseMinus;
+	private final ActionListener originalListener;
 
 	public EquipmentRackGui(GamePanel<? extends Hero> panel) {
 		init();
@@ -30,10 +32,12 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener {
 		shield.addActionListener(listener);
 		horsePlus.addActionListener(listener);
 		horseMinus.addActionListener(listener);
+		this.originalListener = listener;
 	}
 
 	public EquipmentRackGui() {
 		init();
+		this.originalListener = null;
 	}
 
 	private void init() {
@@ -90,6 +94,7 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener {
 		}
 	}
 	
+	@Override
 	public void setActivatable(Collection<EquipmentType> types, boolean activatable) {
 		if (types.contains(EquipmentType.WEAPON)) {
 			this.weapon.setActivatable(activatable);
@@ -105,6 +110,7 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener {
 		}
 	}
 	
+	@Override
 	public void setActivated(Collection<EquipmentType> types, boolean activated) {
 		if (types.contains(EquipmentType.WEAPON)) {
 			this.weapon.setActivated(activated);
@@ -117,6 +123,49 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener {
 		}
 		if (types.contains(EquipmentType.HORSEMINUS)) {
 			this.horseMinus.setActivated(activated);
+		}
+	}
+	
+	@Override
+	public void registerOnActivatedListener(EquipmentType type, ActionListener listener) {
+		switch(type) {
+			case WEAPON:
+				this.weapon.addActionListener(listener);
+				break;
+			case SHIELD:
+				this.shield.addActionListener(listener);
+				break;
+			case HORSEPLUS:
+				this.horsePlus.addActionListener(listener);
+				break;
+			case HORSEMINUS:
+				this.horseMinus.addActionListener(listener);
+				break;
+		}
+	}
+	
+	@Override
+	public void removeOnActivatedListeners(EquipmentType type) {
+		EquipmentGui equipment = null;
+		switch(type) {
+			case WEAPON:
+				equipment = this.weapon;
+				break;
+			case SHIELD:
+				equipment = this.shield;
+				break;
+			case HORSEPLUS:
+				equipment = this.horsePlus;
+				break;
+			case HORSEMINUS:
+				equipment = this.horseMinus;
+				break;
+		}
+		
+		for (ActionListener listener : equipment.getActionListeners()) {
+			if (listener != this.originalListener) {
+				equipment.removeActionListener(listener);
+			}
 		}
 	}
 

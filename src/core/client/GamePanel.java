@@ -1,5 +1,7 @@
 package core.client;
 
+import core.client.game.event.ClientGameEvent;
+import core.client.game.listener.ClientEventListener;
 import core.client.game.operations.Operation;
 import core.heroes.Hero;
 import net.Channel;
@@ -15,6 +17,12 @@ public interface GamePanel<T extends Hero> extends ClientPanel<ClientGameUI<T>> 
 	}
 
 	public void popOperation();
+	
+	public void registerEventListener(ClientEventListener<? extends ClientGameEvent, T> listener);
+	
+	public void removeEventListener(ClientEventListener<? extends ClientGameEvent, T> listener);
+	
+	public <E extends ClientGameEvent> void emit(E event);
 
 	public Operation getCurrentOperation();
 

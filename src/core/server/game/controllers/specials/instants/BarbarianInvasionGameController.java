@@ -1,7 +1,6 @@
 package core.server.game.controllers.specials.instants;
 
 import cards.Card;
-import cards.basics.Attack;
 import core.event.game.basic.RequestAttackEvent;
 import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.BarbarianInvasionTargetEffectivenessEvent;
@@ -11,7 +10,6 @@ import core.server.game.Game;
 import core.server.game.controllers.DamageGameController;
 import core.server.game.controllers.interfaces.AttackUsableGameController;
 import exceptions.server.game.GameFlowInterruptedException;
-import exceptions.server.game.InvalidPlayerCommandException;
 
 public class BarbarianInvasionGameController extends AOEInstantSpecialGameController implements AttackUsableGameController {
 	
@@ -63,15 +61,6 @@ public class BarbarianInvasionGameController extends AOEInstantSpecialGameContro
 
 	@Override
 	public void onAttackUsed(Card card) {
-		try {
-			if (!(card instanceof Attack) || !this.currentTarget.getCardsOnHand().contains(card)) {
-				throw new InvalidPlayerCommandException("Card is not attack or target does not have this card");
-			}
-			this.currentTarget.useCard(card);
-		} catch (InvalidPlayerCommandException e) {
-			e.printStackTrace();
-			return;
-		}
 		// mark it not effective for the current target
 		this.hasReacted = true;
 		this.effective = false;

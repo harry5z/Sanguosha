@@ -23,6 +23,8 @@ public class SyncEquipGameUIClientCommand extends AbstractGameUIClientCommand {
 		try {
 			if (panel.getContent().getSelf().getName().equals(name)) {
 				panel.getContent().getSelf().equip(equipment);
+				// TODO: Fix GamePanel generic type
+				equipment.onEquipped((GamePanel<Hero>) panel);
 			} else {
 				panel.getContent().getPlayer(name).equip(equipment);
 			}

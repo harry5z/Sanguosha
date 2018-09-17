@@ -2,8 +2,10 @@ package cards.equipments;
 
 import cards.Card;
 import core.GameState;
+import core.client.GamePanel;
 import core.client.game.operations.EquipOperation;
 import core.client.game.operations.Operation;
+import core.heroes.Hero;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 
@@ -56,8 +58,16 @@ public abstract class Equipment extends Card {
 		// I really don't know whether this is "clean" as it involves game and server side stuff
 	}
 	
+	public void onEquipped(GamePanel<Hero> panel) {
+		
+	}
+	
 	public void onUnequipped(Game game, PlayerCompleteServer owner) {
 		// I really don't know whether this is "clean" as it involves game and server side stuff
+	}
+	
+	public void onUnequipped(GamePanel<Hero> panel) {
+		
 	}
 	
 	/**

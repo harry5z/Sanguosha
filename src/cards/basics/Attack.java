@@ -31,6 +31,11 @@ public class Attack extends Basic {
 		super(num, suit);
 		this.element = e;
 	}
+	
+	public Attack(Color c) {
+		super(c);
+		this.element = Element.NORMAL;
+	}
 
 	public Element getElement() {
 		return element;

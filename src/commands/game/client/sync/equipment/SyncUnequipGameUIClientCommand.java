@@ -1,5 +1,6 @@
 package commands.game.client.sync.equipment;
 
+import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
 import commands.game.client.AbstractGameUIClientCommand;
 import core.client.GamePanel;
@@ -22,7 +23,11 @@ public class SyncUnequipGameUIClientCommand extends AbstractGameUIClientCommand 
 	protected void execute(GamePanel<? extends Hero> panel) {
 		try {
 			if (panel.getContent().getSelf().getName().equals(name)) {
+				Equipment equipment = panel.getContent().getSelf().getEquipment(type);
 				panel.getContent().getSelf().unequip(type);
+				// TODO: Fix GamePanel generic type
+				equipment.onUnequipped((GamePanel<Hero>) panel);
+				
 			} else {
 				panel.getContent().getPlayer(name).unequip(type);
 			}

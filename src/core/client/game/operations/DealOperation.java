@@ -2,6 +2,7 @@ package core.client.game.operations;
 
 import commands.game.server.ingame.EndStageInGameServerCommand;
 import core.client.GamePanel;
+import core.client.game.event.InitiateAttackClientGameEvent;
 import core.heroes.Hero;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
@@ -14,7 +15,7 @@ public class DealOperation implements Operation {
 	
 	@Override
 	public void onEnded() {
-		onConfirmed();
+		this.onDeactivated();
 		// resetting weapon/skills, etc.
 		panel.getChannel().send(new EndStageInGameServerCommand());
 	}
@@ -30,11 +31,7 @@ public class DealOperation implements Operation {
 	 */
 	@Override
 	public void onConfirmed() {
-		ClientGameUI<? extends Hero> panelUI = panel.getContent();
-		panelUI.setEndEnabled(false);
-		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
-			cardUI.setActivatable(false);
-		}
+		this.onDeactivated();
 	}
 	
 	@Override
@@ -57,8 +54,20 @@ public class DealOperation implements Operation {
 			}
 		}
 		panelUI.setEndEnabled(true);
+		this.panel.emit(new InitiateAttackClientGameEvent(true));
 		// if (player.getWeapon()...) check weapon use
 		// skills
+	}
+	
+	@Override
+	public void onDeactivated() {
+		ClientGameUI<? extends Hero> panelUI = panel.getContent();
+		panelUI.setEndEnabled(false);
+		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
+			cardUI.setActivatable(false);
+		}
+		this.panel.emit(new InitiateAttackClientGameEvent(false));
+		this.panel.popOperation();
 	}
 
 }

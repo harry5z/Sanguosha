@@ -9,7 +9,6 @@ import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.AttackGameController;
 import core.server.game.controllers.interfaces.AttackUsableGameController;
 import exceptions.server.game.GameFlowInterruptedException;
-import exceptions.server.game.InvalidPlayerCommandException;
 
 public class DragonBladeGameController extends AbstractGameController implements AttackUsableGameController {
 	
@@ -44,12 +43,7 @@ public class DragonBladeGameController extends AbstractGameController implements
 	@Override
 	public void onAttackUsed(Card card) {
 		this.actionTaken = true;
-		try {
-			this.source.useCard(card);
-			this.game.pushGameController(new AttackGameController(this.source, this.target, (Attack) card, this.game));
-		} catch (InvalidPlayerCommandException e) {
-			e.printStackTrace();
-		}
+		this.game.pushGameController(new AttackGameController(this.source, this.target, (Attack) card, this.game));
 	}
 
 	@Override
