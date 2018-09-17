@@ -237,7 +237,7 @@ public class Deck {
 		used.add(new Axe(5, DIAMOND, util.getUID()));
 		used.add(new DragonBlade(5, SPADE, util.getUID()));
 		used.add(new IronSword(6, SPADE, util.getUID()));
-		 used.add(new SerpentSpear(12, SPADE, util.getUID()));
+		used.add(new SerpentSpear(12, SPADE, util.getUID()));
 		// used.add(new Halbert(12,DIAMOND, util.getUID()));
 
 		used.add(new TaichiFormation(2,CLUB, util.getUID()));

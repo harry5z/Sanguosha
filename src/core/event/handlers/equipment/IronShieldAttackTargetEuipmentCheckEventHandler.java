@@ -6,7 +6,7 @@ import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;
-import core.server.game.controllers.AttackGameController.AttackStage;
+import core.server.game.controllers.AttackResolutionGameController.AttackResolutionStage;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class IronShieldAttackTargetEuipmentCheckEventHandler extends AbstractEventHandler<AttackTargetEquipmentCheckEvent> {
@@ -32,7 +32,7 @@ public class IronShieldAttackTargetEuipmentCheckEventHandler extends AbstractEve
 		}
 		
 		throw new GameFlowInterruptedException(() -> {
-			event.getController().setStage(AttackStage.END);
+			event.getController().setStage(AttackResolutionStage.END);
 			event.getController().proceed();
 		});
 	}

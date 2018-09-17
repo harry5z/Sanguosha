@@ -1,9 +1,14 @@
 package core.client.game.event;
 
-public class InitiateAttackClientGameEvent extends AbstractLifecycleClientGameEvent {
+import core.client.game.operations.basics.InitiateAttackOperation;
 
-	public InitiateAttackClientGameEvent(boolean isStart) {
+public class InitiateAttackClientGameEvent extends AbstractLifecycleClientGameEvent {
+	
+	public final InitiateAttackOperation operation;
+
+	public InitiateAttackClientGameEvent(boolean isStart, InitiateAttackOperation operation) {
 		super(isStart);
+		this.operation = operation;
 	}
 
 }

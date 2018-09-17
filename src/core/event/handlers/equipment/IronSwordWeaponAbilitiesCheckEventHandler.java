@@ -1,26 +1,26 @@
 package core.event.handlers.equipment;
 
 import cards.equipments.Equipment.EquipmentType;
-import core.event.game.basic.AttackOnLockWeaponAbilitiesCheckEvent;
+import core.event.game.basic.AttackPostAcquisitionWeaponAbilitiesCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;
 import exceptions.server.game.GameFlowInterruptedException;
 
-public class IronSwordWeaponAbilitiesCheckEventHandler extends AbstractEventHandler<AttackOnLockWeaponAbilitiesCheckEvent> {
+public class IronSwordWeaponAbilitiesCheckEventHandler extends AbstractEventHandler<AttackPostAcquisitionWeaponAbilitiesCheckEvent> {
 
 	public IronSwordWeaponAbilitiesCheckEventHandler(PlayerCompleteServer player) {
 		super(player);
 	}
 
 	@Override
-	public Class<AttackOnLockWeaponAbilitiesCheckEvent> getEventClass() {
-		return AttackOnLockWeaponAbilitiesCheckEvent.class;
+	public Class<AttackPostAcquisitionWeaponAbilitiesCheckEvent> getEventClass() {
+		return AttackPostAcquisitionWeaponAbilitiesCheckEvent.class;
 	}
 
 	@Override
-	protected void handleIfActivated(AttackOnLockWeaponAbilitiesCheckEvent event, Game game, ConnectionController connection)
+	protected void handleIfActivated(AttackPostAcquisitionWeaponAbilitiesCheckEvent event, Game game, ConnectionController connection)
 		throws GameFlowInterruptedException {
 		if (this.player != event.source) {
 			return;

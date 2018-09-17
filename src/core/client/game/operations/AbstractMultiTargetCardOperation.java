@@ -18,8 +18,8 @@ public abstract class AbstractMultiTargetCardOperation implements Operation {
 	protected Activatable activator;
 	protected PlayerInfo source;
 	protected Queue<PlayerUI> targets;
-	private final int minTargets;
-	private final int maxTargets;
+	private int minTargets;
+	private int maxTargets;
 	
 	public AbstractMultiTargetCardOperation(int minTargets, int maxTargets) {
 		this.targets = new LinkedList<>();
@@ -98,6 +98,14 @@ public abstract class AbstractMultiTargetCardOperation implements Operation {
 		this.panel.getContent().setCancelEnabled(false);
 		this.activator.setActivated(false);
 		this.panel.popOperation();
+	}
+	
+	public int getMaxTargets() {
+		return this.maxTargets;
+	}
+	
+	public void addMaxTargets(int num) {
+		this.maxTargets += num;
 	}
 	
 	protected abstract InGameServerCommand getCommand();

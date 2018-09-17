@@ -12,10 +12,10 @@ import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
-import core.server.game.controllers.AttackGameController;
+import core.server.game.controllers.AttackResolutionGameController;
+import core.server.game.controllers.AttackResolutionGameController.AttackResolutionStage;
 import core.server.game.controllers.RecycleCardsGameController;
 import core.server.game.controllers.UnequipGameController;
-import core.server.game.controllers.AttackGameController.AttackStage;
 import core.server.game.controllers.interfaces.CardSelectableGameController;
 import core.server.game.controllers.interfaces.DecisionRequiredGameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -28,11 +28,11 @@ public class IcySwordGameController
 
 	private final PlayerCompleteServer source;
 	private final PlayerCompleteServer target;
-	private final AttackGameController controller;
+	private final AttackResolutionGameController controller;
 	private int numCardDiscarded;
 	private Boolean confirmed;
 	
-	public IcySwordGameController(Game game, PlayerCompleteServer source, PlayerCompleteServer target, AttackGameController controller) {
+	public IcySwordGameController(Game game, PlayerCompleteServer source, PlayerCompleteServer target, AttackResolutionGameController controller) {
 		super(game);
 		this.source = source;
 		this.target = target;
@@ -75,9 +75,9 @@ public class IcySwordGameController
 	public void onDecisionMade(boolean confirmed) {
 		this.confirmed = confirmed;
 		if (!confirmed) {
-			this.controller.setStage(AttackStage.DAMAGE_MODIFIERS);
+			this.controller.setStage(AttackResolutionStage.DAMAGE_MODIFIERS);
 		} else {
-			this.controller.setStage(AttackStage.END);
+			this.controller.setStage(AttackResolutionStage.END);
 		}
 	}
 

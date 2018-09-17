@@ -1,22 +1,28 @@
 package core.client.game.operations.basics;
 
+import java.util.stream.Collectors;
+
 import cards.basics.Attack;
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateAttackInGameServerCommand;
-import core.client.game.operations.AbstractSingleTargetCardOperation;
+import core.client.game.operations.AbstractMultiTargetCardOperation;
 import core.heroes.Hero;
 import core.player.PlayerComplete;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.ClientGameUI;
 import ui.game.interfaces.PlayerUI;
 
-public class InitiateAttackOperation extends AbstractSingleTargetCardOperation {
+public class InitiateAttackOperation extends AbstractMultiTargetCardOperation {
+
+	public InitiateAttackOperation() {
+		super(1, 1);
+	}
 
 	@Override
 	protected InGameServerCommand getCommand() {
 		return new InitiateAttackInGameServerCommand(
 			this.source,
-			this.targetUI.getPlayer().getPlayerInfo(),
+			this.targets.stream().map(target -> target.getPlayer().getPlayerInfo()).collect(Collectors.toSet()),
 			(Attack) ((CardUI) this.activator).getCard()
 		);
 	}

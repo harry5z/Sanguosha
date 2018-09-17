@@ -8,8 +8,8 @@ import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
-import core.server.game.controllers.AttackGameController;
-import core.server.game.controllers.AttackGameController.AttackStage;
+import core.server.game.controllers.AttackResolutionGameController;
+import core.server.game.controllers.AttackResolutionGameController.AttackResolutionStage;
 import core.server.game.controllers.RecycleCardsGameController;
 import core.server.game.controllers.UnequipGameController;
 import core.server.game.controllers.interfaces.CardSelectableGameController;
@@ -21,9 +21,9 @@ public class AxeGameController
 	implements CardSelectableGameController, DecisionRequiredGameController {
 	
 	private final PlayerCompleteServer source;
-	private final AttackGameController controller;
+	private final AttackResolutionGameController controller;
 
-	public AxeGameController(Game game, PlayerCompleteServer source, AttackGameController controller) {
+	public AxeGameController(Game game, PlayerCompleteServer source, AttackResolutionGameController controller) {
 		super(game);
 		this.source = source;
 		this.controller = controller;
@@ -38,9 +38,9 @@ public class AxeGameController
 	@Override
 	public void onDecisionMade(boolean confirmed) {
 		if (confirmed) {
-			this.controller.setStage(AttackStage.PRE_DAMAGE_WEAPON_ABILITIES);
+			this.controller.setStage(AttackResolutionStage.PRE_DAMAGE_WEAPON_ABILITIES);
 		} else {
-			this.controller.setStage(AttackStage.END);
+			this.controller.setStage(AttackResolutionStage.END);
 		}
 	}
 

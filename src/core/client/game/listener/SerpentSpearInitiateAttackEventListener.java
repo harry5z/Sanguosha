@@ -4,20 +4,20 @@ import java.util.Set;
 
 import cards.equipments.Equipment.EquipmentType;
 import core.client.GamePanel;
-import core.client.game.event.InitiateAttackClientGameEvent;
+import core.client.game.event.EnableAttackClientGameEvent;
 import core.client.game.operations.equipment.SerpentSpearOperation;
 import core.heroes.Hero;
 import ui.game.interfaces.Activatable;
 
-public class SerpentSpearInitiateAttackEventListener extends AbstractClientEventListener<InitiateAttackClientGameEvent> {
+public class SerpentSpearInitiateAttackEventListener extends AbstractClientEventListener<EnableAttackClientGameEvent> {
 	
 	@Override
-	public Class<InitiateAttackClientGameEvent> getEventClass() {
-		return InitiateAttackClientGameEvent.class;
+	public Class<EnableAttackClientGameEvent> getEventClass() {
+		return EnableAttackClientGameEvent.class;
 	}
 	
 	@Override
-	public void handle(InitiateAttackClientGameEvent event, GamePanel<Hero> panel) {
+	public void handle(EnableAttackClientGameEvent event, GamePanel<Hero> panel) {
 		if (event.isStart()) {
 			if (panel.getContent().getSelf().getAttackUsed() < panel.getContent().getSelf().getAttackLimit()) {
 				panel.getContent().getEquipmentRackUI().setActivatable(Set.of(EquipmentType.WEAPON), true);

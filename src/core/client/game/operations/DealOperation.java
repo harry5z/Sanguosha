@@ -2,7 +2,7 @@ package core.client.game.operations;
 
 import commands.game.server.ingame.EndStageInGameServerCommand;
 import core.client.GamePanel;
-import core.client.game.event.InitiateAttackClientGameEvent;
+import core.client.game.event.EnableAttackClientGameEvent;
 import core.heroes.Hero;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
@@ -54,7 +54,7 @@ public class DealOperation implements Operation {
 			}
 		}
 		panelUI.setEndEnabled(true);
-		this.panel.emit(new InitiateAttackClientGameEvent(true));
+		this.panel.emit(new EnableAttackClientGameEvent(true));
 		// if (player.getWeapon()...) check weapon use
 		// skills
 	}
@@ -66,7 +66,7 @@ public class DealOperation implements Operation {
 		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
 			cardUI.setActivatable(false);
 		}
-		this.panel.emit(new InitiateAttackClientGameEvent(false));
+		this.panel.emit(new EnableAttackClientGameEvent(false));
 		this.panel.popOperation();
 	}
 

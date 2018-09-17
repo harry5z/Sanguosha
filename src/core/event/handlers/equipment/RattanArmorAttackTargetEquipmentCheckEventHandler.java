@@ -6,7 +6,7 @@ import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Damage.Element;
 import core.server.game.Game;
-import core.server.game.controllers.AttackGameController.AttackStage;
+import core.server.game.controllers.AttackResolutionGameController.AttackResolutionStage;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class RattanArmorAttackTargetEquipmentCheckEventHandler extends AbstractEventHandler<AttackTargetEquipmentCheckEvent> {
@@ -32,7 +32,7 @@ public class RattanArmorAttackTargetEquipmentCheckEventHandler extends AbstractE
 		}
 		
 		throw new GameFlowInterruptedException(() -> {
-			event.getController().setStage(AttackStage.END);
+			event.getController().setStage(AttackResolutionStage.END);
 			event.getController().proceed();
 		});
 	}

@@ -2,20 +2,20 @@ package core.event.game.basic;
 
 import cards.basics.Attack;
 import core.player.PlayerInfo;
-import core.server.game.controllers.AttackGameController;
+import core.server.game.controllers.AttackResolutionGameController;
 
 public class AttackTargetEquipmentCheckEvent extends AbstractSingleTargetGameEvent {
 	
-	private final AttackGameController controller;
+	private final AttackResolutionGameController controller;
 	private Attack card;
 
-	public AttackTargetEquipmentCheckEvent(PlayerInfo targetInfo, Attack card, AttackGameController controller) {
+	public AttackTargetEquipmentCheckEvent(PlayerInfo targetInfo, Attack card, AttackResolutionGameController controller) {
 		super(targetInfo);
 		this.card = card;
 		this.controller = controller;
 	}
 	
-	public AttackGameController getController() {
+	public AttackResolutionGameController getController() {
 		return this.controller;
 	}
 	
