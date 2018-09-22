@@ -2,6 +2,7 @@ package core.client.game.operations.equipment;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import commands.game.server.ingame.SerpentSpearAttackReactionInGameServerCommand;
@@ -77,7 +78,7 @@ public class SerpentSpearOperation implements Operation {
 		if (this.withTarget) {
 			this.panel.getChannel().send(new SerpentSpearInitiateAttackInGameServerCommand(
 				this.panel.getContent().getSelf().getPlayerInfo(),
-				this.target.getPlayer().getPlayerInfo(),
+				Set.of(this.target.getPlayer().getPlayerInfo()),
 				this.cards.stream().map(card -> card.getCard()).collect(Collectors.toSet())
 			));
 		} else {

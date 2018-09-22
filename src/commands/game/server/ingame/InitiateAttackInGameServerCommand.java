@@ -27,8 +27,9 @@ public class InitiateAttackInGameServerCommand extends InGameServerCommand {
 	@Override
 	public void execute(Game game) {
 		PlayerCompleteServer player = game.findPlayer(source);
+		Set<PlayerCompleteServer> targets = this.targets.stream().map(target -> game.findPlayer(target)).collect(Collectors.toSet());
 		try {
-			player.useAttack();
+			player.useAttack(targets);
 		} catch (InvalidPlayerCommandException e) {
 			e.printStackTrace();
 			return;
@@ -46,12 +47,7 @@ public class InitiateAttackInGameServerCommand extends InGameServerCommand {
 				return;
 			}
 		}
-		game.pushGameController(new AttackGameController(
-			player,
-			this.targets.stream().map(target -> game.findPlayer(target)).collect(Collectors.toSet()),
-			attack,
-			game
-		));
+		game.pushGameController(new AttackGameController(player, targets, attack, game));
 		game.getGameController().proceed();
 	}
 

@@ -24,6 +24,6 @@ public class Axe extends Weapon {
 
 	@Override
 	public void onUnequipped(Game game, PlayerCompleteServer owner) {
-		game.registerEventHandler(new AxeWeaponAbilitiesCheckEventHandler(owner));
+		game.removeEventHandler(new AxeWeaponAbilitiesCheckEventHandler(owner));
 	}
 }

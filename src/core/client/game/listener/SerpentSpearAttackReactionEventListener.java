@@ -24,9 +24,14 @@ public class SerpentSpearAttackReactionEventListener extends AbstractClientEvent
 				panel.pushOperation(new SerpentSpearOperation(false), (Activatable) e.getSource());
 			});
 		} else {
-			panel.getContent().getEquipmentRackUI().setActivatable(Set.of(EquipmentType.WEAPON), false);
-			panel.getContent().getEquipmentRackUI().removeOnActivatedListeners(EquipmentType.WEAPON);
+			this.onDeactivated(panel);
 		}
+	}
+
+	@Override
+	public void onDeactivated(GamePanel<Hero> panel) {
+		panel.getContent().getEquipmentRackUI().setActivatable(Set.of(EquipmentType.WEAPON), false);
+		panel.getContent().getEquipmentRackUI().removeOnActivatedListeners(EquipmentType.WEAPON);
 	}
 
 }

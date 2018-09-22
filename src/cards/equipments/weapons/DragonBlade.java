@@ -23,7 +23,7 @@ public class DragonBlade extends Weapon {
 	}
 	
 	public void onUnequipped(Game game, PlayerCompleteServer owner) {
-		game.registerEventHandler(new DragonBladeAbilitiesCheckEventHandler(owner));
+		game.removeEventHandler(new DragonBladeAbilitiesCheckEventHandler(owner));
 	}
 
 }

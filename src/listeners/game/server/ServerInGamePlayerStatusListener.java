@@ -1,6 +1,7 @@
 package listeners.game.server;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import commands.game.client.sync.SyncCommandsUtil;
 import commands.game.client.sync.status.SyncAttackLimitsSetGameUIClientCommand;
@@ -11,6 +12,7 @@ import commands.game.client.sync.status.SyncFlipGameUIClientCommand;
 import commands.game.client.sync.status.SyncResetWineEffectiveGameUIClientCommand;
 import commands.game.client.sync.status.SyncWineUsedGameUIClientCommand;
 import commands.game.client.sync.status.SyncWineUsedSetGameUIClientCommand;
+import core.player.Player;
 import core.server.GameRoom;
 import listeners.game.PlayerStatusListener;
 
@@ -32,8 +34,10 @@ public class ServerInGamePlayerStatusListener extends ServerInGamePlayerListener
 	}
 
 	@Override
-	public void onAttackUsed() {
-		room.sendCommandToPlayer(name, new SyncAttackUsedGameUIClientCommand());
+	public void onAttackUsed(Set<? extends Player> targets) {
+		room.sendCommandToPlayer(name, new SyncAttackUsedGameUIClientCommand(
+			targets.stream().map(player -> player.getPlayerInfo()).collect(Collectors.toSet())
+		));
 	}
 
 	@Override

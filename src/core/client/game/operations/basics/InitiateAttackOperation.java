@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import cards.basics.Attack;
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateAttackInGameServerCommand;
+import core.client.game.event.InitiateAttackClientGameEvent;
 import core.client.game.operations.AbstractMultiTargetCardOperation;
 import core.heroes.Hero;
 import core.player.PlayerComplete;
@@ -37,6 +38,7 @@ public class InitiateAttackOperation extends AbstractMultiTargetCardOperation {
 			}
 		}
 		panelUI.setCancelEnabled(true);
+		this.panel.emit(new InitiateAttackClientGameEvent(true, this));
 	}
 
 }

@@ -29,6 +29,7 @@ import cards.equipments.weapons.AncientFalchion;
 import cards.equipments.weapons.Axe;
 import cards.equipments.weapons.DragonBlade;
 import cards.equipments.weapons.FeatheredFan;
+import cards.equipments.weapons.Halberd;
 import cards.equipments.weapons.IcySword;
 import cards.equipments.weapons.IronSword;
 import cards.equipments.weapons.KylinBow;
@@ -238,7 +239,7 @@ public class Deck {
 		used.add(new DragonBlade(5, SPADE, util.getUID()));
 		used.add(new IronSword(6, SPADE, util.getUID()));
 		used.add(new SerpentSpear(12, SPADE, util.getUID()));
-		// used.add(new Halbert(12,DIAMOND, util.getUID()));
+		used.add(new Halberd(12,DIAMOND, util.getUID()));
 
 		used.add(new TaichiFormation(2,CLUB, util.getUID()));
 		used.add(new TaichiFormation(2,SPADE, util.getUID()));

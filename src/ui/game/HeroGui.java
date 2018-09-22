@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -14,6 +15,7 @@ import core.Constants;
 import core.client.GamePanel;
 import core.heroes.Hero;
 import core.heroes.original.HeroOriginal;
+import core.player.Player;
 import core.player.PlayerCompleteClient;
 import core.player.PlayerSimple;
 import ui.game.interfaces.HeroUI;
@@ -92,7 +94,7 @@ public class HeroGui extends JButton implements HeroUI<HeroOriginal> {
 	}
 
 	@Override
-	public void onAttackUsed() {
+	public void onAttackUsed(Set<? extends Player> targets) {
 		// TODO Auto-generated method stub
 		
 	}

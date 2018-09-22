@@ -1,9 +1,15 @@
 package core.player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import cards.Card;
+import core.player.query.PlayerAttackTargetLimitQuery;
+import core.player.query.PlayerStatusQuery;
+import core.player.query_listener.PlayerStatusQueryListener;
 import exceptions.server.game.InvalidPlayerCommandException;
 import listeners.game.PlayerStatusListener;
 
@@ -24,6 +30,8 @@ public class PlayerComplete extends PlayerSimple {
 	private volatile int wineUsed;// number of wines already used this TURN_DEAL
 	private volatile boolean isWineUsed;// whether wine is used
 	private volatile boolean wineEffective; // whether wine is currently effective
+	
+	private Map<Class<? extends PlayerStatusQuery>, Set<PlayerStatusQueryListener<? extends PlayerStatusQuery>>> playerQueryListeners;
 
 	// private settings
 
@@ -31,11 +39,8 @@ public class PlayerComplete extends PlayerSimple {
 
 	public PlayerComplete(String name, int position) {
 		super(name, position);
-		init();
-	}
-
-	private void init() {
 		cardsOnHand = new ArrayList<Card>();
+		this.playerQueryListeners = new HashMap<>();
 
 		// init in-game interactive properties
 		attackLimit = 1;
@@ -49,7 +54,34 @@ public class PlayerComplete extends PlayerSimple {
 	public void registerPlayerStatusListener(PlayerStatusListener listener) {
 		this.statusListener = listener;
 	}
+	
+	public void registerPlayerStatusQueryListener(PlayerStatusQueryListener<? extends PlayerStatusQuery> listener) {
+		if (this.playerQueryListeners.containsKey(listener.getQueryClass())) {
+			this.playerQueryListeners.get(listener.getQueryClass()).add(listener);
+		} else {
+			this.playerQueryListeners.put(listener.getQueryClass(), Set.of(listener));
+		}
+	}
+	
+	public void removePlayerStatusQueryListener(PlayerStatusQueryListener<? extends PlayerStatusQuery> listener) {
+		if (!this.playerQueryListeners.containsKey(listener.getQueryClass())) {
+			return;
+		}
+		
+		this.playerQueryListeners.get(listener.getQueryClass()).remove(listener);
+	}
 
+	@SuppressWarnings("unchecked")
+	public <Q extends PlayerStatusQuery> void query(Q query) {
+		if (!this.playerQueryListeners.containsKey(query.getClass())) {
+			return;
+		}
+		
+		for (PlayerStatusQueryListener<? extends PlayerStatusQuery> listener : this.playerQueryListeners.get(query.getClass())) {
+			((PlayerStatusQueryListener<Q>) listener).onQuery(query, this);
+		}
+	}
+	
 	public List<Card> getCardsOnHand() {
 		return cardsOnHand;
 	}
@@ -120,9 +152,9 @@ public class PlayerComplete extends PlayerSimple {
 		}
 	}
 
-	public void useAttack() throws InvalidPlayerCommandException {
+	public void useAttack(Set<? extends Player> targets) throws InvalidPlayerCommandException {
 		attackUsed++;
-		statusListener.onAttackUsed();
+		statusListener.onAttackUsed(targets);
 	}
 
 	public void setWineUsed(int amount) throws InvalidPlayerCommandException {
@@ -159,6 +191,12 @@ public class PlayerComplete extends PlayerSimple {
 
 	public int getAttackLimit() {
 		return attackLimit;
+	}
+	
+	public int getAttackTargetLimit() {
+		PlayerAttackTargetLimitQuery query = new PlayerAttackTargetLimitQuery(1);
+		this.query(query);
+		return query.getLimit();
 	}
 
 	public boolean isWineUsed() {

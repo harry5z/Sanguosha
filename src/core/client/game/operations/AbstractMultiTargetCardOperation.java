@@ -12,7 +12,7 @@ import ui.game.interfaces.CardUI;
 import ui.game.interfaces.ClientGameUI;
 import ui.game.interfaces.PlayerUI;
 
-public abstract class AbstractMultiTargetCardOperation implements Operation {
+public abstract class AbstractMultiTargetCardOperation implements MultiTargetOperation {
 
 	protected GamePanel<? extends Hero> panel;
 	protected Activatable activator;
@@ -99,11 +99,13 @@ public abstract class AbstractMultiTargetCardOperation implements Operation {
 		this.activator.setActivated(false);
 		this.panel.popOperation();
 	}
-	
+
+	@Override
 	public int getMaxTargets() {
 		return this.maxTargets;
 	}
 	
+	@Override
 	public void addMaxTargets(int num) {
 		this.maxTargets += num;
 	}

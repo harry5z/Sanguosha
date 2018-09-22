@@ -1,6 +1,7 @@
 package commands.game.server.ingame;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import cards.Card;
 import cards.Card.Color;
@@ -16,24 +17,26 @@ public class SerpentSpearInitiateAttackInGameServerCommand extends InGameServerC
 	private static final long serialVersionUID = 1L;
 
 	private final PlayerInfo source;
-	private final PlayerInfo target;
+	private final Set<PlayerInfo> targets;
 	private final Set<Card> cards;
 	
-	public SerpentSpearInitiateAttackInGameServerCommand(PlayerInfo source, PlayerInfo target, Set<Card> cards) {
+	public SerpentSpearInitiateAttackInGameServerCommand(PlayerInfo source, Set<PlayerInfo> targets, Set<Card> cards) {
 		this.source = source;
-		this.target = target;
+		this.targets = targets;
 		this.cards = cards;
 	}
 	
 	@Override
 	public void execute(Game game) {
 		PlayerCompleteServer player = game.findPlayer(source);
+		Set<PlayerCompleteServer> targets = this.targets.stream().map(target -> game.findPlayer(target)).collect(Collectors.toSet());
+
 		if (player.getAttackUsed() > 0 || this.cards.size() != 2 || !player.getCardsOnHand().containsAll(this.cards)) {
 			return;
 		}
 		
 		try {
-			player.useAttack();
+			player.useAttack(targets);
 			player.useCards(this.cards);
 		} catch (InvalidPlayerCommandException e) {
 			e.printStackTrace();
@@ -44,7 +47,7 @@ public class SerpentSpearInitiateAttackInGameServerCommand extends InGameServerC
 			this.cards.iterator().next().getColor(),
 			(c1, c2) -> c1 == c2 ? c1 : Color.COLORLESS
 		);
-		game.pushGameController(new AttackGameController(player, game.findPlayer(target), new Attack(color), game));
+		game.pushGameController(new AttackGameController(player, targets, new Attack(color), game));
 		game.getGameController().proceed();
 	}
 

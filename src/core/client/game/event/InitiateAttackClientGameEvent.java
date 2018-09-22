@@ -1,12 +1,12 @@
 package core.client.game.event;
 
-import core.client.game.operations.basics.InitiateAttackOperation;
+import core.client.game.operations.MultiTargetOperation;
 
 public class InitiateAttackClientGameEvent extends AbstractLifecycleClientGameEvent {
 	
-	public final InitiateAttackOperation operation;
+	public final MultiTargetOperation operation;
 
-	public InitiateAttackClientGameEvent(boolean isStart, InitiateAttackOperation operation) {
+	public InitiateAttackClientGameEvent(boolean isStart, MultiTargetOperation operation) {
 		super(isStart);
 		this.operation = operation;
 	}

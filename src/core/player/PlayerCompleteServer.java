@@ -1,5 +1,7 @@
 package core.player;
 
+import java.util.Set;
+
 import core.event.handlers.basic.RequestAttackEventHandler;
 import core.event.handlers.basic.RequestDecisionEventHandler;
 import core.event.handlers.basic.RequestDodgeEventHandler;
@@ -20,11 +22,16 @@ public class PlayerCompleteServer extends PlayerComplete {
 	}
 
 	@Override
-	public void useAttack() throws InvalidPlayerCommandException {
+	public void useAttack(Set<? extends Player> targets) throws InvalidPlayerCommandException {
 		if (getAttackUsed() >= getAttackLimit()) {
 			throw new InvalidPlayerCommandException("Attack used exceeds attack limit");
 		}
-		super.useAttack();
+		
+		int targetLimit = this.getAttackTargetLimit();
+		if (targets.size() > targetLimit) {
+			throw new InvalidPlayerCommandException("Number of targets (" + targets.size() + ") exceeds limit (" + targetLimit +")");
+		}
+		super.useAttack(targets);
 	}
 	
 	@Override

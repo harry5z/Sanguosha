@@ -9,5 +9,7 @@ public interface ClientEventListener<E extends ClientGameEvent, H extends Hero> 
 	public Class<E> getEventClass();
 
 	public void handle(E event, GamePanel<H> panel);
+	
+	public void onDeactivated(GamePanel<H> panel);
 
 }

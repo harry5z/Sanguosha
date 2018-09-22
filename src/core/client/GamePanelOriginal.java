@@ -2,6 +2,7 @@ package core.client;
 
 import java.util.EmptyStackException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,7 +51,7 @@ public class GamePanelOriginal implements GamePanel<HeroOriginal> {
 		if (this.listeners.containsKey(listener.getEventClass())) {
 			this.listeners.get(listener.getEventClass()).add(listener);
 		} else {
-			this.listeners.put(listener.getEventClass(), Set.of(listener));
+			this.listeners.put(listener.getEventClass(), new HashSet<>(Set.of(listener)));
 		}
 	}
 	
@@ -60,7 +61,14 @@ public class GamePanelOriginal implements GamePanel<HeroOriginal> {
 			return;
 		}
 		
-		this.listeners.get(listener.getEventClass()).remove(listener);
+		this.listeners.get(listener.getEventClass()).removeIf(l -> {
+			if (l.equals(listener)) {
+				l.onDeactivated(this);
+				return true;
+			} else {
+				return false;
+			}
+		});
 	}
 
 	@SuppressWarnings("unchecked")
