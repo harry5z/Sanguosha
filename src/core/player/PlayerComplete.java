@@ -2,11 +2,13 @@ package core.player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import cards.Card;
+import core.player.query.PlayerAttackLimitQuery;
 import core.player.query.PlayerAttackTargetLimitQuery;
 import core.player.query.PlayerStatusQuery;
 import core.player.query_listener.PlayerStatusQueryListener;
@@ -22,6 +24,8 @@ import listeners.game.PlayerStatusListener;
 public class PlayerComplete extends PlayerSimple {
 	// ******** in-game properties ***********
 	private List<Card> cardsOnHand;
+	@SuppressWarnings("unused")
+	@Deprecated
 	private int attackLimit;// limit of attacks can be used in one TURN_DEAL, by
 							// default 1
 	private int attackUsed;// number of attacks already used this TURN_DEAL
@@ -59,7 +63,7 @@ public class PlayerComplete extends PlayerSimple {
 		if (this.playerQueryListeners.containsKey(listener.getQueryClass())) {
 			this.playerQueryListeners.get(listener.getQueryClass()).add(listener);
 		} else {
-			this.playerQueryListeners.put(listener.getQueryClass(), Set.of(listener));
+			this.playerQueryListeners.put(listener.getQueryClass(), new HashSet<>(Set.of(listener)));
 		}
 	}
 	
@@ -138,6 +142,7 @@ public class PlayerComplete extends PlayerSimple {
 		this.statusListener.onChained(chained);
 	}
 	
+	@Deprecated
 	public void setAttackLimit(int limit) throws InvalidPlayerCommandException {
 		if (limit != getAttackLimit()) {
 			attackLimit = limit;
@@ -190,7 +195,9 @@ public class PlayerComplete extends PlayerSimple {
 	}
 
 	public int getAttackLimit() {
-		return attackLimit;
+		PlayerAttackLimitQuery query = new PlayerAttackLimitQuery(1);
+		this.query(query);
+		return query.getLimit();
 	}
 	
 	public int getAttackTargetLimit() {

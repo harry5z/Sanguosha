@@ -27,6 +27,7 @@ import cards.equipments.shields.SilverLion;
 import cards.equipments.shields.TaichiFormation;
 import cards.equipments.weapons.AncientFalchion;
 import cards.equipments.weapons.Axe;
+import cards.equipments.weapons.ChuKoNu;
 import cards.equipments.weapons.DragonBlade;
 import cards.equipments.weapons.FeatheredFan;
 import cards.equipments.weapons.Halberd;
@@ -231,8 +232,8 @@ public class Deck {
 	}
 
 	private void initEquipment() {
-		// used.add(new ChuKoNu(1, CLUB, util.getUID()));
-		// used.add(new ChuKoNu(1, DIAMOND, util.getUID()));
+		used.add(new ChuKoNu(1, CLUB, util.getUID()));
+		used.add(new ChuKoNu(1, DIAMOND, util.getUID()));
 		// used.add(new DoubleSword(2,SPADE, util.getUID()));
 		used.add(new KylinBow(5, HEART, util.getUID()));
 		used.add(new Axe(5, DIAMOND, util.getUID()));
