@@ -4,7 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import core.heroes.Hero;
+import core.heroes.skills.OriginalHeroSkill;
 import core.heroes.skills.Skill;
+import core.player.PlayerCompleteServer;
+import core.server.game.Game;
 
 /**
  * Hero class, consisting of all heroes
@@ -41,7 +44,7 @@ public abstract class HeroOriginal implements Hero
 	/**
 	 * Hero's set of skills
 	 */
-	private final Set<Skill> skills;
+	private final Set<OriginalHeroSkill> skills;
 	
 	/**
 	 * Construct a hero with given health limit, force, gender, name, and a set of skills
@@ -51,15 +54,15 @@ public abstract class HeroOriginal implements Hero
 	 * @param name : hero's name
 	 * @param skills : hero's skills
 	 */
-	public HeroOriginal(int healthLimit, Force force, Gender gender, String name, Skill... skills)
+	public HeroOriginal(int healthLimit, Force force, Gender gender, String name, OriginalHeroSkill... skills)
 	{
 		this.name = name;
 		this.force = force;
 		this.gender = gender;
 		this.healthLimit = healthLimit;
 		this.cardsOnHandLimit = healthLimit;
-		this.skills = new HashSet<Skill>();
-		for(Skill skill : skills)
+		this.skills = new HashSet<>();
+		for(OriginalHeroSkill skill : skills)
 			this.skills.add(skill);
 	}
 	@Override
@@ -108,8 +111,14 @@ public abstract class HeroOriginal implements Hero
 		return force;
 	}
 	@Override
-	public Set<Skill> getSkills()
+	public Set<? extends Skill> getSkills()
 	{
 		return skills;
+	}
+	
+	public void onGameReady(Game game, PlayerCompleteServer player) {
+		for (OriginalHeroSkill skill : this.skills) {
+			skill.onGameReady(game, player);
+		}
 	}
 }

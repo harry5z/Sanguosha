@@ -12,6 +12,7 @@ import core.Deck;
 import core.event.game.GameEvent;
 import core.event.handlers.EventHandler;
 import core.heroes.original.Blank;
+import core.heroes.original.YuJin;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.GameRoom;
@@ -146,7 +147,7 @@ public class GameImpl implements Game {
 			player.registerCardDisposalListener(new ServerInGameCardDisposalListener(player.getName(), playerNames, room));
 			player.registerPlayerStatusListener(new ServerInGamePlayerStatusListener(player.getName(), playerNames, room));
 			player.registerDelayedListener(new ServerInGameDelayedListener(player.getName(), playerNames, room));
-			player.setHero(new Blank()); // TODO: add heroes
+			player.setHero(new YuJin()); // TODO: add and change to other heroes
 			player.onGameReady(this);
 		}
 		this.turnController = new TurnGameController(room);
@@ -174,11 +175,12 @@ public class GameImpl implements Game {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends GameController> T getGameController() {
+		// TODO sanity check
 		return this.controllers.isEmpty() ? (T) this.turnController : (T) controllers.peek();
 	}
 	@Override
 	public void pushGameController(GameController controller) {
-		// TODO checks and stuff?
+		// TODO sanity check
 		controllers.push(controller);
 	}
 	

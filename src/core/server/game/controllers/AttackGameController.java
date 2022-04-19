@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import cards.basics.Attack;
+import core.event.game.basic.AttackOnLockSkillsCheckEvent;
 import core.event.game.basic.AttackPostAcquisitionWeaponAbilitiesCheckEvent;
 import core.event.game.basic.AttackPreAcquisitionWeaponAbilitiesCheckEvent;
 import core.player.PlayerCompleteServer;
@@ -18,6 +19,7 @@ public class AttackGameController extends AbstractGameController {
 	public static enum AttackStage implements EnumWithNextStage<AttackStage> {
 		PRE_TARGET_ACQUISITION_WEAPON_ABILITIES,
 		TARGET_ACQUISITION,
+		POST_TARGET_ACQUISITION_HERO_ABILITIES,
 		POST_TARGET_ACQUISITION_WEAPON_ABILITIES,
 		ATTACK_RESOLUTION,
 		END,
@@ -72,6 +74,15 @@ public class AttackGameController extends AbstractGameController {
 			case TARGET_ACQUISITION:
 				this.stage = this.stage.nextStage();
 				this.proceed();
+				break;
+			case POST_TARGET_ACQUISITION_HERO_ABILITIES:
+				try {
+					this.game.emit(new AttackOnLockSkillsCheckEvent(this.source, this.targets.get(this.currentTargetIndex), this));
+					this.stage = this.stage.nextStage();
+					this.proceed();
+				} catch (GameFlowInterruptedException e) {
+					e.resume();
+				}
 				break;
 			case POST_TARGET_ACQUISITION_WEAPON_ABILITIES:
 				try {

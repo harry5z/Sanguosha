@@ -1,6 +1,5 @@
 package core.heroes;
 
-import java.awt.Image;
 import java.util.Set;
 
 import core.heroes.skills.Skill;
@@ -39,17 +38,6 @@ public interface Hero
 
 	public Force getForce();
 
-	public Set<Skill> getSkills();
-	/**
-	 * get the image of the hero
-	 * @return the hero's picture
-	 */
-	public abstract Image getHeroImage();
-	
-	/**
-	 * get the image of the card that represents this hero
-	 * @return an image of a hero card
-	 */
-	public abstract Image getCardImage();
+	public Set<? extends Skill> getSkills();
 
 }

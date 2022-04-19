@@ -1,31 +1,16 @@
 package core.heroes.original;
 
-import java.awt.Image;
-
-
 /**
- * for test use only
+ * A hero with no skills
+ * For test use only
+ * 
  * @author Harry
  *
  */
-public class Blank extends HeroOriginal
-{
+public class Blank extends HeroOriginal {
 
-	public Blank() 
-	{
+	public Blank() {
 		super(5, Force.QUN, Gender.MALE, "Blank");
-	}
-
-	@Override
-	public Image getHeroImage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Image getCardImage() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

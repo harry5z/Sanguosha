@@ -78,5 +78,7 @@ public class PlayerCompleteServer extends PlayerComplete {
 		game.registerEventHandler(new RequestShowCardEventHandler(this));
 		game.registerEventHandler(new RequestUseCardEventHandler(this));
 		game.registerEventHandler(new PlayerCardSelectionEventHandler(this));
+		// let the hero and its skills register themselves in the game
+		this.getHero().onGameReady(game, this);
 	}
 }
