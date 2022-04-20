@@ -13,6 +13,7 @@ import core.event.game.GameEvent;
 import core.event.handlers.EventHandler;
 import core.heroes.original.Blank;
 import core.heroes.original.YuJin;
+import core.heroes.original.ZhugeliangHiddenDragon;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.GameRoom;
@@ -147,7 +148,7 @@ public class GameImpl implements Game {
 			player.registerCardDisposalListener(new ServerInGameCardDisposalListener(player.getName(), playerNames, room));
 			player.registerPlayerStatusListener(new ServerInGamePlayerStatusListener(player.getName(), playerNames, room));
 			player.registerDelayedListener(new ServerInGameDelayedListener(player.getName(), playerNames, room));
-			player.setHero(new YuJin()); // TODO: add and change to other heroes
+			player.setHero(new ZhugeliangHiddenDragon()); // TODO: add and change to other heroes
 			player.onGameReady(this);
 		}
 		this.turnController = new TurnGameController(room);
