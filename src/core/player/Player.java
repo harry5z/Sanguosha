@@ -14,7 +14,7 @@ import cards.equipments.HorseMinus;
 import cards.equipments.HorsePlus;
 import cards.equipments.shields.Shield;
 import cards.equipments.weapons.Weapon;
-import core.heroes.original.HeroOriginal;
+import core.heroes.Hero;
 import exceptions.server.game.GameStateErrorException;
 import exceptions.server.game.InvalidPlayerCommandException;
 import listeners.game.CardDisposalListener;
@@ -33,7 +33,7 @@ public abstract class Player {
 	// ********* personal properties *********
 	private String name;
 	private int position;
-	private HeroOriginal hero;
+	private Hero hero;
 
 	// ********* in-game properties ***********
 	private int healthCurrent;
@@ -86,7 +86,7 @@ public abstract class Player {
 	 * 
 	 * @param hero
 	 */
-	public void setHero(HeroOriginal hero) {
+	public void setHero(Hero hero) {
 		this.hero = hero;
 		healthCurrent = hero.getHealthLimit();
 	}
@@ -104,7 +104,7 @@ public abstract class Player {
 		this.name = name;
 	}
 
-	public HeroOriginal getHero() {
+	public Hero getHero() {
 		return hero;
 	}
 

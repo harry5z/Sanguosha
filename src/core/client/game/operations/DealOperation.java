@@ -2,6 +2,7 @@ package core.client.game.operations;
 
 import commands.game.server.ingame.EndStageInGameServerCommand;
 import core.client.GamePanel;
+import core.client.game.event.DealClientGameEvent;
 import core.client.game.event.EnableAttackClientGameEvent;
 import core.heroes.Hero;
 import ui.game.interfaces.Activatable;
@@ -48,6 +49,8 @@ public class DealOperation implements Operation {
 	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
 		this.panel = panel;
 		ClientGameUI<? extends Hero> panelUI = panel.getContent();
+		
+		// TODO Change card activatable to event based for scalability
 		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
 			if (cardUI.getCard().isActivatable(panelUI)) {
 				cardUI.setActivatable(true);
@@ -56,7 +59,7 @@ public class DealOperation implements Operation {
 		panelUI.setEndEnabled(true);
 		this.panel.emit(new EnableAttackClientGameEvent(true));
 		// if (player.getWeapon()...) check weapon use
-		// skills
+		this.panel.emit(new DealClientGameEvent(true));
 	}
 	
 	@Override
@@ -67,6 +70,7 @@ public class DealOperation implements Operation {
 			cardUI.setActivatable(false);
 		}
 		this.panel.emit(new EnableAttackClientGameEvent(false));
+		this.panel.emit(new DealClientGameEvent(false));
 		this.panel.popOperation();
 	}
 

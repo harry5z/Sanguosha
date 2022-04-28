@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 import cards.Card;
 import core.Constants;
 import core.client.GamePanel;
+import core.heroes.Hero;
 import core.heroes.original.Blank;
-import core.heroes.original.HeroOriginal;
 import core.player.PlayerCompleteClient;
 import core.player.PlayerInfo;
 import core.player.PlayerSimple;
@@ -23,7 +23,7 @@ import ui.game.interfaces.ClientGameUI;
 import ui.game.interfaces.HeroUI;
 import ui.game.interfaces.PlayerUI;
 
-public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<HeroOriginal> {
+public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<Hero> {
 	private static final long serialVersionUID = 2519723480954332278L;
 
 	public static final int WIDTH = Constants.SCREEN_WIDTH / 4 * 3;
@@ -46,11 +46,11 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 	private JLabel deckSize;
 	private MessageBoxGui messageBox;
 	
-	private final GamePanel<HeroOriginal> panel;
+	private final GamePanel<Hero> panel;
 	
 	private int cancelSetCount;
 
-	public GamePanelGui(PlayerInfo player, GamePanel<HeroOriginal> panel) {
+	public GamePanelGui(PlayerInfo player, GamePanel<Hero> panel) {
 		this.panel = panel;
 		setLayout(null);
 		myself = new PlayerCompleteClient(player.getName(), player.getPosition());
@@ -78,6 +78,7 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 		myself.registerCardDisposalListener(disposalGui);
 		myself.registerPlayerStatusListener(heroGui);
 		myself.registerDelayedListener(delayedGui);
+		myself.registerHeroListener(heroGui);
 		myself.setHero(new Blank());// change in the future
 		healthGui.onSetHealthLimit(myself.getHero().getHealthLimit()); // change in the future
 		healthGui.onSetHealthCurrent(myself.getHero().getHealthLimit()); // change in the future
@@ -127,7 +128,7 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 	}
 
 	@Override
-	public HeroUI<HeroOriginal> getHeroUI() {
+	public HeroUI<Hero> getHeroUI() {
 		return heroGui;
 	}
 	

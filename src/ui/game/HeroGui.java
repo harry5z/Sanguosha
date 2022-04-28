@@ -2,6 +2,7 @@ package ui.game;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,37 +11,53 @@ import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import core.Constants;
 import core.client.GamePanel;
 import core.heroes.Hero;
-import core.heroes.original.HeroOriginal;
+import core.heroes.skills.Skill;
 import core.player.Player;
 import core.player.PlayerCompleteClient;
 import core.player.PlayerSimple;
 import ui.game.interfaces.HeroUI;
 
-public class HeroGui extends JButton implements HeroUI<HeroOriginal> {
-
-	private static final long serialVersionUID = 5926706015812873971L;
+@SuppressWarnings("serial")
+public class HeroGui extends JPanel implements HeroUI<Hero> {
 	
 	private PlayerCompleteClient self;
 	public static final int WIDTH = CardRackGui.HEIGHT;
 	public static final int HEIGHT = WIDTH;
 	private boolean activated = false;
 	private JComponent chain = null;
+	private SkillBarGui skillBar = null;
+	private final GamePanel<Hero> panel;
+	private final JButton heroButton;
 
-	public HeroGui(GamePanel<? extends Hero> panel) {
-		setEnabled(false);
-		setSize(WIDTH, HEIGHT);
-		setFont(new Font(Font.MONOSPACED, Font.BOLD, 50));
-		setLocation(GamePanelGui.WIDTH - LifebarGui.WIDTH - WIDTH, GamePanelGui.HEIGHT - HEIGHT);
-		addActionListener(e -> panel.getCurrentOperation().onPlayerClicked(this));
+	public HeroGui(GamePanel<Hero> panel) {
+		this.panel = panel;
+		this.setLayout(null);
+		this.setSize(WIDTH, HEIGHT);
+		this.setLocation(GamePanelGui.WIDTH - LifebarGui.WIDTH - WIDTH, GamePanelGui.HEIGHT - HEIGHT);
+		
+		JButton hero = new JButton();
+		hero.setSize(new Dimension(WIDTH, HEIGHT - SkillBarGui.HEIGHT));
+		hero.setLocation(0, 0);
+		hero.setEnabled(false);
+		hero.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
+		hero.addActionListener(e -> panel.getCurrentOperation().onPlayerClicked(this));
+		this.add(hero);
+		this.heroButton = hero;
+		
+		this.skillBar = new SkillBarGui();
+		this.skillBar.setLocation(0, HEIGHT - SkillBarGui.HEIGHT);
+		this.add(skillBar);
 	}
 
 	@Override
 	public synchronized void setActivatable(boolean activatable) {
-		setEnabled(activatable);
+		this.heroButton.setEnabled(activatable);
 	}
 
 	@Override
@@ -52,12 +69,21 @@ public class HeroGui extends JButton implements HeroUI<HeroOriginal> {
 	@Override
 	public synchronized void setPlayer(PlayerCompleteClient player) {
 		this.self = player;
-		setText(player.getHero().getName());
 		repaint();
+	}
+	
+	@Override
+	public void onHeroRegistered(Hero hero) {
+		this.heroButton.setText(hero.getName());
+		for (Skill skill : hero.getSkills()) {
+			this.skillBar.addSkill(skill, this.panel);
+		}
+		this.validate();
+		this.repaint();
 	}
 
 	@Override
-	public synchronized HeroOriginal getHero() {
+	public synchronized Hero getHero() {
 		return this.self.getHero();
 	}
 
@@ -84,55 +110,48 @@ public class HeroGui extends JButton implements HeroUI<HeroOriginal> {
 
 	@Override
 	public void setWineUsed(boolean used) {
-		// TODO implement
+		// nothing to show
 	}
 
 	@Override
 	public void onWineUsed() {
-		// TODO Auto-generated method stub
-		
+		// TODO implement - make hero image red
 	}
 
 	@Override
 	public void onAttackUsed(Set<? extends Player> targets) {
-		// TODO Auto-generated method stub
-		
+		// nothing to show
 	}
 
 	@Override
 	public void onSetAttackLimit(int limit) {
-		// TODO Auto-generated method stub
-		
+		// nothing to show
 	}
 
 	@Override
 	public void onSetAttackUsed(int amount) {
-		// TODO Auto-generated method stub
-		
+		// nothing to show
 	}
 
 	@Override
 	public void onSetWineUsed(int amount) {
-		// TODO Auto-generated method stub
-		
+		// nothing to show
 	}
 
 	@Override
 	public void onResetWineEffective() {
-		// TODO Auto-generated method stub
-		
+		// TODO: clear hero image red layer
 	}
 
 	@Override
 	public void onFlip(boolean flipped) {
-		// TODO Auto-generated method stub
+		// TODO add "flipped" layer
 		
 	}
 
 	@Override
 	public void setFlipped(boolean flipped) {
-		// TODO Auto-generated method stub
-		
+		// TODO add "flipped" layer
 	}
 
 	@Override
@@ -144,7 +163,7 @@ public class HeroGui extends JButton implements HeroUI<HeroOriginal> {
 			JLabel chain = new JLabel("Chained");
 			chain.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
 			chain.setSize(WIDTH, 30);
-			chain.setHorizontalAlignment(CENTER);
+			chain.setHorizontalAlignment(SwingConstants.CENTER);
 			chain.setAlignmentY(TOP_ALIGNMENT);
 			this.chain = chain;
 			this.add(chain);
@@ -157,4 +176,5 @@ public class HeroGui extends JButton implements HeroUI<HeroOriginal> {
 	public void onChained(boolean chained) {
 		this.setChained(chained);
 	}
+
 }

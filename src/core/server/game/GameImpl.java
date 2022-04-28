@@ -12,7 +12,6 @@ import core.Deck;
 import core.event.game.GameEvent;
 import core.event.handlers.EventHandler;
 import core.heroes.original.Blank;
-import core.heroes.original.YuJin;
 import core.heroes.original.ZhugeliangHiddenDragon;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
@@ -25,6 +24,7 @@ import listeners.game.server.ServerInGameCardOnHandListener;
 import listeners.game.server.ServerInGameDelayedListener;
 import listeners.game.server.ServerInGameEquipmentListener;
 import listeners.game.server.ServerInGameHealthListener;
+import listeners.game.server.ServerInGameHeroListener;
 import listeners.game.server.ServerInGamePlayerStatusListener;
 import utils.GameEventHandler;
 import utils.GameEventHandler.EventHandlerStack;
@@ -147,6 +147,7 @@ public class GameImpl implements Game {
 			player.registerHealthListener(new ServerInGameHealthListener(player.getName(), playerNames, room));
 			player.registerCardDisposalListener(new ServerInGameCardDisposalListener(player.getName(), playerNames, room));
 			player.registerPlayerStatusListener(new ServerInGamePlayerStatusListener(player.getName(), playerNames, room));
+			player.registerHeroListener(new ServerInGameHeroListener(player.getName(), playerNames, room));
 			player.registerDelayedListener(new ServerInGameDelayedListener(player.getName(), playerNames, room));
 			player.setHero(new ZhugeliangHiddenDragon()); // TODO: add and change to other heroes
 			player.onGameReady(this);

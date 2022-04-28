@@ -11,7 +11,7 @@ import java.util.Stack;
 import core.client.game.event.ClientGameEvent;
 import core.client.game.listener.ClientEventListener;
 import core.client.game.operations.Operation;
-import core.heroes.original.HeroOriginal;
+import core.heroes.Hero;
 import core.player.PlayerInfo;
 import net.Channel;
 import net.client.ClientMessageListener;
@@ -26,11 +26,11 @@ import ui.game.interfaces.ClientGameUI;
  * @author Harry
  *
  */
-public class GamePanelOriginal implements GamePanel<HeroOriginal> {
+public class GamePanelOriginal implements GamePanel<Hero> {
 
-	private final ClientGameUI<HeroOriginal> panel;
+	private final ClientGameUI<Hero> panel;
 	private final Stack<Operation> currentOperations;
-	private final Map<Class<? extends ClientGameEvent>, Set<ClientEventListener<?, HeroOriginal>>> listeners;
+	private final Map<Class<? extends ClientGameEvent>, Set<ClientEventListener<?, Hero>>> listeners;
 	private final Channel channel;
 	
 	public GamePanelOriginal(PlayerInfo info, List<PlayerInfo> players, Channel channel) {
@@ -47,7 +47,10 @@ public class GamePanelOriginal implements GamePanel<HeroOriginal> {
 	}
 	
 	@Override
-	public void registerEventListener(ClientEventListener<? extends ClientGameEvent, HeroOriginal> listener) {
+	public void registerEventListener(ClientEventListener<? extends ClientGameEvent, Hero> listener) {
+		if (listener == null) {
+			return;
+		}
 		if (this.listeners.containsKey(listener.getEventClass())) {
 			this.listeners.get(listener.getEventClass()).add(listener);
 		} else {
@@ -56,7 +59,10 @@ public class GamePanelOriginal implements GamePanel<HeroOriginal> {
 	}
 	
 	@Override
-	public void removeEventListener(ClientEventListener<? extends ClientGameEvent, HeroOriginal> listener) {
+	public void removeEventListener(ClientEventListener<? extends ClientGameEvent, Hero> listener) {
+		if (listener == null) {
+			return;
+		}
 		if (!this.listeners.containsKey(listener.getEventClass())) {
 			return;
 		}
@@ -78,8 +84,8 @@ public class GamePanelOriginal implements GamePanel<HeroOriginal> {
 			return;
 		}
 		
-		for (ClientEventListener<?, HeroOriginal> listener : this.listeners.get(event.getClass())) {
-			((ClientEventListener<E, HeroOriginal>) listener).handle(event, this);
+		for (ClientEventListener<?, Hero> listener : this.listeners.get(event.getClass())) {
+			((ClientEventListener<E, Hero>) listener).handle(event, this);
 		}
 	}
 	
@@ -112,7 +118,7 @@ public class GamePanelOriginal implements GamePanel<HeroOriginal> {
 	}
 	
 	@Override
-	public ClientGameUI<HeroOriginal> getContent() {
+	public ClientGameUI<Hero> getContent() {
 		return panel;
 	}
 

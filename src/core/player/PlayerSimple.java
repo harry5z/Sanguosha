@@ -5,13 +5,14 @@ import java.util.Collection;
 import cards.Card;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
-import core.heroes.original.HeroOriginal;
+import core.heroes.Hero;
 import exceptions.server.game.InvalidPlayerCommandException;
 import listeners.game.CardDisposalListener;
 import listeners.game.CardOnHandListener;
 import listeners.game.DelayedListener;
 import listeners.game.EquipmentListener;
 import listeners.game.HealthListener;
+import listeners.game.HeroListener;
 import utils.DelayedStackItem;
 import utils.DelayedType;
 
@@ -28,6 +29,7 @@ public class PlayerSimple extends Player {
 	private CardOnHandListener cardsOnHandListener;
 	private EquipmentListener equipmentListener;
 	private CardDisposalListener disposalListener;
+	private HeroListener heroListener;
 	private DelayedListener delayedListener;
 	
 	private int cardsCount;
@@ -71,6 +73,10 @@ public class PlayerSimple extends Player {
 	 */
 	public void registerCardDisposalListener(CardDisposalListener listener) {
 		disposalListener = listener;
+	}
+	
+	public void registerHeroListener(HeroListener listener) {
+		this.heroListener = listener;
 	}
 	
 	public void registerDelayedListener(DelayedListener listener) {
@@ -141,8 +147,9 @@ public class PlayerSimple extends Player {
 	}
 	
 	@Override
-	public void setHero(HeroOriginal hero) {
+	public void setHero(Hero hero) {
 		super.setHero(hero);
+		heroListener.onHeroRegistered(hero);
 		healthListener.onSetHealthLimit(hero.getHealthLimit());
 		healthListener.onSetHealthCurrent(hero.getHealthLimit());
 	}

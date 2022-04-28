@@ -1,10 +1,13 @@
 package core.heroes;
 
-import java.util.Set;
+import java.io.Serializable;
+import java.util.List;
 
 import core.heroes.skills.Skill;
+import core.player.PlayerCompleteServer;
+import core.server.game.Game;
 
-public interface Hero 
+public interface Hero extends Serializable
 {
 	/**
 	 * Four forces of heroes
@@ -38,6 +41,8 @@ public interface Hero
 
 	public Force getForce();
 
-	public Set<? extends Skill> getSkills();
+	public List<? extends Skill> getSkills();
+	
+	public void onGameReady(Game game, PlayerCompleteServer player);
 
 }

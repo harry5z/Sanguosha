@@ -21,6 +21,7 @@ import core.player.PlayerSimple;
 import listeners.game.CardOnHandListener;
 import listeners.game.EquipmentListener;
 import listeners.game.HealthListener;
+import listeners.game.HeroListener;
 import ui.game.interfaces.PlayerUI;
 
 /**
@@ -81,6 +82,14 @@ public class PlayerGui extends JButton implements PlayerUI {
 		delayedBar.setLocation(0, HEIGHT);
 		player.registerDelayedListener(delayedBar);
 		add(delayedBar);
+		
+		player.registerHeroListener(new HeroListener() {
+			
+			@Override
+			public void onHeroRegistered(Hero hero) {
+				// TODO fill with real player UI hero listener
+			}
+		});
 
 		addActionListener(e -> panel.getCurrentOperation().onPlayerClicked(this));
 	}

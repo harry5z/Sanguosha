@@ -11,7 +11,8 @@ import core.server.game.Game;
  * @author Harry
  *
  */
-public class YujinOriginalHeroSkill extends OriginalHeroSkill {
+@SuppressWarnings("serial")
+public class YujinOriginalHeroSkill extends AbstractPassiveSkill {
 
 	@Override
 	public String getName() {

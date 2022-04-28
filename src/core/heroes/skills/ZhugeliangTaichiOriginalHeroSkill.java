@@ -4,7 +4,8 @@ import core.event.handlers.hero.ZhugeliangTaichiDodgeArbitrationEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 
-public class ZhugeliangTaichiOriginalHeroSkill extends OriginalHeroSkill {
+@SuppressWarnings("serial")
+public class ZhugeliangTaichiOriginalHeroSkill extends AbstractPassiveSkill {
 
 	@Override
 	public String getName() {

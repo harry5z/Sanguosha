@@ -1,7 +1,7 @@
 package core.heroes.original;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import core.heroes.Hero;
 import core.heroes.skills.OriginalHeroSkill;
@@ -44,7 +44,7 @@ public abstract class HeroOriginal implements Hero
 	/**
 	 * Hero's set of skills
 	 */
-	private final Set<OriginalHeroSkill> skills;
+	private final List<OriginalHeroSkill> skills;
 	
 	/**
 	 * Construct a hero with given health limit, force, gender, name, and a set of skills
@@ -61,7 +61,7 @@ public abstract class HeroOriginal implements Hero
 		this.gender = gender;
 		this.healthLimit = healthLimit;
 		this.cardsOnHandLimit = healthLimit;
-		this.skills = new HashSet<>();
+		this.skills = new ArrayList<>();
 		for(OriginalHeroSkill skill : skills)
 			this.skills.add(skill);
 	}
@@ -111,11 +111,12 @@ public abstract class HeroOriginal implements Hero
 		return force;
 	}
 	@Override
-	public Set<? extends Skill> getSkills()
+	public List<? extends Skill> getSkills()
 	{
 		return skills;
 	}
 	
+	@Override
 	public void onGameReady(Game game, PlayerCompleteServer player) {
 		for (OriginalHeroSkill skill : this.skills) {
 			skill.onGameReady(game, player);
