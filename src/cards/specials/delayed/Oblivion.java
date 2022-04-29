@@ -3,6 +3,7 @@ package cards.specials.delayed;
 import core.GameState;
 import core.client.game.operations.Operation;
 import core.client.game.operations.delayed.OblivionOperation;
+import ui.game.interfaces.Activatable;
 
 public class Oblivion extends Delayed {
 
@@ -23,8 +24,8 @@ public class Oblivion extends Delayed {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new OblivionOperation();
+	public Operation generateOperation(Activatable source) {
+		return new OblivionOperation(source);
 	}
 
 }

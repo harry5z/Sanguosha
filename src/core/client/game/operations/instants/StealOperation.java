@@ -4,11 +4,16 @@ import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateStealInGameServerCommand;
 import core.client.game.operations.AbstractSingleTargetCardOperation;
 import core.player.PlayerSimple;
+import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.GameUI;
 import ui.game.interfaces.PlayerUI;
 
 public class StealOperation extends AbstractSingleTargetCardOperation {
+
+	public StealOperation(Activatable source) {
+		super(source);
+	}
 
 	@Override
 	protected InGameServerCommand getCommand() {

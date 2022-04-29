@@ -20,7 +20,7 @@ public class SerpentSpearAttackReactionEventListener extends AbstractClientEvent
 		if (event.isStart()) {
 			panel.getGameUI().getEquipmentRackUI().setActivatable(Set.of(EquipmentType.WEAPON), true);
 			panel.getGameUI().getEquipmentRackUI().registerOnActivatedListener(EquipmentType.WEAPON, (e) -> {
-				panel.pushOperation(new SerpentSpearOperation(false), (Activatable) e.getSource());
+				panel.pushOperation(new SerpentSpearOperation((Activatable) e.getSource(), false));
 			});
 		} else {
 			this.onDeactivated(panel);

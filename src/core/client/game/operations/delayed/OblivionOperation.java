@@ -3,12 +3,17 @@ package core.client.game.operations.delayed;
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateOblivionInGameServerCommand;
 import core.client.game.operations.AbstractSingleTargetCardOperation;
+import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.GameUI;
 import ui.game.interfaces.PlayerUI;
 import utils.DelayedType;
 
 public class OblivionOperation extends AbstractSingleTargetCardOperation {
+
+	public OblivionOperation(Activatable source) {
+		super(source);
+	}
 
 	@Override
 	protected InGameServerCommand getCommand() {

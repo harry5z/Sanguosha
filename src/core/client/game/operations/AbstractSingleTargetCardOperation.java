@@ -11,9 +11,13 @@ import ui.game.interfaces.PlayerUI;
 public abstract class AbstractSingleTargetCardOperation implements Operation {
 	
 	protected GamePanel panel;
-	protected Activatable activator;
+	protected final Activatable activator;
 	protected PlayerInfo source;
 	protected PlayerUI targetUI;
+	
+	public AbstractSingleTargetCardOperation(Activatable card) {
+		this.activator = card;
+	}
 	
 	@Override
 	public void onPlayerClicked(PlayerUI player) {
@@ -60,9 +64,9 @@ public abstract class AbstractSingleTargetCardOperation implements Operation {
 	}
 	
 	@Override
-	public void onActivated(GamePanel panel, Activatable activator) {
-		this.activator = activator;
+	public void onActivated(GamePanel panel) {
 		this.panel = panel;
+		this.activator.setActivated(true);
 		panel.getGameUI().setMessage("Select one target.");
 		PlayerComplete self = panel.getGameState().getSelf();
 		this.source = self.getPlayerInfo();

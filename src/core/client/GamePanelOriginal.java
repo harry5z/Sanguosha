@@ -18,7 +18,6 @@ import core.player.PlayerInfo;
 import net.Channel;
 import net.client.ClientMessageListener;
 import ui.game.GamePanelGui;
-import ui.game.interfaces.Activatable;
 import ui.game.interfaces.GameUI;
 
 /**
@@ -93,11 +92,8 @@ public class GamePanelOriginal implements GamePanel {
 	}
 	
 	@Override
-	public synchronized void pushOperation(Operation operation, Activatable source) {
-		if (source != null) {
-			source.setActivated(true);
-		}
-		operation.onActivated(this, source);
+	public synchronized void pushOperation(Operation operation) {
+		operation.onActivated(this);
 		currentOperations.push(operation);
 	}
 	

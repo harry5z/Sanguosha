@@ -2,7 +2,6 @@ package core.client.game.operations;
 
 import commands.game.server.ingame.DecisionInGameServerCommand;
 import core.client.GamePanel;
-import ui.game.interfaces.Activatable;
 
 public class DecisionOperation implements Operation {
 	
@@ -26,7 +25,7 @@ public class DecisionOperation implements Operation {
 	}
 
 	@Override
-	public void onActivated(GamePanel panel, Activatable source) {
+	public void onActivated(GamePanel panel) {
 		this.panel = panel;
 		panel.getGameUI().setMessage(this.message);
 		panel.getGameUI().setConfirmEnabled(true);

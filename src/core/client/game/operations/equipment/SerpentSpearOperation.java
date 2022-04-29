@@ -16,13 +16,14 @@ import ui.game.interfaces.PlayerUI;
 public class SerpentSpearOperation implements Operation {
 	
 	private GamePanel panel;
-	private Activatable source;
+	private final Activatable source;
 	private final boolean withTarget;
 	private PlayerUI target;
 	private Queue<CardUI> cards;
 	private Operation previousOperation;
 	
-	public SerpentSpearOperation(boolean withTarget) {
+	public SerpentSpearOperation(Activatable source, boolean withTarget) {
+		this.source = source;
 		this.withTarget = withTarget;
 		this.target = null;
 		this.cards = new LinkedList<>();
@@ -91,13 +92,13 @@ public class SerpentSpearOperation implements Operation {
 	@Override
 	public void onCanceled() {
 		this.onDeactivated();
-		this.panel.pushOperation(this.previousOperation, null);
+		this.panel.pushOperation(this.previousOperation);
 	}
 	
 	@Override
-	public void onActivated(GamePanel panel, Activatable source) {
+	public void onActivated(GamePanel panel) {
 		this.panel = panel;
-		this.source = source;
+		this.source.setActivated(true);
 		
 		while (panel.getCurrentOperation() != null) {
 			this.previousOperation = panel.getCurrentOperation();

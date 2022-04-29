@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import commands.game.server.ingame.DiscardInGameServerCommand;
 import core.client.GamePanel;
-import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.GameUI;
 
@@ -51,7 +50,7 @@ public class DiscardOperation implements Operation {
 	}
 
 	@Override
-	public void onActivated(GamePanel panel, Activatable source) {
+	public void onActivated(GamePanel panel) {
 		this.panel = panel;
 		GameUI panelUI = panel.getGameUI();
 		panelUI.setMessage("Select " + this.amount + " cards to discard");

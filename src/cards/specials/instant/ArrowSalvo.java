@@ -2,6 +2,7 @@ package cards.specials.instant;
 
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.ArrowSalvoOperation;
+import ui.game.interfaces.Activatable;
 
 public class ArrowSalvo extends Instant {
 
@@ -19,8 +20,8 @@ public class ArrowSalvo extends Instant {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new ArrowSalvoOperation();
+	public Operation generateOperation(Activatable source) {
+		return new ArrowSalvoOperation(source);
 	}
 
 }

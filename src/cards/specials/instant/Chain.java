@@ -2,6 +2,7 @@ package cards.specials.instant;
 
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.ChainOperation;
+import ui.game.interfaces.Activatable;
 
 public class Chain extends Instant {
 
@@ -17,7 +18,7 @@ public class Chain extends Instant {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new ChainOperation();
+	public Operation generateOperation(Activatable source) {
+		return new ChainOperation(source);
 	}
 }

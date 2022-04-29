@@ -3,7 +3,6 @@ package core.client.game.operations;
 import cards.Card;
 import commands.game.server.ingame.InGameServerCommand;
 import core.client.GamePanel;
-import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 
 public abstract class AbstractCardReactionOperation implements Operation {
@@ -78,7 +77,7 @@ public abstract class AbstractCardReactionOperation implements Operation {
 	}
 
 	@Override
-	public void onActivated(GamePanel panel, Activatable source) {
+	public void onActivated(GamePanel panel) {
 		this.panel = panel;
 		panel.getGameUI().setMessage(this.message);
 		for (CardUI cardUI : panel.getGameUI().getCardRackUI().getCardUIs()) {

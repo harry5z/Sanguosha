@@ -2,6 +2,7 @@ package cards.specials.instant;
 
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.HarvestOperation;
+import ui.game.interfaces.Activatable;
 
 public class Harvest extends Instant {
 
@@ -17,7 +18,7 @@ public class Harvest extends Instant {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new HarvestOperation();
+	public Operation generateOperation(Activatable source) {
+		return new HarvestOperation(source);
 	}
 }

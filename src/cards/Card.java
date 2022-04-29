@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import core.GameState;
 import core.client.game.operations.Operation;
+import ui.game.interfaces.Activatable;
 
 public abstract class Card implements Serializable {
 
@@ -84,10 +85,11 @@ public abstract class Card implements Serializable {
 	 * 
 	 * @return the corresponding operation
 	 */
-	public abstract Operation generateOperation();
+	public abstract Operation generateOperation(Activatable source);
 
 	/**
 	 * decides whether the card is activatable by player during TURN_DEAL
+	 * TODO use client event system to decide instead
 	 * 
 	 * @param player
 	 * @return true if activatable, false if not

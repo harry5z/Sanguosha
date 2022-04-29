@@ -2,6 +2,7 @@ package cards.specials.instant;
 
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.BrotherhoodOperation;
+import ui.game.interfaces.Activatable;
 
 public class Brotherhood extends Instant {
 
@@ -19,7 +20,7 @@ public class Brotherhood extends Instant {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new BrotherhoodOperation();
+	public Operation generateOperation(Activatable source) {
+		return new BrotherhoodOperation(source);
 	}
 }

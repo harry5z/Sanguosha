@@ -7,7 +7,6 @@ import commands.game.server.ingame.InGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.event.AttackReactionClientGameEvent;
 import core.client.game.operations.AbstractCardReactionOperation;
-import ui.game.interfaces.Activatable;
 
 public class AttackReactionOperation extends AbstractCardReactionOperation {
 
@@ -26,8 +25,8 @@ public class AttackReactionOperation extends AbstractCardReactionOperation {
 	}
 	
 	@Override
-	public void onActivated(GamePanel panel, Activatable source) {
-		super.onActivated(panel, source);
+	public void onActivated(GamePanel panel) {
+		super.onActivated(panel);
 		panel.emit(new AttackReactionClientGameEvent(true));
 	}
 	

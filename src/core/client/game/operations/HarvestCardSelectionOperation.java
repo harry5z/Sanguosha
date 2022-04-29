@@ -7,7 +7,6 @@ import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
 import core.client.GamePanel;
 import core.player.PlayerInfo;
 import ui.game.custom.HarvestSelectionPane;
-import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 
 public class HarvestCardSelectionOperation implements Operation {
@@ -29,7 +28,7 @@ public class HarvestCardSelectionOperation implements Operation {
 	}
 
 	@Override
-	public void onActivated(GamePanel panel, Activatable source) {
+	public void onActivated(GamePanel panel) {
 		this.panel = panel;
 		panel.getGameUI().displayCustomizedSelectionPaneAtCenter(new HarvestSelectionPane(this.selectableCards, this.target.getName(), panel));
 	}

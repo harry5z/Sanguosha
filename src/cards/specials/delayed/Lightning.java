@@ -3,6 +3,7 @@ package cards.specials.delayed;
 import core.GameState;
 import core.client.game.operations.Operation;
 import core.client.game.operations.delayed.LightningOperation;
+import ui.game.interfaces.Activatable;
 import utils.DelayedType;
 
 public class Lightning extends Delayed {
@@ -24,8 +25,8 @@ public class Lightning extends Delayed {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new LightningOperation();
+	public Operation generateOperation(Activatable source) {
+		return new LightningOperation(source);
 	}
 
 }

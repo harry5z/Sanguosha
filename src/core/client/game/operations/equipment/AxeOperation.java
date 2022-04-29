@@ -94,7 +94,7 @@ public class AxeOperation implements Operation {
 }
 
 	@Override
-	public void onActivated(GamePanel panel, Activatable source) {
+	public void onActivated(GamePanel panel) {
 		this.panel = panel;
 		panel.getGameUI().setMessage("Axe: Discard 2 cards to make the Attack hit?");
 		for (CardUI cardUI : panel.getGameUI().getCardRackUI().getCardUIs()) {

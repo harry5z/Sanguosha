@@ -3,6 +3,7 @@ package cards.specials.delayed;
 import core.GameState;
 import core.client.game.operations.Operation;
 import core.client.game.operations.delayed.StarvationOperation;
+import ui.game.interfaces.Activatable;
 
 public class Starvation extends Delayed {
 
@@ -23,8 +24,8 @@ public class Starvation extends Delayed {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new StarvationOperation();
+	public Operation generateOperation(Activatable source) {
+		return new StarvationOperation(source);
 	}
 
 }

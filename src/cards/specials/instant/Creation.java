@@ -2,6 +2,7 @@ package cards.specials.instant;
 
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.CreationOperation;
+import ui.game.interfaces.Activatable;
 
 public class Creation extends Instant {
 	
@@ -21,7 +22,7 @@ public class Creation extends Instant {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new CreationOperation();
+	public Operation generateOperation(Activatable source) {
+		return new CreationOperation(source);
 	}
 }

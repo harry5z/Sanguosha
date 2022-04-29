@@ -2,6 +2,7 @@ package cards.specials.instant;
 
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.BarbarianInvasionOperation;
+import ui.game.interfaces.Activatable;
 
 public class BarbarianInvasion extends Instant {
 
@@ -19,8 +20,8 @@ public class BarbarianInvasion extends Instant {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new BarbarianInvasionOperation();
+	public Operation generateOperation(Activatable source) {
+		return new BarbarianInvasionOperation(source);
 	}
 
 }

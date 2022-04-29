@@ -4,6 +4,7 @@ import core.GameState;
 import core.client.game.operations.Operation;
 import core.client.game.operations.basics.InitiateAttackOperation;
 import core.server.game.Damage.Element;
+import ui.game.interfaces.Activatable;
 
 public class Attack extends Basic {
 
@@ -61,8 +62,8 @@ public class Attack extends Basic {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new InitiateAttackOperation();
+	public Operation generateOperation(Activatable source) {
+		return new InitiateAttackOperation(source);
 	}
 
 }

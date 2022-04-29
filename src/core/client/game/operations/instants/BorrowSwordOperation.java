@@ -12,10 +12,14 @@ import ui.game.interfaces.PlayerUI;
 
 public class BorrowSwordOperation implements Operation {
 	
-	protected GamePanel panel;
-	protected Activatable activator;
-	protected PlayerUI targetUI;
-	protected PlayerUI attackTargetUI;
+	private GamePanel panel;
+	private final Activatable activator;
+	private PlayerUI targetUI;
+	private PlayerUI attackTargetUI;
+	
+	public BorrowSwordOperation(Activatable activator) {
+		this.activator = activator;
+	}
 
 	@Override
 	public void onPlayerClicked(PlayerUI player) {
@@ -116,9 +120,9 @@ public class BorrowSwordOperation implements Operation {
 	}
 	
 	@Override
-	public void onActivated(GamePanel panel, Activatable activator) {
-		this.activator = activator;
+	public void onActivated(GamePanel panel) {
 		this.panel = panel;
+		this.activator.setActivated(true);
 		GameUI panelUI = panel.getGameUI();
 		panelUI.setMessage("Select one target.");
 		panelUI.setCancelEnabled(true);
@@ -127,7 +131,6 @@ public class BorrowSwordOperation implements Operation {
 				other.setActivatable(true);
 			}
 		}
-		
 	}
 
 }

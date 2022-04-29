@@ -4,15 +4,18 @@ import cards.Card;
 import commands.game.server.ingame.InGameServerCommand;
 import core.client.GamePanel;
 import core.player.PlayerInfo;
-import ui.game.CardGui;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 
 public abstract class AbstractCardUsageOperation implements Operation {
 
-	private CardGui card;
+	private final Activatable card;
 	private GamePanel panel;
 	protected PlayerInfo source;
+	
+	public AbstractCardUsageOperation(Activatable card) {
+		this.card = card;
+	}
 
 	@Override
 	public final void onCanceled() {
@@ -23,7 +26,7 @@ public abstract class AbstractCardUsageOperation implements Operation {
 	public final void onConfirmed() {
 		this.onDeactivated();
 		panel.getCurrentOperation().onConfirmed();
-		panel.getChannel().send(getCommand(card == null ? null : card.getCard()));
+		panel.getChannel().send(getCommand(card == null ? null : ((CardUI) card).getCard()));
 	}
 	
 	@Override
@@ -41,10 +44,10 @@ public abstract class AbstractCardUsageOperation implements Operation {
 	}
 
 	@Override
-	public final void onActivated(GamePanel panel, Activatable source) {
+	public final void onActivated(GamePanel panel) {
 		this.panel = panel;
-		this.card = (CardGui) source;
-		panel.getGameUI().setMessage("Use " + this.card.getCard() + "?");
+		this.card.setActivated(true);
+		panel.getGameUI().setMessage("Use " + ((CardUI) this.card).getCard() + "?");
 		this.source = panel.getGameState().getSelf().getPlayerInfo();
 		panel.getGameUI().setConfirmEnabled(true);
 		panel.getGameUI().setCancelEnabled(true);

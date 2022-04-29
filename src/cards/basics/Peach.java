@@ -3,6 +3,7 @@ package cards.basics;
 import core.GameState;
 import core.client.game.operations.Operation;
 import core.client.game.operations.basics.PeachOperation;
+import ui.game.interfaces.Activatable;
 
 public class Peach extends Basic {
 
@@ -25,7 +26,7 @@ public class Peach extends Basic {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new PeachOperation();
+	public Operation generateOperation(Activatable source) {
+		return new PeachOperation(source);
 	}
 }

@@ -7,6 +7,7 @@ import core.client.game.operations.EquipOperation;
 import core.client.game.operations.Operation;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
+import ui.game.interfaces.Activatable;
 
 /**
  * The "Equipment" type of cards, consisting of all equipments
@@ -44,8 +45,8 @@ public abstract class Equipment extends Card {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new EquipOperation();
+	public Operation generateOperation(Activatable source) {
+		return new EquipOperation(source);
 	}
 
 	@Override

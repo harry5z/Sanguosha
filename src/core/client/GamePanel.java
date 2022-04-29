@@ -5,7 +5,6 @@ import core.client.game.event.ClientGameEvent;
 import core.client.game.listener.ClientEventListener;
 import core.client.game.operations.Operation;
 import net.Channel;
-import ui.game.interfaces.Activatable;
 import ui.game.interfaces.GameUI;
 
 /**
@@ -21,12 +20,8 @@ import ui.game.interfaces.GameUI;
  */
 public interface GamePanel extends ClientPanel {
 	
-	public void pushOperation(Operation operation, Activatable source);
+	public void pushOperation(Operation operation);
 
-	default public void pushOperation(Operation operation) {
-		this.pushOperation(operation, null);
-	}
-	
 	public void popOperation();
 	
 	public void registerEventListener(ClientEventListener<? extends ClientGameEvent> listener);

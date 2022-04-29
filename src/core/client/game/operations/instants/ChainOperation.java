@@ -7,14 +7,15 @@ import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateChainInGameServerCommand;
 import core.client.game.operations.AbstractMultiTargetCardOperation;
 import core.player.PlayerInfo;
+import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.GameUI;
 import ui.game.interfaces.PlayerUI;
 
 public class ChainOperation extends AbstractMultiTargetCardOperation {
 
-	public ChainOperation() {
-		super(0, 2);
+	public ChainOperation(Activatable activator) {
+		super(activator, 0, 2);
 	}
 
 	@Override

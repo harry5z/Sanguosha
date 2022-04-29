@@ -2,6 +2,7 @@ package cards.specials.instant;
 
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.SabotageOperation;
+import ui.game.interfaces.Activatable;
 
 public class Sabotage extends Instant {
 
@@ -17,7 +18,7 @@ public class Sabotage extends Instant {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new SabotageOperation();
+	public Operation generateOperation(Activatable source) {
+		return new SabotageOperation(source);
 	}
 }

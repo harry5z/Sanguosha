@@ -51,7 +51,7 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 				this.game.emit(
 					new RequestUseCardEvent(
 						this.source.getPlayerInfo(),
-						"Discard a card of suit " + this.shownCard.getSuit().toString() + "to finish Fire Attack?"
+						"Discard a card of suit " + this.shownCard.getSuit().toString() + " to finish Fire Attack?"
 					).addPredicate(RequestUseCardPredicate.sameSuit(this.shownCard.getSuit()))
 				);
 			} catch (GameFlowInterruptedException e) {

@@ -4,10 +4,9 @@ import commands.game.server.ingame.EndStageInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.event.DealClientGameEvent;
 import core.client.game.event.EnableAttackClientGameEvent;
-import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
-import ui.game.interfaces.GameUI;
 import ui.game.interfaces.EquipmentUI;
+import ui.game.interfaces.GameUI;
 
 public class DealOperation implements Operation {
 
@@ -36,16 +35,16 @@ public class DealOperation implements Operation {
 	
 	@Override
 	public void onCardClicked(CardUI card) {
-		panel.pushOperation(card.getCard().generateOperation(), card);
+		panel.pushOperation(card.getCard().generateOperation(card));
 	}
 	
 	@Override
 	public void onEquipmentClicked(EquipmentUI equipment) {
-		panel.pushOperation(equipment.getEquipment().generateOperation(), equipment);
+		panel.pushOperation(equipment.getEquipment().generateOperation(equipment));
 	}
 
 	@Override
-	public void onActivated(GamePanel panel, Activatable source) {
+	public void onActivated(GamePanel panel) {
 		this.panel = panel;
 		GameUI panelUI = panel.getGameUI();
 		

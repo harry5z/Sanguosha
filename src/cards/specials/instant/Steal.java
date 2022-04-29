@@ -2,6 +2,7 @@ package cards.specials.instant;
 
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.StealOperation;
+import ui.game.interfaces.Activatable;
 
 public class Steal extends Instant {
 
@@ -17,7 +18,7 @@ public class Steal extends Instant {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new StealOperation();
+	public Operation generateOperation(Activatable source) {
+		return new StealOperation(source);
 	}
 }

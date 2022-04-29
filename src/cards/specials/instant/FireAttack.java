@@ -2,6 +2,7 @@ package cards.specials.instant;
 
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.FireAttackOperation;
+import ui.game.interfaces.Activatable;
 
 public class FireAttack extends Instant {
 	private static final long serialVersionUID = -1L;
@@ -17,7 +18,7 @@ public class FireAttack extends Instant {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new FireAttackOperation();
+	public Operation generateOperation(Activatable source) {
+		return new FireAttackOperation(source);
 	}
 }

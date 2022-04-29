@@ -5,6 +5,7 @@ import core.GameState;
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.BorrowSwordOperation;
 import core.player.PlayerSimple;
+import ui.game.interfaces.Activatable;
 
 public class BorrowSword extends Instant {
 
@@ -20,8 +21,8 @@ public class BorrowSword extends Instant {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new BorrowSwordOperation();
+	public Operation generateOperation(Activatable source) {
+		return new BorrowSwordOperation(source);
 	}
 
 	@Override

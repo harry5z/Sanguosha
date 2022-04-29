@@ -7,7 +7,6 @@ import cards.Card.Color;
 import core.client.GamePanel;
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.FireAttackOperation;
-import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.SkillUI;
 
@@ -16,7 +15,6 @@ public class FireAttackSkillOperation implements Operation {
 	private final SkillUI skill;
 	private GamePanel panel;
 	private Set<CardUI> selectableCards;
-	private CardUI cardSelected = null;
 	private Operation previousOperation;
 	
 	public FireAttackSkillOperation(SkillUI skill) {
@@ -26,7 +24,7 @@ public class FireAttackSkillOperation implements Operation {
 	}
 
 	@Override
-	public void onActivated(GamePanel panel, Activatable source) {
+	public void onActivated(GamePanel panel) {
 		this.panel = panel;
 		while (panel.getCurrentOperation() != null) {
 			this.previousOperation = panel.getCurrentOperation();
@@ -38,6 +36,7 @@ public class FireAttackSkillOperation implements Operation {
 				this.selectableCards.add(card);
 			}
 		}
+		this.skill.setActivated(true);
 		panel.getGameUI().setCancelEnabled(true);
 		panel.getGameUI().setEndEnabled(true);
 		panel.getGameUI().setMessage("Select a RED card to initiate Fire Attack");
@@ -46,26 +45,25 @@ public class FireAttackSkillOperation implements Operation {
 	@Override
 	public void onEnded() {
 		this.onDeactivated();
-		this.panel.pushOperation(this.previousOperation, null);
+		this.panel.pushOperation(this.previousOperation);
 		this.panel.getCurrentOperation().onEnded();
 	}
 	
 	@Override
 	public void onCanceled() {
 		this.onDeactivated();
-		this.panel.pushOperation(this.previousOperation, null);
+		this.panel.pushOperation(this.previousOperation);
 	}
 	
 	@Override
 	public void onCardClicked(CardUI card) {
-		this.cardSelected = card;
-		this.panel.pushOperation(new FireAttackOperation(), card);
+		this.panel.pushOperation(new FireAttackOperation(card));
 	}
 	
 	@Override
 	public void onSkillClicked(SkillUI skill) {
 		this.onDeactivated();
-		this.panel.pushOperation(this.previousOperation, null);
+		this.panel.pushOperation(this.previousOperation);
 		this.panel.getCurrentOperation().onSkillClicked(skill);
 	}
 	

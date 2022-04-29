@@ -10,7 +10,6 @@ import core.player.PlayerCardZone;
 import core.player.PlayerInfo;
 import core.player.PlayerSimple;
 import ui.game.custom.CardSelectionPane;
-import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.EquipmentUI;
 
@@ -53,7 +52,7 @@ public class PlayerCardSelectionOperation implements Operation {
 	}
 
 	@Override
-	public void onActivated(GamePanel panel, Activatable source) {
+	public void onActivated(GamePanel panel) {
 		this.panel = panel;
 		PlayerSimple target = panel.getGameState().getPlayer(this.target.getName());
 		panel.getGameUI().displayCustomizedSelectionPaneAtCenter(new CardSelectionPane(target, this.zones, this.equipmentTypes, panel));

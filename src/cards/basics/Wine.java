@@ -4,6 +4,7 @@ import core.GameState;
 import core.client.game.operations.Operation;
 import core.client.game.operations.basics.WineOperation;
 import core.player.PlayerCompleteClient;
+import ui.game.interfaces.Activatable;
 
 public class Wine extends Basic {
 
@@ -27,7 +28,7 @@ public class Wine extends Basic {
 	}
 
 	@Override
-	public Operation generateOperation() {
-		return new WineOperation();
+	public Operation generateOperation(Activatable source) {
+		return new WineOperation(source);
 	}
 }
