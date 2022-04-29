@@ -26,11 +26,11 @@ public abstract class AbstractCardReactionOperation implements Operation {
 	public void onCanceled() {
 		if (this.card != null) {
 			this.card.setActivated(false);
-			this.panel.getContent().setConfirmEnabled(false);
+			this.panel.getGameUI().setConfirmEnabled(false);
 			this.card = null;
 			if (!this.isCancelEnabled()) {
 				// Cancel disabled when no card selected
-				this.panel.getContent().setCancelEnabled(false);
+				this.panel.getGameUI().setCancelEnabled(false);
 			}
 		} else {
 			this.onDeactivated();
@@ -43,12 +43,12 @@ public abstract class AbstractCardReactionOperation implements Operation {
 		if (this.card != null) {
 			this.card.setActivated(false);
 		}
-		this.panel.getContent().setConfirmEnabled(false);
-		this.panel.getContent().setCancelEnabled(false);
-		for (CardUI ui : this.panel.getContent().getCardRackUI().getCardUIs()) {
+		this.panel.getGameUI().setConfirmEnabled(false);
+		this.panel.getGameUI().setCancelEnabled(false);
+		for (CardUI ui : this.panel.getGameUI().getCardRackUI().getCardUIs()) {
 			ui.setActivatable(false);
 		}
-		this.panel.getContent().clearMessage();
+		this.panel.getGameUI().clearMessage();
 		this.panel.popOperation();
 	}
 	
@@ -57,22 +57,22 @@ public abstract class AbstractCardReactionOperation implements Operation {
 		if (this.card == null) {
 			this.card = card;
 			this.card.setActivated(true);
-			this.panel.getContent().setConfirmEnabled(true);
+			this.panel.getGameUI().setConfirmEnabled(true);
 			if (!this.isCancelEnabled()) {
 				// Cancel enabled when card is selected
-				this.panel.getContent().setCancelEnabled(true);
+				this.panel.getGameUI().setCancelEnabled(true);
 			}
 		} else if (this.card == card) {
 			this.card.setActivated(false);
 			this.card = null;
-			this.panel.getContent().setConfirmEnabled(false);
+			this.panel.getGameUI().setConfirmEnabled(false);
 		} else {
 			this.card.setActivated(false);
 			card.setActivated(true);
 			this.card = card;
 			if (!this.isCancelEnabled()) {
 				// Cancel disabled when no card selected
-				this.panel.getContent().setCancelEnabled(false);
+				this.panel.getGameUI().setCancelEnabled(false);
 			}
 		}
 	}
@@ -80,15 +80,15 @@ public abstract class AbstractCardReactionOperation implements Operation {
 	@Override
 	public void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
-		panel.getContent().setMessage(this.message);
-		for (CardUI cardUI : panel.getContent().getCardRackUI().getCardUIs()) {
+		panel.getGameUI().setMessage(this.message);
+		for (CardUI cardUI : panel.getGameUI().getCardRackUI().getCardUIs()) {
 			if (this.isCardActivatable(cardUI.getCard())) {
 				cardUI.setActivatable(true);
 			}
 		}
 		if (this.isCancelEnabled()) {
 			// TODO activate possible skills
-			panel.getContent().setCancelEnabled(true);
+			panel.getGameUI().setCancelEnabled(true);
 		}
 	}
 	

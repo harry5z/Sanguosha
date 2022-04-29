@@ -17,7 +17,7 @@ public class SyncWineUsedSetGameUIClientCommand extends AbstractGameUIClientComm
 	@Override
 	protected void execute(GamePanel panel) {
 		try {
-			panel.getContent().getSelf().setWineUsed(amount);
+			panel.getGameState().getSelf().setWineUsed(amount);
 		} catch (InvalidPlayerCommandException e) {
 			e.printStackTrace();
 		}

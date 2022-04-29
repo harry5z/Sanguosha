@@ -4,7 +4,7 @@ import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateFireAttackInGameServerCommand;
 import core.client.game.operations.AbstractSingleTargetCardOperation;
 import ui.game.interfaces.CardUI;
-import ui.game.interfaces.ClientGameUI;
+import ui.game.interfaces.GameUI;
 import ui.game.interfaces.PlayerUI;
 
 public class FireAttackOperation extends AbstractSingleTargetCardOperation {
@@ -16,8 +16,8 @@ public class FireAttackOperation extends AbstractSingleTargetCardOperation {
 
 	@Override
 	protected void setupTargetSelection() {
-		ClientGameUI panelUI = this.panel.getContent();
-		if (panelUI.getSelf().getHandCount() > 1) {
+		GameUI panelUI = this.panel.getGameUI();
+		if (this.panel.getGameState().getSelf().getHandCount() > 1) {
 			// can use Fire Attack on self if more than one card on hand
 			panelUI.getHeroUI().setActivatable(true);
 		}

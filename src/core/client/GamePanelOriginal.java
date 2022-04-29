@@ -10,6 +10,7 @@ import java.util.Stack;
 
 import javax.swing.JPanel;
 
+import core.GameState;
 import core.client.game.event.ClientGameEvent;
 import core.client.game.listener.ClientEventListener;
 import core.client.game.operations.Operation;
@@ -18,7 +19,7 @@ import net.Channel;
 import net.client.ClientMessageListener;
 import ui.game.GamePanelGui;
 import ui.game.interfaces.Activatable;
-import ui.game.interfaces.ClientGameUI;
+import ui.game.interfaces.GameUI;
 
 /**
  * Main Display gui, also monitors card/target selections, confirm/cancel/end
@@ -120,17 +121,23 @@ public class GamePanelOriginal implements GamePanel {
 	}
 	
 	@Override
-	public ClientGameUI getContent() {
+	public GameUI getGameUI() {
 		return panel;
 	}
 
 	@Override
 	public ClientMessageListener getMessageListener() {
-		return null; // message box
+		// TODO implement a message box
+		return null;
 	}
 
 	@Override
-	public JPanel getUIPanel() {
+	public JPanel getPanelUI() {
+		return panel;
+	}
+
+	@Override
+	public GameState getGameState() {
 		return panel;
 	}
 

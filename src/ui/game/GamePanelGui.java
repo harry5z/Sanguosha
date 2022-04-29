@@ -9,20 +9,19 @@ import java.util.stream.Collectors;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import cards.Card;
 import core.Constants;
+import core.GameState;
 import core.client.GamePanel;
 import core.heroes.original.Blank;
 import core.player.PlayerCompleteClient;
 import core.player.PlayerInfo;
 import core.player.PlayerSimple;
-import listeners.game.GameListener;
 import ui.game.interfaces.CardRackUI;
-import ui.game.interfaces.ClientGameUI;
+import ui.game.interfaces.GameUI;
 import ui.game.interfaces.HeroUI;
 import ui.game.interfaces.PlayerUI;
 
-public class GamePanelGui extends JPanel implements GameListener, ClientGameUI {
+public class GamePanelGui extends JPanel implements GameUI, GameState {
 	private static final long serialVersionUID = 2519723480954332278L;
 
 	public static final int WIDTH = Constants.SCREEN_WIDTH / 4 * 3;
@@ -70,7 +69,6 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI {
 		messageBox = new MessageBoxGui();
 		messageBox.setLocation(equipmentRack.getWidth(), HEIGHT - cardRack.getHeight() - MessageBoxGui.HEIGHT);
 
-		myself.registerGameListener(this);
 		myself.registerCardOnHandListener(cardRack);
 		myself.registerEquipmentListener(equipmentRack);
 		myself.registerHealthListener(healthGui);
@@ -193,53 +191,6 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI {
 	}
 
 	@Override
-	public void onPlayerAdded(PlayerSimple player) {
-		player.registerCardDisposalListener(disposalGui);
-		PlayerGui p = new PlayerGui(player, panel);
-		otherPlayers.add(p);
-		p.setLocation(WIDTH - (otherPlayers.size()) * PlayerGui.WIDTH, 0);
-		add(p);
-		repaint();
-	}
-
-	@Override
-	public void setCardSelected(Card card, boolean selected) {
-		cardRack.setCardSelected(card, selected);
-	}
-
-	@Override
-	public void setTargetSelected(PlayerInfo player, boolean selected) {
-		for (PlayerUI p : otherPlayers)
-			if (p.getPlayer().equals(player)) {
-				if (selected) {
-					p.setActivated(true);
-					heroGui.setActivated(true);
-				} else {
-					p.setActivated(false);
-					heroGui.setActivated(false);
-				}
-				return;
-			}
-
-	}
-
-	@Override
-	public void setCardSelectable(Card card, boolean selectable) {
-		cardRack.setCardSelectable(card, selectable);
-	}
-
-	@Override
-	public void setTargetSelectable(PlayerInfo player, boolean selectable) {
-		if (myself.equals(player))
-			heroGui.setEnabled(selectable);
-		for (PlayerUI p : otherPlayers)
-			if (p.getPlayer().equals(player)) {
-				p.setActivatable(selectable);
-				return;
-			}
-	}
-
-	@Override
 	public void setConfirmEnabled(boolean isEnabled) {
 		confirm.setEnabled(isEnabled);
 	}
@@ -261,11 +212,6 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI {
 	@Override
 	public void setEndEnabled(boolean isEnabled) {
 		end.setEnabled(isEnabled);
-	}
-
-	@Override
-	public void setDeckSize(int size) {
-		deckSize.setText(Integer.toString(size));
 	}
 
 	@Override

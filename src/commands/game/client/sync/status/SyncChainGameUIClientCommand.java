@@ -18,11 +18,11 @@ public class SyncChainGameUIClientCommand extends AbstractGameUIClientCommand {
 
 	@Override
 	protected void execute(GamePanel panel) {
-		Player player = panel.getContent().getSelf();
+		Player player = panel.getGameState().getSelf();
 		if (player.getName().equals(this.name)) {
 			player.setChained(this.chained);
 		} else {
-			panel.getContent().getOtherPlayerUI(this.name).setChained(this.chained);
+			panel.getGameUI().getOtherPlayerUI(this.name).setChained(this.chained);
 		}
 	}
 

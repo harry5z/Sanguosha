@@ -17,10 +17,10 @@ public class SyncHealthLimitGameUIClientCommand extends AbstractGameUIClientComm
 
 	@Override
 	protected void execute(GamePanel panel) {
-		if (panel.getContent().getSelf().getName().equals(name)) {
-			panel.getContent().getSelf().changeHealthLimitTo(limit);
+		if (panel.getGameState().getSelf().getName().equals(name)) {
+			panel.getGameState().getSelf().changeHealthLimitTo(limit);
 		} else {
-			panel.getContent().getPlayer(name).changeHealthLimitTo(limit);
+			panel.getGameState().getPlayer(name).changeHealthLimitTo(limit);
 		}
 	}
 

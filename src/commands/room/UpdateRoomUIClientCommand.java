@@ -19,7 +19,7 @@ public class UpdateRoomUIClientCommand implements Command<ClientFrame> {
 	
 	@Override
 	public void execute(ClientFrame ui, Connection connection) {
-		RoomGui room = (RoomGui) ui.getPanel().getUIPanel();
+		RoomGui room = (RoomGui) ui.getPanel().getPanelUI();
 		room.updatePlayers(userInfos);
 	}
 

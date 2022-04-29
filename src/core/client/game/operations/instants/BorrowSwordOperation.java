@@ -7,7 +7,7 @@ import core.client.game.operations.Operation;
 import ui.game.CardGui;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
-import ui.game.interfaces.ClientGameUI;
+import ui.game.interfaces.GameUI;
 import ui.game.interfaces.PlayerUI;
 
 public class BorrowSwordOperation implements Operation {
@@ -24,8 +24,8 @@ public class BorrowSwordOperation implements Operation {
 			if (this.attackTargetUI == player) {
 				// cancel attack target
 				this.attackTargetUI = null;
-				this.panel.getContent().setMessage("Select Attack target");
-				this.panel.getContent().setConfirmEnabled(false);
+				this.panel.getGameUI().setMessage("Select Attack target");
+				this.panel.getGameUI().setConfirmEnabled(false);
 			} else {
 				// switch attack target
 				this.attackTargetUI = player;
@@ -35,36 +35,36 @@ public class BorrowSwordOperation implements Operation {
 			if (this.targetUI == player) {
 				// cancel Borrow Sword target selection
 				this.targetUI.setActivated(false);
-				for (PlayerUI other : this.panel.getContent().getOtherPlayersUI()) {
+				for (PlayerUI other : this.panel.getGameUI().getOtherPlayersUI()) {
 					other.setActivatable(false);
 					if (other.getPlayer().isEquipped(EquipmentType.WEAPON)) {
 						other.setActivatable(true);
 					}
 				}
-				this.panel.getContent().getHeroUI().setActivatable(false);
+				this.panel.getGameUI().getHeroUI().setActivatable(false);
 			} else {
 				// select attack target
 				this.attackTargetUI = player;
 				this.attackTargetUI.setActivated(true);
-				this.panel.getContent().setConfirmEnabled(true);
+				this.panel.getGameUI().setConfirmEnabled(true);
 			}
 		} else {
 			// select Borrow Sword target
 			this.targetUI = player;
 			this.targetUI.setActivated(true);
-			for (PlayerUI other : this.panel.getContent().getOtherPlayersUI()) {
+			for (PlayerUI other : this.panel.getGameUI().getOtherPlayersUI()) {
 				other.setActivatable(false);
 				if (player == other) {
 					continue;
 				}
-				if (player.getPlayer().isPlayerInAttackRange(other.getPlayer(), this.panel.getContent().getNumberOfPlayersAlive())) {
+				if (player.getPlayer().isPlayerInAttackRange(other.getPlayer(), this.panel.getGameState().getNumberOfPlayersAlive())) {
 					other.setActivatable(true);
 				}
 			}
-			if (player.getPlayer().isPlayerInAttackRange(this.panel.getContent().getSelf(), this.panel.getContent().getNumberOfPlayersAlive())) {
-				this.panel.getContent().getHeroUI().setActivatable(true);
+			if (player.getPlayer().isPlayerInAttackRange(this.panel.getGameState().getSelf(), this.panel.getGameState().getNumberOfPlayersAlive())) {
+				this.panel.getGameUI().getHeroUI().setActivatable(true);
 			}
-			this.panel.getContent().setMessage("Select Attack target");
+			this.panel.getGameUI().setMessage("Select Attack target");
 		}
 	}
 	
@@ -90,16 +90,16 @@ public class BorrowSwordOperation implements Operation {
 		
 		if (this.targetUI != null) {
 			this.targetUI.setActivated(false);
-			this.panel.getContent().setConfirmEnabled(false);
+			this.panel.getGameUI().setConfirmEnabled(false);
 		}
 		
-		for (PlayerUI other : this.panel.getContent().getOtherPlayersUI()) {
+		for (PlayerUI other : this.panel.getGameUI().getOtherPlayersUI()) {
 			other.setActivatable(false);
 		}
 		
-		this.panel.getContent().getHeroUI().setActivatable(false);
-		this.panel.getContent().setCancelEnabled(false);
-		this.panel.getContent().clearMessage();
+		this.panel.getGameUI().getHeroUI().setActivatable(false);
+		this.panel.getGameUI().setCancelEnabled(false);
+		this.panel.getGameUI().clearMessage();
 		this.activator.setActivated(false);
 		this.panel.popOperation();
 	}
@@ -119,10 +119,10 @@ public class BorrowSwordOperation implements Operation {
 	public void onActivated(GamePanel panel, Activatable activator) {
 		this.activator = activator;
 		this.panel = panel;
-		ClientGameUI panelUI = panel.getContent();
+		GameUI panelUI = panel.getGameUI();
 		panelUI.setMessage("Select one target.");
 		panelUI.setCancelEnabled(true);
-		for (PlayerUI other : this.panel.getContent().getOtherPlayersUI()) {
+		for (PlayerUI other : this.panel.getGameUI().getOtherPlayersUI()) {
 			if (other.getPlayer().isEquipped(EquipmentType.WEAPON)) {
 				other.setActivatable(true);
 			}

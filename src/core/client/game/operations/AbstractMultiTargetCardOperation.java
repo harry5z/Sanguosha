@@ -8,7 +8,6 @@ import core.player.PlayerComplete;
 import core.player.PlayerInfo;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
-import ui.game.interfaces.ClientGameUI;
 import ui.game.interfaces.PlayerUI;
 
 public abstract class AbstractMultiTargetCardOperation implements MultiTargetOperation {
@@ -32,7 +31,7 @@ public abstract class AbstractMultiTargetCardOperation implements MultiTargetOpe
 			target.setActivated(false);
 			this.targets.remove(target);
 			if (this.targets.size() < this.minTargets) {
-				this.panel.getContent().setConfirmEnabled(false);
+				this.panel.getGameUI().setConfirmEnabled(false);
 			}
 		} else {
 			if (this.targets.size() == this.maxTargets) {
@@ -42,7 +41,7 @@ public abstract class AbstractMultiTargetCardOperation implements MultiTargetOpe
 			target.setActivated(true);
 			this.targets.add(target);
 			if (this.targets.size() >= this.minTargets) {
-				this.panel.getContent().setConfirmEnabled(true);
+				this.panel.getGameUI().setConfirmEnabled(true);
 			}
 		}
 	}
@@ -77,24 +76,23 @@ public abstract class AbstractMultiTargetCardOperation implements MultiTargetOpe
 	public void onActivated(GamePanel panel, Activatable activator) {
 		this.activator = activator;
 		this.panel = panel;
-		ClientGameUI panelUI = panel.getContent();
-		PlayerComplete self = panelUI.getSelf();
+		PlayerComplete self = panel.getGameState().getSelf();
 		this.source = self.getPlayerInfo();
 		this.setupTargetSelection();
 		if (this.targets.size() >= this.minTargets) {
-			panel.getContent().setConfirmEnabled(true);
+			panel.getGameUI().setConfirmEnabled(true);
 		}
 	}
 	
 	@Override
 	public void onDeactivated() {
 		this.targets.forEach(target -> target.setActivated(false));
-		this.panel.getContent().setConfirmEnabled(false);
-		for (PlayerUI other : this.panel.getContent().getOtherPlayersUI()) {
+		this.panel.getGameUI().setConfirmEnabled(false);
+		for (PlayerUI other : this.panel.getGameUI().getOtherPlayersUI()) {
 			other.setActivatable(false);
 		}
-		this.panel.getContent().getHeroUI().setActivatable(false);
-		this.panel.getContent().setCancelEnabled(false);
+		this.panel.getGameUI().getHeroUI().setActivatable(false);
+		this.panel.getGameUI().setCancelEnabled(false);
 		this.activator.setActivated(false);
 		this.panel.popOperation();
 	}

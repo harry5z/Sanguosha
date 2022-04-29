@@ -23,17 +23,17 @@ public class SyncDelayedAddedGameUIClientCommand extends AbstractGameUIClientCom
 
 	@Override
 	protected void execute(GamePanel panel) {
-		if (panel.getContent().getSelf().getName().equals(this.name)) {
+		if (panel.getGameState().getSelf().getName().equals(this.name)) {
 			if (this.add) {
-				panel.getContent().getSelf().pushDelayed(this.card, this.type);
+				panel.getGameState().getSelf().pushDelayed(this.card, this.type);
 			} else {
-				panel.getContent().getSelf().removeDelayed(this.type);
+				panel.getGameState().getSelf().removeDelayed(this.type);
 			}
 		} else {
 			if (this.add) {
-				panel.getContent().getPlayer(this.name).pushDelayed(this.card, this.type);
+				panel.getGameState().getPlayer(this.name).pushDelayed(this.card, this.type);
 			} else {
-				panel.getContent().getPlayer(this.name).removeDelayed(this.type);
+				panel.getGameState().getPlayer(this.name).removeDelayed(this.type);
 			}
 		}
 	}

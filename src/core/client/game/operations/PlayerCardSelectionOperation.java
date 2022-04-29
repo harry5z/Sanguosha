@@ -33,21 +33,21 @@ public class PlayerCardSelectionOperation implements Operation {
 
 	@Override
 	public void onCardClicked(CardUI card) {
-		this.panel.getContent().removeSelectionPane();
+		this.panel.getGameUI().removeSelectionPane();
 		this.panel.popOperation();
 		this.panel.getChannel().send(new PlayerCardSelectionInGameServerCommand(card.getCard(), PlayerCardZone.HAND));
 	}
 	
 	@Override
 	public void onEquipmentClicked(EquipmentUI equipment) {
-		this.panel.getContent().removeSelectionPane();
+		this.panel.getGameUI().removeSelectionPane();
 		this.panel.popOperation();
 		this.panel.getChannel().send(new PlayerCardSelectionInGameServerCommand(equipment.getEquipment(), PlayerCardZone.EQUIPMENT));
 	}
 	
 	@Override
 	public void onDelayedClicked(CardUI card) {
-		this.panel.getContent().removeSelectionPane();
+		this.panel.getGameUI().removeSelectionPane();
 		this.panel.popOperation();
 		this.panel.getChannel().send(new PlayerCardSelectionInGameServerCommand(card.getCard(), PlayerCardZone.DELAYED));
 	}
@@ -55,7 +55,7 @@ public class PlayerCardSelectionOperation implements Operation {
 	@Override
 	public void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
-		PlayerSimple target = panel.getContent().getPlayer(this.target.getName());
-		panel.getContent().displayCustomizedSelectionPaneAtCenter(new CardSelectionPane(target, this.zones, this.equipmentTypes, panel));
+		PlayerSimple target = panel.getGameState().getPlayer(this.target.getName());
+		panel.getGameUI().displayCustomizedSelectionPaneAtCenter(new CardSelectionPane(target, this.zones, this.equipmentTypes, panel));
 	}
 }

@@ -25,7 +25,7 @@ public class ChuKoNu extends Weapon {
 	
 	@Override
 	public void onEquipped(GamePanel panel) {
-		panel.getContent().getSelf().registerPlayerStatusQueryListener(new ChuKoNuPlayerAttackLimitQueryListener());
+		panel.getGameState().getSelf().registerPlayerStatusQueryListener(new ChuKoNuPlayerAttackLimitQueryListener());
 	}
 	
 	@Override
@@ -35,6 +35,6 @@ public class ChuKoNu extends Weapon {
 	
 	@Override
 	public void onUnequipped(GamePanel panel) {
-		panel.getContent().getSelf().removePlayerStatusQueryListener(new ChuKoNuPlayerAttackLimitQueryListener());
+		panel.getGameState().getSelf().removePlayerStatusQueryListener(new ChuKoNuPlayerAttackLimitQueryListener());
 	}
 }

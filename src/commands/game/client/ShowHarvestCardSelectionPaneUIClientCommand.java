@@ -22,7 +22,7 @@ public class ShowHarvestCardSelectionPaneUIClientCommand extends AbstractGameUIC
 
 	@Override
 	protected void execute(GamePanel panel) {
-		panel.getContent().removeSelectionPane();
+		panel.getGameUI().removeSelectionPane();
 		
 		// clear selection pane command
 		if (this.selectableCards == null) {
@@ -31,16 +31,16 @@ public class ShowHarvestCardSelectionPaneUIClientCommand extends AbstractGameUIC
 		
 		// sync selection status command
 		if (this.target == null) {
-			panel.getContent().displayCustomizedSelectionPaneAtCenter(new HarvestSelectionPane(this.selectableCards, null, null));
+			panel.getGameUI().displayCustomizedSelectionPaneAtCenter(new HarvestSelectionPane(this.selectableCards, null, null));
 			return;
 		}
 		
 		// selection command
-		if (panel.getContent().getSelf().getPlayerInfo().equals(this.target)) {
+		if (panel.getGameState().getSelf().getPlayerInfo().equals(this.target)) {
 			panel.pushOperation(new HarvestCardSelectionOperation(this.target, this.selectableCards));
 		} else {
 			// only display selection pane if not current target
-			panel.getContent().displayCustomizedSelectionPaneAtCenter(new HarvestSelectionPane(this.selectableCards, this.target.getName(), null));
+			panel.getGameUI().displayCustomizedSelectionPaneAtCenter(new HarvestSelectionPane(this.selectableCards, this.target.getName(), null));
 		}
 	}
 

@@ -8,7 +8,7 @@ import commands.game.server.ingame.DiscardInGameServerCommand;
 import core.client.GamePanel;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
-import ui.game.interfaces.ClientGameUI;
+import ui.game.interfaces.GameUI;
 
 public class DiscardOperation implements Operation {
 	
@@ -22,11 +22,11 @@ public class DiscardOperation implements Operation {
 	
 	@Override
 	public void onConfirmed() {
-		for(CardUI cardUI : panel.getContent().getCardRackUI().getCardUIs()) {
+		for(CardUI cardUI : panel.getGameUI().getCardRackUI().getCardUIs()) {
 			cardUI.setActivatable(false);
 		}
-		panel.getContent().setConfirmEnabled(false);
-		panel.getContent().clearMessage();
+		panel.getGameUI().setConfirmEnabled(false);
+		panel.getGameUI().clearMessage();
 		panel.getChannel().send(new DiscardInGameServerCommand(cards.stream().map(ui -> ui.getCard()).collect(Collectors.toList())));
 	}
 
@@ -35,12 +35,12 @@ public class DiscardOperation implements Operation {
 		if (cards.remove(card)) {
 			card.setActivated(false);
 			if (cards.size() == 0) {
-				panel.getContent().setConfirmEnabled(false);
+				panel.getGameUI().setConfirmEnabled(false);
 			}
 		} else {
 			card.setActivated(true);
 			if (cards.size() == 0) {
-				panel.getContent().setConfirmEnabled(true);
+				panel.getGameUI().setConfirmEnabled(true);
 			}
 			cards.add(card);
 			if (cards.size() > amount) {
@@ -53,7 +53,7 @@ public class DiscardOperation implements Operation {
 	@Override
 	public void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
-		ClientGameUI panelUI = panel.getContent();
+		GameUI panelUI = panel.getGameUI();
 		panelUI.setMessage("Select " + this.amount + " cards to discard");
 		panelUI.showCountdownBar();
 		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {

@@ -17,7 +17,7 @@ public class SyncAttackUsedSetGameUIClientCommand extends AbstractGameUIClientCo
 	@Override
 	protected void execute(GamePanel panel) {
 		try {
-			panel.getContent().getSelf().setAttackUsed(amount);
+			panel.getGameState().getSelf().setAttackUsed(amount);
 		} catch (InvalidPlayerCommandException e) {
 			e.printStackTrace();
 		}

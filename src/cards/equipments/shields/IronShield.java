@@ -1,6 +1,5 @@
 package cards.equipments.shields;
 
-import core.client.GamePanel;
 import core.event.handlers.equipment.IronShieldAttackTargetEuipmentCheckEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;

@@ -9,7 +9,7 @@ public class SyncDisposalAreaRefreshGameUIClientCommand extends AbstractGameUICl
 
 	@Override
 	protected void execute(GamePanel panel) {
-		panel.getContent().getSelf().clearDisposalArea();
+		panel.getGameState().getSelf().clearDisposalArea();
 	}
 
 }

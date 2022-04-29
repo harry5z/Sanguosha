@@ -27,20 +27,20 @@ public class AxeOperation implements Operation {
 	
 	@Override
 	public void onEnded() {
-		this.panel.getContent().clearMessage();
-		for (CardUI cardUI : this.panel.getContent().getCardRackUI().getCardUIs()) {
+		this.panel.getGameUI().clearMessage();
+		for (CardUI cardUI : this.panel.getGameUI().getCardRackUI().getCardUIs()) {
 			cardUI.setActivatable(false);
 		}
-		this.panel.getContent().getEquipmentRackUI().setActivatable(
+		this.panel.getGameUI().getEquipmentRackUI().setActivatable(
 			Set.of(EquipmentType.SHIELD, EquipmentType.HORSEPLUS, EquipmentType.HORSEMINUS),
 			false
 		);
-		this.panel.getContent().getEquipmentRackUI().setActivated(
+		this.panel.getGameUI().getEquipmentRackUI().setActivated(
 			Set.of(EquipmentType.SHIELD, EquipmentType.HORSEPLUS, EquipmentType.HORSEMINUS),
 			false
 		);
-		this.panel.getContent().setCancelEnabled(false);
-		this.panel.getContent().setConfirmEnabled(false);
+		this.panel.getGameUI().setCancelEnabled(false);
+		this.panel.getGameUI().setConfirmEnabled(false);
 	}
 	
 	@Override
@@ -73,7 +73,7 @@ public class AxeOperation implements Operation {
 			this.cards.put(card, PlayerCardZone.HAND);
 			card.setActivated(true);
 		}
-		this.panel.getContent().setConfirmEnabled(this.cards.size() == 2);
+		this.panel.getGameUI().setConfirmEnabled(this.cards.size() == 2);
 	}
 	
 	@Override
@@ -90,18 +90,18 @@ public class AxeOperation implements Operation {
 			this.cards.put(equipment, PlayerCardZone.EQUIPMENT);
 			equipment.setActivated(true);
 		}
-		this.panel.getContent().setConfirmEnabled(this.cards.size() == 2);
+		this.panel.getGameUI().setConfirmEnabled(this.cards.size() == 2);
 }
 
 	@Override
 	public void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
-		panel.getContent().setMessage("Axe: Discard 2 cards to make the Attack hit?");
-		for (CardUI cardUI : panel.getContent().getCardRackUI().getCardUIs()) {
+		panel.getGameUI().setMessage("Axe: Discard 2 cards to make the Attack hit?");
+		for (CardUI cardUI : panel.getGameUI().getCardRackUI().getCardUIs()) {
 			cardUI.setActivatable(true);
 		}
-		panel.getContent().getEquipmentRackUI().setActivatable(Set.of(EquipmentType.SHIELD, EquipmentType.HORSEPLUS, EquipmentType.HORSEMINUS), true);
-		panel.getContent().setCancelEnabled(true);
+		panel.getGameUI().getEquipmentRackUI().setActivatable(Set.of(EquipmentType.SHIELD, EquipmentType.HORSEPLUS, EquipmentType.HORSEMINUS), true);
+		panel.getGameUI().setCancelEnabled(true);
 	}
 
 }

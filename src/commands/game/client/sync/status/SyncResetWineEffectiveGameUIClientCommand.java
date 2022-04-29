@@ -15,10 +15,12 @@ public class SyncResetWineEffectiveGameUIClientCommand extends AbstractGameUICli
 	
 	@Override
 	protected void execute(GamePanel panel) {
-		if (panel.getContent().getSelf().getName().equals(name)) {
-			panel.getContent().getSelf().resetWineEffective();
+		if (panel.getGameState().getSelf().getName().equals(name)) {
+			panel.getGameState().getSelf().resetWineEffective();
 		} else {
-			panel.getContent().getOtherPlayerUI(name).setWineUsed(false);
+			// directly modify UI here because no data record of other player's
+			// wine usage is needed
+			panel.getGameUI().getOtherPlayerUI(name).setWineUsed(false);
 		}
 	}
 

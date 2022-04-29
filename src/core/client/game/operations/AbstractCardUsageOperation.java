@@ -7,7 +7,6 @@ import core.player.PlayerInfo;
 import ui.game.CardGui;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
-import ui.game.interfaces.ClientGameUI;
 
 public abstract class AbstractCardUsageOperation implements Operation {
 
@@ -45,19 +44,18 @@ public abstract class AbstractCardUsageOperation implements Operation {
 	public final void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
 		this.card = (CardGui) source;
-		ClientGameUI panelUI = panel.getContent();
-		panelUI.setMessage("Use " + this.card.getCard() + "?");
-		this.source = panelUI.getSelf().getPlayerInfo();
-		panel.getContent().setConfirmEnabled(true);
-		panel.getContent().setCancelEnabled(true);
+		panel.getGameUI().setMessage("Use " + this.card.getCard() + "?");
+		this.source = panel.getGameState().getSelf().getPlayerInfo();
+		panel.getGameUI().setConfirmEnabled(true);
+		panel.getGameUI().setCancelEnabled(true);
 	}
 	
 	@Override
 	public void onDeactivated() {
 		card.setActivated(false);
-		panel.getContent().setConfirmEnabled(false);
-		panel.getContent().setCancelEnabled(false);
-		panel.getContent().clearMessage();
+		panel.getGameUI().setConfirmEnabled(false);
+		panel.getGameUI().setCancelEnabled(false);
+		panel.getGameUI().clearMessage();
 		panel.popOperation();
 	}
 	

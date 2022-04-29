@@ -6,7 +6,6 @@ import core.player.PlayerComplete;
 import core.player.PlayerInfo;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
-import ui.game.interfaces.ClientGameUI;
 import ui.game.interfaces.PlayerUI;
 
 public abstract class AbstractSingleTargetCardOperation implements Operation {
@@ -22,11 +21,11 @@ public abstract class AbstractSingleTargetCardOperation implements Operation {
 		if (this.targetUI == null) {
 			this.targetUI = player;
 			this.targetUI.setActivated(true);
-			this.panel.getContent().setConfirmEnabled(true);
+			this.panel.getGameUI().setConfirmEnabled(true);
 		} else if (info.equals(this.targetUI.getPlayer().getPlayerInfo())) {
 			this.targetUI.setActivated(false);
 			this.targetUI = null;
-			this.panel.getContent().setConfirmEnabled(false);
+			this.panel.getGameUI().setConfirmEnabled(false);
 		} else {
 			this.targetUI.setActivated(false);
 			this.targetUI = player;
@@ -64,9 +63,8 @@ public abstract class AbstractSingleTargetCardOperation implements Operation {
 	public void onActivated(GamePanel panel, Activatable activator) {
 		this.activator = activator;
 		this.panel = panel;
-		ClientGameUI panelUI = panel.getContent();
-		panelUI.setMessage("Select one target.");
-		PlayerComplete self = panelUI.getSelf();
+		panel.getGameUI().setMessage("Select one target.");
+		PlayerComplete self = panel.getGameState().getSelf();
 		this.source = self.getPlayerInfo();
 		this.setupTargetSelection();
 	}
@@ -75,14 +73,14 @@ public abstract class AbstractSingleTargetCardOperation implements Operation {
 	public void onDeactivated() {
 		if (this.targetUI != null) {
 			this.targetUI.setActivated(false);
-			this.panel.getContent().setConfirmEnabled(false);
+			this.panel.getGameUI().setConfirmEnabled(false);
 		}
-		for (PlayerUI other : this.panel.getContent().getOtherPlayersUI()) {
+		for (PlayerUI other : this.panel.getGameUI().getOtherPlayersUI()) {
 			other.setActivatable(false);
 		}
-		this.panel.getContent().getHeroUI().setActivatable(false);
-		this.panel.getContent().setCancelEnabled(false);
-		this.panel.getContent().clearMessage();
+		this.panel.getGameUI().getHeroUI().setActivatable(false);
+		this.panel.getGameUI().setCancelEnabled(false);
+		this.panel.getGameUI().clearMessage();
 		this.activator.setActivated(false);
 		this.panel.popOperation();
 	}

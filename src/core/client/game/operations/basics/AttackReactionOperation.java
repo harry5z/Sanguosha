@@ -39,7 +39,7 @@ public class AttackReactionOperation extends AbstractCardReactionOperation {
 
 	@Override
 	protected InGameServerCommand getCommand(Card card) {
-		return new AttackReactionInGameServerCommand(this.panel.getContent().getSelf().getPlayerInfo(), card);
+		return new AttackReactionInGameServerCommand(this.panel.getGameState().getSelf().getPlayerInfo(), card);
 	}
 	
 }

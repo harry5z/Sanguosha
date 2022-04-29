@@ -17,7 +17,7 @@ public class SyncAttackLimitsSetGameUIClientCommand extends AbstractGameUIClient
 	@Override
 	protected void execute(GamePanel panel) {
 		try {
-			panel.getContent().getSelf().setAttackLimit(limit);
+			panel.getGameState().getSelf().setAttackLimit(limit);
 		} catch (InvalidPlayerCommandException e) {
 			e.printStackTrace();
 		}

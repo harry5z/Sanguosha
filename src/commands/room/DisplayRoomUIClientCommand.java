@@ -22,7 +22,7 @@ public class DisplayRoomUIClientCommand implements Command<ClientFrame> {
 	@Override
 	public void execute(ClientFrame ui, Connection connection) {
 		ui.onNewPanelDisplayed(new RoomGui(room, connection));
-		RoomGui room = (RoomGui) ui.getPanel().getUIPanel();
+		RoomGui room = (RoomGui) ui.getPanel().getPanelUI();
 		room.updatePlayers(userInfos);
 	}
 

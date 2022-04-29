@@ -23,7 +23,7 @@ public class HarvestCardSelectionOperation implements Operation {
 	
 	@Override
 	public void onCardClicked(CardUI card) {
-		this.panel.getContent().removeSelectionPane();
+		this.panel.getGameUI().removeSelectionPane();
 		this.panel.popOperation();
 		this.panel.getChannel().send(new PlayerCardSelectionInGameServerCommand(card.getCard(), null));
 	}
@@ -31,7 +31,7 @@ public class HarvestCardSelectionOperation implements Operation {
 	@Override
 	public void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
-		panel.getContent().displayCustomizedSelectionPaneAtCenter(new HarvestSelectionPane(this.selectableCards, this.target.getName(), panel));
+		panel.getGameUI().displayCustomizedSelectionPaneAtCenter(new HarvestSelectionPane(this.selectableCards, this.target.getName(), panel));
 	}
 
 }

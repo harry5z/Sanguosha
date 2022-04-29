@@ -34,7 +34,7 @@ public class SerpentSpearOperation implements Operation {
 		if (this.cards.contains(card)) {
 			card.setActivated(false);
 			this.cards.remove(card);
-			this.panel.getContent().setConfirmEnabled(false);
+			this.panel.getGameUI().setConfirmEnabled(false);
 			return;
 		}
 		
@@ -47,7 +47,7 @@ public class SerpentSpearOperation implements Operation {
 		
 		if (this.cards.size() == 2) {
 			if (!this.withTarget || (this.withTarget && this.target != null)) {
-				this.panel.getContent().setConfirmEnabled(true);
+				this.panel.getGameUI().setConfirmEnabled(true);
 			}
 		}
 	}
@@ -57,7 +57,7 @@ public class SerpentSpearOperation implements Operation {
 		if (this.target == player) {
 			this.target.setActivated(false);
 			this.target = null;
-			this.panel.getContent().setConfirmEnabled(false);
+			this.panel.getGameUI().setConfirmEnabled(false);
 		} else if (this.target != null) {
 			this.target.setActivated(false);
 			this.target = player;
@@ -66,7 +66,7 @@ public class SerpentSpearOperation implements Operation {
 			this.target = player;
 			this.target.setActivated(true);
 			if (this.cards.size() == 2) {
-				this.panel.getContent().setConfirmEnabled(true);
+				this.panel.getGameUI().setConfirmEnabled(true);
 			}
 		}
 	}
@@ -76,13 +76,13 @@ public class SerpentSpearOperation implements Operation {
 		this.onDeactivated();
 		if (this.withTarget) {
 			this.panel.getChannel().send(new SerpentSpearInitiateAttackInGameServerCommand(
-				this.panel.getContent().getSelf().getPlayerInfo(),
+				this.panel.getGameState().getSelf().getPlayerInfo(),
 				Set.of(this.target.getPlayer().getPlayerInfo()),
 				this.cards.stream().map(card -> card.getCard()).collect(Collectors.toSet())
 			));
 		} else {
 			this.panel.getChannel().send(new SerpentSpearAttackReactionInGameServerCommand(
-				this.panel.getContent().getSelf().getPlayerInfo(),
+				this.panel.getGameState().getSelf().getPlayerInfo(),
 				this.cards.stream().map(card -> card.getCard()).collect(Collectors.toSet())
 			));
 		}
@@ -104,14 +104,14 @@ public class SerpentSpearOperation implements Operation {
 			this.previousOperation.onDeactivated();
 		}
 		
-		this.panel.getContent().setMessage("Select 2 cards to use as an Attack");
-		this.panel.getContent().setCancelEnabled(true);
-		for (CardUI card : panel.getContent().getCardRackUI().getCardUIs()) {
+		this.panel.getGameUI().setMessage("Select 2 cards to use as an Attack");
+		this.panel.getGameUI().setCancelEnabled(true);
+		for (CardUI card : panel.getGameUI().getCardRackUI().getCardUIs()) {
 			card.setActivatable(true);
 		}
 		if (this.withTarget) {
-			for (PlayerUI player : panel.getContent().getOtherPlayersUI()) {
-				if (panel.getContent().getSelf().isPlayerInAttackRange(player.getPlayer(), panel.getContent().getNumberOfPlayersAlive())) {
+			for (PlayerUI player : panel.getGameUI().getOtherPlayersUI()) {
+				if (panel.getGameState().getSelf().isPlayerInAttackRange(player.getPlayer(), panel.getGameState().getNumberOfPlayersAlive())) {
 					player.setActivatable(true);
 				}
 			}
@@ -125,15 +125,15 @@ public class SerpentSpearOperation implements Operation {
 			this.target.setActivated(false);
 		}
 		this.cards.forEach(card -> card.setActivated(false));
-		for (CardUI card : panel.getContent().getCardRackUI().getCardUIs()) {
+		for (CardUI card : panel.getGameUI().getCardRackUI().getCardUIs()) {
 			card.setActivatable(false);
 		}
-		for (PlayerUI player : panel.getContent().getOtherPlayersUI()) {
+		for (PlayerUI player : panel.getGameUI().getOtherPlayersUI()) {
 			player.setActivatable(false);
 		}
-		this.panel.getContent().clearMessage();
-		this.panel.getContent().setConfirmEnabled(false);
-		this.panel.getContent().setCancelEnabled(false);
+		this.panel.getGameUI().clearMessage();
+		this.panel.getGameUI().setConfirmEnabled(false);
+		this.panel.getGameUI().setCancelEnabled(false);
 		this.panel.popOperation();
 	}
 

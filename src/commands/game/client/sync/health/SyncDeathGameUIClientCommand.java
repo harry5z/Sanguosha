@@ -15,10 +15,10 @@ public class SyncDeathGameUIClientCommand extends AbstractGameUIClientCommand {
 	
 	@Override
 	protected void execute(GamePanel panel) {
-		if (panel.getContent().getSelf().getName().equals(name)) {
-			panel.getContent().getSelf().kill();
+		if (panel.getGameState().getSelf().getName().equals(name)) {
+			panel.getGameState().getSelf().kill();
 		} else {
-			panel.getContent().getPlayer(name).kill();
+			panel.getGameState().getPlayer(name).kill();
 		}
 	}
 

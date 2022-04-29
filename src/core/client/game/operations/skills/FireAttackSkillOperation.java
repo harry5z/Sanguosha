@@ -32,15 +32,15 @@ public class FireAttackSkillOperation implements Operation {
 			this.previousOperation = panel.getCurrentOperation();
 			this.previousOperation.onDeactivated();
 		}
-		for (CardUI card : panel.getContent().getCardRackUI().getCardUIs()) {
+		for (CardUI card : panel.getGameUI().getCardRackUI().getCardUIs()) {
 			if (card.getCard().getColor() == Color.RED) {
 				card.setActivatable(true);
 				this.selectableCards.add(card);
 			}
 		}
-		panel.getContent().setCancelEnabled(true);
-		panel.getContent().setEndEnabled(true);
-		panel.getContent().setMessage("Select a RED card to initiate Fire Attack");
+		panel.getGameUI().setCancelEnabled(true);
+		panel.getGameUI().setEndEnabled(true);
+		panel.getGameUI().setMessage("Select a RED card to initiate Fire Attack");
 	}
 	
 	@Override
@@ -73,8 +73,8 @@ public class FireAttackSkillOperation implements Operation {
 	public void onDeactivated() {
 		this.skill.setActivated(false);
 		this.selectableCards.forEach(card -> card.setActivatable(false));
-		this.panel.getContent().setConfirmEnabled(false);
-		this.panel.getContent().clearMessage();
+		this.panel.getGameUI().setConfirmEnabled(false);
+		this.panel.getGameUI().clearMessage();
 		this.panel.popOperation();
 	}
 

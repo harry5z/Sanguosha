@@ -4,10 +4,17 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import core.GameState;
 import core.player.PlayerInfo;
 
-public interface ClientGameUI extends GameState {
+/**
+ * 
+ * A representation of the client-side Game Interface. Command and Operation will
+ * use this interface to update the UI for the player
+ * 
+ * @author Harry
+ *
+ */
+public interface GameUI {
 
 	/**
 	 * invoked to enable/disable confirm button

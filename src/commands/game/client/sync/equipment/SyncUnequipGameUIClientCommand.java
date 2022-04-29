@@ -20,10 +20,10 @@ public class SyncUnequipGameUIClientCommand extends AbstractGameUIClientCommand 
 	@Override
 	protected void execute(GamePanel panel) {
 		try {
-			if (panel.getContent().getSelf().getName().equals(name)) {
-				panel.getContent().getSelf().unequip(type);
+			if (panel.getGameState().getSelf().getName().equals(name)) {
+				panel.getGameState().getSelf().unequip(type);
 			} else {
-				panel.getContent().getPlayer(name).unequip(type);
+				panel.getGameState().getPlayer(name).unequip(type);
 			}
 		} catch (InvalidPlayerCommandException e) {
 			e.printStackTrace();

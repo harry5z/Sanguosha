@@ -7,9 +7,8 @@ import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateAttackInGameServerCommand;
 import core.client.game.event.InitiateAttackClientGameEvent;
 import core.client.game.operations.AbstractMultiTargetCardOperation;
-import core.player.PlayerComplete;
 import ui.game.interfaces.CardUI;
-import ui.game.interfaces.ClientGameUI;
+import ui.game.interfaces.GameUI;
 import ui.game.interfaces.PlayerUI;
 
 public class InitiateAttackOperation extends AbstractMultiTargetCardOperation {
@@ -29,10 +28,9 @@ public class InitiateAttackOperation extends AbstractMultiTargetCardOperation {
 	
 	@Override
 	protected void setupTargetSelection() {
-		ClientGameUI panelUI = this.panel.getContent();
-		PlayerComplete self = panelUI.getSelf();
+		GameUI panelUI = this.panel.getGameUI();
 		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
-			if (self.isPlayerInAttackRange(other.getPlayer(), panelUI.getNumberOfPlayersAlive())) {
+			if (this.panel.getGameState().getSelf().isPlayerInAttackRange(other.getPlayer(), this.panel.getGameState().getNumberOfPlayersAlive())) {
 				other.setActivatable(true);
 			}
 		}

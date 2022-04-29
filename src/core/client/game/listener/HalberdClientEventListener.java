@@ -12,7 +12,7 @@ public class HalberdClientEventListener extends AbstractStatelessClientEventList
 
 	@Override
 	public void handle(InitiateAttackClientGameEvent event, GamePanel panel) {
-		if (panel.getContent().getSelf().getHandCount() == 1) {
+		if (panel.getGameState().getSelf().getHandCount() == 1) {
 			event.operation.addMaxTargets(2);
 		}
 	}

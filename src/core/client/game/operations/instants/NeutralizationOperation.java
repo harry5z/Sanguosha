@@ -21,9 +21,9 @@ public class NeutralizationOperation extends AbstractCardReactionOperation {
            this.card.setActivated(false);
            this.card = null;
        }
-       panel.getContent().setConfirmEnabled(false);
-       panel.getContent().setCancelEnabled(false);
-       for (CardUI ui : this.panel.getContent().getCardRackUI().getCardUIs()) {
+       panel.getGameUI().setConfirmEnabled(false);
+       panel.getGameUI().setCancelEnabled(false);
+       for (CardUI ui : this.panel.getGameUI().getCardRackUI().getCardUIs()) {
            ui.setActivatable(false);
        }
 	}
@@ -52,7 +52,7 @@ public class NeutralizationOperation extends AbstractCardReactionOperation {
 		if (card == null) {
 			return new NeutralizationReactionInGameServerCommand(null, null);
 		} else {
-			return new NeutralizationReactionInGameServerCommand(this.panel.getContent().getSelf().getPlayerInfo(), card);
+			return new NeutralizationReactionInGameServerCommand(this.panel.getGameState().getSelf().getPlayerInfo(), card);
 		}
 	}
 }

@@ -21,7 +21,7 @@ public class FireAttackSkillDealEventListener extends AbstractClientEventListene
 	@Override
 	public void handle(DealClientGameEvent event, GamePanel panel) {
 		if (event.isStart()) {
-			if (panel.getContent().getSelf().getHandCount() > 0) {
+			if (panel.getGameState().getSelf().getHandCount() > 0) {
 				this.skill.setActionOnActivation(() -> {
 					panel.pushOperation(new FireAttackSkillOperation(this.skill), this.skill);
 				});

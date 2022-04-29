@@ -17,10 +17,10 @@ public class SyncHealthCurrentChangedGameUIClientCommand extends AbstractGameUIC
 
 	@Override
 	protected void execute(GamePanel panel) {
-		if (panel.getContent().getSelf().getName().equals(name)) {
-			panel.getContent().getSelf().changeHealthCurrentBy(amount);
+		if (panel.getGameState().getSelf().getName().equals(name)) {
+			panel.getGameState().getSelf().changeHealthCurrentBy(amount);
 		} else {
-			panel.getContent().getPlayer(name).changeHealthCurrentBy(amount);
+			panel.getGameState().getPlayer(name).changeHealthCurrentBy(amount);
 		}
 	}
 

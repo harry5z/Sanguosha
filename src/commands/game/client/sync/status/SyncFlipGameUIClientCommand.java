@@ -18,11 +18,11 @@ public class SyncFlipGameUIClientCommand extends AbstractGameUIClientCommand {
 	
 	@Override
 	protected void execute(GamePanel panel) {
-		Player player = panel.getContent().getSelf();
+		Player player = panel.getGameState().getSelf();
 		if (player.getName().equals(name) && player.isFlipped() != flipped) {
 			player.flip();
 		} else {
-			panel.getContent().getOtherPlayerUI(name).setFlipped(flipped);
+			panel.getGameUI().getOtherPlayerUI(name).setFlipped(flipped);
 		}
 	}
 

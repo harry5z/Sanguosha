@@ -16,10 +16,10 @@ public abstract class AbstractSingleTargetOperationGameClientCommand extends Abs
 
 	@Override
 	protected final void execute(GamePanel panel) {
-		if (panel.getContent().getSelf().getPlayerInfo().equals(this.target)) {
+		if (panel.getGameState().getSelf().getPlayerInfo().equals(this.target)) {
 			panel.pushOperation(this.getOperation());
 		} else {
-			panel.getContent().getOtherPlayerUI(this.target).showCountdownBar();
+			panel.getGameUI().getOtherPlayerUI(this.target).showCountdownBar();
 		}
 	}
 	

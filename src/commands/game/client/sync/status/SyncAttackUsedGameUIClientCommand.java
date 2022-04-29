@@ -22,8 +22,8 @@ public class SyncAttackUsedGameUIClientCommand extends AbstractGameUIClientComma
 	@Override
 	protected void execute(GamePanel panel) {
 		try {
-			panel.getContent().getSelf().useAttack(
-				this.targets.stream().map(info -> panel.getContent().getPlayer(info.getName())).collect(Collectors.toSet())
+			panel.getGameState().getSelf().useAttack(
+				this.targets.stream().map(info -> panel.getGameState().getPlayer(info.getName())).collect(Collectors.toSet())
 			);
 		} catch (InvalidPlayerCommandException e) {
 			e.printStackTrace();

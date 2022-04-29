@@ -48,10 +48,10 @@ public class ClientFrameTestGui implements ClientFrame, ConnectionListener {
 	@Override
 	public synchronized void onNewPanelDisplayed(ClientPanel panel) {
 		if (this.panel != null) {
-			frame.remove(this.panel.getUIPanel());
+			frame.remove(this.panel.getPanelUI());
 		}
 		this.panel = panel;
-		frame.add(panel.getUIPanel());
+		frame.add(panel.getPanelUI());
 		frame.pack();
 		notify();
 	}

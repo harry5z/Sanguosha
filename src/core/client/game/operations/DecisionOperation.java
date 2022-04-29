@@ -28,16 +28,16 @@ public class DecisionOperation implements Operation {
 	@Override
 	public void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
-		panel.getContent().setMessage(this.message);
-		panel.getContent().setConfirmEnabled(true);
-		panel.getContent().setCancelEnabled(true);
+		panel.getGameUI().setMessage(this.message);
+		panel.getGameUI().setConfirmEnabled(true);
+		panel.getGameUI().setCancelEnabled(true);
 	}
 	
 	@Override
 	public void onDeactivated() {
-		this.panel.getContent().setConfirmEnabled(false);
-		this.panel.getContent().setCancelEnabled(false);
-		this.panel.getContent().clearMessage();
+		this.panel.getGameUI().setConfirmEnabled(false);
+		this.panel.getGameUI().setCancelEnabled(false);
+		this.panel.getGameUI().clearMessage();
 		this.panel.popOperation();
 	}
 

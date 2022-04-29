@@ -25,7 +25,6 @@ import net.Connection;
 import net.client.ClientMessageListener;
 import ui.client.components.ControlButtonGui;
 import ui.client.components.LabelGui;
-import ui.game.interfaces.ClientGameUI;
 
 public class LobbyGui extends JPanel implements ClientPanel {
 	private static final long serialVersionUID = 2778859336381008271L;
@@ -132,12 +131,7 @@ public class LobbyGui extends JPanel implements ClientPanel {
 	}
 
 	@Override
-	public ClientGameUI getContent() {
-		return null;
-	}
-	
-	@Override
-	public JPanel getUIPanel() {
+	public JPanel getPanelUI() {
 		return this;
 	}
 

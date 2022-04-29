@@ -19,7 +19,7 @@ public class SyncPlayerCardGameUIClientCommand extends AbstractGameUIClientComma
 
 	@Override
 	public void execute(GamePanel panel) {
-		PlayerCompleteClient player = panel.getContent().getSelf();
+		PlayerCompleteClient player = panel.getGameState().getSelf();
 		if (add) {
 			player.addCard(card);
 		} else {

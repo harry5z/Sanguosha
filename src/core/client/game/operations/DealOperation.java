@@ -6,7 +6,7 @@ import core.client.game.event.DealClientGameEvent;
 import core.client.game.event.EnableAttackClientGameEvent;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
-import ui.game.interfaces.ClientGameUI;
+import ui.game.interfaces.GameUI;
 import ui.game.interfaces.EquipmentUI;
 
 public class DealOperation implements Operation {
@@ -47,11 +47,11 @@ public class DealOperation implements Operation {
 	@Override
 	public void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
-		ClientGameUI panelUI = panel.getContent();
+		GameUI panelUI = panel.getGameUI();
 		
 		// TODO Change card activatable to event based for scalability
 		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
-			if (cardUI.getCard().isActivatable(panelUI)) {
+			if (cardUI.getCard().isActivatable(panel.getGameState())) {
 				cardUI.setActivatable(true);
 			}
 		}
@@ -63,7 +63,7 @@ public class DealOperation implements Operation {
 	
 	@Override
 	public void onDeactivated() {
-		ClientGameUI panelUI = panel.getContent();
+		GameUI panelUI = panel.getGameUI();
 		panelUI.setEndEnabled(false);
 		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
 			cardUI.setActivatable(false);

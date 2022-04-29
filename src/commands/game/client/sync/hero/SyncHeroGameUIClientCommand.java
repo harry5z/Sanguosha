@@ -18,10 +18,10 @@ public class SyncHeroGameUIClientCommand extends AbstractGameUIClientCommand {
 
 	@Override
 	protected void execute(GamePanel panel) {
-		if (panel.getContent().getSelf().getName().equals(this.owner)) {
-			panel.getContent().getSelf().setHero(this.hero);
+		if (panel.getGameState().getSelf().getName().equals(this.owner)) {
+			panel.getGameState().getSelf().setHero(this.hero);
 		} else {
-			panel.getContent().getPlayer(this.owner).setHero(this.hero);
+			panel.getGameState().getPlayer(this.owner).setHero(this.hero);
 		}
 	}
 

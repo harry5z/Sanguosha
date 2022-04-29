@@ -9,7 +9,6 @@ import core.client.ClientPanel;
 import net.client.Client;
 import net.client.ClientMessageListener;
 import ui.client.components.ControlButtonGui;
-import ui.game.interfaces.ClientGameUI;
 
 public class ConnectScreenGui extends JPanel implements ClientPanel {
 	private static final long serialVersionUID = -948793753026200428L;
@@ -29,13 +28,8 @@ public class ConnectScreenGui extends JPanel implements ClientPanel {
 	}
 
 	@Override
-	public JPanel getUIPanel() {
+	public JPanel getPanelUI() {
 		return this;
-	}
-
-	@Override
-	public ClientGameUI getContent() {
-		return null;
 	}
 
 }

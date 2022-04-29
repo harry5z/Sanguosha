@@ -18,10 +18,10 @@ public class SyncCardUsedGameUIClientCommand extends AbstractGameUIClientCommand
 
 	@Override
 	protected void execute(GamePanel panel) {
-		if (panel.getContent().getSelf().getName().equals(name)) {
-			panel.getContent().getSelf().getDisposalListener().onCardUsed(card);
+		if (panel.getGameState().getSelf().getName().equals(name)) {
+			panel.getGameState().getSelf().getDisposalListener().onCardUsed(card);
 		} else {
-			panel.getContent().getPlayer(name).getDisposalListener().onCardUsed(card);
+			panel.getGameState().getPlayer(name).getDisposalListener().onCardUsed(card);
 		}
 	}
 
