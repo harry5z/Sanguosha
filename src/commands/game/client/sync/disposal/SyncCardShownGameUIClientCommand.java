@@ -3,7 +3,6 @@ package commands.game.client.sync.disposal;
 import cards.Card;
 import commands.game.client.AbstractGameUIClientCommand;
 import core.client.GamePanel;
-import core.heroes.Hero;
 
 public class SyncCardShownGameUIClientCommand extends AbstractGameUIClientCommand {
 
@@ -18,7 +17,7 @@ public class SyncCardShownGameUIClientCommand extends AbstractGameUIClientComman
 	}
 
 	@Override
-	protected void execute(GamePanel<? extends Hero> panel) {
+	protected void execute(GamePanel panel) {
 		if (panel.getContent().getSelf().getName().equals(name)) {
 			panel.getContent().getSelf().getDisposalListener().onCardShown(card);
 		} else {

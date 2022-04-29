@@ -6,7 +6,6 @@ import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.NeutralizationReactionInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.operations.AbstractCardReactionOperation;
-import core.heroes.Hero;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 
@@ -30,7 +29,7 @@ public class NeutralizationOperation extends AbstractCardReactionOperation {
 	}
 
 	@Override
-	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
+	public void onActivated(GamePanel panel, Activatable source) {
 		if (panel.getCurrentOperation() instanceof NeutralizationOperation) {
 			panel.getCurrentOperation().onEnded();
 			panel.popOperation();

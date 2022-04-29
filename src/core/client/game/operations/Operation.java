@@ -1,7 +1,6 @@
 package core.client.game.operations;
 
 import core.client.GamePanel;
-import core.heroes.Hero;
 import listeners.game.client.PlayerActionListener;
 import ui.game.interfaces.Activatable;
 /**
@@ -11,7 +10,7 @@ import ui.game.interfaces.Activatable;
  */
 public interface Operation extends PlayerActionListener {
 	
-	public void onActivated(GamePanel<? extends Hero> panel, Activatable source);
+	public void onActivated(GamePanel panel, Activatable source);
 	
 	default public void onDeactivated() {}
 }

@@ -6,7 +6,6 @@ import java.util.Collection;
 import cards.equipments.Equipment.EquipmentType;
 import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import core.player.PlayerCardZone;
 import core.player.PlayerInfo;
 import core.player.PlayerSimple;
@@ -17,7 +16,7 @@ import ui.game.interfaces.EquipmentUI;
 
 public class PlayerCardSelectionOperation implements Operation {
 	
-	private GamePanel<? extends Hero> panel;
+	private GamePanel panel;
 	private final PlayerInfo target;
 	private final Collection<PlayerCardZone> zones;
 	private final Collection<EquipmentType> equipmentTypes;
@@ -54,7 +53,7 @@ public class PlayerCardSelectionOperation implements Operation {
 	}
 
 	@Override
-	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
+	public void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
 		PlayerSimple target = panel.getContent().getPlayer(this.target.getName());
 		panel.getContent().displayCustomizedSelectionPaneAtCenter(new CardSelectionPane(target, this.zones, this.equipmentTypes, panel));

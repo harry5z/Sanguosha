@@ -6,12 +6,12 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import core.client.ClientPanel;
-import core.client.ClientPanelUI;
 import net.client.Client;
 import net.client.ClientMessageListener;
 import ui.client.components.ControlButtonGui;
+import ui.game.interfaces.ClientGameUI;
 
-public class ConnectScreenGui extends JPanel implements ClientPanelUI, ClientPanel<ConnectScreenGui> {
+public class ConnectScreenGui extends JPanel implements ClientPanel {
 	private static final long serialVersionUID = -948793753026200428L;
 	private JButton connectButton;
 
@@ -29,13 +29,13 @@ public class ConnectScreenGui extends JPanel implements ClientPanelUI, ClientPan
 	}
 
 	@Override
-	public ConnectScreenGui getContent() {
+	public JPanel getUIPanel() {
 		return this;
 	}
 
 	@Override
-	public JPanel getPanel() {
-		return this;
+	public ClientGameUI getContent() {
+		return null;
 	}
 
 }

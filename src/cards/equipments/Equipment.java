@@ -5,7 +5,6 @@ import core.GameState;
 import core.client.GamePanel;
 import core.client.game.operations.EquipOperation;
 import core.client.game.operations.Operation;
-import core.heroes.Hero;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 
@@ -17,7 +16,7 @@ import core.server.game.Game;
  */
 public abstract class Equipment extends Card {
 
-	private static final long serialVersionUID = 5968539700238484665L;
+	private static final long serialVersionUID = 1L;
 	
 	private EquipmentType equipmentType;// 1.Weapon 2.Shield 3.Horse+ 4.Horse-
 	private boolean equipped;
@@ -54,21 +53,31 @@ public abstract class Equipment extends Card {
 		return true;
 	}
 	
-	public void onEquipped(Game game, PlayerCompleteServer owner) {
-		// I really don't know whether this is "clean" as it involves game and server side stuff
-	}
+	/**
+	 * Server side on-equip setup, e.g. registering Event Handlers
+	 * @param game
+	 * @param owner
+	 */
+	public void onEquipped(Game game, PlayerCompleteServer owner) {}
 	
-	public void onEquipped(GamePanel<Hero> panel) {
-		
-	}
+	/**
+	 * Client side on-equip setup, e.g. registering Event Handlers
+	 * @param panel
+	 */
+	public void onEquipped(GamePanel panel) {}
 	
-	public void onUnequipped(Game game, PlayerCompleteServer owner) {
-		// I really don't know whether this is "clean" as it involves game and server side stuff
-	}
+	/**
+	 * Server side on-unequip setup, e.g. unregistering Event Handlers
+	 * @param game
+	 * @param owner
+	 */
+	public void onUnequipped(Game game, PlayerCompleteServer owner) {}
 	
-	public void onUnequipped(GamePanel<Hero> panel) {
-		
-	}
+	/**
+	 * Client side on-unequip setup, e.g. unregistering Event Handlers
+	 * @param panel
+	 */
+	public void onUnequipped(GamePanel panel) {}
 	
 	/**
 	 * 

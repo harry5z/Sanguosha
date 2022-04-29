@@ -3,7 +3,6 @@ package cards.equipments.weapons;
 import core.client.GamePanel;
 import core.client.game.listener.SerpentSpearAttackReactionEventListener;
 import core.client.game.listener.SerpentSpearInitiateAttackEventListener;
-import core.heroes.Hero;
 
 public class SerpentSpear extends Weapon {
 
@@ -19,13 +18,13 @@ public class SerpentSpear extends Weapon {
 	}
 	
 	@Override
-	public void onEquipped(GamePanel<Hero> panel) {
+	public void onEquipped(GamePanel panel) {
 		panel.registerEventListener(new SerpentSpearInitiateAttackEventListener());
 		panel.registerEventListener(new SerpentSpearAttackReactionEventListener());
 	}
 	
 	@Override
-	public void onUnequipped(GamePanel<Hero> panel) {
+	public void onUnequipped(GamePanel panel) {
 		panel.removeEventListener(new SerpentSpearInitiateAttackEventListener());
 		panel.removeEventListener(new SerpentSpearAttackReactionEventListener());
 	}

@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import commands.game.client.AbstractGameUIClientCommand;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import core.player.PlayerInfo;
 import exceptions.server.game.InvalidPlayerCommandException;
 
@@ -21,7 +20,7 @@ public class SyncAttackUsedGameUIClientCommand extends AbstractGameUIClientComma
 	
 
 	@Override
-	protected void execute(GamePanel<? extends Hero> panel) {
+	protected void execute(GamePanel panel) {
 		try {
 			panel.getContent().getSelf().useAttack(
 				this.targets.stream().map(info -> panel.getContent().getPlayer(info.getName())).collect(Collectors.toSet())

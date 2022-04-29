@@ -10,7 +10,6 @@ import javax.swing.JButton;
 
 import core.Constants;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import core.heroes.skills.Skill;
 import ui.game.interfaces.SkillUI;
 
@@ -36,11 +35,11 @@ public class SkillGui extends JButton implements SkillUI {
 		this.setEnabled(false);
 	}
 	
-	public void onAdded(GamePanel<Hero> panel) {
+	public void onAdded(GamePanel panel) {
 		panel.registerEventListener(this.skill.getClientEventListener(this));
 	}
 	
-	public void onRemoved(GamePanel<Hero> panel) {
+	public void onRemoved(GamePanel panel) {
 		panel.removeEventListener(this.skill.getClientEventListener(this));
 	}
 

@@ -3,7 +3,6 @@ package commands.game.client.sync.equipment;
 import cards.equipments.Equipment;
 import commands.game.client.AbstractGameUIClientCommand;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class SyncEquipGameUIClientCommand extends AbstractGameUIClientCommand {
@@ -19,12 +18,10 @@ public class SyncEquipGameUIClientCommand extends AbstractGameUIClientCommand {
 	}
 	
 	@Override
-	protected void execute(GamePanel<? extends Hero> panel) {
+	protected void execute(GamePanel panel) {
 		try {
 			if (panel.getContent().getSelf().getName().equals(name)) {
 				panel.getContent().getSelf().equip(equipment);
-				// TODO: Fix GamePanel generic type
-				equipment.onEquipped((GamePanel<Hero>) panel);
 			} else {
 				panel.getContent().getPlayer(name).equip(equipment);
 			}

@@ -7,7 +7,6 @@ import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateAttackInGameServerCommand;
 import core.client.game.event.InitiateAttackClientGameEvent;
 import core.client.game.operations.AbstractMultiTargetCardOperation;
-import core.heroes.Hero;
 import core.player.PlayerComplete;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.ClientGameUI;
@@ -30,7 +29,7 @@ public class InitiateAttackOperation extends AbstractMultiTargetCardOperation {
 	
 	@Override
 	protected void setupTargetSelection() {
-		ClientGameUI<? extends Hero> panelUI = this.panel.getContent();
+		ClientGameUI panelUI = this.panel.getContent();
 		PlayerComplete self = panelUI.getSelf();
 		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
 			if (self.isPlayerInAttackRange(other.getPlayer(), panelUI.getNumberOfPlayersAlive())) {

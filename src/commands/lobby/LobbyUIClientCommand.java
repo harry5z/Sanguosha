@@ -11,7 +11,7 @@ public abstract class LobbyUIClientCommand implements Command<ClientFrame> {
 
 	@Override
 	public void execute(ClientFrame ui, Connection connection) {
-		LobbyGui lobby = ui.<LobbyGui>getPanel().getContent();
+		LobbyGui lobby = (LobbyGui) ui.getPanel().getUIPanel();
 		this.execute(lobby, connection);
 	}
 	

@@ -2,7 +2,6 @@ package commands.game.client;
 
 import core.client.GamePanel;
 import core.client.game.operations.instants.NeutralizationOperation;
-import core.heroes.Hero;
 
 public class RequestNeutralizationGameUIClientCommand extends AbstractGameUIClientCommand {
 
@@ -15,7 +14,7 @@ public class RequestNeutralizationGameUIClientCommand extends AbstractGameUIClie
 	}
 	
 	@Override
-	protected void execute(GamePanel<? extends Hero> panel) {
+	protected void execute(GamePanel panel) {
 		panel.pushOperation(new NeutralizationOperation(this.message));
 	}
 

@@ -9,7 +9,6 @@ import commands.welcome.EnterLobbyServerCommand;
 import core.Constants;
 import core.client.ClientFrame;
 import core.client.ClientPanel;
-import core.client.ClientPanelUI;
 import net.Connection;
 import net.ConnectionListener;
 import net.client.Client;
@@ -23,7 +22,7 @@ import utils.Log;
  */
 public class ClientFrameTestGui implements ClientFrame, ConnectionListener {
 	private final JFrame frame;
-	private ClientPanel<? extends ClientPanelUI> panel;
+	private ClientPanel panel;
 
 	public ClientFrameTestGui() {
 		this.frame = new JFrame("Sanguosha");
@@ -47,12 +46,12 @@ public class ClientFrameTestGui implements ClientFrame, ConnectionListener {
 	}
 
 	@Override
-	public synchronized void onNewPanelDisplayed(ClientPanel<? extends ClientPanelUI> panel) {
+	public synchronized void onNewPanelDisplayed(ClientPanel panel) {
 		if (this.panel != null) {
-			frame.remove(this.panel.getContent().getPanel());
+			frame.remove(this.panel.getUIPanel());
 		}
 		this.panel = panel;
-		frame.add(panel.getContent().getPanel());
+		frame.add(panel.getUIPanel());
 		frame.pack();
 		notify();
 	}
@@ -62,10 +61,10 @@ public class ClientFrameTestGui implements ClientFrame, ConnectionListener {
 		Log.error("Client Frame", message);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends ClientPanelUI> ClientPanel<T> getPanel() {
-		return (ClientPanel<T>) panel;
+	public ClientPanel getPanel() {
+		return this.panel;
 	}
+
 
 }

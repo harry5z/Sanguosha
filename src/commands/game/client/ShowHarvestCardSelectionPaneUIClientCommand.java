@@ -5,7 +5,6 @@ import java.util.Map;
 import cards.Card;
 import core.client.GamePanel;
 import core.client.game.operations.HarvestCardSelectionOperation;
-import core.heroes.Hero;
 import core.player.PlayerInfo;
 import ui.game.custom.HarvestSelectionPane;
 
@@ -22,7 +21,7 @@ public class ShowHarvestCardSelectionPaneUIClientCommand extends AbstractGameUIC
 	}
 
 	@Override
-	protected void execute(GamePanel<? extends Hero> panel) {
+	protected void execute(GamePanel panel) {
 		panel.getContent().removeSelectionPane();
 		
 		// clear selection pane command

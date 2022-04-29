@@ -1,14 +1,19 @@
 package core.client;
 
+import javax.swing.JPanel;
+
 import net.client.ClientMessageListener;
+import ui.game.interfaces.ClientGameUI;
 
 /**
  * @author Harry
  *
  */
-public interface ClientPanel<T extends ClientPanelUI> {
+public interface ClientPanel {
 	
-	public T getContent();
+	public ClientGameUI getContent();
+	
+	public JPanel getUIPanel();
 	
 	public ClientMessageListener getMessageListener();
 

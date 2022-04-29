@@ -7,7 +7,6 @@ import cards.Card.Color;
 import core.client.GamePanel;
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.FireAttackOperation;
-import core.heroes.Hero;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.SkillUI;
@@ -15,7 +14,7 @@ import ui.game.interfaces.SkillUI;
 public class FireAttackSkillOperation implements Operation {
 	
 	private final SkillUI skill;
-	private GamePanel<? extends Hero> panel;
+	private GamePanel panel;
 	private Set<CardUI> selectableCards;
 	private CardUI cardSelected = null;
 	private Operation previousOperation;
@@ -27,7 +26,7 @@ public class FireAttackSkillOperation implements Operation {
 	}
 
 	@Override
-	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
+	public void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
 		while (panel.getCurrentOperation() != null) {
 			this.previousOperation = panel.getCurrentOperation();
@@ -47,14 +46,14 @@ public class FireAttackSkillOperation implements Operation {
 	@Override
 	public void onEnded() {
 		this.onDeactivated();
-		this.panel.pushOperation(this.previousOperation);
+		this.panel.pushOperation(this.previousOperation, null);
 		this.panel.getCurrentOperation().onEnded();
 	}
 	
 	@Override
 	public void onCanceled() {
 		this.onDeactivated();
-		this.panel.pushOperation(this.previousOperation);
+		this.panel.pushOperation(this.previousOperation, null);
 	}
 	
 	@Override
@@ -66,7 +65,7 @@ public class FireAttackSkillOperation implements Operation {
 	@Override
 	public void onSkillClicked(SkillUI skill) {
 		this.onDeactivated();
-		this.panel.pushOperation(this.previousOperation);
+		this.panel.pushOperation(this.previousOperation, null);
 		this.panel.getCurrentOperation().onSkillClicked(skill);
 	}
 	

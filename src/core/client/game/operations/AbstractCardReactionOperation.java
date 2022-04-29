@@ -3,13 +3,12 @@ package core.client.game.operations;
 import cards.Card;
 import commands.game.server.ingame.InGameServerCommand;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 
 public abstract class AbstractCardReactionOperation implements Operation {
 
-	protected GamePanel<? extends Hero> panel;
+	protected GamePanel panel;
 	protected CardUI card;
 	private final String message;
 	
@@ -79,7 +78,7 @@ public abstract class AbstractCardReactionOperation implements Operation {
 	}
 
 	@Override
-	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
+	public void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
 		panel.getContent().setMessage(this.message);
 		for (CardUI cardUI : panel.getContent().getCardRackUI().getCardUIs()) {

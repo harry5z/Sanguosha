@@ -7,7 +7,6 @@ import java.util.Set;
 import javax.swing.JPanel;
 
 import core.client.GamePanel;
-import core.heroes.Hero;
 import core.heroes.skills.Skill;
 
 @SuppressWarnings("serial")
@@ -23,7 +22,7 @@ public class SkillBarGui extends JPanel {
 		this.setSize(new Dimension(WIDTH, HEIGHT));
 	}
 
-	public void addSkill(Skill skill, GamePanel<Hero> panel) {
+	public void addSkill(Skill skill, GamePanel panel) {
 		SkillGui ui = new SkillGui(skill);
 		ui.onAdded(panel);
 		this.skills.add(ui);

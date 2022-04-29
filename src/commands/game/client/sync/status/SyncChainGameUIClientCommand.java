@@ -2,7 +2,6 @@ package commands.game.client.sync.status;
 
 import commands.game.client.AbstractGameUIClientCommand;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import core.player.Player;
 
 public class SyncChainGameUIClientCommand extends AbstractGameUIClientCommand {
@@ -18,7 +17,7 @@ public class SyncChainGameUIClientCommand extends AbstractGameUIClientCommand {
 	}
 
 	@Override
-	protected void execute(GamePanel<? extends Hero> panel) {
+	protected void execute(GamePanel panel) {
 		Player player = panel.getContent().getSelf();
 		if (player.getName().equals(this.name)) {
 			player.setChained(this.chained);

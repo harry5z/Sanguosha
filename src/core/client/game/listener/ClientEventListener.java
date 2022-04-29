@@ -2,14 +2,13 @@ package core.client.game.listener;
 
 import core.client.GamePanel;
 import core.client.game.event.ClientGameEvent;
-import core.heroes.Hero;
 
-public interface ClientEventListener<E extends ClientGameEvent, H extends Hero> {
+public interface ClientEventListener<E extends ClientGameEvent> {
 	
 	public Class<E> getEventClass();
 
-	public void handle(E event, GamePanel<H> panel);
+	public void handle(E event, GamePanel panel);
 	
-	public void onDeactivated(GamePanel<H> panel);
+	public void onDeactivated(GamePanel panel);
 
 }

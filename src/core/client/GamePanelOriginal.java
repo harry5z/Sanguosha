@@ -8,10 +8,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import javax.swing.JPanel;
+
 import core.client.game.event.ClientGameEvent;
 import core.client.game.listener.ClientEventListener;
 import core.client.game.operations.Operation;
-import core.heroes.Hero;
 import core.player.PlayerInfo;
 import net.Channel;
 import net.client.ClientMessageListener;
@@ -26,11 +27,11 @@ import ui.game.interfaces.ClientGameUI;
  * @author Harry
  *
  */
-public class GamePanelOriginal implements GamePanel<Hero> {
+public class GamePanelOriginal implements GamePanel {
 
-	private final ClientGameUI<Hero> panel;
+	private final GamePanelGui panel;
 	private final Stack<Operation> currentOperations;
-	private final Map<Class<? extends ClientGameEvent>, Set<ClientEventListener<?, Hero>>> listeners;
+	private final Map<Class<? extends ClientGameEvent>, Set<ClientEventListener<? extends ClientGameEvent>>> listeners;
 	private final Channel channel;
 	
 	public GamePanelOriginal(PlayerInfo info, List<PlayerInfo> players, Channel channel) {
@@ -47,7 +48,7 @@ public class GamePanelOriginal implements GamePanel<Hero> {
 	}
 	
 	@Override
-	public void registerEventListener(ClientEventListener<? extends ClientGameEvent, Hero> listener) {
+	public void registerEventListener(ClientEventListener<? extends ClientGameEvent> listener) {
 		if (listener == null) {
 			return;
 		}
@@ -59,7 +60,7 @@ public class GamePanelOriginal implements GamePanel<Hero> {
 	}
 	
 	@Override
-	public void removeEventListener(ClientEventListener<? extends ClientGameEvent, Hero> listener) {
+	public void removeEventListener(ClientEventListener<? extends ClientGameEvent> listener) {
 		if (listener == null) {
 			return;
 		}
@@ -79,13 +80,14 @@ public class GamePanelOriginal implements GamePanel<Hero> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <E extends ClientGameEvent> void emit(E event) {
+	public <T extends ClientGameEvent> void emit(T event) {
 		if (!this.listeners.containsKey(event.getClass())) {
 			return;
 		}
 		
-		for (ClientEventListener<?, Hero> listener : this.listeners.get(event.getClass())) {
-			((ClientEventListener<E, Hero>) listener).handle(event, this);
+		for (ClientEventListener<? extends ClientGameEvent> listener : this.listeners.get(event.getClass())) {
+			// By implementation of #registerEventListener, this is correct
+			((ClientEventListener<T>) listener).handle(event, this);
 		}
 	}
 	
@@ -118,13 +120,18 @@ public class GamePanelOriginal implements GamePanel<Hero> {
 	}
 	
 	@Override
-	public ClientGameUI<Hero> getContent() {
+	public ClientGameUI getContent() {
 		return panel;
 	}
 
 	@Override
 	public ClientMessageListener getMessageListener() {
 		return null; // message box
+	}
+
+	@Override
+	public JPanel getUIPanel() {
+		return panel;
 	}
 
 }

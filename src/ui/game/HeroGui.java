@@ -24,7 +24,7 @@ import core.player.PlayerSimple;
 import ui.game.interfaces.HeroUI;
 
 @SuppressWarnings("serial")
-public class HeroGui extends JPanel implements HeroUI<Hero> {
+public class HeroGui extends JPanel implements HeroUI {
 	
 	private PlayerCompleteClient self;
 	public static final int WIDTH = CardRackGui.HEIGHT;
@@ -32,10 +32,10 @@ public class HeroGui extends JPanel implements HeroUI<Hero> {
 	private boolean activated = false;
 	private JComponent chain = null;
 	private SkillBarGui skillBar = null;
-	private final GamePanel<Hero> panel;
+	private final GamePanel panel;
 	private final JButton heroButton;
 
-	public HeroGui(GamePanel<Hero> panel) {
+	public HeroGui(GamePanel panel) {
 		this.panel = panel;
 		this.setLayout(null);
 		this.setSize(WIDTH, HEIGHT);

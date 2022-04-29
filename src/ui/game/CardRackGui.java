@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 
 import cards.Card;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import core.player.PlayerCardZone;
 import listeners.game.CardOnHandListener;
 import ui.game.interfaces.CardRackUI;
@@ -29,7 +28,7 @@ public class CardRackGui extends JPanel implements CardOnHandListener, CardRackU
 	private final ActionListener listener;
 	private List<CardGui> cards;
 
-	public CardRackGui(GamePanel<? extends Hero> panel, PlayerCardZone zone) {
+	public CardRackGui(GamePanel panel, PlayerCardZone zone) {
 		setLayout(null);
 		setSize(WIDTH, HEIGHT);
 		setLocation(EquipmentRackGui.WIDTH, GamePanelGui.HEIGHT - HEIGHT);
@@ -50,7 +49,7 @@ public class CardRackGui extends JPanel implements CardOnHandListener, CardRackU
 		}
 	}
 	
-	public CardRackGui(GamePanel<? extends Hero> panel) {
+	public CardRackGui(GamePanel panel) {
 		this(panel, PlayerCardZone.HAND);
 	}
 	

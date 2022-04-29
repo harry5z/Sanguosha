@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import commands.game.client.GameClientCommand;
-import core.heroes.Hero;
 import core.player.PlayerInfo;
 import core.server.game.Game;
 import core.server.game.GameConfig;
@@ -45,17 +44,17 @@ public class GameRoom extends ServerEntity implements ConnectionController {
 	}
 	
 	@Override
-	public synchronized void sendCommandToAllPlayers(GameClientCommand<? extends Hero> command) {
+	public synchronized void sendCommandToAllPlayers(GameClientCommand command) {
 		this.connectionMap.forEach((name, connection) -> connection.send(command));
 	}
 	
 	@Override
-	public synchronized void sendCommandToPlayers(Map<String, GameClientCommand<? extends Hero>> commands) {
+	public synchronized void sendCommandToPlayers(Map<String, GameClientCommand> commands) {
 		commands.forEach((name, command) -> this.connectionMap.get(name).send(command));
 	}
 	
 	@Override
-	public synchronized void sendCommandToPlayer(String name, GameClientCommand<? extends Hero> command) {
+	public synchronized void sendCommandToPlayer(String name, GameClientCommand command) {
 		this.connectionMap.get(name).send(command);
 	}
 	

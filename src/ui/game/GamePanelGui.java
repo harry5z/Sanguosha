@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import cards.Card;
 import core.Constants;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import core.heroes.original.Blank;
 import core.player.PlayerCompleteClient;
 import core.player.PlayerInfo;
@@ -23,7 +22,7 @@ import ui.game.interfaces.ClientGameUI;
 import ui.game.interfaces.HeroUI;
 import ui.game.interfaces.PlayerUI;
 
-public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<Hero> {
+public class GamePanelGui extends JPanel implements GameListener, ClientGameUI {
 	private static final long serialVersionUID = 2519723480954332278L;
 
 	public static final int WIDTH = Constants.SCREEN_WIDTH / 4 * 3;
@@ -38,7 +37,7 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 	private JPanel customizedSelectionPane;
 
 	private PlayerCompleteClient myself;
-	private List<PlayerGui> otherPlayers;
+	private List<PlayerUI> otherPlayers;
 	private ButtonGui confirm;
 	private ButtonGui cancel;
 	private ButtonGui end;
@@ -46,11 +45,11 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 	private JLabel deckSize;
 	private MessageBoxGui messageBox;
 	
-	private final GamePanel<Hero> panel;
+	private final GamePanel panel;
 	
 	private int cancelSetCount;
 
-	public GamePanelGui(PlayerInfo player, GamePanel<Hero> panel) {
+	public GamePanelGui(PlayerInfo player, GamePanel panel) {
 		this.panel = panel;
 		setLayout(null);
 		myself = new PlayerCompleteClient(player.getName(), player.getPosition());
@@ -61,7 +60,7 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 		healthGui = new LifebarGui();
 		disposalGui = new CardDisposalGui(this);
 		delayedGui = new DelayedBarGui();
-		otherPlayers = new ArrayList<PlayerGui>();
+		otherPlayers = new ArrayList<PlayerUI>();
 		deckSize = new JLabel();
 		deckSize.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
 		deckSize.setSize(100, 100);
@@ -128,12 +127,12 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 	}
 
 	@Override
-	public HeroUI<Hero> getHeroUI() {
+	public HeroUI getHeroUI() {
 		return heroGui;
 	}
 	
 	@Override
-	public List<? extends PlayerUI> getOtherPlayersUI() {
+	public List<PlayerUI> getOtherPlayersUI() {
 		return otherPlayers;
 	}
 	
@@ -155,7 +154,7 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 	@Override
 	public int getNumberOfPlayersAlive() {
 		int count = this.myself.isAlive() ? 1 : 0;
-		for (PlayerGui player : this.otherPlayers) {
+		for (PlayerUI player : this.otherPlayers) {
 			if (player.getPlayer().isAlive()) {
 				count++;
 			}
@@ -165,7 +164,7 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 	
 	@Override
 	public synchronized PlayerUI getOtherPlayerUI(PlayerInfo other) {
-		for (PlayerGui ui : otherPlayers) {
+		for (PlayerUI ui : otherPlayers) {
 			if (ui.getPlayer().getPlayerInfo().equals(other)) {
 				return ui;
 			}
@@ -175,7 +174,7 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 	
 	@Override
 	public synchronized PlayerUI getOtherPlayerUI(String name) {
-		for (PlayerGui ui : otherPlayers) {
+		for (PlayerUI ui : otherPlayers) {
 			if (ui.getPlayer().getPlayerInfo().getName().equals(name)) {
 				return ui;
 			}
@@ -185,7 +184,7 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 	
 	@Override
 	public PlayerSimple getPlayer(String name) {
-		for (PlayerGui ui : otherPlayers) {
+		for (PlayerUI ui : otherPlayers) {
 			if (ui.getPlayer().getName().equals(name)) {
 				return ui.getPlayer();
 			}
@@ -210,7 +209,7 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 
 	@Override
 	public void setTargetSelected(PlayerInfo player, boolean selected) {
-		for (PlayerGui p : otherPlayers)
+		for (PlayerUI p : otherPlayers)
 			if (p.getPlayer().equals(player)) {
 				if (selected) {
 					p.setActivated(true);
@@ -233,9 +232,9 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 	public void setTargetSelectable(PlayerInfo player, boolean selectable) {
 		if (myself.equals(player))
 			heroGui.setEnabled(selectable);
-		for (PlayerGui p : otherPlayers)
+		for (PlayerUI p : otherPlayers)
 			if (p.getPlayer().equals(player)) {
-				p.setEnabled(selectable);
+				p.setActivatable(selectable);
 				return;
 			}
 	}
@@ -311,8 +310,4 @@ public class GamePanelGui extends JPanel implements GameListener, ClientGameUI<H
 		// TODO implement action bar for self
 	}
 	
-	@Override
-	public JPanel getPanel() {
-		return this;
-	}
 }

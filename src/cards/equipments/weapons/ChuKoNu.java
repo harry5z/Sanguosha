@@ -1,7 +1,6 @@
 package cards.equipments.weapons;
 
 import core.client.GamePanel;
-import core.heroes.Hero;
 import core.player.PlayerCompleteServer;
 import core.player.query_listener.ChuKoNuPlayerAttackLimitQueryListener;
 import core.server.game.Game;
@@ -25,7 +24,7 @@ public class ChuKoNu extends Weapon {
 	}
 	
 	@Override
-	public void onEquipped(GamePanel<Hero> panel) {
+	public void onEquipped(GamePanel panel) {
 		panel.getContent().getSelf().registerPlayerStatusQueryListener(new ChuKoNuPlayerAttackLimitQueryListener());
 	}
 	
@@ -35,7 +34,7 @@ public class ChuKoNu extends Weapon {
 	}
 	
 	@Override
-	public void onUnequipped(GamePanel<Hero> panel) {
+	public void onUnequipped(GamePanel panel) {
 		panel.getContent().getSelf().removePlayerStatusQueryListener(new ChuKoNuPlayerAttackLimitQueryListener());
 	}
 }

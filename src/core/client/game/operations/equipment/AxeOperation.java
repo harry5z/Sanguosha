@@ -11,7 +11,6 @@ import cards.equipments.Equipment.EquipmentType;
 import commands.game.server.ingame.AxeReactionInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.operations.Operation;
-import core.heroes.Hero;
 import core.player.PlayerCardZone;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
@@ -19,7 +18,7 @@ import ui.game.interfaces.EquipmentUI;
 
 public class AxeOperation implements Operation {
 	
-	private GamePanel<? extends Hero> panel;
+	private GamePanel panel;
 	private final Map<Activatable, PlayerCardZone> cards;
 	
 	public AxeOperation() {
@@ -95,7 +94,7 @@ public class AxeOperation implements Operation {
 }
 
 	@Override
-	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
+	public void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
 		panel.getContent().setMessage("Axe: Discard 2 cards to make the Attack hit?");
 		for (CardUI cardUI : panel.getContent().getCardRackUI().getCardUIs()) {

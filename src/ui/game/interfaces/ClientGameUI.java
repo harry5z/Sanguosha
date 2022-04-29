@@ -5,11 +5,9 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import core.GameState;
-import core.client.ClientPanelUI;
-import core.heroes.Hero;
 import core.player.PlayerInfo;
 
-public interface ClientGameUI<T extends Hero> extends ClientPanelUI, GameState {
+public interface ClientGameUI extends GameState {
 
 	/**
 	 * invoked to enable/disable confirm button
@@ -33,13 +31,13 @@ public interface ClientGameUI<T extends Hero> extends ClientPanelUI, GameState {
 	
 	public PlayerUI getOtherPlayerUI(PlayerInfo other);
 
-	public HeroUI<T> getHeroUI();
+	public HeroUI getHeroUI();
 
 	public CardRackUI getCardRackUI();
 	
 	public EquipmentRackUI getEquipmentRackUI();
 
-	public List<? extends PlayerUI> getOtherPlayersUI();
+	public List<PlayerUI> getOtherPlayersUI();
 	
 	public void displayCustomizedSelectionPaneAtCenter(JPanel panel);
 	

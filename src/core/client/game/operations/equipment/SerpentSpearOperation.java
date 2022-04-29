@@ -9,14 +9,13 @@ import commands.game.server.ingame.SerpentSpearAttackReactionInGameServerCommand
 import commands.game.server.ingame.SerpentSpearInitiateAttackInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.operations.Operation;
-import core.heroes.Hero;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.PlayerUI;
 
 public class SerpentSpearOperation implements Operation {
 	
-	private GamePanel<? extends Hero> panel;
+	private GamePanel panel;
 	private Activatable source;
 	private final boolean withTarget;
 	private PlayerUI target;
@@ -92,11 +91,11 @@ public class SerpentSpearOperation implements Operation {
 	@Override
 	public void onCanceled() {
 		this.onDeactivated();
-		this.panel.pushOperation(this.previousOperation);
+		this.panel.pushOperation(this.previousOperation, null);
 	}
 	
 	@Override
-	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
+	public void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
 		this.source = source;
 		

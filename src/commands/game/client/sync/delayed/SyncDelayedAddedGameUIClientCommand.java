@@ -3,7 +3,6 @@ package commands.game.client.sync.delayed;
 import cards.Card;
 import commands.game.client.AbstractGameUIClientCommand;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import utils.DelayedType;
 
 public class SyncDelayedAddedGameUIClientCommand extends AbstractGameUIClientCommand {
@@ -23,7 +22,7 @@ public class SyncDelayedAddedGameUIClientCommand extends AbstractGameUIClientCom
 	}
 
 	@Override
-	protected void execute(GamePanel<? extends Hero> panel) {
+	protected void execute(GamePanel panel) {
 		if (panel.getContent().getSelf().getName().equals(this.name)) {
 			if (this.add) {
 				panel.getContent().getSelf().pushDelayed(this.card, this.type);

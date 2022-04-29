@@ -2,7 +2,6 @@ package cards.equipments.weapons;
 
 import core.client.GamePanel;
 import core.client.game.listener.HalberdClientEventListener;
-import core.heroes.Hero;
 import core.player.PlayerCompleteServer;
 import core.player.query_listener.HalberdPlayerAttackTargetLimitQueryListener;
 import core.server.game.Game;
@@ -26,7 +25,7 @@ public class Halberd extends Weapon {
 	}
 	
 	@Override
-	public void onEquipped(GamePanel<Hero> panel) {
+	public void onEquipped(GamePanel panel) {
 		panel.registerEventListener(new HalberdClientEventListener());
 	}
 	
@@ -36,7 +35,7 @@ public class Halberd extends Weapon {
 	}
 	
 	@Override
-	public void onUnequipped(GamePanel<Hero> panel) {
+	public void onUnequipped(GamePanel panel) {
 		panel.removeEventListener(new HalberdClientEventListener());
 	}
 

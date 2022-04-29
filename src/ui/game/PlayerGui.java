@@ -46,7 +46,7 @@ public class PlayerGui extends JButton implements PlayerUI {
 	private boolean activated = false;
 	private JComponent chain = null;
 
-	public PlayerGui(PlayerSimple player, GamePanel<? extends Hero> panel) {
+	public PlayerGui(PlayerSimple player, GamePanel panel) {
 		this.player = player;
 		setSize(WIDTH, HEIGHT + 35);
 		setLayout(null);

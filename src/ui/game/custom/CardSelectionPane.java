@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 
 import cards.equipments.Equipment.EquipmentType;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import core.player.PlayerCardZone;
 import core.player.PlayerSimple;
 import ui.game.CardGui;
@@ -25,7 +24,7 @@ public class CardSelectionPane extends JPanel {
 		PlayerSimple player,
 		Collection<PlayerCardZone> zones,
 		Collection<EquipmentType> equipmentTypes,
-		GamePanel<? extends Hero> panel
+		GamePanel panel
 	) {
 		int verticalLocation = 0;
 		setLayout(null);

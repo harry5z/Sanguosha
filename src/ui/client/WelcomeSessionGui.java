@@ -10,13 +10,13 @@ import javax.swing.JPanel;
 
 import commands.welcome.EnterLobbyServerCommand;
 import core.client.ClientPanel;
-import core.client.ClientPanelUI;
 import net.Connection;
 import net.client.ClientMessageListener;
 import ui.client.components.ControlButtonGui;
 import ui.client.components.LabelGui;
+import ui.game.interfaces.ClientGameUI;
 
-public class WelcomeSessionGui extends JPanel implements ClientPanelUI, ClientPanel<WelcomeSessionGui> {
+public class WelcomeSessionGui extends JPanel implements ClientPanel {
 	
 	private static final long serialVersionUID = -3932061499692049816L;
 
@@ -34,19 +34,19 @@ public class WelcomeSessionGui extends JPanel implements ClientPanelUI, ClientPa
 	}
 
 	@Override
-	public WelcomeSessionGui getContent() {
-		return this;
-	}
-	
-	@Override
-	public JPanel getPanel() {
-		return this;
-	}
-
-	@Override
 	public ClientMessageListener getMessageListener() {
 		// TODO display message
 		return null;
+	}
+
+	@Override
+	public ClientGameUI getContent() {
+		return null;
+	}
+
+	@Override
+	public JPanel getUIPanel() {
+		return this;
 	}
 
 }

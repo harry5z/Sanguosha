@@ -6,7 +6,6 @@ import cards.equipments.Equipment.EquipmentType;
 import core.client.GamePanel;
 import core.client.game.event.AttackReactionClientGameEvent;
 import core.client.game.operations.equipment.SerpentSpearOperation;
-import core.heroes.Hero;
 import ui.game.interfaces.Activatable;
 
 public class SerpentSpearAttackReactionEventListener extends AbstractClientEventListener<AttackReactionClientGameEvent> {
@@ -17,7 +16,7 @@ public class SerpentSpearAttackReactionEventListener extends AbstractClientEvent
 	}
 
 	@Override
-	public void handle(AttackReactionClientGameEvent event, GamePanel<Hero> panel) {
+	public void handle(AttackReactionClientGameEvent event, GamePanel panel) {
 		if (event.isStart()) {
 			panel.getContent().getEquipmentRackUI().setActivatable(Set.of(EquipmentType.WEAPON), true);
 			panel.getContent().getEquipmentRackUI().registerOnActivatedListener(EquipmentType.WEAPON, (e) -> {
@@ -29,7 +28,7 @@ public class SerpentSpearAttackReactionEventListener extends AbstractClientEvent
 	}
 
 	@Override
-	public void onDeactivated(GamePanel<Hero> panel) {
+	public void onDeactivated(GamePanel panel) {
 		panel.getContent().getEquipmentRackUI().setActivatable(Set.of(EquipmentType.WEAPON), false);
 		panel.getContent().getEquipmentRackUI().removeOnActivatedListeners(EquipmentType.WEAPON);
 	}

@@ -4,11 +4,10 @@ import java.util.List;
 
 import core.client.ClientFrame;
 import core.client.GamePanelOriginal;
-import core.heroes.Hero;
 import core.player.PlayerInfo;
 import net.Connection;
 
-public class EnterOriginalGameRoomGameClientCommand implements GameClientCommand<Hero> {
+public class EnterOriginalGameRoomGameClientCommand implements GameClientCommand {
 	
 	private static final long serialVersionUID = 1094417892948875381L;
 	

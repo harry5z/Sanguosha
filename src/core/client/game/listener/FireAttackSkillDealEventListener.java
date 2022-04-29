@@ -3,7 +3,6 @@ package core.client.game.listener;
 import core.client.GamePanel;
 import core.client.game.event.DealClientGameEvent;
 import core.client.game.operations.skills.FireAttackSkillOperation;
-import core.heroes.Hero;
 import ui.game.interfaces.SkillUI;
 
 public class FireAttackSkillDealEventListener extends AbstractClientEventListener<DealClientGameEvent> {
@@ -20,7 +19,7 @@ public class FireAttackSkillDealEventListener extends AbstractClientEventListene
 	}
 
 	@Override
-	public void handle(DealClientGameEvent event, GamePanel<Hero> panel) {
+	public void handle(DealClientGameEvent event, GamePanel panel) {
 		if (event.isStart()) {
 			if (panel.getContent().getSelf().getHandCount() > 0) {
 				this.skill.setActionOnActivation(() -> {
@@ -35,7 +34,7 @@ public class FireAttackSkillDealEventListener extends AbstractClientEventListene
 	}
 
 	@Override
-	public void onDeactivated(GamePanel<Hero> panel) {
+	public void onDeactivated(GamePanel panel) {
 		this.skill.setActivatable(false);
 	}
 

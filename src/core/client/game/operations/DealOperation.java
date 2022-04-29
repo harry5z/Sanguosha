@@ -4,7 +4,6 @@ import commands.game.server.ingame.EndStageInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.event.DealClientGameEvent;
 import core.client.game.event.EnableAttackClientGameEvent;
-import core.heroes.Hero;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.ClientGameUI;
@@ -12,7 +11,7 @@ import ui.game.interfaces.EquipmentUI;
 
 public class DealOperation implements Operation {
 
-	private GamePanel<? extends Hero> panel;
+	private GamePanel panel;
 	
 	@Override
 	public void onEnded() {
@@ -46,9 +45,9 @@ public class DealOperation implements Operation {
 	}
 
 	@Override
-	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
+	public void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
-		ClientGameUI<? extends Hero> panelUI = panel.getContent();
+		ClientGameUI panelUI = panel.getContent();
 		
 		// TODO Change card activatable to event based for scalability
 		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
@@ -64,7 +63,7 @@ public class DealOperation implements Operation {
 	
 	@Override
 	public void onDeactivated() {
-		ClientGameUI<? extends Hero> panelUI = panel.getContent();
+		ClientGameUI panelUI = panel.getContent();
 		panelUI.setEndEnabled(false);
 		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
 			cardUI.setActivatable(false);

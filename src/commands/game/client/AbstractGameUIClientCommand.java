@@ -2,19 +2,24 @@ package commands.game.client;
 
 import core.client.ClientFrame;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import net.Connection;
-import ui.game.interfaces.ClientGameUI;
 
-public abstract class AbstractGameUIClientCommand implements GameClientCommand<Hero> {
+public abstract class AbstractGameUIClientCommand implements GameClientCommand {
 
-	private static final long serialVersionUID = 6779995165111144810L;
+	private static final long serialVersionUID = 1L;
 
 	@Override
-	public final void execute(ClientFrame ui, Connection connection) {
-		execute((GamePanel<Hero>) ui.<ClientGameUI<Hero>>getPanel());
+	public final void execute(ClientFrame frame, Connection connection) {
+		try {
+			// A GameUIClientCommand should be sent to a previously set up GamePanel
+			// if not, it's an error
+			this.execute((GamePanel) frame.getPanel());
+		} catch (Exception e) {
+			// TODO handle command error
+			throw new RuntimeException("GameUIClientCommand received while no Game UI available");
+		}
 	}
 	
-	protected abstract void execute(GamePanel<? extends Hero> panel);
+	protected abstract void execute(GamePanel panel);
 
 }

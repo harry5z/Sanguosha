@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 
 import cards.Card;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import ui.game.CardGui;
 import ui.game.GamePanelGui;
 import ui.game.interfaces.CardUI;
@@ -20,7 +19,7 @@ public class HarvestSelectionPane extends JPanel {
 	private static final long serialVersionUID = -1L;
 	private static final int LABEL_HEIGHT = 40;
 
-	public HarvestSelectionPane(Map<Card, Boolean> selectableCards, String targetName, GamePanel<? extends Hero> panel) {
+	public HarvestSelectionPane(Map<Card, Boolean> selectableCards, String targetName, GamePanel panel) {
 		setBackground(new Color(222, 184, 135));
 		int size = selectableCards.size();
 		int width = CardGui.WIDTH * (size > 4 ? 4 : size) + GamePanelGui.WIDTH / 4;

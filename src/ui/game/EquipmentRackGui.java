@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import listeners.game.EquipmentListener;
 import ui.game.interfaces.EquipmentRackUI;
 
@@ -19,25 +18,23 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener, Equip
 	public static final int WIDTH = CardRackGui.HEIGHT;
 	public static final int HEIGHT = WIDTH;
 	
+	private final GamePanel panel;
+	
 	private EquipmentGui weapon;
 	private EquipmentGui shield;
 	private EquipmentGui horsePlus;
 	private EquipmentGui horseMinus;
 	private final ActionListener originalListener;
 
-	public EquipmentRackGui(GamePanel<? extends Hero> panel) {
+	public EquipmentRackGui(GamePanel panel) {
 		init();
+		this.panel = panel;
 		ActionListener listener = e -> panel.getCurrentOperation().onEquipmentClicked((EquipmentGui) e.getSource());
 		weapon.addActionListener(listener);
 		shield.addActionListener(listener);
 		horsePlus.addActionListener(listener);
 		horseMinus.addActionListener(listener);
 		this.originalListener = listener;
-	}
-
-	public EquipmentRackGui() {
-		init();
-		this.originalListener = null;
 	}
 
 	private void init() {
@@ -57,40 +54,53 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener, Equip
 	@Override
 	public void onEquipped(Equipment equipment) {
 		switch (equipment.getEquipmentType()) {
-		case WEAPON:
-			weapon.setEquipment(equipment);
-			break;
-		case SHIELD:
-			shield.setEquipment(equipment);
-			break;
-		case HORSEPLUS:
-			horsePlus.setEquipment(equipment);
-			break;
-		case HORSEMINUS:
-			horseMinus.setEquipment(equipment);
-			break;
-		default:
-			System.err.println("EquipmentRack: Unidentified Error");
+			case WEAPON:
+				weapon.setEquipment(equipment);
+				equipment.onEquipped(this.panel);
+				break;
+			case SHIELD:
+				shield.setEquipment(equipment);
+				equipment.onEquipped(this.panel);
+				break;
+			case HORSEPLUS:
+				horsePlus.setEquipment(equipment);
+				equipment.onEquipped(this.panel);
+				break;
+			case HORSEMINUS:
+				horseMinus.setEquipment(equipment);
+				equipment.onEquipped(this.panel);
+				break;
+			default:
+				System.err.println("EquipmentRack: Unidentified Error");
 		}
 	}
 
 	@Override
 	public void onUnequipped(EquipmentType type) {
+		Equipment e;
 		switch (type) {
-		case WEAPON:
-			weapon.setEquipment(null);
-			break;
-		case SHIELD:
-			shield.setEquipment(null);
-			break;
-		case HORSEPLUS:
-			horsePlus.setEquipment(null);
-			break;
-		case HORSEMINUS:
-			horseMinus.setEquipment(null);
-			break;
-		default:
-			System.err.println("EquipmentRack: Unidentified Error");
+			case WEAPON:
+				e = weapon.getEquipment();
+				weapon.setEquipment(null);
+				e.onUnequipped(this.panel);
+				break;
+			case SHIELD:
+				e = shield.getEquipment();
+				shield.setEquipment(null);
+				e.onUnequipped(this.panel);
+				break;
+			case HORSEPLUS:
+				e = horsePlus.getEquipment();
+				horsePlus.setEquipment(null);
+				e.onUnequipped(this.panel);
+				break;
+			case HORSEMINUS:
+				e = horseMinus.getEquipment();
+				horseMinus.setEquipment(null);
+				e.onUnequipped(this.panel);
+				break;
+			default:
+				System.err.println("EquipmentRack: Unidentified Error");
 		}
 	}
 	

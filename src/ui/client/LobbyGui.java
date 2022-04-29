@@ -20,14 +20,14 @@ import javax.swing.border.LineBorder;
 import commands.lobby.CreateRoomLobbyServerCommand;
 import commands.lobby.EnterRoomLobbyServerCommand;
 import core.client.ClientPanel;
-import core.client.ClientPanelUI;
 import core.server.RoomInfo;
 import net.Connection;
 import net.client.ClientMessageListener;
 import ui.client.components.ControlButtonGui;
 import ui.client.components.LabelGui;
+import ui.game.interfaces.ClientGameUI;
 
-public class LobbyGui extends JPanel implements ClientPanelUI, ClientPanel<LobbyGui> {
+public class LobbyGui extends JPanel implements ClientPanel {
 	private static final long serialVersionUID = 2778859336381008271L;
 	private static final Comparator<RoomInfo> COMPARATOR = (room1, room2) -> Integer.compare(room1.getRoomID(), room2.getRoomID());
 	private final Connection connection;
@@ -81,16 +81,6 @@ public class LobbyGui extends JPanel implements ClientPanelUI, ClientPanel<Lobby
 	}
 	
 	@Override
-	public LobbyGui getContent() {
-		return this;
-	}
-
-	@Override
-	public JPanel getPanel() {
-		return this;
-	}
-
-	@Override
 	public ClientMessageListener getMessageListener() {
 		return null;
 	}
@@ -139,6 +129,16 @@ public class LobbyGui extends JPanel implements ClientPanelUI, ClientPanel<Lobby
 				return false;
 			return room.equals(((RoomGui) obj).room);
 		}
+	}
+
+	@Override
+	public ClientGameUI getContent() {
+		return null;
+	}
+	
+	@Override
+	public JPanel getUIPanel() {
+		return this;
 	}
 
 }

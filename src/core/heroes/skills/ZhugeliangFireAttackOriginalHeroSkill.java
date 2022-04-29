@@ -3,7 +3,6 @@ package core.heroes.skills;
 import core.client.game.event.ClientGameEvent;
 import core.client.game.listener.ClientEventListener;
 import core.client.game.listener.FireAttackSkillDealEventListener;
-import core.heroes.Hero;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import ui.game.interfaces.SkillUI;
@@ -27,7 +26,7 @@ public class ZhugeliangFireAttackOriginalHeroSkill implements ActiveSkill {
 	}
 
 	@Override
-	public ClientEventListener<? extends ClientGameEvent, Hero> getClientEventListener(SkillUI ui) {
+	public ClientEventListener<? extends ClientGameEvent> getClientEventListener(SkillUI ui) {
 		return new FireAttackSkillDealEventListener(ui);
 	}
 

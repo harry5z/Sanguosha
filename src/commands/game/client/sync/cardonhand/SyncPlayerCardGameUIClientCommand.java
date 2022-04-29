@@ -3,7 +3,6 @@ package commands.game.client.sync.cardonhand;
 import cards.Card;
 import commands.game.client.AbstractGameUIClientCommand;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import core.player.PlayerCompleteClient;
 import exceptions.server.game.InvalidPlayerCommandException;
 
@@ -19,7 +18,7 @@ public class SyncPlayerCardGameUIClientCommand extends AbstractGameUIClientComma
 	}
 
 	@Override
-	public void execute(GamePanel<? extends Hero> panel) {
+	public void execute(GamePanel panel) {
 		PlayerCompleteClient player = panel.getContent().getSelf();
 		if (add) {
 			player.addCard(card);

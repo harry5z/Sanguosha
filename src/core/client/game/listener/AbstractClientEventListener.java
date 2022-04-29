@@ -1,9 +1,8 @@
 package core.client.game.listener;
 
 import core.client.game.event.ClientGameEvent;
-import core.heroes.Hero;
 
-public abstract class AbstractClientEventListener<T extends ClientGameEvent> implements ClientEventListener<T, Hero> {
+public abstract class AbstractClientEventListener<T extends ClientGameEvent> implements ClientEventListener<T> {
 	
 	@Override
 	public int hashCode() {

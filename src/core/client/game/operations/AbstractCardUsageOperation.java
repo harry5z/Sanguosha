@@ -3,7 +3,6 @@ package core.client.game.operations;
 import cards.Card;
 import commands.game.server.ingame.InGameServerCommand;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import core.player.PlayerInfo;
 import ui.game.CardGui;
 import ui.game.interfaces.Activatable;
@@ -13,7 +12,7 @@ import ui.game.interfaces.ClientGameUI;
 public abstract class AbstractCardUsageOperation implements Operation {
 
 	private CardGui card;
-	private GamePanel<? extends Hero> panel;
+	private GamePanel panel;
 	protected PlayerInfo source;
 
 	@Override
@@ -43,10 +42,10 @@ public abstract class AbstractCardUsageOperation implements Operation {
 	}
 
 	@Override
-	public final void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
+	public final void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
 		this.card = (CardGui) source;
-		ClientGameUI<? extends Hero> panelUI = panel.getContent();
+		ClientGameUI panelUI = panel.getContent();
 		panelUI.setMessage("Use " + this.card.getCard() + "?");
 		this.source = panelUI.getSelf().getPlayerInfo();
 		panel.getContent().setConfirmEnabled(true);

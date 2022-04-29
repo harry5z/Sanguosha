@@ -2,7 +2,6 @@ package core.client.game.operations;
 
 import commands.game.server.ingame.InGameServerCommand;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import core.player.PlayerComplete;
 import core.player.PlayerInfo;
 import ui.game.interfaces.Activatable;
@@ -12,7 +11,7 @@ import ui.game.interfaces.PlayerUI;
 
 public abstract class AbstractSingleTargetCardOperation implements Operation {
 	
-	protected GamePanel<? extends Hero> panel;
+	protected GamePanel panel;
 	protected Activatable activator;
 	protected PlayerInfo source;
 	protected PlayerUI targetUI;
@@ -62,10 +61,10 @@ public abstract class AbstractSingleTargetCardOperation implements Operation {
 	}
 	
 	@Override
-	public void onActivated(GamePanel<? extends Hero> panel, Activatable activator) {
+	public void onActivated(GamePanel panel, Activatable activator) {
 		this.activator = activator;
 		this.panel = panel;
-		ClientGameUI<? extends Hero> panelUI = panel.getContent();
+		ClientGameUI panelUI = panel.getContent();
 		panelUI.setMessage("Select one target.");
 		PlayerComplete self = panelUI.getSelf();
 		this.source = self.getPlayerInfo();

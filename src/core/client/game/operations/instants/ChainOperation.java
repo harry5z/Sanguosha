@@ -6,7 +6,6 @@ import java.util.Queue;
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateChainInGameServerCommand;
 import core.client.game.operations.AbstractMultiTargetCardOperation;
-import core.heroes.Hero;
 import core.player.PlayerInfo;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.ClientGameUI;
@@ -29,7 +28,7 @@ public class ChainOperation extends AbstractMultiTargetCardOperation {
 
 	@Override
 	protected void setupTargetSelection() {
-		ClientGameUI<? extends Hero> panelUI = this.panel.getContent();
+		ClientGameUI panelUI = this.panel.getContent();
 		panelUI.getHeroUI().setActivatable(true);
 		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
 			other.setActivatable(true);

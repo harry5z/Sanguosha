@@ -2,7 +2,6 @@ package commands.game.client.sync.status;
 
 import commands.game.client.AbstractGameUIClientCommand;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class SyncAttackUsedSetGameUIClientCommand extends AbstractGameUIClientCommand {
@@ -16,7 +15,7 @@ public class SyncAttackUsedSetGameUIClientCommand extends AbstractGameUIClientCo
 	}
 
 	@Override
-	protected void execute(GamePanel<? extends Hero> panel) {
+	protected void execute(GamePanel panel) {
 		try {
 			panel.getContent().getSelf().setAttackUsed(amount);
 		} catch (InvalidPlayerCommandException e) {

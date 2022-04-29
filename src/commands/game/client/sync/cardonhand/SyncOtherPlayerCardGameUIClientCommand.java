@@ -4,7 +4,6 @@ import java.util.Collections;
 
 import commands.game.client.AbstractGameUIClientCommand;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import core.player.PlayerSimple;
 import exceptions.server.game.InvalidPlayerCommandException;
 
@@ -23,7 +22,7 @@ public class SyncOtherPlayerCardGameUIClientCommand extends AbstractGameUIClient
 	}
 
 	@Override
-	public void execute(GamePanel<? extends Hero> panel) {
+	public void execute(GamePanel panel) {
 		PlayerSimple player = panel.getContent().getPlayer(name);
 		if (add) {
 			player.addCards(Collections.nCopies(amount, null));

@@ -2,12 +2,11 @@ package core.client.game.operations;
 
 import commands.game.server.ingame.DecisionInGameServerCommand;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import ui.game.interfaces.Activatable;
 
 public class DecisionOperation implements Operation {
 	
-	private GamePanel<? extends Hero> panel;
+	private GamePanel panel;
 	private final String message;
 	
 	public DecisionOperation(String message) {
@@ -27,7 +26,7 @@ public class DecisionOperation implements Operation {
 	}
 
 	@Override
-	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
+	public void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
 		panel.getContent().setMessage(this.message);
 		panel.getContent().setConfirmEnabled(true);

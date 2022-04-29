@@ -6,14 +6,13 @@ import java.util.stream.Collectors;
 
 import commands.game.server.ingame.DiscardInGameServerCommand;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.ClientGameUI;
 
 public class DiscardOperation implements Operation {
 	
-	private GamePanel<? extends Hero> panel;
+	private GamePanel panel;
 	private List<CardUI> cards = new ArrayList<>();
 	private final int amount;
 	
@@ -52,9 +51,9 @@ public class DiscardOperation implements Operation {
 	}
 
 	@Override
-	public void onActivated(GamePanel<? extends Hero> panel, Activatable source) {
+	public void onActivated(GamePanel panel, Activatable source) {
 		this.panel = panel;
-		ClientGameUI<? extends Hero> panelUI = panel.getContent();
+		ClientGameUI panelUI = panel.getContent();
 		panelUI.setMessage("Select " + this.amount + " cards to discard");
 		panelUI.showCountdownBar();
 		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {

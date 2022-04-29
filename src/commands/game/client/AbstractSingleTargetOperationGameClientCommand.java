@@ -2,7 +2,6 @@ package commands.game.client;
 
 import core.client.GamePanel;
 import core.client.game.operations.Operation;
-import core.heroes.Hero;
 import core.player.PlayerInfo;
 
 public abstract class AbstractSingleTargetOperationGameClientCommand extends AbstractGameUIClientCommand {
@@ -16,7 +15,7 @@ public abstract class AbstractSingleTargetOperationGameClientCommand extends Abs
 	}
 
 	@Override
-	protected final void execute(GamePanel<? extends Hero> panel) {
+	protected final void execute(GamePanel panel) {
 		if (panel.getContent().getSelf().getPlayerInfo().equals(this.target)) {
 			panel.pushOperation(this.getOperation());
 		} else {

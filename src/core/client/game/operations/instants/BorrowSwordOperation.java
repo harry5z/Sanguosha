@@ -4,7 +4,6 @@ import cards.equipments.Equipment.EquipmentType;
 import commands.game.server.ingame.InitiateBorrowSwordInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.operations.Operation;
-import core.heroes.Hero;
 import ui.game.CardGui;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
@@ -13,7 +12,7 @@ import ui.game.interfaces.PlayerUI;
 
 public class BorrowSwordOperation implements Operation {
 	
-	protected GamePanel<? extends Hero> panel;
+	protected GamePanel panel;
 	protected Activatable activator;
 	protected PlayerUI targetUI;
 	protected PlayerUI attackTargetUI;
@@ -117,10 +116,10 @@ public class BorrowSwordOperation implements Operation {
 	}
 	
 	@Override
-	public void onActivated(GamePanel<? extends Hero> panel, Activatable activator) {
+	public void onActivated(GamePanel panel, Activatable activator) {
 		this.activator = activator;
 		this.panel = panel;
-		ClientGameUI<? extends Hero> panelUI = panel.getContent();
+		ClientGameUI panelUI = panel.getContent();
 		panelUI.setMessage("Select one target.");
 		panelUI.setCancelEnabled(true);
 		for (PlayerUI other : this.panel.getContent().getOtherPlayersUI()) {

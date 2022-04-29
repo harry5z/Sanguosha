@@ -4,7 +4,6 @@ import java.util.Queue;
 
 import commands.game.server.ingame.InGameServerCommand;
 import core.client.GamePanel;
-import core.heroes.Hero;
 import core.player.PlayerComplete;
 import core.player.PlayerInfo;
 import ui.game.interfaces.Activatable;
@@ -14,7 +13,7 @@ import ui.game.interfaces.PlayerUI;
 
 public abstract class AbstractMultiTargetCardOperation implements MultiTargetOperation {
 
-	protected GamePanel<? extends Hero> panel;
+	protected GamePanel panel;
 	protected Activatable activator;
 	protected PlayerInfo source;
 	protected Queue<PlayerUI> targets;
@@ -75,10 +74,10 @@ public abstract class AbstractMultiTargetCardOperation implements MultiTargetOpe
 	}
 	
 	@Override
-	public void onActivated(GamePanel<? extends Hero> panel, Activatable activator) {
+	public void onActivated(GamePanel panel, Activatable activator) {
 		this.activator = activator;
 		this.panel = panel;
-		ClientGameUI<? extends Hero> panelUI = panel.getContent();
+		ClientGameUI panelUI = panel.getContent();
 		PlayerComplete self = panelUI.getSelf();
 		this.source = self.getPlayerInfo();
 		this.setupTargetSelection();

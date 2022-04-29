@@ -3,7 +3,6 @@ package core.client.game.operations.delayed;
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateStarvationInGameServerCommand;
 import core.client.game.operations.AbstractSingleTargetCardOperation;
-import core.heroes.Hero;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.ClientGameUI;
 import ui.game.interfaces.PlayerUI;
@@ -18,7 +17,7 @@ public class StarvationOperation extends AbstractSingleTargetCardOperation {
 
 	@Override
 	protected void setupTargetSelection() {
-		ClientGameUI<? extends Hero> panelUI = this.panel.getContent();
+		ClientGameUI panelUI = this.panel.getContent();
 		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
 			if (panelUI.getSelf().isPlayerInDistance(other.getPlayer(), panelUI.getNumberOfPlayersAlive()) && !other.getPlayer().hasDelayedType(DelayedType.STARVATION)) {
 				other.setActivatable(true);

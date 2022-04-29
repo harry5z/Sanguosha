@@ -1,5 +1,9 @@
 package cards.equipments;
 
+import core.client.GamePanel;
+import core.player.PlayerCompleteServer;
+import core.server.game.Game;
+
 public class HorsePlus extends Equipment {
 
 	private static final long serialVersionUID = 6981646924294901512L;
@@ -18,5 +22,15 @@ public class HorsePlus extends Equipment {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public void onEquipped(Game game, PlayerCompleteServer owner) {
+		// nothing to do		
+	}
+
+	@Override
+	public void onEquipped(GamePanel panel) {
+		// nothing to do		
 	}
 }
