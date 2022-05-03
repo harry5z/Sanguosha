@@ -20,14 +20,18 @@ public class SabotageOperation extends AbstractSingleTargetCardOperation {
 	}
 
 	@Override
-	protected void setupTargetSelection() {
+	protected void onLoadedCustom() {
 		GameUI panelUI = this.panel.getGameUI();
 		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
 			if (other.getPlayer().getHandCount() > 0 || other.getPlayer().isEquipped() || !other.getPlayer().getDelayedQueue().isEmpty()) {
 				other.setActivatable(true);
 			}
-		}
-		panelUI.setCancelEnabled(true);
+		}		
+	}
+
+	@Override
+	protected void onUnloadedCustom() {
+		this.panel.getGameUI().getOtherPlayersUI().forEach(ui -> ui.setActivatable(false));
 	}
 
 }

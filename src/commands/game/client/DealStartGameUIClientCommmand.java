@@ -1,7 +1,7 @@
 package commands.game.client;
 
-import core.client.game.operations.DealOperation;
 import core.client.game.operations.Operation;
+import core.client.game.operations.machanics.DealOperation;
 import core.player.PlayerInfo;
 
 public class DealStartGameUIClientCommmand extends AbstractSingleTargetOperationGameClientCommand {

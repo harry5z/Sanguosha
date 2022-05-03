@@ -34,15 +34,22 @@ public class InitiateAttackOperation extends AbstractMultiTargetCardOperation {
 	}
 	
 	@Override
-	protected void setupTargetSelection() {
+	public void onLoadedCustom() {
 		GameUI panelUI = this.panel.getGameUI();
 		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
 			if (this.panel.getGameState().getSelf().isPlayerInAttackRange(other.getPlayer(), this.panel.getGameState().getNumberOfPlayersAlive())) {
 				other.setActivatable(true);
 			}
 		}
-		panelUI.setCancelEnabled(true);
+		panelUI.setMessage("Select a target for Attack");
 		this.panel.emit(new InitiateAttackClientGameEvent(true, this));
+	}
+	
+	@Override
+	public void onUnloadedCustom() {
+		this.panel.getGameUI().getOtherPlayersUI().forEach(other -> other.setActivatable(false));
+		this.panel.getGameUI().clearMessage();
+		this.panel.emit(new InitiateAttackClientGameEvent(false, this));
 	}
 
 }

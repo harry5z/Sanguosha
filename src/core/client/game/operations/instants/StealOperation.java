@@ -21,7 +21,7 @@ public class StealOperation extends AbstractSingleTargetCardOperation {
 	}
 
 	@Override
-	protected void setupTargetSelection() {
+	protected void onLoadedCustom() {
 		GameUI panelUI = this.panel.getGameUI();
 		int numPlayersAlive = this.panel.getGameState().getNumberOfPlayersAlive();
 		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
@@ -32,8 +32,12 @@ public class StealOperation extends AbstractSingleTargetCardOperation {
 			) {
 				other.setActivatable(true);
 			}
-		}
-		panelUI.setCancelEnabled(true);
+		}		
+	}
+
+	@Override
+	protected void onUnloadedCustom() {
+		this.panel.getGameUI().getOtherPlayersUI().forEach(ui -> ui.setActivatable(false));
 	}
 
 }

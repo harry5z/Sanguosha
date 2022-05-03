@@ -1,17 +1,16 @@
-package core.client.game.operations;
+package core.client.game.operations.machanics;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import commands.game.server.ingame.DiscardInGameServerCommand;
-import core.client.GamePanel;
+import core.client.game.operations.AbstractOperation;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.GameUI;
 
-public class DiscardOperation implements Operation {
+public class DiscardOperation extends AbstractOperation {
 	
-	private GamePanel panel;
 	private List<CardUI> cards = new ArrayList<>();
 	private final int amount;
 	
@@ -21,22 +20,19 @@ public class DiscardOperation implements Operation {
 	
 	@Override
 	public void onConfirmed() {
-		for(CardUI cardUI : panel.getGameUI().getCardRackUI().getCardUIs()) {
-			cardUI.setActivatable(false);
-		}
-		panel.getGameUI().setConfirmEnabled(false);
-		panel.getGameUI().clearMessage();
-		panel.getChannel().send(new DiscardInGameServerCommand(cards.stream().map(ui -> ui.getCard()).collect(Collectors.toList())));
+		this.onUnloaded();
+		this.onDeactivated();
+		this.panel.getChannel().send(new DiscardInGameServerCommand(cards.stream().map(ui -> ui.getCard()).collect(Collectors.toList())));
 	}
 
 	@Override
 	public void onCardClicked(CardUI card) {
-		if (cards.remove(card)) {
+		if (cards.remove(card)) { // unselecting a card
 			card.setActivated(false);
 			if (cards.size() == 0) {
 				panel.getGameUI().setConfirmEnabled(false);
 			}
-		} else {
+		} else { // selecting a new card
 			card.setActivated(true);
 			if (cards.size() == 0) {
 				panel.getGameUI().setConfirmEnabled(true);
@@ -50,14 +46,21 @@ public class DiscardOperation implements Operation {
 	}
 
 	@Override
-	public void onActivated(GamePanel panel) {
-		this.panel = panel;
-		GameUI panelUI = panel.getGameUI();
+	public void onLoaded() {
+		GameUI panelUI = this.panel.getGameUI();
 		panelUI.setMessage("Select " + this.amount + " cards to discard");
-		panelUI.showCountdownBar();
 		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
 			cardUI.setActivatable(true);
 		}
+	}
+	
+	@Override
+	public void onUnloaded() {
+		for(CardUI cardUI : this.panel.getGameUI().getCardRackUI().getCardUIs()) {
+			cardUI.setActivatable(false);
+		}
+		this.panel.getGameUI().setConfirmEnabled(false);
+		this.panel.getGameUI().clearMessage();		
 	}
 
 }

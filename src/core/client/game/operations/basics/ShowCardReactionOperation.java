@@ -19,13 +19,23 @@ public class ShowCardReactionOperation extends AbstractCardReactionOperation {
 	}
 	
 	@Override
-	protected boolean isCancelEnabled() {
+	protected boolean isCancelAllowed() {
 		return false;
 	}
 
 	@Override
 	protected InGameServerCommand getCommand(Card card) {
 		return new PlayerCardSelectionInGameServerCommand(card, PlayerCardZone.HAND);
+	}
+
+	@Override
+	protected void onLoadedCustom() {
+		
+	}
+
+	@Override
+	protected void onUnloadedCustom() {
+		
 	}
 	
 }

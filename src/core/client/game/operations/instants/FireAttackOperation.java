@@ -20,18 +20,23 @@ public class FireAttackOperation extends AbstractSingleTargetCardOperation {
 	}
 
 	@Override
-	protected void setupTargetSelection() {
-		GameUI panelUI = this.panel.getGameUI();
+	protected void onLoadedCustom() {
+		GameUI ui = this.panel.getGameUI();
 		if (this.panel.getGameState().getSelf().getHandCount() > 1) {
-			// can use Fire Attack on self if more than one card on hand
-			panelUI.getHeroUI().setActivatable(true);
+			// can use Fire Attack on oneself if more than one card on hand
+			ui.getHeroUI().setActivatable(true);
 		}
-		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
+		for (PlayerUI other : ui.getOtherPlayersUI()) {
 			if (other.getPlayer().getHandCount() > 0) {
 				other.setActivatable(true);
 			}
 		}
-		panelUI.setCancelEnabled(true);
+	}
+
+	@Override
+	protected void onUnloadedCustom() {
+		this.panel.getGameUI().getHeroUI().setActivatable(false);
+		this.panel.getGameUI().getOtherPlayersUI().forEach(ui -> ui.setActivatable(false));
 	}
 
 }

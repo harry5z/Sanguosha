@@ -29,7 +29,8 @@ public interface GameUI {
 	public void setCancelEnabled(boolean isEnabled);
 	
 	/**
-	 * invoked to enable/disable end button
+	 * invoked to enable/disable end button. This method should only be
+	 * called in DealOperation
 	 * @param isEnabled
 	 */
 	public void setEndEnabled(boolean isEnabled);

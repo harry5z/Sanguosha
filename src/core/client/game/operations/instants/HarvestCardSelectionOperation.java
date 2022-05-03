@@ -1,17 +1,16 @@
-package core.client.game.operations;
+package core.client.game.operations.instants;
 
 import java.util.Map;
 
 import cards.Card;
 import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
-import core.client.GamePanel;
+import core.client.game.operations.AbstractOperation;
 import core.player.PlayerInfo;
 import ui.game.custom.HarvestSelectionPane;
 import ui.game.interfaces.CardUI;
 
-public class HarvestCardSelectionOperation implements Operation {
+public class HarvestCardSelectionOperation extends AbstractOperation {
 	
-	private GamePanel panel;
 	private final PlayerInfo target;
 	private final Map<Card, Boolean> selectableCards;
 	
@@ -22,15 +21,19 @@ public class HarvestCardSelectionOperation implements Operation {
 	
 	@Override
 	public void onCardClicked(CardUI card) {
-		this.panel.getGameUI().removeSelectionPane();
-		this.panel.popOperation();
+		this.onUnloaded();
+		this.onDeactivated();
 		this.panel.getChannel().send(new PlayerCardSelectionInGameServerCommand(card.getCard(), null));
 	}
 
 	@Override
-	public void onActivated(GamePanel panel) {
-		this.panel = panel;
-		panel.getGameUI().displayCustomizedSelectionPaneAtCenter(new HarvestSelectionPane(this.selectableCards, this.target.getName(), panel));
+	public void onLoaded() {
+		this.panel.getGameUI().displayCustomizedSelectionPaneAtCenter(new HarvestSelectionPane(this.selectableCards, this.target.getName(), panel));
+	}
+	
+	@Override
+	public void onUnloaded() {
+		this.panel.getGameUI().removeSelectionPane();
 	}
 
 }

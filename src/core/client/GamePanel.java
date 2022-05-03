@@ -20,6 +20,12 @@ import ui.game.interfaces.GameUI;
  */
 public interface GamePanel extends ClientPanel {
 	
+	/**
+	 * Push a new Operation into the game execution stack.
+	 * The existing Operation's #onUnloaded() will be called.
+	 * 
+	 * @param operation
+	 */
 	public void pushOperation(Operation operation);
 
 	public void popOperation();

@@ -5,8 +5,6 @@ import commands.game.server.ingame.InitiateDuelInGameServerCommand;
 import core.client.game.operations.AbstractSingleTargetCardOperation;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
-import ui.game.interfaces.GameUI;
-import ui.game.interfaces.PlayerUI;
 
 public class DuelOperation extends AbstractSingleTargetCardOperation {
 
@@ -20,12 +18,13 @@ public class DuelOperation extends AbstractSingleTargetCardOperation {
 	}
 
 	@Override
-	protected void setupTargetSelection() {
-		GameUI panelUI = this.panel.getGameUI();
-		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
-			other.setActivatable(true);
-		}
-		panelUI.setCancelEnabled(true);
+	protected void onLoadedCustom() {
+		this.panel.getGameUI().getOtherPlayersUI().forEach(other -> other.setActivatable(true));
+	}
+
+	@Override
+	protected void onUnloadedCustom() {
+		this.panel.getGameUI().getOtherPlayersUI().forEach(other -> other.setActivatable(false));
 	}
 
 }

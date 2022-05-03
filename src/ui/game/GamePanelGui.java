@@ -46,8 +46,6 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 	
 	private final GamePanel panel;
 	
-	private int cancelSetCount;
-
 	public GamePanelGui(PlayerInfo player, GamePanel panel) {
 		this.panel = panel;
 		setLayout(null);
@@ -87,8 +85,6 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 		end = new ButtonGui("End", e -> panel.getCurrentOperation().onEnded());
 		end.setLocation(ButtonGui.WIDTH * 2, HEIGHT - CardRackGui.HEIGHT - ButtonGui.HEIGHT);
 		
-		cancelSetCount = 0;
-
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		add(cardRack);
 		add(equipmentRack);
@@ -197,16 +193,7 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 
 	@Override
 	public void setCancelEnabled(boolean isEnabled) {
-		if (isEnabled) {
-			cancelSetCount++;
-			cancel.setEnabled(true);
-		} else {
-			cancelSetCount--;
-			if (cancelSetCount <= 0) {
-				cancelSetCount = 0;
-				cancel.setEnabled(false);
-			}
-		}
+		cancel.setEnabled(isEnabled);
 	}
 	
 	@Override

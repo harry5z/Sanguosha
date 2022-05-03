@@ -2,60 +2,61 @@ package core.client.game.operations.instants;
 
 import cards.equipments.Equipment.EquipmentType;
 import commands.game.server.ingame.InitiateBorrowSwordInGameServerCommand;
-import core.client.GamePanel;
-import core.client.game.operations.Operation;
+import core.client.game.operations.AbstractOperation;
 import ui.game.CardGui;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.GameUI;
 import ui.game.interfaces.PlayerUI;
 
-public class BorrowSwordOperation implements Operation {
+public class BorrowSwordOperation extends AbstractOperation {
 	
-	private GamePanel panel;
 	private final Activatable activator;
-	private PlayerUI targetUI;
-	private PlayerUI attackTargetUI;
+	private PlayerUI cardTarget; // Target of this BorrowSword card
+	private PlayerUI attackTarget; // Target who the target of this card must attack
 	
 	public BorrowSwordOperation(Activatable activator) {
 		this.activator = activator;
 	}
+	
+	@Override
+	public void onCardClicked(CardUI card) {
+		// Only the currently selected card should be clickable by implementation
+		// Behave as if the CANCEL button is pressed
+		this.onCanceled();
+	}
 
 	@Override
 	public void onPlayerClicked(PlayerUI player) {
-		if (this.attackTargetUI != null) {
-			this.attackTargetUI.setActivated(false);
-			if (this.attackTargetUI == player) {
-				// cancel attack target
-				this.attackTargetUI = null;
+		if (this.attackTarget != null) {
+			this.attackTarget.setActivated(false);
+			if (this.attackTarget == player) { // cancel attack target
+				this.attackTarget = null;
 				this.panel.getGameUI().setMessage("Select Attack target");
 				this.panel.getGameUI().setConfirmEnabled(false);
-			} else {
-				// switch attack target
-				this.attackTargetUI = player;
-				this.attackTargetUI.setActivated(true);
+			} else { // switch attack target
+				this.attackTarget = player;
+				this.attackTarget.setActivated(true);
 			}
-		} else if (this.targetUI != null) {
-			if (this.targetUI == player) {
-				// cancel Borrow Sword target selection
-				this.targetUI.setActivated(false);
+		} else if (this.cardTarget != null) {
+			if (this.cardTarget == player) { // cancel Borrow Sword target selection
+				this.cardTarget.setActivated(false);
 				for (PlayerUI other : this.panel.getGameUI().getOtherPlayersUI()) {
-					other.setActivatable(false);
 					if (other.getPlayer().isEquipped(EquipmentType.WEAPON)) {
 						other.setActivatable(true);
+					} else {
+						other.setActivatable(false);
 					}
 				}
 				this.panel.getGameUI().getHeroUI().setActivatable(false);
-			} else {
-				// select attack target
-				this.attackTargetUI = player;
-				this.attackTargetUI.setActivated(true);
+			} else { // select attack target
+				this.attackTarget = player;
+				this.attackTarget.setActivated(true);
 				this.panel.getGameUI().setConfirmEnabled(true);
 			}
-		} else {
-			// select Borrow Sword target
-			this.targetUI = player;
-			this.targetUI.setActivated(true);
+		} else { // select Borrow Sword target
+			this.cardTarget = player;
+			this.cardTarget.setActivated(true);
 			for (PlayerUI other : this.panel.getGameUI().getOtherPlayersUI()) {
 				other.setActivatable(false);
 				if (player == other) {
@@ -73,55 +74,18 @@ public class BorrowSwordOperation implements Operation {
 	}
 	
 	@Override
-	public void onCardClicked(CardUI card) {
-		this.onCanceled();
-		if (card != this.activator) {
-			this.panel.getCurrentOperation().onCardClicked(card);
-		}
-	}
-	
-	@Override
-	public void onEnded() {
-		this.onCanceled();
-		this.panel.getCurrentOperation().onEnded();
-	}
-	
-	@Override
-	public void onCanceled() {
-		if (this.attackTargetUI != null) {
-			this.attackTargetUI.setActivated(false);
-		}
-		
-		if (this.targetUI != null) {
-			this.targetUI.setActivated(false);
-			this.panel.getGameUI().setConfirmEnabled(false);
-		}
-		
-		for (PlayerUI other : this.panel.getGameUI().getOtherPlayersUI()) {
-			other.setActivatable(false);
-		}
-		
-		this.panel.getGameUI().getHeroUI().setActivatable(false);
-		this.panel.getGameUI().setCancelEnabled(false);
-		this.panel.getGameUI().clearMessage();
-		this.activator.setActivated(false);
-		this.panel.popOperation();
-	}
-	
-	@Override
 	public void onConfirmed() {
-		this.onCanceled();
-		this.panel.getCurrentOperation().onConfirmed();
+		super.onConfirmed();
 		this.panel.getChannel().send(new InitiateBorrowSwordInGameServerCommand(
-			this.targetUI.getPlayer().getPlayerInfo(),
-			this.attackTargetUI.getPlayer().getPlayerInfo(),
+			this.cardTarget.getPlayer().getPlayerInfo(),
+			this.attackTarget.getPlayer().getPlayerInfo(),
 			((CardGui) this.activator).getCard()
 		));
 	}
 	
 	@Override
-	public void onActivated(GamePanel panel) {
-		this.panel = panel;
+	public void onLoaded() {
+		this.activator.setActivatable(true);
 		this.activator.setActivated(true);
 		GameUI panelUI = panel.getGameUI();
 		panelUI.setMessage("Select one target.");
@@ -131,6 +95,29 @@ public class BorrowSwordOperation implements Operation {
 				other.setActivatable(true);
 			}
 		}
+	}
+	
+	@Override
+	public void onUnloaded() {
+		this.activator.setActivatable(false);
+		this.activator.setActivated(false);
+		this.panel.getGameUI().clearMessage();
+		this.panel.getGameUI().setCancelEnabled(false);
+
+		if (this.attackTarget != null) {
+			this.attackTarget.setActivated(false);
+		}
+		
+		if (this.cardTarget != null) {
+			this.cardTarget.setActivated(false);
+			this.panel.getGameUI().setConfirmEnabled(false);
+		}
+		
+		for (PlayerUI other : this.panel.getGameUI().getOtherPlayersUI()) {
+			other.setActivatable(false);
+		}
+		
+		this.panel.getGameUI().getHeroUI().setActivatable(false);
 	}
 
 }

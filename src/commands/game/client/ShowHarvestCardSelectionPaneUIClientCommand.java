@@ -4,7 +4,7 @@ import java.util.Map;
 
 import cards.Card;
 import core.client.GamePanel;
-import core.client.game.operations.HarvestCardSelectionOperation;
+import core.client.game.operations.instants.HarvestCardSelectionOperation;
 import core.player.PlayerInfo;
 import ui.game.custom.HarvestSelectionPane;
 

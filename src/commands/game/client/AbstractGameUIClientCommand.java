@@ -16,6 +16,7 @@ public abstract class AbstractGameUIClientCommand implements GameClientCommand {
 			this.execute((GamePanel) frame.getPanel());
 		} catch (Exception e) {
 			// TODO handle command error
+			e.printStackTrace();
 			throw new RuntimeException("GameUIClientCommand received while no Game UI available");
 		}
 	}

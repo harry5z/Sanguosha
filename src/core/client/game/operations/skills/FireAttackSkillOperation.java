@@ -1,79 +1,100 @@
 package core.client.game.operations.skills;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import cards.Card.Color;
-import core.client.GamePanel;
-import core.client.game.operations.Operation;
+import core.client.game.operations.AbstractOperation;
 import core.client.game.operations.instants.FireAttackOperation;
 import ui.game.interfaces.CardUI;
+import ui.game.interfaces.PlayerUI;
 import ui.game.interfaces.SkillUI;
 
-public class FireAttackSkillOperation implements Operation {
+public class FireAttackSkillOperation extends AbstractOperation {
 	
 	private final SkillUI skill;
-	private GamePanel panel;
-	private Set<CardUI> selectableCards;
-	private Operation previousOperation;
+	private CardUI cardSelected;
+	private FireAttackOperation op;
 	
 	public FireAttackSkillOperation(SkillUI skill) {
 		this.skill = skill;
-		this.selectableCards = new HashSet<>();
-		this.previousOperation = null;
-	}
-
-	@Override
-	public void onActivated(GamePanel panel) {
-		this.panel = panel;
-		while (panel.getCurrentOperation() != null) {
-			this.previousOperation = panel.getCurrentOperation();
-			this.previousOperation.onDeactivated();
-		}
-		for (CardUI card : panel.getGameUI().getCardRackUI().getCardUIs()) {
-			if (card.getCard().getColor() == Color.RED) {
-				card.setActivatable(true);
-				this.selectableCards.add(card);
-			}
-		}
-		this.skill.setActivated(true);
-		panel.getGameUI().setCancelEnabled(true);
-		panel.getGameUI().setEndEnabled(true);
-		panel.getGameUI().setMessage("Select a RED card to initiate Fire Attack");
+		this.cardSelected = null;
+		this.op = null;
 	}
 	
 	@Override
-	public void onEnded() {
+	public void onConfirmed() {
+		this.onUnloaded();
 		this.onDeactivated();
-		this.panel.pushOperation(this.previousOperation);
-		this.panel.getCurrentOperation().onEnded();
+		this.op.onConfirmed();
 	}
 	
 	@Override
 	public void onCanceled() {
-		this.onDeactivated();
-		this.panel.pushOperation(this.previousOperation);
+		if (this.op != null) {
+			this.op.onUnloaded();
+		}
+		super.onCanceled();
 	}
 	
+	@Override
+	public void onEnded() {
+		if (this.op != null) {
+			this.op.onUnloaded();
+		}
+		super.onEnded();
+	}
+	
+	@Override
+	public void onPlayerClicked(PlayerUI player) {
+		this.op.onPlayerClicked(player);
+	}
+
 	@Override
 	public void onCardClicked(CardUI card) {
-		this.panel.pushOperation(new FireAttackOperation(card));
+		if (this.cardSelected == null) { // select a card for Fire Attack
+			this.cardSelected = card;
+			this.onCardSelectionUnloaded();
+			this.op = new FireAttackOperation(card);
+			this.op.onActivated(this.panel);
+		} else { // cancels card selection
+			this.op.onUnloaded();
+			this.op = null;
+			this.cardSelected = null;
+			this.onCardSelectionLoaded();
+		}
 	}
 	
 	@Override
-	public void onSkillClicked(SkillUI skill) {
-		this.onDeactivated();
-		this.panel.pushOperation(this.previousOperation);
-		this.panel.getCurrentOperation().onSkillClicked(skill);
+	public void onLoaded() {
+		this.skill.setActivatable(true);
+		this.skill.setActivated(true);
+		this.skill.setActionOnActivation(() -> {
+			// By implementation, this has to be the Fire Attack itself
+			// Behave as if CANCEL is clicked
+			this.onCanceled();
+		});
+		this.onCardSelectionLoaded();
 	}
 	
 	@Override
-	public void onDeactivated() {
+	public void onUnloaded() {
+		this.skill.setActivatable(false);
 		this.skill.setActivated(false);
-		this.selectableCards.forEach(card -> card.setActivatable(false));
-		this.panel.getGameUI().setConfirmEnabled(false);
+		this.onCardSelectionUnloaded();
+	}
+	
+	private void onCardSelectionLoaded() {
+		for (CardUI card : this.panel.getGameUI().getCardRackUI().getCardUIs()) {
+			if (card.getCard().getColor() == Color.RED) {
+				card.setActivatable(true);
+			}
+		}
+		this.panel.getGameUI().setCancelEnabled(true);
+		this.panel.getGameUI().setMessage("Select a RED card to initiate Fire Attack");
+	}
+	
+	private void onCardSelectionUnloaded() {
+		this.panel.getGameUI().getCardRackUI().getCardUIs().forEach(card -> card.setActivatable(false));
+		this.panel.getGameUI().setCancelEnabled(false);
 		this.panel.getGameUI().clearMessage();
-		this.panel.popOperation();
 	}
 
 }

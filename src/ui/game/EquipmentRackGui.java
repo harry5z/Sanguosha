@@ -24,17 +24,10 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener, Equip
 	private EquipmentGui shield;
 	private EquipmentGui horsePlus;
 	private EquipmentGui horseMinus;
-	private final ActionListener originalListener;
 
 	public EquipmentRackGui(GamePanel panel) {
 		init();
 		this.panel = panel;
-		ActionListener listener = e -> panel.getCurrentOperation().onEquipmentClicked((EquipmentGui) e.getSource());
-		weapon.addActionListener(listener);
-		shield.addActionListener(listener);
-		horsePlus.addActionListener(listener);
-		horseMinus.addActionListener(listener);
-		this.originalListener = listener;
 	}
 
 	private void init() {
@@ -173,9 +166,7 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener, Equip
 		}
 		
 		for (ActionListener listener : equipment.getActionListeners()) {
-			if (listener != this.originalListener) {
-				equipment.removeActionListener(listener);
-			}
+			equipment.removeActionListener(listener);
 		}
 	}
 

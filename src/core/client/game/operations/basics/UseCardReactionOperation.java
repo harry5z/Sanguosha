@@ -22,7 +22,7 @@ public class UseCardReactionOperation extends AbstractCardReactionOperation {
 	}
 
 	@Override
-	protected boolean isCancelEnabled() {
+	protected boolean isCancelAllowed() {
 		return true;
 	}
 
@@ -39,6 +39,16 @@ public class UseCardReactionOperation extends AbstractCardReactionOperation {
 	@Override
 	protected InGameServerCommand getCommand(Card card) {
 		return new PlayerCardSelectionInGameServerCommand(card, PlayerCardZone.HAND);
+	}
+
+	@Override
+	protected void onLoadedCustom() {
+		
+	}
+
+	@Override
+	protected void onUnloadedCustom() {
+		
 	}
 
 }

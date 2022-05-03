@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import cards.equipments.Equipment.EquipmentType;
 import core.client.game.operations.Operation;
-import core.client.game.operations.PlayerCardSelectionOperation;
+import core.client.game.operations.machanics.PlayerCardSelectionOperation;
 import core.player.PlayerCardZone;
 import core.player.PlayerInfo;
 

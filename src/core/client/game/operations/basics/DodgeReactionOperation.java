@@ -18,13 +18,23 @@ public class DodgeReactionOperation extends AbstractCardReactionOperation {
 	}
 	
 	@Override
-	protected boolean isCancelEnabled() {
+	protected boolean isCancelAllowed() {
 		return true;
 	}
 
 	@Override
 	protected InGameServerCommand getCommand(Card card) {
 		return new DodgeReactionInGameServerCommand(card);
+	}
+
+	@Override
+	protected void onLoadedCustom() {
+		
+	}
+
+	@Override
+	protected void onUnloadedCustom() {
+		
 	}
 
 }

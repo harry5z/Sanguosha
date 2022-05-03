@@ -1,5 +1,6 @@
 package core.client.game.operations.equipment;
 
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
@@ -7,27 +8,25 @@ import java.util.stream.Collectors;
 
 import commands.game.server.ingame.SerpentSpearAttackReactionInGameServerCommand;
 import commands.game.server.ingame.SerpentSpearInitiateAttackInGameServerCommand;
-import core.client.GamePanel;
-import core.client.game.operations.Operation;
+import core.client.game.operations.AbstractOperation;
+import ui.game.EquipmentGui;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
+import ui.game.interfaces.EquipmentUI;
 import ui.game.interfaces.PlayerUI;
 
-public class SerpentSpearOperation implements Operation {
+public class SerpentSpearOperation extends AbstractOperation {
 	
-	private GamePanel panel;
-	private final Activatable source;
-	private final boolean withTarget;
+	private final EquipmentUI activator;
+	private final boolean hasTarget;
 	private PlayerUI target;
 	private Queue<CardUI> cards;
-	private Operation previousOperation;
 	
-	public SerpentSpearOperation(Activatable source, boolean withTarget) {
-		this.source = source;
-		this.withTarget = withTarget;
+	public SerpentSpearOperation(Activatable source, boolean hasTarget) {
+		this.activator = (EquipmentUI) source;
+		this.hasTarget = hasTarget;
 		this.target = null;
 		this.cards = new LinkedList<>();
-		this.previousOperation = null;
 	}
 	
 	@Override
@@ -47,10 +46,17 @@ public class SerpentSpearOperation implements Operation {
 		card.setActivated(true);
 		
 		if (this.cards.size() == 2) {
-			if (!this.withTarget || (this.withTarget && this.target != null)) {
+			if (!this.hasTarget || (this.hasTarget && this.target != null)) {
 				this.panel.getGameUI().setConfirmEnabled(true);
 			}
 		}
+	}
+	
+	@Override
+	public void onEquipmentClicked(EquipmentUI equipment) {
+		// By implementation, this must be the SerpentSpear itself
+		// Behave as if CANCEL is clicked
+		this.onCanceled();
 	}
 	
 	@Override
@@ -74,8 +80,9 @@ public class SerpentSpearOperation implements Operation {
 	
 	@Override
 	public void onConfirmed() {
+		this.onUnloaded();
 		this.onDeactivated();
-		if (this.withTarget) {
+		if (this.hasTarget) {
 			this.panel.getChannel().send(new SerpentSpearInitiateAttackInGameServerCommand(
 				this.panel.getGameState().getSelf().getPlayerInfo(),
 				Set.of(this.target.getPlayer().getPlayerInfo()),
@@ -90,27 +97,19 @@ public class SerpentSpearOperation implements Operation {
 	}
 	
 	@Override
-	public void onCanceled() {
-		this.onDeactivated();
-		this.panel.pushOperation(this.previousOperation);
-	}
-	
-	@Override
-	public void onActivated(GamePanel panel) {
-		this.panel = panel;
-		this.source.setActivated(true);
-		
-		while (panel.getCurrentOperation() != null) {
-			this.previousOperation = panel.getCurrentOperation();
-			this.previousOperation.onDeactivated();
-		}
-		
+	public void onLoaded() {
+		this.activator.setActivatable(true);
+		this.activator.setActivated(true);
+		// TODO cleanup
+		((EquipmentGui)this.activator).addActionListener(e -> {
+			this.onEquipmentClicked(activator);
+		});
 		this.panel.getGameUI().setMessage("Select 2 cards to use as an Attack");
 		this.panel.getGameUI().setCancelEnabled(true);
 		for (CardUI card : panel.getGameUI().getCardRackUI().getCardUIs()) {
 			card.setActivatable(true);
 		}
-		if (this.withTarget) {
+		if (this.hasTarget) {
 			for (PlayerUI player : panel.getGameUI().getOtherPlayersUI()) {
 				if (panel.getGameState().getSelf().isPlayerInAttackRange(player.getPlayer(), panel.getGameState().getNumberOfPlayersAlive())) {
 					player.setActivatable(true);
@@ -120,8 +119,13 @@ public class SerpentSpearOperation implements Operation {
 	}
 	
 	@Override
-	public void onDeactivated() {
-		this.source.setActivated(false);
+	public void onUnloaded() {
+		this.activator.setActivatable(false);
+		this.activator.setActivated(false);
+		// TODO cleanup
+		for (ActionListener e : ((EquipmentGui)this.activator).getActionListeners()) {
+			((EquipmentGui)this.activator).removeActionListener(e);
+		}
 		if (this.target != null) {
 			this.target.setActivated(false);
 		}
@@ -135,7 +139,6 @@ public class SerpentSpearOperation implements Operation {
 		this.panel.getGameUI().clearMessage();
 		this.panel.getGameUI().setConfirmEnabled(false);
 		this.panel.getGameUI().setCancelEnabled(false);
-		this.panel.popOperation();
 	}
 
 }

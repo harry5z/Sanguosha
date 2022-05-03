@@ -4,7 +4,6 @@ import cards.Card;
 import cards.basics.Attack;
 import commands.game.server.ingame.AttackReactionInGameServerCommand;
 import commands.game.server.ingame.InGameServerCommand;
-import core.client.GamePanel;
 import core.client.game.event.AttackReactionClientGameEvent;
 import core.client.game.operations.AbstractCardReactionOperation;
 
@@ -20,19 +19,17 @@ public class AttackReactionOperation extends AbstractCardReactionOperation {
 	}
 	
 	@Override
-	protected boolean isCancelEnabled() {
+	protected boolean isCancelAllowed() {
 		return true;
 	}
 	
 	@Override
-	public void onActivated(GamePanel panel) {
-		super.onActivated(panel);
-		panel.emit(new AttackReactionClientGameEvent(true));
+	public void onLoadedCustom() {
+		this.panel.emit(new AttackReactionClientGameEvent(true));
 	}
 	
 	@Override
-	public void onDeactivated() {
-		super.onDeactivated();
+	public void onUnloadedCustom() {
 		this.panel.emit(new AttackReactionClientGameEvent(false));
 	}
 

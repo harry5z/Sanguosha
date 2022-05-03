@@ -93,13 +93,18 @@ public class GamePanelOriginal implements GamePanel {
 	
 	@Override
 	public synchronized void pushOperation(Operation operation) {
+		if (!currentOperations.empty()) {
+			currentOperations.peek().onUnloaded();
+		}
 		operation.onActivated(this);
 		currentOperations.push(operation);
 	}
 	
 	@Override
 	public synchronized void popOperation() {
-		currentOperations.pop();
+		if (!currentOperations.empty()) {
+			currentOperations.pop();
+		}
 	}
 	
 	@Override

@@ -28,13 +28,18 @@ public class ChainOperation extends AbstractMultiTargetCardOperation {
 	}
 
 	@Override
-	protected void setupTargetSelection() {
+	public void onLoadedCustom() {
 		GameUI panelUI = this.panel.getGameUI();
 		panelUI.getHeroUI().setActivatable(true);
 		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
 			other.setActivatable(true);
 		}
-		panelUI.setCancelEnabled(true);
+	}
+	
+	@Override
+	public void onUnloadedCustom() {
+		this.panel.getGameUI().getHeroUI().setActivatable(false);
+		this.panel.getGameUI().getOtherPlayersUI().forEach(other -> other.setActivatable(false));
 	}
 
 }

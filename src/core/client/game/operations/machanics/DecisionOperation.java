@@ -1,11 +1,10 @@
-package core.client.game.operations;
+package core.client.game.operations.machanics;
 
 import commands.game.server.ingame.DecisionInGameServerCommand;
-import core.client.GamePanel;
+import core.client.game.operations.AbstractOperation;
 
-public class DecisionOperation implements Operation {
+public class DecisionOperation extends AbstractOperation {
 	
-	private GamePanel panel;
 	private final String message;
 	
 	public DecisionOperation(String message) {
@@ -14,30 +13,30 @@ public class DecisionOperation implements Operation {
 	
 	@Override
 	public void onConfirmed() {
+		this.onUnloaded();
 		this.onDeactivated();
 		this.panel.getChannel().send(new DecisionInGameServerCommand(true));
 	}
 	
 	@Override
 	public void onCanceled() {
+		this.onUnloaded();
 		this.onDeactivated();
 		this.panel.getChannel().send(new DecisionInGameServerCommand(false));
 	}
 
 	@Override
-	public void onActivated(GamePanel panel) {
-		this.panel = panel;
+	public void onLoaded() {
 		panel.getGameUI().setMessage(this.message);
 		panel.getGameUI().setConfirmEnabled(true);
 		panel.getGameUI().setCancelEnabled(true);
 	}
 	
 	@Override
-	public void onDeactivated() {
+	public void onUnloaded() {
+		this.panel.getGameUI().clearMessage();
 		this.panel.getGameUI().setConfirmEnabled(false);
 		this.panel.getGameUI().setCancelEnabled(false);
-		this.panel.getGameUI().clearMessage();
-		this.panel.popOperation();
 	}
 
 }

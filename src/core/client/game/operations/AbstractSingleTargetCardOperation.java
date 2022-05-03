@@ -1,16 +1,13 @@
 package core.client.game.operations;
 
 import commands.game.server.ingame.InGameServerCommand;
-import core.client.GamePanel;
-import core.player.PlayerComplete;
 import core.player.PlayerInfo;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.PlayerUI;
 
-public abstract class AbstractSingleTargetCardOperation implements Operation {
+public abstract class AbstractSingleTargetCardOperation extends AbstractOperation {
 	
-	protected GamePanel panel;
 	protected final Activatable activator;
 	protected PlayerInfo source;
 	protected PlayerUI targetUI;
@@ -20,7 +17,7 @@ public abstract class AbstractSingleTargetCardOperation implements Operation {
 	}
 	
 	@Override
-	public void onPlayerClicked(PlayerUI player) {
+	public final void onPlayerClicked(PlayerUI player) {
 		PlayerInfo info = player.getPlayer().getPlayerInfo();
 		if (this.targetUI == null) {
 			this.targetUI = player;
@@ -38,59 +35,45 @@ public abstract class AbstractSingleTargetCardOperation implements Operation {
 	}
 	
 	@Override
-	public void onCardClicked(CardUI card) {
-		this.onDeactivated();
-		if (card != this.activator) {
-			this.panel.getCurrentOperation().onCardClicked(card);
-		}
-	}
-	
-	@Override
-	public void onEnded() {
-		this.onDeactivated();
-		this.panel.getCurrentOperation().onEnded();
-	}
-	
-	@Override
-	public void onCanceled() {
-		this.onDeactivated();
-	}
-	
-	@Override
-	public void onConfirmed() {
+	public final void onCardClicked(CardUI card) {
+		// Only the currently selected card should be clickable by implementation
+		// Behave as if the CANCEL button is pressed
 		this.onCanceled();
-		this.panel.getCurrentOperation().onConfirmed(); // DealOperation
+	}
+	
+	@Override
+	public final void onConfirmed() {
+		super.onConfirmed();
 		this.panel.getChannel().send(this.getCommand());
 	}
 	
 	@Override
-	public void onActivated(GamePanel panel) {
-		this.panel = panel;
+	public final void onLoaded() {
+		this.activator.setActivatable(true);
 		this.activator.setActivated(true);
-		panel.getGameUI().setMessage("Select one target.");
-		PlayerComplete self = panel.getGameState().getSelf();
-		this.source = self.getPlayerInfo();
-		this.setupTargetSelection();
+		this.source = this.panel.getGameState().getSelf().getPlayerInfo();
+		this.panel.getGameUI().setCancelEnabled(true);
+		this.panel.getGameUI().setMessage("Select a target.");
+		this.onLoadedCustom();
 	}
 	
 	@Override
-	public void onDeactivated() {
+	public final void onUnloaded() {
+		this.activator.setActivatable(false);
+		this.activator.setActivated(false);
 		if (this.targetUI != null) {
 			this.targetUI.setActivated(false);
 			this.panel.getGameUI().setConfirmEnabled(false);
 		}
-		for (PlayerUI other : this.panel.getGameUI().getOtherPlayersUI()) {
-			other.setActivatable(false);
-		}
-		this.panel.getGameUI().getHeroUI().setActivatable(false);
 		this.panel.getGameUI().setCancelEnabled(false);
 		this.panel.getGameUI().clearMessage();
-		this.activator.setActivated(false);
-		this.panel.popOperation();
+		this.onUnloadedCustom();
 	}
 	
 	protected abstract InGameServerCommand getCommand();
 	
-	protected abstract void setupTargetSelection();
+	protected abstract void onLoadedCustom();
+	
+	protected abstract void onUnloadedCustom();
 
 }

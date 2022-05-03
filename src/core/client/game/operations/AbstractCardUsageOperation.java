@@ -2,15 +2,19 @@ package core.client.game.operations;
 
 import cards.Card;
 import commands.game.server.ingame.InGameServerCommand;
-import core.client.GamePanel;
 import core.player.PlayerInfo;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 
-public abstract class AbstractCardUsageOperation implements Operation {
+/**
+ * A generic target-less card usage action during a player's DEAL stage, e.g. Peach
+ * 
+ * @author Harry
+ *
+ */
+public abstract class AbstractCardUsageOperation extends AbstractOperation {
 
 	private final Activatable card;
-	private GamePanel panel;
 	protected PlayerInfo source;
 	
 	public AbstractCardUsageOperation(Activatable card) {
@@ -18,48 +22,35 @@ public abstract class AbstractCardUsageOperation implements Operation {
 	}
 
 	@Override
-	public final void onCanceled() {
-		this.onDeactivated();
-	}
-
-	@Override
 	public final void onConfirmed() {
-		this.onDeactivated();
-		panel.getCurrentOperation().onConfirmed();
-		panel.getChannel().send(getCommand(card == null ? null : ((CardUI) card).getCard()));
+		super.onConfirmed();
+		this.panel.getChannel().send(getCommand(card == null ? null : ((CardUI) card).getCard()));
 	}
 	
 	@Override
 	public final void onCardClicked(CardUI card) {
-		this.onDeactivated();
-		if (card != this.card) {
-			panel.getCurrentOperation().onCardClicked(card);
-		}
+		// Only the currently selected card should be clickable by implementation
+		// Behave as if the CANCEL button is pressed
+		this.onCanceled();
 	}
 
 	@Override
-	public final void onEnded() {
-		this.onDeactivated();
-		panel.getCurrentOperation().onEnded();
-	}
-
-	@Override
-	public final void onActivated(GamePanel panel) {
-		this.panel = panel;
+	public final void onLoaded() {
+		this.card.setActivatable(true);
 		this.card.setActivated(true);
-		panel.getGameUI().setMessage("Use " + ((CardUI) this.card).getCard() + "?");
-		this.source = panel.getGameState().getSelf().getPlayerInfo();
-		panel.getGameUI().setConfirmEnabled(true);
-		panel.getGameUI().setCancelEnabled(true);
+		this.panel.getGameUI().setConfirmEnabled(true);
+		this.panel.getGameUI().setCancelEnabled(true);
+		this.panel.getGameUI().setMessage("Use " + ((CardUI) this.card).getCard() + "?");
+		this.source = this.panel.getGameState().getSelf().getPlayerInfo();
 	}
 	
 	@Override
-	public void onDeactivated() {
-		card.setActivated(false);
-		panel.getGameUI().setConfirmEnabled(false);
-		panel.getGameUI().setCancelEnabled(false);
-		panel.getGameUI().clearMessage();
-		panel.popOperation();
+	public final void onUnloaded() {
+		this.card.setActivatable(false);
+		this.card.setActivated(false);
+		this.panel.getGameUI().setConfirmEnabled(false);
+		this.panel.getGameUI().setCancelEnabled(false);
+		this.panel.getGameUI().clearMessage();
 	}
 	
 	protected abstract InGameServerCommand getCommand(Card card);

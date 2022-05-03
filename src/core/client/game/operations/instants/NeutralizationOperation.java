@@ -4,36 +4,22 @@ import cards.Card;
 import cards.specials.instant.Neutralization;
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.NeutralizationReactionInGameServerCommand;
-import core.client.GamePanel;
 import core.client.game.operations.AbstractCardReactionOperation;
-import ui.game.interfaces.CardUI;
 
+/**
+ * <p>When a player uses an Instant Special card, all players have the option to
+ * use Neutralization to cancel the effect. This applies to Neutralization itself
+ * too, i.e. one can use Neutralization to "cancel" another Neutralization.</p>
+ * 
+ * As such, a player's Operation stack may have multiple NeutralizationOperation,
+ * 
+ * @author Harry
+ *
+ */
 public class NeutralizationOperation extends AbstractCardReactionOperation {
 
 	public NeutralizationOperation(String message) {
 		super(message);
-	}
-
-	@Override
-	public void onEnded() {
-       if (this.card != null) {
-           this.card.setActivated(false);
-           this.card = null;
-       }
-       panel.getGameUI().setConfirmEnabled(false);
-       panel.getGameUI().setCancelEnabled(false);
-       for (CardUI ui : this.panel.getGameUI().getCardRackUI().getCardUIs()) {
-           ui.setActivatable(false);
-       }
-	}
-
-	@Override
-	public void onActivated(GamePanel panel) {
-		if (panel.getCurrentOperation() instanceof NeutralizationOperation) {
-			panel.getCurrentOperation().onEnded();
-			panel.popOperation();
-		}
-		super.onActivated(panel);
 	}
 
 	@Override
@@ -42,7 +28,7 @@ public class NeutralizationOperation extends AbstractCardReactionOperation {
 	}
 	
 	@Override
-	protected boolean isCancelEnabled() {
+	protected boolean isCancelAllowed() {
 		return true;
 	}
 
@@ -53,5 +39,15 @@ public class NeutralizationOperation extends AbstractCardReactionOperation {
 		} else {
 			return new NeutralizationReactionInGameServerCommand(this.panel.getGameState().getSelf().getPlayerInfo(), card);
 		}
+	}
+
+	@Override
+	protected void onLoadedCustom() {
+		
+	}
+
+	@Override
+	protected void onUnloadedCustom() {
+		
 	}
 }
