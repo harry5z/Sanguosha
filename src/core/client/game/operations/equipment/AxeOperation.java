@@ -1,6 +1,5 @@
 package core.client.game.operations.equipment;
 
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -12,7 +11,6 @@ import cards.equipments.Equipment.EquipmentType;
 import commands.game.server.ingame.AxeReactionInGameServerCommand;
 import core.client.game.operations.AbstractOperation;
 import core.player.PlayerCardZone;
-import ui.game.EquipmentGui;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.EquipmentUI;
@@ -20,7 +18,6 @@ import ui.game.interfaces.EquipmentUI;
 public class AxeOperation extends AbstractOperation {
 	
 	private final Map<Activatable, PlayerCardZone> cards;
-	private final ActionListener equipmentListener = e -> this.onEquipmentClicked((EquipmentGui) e.getSource());
 	
 	public AxeOperation() {
 		this.cards = new LinkedHashMap<>();
@@ -61,8 +58,7 @@ public class AxeOperation extends AbstractOperation {
 		this.panel.getGameUI().setConfirmEnabled(this.cards.size() == 2);
 	}
 	
-	@Override
-	public void onEquipmentClicked(EquipmentUI equipment) {
+	private void onEquipmentClicked(EquipmentUI equipment) {
 		if (this.cards.containsKey(equipment)) {
 			this.cards.remove(equipment);
 			equipment.setActivated(false);
@@ -80,29 +76,21 @@ public class AxeOperation extends AbstractOperation {
 
 	@Override
 	public void onLoaded() {
-		panel.getGameUI().setMessage("Axe: Discard 2 cards to make the Attack hit?");
-		for (CardUI cardUI : panel.getGameUI().getCardRackUI().getCardUIs()) {
-			cardUI.setActivatable(true);
-		}
-		panel.getGameUI().getEquipmentRackUI().registerOnActivatedListener(EquipmentType.SHIELD, this.equipmentListener);
-		panel.getGameUI().getEquipmentRackUI().registerOnActivatedListener(EquipmentType.HORSEPLUS, this.equipmentListener);
-		panel.getGameUI().getEquipmentRackUI().registerOnActivatedListener(EquipmentType.HORSEMINUS, this.equipmentListener);
-		panel.getGameUI().getEquipmentRackUI().setActivatable(Set.of(EquipmentType.SHIELD, EquipmentType.HORSEPLUS, EquipmentType.HORSEMINUS), true);
-		panel.getGameUI().setCancelEnabled(true);
+		this.panel.getGameUI().setMessage("Axe: Discard 2 cards to make the Attack hit?");
+		this.panel.getGameUI().getCardRackUI().getCardUIs().forEach(ui -> ui.setActivatable(true));
+		this.panel.getGameUI().getEquipmentRackUI().setActivatable(
+			Set.of(EquipmentType.SHIELD, EquipmentType.HORSEPLUS, EquipmentType.HORSEMINUS),
+			e -> this.onEquipmentClicked(e)
+		);
+		this.panel.getGameUI().setCancelEnabled(true);
 	}
 
 	@Override
 	public void onUnloaded() {
 		this.panel.getGameUI().clearMessage();
-		for (CardUI cardUI : this.panel.getGameUI().getCardRackUI().getCardUIs()) {
-			cardUI.setActivatable(false);
-		}
-		this.panel.getGameUI().getEquipmentRackUI().removeOnActivatedListeners(EquipmentType.SHIELD);
-		this.panel.getGameUI().getEquipmentRackUI().removeOnActivatedListeners(EquipmentType.HORSEPLUS);
-		this.panel.getGameUI().getEquipmentRackUI().removeOnActivatedListeners(EquipmentType.HORSEMINUS);
-		this.panel.getGameUI().getEquipmentRackUI().setActivatable(
-			Set.of(EquipmentType.SHIELD, EquipmentType.HORSEPLUS, EquipmentType.HORSEMINUS),
-			false
+		this.panel.getGameUI().getCardRackUI().getCardUIs().forEach(ui -> ui.setActivatable(false));
+		this.panel.getGameUI().getEquipmentRackUI().setUnactivatable(
+			Set.of(EquipmentType.SHIELD, EquipmentType.HORSEPLUS, EquipmentType.HORSEMINUS)		
 		);
 		this.panel.getGameUI().getEquipmentRackUI().setActivated(
 			Set.of(EquipmentType.SHIELD, EquipmentType.HORSEPLUS, EquipmentType.HORSEMINUS),

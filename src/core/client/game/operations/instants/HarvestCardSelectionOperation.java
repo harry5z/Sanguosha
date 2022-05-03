@@ -5,6 +5,7 @@ import java.util.Map;
 import cards.Card;
 import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
 import core.client.game.operations.AbstractOperation;
+import core.player.PlayerCardZone;
 import core.player.PlayerInfo;
 import ui.game.custom.HarvestSelectionPane;
 import ui.game.interfaces.CardUI;
@@ -20,7 +21,7 @@ public class HarvestCardSelectionOperation extends AbstractOperation {
 	}
 	
 	@Override
-	public void onCardClicked(CardUI card) {
+	public void onSelectionPaneCardClicked(CardUI card, PlayerCardZone zone) {
 		this.onUnloaded();
 		this.onDeactivated();
 		this.panel.getChannel().send(new PlayerCardSelectionInGameServerCommand(card.getCard(), null));

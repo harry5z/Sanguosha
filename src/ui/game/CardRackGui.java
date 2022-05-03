@@ -33,24 +33,15 @@ public class CardRackGui extends JPanel implements CardOnHandListener, CardRackU
 		setSize(WIDTH, HEIGHT);
 		setLocation(EquipmentRackGui.WIDTH, GamePanelGui.HEIGHT - HEIGHT);
 		cards = new ArrayList<CardGui>();
-		switch(zone) {
-			case HAND:
-				this.listener = e -> panel.getCurrentOperation().onCardClicked((CardGui) e.getSource());
-				break;
-			case EQUIPMENT:
-				this.listener = e -> panel.getCurrentOperation().onEquipmentClicked((CardGui) e.getSource());
-				break;
-			case DELAYED:
-				this.listener = e -> panel.getCurrentOperation().onDelayedClicked((CardGui) e.getSource());
-				break;
-			default:
-				this.listener = null;
-				break;
-		}
+		this.listener = e -> panel.getCurrentOperation().onSelectionPaneCardClicked((CardGui) e.getSource(), zone);
 	}
 	
 	public CardRackGui(GamePanel panel) {
-		this(panel, PlayerCardZone.HAND);
+		setLayout(null);
+		setSize(WIDTH, HEIGHT);
+		setLocation(EquipmentRackGui.WIDTH, GamePanelGui.HEIGHT - HEIGHT);
+		cards = new ArrayList<CardGui>();
+		this.listener = e -> panel.getCurrentOperation().onCardClicked((CardGui) e.getSource());
 	}
 	
 	@Override

@@ -54,7 +54,7 @@ public class HarvestSelectionPane extends JPanel {
 			gui.setActivatable(!entry.getValue());
 			
 			if (panel != null) {
-				gui.addActionListener(e -> panel.getCurrentOperation().onCardClicked((CardUI) e.getSource()));
+				gui.addActionListener(e -> panel.getCurrentOperation().onSelectionPaneCardClicked((CardUI) e.getSource(), null));
 			}
 			
 			cardPanel.add(gui);

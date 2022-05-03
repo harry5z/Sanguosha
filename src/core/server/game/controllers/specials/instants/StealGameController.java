@@ -75,7 +75,6 @@ public class StealGameController extends SingleTargetInstantSpecialGameControlle
 				break;
 			case DELAYED:
 				this.target.removeDelayed(card);
-				System.out.println(card.getName());
 				this.game.pushGameController(new ReceiveCardsGameController(this.game, this.source, Set.of(card)));
 				break;
 		}

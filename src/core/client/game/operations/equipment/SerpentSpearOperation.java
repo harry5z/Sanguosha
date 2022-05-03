@@ -1,15 +1,14 @@
 package core.client.game.operations.equipment;
 
-import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import cards.equipments.Equipment.EquipmentType;
 import commands.game.server.ingame.SerpentSpearAttackReactionInGameServerCommand;
 import commands.game.server.ingame.SerpentSpearInitiateAttackInGameServerCommand;
 import core.client.game.operations.AbstractOperation;
-import ui.game.EquipmentGui;
 import ui.game.interfaces.Activatable;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.EquipmentUI;
@@ -53,13 +52,6 @@ public class SerpentSpearOperation extends AbstractOperation {
 	}
 	
 	@Override
-	public void onEquipmentClicked(EquipmentUI equipment) {
-		// By implementation, this must be the SerpentSpear itself
-		// Behave as if CANCEL is clicked
-		this.onCanceled();
-	}
-	
-	@Override
 	public void onPlayerClicked(PlayerUI player) {
 		if (this.target == player) {
 			this.target.setActivated(false);
@@ -94,21 +86,19 @@ public class SerpentSpearOperation extends AbstractOperation {
 				this.cards.stream().map(card -> card.getCard()).collect(Collectors.toSet())
 			));
 		}
+
 	}
 	
 	@Override
 	public void onLoaded() {
 		this.activator.setActivatable(true);
 		this.activator.setActivated(true);
-		// TODO cleanup
-		((EquipmentGui)this.activator).addActionListener(e -> {
-			this.onEquipmentClicked(activator);
-		});
+		// By implementation, this must be the SerpentSpear itself
+		// Behave as if CANCEL is clicked
+		this.panel.getGameUI().getEquipmentRackUI().setActivatable(Set.of(EquipmentType.WEAPON), equipment -> this.onCanceled());
 		this.panel.getGameUI().setMessage("Select 2 cards to use as an Attack");
 		this.panel.getGameUI().setCancelEnabled(true);
-		for (CardUI card : panel.getGameUI().getCardRackUI().getCardUIs()) {
-			card.setActivatable(true);
-		}
+		this.panel.getGameUI().getCardRackUI().getCardUIs().forEach(card -> card.setActivatable(true));
 		if (this.hasTarget) {
 			for (PlayerUI player : panel.getGameUI().getOtherPlayersUI()) {
 				if (panel.getGameState().getSelf().isPlayerInAttackRange(player.getPlayer(), panel.getGameState().getNumberOfPlayersAlive())) {
@@ -122,10 +112,7 @@ public class SerpentSpearOperation extends AbstractOperation {
 	public void onUnloaded() {
 		this.activator.setActivatable(false);
 		this.activator.setActivated(false);
-		// TODO cleanup
-		for (ActionListener e : ((EquipmentGui)this.activator).getActionListeners()) {
-			((EquipmentGui)this.activator).removeActionListener(e);
-		}
+		this.panel.getGameUI().getEquipmentRackUI().setUnactivatable(Set.of(EquipmentType.WEAPON));
 		if (this.target != null) {
 			this.target.setActivated(false);
 		}

@@ -1,7 +1,7 @@
 package ui.game;
 
-import java.awt.event.ActionListener;
 import java.util.Collection;
+import java.util.function.Consumer;
 
 import javax.swing.JPanel;
 
@@ -10,6 +10,7 @@ import cards.equipments.Equipment.EquipmentType;
 import core.client.GamePanel;
 import listeners.game.EquipmentListener;
 import ui.game.interfaces.EquipmentRackUI;
+import ui.game.interfaces.EquipmentUI;
 
 public class EquipmentRackGui extends JPanel implements EquipmentListener, EquipmentRackUI {
 
@@ -20,24 +21,37 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener, Equip
 	
 	private final GamePanel panel;
 	
-	private EquipmentGui weapon;
-	private EquipmentGui shield;
-	private EquipmentGui horsePlus;
-	private EquipmentGui horseMinus;
+	private final EquipmentGui weapon;
+	private final EquipmentGui shield;
+	private final EquipmentGui horsePlus;
+	private final EquipmentGui horseMinus;
+	
+	private Consumer<EquipmentUI> weaponAction = null;
+	private Consumer<EquipmentUI> shieldAction = null;
+	private Consumer<EquipmentUI> horsePlusAction = null;
+	private Consumer<EquipmentUI> horseMinusAction = null;
 
 	public EquipmentRackGui(GamePanel panel) {
-		init();
 		this.panel = panel;
-	}
-
-	private void init() {
 		setSize(WIDTH, HEIGHT);
 		setLayout(null);
 		setLocation(0, GamePanelGui.HEIGHT - HEIGHT);
 		weapon = new EquipmentGui(0);
+		weapon.addActionListener(e -> {
+			this.weaponAction.accept(weapon);
+		});
 		shield = new EquipmentGui(EquipmentGui.HEIGHT);
+		shield.addActionListener(e -> {
+			this.shieldAction.accept(shield);
+		});
 		horsePlus = new EquipmentGui(2 * EquipmentGui.HEIGHT);
+		horsePlus.addActionListener(e -> {
+			this.horsePlusAction.accept(horsePlus);
+		});
 		horseMinus = new EquipmentGui(3 * EquipmentGui.HEIGHT);
+		horseMinus.addActionListener(e -> {
+			this.horseMinusAction.accept(horseMinus);
+		});
 		add(weapon);
 		add(shield);
 		add(horsePlus);
@@ -98,17 +112,30 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener, Equip
 	}
 	
 	@Override
-	public void setActivatable(Collection<EquipmentType> types, boolean activatable) {
+	public void setActivatable(Collection<EquipmentType> types, Consumer<EquipmentUI> consumer) {
+		this.setActivatableHelper(types, consumer, true);
+	}
+	
+	@Override
+	public void setUnactivatable(Collection<EquipmentType> types) {
+		this.setActivatableHelper(types, null, false);
+	}
+	
+	private void setActivatableHelper(Collection<EquipmentType> types, Consumer<EquipmentUI> action, boolean activatable) {
 		if (types.contains(EquipmentType.WEAPON)) {
+			this.weaponAction = action;
 			this.weapon.setActivatable(activatable);
 		}
 		if (types.contains(EquipmentType.SHIELD)) {
+			this.shieldAction = action;
 			this.shield.setActivatable(activatable);
 		}
 		if (types.contains(EquipmentType.HORSEPLUS)) {
+			this.horsePlusAction = action;
 			this.horsePlus.setActivatable(activatable);
 		}
 		if (types.contains(EquipmentType.HORSEMINUS)) {
+			this.horseMinusAction = action;
 			this.horseMinus.setActivatable(activatable);
 		}
 	}
@@ -129,45 +156,4 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener, Equip
 		}
 	}
 	
-	@Override
-	public void registerOnActivatedListener(EquipmentType type, ActionListener listener) {
-		switch(type) {
-			case WEAPON:
-				this.weapon.addActionListener(listener);
-				break;
-			case SHIELD:
-				this.shield.addActionListener(listener);
-				break;
-			case HORSEPLUS:
-				this.horsePlus.addActionListener(listener);
-				break;
-			case HORSEMINUS:
-				this.horseMinus.addActionListener(listener);
-				break;
-		}
-	}
-	
-	@Override
-	public void removeOnActivatedListeners(EquipmentType type) {
-		EquipmentGui equipment = null;
-		switch(type) {
-			case WEAPON:
-				equipment = this.weapon;
-				break;
-			case SHIELD:
-				equipment = this.shield;
-				break;
-			case HORSEPLUS:
-				equipment = this.horsePlus;
-				break;
-			case HORSEMINUS:
-				equipment = this.horseMinus;
-				break;
-		}
-		
-		for (ActionListener listener : equipment.getActionListeners()) {
-			equipment.removeActionListener(listener);
-		}
-	}
-
 }

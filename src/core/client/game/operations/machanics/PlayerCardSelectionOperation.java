@@ -11,7 +11,6 @@ import core.player.PlayerInfo;
 import core.player.PlayerSimple;
 import ui.game.custom.CardSelectionPane;
 import ui.game.interfaces.CardUI;
-import ui.game.interfaces.EquipmentUI;
 
 public class PlayerCardSelectionOperation extends AbstractOperation {
 	
@@ -28,26 +27,12 @@ public class PlayerCardSelectionOperation extends AbstractOperation {
 		this.zones = zones;
 		this.equipmentTypes = equipmentTypes != null ? equipmentTypes : Arrays.asList(EquipmentType.values());
 	}
-
-	@Override
-	public void onCardClicked(CardUI card) {
-		this.onUnloaded();
-		this.onDeactivated();
-		this.panel.getChannel().send(new PlayerCardSelectionInGameServerCommand(card.getCard(), PlayerCardZone.HAND));
-	}
 	
 	@Override
-	public void onEquipmentClicked(EquipmentUI equipment) {
+	public void onSelectionPaneCardClicked(CardUI card, PlayerCardZone zone) {
 		this.onUnloaded();
 		this.onDeactivated();
-		this.panel.getChannel().send(new PlayerCardSelectionInGameServerCommand(equipment.getEquipment(), PlayerCardZone.EQUIPMENT));
-	}
-	
-	@Override
-	public void onDelayedClicked(CardUI card) {
-		this.onUnloaded();
-		this.onDeactivated();
-		this.panel.getChannel().send(new PlayerCardSelectionInGameServerCommand(card.getCard(), PlayerCardZone.DELAYED));
+		this.panel.getChannel().send(new PlayerCardSelectionInGameServerCommand(card.getCard(), zone));
 	}
 
 	@Override

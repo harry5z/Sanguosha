@@ -1,8 +1,8 @@
 package core.client.game.operations;
 
 import core.client.GamePanel;
+import core.player.PlayerCardZone;
 import ui.game.interfaces.CardUI;
-import ui.game.interfaces.EquipmentUI;
 import ui.game.interfaces.PlayerUI;
 /**
  * An operation that listens to user actions (confirm, cancel, select cards/targets, etc.)
@@ -16,23 +16,25 @@ import ui.game.interfaces.PlayerUI;
  */
 public interface Operation {
 	
+	/**
+	 * Called when a card in the Card Rack is clicked
+	 * @param card
+	 */
 	default public void onCardClicked(CardUI card) {}
 	
+	/**
+	 * Called when a player (self or others) is clicked
+	 * @param player
+	 */
 	default public void onPlayerClicked(PlayerUI player) {}
 	
 	/**
-	 * Called when an equipment in the card selection pane is clicked
+	 * Called when a card in the card selection pane is clicked
 	 * 
-	 * @param equipment
+	 * @param card
+	 * @param zone
 	 */
-	default public void onEquipmentClicked(EquipmentUI equipment) {}
-	
-	/**
-	 * Called when a Delayed Special card in the card selection pane is clicked
-	 * 
-	 * @param equipment
-	 */
-	default public void onDelayedClicked(CardUI card) {}
+	default public void onSelectionPaneCardClicked(CardUI card, PlayerCardZone zone) {}
 	
 	/**
 	 * <p>Called when the CONFIRM button is pressed</p>
