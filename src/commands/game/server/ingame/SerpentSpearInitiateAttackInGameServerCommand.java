@@ -10,6 +10,7 @@ import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
 import core.server.game.controllers.AttackGameController;
+import core.server.game.controllers.UseCardOnHandGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class SerpentSpearInitiateAttackInGameServerCommand extends InGameServerCommand {
@@ -28,27 +29,25 @@ public class SerpentSpearInitiateAttackInGameServerCommand extends InGameServerC
 	
 	@Override
 	public void execute(Game game) {
-		PlayerCompleteServer player = game.findPlayer(source);
-		Set<PlayerCompleteServer> targets = this.targets.stream().map(target -> game.findPlayer(target)).collect(Collectors.toSet());
-
-		if (player.getAttackUsed() > 0 || this.cards.size() != 2 || !player.getCardsOnHand().containsAll(this.cards)) {
-			return;
-		}
-		
 		try {
+			PlayerCompleteServer player = game.findPlayer(source);
+			Set<PlayerCompleteServer> targets = this.targets.stream().map(target -> game.findPlayer(target)).collect(Collectors.toSet());
 			player.useAttack(targets);
-			player.useCards(this.cards);
+	
+			if (this.cards.size() != 2) {
+				throw new InvalidPlayerCommandException("SerpentSpear requires 2 cards");
+			}
+			Color color = this.cards.stream().map(card -> card.getColor()).reduce(
+				this.cards.iterator().next().getColor(),
+				(c1, c2) -> c1 == c2 ? c1 : Color.COLORLESS
+			);
+			game.pushGameController(new AttackGameController(player, targets, new Attack(color), game));
+			game.pushGameController(new UseCardOnHandGameController(game, player, cards));
+			game.getGameController().proceed();
 		} catch (InvalidPlayerCommandException e) {
+			// TODO handle error
 			e.printStackTrace();
-			return;
 		}
-		
-		Color color = this.cards.stream().map(card -> card.getColor()).reduce(
-			this.cards.iterator().next().getColor(),
-			(c1, c2) -> c1 == c2 ? c1 : Color.COLORLESS
-		);
-		game.pushGameController(new AttackGameController(player, targets, new Attack(color), game));
-		game.getGameController().proceed();
 	}
 
 }

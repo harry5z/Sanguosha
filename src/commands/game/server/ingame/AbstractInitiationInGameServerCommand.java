@@ -1,10 +1,13 @@
 package commands.game.server.ingame;
 
+import java.util.Set;
+
 import cards.Card;
+import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
 import core.server.game.controllers.GameController;
-import exceptions.server.game.InvalidPlayerCommandException;
+import core.server.game.controllers.UseCardOnHandGameController;
 
 public abstract class AbstractInitiationInGameServerCommand extends InGameServerCommand {
 
@@ -20,17 +23,12 @@ public abstract class AbstractInitiationInGameServerCommand extends InGameServer
 
 	@Override
 	public final void execute(Game game) {
-		if (card != null) {		
-			try {
-				// TODO: convert to controller
-				game.getCurrentPlayer().useCard(card);
-			} catch (InvalidPlayerCommandException e) {
-				e.printStackTrace();
-				return;
-			}
-		}
-		
 		game.pushGameController(this.getController(game, this.target));
+		if (card != null) {
+			// TODO specify source in command since initiator may not be the current player
+			PlayerCompleteServer source = game.getCurrentPlayer();
+			game.pushGameController(new UseCardOnHandGameController(game, source, Set.of(card)));			
+		}
 		game.getGameController().proceed();
 	}
 	

@@ -8,6 +8,7 @@ import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
 import core.server.game.controllers.AttackGameController;
+import core.server.game.controllers.UseCardOnHandGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class InitiateAttackInGameServerCommand extends InGameServerCommand {
@@ -30,25 +31,16 @@ public class InitiateAttackInGameServerCommand extends InGameServerCommand {
 		Set<PlayerCompleteServer> targets = this.targets.stream().map(target -> game.findPlayer(target)).collect(Collectors.toSet());
 		try {
 			player.useAttack(targets);
+			game.pushGameController(new AttackGameController(player, targets, attack, game));
+			if (attack != null) {
+				game.pushGameController(new UseCardOnHandGameController(game, player, Set.of(this.attack)));
+			}
+			game.getGameController().proceed();
 		} catch (InvalidPlayerCommandException e) {
+			// TODO reset game state
 			e.printStackTrace();
 			return;
 		}
-		if (attack != null) {
-			try {
-				player.useCard(attack);
-			} catch (InvalidPlayerCommandException e) {
-				try {
-					player.setAttackUsed(player.getAttackUsed() - 1);
-				} catch (InvalidPlayerCommandException e1) {
-					e1.printStackTrace();
-				}
-				e.printStackTrace();
-				return;
-			}
-		}
-		game.pushGameController(new AttackGameController(player, targets, attack, game));
-		game.getGameController().proceed();
 	}
 
 }

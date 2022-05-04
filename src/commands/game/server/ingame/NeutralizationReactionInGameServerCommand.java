@@ -1,10 +1,12 @@
 package commands.game.server.ingame;
 
+import java.util.Set;
+
 import cards.Card;
 import core.player.PlayerInfo;
 import core.server.game.Game;
+import core.server.game.controllers.UseCardOnHandGameController;
 import core.server.game.controllers.specials.SpecialGameController;
-import exceptions.server.game.InvalidPlayerCommandException;
 
 public class NeutralizationReactionInGameServerCommand extends InGameServerCommand {
 
@@ -21,13 +23,8 @@ public class NeutralizationReactionInGameServerCommand extends InGameServerComma
 	@Override
 	public void execute(Game game) {
 		if (neutralization != null) {
-			try {
-				// TODO: move usage of card into a separate command since things may happen in between
-				game.findPlayer(source).useCard(neutralization);
-				game.<SpecialGameController>getGameController().onNeutralized();
-			} catch (InvalidPlayerCommandException e) {
-				e.printStackTrace();
-			}
+			game.<SpecialGameController>getGameController().onNeutralized();
+			game.pushGameController(new UseCardOnHandGameController(game, game.findPlayer(source), Set.of(neutralization)));
 		} else {
 			game.<SpecialGameController>getGameController().onNeutralizationCanceled();
 		}

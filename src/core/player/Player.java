@@ -240,7 +240,7 @@ public abstract class Player {
 			addCard(card);
 	}
 
-	public abstract void useCard(Card card) throws InvalidPlayerCommandException;
+	protected abstract void useCard(Card card) throws InvalidPlayerCommandException;
 
 	/**
 	 * <li>{@link CardOnHandListener} notified</li>

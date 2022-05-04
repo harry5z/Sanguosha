@@ -1,10 +1,12 @@
 package commands.game.server.ingame;
 
+import java.util.Set;
+
 import cards.Card;
-import cards.basics.Peach;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.HealGameController;
+import core.server.game.controllers.UseCardOnHandGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class UsePeachInGameServerCommand extends InGameServerCommand {
@@ -21,23 +23,18 @@ public class UsePeachInGameServerCommand extends InGameServerCommand {
 	public void execute(Game game) {
 		PlayerCompleteServer currentPlayer = game.getCurrentPlayer();
 		try {
-			if (card != null) { 
-				if (!(card instanceof Peach)) {
-					throw new InvalidPlayerCommandException("card " + card + " is not peach");
-				}
-				if (!currentPlayer.getCardsOnHand().contains(card)) {
-					throw new InvalidPlayerCommandException("card " + card + " is not on current player's hand");
-				}
-			}
 			if (!currentPlayer.isDamaged()) {
 				throw new InvalidPlayerCommandException("player is at full health");
 			}
-			currentPlayer.useCard(card);
+			game.pushGameController(new HealGameController(currentPlayer.getPlayerInfo(), currentPlayer.getPlayerInfo(), game));
+			if (card != null) {
+				game.pushGameController(new UseCardOnHandGameController(game, currentPlayer, Set.of(card)));
+			}
+			game.getGameController().proceed();
 		} catch (InvalidPlayerCommandException e) {
+			// TODO handle error
 			e.printStackTrace();
 		}
-		game.pushGameController(new HealGameController(currentPlayer.getPlayerInfo(), currentPlayer.getPlayerInfo(), game));
-		game.getGameController().proceed();
 	}
 
 }

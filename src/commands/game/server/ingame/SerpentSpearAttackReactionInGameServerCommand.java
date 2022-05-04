@@ -8,6 +8,7 @@ import cards.basics.Attack;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
+import core.server.game.controllers.UseCardOnHandGameController;
 import core.server.game.controllers.interfaces.AttackUsableGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 
@@ -25,24 +26,22 @@ public class SerpentSpearAttackReactionInGameServerCommand extends InGameServerC
 	
 	@Override
 	public void execute(Game game) {
-		PlayerCompleteServer player = game.findPlayer(source);
-		if (this.cards.size() != 2 || !player.getCardsOnHand().containsAll(this.cards)) {
-			return;
-		}
-		
 		try {
-			player.useCards(this.cards);
+			PlayerCompleteServer player = game.findPlayer(source);
+			if (this.cards.size() != 2) {
+				throw new InvalidPlayerCommandException("SerpentSpear requires 2 cards");
+			}
+			Color color = this.cards.stream().map(card -> card.getColor()).reduce(
+				this.cards.iterator().next().getColor(),
+				(c1, c2) -> c1 == c2 ? c1 : Color.COLORLESS
+			);
+			game.<AttackUsableGameController>getGameController().onAttackUsed(new Attack(color));
+			game.pushGameController(new UseCardOnHandGameController(game, player, cards));
+			game.getGameController().proceed();
 		} catch (InvalidPlayerCommandException e) {
+			// TODO handle error
 			e.printStackTrace();
-			return;
 		}
-		
-		Color color = this.cards.stream().map(card -> card.getColor()).reduce(
-			this.cards.iterator().next().getColor(),
-			(c1, c2) -> c1 == c2 ? c1 : Color.COLORLESS
-		);
-		game.<AttackUsableGameController>getGameController().onAttackUsed(new Attack(color));
-		game.getGameController().proceed();
 	}
 
 }

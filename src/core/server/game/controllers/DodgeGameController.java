@@ -4,14 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import cards.Card;
-import cards.basics.Dodge;
 import core.event.game.DodgeTargetEquipmentCheckEvent;
 import core.event.game.basic.RequestDodgeEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.interfaces.DodgeUsableGameController;
 import exceptions.server.game.GameFlowInterruptedException;
-import exceptions.server.game.InvalidPlayerCommandException;
 import utils.EnumWithNextStage;
 
 public class DodgeGameController extends AbstractGameController {
@@ -74,15 +72,7 @@ public class DodgeGameController extends AbstractGameController {
 	}
 
 	public void onDodgeUsed(Card card) {
-		try {
-			if (!(card instanceof Dodge) || !this.target.getCardsOnHand().contains(card)) {
-				throw new InvalidPlayerCommandException("Card is not dodge or target does not have this card");
-			}
-			this.target.useCard(card);
-		} catch (InvalidPlayerCommandException e) {
-			e.printStackTrace();
-			return;
-		}
+		game.pushGameController(new UseCardOnHandGameController(game, target, Set.of(card)));
 		this.dodged = true;
 		this.stage = DodgeStage.AFTER_DODGED_SKILLS;
 	}

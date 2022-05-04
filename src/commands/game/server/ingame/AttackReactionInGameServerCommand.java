@@ -1,12 +1,13 @@
 package commands.game.server.ingame;
 
+import java.util.Set;
+
 import cards.Card;
-import cards.basics.Attack;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
+import core.server.game.controllers.UseCardOnHandGameController;
 import core.server.game.controllers.interfaces.AttackUsableGameController;
-import exceptions.server.game.InvalidPlayerCommandException;
 
 public class AttackReactionInGameServerCommand extends InGameServerCommand {
 
@@ -24,16 +25,8 @@ public class AttackReactionInGameServerCommand extends InGameServerCommand {
 	public void execute(Game game) {
 		PlayerCompleteServer user = game.findPlayer(this.source);
 		if (this.attack != null) {
-			try {
-				if (!(this.attack instanceof Attack) || !user.getCardsOnHand().contains(this.attack)) {
-					throw new InvalidPlayerCommandException("Card is not attack or target does not have this card");
-				}
-				user.useCard(this.attack);
-			} catch (InvalidPlayerCommandException e) {
-				e.printStackTrace();
-				return;
-			}
 			game.<AttackUsableGameController>getGameController().onAttackUsed(this.attack);
+			game.pushGameController(new UseCardOnHandGameController(game, user, Set.of(this.attack)));
 		} else {
 			game.<AttackUsableGameController>getGameController().onAttackNotUsed();
 		}

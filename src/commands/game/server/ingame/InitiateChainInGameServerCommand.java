@@ -1,13 +1,14 @@
 package commands.game.server.ingame;
 
 import java.util.Queue;
+import java.util.Set;
 
 import cards.Card;
 import core.player.PlayerInfo;
 import core.server.game.Game;
 import core.server.game.controllers.ReceiveCardsGameController;
+import core.server.game.controllers.UseCardOnHandGameController;
 import core.server.game.controllers.specials.instants.ChainGameController;
-import exceptions.server.game.InvalidPlayerCommandException;
 
 public class InitiateChainInGameServerCommand extends InGameServerCommand {
 
@@ -23,21 +24,15 @@ public class InitiateChainInGameServerCommand extends InGameServerCommand {
 
 	@Override
 	public final void execute(Game game) {
-		if (card != null) {		
-			try {
-				// TODO: convert to controller
-				game.getCurrentPlayer().useCard(card);
-			} catch (InvalidPlayerCommandException e) {
-				e.printStackTrace();
-				return;
-			}
-		}
-		
+		// TODO specify source as the source may not be the current player
 		if (this.targets.isEmpty()) {
 			// "Recast"
 			game.pushGameController(new ReceiveCardsGameController(game, game.getCurrentPlayer(), game.getDeck().drawMany(1)));
 		} else {
 			game.pushGameController(new ChainGameController(game.getCurrentPlayer().getPlayerInfo(), game, this.targets));
+		}
+		if (card != null) {
+			game.pushGameController(new UseCardOnHandGameController(game, game.getCurrentPlayer(), Set.of(card)));
 		}
 		game.getGameController().proceed();
 	}
