@@ -1,14 +1,15 @@
-package core.heroes.skills;
+package core.client.game.operations.skills;
 
 import core.client.game.event.ClientGameEvent;
 import core.client.game.listener.ClientEventListener;
-import core.client.game.listener.FireAttackSkillDealEventListener;
+import core.client.game.listener.SeeThroughSkillClientEventListener;
+import core.heroes.skills.ActiveSkill;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import ui.game.interfaces.SkillUI;
 
 @SuppressWarnings("serial")
-public class ZhugeliangFireAttackOriginalHeroSkill implements ActiveSkill {
+public class ZhugeliangSeeThroughHeroSkill implements ActiveSkill {
 
 	@Override
 	public void onGameReady(Game game, PlayerCompleteServer player) {
@@ -17,17 +18,17 @@ public class ZhugeliangFireAttackOriginalHeroSkill implements ActiveSkill {
 
 	@Override
 	public String getName() {
-		return "Fire Attack";
+		return "See Through";
 	}
 
 	@Override
 	public String getDescription() {
-		return "In your turn, you can use any RED card on hand as Fire Attack";
+		return "You may use any BLACK card on hand as Neutralization";
 	}
 
 	@Override
 	public ClientEventListener<? extends ClientGameEvent> getClientEventListener(SkillUI ui) {
-		return new FireAttackSkillDealEventListener(ui);
+		return new SeeThroughSkillClientEventListener(ui);
 	}
 
 }

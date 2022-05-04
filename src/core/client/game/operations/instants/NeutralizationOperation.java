@@ -4,6 +4,7 @@ import cards.Card;
 import cards.specials.instant.Neutralization;
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.NeutralizationReactionInGameServerCommand;
+import core.client.game.event.RequestNeutralizationClientGameEvent;
 import core.client.game.operations.AbstractCardReactionOperation;
 
 /**
@@ -43,11 +44,11 @@ public class NeutralizationOperation extends AbstractCardReactionOperation {
 
 	@Override
 	protected void onLoadedCustom() {
-		
+		this.panel.emit(new RequestNeutralizationClientGameEvent(true));
 	}
 
 	@Override
 	protected void onUnloadedCustom() {
-		
+		this.panel.emit(new RequestNeutralizationClientGameEvent(false));
 	}
 }
