@@ -1,6 +1,6 @@
 package cards.equipments.shields;
 
-import core.event.handlers.equipment.TaichiFormationDodgeArbitrationEventHandler;
+import core.event.handlers.equipment.TaichiFormationDodgeEquipmentCheckEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 
@@ -19,12 +19,12 @@ public class TaichiFormation extends Shield {
 	
 	@Override
 	public void onEquipped(Game game, PlayerCompleteServer owner) {
-		game.registerEventHandler(new TaichiFormationDodgeArbitrationEventHandler(owner));
+		game.registerEventHandler(new TaichiFormationDodgeEquipmentCheckEventHandler(owner));
 	}
 	
 	@Override
 	public void onUnequipped(Game game, PlayerCompleteServer owner) {
-		game.removeEventHandler(new TaichiFormationDodgeArbitrationEventHandler(owner));
+		game.removeEventHandler(new TaichiFormationDodgeEquipmentCheckEventHandler(owner));
 	}
 
 }

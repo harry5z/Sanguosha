@@ -1,8 +1,11 @@
 package core.server.game.controllers;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import cards.Card;
 import cards.basics.Dodge;
-import core.event.game.DodgeArbitrationEvent;
+import core.event.game.DodgeTargetEquipmentCheckEvent;
 import core.event.game.basic.RequestDodgeEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
@@ -14,7 +17,7 @@ import utils.EnumWithNextStage;
 public class DodgeGameController extends AbstractGameController {
 	
 	public enum DodgeStage implements EnumWithNextStage<DodgeStage> {
-		ARIBTRATION,
+		TARGET_EQUIPMENT_ABILITIES,
 		DODGE,
 		AFTER_DODGED_SKILLS,
 		END,
@@ -24,21 +27,28 @@ public class DodgeGameController extends AbstractGameController {
 	private DodgeStage stage;
 	private PlayerCompleteServer target;
 	private boolean dodged;
+	private final Set<DodgeStage> skippedStages;
 
 	public DodgeGameController(Game game, PlayerCompleteServer target, String message) {
 		super(game);
 		this.message = message;
 		this.target = target;
-		this.stage = DodgeStage.ARIBTRATION;
+		this.stage = DodgeStage.TARGET_EQUIPMENT_ABILITIES;
 		this.dodged = false;
+		this.skippedStages = new HashSet<>();
 	}
 
 	@Override
 	public void proceed() {
+		if (this.skippedStages.contains(this.stage)) {
+			this.stage = this.stage.nextStage();
+			this.proceed();
+			return;
+		}
 		switch (this.stage) {
-			case ARIBTRATION:
+			case TARGET_EQUIPMENT_ABILITIES:
 				try {
-					this.game.emit(new DodgeArbitrationEvent(this.target.getPlayerInfo()));
+					this.game.emit(new DodgeTargetEquipmentCheckEvent(this.target.getPlayerInfo()));
 					this.stage = this.stage.nextStage();
 					this.proceed();
 				} catch (GameFlowInterruptedException e) {
@@ -100,6 +110,10 @@ public class DodgeGameController extends AbstractGameController {
 		} else {
 			((DodgeUsableGameController) controller).onNotDodged();
 		}
+	}
+	
+	public void skipStage(DodgeStage stage) {
+		this.skippedStages.add(stage);
 	}
 
 }

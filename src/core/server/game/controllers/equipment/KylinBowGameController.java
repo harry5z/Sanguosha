@@ -67,7 +67,7 @@ public class KylinBowGameController
 	@Override
 	public void onDecisionMade(boolean confirmed) {
 		this.confirmed = confirmed;
-		this.controller.setStage(AttackResolutionStage.DAMAGE_MODIFIERS);
+		this.controller.setStage(AttackResolutionStage.PRE_DAMAGE_SOURCE_WEAPON_DAMAGE_MODIFIERS);
 	}
 
 	@Override

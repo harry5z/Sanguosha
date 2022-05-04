@@ -1,7 +1,7 @@
 package core.event.handlers.equipment;
 
 import commands.game.client.DecisionUIClientCommand;
-import core.event.game.DodgeArbitrationEvent;
+import core.event.game.DodgeTargetEquipmentCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
@@ -9,19 +9,19 @@ import core.server.game.Game;
 import core.server.game.controllers.equipment.TaichiFormationGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
-public class TaichiFormationDodgeArbitrationEventHandler extends AbstractEventHandler<DodgeArbitrationEvent> {
+public class TaichiFormationDodgeEquipmentCheckEventHandler extends AbstractEventHandler<DodgeTargetEquipmentCheckEvent> {
 
-	public TaichiFormationDodgeArbitrationEventHandler(PlayerCompleteServer player) {
+	public TaichiFormationDodgeEquipmentCheckEventHandler(PlayerCompleteServer player) {
 		super(player);
 	}
 
 	@Override
-	public Class<DodgeArbitrationEvent> getEventClass() {
-		return DodgeArbitrationEvent.class;
+	public Class<DodgeTargetEquipmentCheckEvent> getEventClass() {
+		return DodgeTargetEquipmentCheckEvent.class;
 	}
 
 	@Override
-	protected void handleIfActivated(DodgeArbitrationEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
+	protected void handleIfActivated(DodgeTargetEquipmentCheckEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
 		if (!this.player.getPlayerInfo().equals(event.getTarget())) {
 			return;
 		}

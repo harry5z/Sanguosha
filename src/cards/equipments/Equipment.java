@@ -80,23 +80,4 @@ public abstract class Equipment extends Card {
 	 */
 	public void onUnequipped(GamePanel panel) {}
 	
-	/**
-	 * 
-	 * Called when the abilities of the equipment is (re)activated
-	 * @param game
-	 * @param owner
-	 */
-	public void onActivated(Game game, PlayerCompleteServer owner) {
-		this.onEquipped(game, owner);
-	}
-	
-	/**
-	 * Called when the abilities of the equipment is suppressed
-	 * @param game
-	 * @param owner
-	 */
-	public void onDeactivated(Game game, PlayerCompleteServer owner) {
-		this.onUnequipped(game, owner);
-	}
-	
 }

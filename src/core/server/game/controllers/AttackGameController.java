@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import cards.basics.Attack;
-import core.event.game.basic.AttackOnLockSkillsCheckEvent;
-import core.event.game.basic.AttackPostAcquisitionWeaponAbilitiesCheckEvent;
 import core.event.game.basic.AttackPreAcquisitionWeaponAbilitiesCheckEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
@@ -19,8 +17,6 @@ public class AttackGameController extends AbstractGameController {
 	public static enum AttackStage implements EnumWithNextStage<AttackStage> {
 		PRE_TARGET_ACQUISITION_WEAPON_ABILITIES,
 		TARGET_ACQUISITION,
-		POST_TARGET_ACQUISITION_HERO_ABILITIES,
-		POST_TARGET_ACQUISITION_WEAPON_ABILITIES,
 		ATTACK_RESOLUTION,
 		END,
 	}
@@ -72,30 +68,8 @@ public class AttackGameController extends AbstractGameController {
 				}
 				break;
 			case TARGET_ACQUISITION:
+				// Currently no item or hero skill affecting Target Acquisition
 				this.stage = this.stage.nextStage();
-				this.proceed();
-				break;
-			case POST_TARGET_ACQUISITION_HERO_ABILITIES:
-				try {
-					this.game.emit(new AttackOnLockSkillsCheckEvent(this.source, this.targets.get(this.currentTargetIndex), this));
-					this.stage = this.stage.nextStage();
-					this.proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
-				break;
-			case POST_TARGET_ACQUISITION_WEAPON_ABILITIES:
-				try {
-					PlayerCompleteServer currentTarget = this.targets.get(this.currentTargetIndex);
-					this.game.emit(new AttackPostAcquisitionWeaponAbilitiesCheckEvent(this.source, currentTarget));
-				} catch (GameFlowInterruptedException e) {
-					// should not receive GameFlowInterruptedException
-				}
-				this.currentTargetIndex++;
-				if (this.currentTargetIndex == this.targets.size()) {
-					this.currentTargetIndex = 0;
-					this.stage = this.stage.nextStage();
-				}
 				this.proceed();
 				break;
 			case ATTACK_RESOLUTION:

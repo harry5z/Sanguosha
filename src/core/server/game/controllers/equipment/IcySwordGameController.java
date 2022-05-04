@@ -75,7 +75,7 @@ public class IcySwordGameController
 	public void onDecisionMade(boolean confirmed) {
 		this.confirmed = confirmed;
 		if (!confirmed) {
-			this.controller.setStage(AttackResolutionStage.DAMAGE_MODIFIERS);
+			this.controller.setStage(AttackResolutionStage.PRE_DAMAGE_SOURCE_WEAPON_DAMAGE_MODIFIERS);
 		} else {
 			this.controller.setStage(AttackResolutionStage.END);
 		}
