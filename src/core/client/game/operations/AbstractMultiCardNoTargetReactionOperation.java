@@ -1,8 +1,6 @@
 package core.client.game.operations;
 
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import cards.equipments.Equipment.EquipmentType;
 import commands.game.server.ingame.InGameServerCommand;
@@ -54,9 +52,9 @@ public abstract class AbstractMultiCardNoTargetReactionOperation extends Abstrac
 	/**
 	 * <p>The command to be sent when player gives up on reaction. If giving up
 	 * is not allowed (i.e. {@link #isCancelEnabled()} does not always return true),
-	 * this method must not return null</p>
+	 * this method may return null</p>
 	 * 
-	 * @return command upon inaction, or null if inaction is allowed
+	 * @return command upon inaction, or null if inaction is not allowed
 	 */
 	protected abstract InGameServerCommand getCommandOnInaction();
 
