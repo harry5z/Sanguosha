@@ -1,7 +1,7 @@
 package core.heroes.original;
 
-import core.client.game.operations.skills.ZhugeliangSeeThroughHeroSkill;
 import core.heroes.skills.ZhugeliangFireAttackOriginalHeroSkill;
+import core.heroes.skills.ZhugeliangSeeThroughHeroSkill;
 import core.heroes.skills.ZhugeliangTaichiOriginalHeroSkill;
 
 public class ZhugeliangHiddenDragon extends HeroOriginal {

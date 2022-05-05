@@ -1,100 +1,56 @@
 package core.client.game.operations.skills;
 
+import cards.Card;
 import cards.Card.Color;
-import core.client.game.operations.AbstractOperation;
-import core.client.game.operations.instants.FireAttackOperation;
-import ui.game.interfaces.CardUI;
-import ui.game.interfaces.PlayerUI;
+import cards.equipments.Equipment.EquipmentType;
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.InitiateFireAttackInGameServerCommand;
+import core.player.PlayerSimple;
 import ui.game.interfaces.SkillUI;
 
-public class FireAttackSkillOperation extends AbstractOperation {
+public class FireAttackSkillOperation extends AbstractMultiCardMultiTargetSkillOperation {
 	
-	private final SkillUI skill;
-	private CardUI cardSelected;
-	private FireAttackOperation op;
 	
 	public FireAttackSkillOperation(SkillUI skill) {
-		this.skill = skill;
-		this.cardSelected = null;
-		this.op = null;
+		super(skill, 1, 1);
 	}
 	
 	@Override
-	public void onConfirmed() {
-		this.onUnloaded();
-		this.onDeactivated();
-		this.op.onConfirmed();
-	}
-	
-	@Override
-	public void onCanceled() {
-		if (this.op != null) {
-			this.op.onUnloaded();
-		}
-		super.onCanceled();
-	}
-	
-	@Override
-	public void onEnded() {
-		if (this.op != null) {
-			this.op.onUnloaded();
-		}
-		super.onEnded();
-	}
-	
-	@Override
-	public void onPlayerClicked(PlayerUI player) {
-		this.op.onPlayerClicked(player);
+	protected boolean isConfirmEnabled() {
+		return this.cards.size() == 1 && this.targets.size() == 1;
 	}
 
 	@Override
-	public void onCardClicked(CardUI card) {
-		if (this.cardSelected == null) { // select a card for Fire Attack
-			this.cardSelected = card;
-			this.onCardSelectionUnloaded();
-			this.op = new FireAttackOperation(card);
-			this.op.onActivated(this.panel);
-		} else { // cancels card selection
-			this.op.onUnloaded();
-			this.op = null;
-			this.cardSelected = null;
-			this.onCardSelectionLoaded();
+	protected boolean isEquipmentTypeActivatable(EquipmentType type) {
+		return false;
+	}
+
+	@Override
+	protected boolean isCardActivatable(Card card) {
+		return card.getColor() == Color.RED;
+	}
+
+	@Override
+	protected boolean isPlayerActivatable(PlayerSimple player) {
+		if (player == this.panel.getGameUI().getHeroUI()) {
+			// can use Fire Attack on oneself if more than one card on hand
+			return player.getHandCount() > 1;
+		} else {
+			return player.getHandCount() > 0;
 		}
 	}
-	
+
 	@Override
-	public void onLoaded() {
-		this.skill.setActivatable(true);
-		this.skill.setActivated(true);
-		this.skill.setActionOnActivation(() -> {
-			// By implementation, this has to be the Fire Attack itself
-			// Behave as if CANCEL is clicked
-			this.onCanceled();
-		});
-		this.onCardSelectionLoaded();
+	protected String getMessage() {
+		return "Select a RED card and a target to initiate Fire Attack";
 	}
-	
+
 	@Override
-	public void onUnloaded() {
-		this.skill.setActivatable(false);
-		this.skill.setActivated(false);
-		this.onCardSelectionUnloaded();
-	}
-	
-	private void onCardSelectionLoaded() {
-		for (CardUI card : this.panel.getGameUI().getCardRackUI().getCardUIs()) {
-			if (card.getCard().getColor() == Color.RED) {
-				card.setActivatable(true);
-			}
-		}
-		this.panel.getGameUI().setCancelEnabled(true);
-		this.panel.getGameUI().setMessage("Select a RED card to initiate Fire Attack");
-	}
-	
-	private void onCardSelectionUnloaded() {
-		this.panel.getGameUI().getCardRackUI().getCardUIs().forEach(card -> card.setActivatable(false));
-		this.panel.getGameUI().setCancelEnabled(false);
-		this.panel.getGameUI().clearMessage();
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new InitiateFireAttackInGameServerCommand(
+			this.targets.peek().getPlayer().getPlayerInfo(),
+			this.cards.keySet().iterator().next().getCard()
+		);
 	}
 
 }

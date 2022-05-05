@@ -1,9 +1,8 @@
-package core.client.game.operations.skills;
+package core.heroes.skills;
 
 import core.client.game.event.ClientGameEvent;
 import core.client.game.listener.ClientEventListener;
 import core.client.game.listener.SeeThroughSkillClientEventListener;
-import core.heroes.skills.ActiveSkill;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import ui.game.interfaces.SkillUI;

@@ -1,87 +1,49 @@
 package core.client.game.operations.skills;
 
+import cards.Card;
 import cards.Card.Color;
+import cards.equipments.Equipment.EquipmentType;
+import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.NeutralizationReactionInGameServerCommand;
-import core.client.game.operations.AbstractOperation;
-import ui.game.interfaces.CardUI;
+import core.player.PlayerSimple;
 import ui.game.interfaces.SkillUI;
 
-public class SeeThroughSkillOperation extends AbstractOperation {
-	
-	private final SkillUI skill;
-	private CardUI cardSelected;
+public class SeeThroughSkillOperation extends AbstractMultiCardMultiTargetSkillOperation {
 	
 	public SeeThroughSkillOperation(SkillUI skill) {
-		this.skill = skill;
-		this.cardSelected = null;
+		super(skill, 1, 0);
 	}
-	
+
 	@Override
-	public void onConfirmed() {
-		this.onUnloaded();
-		this.onDeactivated();
-		this.panel.getChannel().send(
-			new NeutralizationReactionInGameServerCommand(
-				this.panel.getGameState().getSelf().getPlayerInfo(), 
-				this.cardSelected.getCard()
-			)
+	protected boolean isConfirmEnabled() {
+		return this.cards.size() == 1;
+	}
+
+	@Override
+	protected boolean isEquipmentTypeActivatable(EquipmentType type) {
+		return false;
+	}
+
+	@Override
+	protected boolean isCardActivatable(Card card) {
+		return card.getColor() == Color.BLACK;
+	}
+
+	@Override
+	protected boolean isPlayerActivatable(PlayerSimple player) {
+		return false;
+	}
+
+	@Override
+	protected String getMessage() {
+		return "Select a BLACK card on hand as Neutralization";
+	}
+
+	@Override
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new NeutralizationReactionInGameServerCommand(
+			this.panel.getGameState().getSelf().getPlayerInfo(), 
+			this.cards.keySet().iterator().next().getCard()
 		);
 	}
-	
-	@Override
-	public void onCardClicked(CardUI card) {
-		if (this.cardSelected == null) { // select a card for Neutralization
-			this.cardSelected = card;
-			this.cardSelected.setActivated(true);
-			this.panel.getGameUI().getCardRackUI().getCardUIs().forEach(ui -> {
-				if (ui != card) {
-					ui.setActivatable(false);
-				}
-			});
-			this.panel.getGameUI().setConfirmEnabled(true);
-		} else { // cancels card selection
-			this.cardSelected.setActivated(false);
-			this.cardSelected = null;
-			this.panel.getGameUI().getCardRackUI().getCardUIs().forEach(ui -> {
-				if (ui.getCard().getColor() == Color.BLACK) {
-					ui.setActivatable(true);
-				}
-			});
-			this.panel.getGameUI().setConfirmEnabled(false);
-		}
-	}
-	
-	@Override
-	public void onLoaded() {
-		this.skill.setActivatable(true);
-		this.skill.setActivated(true);
-		this.skill.setActionOnActivation(() -> {
-			// By implementation, this has to be the See Through skill itself
-			// Behave as if CANCEL is clicked
-			this.onCanceled();
-		});
-		this.panel.getGameUI().getCardRackUI().getCardUIs().forEach(ui -> {
-			if (ui.getCard().getColor() == Color.BLACK) {
-				ui.setActivatable(true);
-			}
-		});
-		this.panel.getGameUI().setCancelEnabled(true);
-		this.panel.getGameUI().setMessage("Select a BLACK card as Neutralization");
-	}
-
-	@Override
-	public void onUnloaded() {
-		this.skill.setActivatable(false);
-		this.skill.setActivated(false);
-		if (this.cardSelected != null) {
-			this.cardSelected.setActivated(false);
-		}
-		this.panel.getGameUI().getCardRackUI().getCardUIs().forEach(ui -> {
-			ui.setActivatable(false);
-		});
-		this.panel.getGameUI().setCancelEnabled(false);
-		this.panel.getGameUI().setConfirmEnabled(false);
-		this.panel.getGameUI().clearMessage();
-	}
-
 }
