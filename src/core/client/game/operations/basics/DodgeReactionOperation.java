@@ -33,7 +33,7 @@ public class DodgeReactionOperation extends AbstractSingleCardReactionOperation 
 	}
 	
 	@Override
-	protected InGameServerCommand getCommandOnCancel() {
+	protected InGameServerCommand getCommandOnInaction() {
 		return new DodgeReactionInGameServerCommand(null);
 	}
 

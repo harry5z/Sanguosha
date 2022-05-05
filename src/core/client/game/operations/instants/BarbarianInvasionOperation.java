@@ -1,20 +1,24 @@
 package core.client.game.operations.instants;
 
-import cards.Card;
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateBarbarianInvasionInGameServerCommand;
-import core.client.game.operations.AbstractCardUsageOperation;
+import core.client.game.operations.AbstractCardInitiatedNoTargetOperation;
 import ui.game.interfaces.Activatable;
 
-public class BarbarianInvasionOperation extends AbstractCardUsageOperation {
+public class BarbarianInvasionOperation extends AbstractCardInitiatedNoTargetOperation {
 
 	public BarbarianInvasionOperation(Activatable source) {
 		super(source);
 	}
 
 	@Override
-	protected InGameServerCommand getCommand(Card card) {
-		return new InitiateBarbarianInvasionInGameServerCommand(card);
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new InitiateBarbarianInvasionInGameServerCommand(this.activator.getCard());
+	}
+
+	@Override
+	protected String getMessage() {
+		return "Use Barbarian Invasion?";
 	}
 
 }

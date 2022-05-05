@@ -2,29 +2,29 @@ package core.client.game.operations.instants;
 
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateDuelInGameServerCommand;
-import core.client.game.operations.AbstractSingleTargetCardOperation;
+import core.client.game.operations.AbstractCardInitiatedMultiTargetOperation;
+import core.player.PlayerSimple;
 import ui.game.interfaces.Activatable;
-import ui.game.interfaces.CardUI;
 
-public class DuelOperation extends AbstractSingleTargetCardOperation {
+public class DuelOperation extends AbstractCardInitiatedMultiTargetOperation {
 
 	public DuelOperation(Activatable source) {
-		super(source);
+		super(source, 1);
 	}
 
 	@Override
-	protected InGameServerCommand getCommand() {
-		return new InitiateDuelInGameServerCommand(this.targetUI.getPlayer().getPlayerInfo(), ((CardUI) this.activator).getCard());
+	protected boolean isPlayerActivatable(PlayerSimple player) {
+		return !this.getSelf().equals(player);
 	}
 
 	@Override
-	protected void onLoadedCustom() {
-		this.panel.getGameUI().getOtherPlayersUI().forEach(other -> other.setActivatable(true));
+	protected String getMessage() {
+		return "Select a target for Duel";
 	}
 
 	@Override
-	protected void onUnloadedCustom() {
-		this.panel.getGameUI().getOtherPlayersUI().forEach(other -> other.setActivatable(false));
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new InitiateDuelInGameServerCommand(this.targets.peek().getPlayer().getPlayerInfo(), this.activator.getCard());
 	}
 
 }

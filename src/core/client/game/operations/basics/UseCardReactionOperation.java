@@ -47,7 +47,7 @@ public class UseCardReactionOperation extends AbstractSingleCardReactionOperatio
 	}
 
 	@Override
-	protected InGameServerCommand getCommandOnCancel() {
+	protected InGameServerCommand getCommandOnInaction() {
 		return new PlayerCardSelectionInGameServerCommand(null, PlayerCardZone.HAND);
 	}
 

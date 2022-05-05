@@ -6,50 +6,61 @@ import cards.basics.Attack;
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateAttackInGameServerCommand;
 import core.client.game.event.InitiateAttackClientGameEvent;
-import core.client.game.operations.AbstractMultiTargetCardOperation;
+import core.client.game.operations.AbstractCardInitiatedMultiTargetOperation;
+import core.client.game.operations.TargetEditableOperation;
+import core.player.PlayerSimple;
 import ui.game.interfaces.Activatable;
-import ui.game.interfaces.CardUI;
-import ui.game.interfaces.GameUI;
-import ui.game.interfaces.PlayerUI;
 
-public class InitiateAttackOperation extends AbstractMultiTargetCardOperation {
+public class InitiateAttackOperation extends AbstractCardInitiatedMultiTargetOperation implements TargetEditableOperation {
 
 	public InitiateAttackOperation(Activatable activator) {
-		super(activator, 1, 1);
-	}
-
-	@Override
-	protected InGameServerCommand getCommand() {
-		Attack card;
-		if (this.activator instanceof CardUI) {
-			card = (Attack) ((CardUI) this.activator).getCard();
-		} else {
-			card = null;
-		}
-		return new InitiateAttackInGameServerCommand(
-			this.source,
-			this.targets.stream().map(target -> target.getPlayer().getPlayerInfo()).collect(Collectors.toSet()),
-			card
-		);
+		super(activator, 1);
 	}
 	
 	@Override
 	public void onLoadedCustom() {
-		GameUI panelUI = this.panel.getGameUI();
-		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
-			if (this.panel.getGameState().getSelf().isPlayerInAttackRange(other.getPlayer(), this.panel.getGameState().getNumberOfPlayersAlive())) {
-				other.setActivatable(true);
-			}
-		}
-		panelUI.setMessage("Select a target for Attack");
+		super.onLoadedCustom();
 		this.panel.emit(new InitiateAttackClientGameEvent(true, this));
+		this.panel.getGameUI().setMessage(getMessage()); // May need to refresh Message
 	}
 	
 	@Override
 	public void onUnloadedCustom() {
-		this.panel.getGameUI().getOtherPlayersUI().forEach(other -> other.setActivatable(false));
-		this.panel.getGameUI().clearMessage();
+		super.onUnloadedCustom();
 		this.panel.emit(new InitiateAttackClientGameEvent(false, this));
+	}
+	
+	@Override
+	protected boolean isConfirmEnabled() {
+		// Attack can be initiated as long as there is at least 1 target
+		return this.targets.size() > 0;
+	}
+
+	@Override
+	protected boolean isPlayerActivatable(PlayerSimple player) {
+		if (this.getSelf().equals(player)) {
+			return false;
+		}
+		return this.getSelf().isPlayerInAttackRange(player, this.panel.getGameState().getNumberOfPlayersAlive());
+	}
+
+	@Override
+	protected String getMessage() {
+		return "Select up to " + this.maxTargets + " target for Attack";
+	}
+
+	@Override
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new InitiateAttackInGameServerCommand(
+			this.getSelf().getPlayerInfo(),
+			this.targets.stream().map(target -> target.getPlayer().getPlayerInfo()).collect(Collectors.toSet()),
+			(Attack) this.activator.getCard()
+		);
+	}
+
+	@Override
+	public void addMaxTargets(int num) {
+		this.maxTargets += num;
 	}
 
 }

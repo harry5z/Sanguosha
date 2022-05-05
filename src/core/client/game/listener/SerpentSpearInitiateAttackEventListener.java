@@ -5,7 +5,7 @@ import java.util.Set;
 import cards.equipments.Equipment.EquipmentType;
 import core.client.GamePanel;
 import core.client.game.event.EnableAttackClientGameEvent;
-import core.client.game.operations.equipment.SerpentSpearOperation;
+import core.client.game.operations.equipment.SerpentSpearInitiateAttackOperation;
 
 public class SerpentSpearInitiateAttackEventListener extends AbstractClientEventListener<EnableAttackClientGameEvent> {
 	
@@ -20,7 +20,7 @@ public class SerpentSpearInitiateAttackEventListener extends AbstractClientEvent
 			if (panel.getGameState().getSelf().getAttackUsed() < panel.getGameState().getSelf().getAttackLimit()) {
 				panel.getGameUI().getEquipmentRackUI().setActivatable(
 					Set.of(EquipmentType.WEAPON),
-					e -> panel.pushOperation(new SerpentSpearOperation(e, true))
+					e -> panel.pushOperation(new SerpentSpearInitiateAttackOperation(e))
 				);
 			}
 		} else {

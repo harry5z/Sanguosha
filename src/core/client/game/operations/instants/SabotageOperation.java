@@ -2,36 +2,38 @@ package core.client.game.operations.instants;
 
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateSabotageInGameServerCommand;
-import core.client.game.operations.AbstractSingleTargetCardOperation;
+import core.client.game.operations.AbstractCardInitiatedMultiTargetOperation;
+import core.player.PlayerSimple;
 import ui.game.interfaces.Activatable;
-import ui.game.interfaces.CardUI;
-import ui.game.interfaces.GameUI;
-import ui.game.interfaces.PlayerUI;
 
-public class SabotageOperation extends AbstractSingleTargetCardOperation {
+public class SabotageOperation extends AbstractCardInitiatedMultiTargetOperation {
 
 	public SabotageOperation(Activatable source) {
-		super(source);
+		super(source, 1);
 	}
 
 	@Override
-	protected InGameServerCommand getCommand() {
-		return new InitiateSabotageInGameServerCommand(this.targetUI.getPlayer().getPlayerInfo(), ((CardUI) this.activator).getCard());
+	protected boolean isPlayerActivatable(PlayerSimple player) {
+		if (this.getSelf().equals(player)) {
+			return false;
+		}
+		/*
+		 * Sabotage can be used on other player if any of it holds true:
+		 * 1. the player has cards on hand
+		 * 2. the player has equipment
+		 * 3. the player has a Delayed Special card
+		 */
+		return player.getHandCount() > 0 || player.isEquipped() || !player.getDelayedQueue().isEmpty();
 	}
 
 	@Override
-	protected void onLoadedCustom() {
-		GameUI panelUI = this.panel.getGameUI();
-		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
-			if (other.getPlayer().getHandCount() > 0 || other.getPlayer().isEquipped() || !other.getPlayer().getDelayedQueue().isEmpty()) {
-				other.setActivatable(true);
-			}
-		}		
+	protected String getMessage() {
+		return "Select a target for Sabotage";
 	}
 
 	@Override
-	protected void onUnloadedCustom() {
-		this.panel.getGameUI().getOtherPlayersUI().forEach(ui -> ui.setActivatable(false));
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new InitiateSabotageInGameServerCommand(this.targets.peek().getPlayer().getPlayerInfo(), this.activator.getCard());
 	}
 
 }

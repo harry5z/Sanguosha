@@ -31,7 +31,7 @@ public class FireAttackSkillOperation extends AbstractMultiCardMultiTargetSkillO
 
 	@Override
 	protected boolean isPlayerActivatable(PlayerSimple player) {
-		if (player == this.panel.getGameUI().getHeroUI()) {
+		if (this.getSelf().equals(player)) {
 			// can use Fire Attack on oneself if more than one card on hand
 			return player.getHandCount() > 1;
 		} else {

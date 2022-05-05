@@ -44,14 +44,14 @@ public class NeutralizationOperation extends AbstractSingleCardReactionOperation
 	}
 
 	@Override
-	protected InGameServerCommand getCommandOnCancel() {
+	protected InGameServerCommand getCommandOnInaction() {
 		return new NeutralizationReactionInGameServerCommand(null, null);
 	}
 
 	@Override
 	protected InGameServerCommand getCommandOnConfirm() {
 		return new NeutralizationReactionInGameServerCommand(
-			this.panel.getGameState().getSelf().getPlayerInfo(),
+			this.getSelf().getPlayerInfo(),
 			this.getFirstCardUI().getCard()
 		);
 	}

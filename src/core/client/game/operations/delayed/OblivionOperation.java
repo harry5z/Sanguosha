@@ -2,37 +2,30 @@ package core.client.game.operations.delayed;
 
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateOblivionInGameServerCommand;
-import core.client.game.operations.AbstractSingleTargetCardOperation;
+import core.client.game.operations.AbstractCardInitiatedMultiTargetOperation;
+import core.player.PlayerSimple;
 import ui.game.interfaces.Activatable;
-import ui.game.interfaces.CardUI;
-import ui.game.interfaces.GameUI;
-import ui.game.interfaces.PlayerUI;
 import utils.DelayedType;
 
-public class OblivionOperation extends AbstractSingleTargetCardOperation {
+public class OblivionOperation extends AbstractCardInitiatedMultiTargetOperation {
 
 	public OblivionOperation(Activatable source) {
-		super(source);
+		super(source, 1);
 	}
 
 	@Override
-	protected InGameServerCommand getCommand() {
-		return new InitiateOblivionInGameServerCommand(this.targetUI.getPlayer().getPlayerInfo(), ((CardUI) this.activator).getCard());
+	protected boolean isPlayerActivatable(PlayerSimple player) {
+		return !this.getSelf().equals(player) && !player.hasDelayedType(DelayedType.OBLIVION);
 	}
 
 	@Override
-	protected void onLoadedCustom() {
-		GameUI panelUI = this.panel.getGameUI();
-		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
-			if (!other.getPlayer().hasDelayedType(DelayedType.OBLIVION)) {
-				other.setActivatable(true);
-			}
-		}		
+	protected String getMessage() {
+		return "Select a target to for Oblivion";
 	}
 
 	@Override
-	protected void onUnloadedCustom() {
-		this.panel.getGameUI().getOtherPlayersUI().forEach(ui -> ui.setActivatable(false));
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new InitiateOblivionInGameServerCommand(this.targets.peek().getPlayer().getPlayerInfo(), this.activator.getCard());
 	}
 
 }

@@ -28,7 +28,7 @@ public class ShowCardReactionOperation extends AbstractSingleCardReactionOperati
 	}
 
 	@Override
-	protected InGameServerCommand getCommandOnCancel() {
+	protected InGameServerCommand getCommandOnInaction() {
 		// Cannot cancel
 		return null;
 	}

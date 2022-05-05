@@ -1,20 +1,24 @@
 package core.client.game.operations.instants;
 
-import cards.Card;
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateCreationInGameServerCommand;
-import core.client.game.operations.AbstractCardUsageOperation;
+import core.client.game.operations.AbstractCardInitiatedNoTargetOperation;
 import ui.game.interfaces.Activatable;
 
-public class CreationOperation extends AbstractCardUsageOperation {
+public class CreationOperation extends AbstractCardInitiatedNoTargetOperation {
 
 	public CreationOperation(Activatable source) {
 		super(source);
 	}
 
 	@Override
-	protected InGameServerCommand getCommand(Card card) {
-		return new InitiateCreationInGameServerCommand(card);
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new InitiateCreationInGameServerCommand(this.activator.getCard());
+	}
+
+	@Override
+	protected String getMessage() {
+		return "Use Creation?";
 	}
 
 }

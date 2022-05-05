@@ -37,7 +37,7 @@ public class AttackReactionOperation extends AbstractSingleCardReactionOperation
 	}
 
 	@Override
-	protected InGameServerCommand getCommandOnCancel() {
+	protected InGameServerCommand getCommandOnInaction() {
 		return new AttackReactionInGameServerCommand(
 			this.panel.getGameState().getSelf().getPlayerInfo(),
 			null

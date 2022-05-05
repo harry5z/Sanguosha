@@ -11,6 +11,7 @@ import cards.Card;
 import cards.equipments.Equipment.EquipmentType;
 import commands.game.server.ingame.InGameServerCommand;
 import core.player.PlayerCardZone;
+import core.player.PlayerCompleteClient;
 import core.player.PlayerSimple;
 import ui.game.interfaces.CardUI;
 import ui.game.interfaces.EquipmentUI;
@@ -18,8 +19,8 @@ import ui.game.interfaces.PlayerUI;
 
 public abstract class AbstractMultiCardMultiTargetOperation extends AbstractOperation {
 	
-	private final int maxCards;
-	private final int maxTargets;
+	protected final int maxCards;
+	protected int maxTargets;
 	/**
 	 * A queue of selected targets
 	 */
@@ -68,6 +69,7 @@ public abstract class AbstractMultiCardMultiTargetOperation extends AbstractOper
 	@Override
 	public final void onCardClicked(CardUI card) {
 		if (this.maxCards == 0) {
+			this.onCardActivatorClicked(card);
 			return;
 		}
 		this.onCardClicked(card, PlayerCardZone.HAND);
@@ -123,7 +125,7 @@ public abstract class AbstractMultiCardMultiTargetOperation extends AbstractOper
 		});
 		// enable viable equipments
 		this.panel.getGameUI().getEquipmentRackUI().setActivatable(
-				EnumSet.allOf(EquipmentType.class).stream().filter(type -> isEquipmentTypeActivatable(type)).collect(Collectors.toSet()),
+			EnumSet.allOf(EquipmentType.class).stream().filter(type -> isEquipmentTypeActivatable(type)).collect(Collectors.toSet()),
 			e -> this.onEquipmentClicked(e)
 		);
 		// enable Cancel & Confirm
@@ -176,6 +178,27 @@ public abstract class AbstractMultiCardMultiTargetOperation extends AbstractOper
 	}
 	
 	/**
+	 * Get the player themselves
+	 * 
+	 * @return the player
+	 */
+	protected PlayerCompleteClient getSelf() {
+		return this.panel.getGameState().getSelf();
+	}
+	
+	/**
+	 * When maxCards is 0 and a card is clicked, it is assumed that the card clicked 
+	 * is the activator. By default, this method calls {@link #onCanceled()}
+	 * 
+	 * @param card : card clicked, presumed to be the activator
+	 */
+	protected void onCardActivatorClicked(CardUI card) {
+		// Only the currently selected card should be clickable by implementation
+		// Behave as if the CANCEL button is pressed
+		this.onCanceled();
+	}
+	
+	/**
 	 * Checks the conditions and return whether the CONFIRM button should be enabled
 	 * 
 	 * @return whether CONFIRM button should be enabled
@@ -190,26 +213,26 @@ public abstract class AbstractMultiCardMultiTargetOperation extends AbstractOper
 	protected abstract boolean isCancelEnabled();
 	
 	/**
-	 * Checks whether a certain type of equipment should be activatable
+	 * Checks whether a certain type of equipment can be selected
 	 * 
 	 * @param type : An {@link EquipmentType}
-	 * @return whether this type of equipment should be activatable
+	 * @return whether this type of equipment can be selected
 	 */
 	protected abstract boolean isEquipmentTypeActivatable(EquipmentType type);
 	
 	/**
-	 * Checks whether a card on hand should be activatable
+	 * Checks whether a card on hand can be selected
 	 * 
 	 * @param card : A Card on hand
-	 * @return whether this card should be activatable
+	 * @return whether this card can be selected
 	 */
 	protected abstract boolean isCardActivatable(Card card);
 	
 	/**
-	 * Checks whether a player should be activatable, including oneself
+	 * Checks whether a player can be a valid target, including oneself
 	 * 
 	 * @param player : A player, including oneself
-	 * @return whether this player should be activatable
+	 * @return whether this player can be a target
 	 */
 	protected abstract boolean isPlayerActivatable(PlayerSimple player);
 	
@@ -221,8 +244,10 @@ public abstract class AbstractMultiCardMultiTargetOperation extends AbstractOper
 	protected abstract String getMessage();
 	
 	/**
-	 * Performs additional UI changes on load. For example, if there is an Activator,
-	 * it should be set Activated (and most likely also Activatable)
+	 * <p>Performs additional UI changes on load. For example, if there is an Activator,
+	 * it should be set Activated (and most likely also Activatable)</p>
+	 * {@link #onLoadedCustom()} is called last. If any UI element needs to be refreshed,
+	 * it needs to be refreshed in {@link #onLoadedCustom()}
 	 */
 	protected abstract void onLoadedCustom();
 	

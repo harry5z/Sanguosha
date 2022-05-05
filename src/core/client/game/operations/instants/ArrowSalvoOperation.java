@@ -1,20 +1,24 @@
 package core.client.game.operations.instants;
 
-import cards.Card;
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateArrowSalvoInGameServerCommand;
-import core.client.game.operations.AbstractCardUsageOperation;
+import core.client.game.operations.AbstractCardInitiatedNoTargetOperation;
 import ui.game.interfaces.Activatable;
 
-public class ArrowSalvoOperation extends AbstractCardUsageOperation {
+public class ArrowSalvoOperation extends AbstractCardInitiatedNoTargetOperation {
 
 	public ArrowSalvoOperation(Activatable source) {
 		super(source);
 	}
 
 	@Override
-	protected InGameServerCommand getCommand(Card card) {
-		return new InitiateArrowSalvoInGameServerCommand(card);
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new InitiateArrowSalvoInGameServerCommand(this.activator.getCard());
+	}
+
+	@Override
+	protected String getMessage() {
+		return "Use ArrowSalvo?";
 	}
 
 }

@@ -2,36 +2,35 @@ package core.client.game.operations.delayed;
 
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateStarvationInGameServerCommand;
-import core.client.game.operations.AbstractSingleTargetCardOperation;
+import core.client.game.operations.AbstractCardInitiatedMultiTargetOperation;
+import core.player.PlayerSimple;
 import ui.game.interfaces.Activatable;
-import ui.game.interfaces.CardUI;
-import ui.game.interfaces.GameUI;
-import ui.game.interfaces.PlayerUI;
 import utils.DelayedType;
 
-public class StarvationOperation extends AbstractSingleTargetCardOperation {
+public class StarvationOperation extends AbstractCardInitiatedMultiTargetOperation {
 
 	public StarvationOperation(Activatable source) {
-		super(source);
+		super(source, 1);
 	}
 
 	@Override
-	protected InGameServerCommand getCommand() {
-		return new InitiateStarvationInGameServerCommand(this.targetUI.getPlayer().getPlayerInfo(), ((CardUI) this.activator).getCard());
-	}
-
-	@Override
-	protected void onLoadedCustom() {
-		GameUI panelUI = this.panel.getGameUI();
-		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
-			if (this.panel.getGameState().getSelf().isPlayerInDistance(other.getPlayer(), this.panel.getGameState().getNumberOfPlayersAlive()) && !other.getPlayer().hasDelayedType(DelayedType.STARVATION)) {
-				other.setActivatable(true);
-			}
+	protected boolean isPlayerActivatable(PlayerSimple player) {
+		if (this.getSelf().equals(player)) {
+			return false;
 		}
+		if (player.hasDelayedType(DelayedType.STARVATION)) {
+			return false;
+		}
+		return this.getSelf().isPlayerInDistance(player, this.panel.getGameState().getNumberOfPlayersAlive());
 	}
 
 	@Override
-	protected void onUnloadedCustom() {
-		this.panel.getGameUI().getOtherPlayersUI().forEach(ui -> ui.setActivatable(false));
+	protected String getMessage() {
+		return "Select a target In Distance for Starvation";
+	}
+
+	@Override
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new InitiateStarvationInGameServerCommand(this.targets.peek().getPlayer().getPlayerInfo(), this.activator.getCard());
 	}
 }

@@ -2,42 +2,41 @@ package core.client.game.operations.instants;
 
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateStealInGameServerCommand;
-import core.client.game.operations.AbstractSingleTargetCardOperation;
+import core.client.game.operations.AbstractCardInitiatedMultiTargetOperation;
 import core.player.PlayerSimple;
 import ui.game.interfaces.Activatable;
-import ui.game.interfaces.CardUI;
-import ui.game.interfaces.GameUI;
-import ui.game.interfaces.PlayerUI;
 
-public class StealOperation extends AbstractSingleTargetCardOperation {
+public class StealOperation extends AbstractCardInitiatedMultiTargetOperation {
 
 	public StealOperation(Activatable source) {
-		super(source);
+		super(source, 1);
 	}
 
 	@Override
-	protected InGameServerCommand getCommand() {
-		return new InitiateStealInGameServerCommand(this.targetUI.getPlayer().getPlayerInfo(), ((CardUI) this.activator).getCard());
+	protected boolean isPlayerActivatable(PlayerSimple player) {
+		if (this.getSelf().equals(player)) {
+			return false;
+		}
+		/*
+		 * Sabotage can be used on other player In Distance if any of it holds true:
+		 * 1. the player has cards on hand
+		 * 2. the player has equipment
+		 * 3. the player has a Delayed Special card
+		 */
+		if (!this.getSelf().isPlayerInDistance(player, this.panel.getGameState().getNumberOfPlayersAlive())) {
+			return false;
+		}
+		return player.getHandCount() > 0 || player.isEquipped() || !player.getDelayedQueue().isEmpty();
 	}
 
 	@Override
-	protected void onLoadedCustom() {
-		GameUI panelUI = this.panel.getGameUI();
-		int numPlayersAlive = this.panel.getGameState().getNumberOfPlayersAlive();
-		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
-			PlayerSimple otherPlayer = other.getPlayer();
-			if (
-				this.panel.getGameState().getSelf().isPlayerInDistance(otherPlayer, numPlayersAlive) &&
-				(otherPlayer.getHandCount() > 0 || otherPlayer.isEquipped() || !otherPlayer.getDelayedQueue().isEmpty())
-			) {
-				other.setActivatable(true);
-			}
-		}		
+	protected String getMessage() {
+		return "Select a target In Distance for Steal";
 	}
 
 	@Override
-	protected void onUnloadedCustom() {
-		this.panel.getGameUI().getOtherPlayersUI().forEach(ui -> ui.setActivatable(false));
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new InitiateStealInGameServerCommand(this.targets.peek().getPlayer().getPlayerInfo(), this.activator.getCard());
 	}
 
 }

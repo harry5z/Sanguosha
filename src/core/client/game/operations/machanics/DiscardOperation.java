@@ -1,66 +1,64 @@
 package core.client.game.operations.machanics;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import cards.Card;
 import commands.game.server.ingame.DiscardInGameServerCommand;
-import core.client.game.operations.AbstractOperation;
+import commands.game.server.ingame.InGameServerCommand;
+import core.client.game.operations.AbstractMultiCardNoTargetReactionOperation;
 import ui.game.interfaces.CardUI;
-import ui.game.interfaces.GameUI;
 
-public class DiscardOperation extends AbstractOperation {
-	
-	private List<CardUI> cards = new ArrayList<>();
-	private final int amount;
+public class DiscardOperation extends AbstractMultiCardNoTargetReactionOperation {
 	
 	public DiscardOperation(int amount) {
-		this.amount = amount;
-	}
-	
-	@Override
-	public void onConfirmed() {
-		this.onUnloaded();
-		this.onDeactivated();
-		this.panel.getChannel().send(new DiscardInGameServerCommand(cards.stream().map(ui -> ui.getCard()).collect(Collectors.toList())));
+		super(amount);
 	}
 
 	@Override
-	public void onCardClicked(CardUI card) {
-		if (cards.remove(card)) { // unselecting a card
-			card.setActivated(false);
-			if (cards.size() == 0) {
-				panel.getGameUI().setConfirmEnabled(false);
-			}
-		} else { // selecting a new card
-			card.setActivated(true);
-			if (cards.size() == 0) {
-				panel.getGameUI().setConfirmEnabled(true);
-			}
-			cards.add(card);
-			if (cards.size() > amount) {
-				cards.get(0).setActivated(false);
-				cards.remove(0);
-			}
-		}
+	protected boolean isConfirmEnabled() {
+		return this.cards.size() > 0;
 	}
 
 	@Override
-	public void onLoaded() {
-		GameUI panelUI = this.panel.getGameUI();
-		panelUI.setMessage("Select " + this.amount + " cards to discard");
-		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
-			cardUI.setActivatable(true);
-		}
+	protected boolean isCancelEnabled() {
+		return this.cards.size() > 0;
 	}
-	
+
 	@Override
-	public void onUnloaded() {
-		for(CardUI cardUI : this.panel.getGameUI().getCardRackUI().getCardUIs()) {
-			cardUI.setActivatable(false);
+	protected boolean isCardActivatable(Card card) {
+		return true;
+	}
+
+	@Override
+	protected String getMessage() {
+		return "Select " + this.maxCards + " cards to discard";
+	}
+
+	@Override
+	protected void onLoadedCustom() {
+		
+	}
+
+	@Override
+	protected void onUnloadedCustom() {
+		
+	}
+
+	@Override
+	protected InGameServerCommand getCommandOnConfirm() {
+		List<Card> discardedCards = new ArrayList<>();
+		Iterator<CardUI> it = this.cards.keySet().iterator();
+		while (it.hasNext()) {
+			discardedCards.add(it.next().getCard());
 		}
-		this.panel.getGameUI().setConfirmEnabled(false);
-		this.panel.getGameUI().clearMessage();		
+		return new DiscardInGameServerCommand(discardedCards);
+	}
+
+	@Override
+	protected InGameServerCommand getCommandOnInaction() {
+		return null;
 	}
 
 }

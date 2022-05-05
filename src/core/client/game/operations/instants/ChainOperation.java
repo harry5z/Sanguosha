@@ -5,41 +5,41 @@ import java.util.Queue;
 
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.InitiateChainInGameServerCommand;
-import core.client.game.operations.AbstractMultiTargetCardOperation;
+import core.client.game.operations.AbstractCardInitiatedMultiTargetOperation;
 import core.player.PlayerInfo;
+import core.player.PlayerSimple;
 import ui.game.interfaces.Activatable;
-import ui.game.interfaces.CardUI;
-import ui.game.interfaces.GameUI;
 import ui.game.interfaces.PlayerUI;
 
-public class ChainOperation extends AbstractMultiTargetCardOperation {
+public class ChainOperation extends AbstractCardInitiatedMultiTargetOperation {
 
 	public ChainOperation(Activatable activator) {
-		super(activator, 0, 2);
+		super(activator, 2);
 	}
 
 	@Override
-	protected InGameServerCommand getCommand() {
+	protected boolean isPlayerActivatable(PlayerSimple player) {
+		return true;
+	}
+	
+	@Override
+	protected boolean isConfirmEnabled() {
+		// Chain can be used with 0, 1, or 2 targets
+		return true;
+	}
+
+	@Override
+	protected String getMessage() {
+		return "Select 0, 1, or 2 targets for Chain";
+	}
+
+	@Override
+	protected InGameServerCommand getCommandOnConfirm() {
 		Queue<PlayerInfo> queue = new LinkedList<>();
 		for (PlayerUI player : this.targets) {
 			queue.add(player.getPlayer().getPlayerInfo());
 		}
-		return new InitiateChainInGameServerCommand(queue, ((CardUI) this.activator).getCard());
-	}
-
-	@Override
-	public void onLoadedCustom() {
-		GameUI panelUI = this.panel.getGameUI();
-		panelUI.getHeroUI().setActivatable(true);
-		for (PlayerUI other : panelUI.getOtherPlayersUI()) {
-			other.setActivatable(true);
-		}
-	}
-	
-	@Override
-	public void onUnloadedCustom() {
-		this.panel.getGameUI().getHeroUI().setActivatable(false);
-		this.panel.getGameUI().getOtherPlayersUI().forEach(other -> other.setActivatable(false));
+		return new InitiateChainInGameServerCommand(queue, this.activator.getCard());
 	}
 
 }
