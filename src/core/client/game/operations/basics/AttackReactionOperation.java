@@ -5,9 +5,9 @@ import cards.basics.Attack;
 import commands.game.server.ingame.AttackReactionInGameServerCommand;
 import commands.game.server.ingame.InGameServerCommand;
 import core.client.game.event.AttackReactionClientGameEvent;
-import core.client.game.operations.AbstractCardReactionOperation;
+import core.client.game.operations.AbstractSingleCardReactionOperation;
 
-public class AttackReactionOperation extends AbstractCardReactionOperation {
+public class AttackReactionOperation extends AbstractSingleCardReactionOperation {
 
 	public AttackReactionOperation(String message) {
 		super(message);
@@ -16,11 +16,6 @@ public class AttackReactionOperation extends AbstractCardReactionOperation {
 	@Override
 	protected boolean isCardActivatable(Card card) {
 		return card instanceof Attack;
-	}
-	
-	@Override
-	protected boolean isCancelAllowed() {
-		return true;
 	}
 	
 	@Override
@@ -34,8 +29,24 @@ public class AttackReactionOperation extends AbstractCardReactionOperation {
 	}
 
 	@Override
-	protected InGameServerCommand getCommand(Card card) {
-		return new AttackReactionInGameServerCommand(this.panel.getGameState().getSelf().getPlayerInfo(), card);
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new AttackReactionInGameServerCommand(
+			this.panel.getGameState().getSelf().getPlayerInfo(),
+			this.getFirstCardUI().getCard()
+		);
+	}
+
+	@Override
+	protected InGameServerCommand getCommandOnCancel() {
+		return new AttackReactionInGameServerCommand(
+			this.panel.getGameState().getSelf().getPlayerInfo(),
+			null
+		);
+	}
+
+	@Override
+	protected boolean isCancelEnabled() {
+		return true;
 	}
 	
 }

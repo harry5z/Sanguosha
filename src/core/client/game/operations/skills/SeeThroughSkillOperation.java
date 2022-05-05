@@ -43,7 +43,7 @@ public class SeeThroughSkillOperation extends AbstractMultiCardMultiTargetSkillO
 	protected InGameServerCommand getCommandOnConfirm() {
 		return new NeutralizationReactionInGameServerCommand(
 			this.panel.getGameState().getSelf().getPlayerInfo(), 
-			this.cards.keySet().iterator().next().getCard()
+			this.getFirstCardUI().getCard()
 		);
 	}
 }

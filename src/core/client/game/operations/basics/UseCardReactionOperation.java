@@ -5,11 +5,11 @@ import java.util.Collection;
 import cards.Card;
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
-import core.client.game.operations.AbstractCardReactionOperation;
+import core.client.game.operations.AbstractSingleCardReactionOperation;
 import core.event.game.basic.RequestUseCardEvent.RequestUseCardPredicate;
 import core.player.PlayerCardZone;
 
-public class UseCardReactionOperation extends AbstractCardReactionOperation {
+public class UseCardReactionOperation extends AbstractSingleCardReactionOperation {
 	
 	private final Collection<RequestUseCardPredicate> predicates;
 	
@@ -22,7 +22,7 @@ public class UseCardReactionOperation extends AbstractCardReactionOperation {
 	}
 
 	@Override
-	protected boolean isCancelAllowed() {
+	protected boolean isCancelEnabled() {
 		return true;
 	}
 
@@ -37,11 +37,6 @@ public class UseCardReactionOperation extends AbstractCardReactionOperation {
 	}
 
 	@Override
-	protected InGameServerCommand getCommand(Card card) {
-		return new PlayerCardSelectionInGameServerCommand(card, PlayerCardZone.HAND);
-	}
-
-	@Override
 	protected void onLoadedCustom() {
 		
 	}
@@ -49,6 +44,19 @@ public class UseCardReactionOperation extends AbstractCardReactionOperation {
 	@Override
 	protected void onUnloadedCustom() {
 		
+	}
+
+	@Override
+	protected InGameServerCommand getCommandOnCancel() {
+		return new PlayerCardSelectionInGameServerCommand(null, PlayerCardZone.HAND);
+	}
+
+	@Override
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new PlayerCardSelectionInGameServerCommand(
+			this.getFirstCardUI().getCard(),
+			PlayerCardZone.HAND
+		);
 	}
 
 }

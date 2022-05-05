@@ -4,9 +4,9 @@ import cards.Card;
 import cards.basics.Dodge;
 import commands.game.server.ingame.DodgeReactionInGameServerCommand;
 import commands.game.server.ingame.InGameServerCommand;
-import core.client.game.operations.AbstractCardReactionOperation;
+import core.client.game.operations.AbstractSingleCardReactionOperation;
 
-public class DodgeReactionOperation extends AbstractCardReactionOperation {
+public class DodgeReactionOperation extends AbstractSingleCardReactionOperation {
 
 	public DodgeReactionOperation(String message) {
 		super(message);
@@ -15,16 +15,6 @@ public class DodgeReactionOperation extends AbstractCardReactionOperation {
 	@Override
 	protected boolean isCardActivatable(Card card) {
 		return card instanceof Dodge;
-	}
-	
-	@Override
-	protected boolean isCancelAllowed() {
-		return true;
-	}
-
-	@Override
-	protected InGameServerCommand getCommand(Card card) {
-		return new DodgeReactionInGameServerCommand(card);
 	}
 
 	@Override
@@ -35,6 +25,21 @@ public class DodgeReactionOperation extends AbstractCardReactionOperation {
 	@Override
 	protected void onUnloadedCustom() {
 		
+	}
+
+	@Override
+	protected boolean isCancelEnabled() {
+		return true;
+	}
+	
+	@Override
+	protected InGameServerCommand getCommandOnCancel() {
+		return new DodgeReactionInGameServerCommand(null);
+	}
+
+	@Override
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new DodgeReactionInGameServerCommand(this.getFirstCardUI().getCard());
 	}
 
 }

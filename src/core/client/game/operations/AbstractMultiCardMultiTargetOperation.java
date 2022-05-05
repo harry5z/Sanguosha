@@ -31,11 +31,11 @@ public abstract class AbstractMultiCardMultiTargetOperation extends AbstractOper
 
 	/**
 	 * @param maxCards : 0 <= maxCards
-	 * @param maxTargest : 0 <= maxTargets
+	 * @param maxTargets : 0 <= maxTargets
 	 */
-	public AbstractMultiCardMultiTargetOperation(int maxCards, int maxTargest) {
+	public AbstractMultiCardMultiTargetOperation(int maxCards, int maxTargets) {
 		this.maxCards = maxCards;
-		this.maxTargets = maxTargest;
+		this.maxTargets = maxTargets;
 		this.targets = new LinkedList<>();
 		this.cards = new LinkedHashMap<>();
 	}
@@ -54,15 +54,15 @@ public abstract class AbstractMultiCardMultiTargetOperation extends AbstractOper
 		if (this.targets.contains(target)) { // unselect a selected target
 			target.setActivated(false);
 			this.targets.remove(target);
-			this.panel.getGameUI().setConfirmEnabled(this.isConfirmEnabled());
 		} else { // select a new target, unselect the oldest target if exceeding maximum
 			if (this.targets.size() == this.maxTargets) {
 				this.targets.poll().setActivated(false);
 			}
 			target.setActivated(true);
 			this.targets.add(target);
-			this.panel.getGameUI().setConfirmEnabled(this.isConfirmEnabled());
 		}
+		this.panel.getGameUI().setCancelEnabled(this.isCancelEnabled());
+		this.panel.getGameUI().setConfirmEnabled(this.isConfirmEnabled());
 	}
 	
 	@Override
@@ -84,17 +84,17 @@ public abstract class AbstractMultiCardMultiTargetOperation extends AbstractOper
 		if (this.cards.containsKey(card)) { // unselect a selected card
 			this.cards.remove(card);
 			card.setActivated(false);
-			this.panel.getGameUI().setConfirmEnabled(this.isConfirmEnabled());
 		} else { // select a new card, unselect the oldest card if exceeding maximum
 			if (this.cards.size() == this.maxCards) {
-				CardUI oldest = this.cards.keySet().iterator().next();
+				CardUI oldest = this.getFirstCardUI();
 				this.cards.remove(oldest);
 				oldest.setActivated(false);
 			}
 			card.setActivated(true);
 			this.cards.put(card, zone);
-			this.panel.getGameUI().setConfirmEnabled(this.isConfirmEnabled());
 		}
+		this.panel.getGameUI().setCancelEnabled(this.isCancelEnabled());
+		this.panel.getGameUI().setConfirmEnabled(this.isConfirmEnabled());
 	}
 	
 	/**
@@ -127,8 +127,13 @@ public abstract class AbstractMultiCardMultiTargetOperation extends AbstractOper
 			e -> this.onEquipmentClicked(e)
 		);
 		// enable Cancel & Confirm
-		this.panel.getGameUI().setCancelEnabled(true);
-		this.panel.getGameUI().setConfirmEnabled(isConfirmEnabled());
+		if (isCancelEnabled()) {
+			this.panel.getGameUI().setCancelEnabled(true);
+		}
+		if (isConfirmEnabled()) {
+			this.panel.getGameUI().setConfirmEnabled(true);
+		}
+		
 		// custom UI (e.g. activator)
 		this.onLoadedCustom();
 	}
@@ -159,11 +164,30 @@ public abstract class AbstractMultiCardMultiTargetOperation extends AbstractOper
 	}
 	
 	/**
+	 * Get the first card UI selected, or null if no card selected
+	 * 
+	 * @return the first selected card UI, or null
+	 */
+	protected CardUI getFirstCardUI() {
+		if (this.cards.isEmpty()) {
+			return null;
+		}
+		return this.cards.keySet().iterator().next();
+	}
+	
+	/**
 	 * Checks the conditions and return whether the CONFIRM button should be enabled
 	 * 
 	 * @return whether CONFIRM button should be enabled
 	 */
 	protected abstract boolean isConfirmEnabled();
+	
+	/**
+	 * Checks the conditions and return whether the CANCEL button should be enabled
+	 * 
+	 * @return whether CANCEL button should be enabled
+	 */
+	protected abstract boolean isCancelEnabled();
 	
 	/**
 	 * Checks whether a certain type of equipment should be activatable

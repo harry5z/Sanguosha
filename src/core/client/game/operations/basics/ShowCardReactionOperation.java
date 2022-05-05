@@ -3,10 +3,10 @@ package core.client.game.operations.basics;
 import cards.Card;
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
-import core.client.game.operations.AbstractCardReactionOperation;
+import core.client.game.operations.AbstractSingleCardReactionOperation;
 import core.player.PlayerCardZone;
 
-public class ShowCardReactionOperation extends AbstractCardReactionOperation {
+public class ShowCardReactionOperation extends AbstractSingleCardReactionOperation {
 
 	public ShowCardReactionOperation(String message) {
 		super(message);
@@ -14,20 +14,9 @@ public class ShowCardReactionOperation extends AbstractCardReactionOperation {
 
 	@Override
 	protected boolean isCardActivatable(Card card) {
-		// any card can be shown
 		return true;
 	}
 	
-	@Override
-	protected boolean isCancelAllowed() {
-		return false;
-	}
-
-	@Override
-	protected InGameServerCommand getCommand(Card card) {
-		return new PlayerCardSelectionInGameServerCommand(card, PlayerCardZone.HAND);
-	}
-
 	@Override
 	protected void onLoadedCustom() {
 		
@@ -36,6 +25,25 @@ public class ShowCardReactionOperation extends AbstractCardReactionOperation {
 	@Override
 	protected void onUnloadedCustom() {
 		
+	}
+
+	@Override
+	protected InGameServerCommand getCommandOnCancel() {
+		// Cannot cancel
+		return null;
+	}
+
+	@Override
+	protected boolean isCancelEnabled() {
+		return this.cards.size() > 0;
+	}
+
+	@Override
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new PlayerCardSelectionInGameServerCommand(
+			this.getFirstCardUI().getCard(),
+			PlayerCardZone.HAND
+		);
 	}
 	
 }

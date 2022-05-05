@@ -10,7 +10,6 @@ import ui.game.interfaces.SkillUI;
 
 public class FireAttackSkillOperation extends AbstractMultiCardMultiTargetSkillOperation {
 	
-	
 	public FireAttackSkillOperation(SkillUI skill) {
 		super(skill, 1, 1);
 	}
@@ -49,7 +48,7 @@ public class FireAttackSkillOperation extends AbstractMultiCardMultiTargetSkillO
 	protected InGameServerCommand getCommandOnConfirm() {
 		return new InitiateFireAttackInGameServerCommand(
 			this.targets.peek().getPlayer().getPlayerInfo(),
-			this.cards.keySet().iterator().next().getCard()
+			this.getFirstCardUI().getCard()
 		);
 	}
 

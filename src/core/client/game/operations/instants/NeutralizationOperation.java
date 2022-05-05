@@ -5,7 +5,7 @@ import cards.specials.instant.Neutralization;
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.NeutralizationReactionInGameServerCommand;
 import core.client.game.event.RequestNeutralizationClientGameEvent;
-import core.client.game.operations.AbstractCardReactionOperation;
+import core.client.game.operations.AbstractSingleCardReactionOperation;
 
 /**
  * <p>When a player uses an Instant Special card, all players have the option to
@@ -17,7 +17,7 @@ import core.client.game.operations.AbstractCardReactionOperation;
  * @author Harry
  *
  */
-public class NeutralizationOperation extends AbstractCardReactionOperation {
+public class NeutralizationOperation extends AbstractSingleCardReactionOperation {
 
 	public NeutralizationOperation(String message) {
 		super(message);
@@ -29,17 +29,8 @@ public class NeutralizationOperation extends AbstractCardReactionOperation {
 	}
 	
 	@Override
-	protected boolean isCancelAllowed() {
+	protected boolean isCancelEnabled() {
 		return true;
-	}
-
-	@Override
-	protected InGameServerCommand getCommand(Card card) {
-		if (card == null) {
-			return new NeutralizationReactionInGameServerCommand(null, null);
-		} else {
-			return new NeutralizationReactionInGameServerCommand(this.panel.getGameState().getSelf().getPlayerInfo(), card);
-		}
 	}
 
 	@Override
@@ -50,5 +41,18 @@ public class NeutralizationOperation extends AbstractCardReactionOperation {
 	@Override
 	protected void onUnloadedCustom() {
 		this.panel.emit(new RequestNeutralizationClientGameEvent(false));
+	}
+
+	@Override
+	protected InGameServerCommand getCommandOnCancel() {
+		return new NeutralizationReactionInGameServerCommand(null, null);
+	}
+
+	@Override
+	protected InGameServerCommand getCommandOnConfirm() {
+		return new NeutralizationReactionInGameServerCommand(
+			this.panel.getGameState().getSelf().getPlayerInfo(),
+			this.getFirstCardUI().getCard()
+		);
 	}
 }

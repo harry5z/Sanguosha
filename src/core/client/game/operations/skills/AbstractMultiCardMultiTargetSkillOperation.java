@@ -27,5 +27,10 @@ public abstract class AbstractMultiCardMultiTargetSkillOperation extends Abstrac
 		this.skill.setActivatable(false);
 		this.skill.setActivated(false);
 	}
+	
+	@Override
+	protected boolean isCancelEnabled() {
+		return true;
+	}
 
 }
