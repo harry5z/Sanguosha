@@ -1,7 +1,6 @@
 package core.heroes.skills;
 
-import core.client.game.event.ClientGameEvent;
-import core.client.game.listener.ClientEventListener;
+import core.client.GamePanel;
 import core.client.game.listener.SeeThroughSkillClientEventListener;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
@@ -26,8 +25,13 @@ public class ZhugeliangSeeThroughHeroSkill implements ActiveSkill {
 	}
 
 	@Override
-	public ClientEventListener<? extends ClientGameEvent> getClientEventListener(SkillUI ui) {
-		return new SeeThroughSkillClientEventListener(ui);
+	public void onClientSkillLoaded(GamePanel panel, SkillUI skill) {
+		panel.registerEventListener(new SeeThroughSkillClientEventListener(skill));
+	}
+
+	@Override
+	public void onClientSkillUnloaded(GamePanel panel, SkillUI skill) {
+		panel.removeEventListener(new SeeThroughSkillClientEventListener(skill));
 	}
 
 }

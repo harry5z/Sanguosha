@@ -12,6 +12,7 @@ import core.Deck;
 import core.event.game.GameEvent;
 import core.event.handlers.EventHandler;
 import core.heroes.original.Blank;
+import core.heroes.original.SunQuan;
 import core.heroes.original.ZhugeliangHiddenDragon;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
@@ -149,7 +150,7 @@ public class GameImpl implements Game {
 			player.registerPlayerStatusListener(new ServerInGamePlayerStatusListener(player.getName(), playerNames, room));
 			player.registerHeroListener(new ServerInGameHeroListener(player.getName(), playerNames, room));
 			player.registerDelayedListener(new ServerInGameDelayedListener(player.getName(), playerNames, room));
-			player.setHero(new ZhugeliangHiddenDragon()); // TODO: add and change to other heroes
+			player.setHero(new SunQuan()); // TODO: add and change to other heroes
 			player.onGameReady(this);
 		}
 		this.turnController = new TurnGameController(room);

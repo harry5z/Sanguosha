@@ -8,6 +8,7 @@ import core.event.game.turn.DealTurnEvent;
 import core.event.game.turn.DiscardTurnEvent;
 import core.event.game.turn.DrawStartTurnEvent;
 import core.event.game.turn.DrawTurnEvent;
+import core.event.game.turn.EndTurnEvent;
 import core.player.PlayerCompleteServer;
 import core.server.GameRoom;
 import core.server.game.Game;
@@ -151,8 +152,13 @@ public class TurnGameController implements GameController {
 				this.nextStage();
 				return;
 			case END:
-				this.currentPlayer.clearDisposalArea();
-				this.nextStage();
+				try {
+					this.game.emit(new EndTurnEvent());
+					this.currentPlayer.clearDisposalArea();
+					this.nextStage();
+				} catch (GameFlowInterruptedException e) {
+					e.resume();
+				}
 				return;
 			default:
 				break;

@@ -34,6 +34,8 @@ public class PlayerComplete extends PlayerSimple {
 	private volatile int wineUsed;// number of wines already used this TURN_DEAL
 	private volatile boolean isWineUsed;// whether wine is used
 	private volatile boolean wineEffective; // whether wine is currently effective
+	private final Map<PlayerState, Integer> stateCounters;
+	private final Map<PlayerState, Integer> defaultStateCounters;
 	
 	private Map<Class<? extends PlayerStatusQuery>, Set<PlayerStatusQueryListener<? extends PlayerStatusQuery>>> playerQueryListeners;
 
@@ -53,6 +55,8 @@ public class PlayerComplete extends PlayerSimple {
 		wineUsed = 0;
 		isWineUsed = false;
 		wineEffective = false;
+		this.stateCounters = new HashMap<>();
+		this.defaultStateCounters = new HashMap<>();
 	}
 	
 	public void registerPlayerStatusListener(PlayerStatusListener listener) {
@@ -216,6 +220,26 @@ public class PlayerComplete extends PlayerSimple {
 
 	public int getWineLimit() {
 		return wineLimit;
+	}
+	
+	public void registerDefaultPlayerState(PlayerState key, int value) {
+		this.defaultStateCounters.put(key, value);
+		this.updatePlayerState(key, value);
+	}
+	
+	public void resetPlayerStates() {
+		for (Map.Entry<PlayerState, Integer> entry : this.defaultStateCounters.entrySet()) {
+			this.updatePlayerState(entry.getKey(), entry.getValue());
+		}
+	}
+	
+	public void updatePlayerState(PlayerState key, int value) {
+		this.stateCounters.put(key, value);
+		this.statusListener.onPlayerStateUpdated(key, value);
+	}
+	
+	public int getPlayerState(PlayerState key) {
+		return this.stateCounters.get(key);
 	}
 
 }

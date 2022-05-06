@@ -10,6 +10,7 @@ import core.event.handlers.basic.RequestShowCardEventHandler;
 import core.event.handlers.basic.RequestUseCardEventHandler;
 import core.event.handlers.instant.PlayerCardSelectionEventHandler;
 import core.event.handlers.turn.DealTurnEventHandler;
+import core.event.handlers.turn.DefaultEndTurnEventHandler;
 import core.event.handlers.turn.DiscardTurnEventHandler;
 import core.event.handlers.turn.DrawTurnEventHandler;
 import core.server.game.Game;
@@ -78,6 +79,7 @@ public class PlayerCompleteServer extends PlayerComplete {
 		game.registerEventHandler(new RequestShowCardEventHandler(this));
 		game.registerEventHandler(new RequestUseCardEventHandler(this));
 		game.registerEventHandler(new PlayerCardSelectionEventHandler(this));
+		game.registerEventHandler(new DefaultEndTurnEventHandler(this));
 		// let the hero and its skills register themselves in the game
 		this.getHero().onGameReady(game, this);
 	}

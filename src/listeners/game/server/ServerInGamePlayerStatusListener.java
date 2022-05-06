@@ -9,10 +9,12 @@ import commands.game.client.sync.status.SyncAttackUsedGameUIClientCommand;
 import commands.game.client.sync.status.SyncAttackUsedSetGameUIClientCommand;
 import commands.game.client.sync.status.SyncChainGameUIClientCommand;
 import commands.game.client.sync.status.SyncFlipGameUIClientCommand;
+import commands.game.client.sync.status.SyncPlayerStateGameUIClientCommand;
 import commands.game.client.sync.status.SyncResetWineEffectiveGameUIClientCommand;
 import commands.game.client.sync.status.SyncWineUsedGameUIClientCommand;
 import commands.game.client.sync.status.SyncWineUsedSetGameUIClientCommand;
 import core.player.Player;
+import core.player.PlayerState;
 import core.server.GameRoom;
 import listeners.game.PlayerStatusListener;
 
@@ -80,6 +82,11 @@ public class ServerInGamePlayerStatusListener extends ServerInGamePlayerListener
 	@Override
 	public void onChained(boolean chained) {
 		room.sendCommandToAllPlayers(new SyncChainGameUIClientCommand(this.name, chained));
+	}
+
+	@Override
+	public void onPlayerStateUpdated(PlayerState state, int value) {
+		room.sendCommandToPlayer(name, new SyncPlayerStateGameUIClientCommand(state, value));
 	}
 
 }

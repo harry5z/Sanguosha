@@ -36,11 +36,11 @@ public class SkillGui extends JButton implements SkillUI {
 	}
 	
 	public void onAdded(GamePanel panel) {
-		panel.registerEventListener(this.skill.getClientEventListener(this));
+		this.skill.onClientSkillLoaded(panel, this);
 	}
 	
 	public void onRemoved(GamePanel panel) {
-		panel.removeEventListener(this.skill.getClientEventListener(this));
+		this.skill.onClientSkillUnloaded(panel, this);
 	}
 
 	@Override

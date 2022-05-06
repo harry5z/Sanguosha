@@ -21,6 +21,7 @@ import core.heroes.skills.Skill;
 import core.player.Player;
 import core.player.PlayerCompleteClient;
 import core.player.PlayerSimple;
+import core.player.PlayerState;
 import ui.game.interfaces.HeroUI;
 
 @SuppressWarnings("serial")
@@ -175,6 +176,11 @@ public class HeroGui extends JPanel implements HeroUI {
 	@Override
 	public void onChained(boolean chained) {
 		this.setChained(chained);
+	}
+
+	@Override
+	public void onPlayerStateUpdated(PlayerState state, int value) {
+		// Nothing to do
 	}
 
 }
