@@ -1,4 +1,4 @@
-package core.client.game.operations.machanics;
+package core.client.game.operations.mechanics;
 
 import commands.game.server.ingame.DecisionInGameServerCommand;
 import core.client.game.operations.AbstractOperation;

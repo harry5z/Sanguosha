@@ -1,4 +1,4 @@
-package core.client.game.operations.machanics;
+package core.client.game.operations.mechanics;
 
 import java.util.Arrays;
 import java.util.Collection;

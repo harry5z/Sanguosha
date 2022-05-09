@@ -1,4 +1,4 @@
-package core.client.game.operations.machanics;
+package core.client.game.operations.mechanics;
 
 import cards.equipments.Equipment;
 import commands.game.server.ingame.EquipInGameServerCommand;

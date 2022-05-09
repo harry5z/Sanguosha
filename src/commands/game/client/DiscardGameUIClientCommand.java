@@ -1,7 +1,7 @@
 package commands.game.client;
 
 import core.client.game.operations.Operation;
-import core.client.game.operations.machanics.DiscardOperation;
+import core.client.game.operations.mechanics.DiscardOperation;
 import core.player.PlayerInfo;
 
 public class DiscardGameUIClientCommand extends AbstractSingleTargetOperationGameClientCommand {
