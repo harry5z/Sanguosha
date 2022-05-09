@@ -1,7 +1,7 @@
 package core.heroes.skills;
 
 import core.client.GamePanel;
-import core.client.game.listener.SeeThroughSkillClientEventListener;
+import core.client.game.listener.skills.SeeThroughSkillClientEventListener;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import ui.game.interfaces.SkillUI;

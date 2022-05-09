@@ -6,6 +6,8 @@ import core.client.game.event.ClientGameEvent;
 public abstract class AbstractStatelessClientEventListener<T extends ClientGameEvent> extends AbstractClientEventListener<T> {
 
 	@Override
-	public void onDeactivated(GamePanel panel) {}
+	public void handleOnUnloaded(GamePanel panel) {
+		
+	}
 
 }

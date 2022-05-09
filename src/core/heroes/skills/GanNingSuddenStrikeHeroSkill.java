@@ -1,7 +1,7 @@
 package core.heroes.skills;
 
 import core.client.GamePanel;
-import core.client.game.listener.SuddenStrikeSkillDealEventListener;
+import core.client.game.listener.skills.SuddenStrikeSkillDealEventListener;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import ui.game.interfaces.SkillUI;

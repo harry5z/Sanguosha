@@ -8,7 +8,8 @@ public abstract class AbstractLifecycleClientGameEvent implements ClientGameEven
 		this.isStart = isStart;
 	}
 	
-	public boolean isStart() {
+	@Override
+	public final boolean isLoadedStage() {
 		return this.isStart;
 	}
 }

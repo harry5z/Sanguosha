@@ -1,7 +1,7 @@
 package core.heroes.skills;
 
 import core.client.GamePanel;
-import core.client.game.listener.ReconsiderationSkillDealEventListener;
+import core.client.game.listener.skills.ReconsiderationSkillDealEventListener;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerState;
 import core.server.game.Game;

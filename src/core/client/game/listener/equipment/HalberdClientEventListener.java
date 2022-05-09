@@ -1,7 +1,8 @@
-package core.client.game.listener;
+package core.client.game.listener.equipment;
 
 import core.client.GamePanel;
 import core.client.game.event.InitiateAttackClientGameEvent;
+import core.client.game.listener.AbstractStatelessClientEventListener;
 
 public class HalberdClientEventListener extends AbstractStatelessClientEventListener<InitiateAttackClientGameEvent> {
 
@@ -11,7 +12,7 @@ public class HalberdClientEventListener extends AbstractStatelessClientEventList
 	}
 
 	@Override
-	public void handle(InitiateAttackClientGameEvent event, GamePanel panel) {
+	public void handleOnLoaded(InitiateAttackClientGameEvent event, GamePanel panel) {
 		if (panel.getGameState().getSelf().getHandCount() == 1) {
 			event.operation.addMaxTargets(2);
 		}

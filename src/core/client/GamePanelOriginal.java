@@ -70,11 +70,10 @@ public class GamePanelOriginal implements GamePanel {
 		
 		this.listeners.get(listener.getEventClass()).removeIf(l -> {
 			if (l.equals(listener)) {
-				l.onDeactivated(this);
+				listener.handleOnUnloaded(this);
 				return true;
-			} else {
-				return false;
 			}
+			return false;
 		});
 	}
 
@@ -87,7 +86,11 @@ public class GamePanelOriginal implements GamePanel {
 		
 		for (ClientEventListener<? extends ClientGameEvent> listener : this.listeners.get(event.getClass())) {
 			// By implementation of #registerEventListener, this is correct
-			((ClientEventListener<T>) listener).handle(event, this);
+			if (event.isLoadedStage()) {
+				((ClientEventListener<T>) listener).handleOnLoaded(event, this);
+			} else {
+				((ClientEventListener<T>) listener).handleOnUnloaded(this);
+			}
 		}
 	}
 	

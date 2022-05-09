@@ -1,10 +1,11 @@
-package core.client.game.listener;
+package core.client.game.listener.equipment;
 
 import java.util.Set;
 
 import cards.equipments.Equipment.EquipmentType;
 import core.client.GamePanel;
 import core.client.game.event.AttackReactionClientGameEvent;
+import core.client.game.listener.AbstractClientEventListener;
 import core.client.game.operations.equipment.SerpentSpearAttackReactionOperation;
 
 public class SerpentSpearAttackReactionEventListener extends AbstractClientEventListener<AttackReactionClientGameEvent> {
@@ -15,19 +16,15 @@ public class SerpentSpearAttackReactionEventListener extends AbstractClientEvent
 	}
 
 	@Override
-	public void handle(AttackReactionClientGameEvent event, GamePanel panel) {
-		if (event.isStart()) {
-			panel.getGameUI().getEquipmentRackUI().setActivatable(
-				Set.of(EquipmentType.WEAPON),
-				e -> panel.pushOperation(new SerpentSpearAttackReactionOperation(e))
-			);
-		} else {
-			this.onDeactivated(panel);
-		}
+	public void handleOnLoaded(AttackReactionClientGameEvent event, GamePanel panel) {
+		panel.getGameUI().getEquipmentRackUI().setActivatable(
+			Set.of(EquipmentType.WEAPON),
+			e -> panel.pushOperation(new SerpentSpearAttackReactionOperation(e))
+		);		
 	}
 
 	@Override
-	public void onDeactivated(GamePanel panel) {
+	public void handleOnUnloaded(GamePanel panel) {
 		panel.getGameUI().getEquipmentRackUI().setUnactivatable(Set.of(EquipmentType.WEAPON));
 	}
 

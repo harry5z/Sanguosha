@@ -1,8 +1,8 @@
 package cards.equipments.weapons;
 
 import core.client.GamePanel;
-import core.client.game.listener.SerpentSpearAttackReactionEventListener;
-import core.client.game.listener.SerpentSpearInitiateAttackEventListener;
+import core.client.game.listener.equipment.SerpentSpearAttackReactionEventListener;
+import core.client.game.listener.equipment.SerpentSpearInitiateAttackEventListener;
 
 public class SerpentSpear extends Weapon {
 

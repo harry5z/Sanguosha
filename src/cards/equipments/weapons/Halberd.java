@@ -1,7 +1,7 @@
 package cards.equipments.weapons;
 
 import core.client.GamePanel;
-import core.client.game.listener.HalberdClientEventListener;
+import core.client.game.listener.equipment.HalberdClientEventListener;
 import core.player.PlayerCompleteServer;
 import core.player.query_listener.HalberdPlayerAttackTargetLimitQueryListener;
 import core.server.game.Game;
