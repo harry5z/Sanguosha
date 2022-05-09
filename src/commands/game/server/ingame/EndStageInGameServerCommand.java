@@ -1,7 +1,7 @@
 package commands.game.server.ingame;
 
 import core.server.game.Game;
-import core.server.game.controllers.TurnGameController;
+import core.server.game.controllers.mechanics.TurnGameController;
 
 public class EndStageInGameServerCommand extends InGameServerCommand {
 

@@ -6,8 +6,8 @@ import core.event.game.basic.RequestAttackEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
-import core.server.game.controllers.AttackGameController;
-import core.server.game.controllers.interfaces.AttackUsableGameController;
+import core.server.game.controllers.AttackUsableGameController;
+import core.server.game.controllers.mechanics.AttackGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class DragonBladeGameController extends AbstractGameController implements AttackUsableGameController {

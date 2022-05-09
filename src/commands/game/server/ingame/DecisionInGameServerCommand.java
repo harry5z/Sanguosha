@@ -1,7 +1,7 @@
 package commands.game.server.ingame;
 
 import core.server.game.Game;
-import core.server.game.controllers.interfaces.DecisionRequiredGameController;
+import core.server.game.controllers.DecisionRequiredGameController;
 
 public class DecisionInGameServerCommand extends InGameServerCommand {
 

@@ -6,8 +6,8 @@ import java.util.Set;
 import cards.Card;
 import core.player.PlayerInfo;
 import core.server.game.Game;
-import core.server.game.controllers.ReceiveCardsGameController;
-import core.server.game.controllers.UseCardOnHandGameController;
+import core.server.game.controllers.mechanics.ReceiveCardsGameController;
+import core.server.game.controllers.mechanics.UseCardOnHandGameController;
 import core.server.game.controllers.specials.instants.ChainGameController;
 
 public class InitiateChainInGameServerCommand extends InGameServerCommand {

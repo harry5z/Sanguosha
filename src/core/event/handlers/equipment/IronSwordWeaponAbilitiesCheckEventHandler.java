@@ -5,9 +5,9 @@ import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;
-import core.server.game.controllers.AttackResolutionGameController.AttackResolutionStage;
-import core.server.game.controllers.DamageGameController.DamageStage;
-import core.server.game.controllers.DodgeGameController.DodgeStage;
+import core.server.game.controllers.mechanics.AttackResolutionGameController.AttackResolutionStage;
+import core.server.game.controllers.mechanics.DamageGameController.DamageStage;
+import core.server.game.controllers.mechanics.DodgeGameController.DodgeStage;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class IronSwordWeaponAbilitiesCheckEventHandler extends AbstractEventHandler<AttackLockedSourceWeaponAbilitiesCheckEvent> {

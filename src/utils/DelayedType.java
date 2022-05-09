@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
-import core.server.game.controllers.TurnGameController;
+import core.server.game.controllers.mechanics.TurnGameController;
 import core.server.game.controllers.specials.delayed.AbstractDelayedArbitrationController;
 import core.server.game.controllers.specials.delayed.LightningArbitrationController;
 import core.server.game.controllers.specials.delayed.OblivionArbitrationController;

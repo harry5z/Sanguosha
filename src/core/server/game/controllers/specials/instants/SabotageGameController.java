@@ -10,9 +10,9 @@ import core.event.game.instants.PlayerCardSelectionEvent;
 import core.player.PlayerCardZone;
 import core.player.PlayerInfo;
 import core.server.game.Game;
-import core.server.game.controllers.RecycleCardsGameController;
-import core.server.game.controllers.UnequipGameController;
-import core.server.game.controllers.interfaces.CardSelectableGameController;
+import core.server.game.controllers.CardSelectableGameController;
+import core.server.game.controllers.mechanics.RecycleCardsGameController;
+import core.server.game.controllers.mechanics.UnequipGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 

@@ -6,7 +6,7 @@ import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;
-import core.server.game.controllers.AttackResolutionGameController.AttackResolutionStage;
+import core.server.game.controllers.mechanics.AttackResolutionGameController.AttackResolutionStage;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class IronShieldAttackTargetEuipmentCheckEventHandler extends AbstractEventHandler<AttackTargetEquipmentCheckEvent> {

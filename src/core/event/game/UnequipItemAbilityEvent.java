@@ -2,7 +2,7 @@ package core.event.game;
 
 import cards.equipments.Equipment.EquipmentType;
 import core.player.PlayerCompleteServer;
-import core.server.game.controllers.UnequipGameController;
+import core.server.game.controllers.mechanics.UnequipGameController;
 
 public class UnequipItemAbilityEvent extends AbstractGameEvent {
 

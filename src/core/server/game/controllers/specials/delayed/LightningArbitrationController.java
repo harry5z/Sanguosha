@@ -5,9 +5,9 @@ import cards.Card.Suit;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
 import core.server.game.Damage.Element;
+import core.server.game.controllers.mechanics.DamageGameController;
+import core.server.game.controllers.mechanics.TurnGameController;
 import core.server.game.Game;
-import core.server.game.controllers.DamageGameController;
-import core.server.game.controllers.TurnGameController;
 import utils.DelayedStackItem;
 import utils.DelayedType;
 

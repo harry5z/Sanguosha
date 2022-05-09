@@ -5,8 +5,8 @@ import java.util.Set;
 import cards.Card;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
-import core.server.game.controllers.HealGameController;
-import core.server.game.controllers.UseCardOnHandGameController;
+import core.server.game.controllers.mechanics.HealGameController;
+import core.server.game.controllers.mechanics.UseCardOnHandGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class UsePeachInGameServerCommand extends InGameServerCommand {

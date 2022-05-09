@@ -4,7 +4,7 @@ import java.util.Set;
 
 import cards.Card;
 import core.server.game.Game;
-import core.server.game.controllers.UseCardOnHandGameController;
+import core.server.game.controllers.mechanics.UseCardOnHandGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class UseWineInGameServerCommand extends InGameServerCommand {

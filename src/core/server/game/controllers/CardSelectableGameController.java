@@ -1,8 +1,7 @@
-package core.server.game.controllers.interfaces;
+package core.server.game.controllers;
 
 import cards.Card;
 import core.player.PlayerCardZone;
-import core.server.game.controllers.GameController;
 
 public interface CardSelectableGameController extends GameController {
 	

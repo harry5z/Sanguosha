@@ -6,8 +6,8 @@ import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;
-import core.server.game.controllers.HealGameController;
-import core.server.game.controllers.UnequipGameController.UnequipStage;
+import core.server.game.controllers.mechanics.HealGameController;
+import core.server.game.controllers.mechanics.UnequipGameController.UnequipStage;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class SilverLionUnequipEventHandler extends AbstractEventHandler<UnequipItemAbilityEvent> {

@@ -7,8 +7,8 @@ import core.event.game.instants.BarbarianInvasionTargetEffectivenessEvent;
 import core.player.PlayerInfo;
 import core.server.game.Damage;
 import core.server.game.Game;
-import core.server.game.controllers.DamageGameController;
-import core.server.game.controllers.interfaces.AttackUsableGameController;
+import core.server.game.controllers.AttackUsableGameController;
+import core.server.game.controllers.mechanics.DamageGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class BarbarianInvasionGameController extends AOEInstantSpecialGameController implements AttackUsableGameController {

@@ -5,7 +5,7 @@ import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;
-import core.server.game.controllers.TurnGameController.TurnStage;
+import core.server.game.controllers.mechanics.TurnGameController.TurnStage;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class SkipDealTurnEventHandler extends AbstractEventHandler<DealStartTurnEvent> {

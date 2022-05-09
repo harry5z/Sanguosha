@@ -1,7 +1,7 @@
 package core.event.game.turn;
 
 import core.event.game.AbstractGameEvent;
-import core.server.game.controllers.TurnGameController;
+import core.server.game.controllers.mechanics.TurnGameController;
 
 public class AbstractTurnEvent extends AbstractGameEvent {
 	

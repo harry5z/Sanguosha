@@ -5,9 +5,9 @@ import core.event.game.instants.ArrowSalvoTargetEffectivenessEvent;
 import core.player.PlayerInfo;
 import core.server.game.Damage;
 import core.server.game.Game;
-import core.server.game.controllers.DamageGameController;
-import core.server.game.controllers.DodgeGameController;
-import core.server.game.controllers.interfaces.DodgeUsableGameController;
+import core.server.game.controllers.DodgeUsableGameController;
+import core.server.game.controllers.mechanics.DamageGameController;
+import core.server.game.controllers.mechanics.DodgeGameController;
 
 public class ArrowSalvoGameController extends AOEInstantSpecialGameController implements DodgeUsableGameController {
 

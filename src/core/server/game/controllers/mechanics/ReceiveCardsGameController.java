@@ -1,10 +1,11 @@
-package core.server.game.controllers;
+package core.server.game.controllers.mechanics;
 
 import java.util.Collection;
 
 import cards.Card;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractGameController;
 import utils.EnumWithNextStage;
 
 public class ReceiveCardsGameController extends AbstractGameController {

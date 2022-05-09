@@ -9,8 +9,8 @@ import core.player.PlayerInfo;
 import core.server.game.Damage;
 import core.server.game.Game;
 import core.server.game.Damage.Element;
-import core.server.game.controllers.DamageGameController;
-import core.server.game.controllers.interfaces.CardSelectableGameController;
+import core.server.game.controllers.CardSelectableGameController;
+import core.server.game.controllers.mechanics.DamageGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 

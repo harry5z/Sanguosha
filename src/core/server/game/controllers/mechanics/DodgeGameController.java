@@ -1,4 +1,4 @@
-package core.server.game.controllers;
+package core.server.game.controllers.mechanics;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,7 +8,9 @@ import core.event.game.DodgeTargetEquipmentCheckEvent;
 import core.event.game.basic.RequestDodgeEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
-import core.server.game.controllers.interfaces.DodgeUsableGameController;
+import core.server.game.controllers.AbstractGameController;
+import core.server.game.controllers.DodgeUsableGameController;
+import core.server.game.controllers.GameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import utils.EnumWithNextStage;
 

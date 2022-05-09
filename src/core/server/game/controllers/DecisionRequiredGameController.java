@@ -1,6 +1,4 @@
-package core.server.game.controllers.interfaces;
-
-import core.server.game.controllers.GameController;
+package core.server.game.controllers;
 
 public interface DecisionRequiredGameController extends GameController {
 	

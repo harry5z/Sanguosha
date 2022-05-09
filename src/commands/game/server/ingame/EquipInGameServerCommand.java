@@ -2,7 +2,7 @@ package commands.game.server.ingame;
 
 import cards.equipments.Equipment;
 import core.server.game.Game;
-import core.server.game.controllers.EquipGameController;
+import core.server.game.controllers.mechanics.EquipGameController;
 
 public class EquipInGameServerCommand extends InGameServerCommand {
 	

@@ -7,8 +7,8 @@ import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Damage.Element;
 import core.server.game.Game;
-import core.server.game.controllers.AttackGameController.AttackStage;
 import core.server.game.controllers.equipment.FeatheredFanGameController;
+import core.server.game.controllers.mechanics.AttackGameController.AttackStage;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class FeatheredFanWeaponAbilitiesCheckEventHandler extends AbstractEventHandler<AttackPreAcquisitionWeaponAbilitiesCheckEvent> {

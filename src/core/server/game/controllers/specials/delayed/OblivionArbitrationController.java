@@ -5,7 +5,7 @@ import cards.Card.Suit;
 import core.event.handlers.turn.SkipDealTurnEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
-import core.server.game.controllers.TurnGameController;
+import core.server.game.controllers.mechanics.TurnGameController;
 import utils.DelayedStackItem;
 import utils.DelayedType;
 

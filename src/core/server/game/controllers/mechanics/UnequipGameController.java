@@ -1,10 +1,11 @@
-package core.server.game.controllers;
+package core.server.game.controllers.mechanics;
 
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
 import core.event.game.UnequipItemAbilityEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 import utils.EnumWithNextStage;

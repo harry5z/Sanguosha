@@ -4,7 +4,7 @@ import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.BrotherhoodTargetEffectivenessEvent;
 import core.player.PlayerInfo;
 import core.server.game.Game;
-import core.server.game.controllers.HealGameController;
+import core.server.game.controllers.mechanics.HealGameController;
 
 public class BrotherhoodGameController extends AOEInstantSpecialGameController {
 

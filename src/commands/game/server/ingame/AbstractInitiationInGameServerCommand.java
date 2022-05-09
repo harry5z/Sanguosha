@@ -7,7 +7,7 @@ import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
 import core.server.game.controllers.GameController;
-import core.server.game.controllers.UseCardOnHandGameController;
+import core.server.game.controllers.mechanics.UseCardOnHandGameController;
 
 public abstract class AbstractInitiationInGameServerCommand extends InGameServerCommand {
 

@@ -7,9 +7,9 @@ import cards.equipments.Equipment;
 import core.player.PlayerCardZone;
 import core.player.PlayerInfo;
 import core.server.game.Game;
-import core.server.game.controllers.RecycleCardsGameController;
-import core.server.game.controllers.UnequipGameController;
-import core.server.game.controllers.UseCardOnHandGameController;
+import core.server.game.controllers.mechanics.RecycleCardsGameController;
+import core.server.game.controllers.mechanics.UnequipGameController;
+import core.server.game.controllers.mechanics.UseCardOnHandGameController;
 import core.server.game.controllers.specials.instants.SabotageGameController;
 
 public class SuddenStrikeSkillInGameServerCommand extends InGameServerCommand {

@@ -1,4 +1,4 @@
-package core.server.game.controllers;
+package core.server.game.controllers.mechanics;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,6 +9,7 @@ import cards.basics.Attack;
 import core.event.game.basic.AttackPreAcquisitionWeaponAbilitiesCheckEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import utils.EnumWithNextStage;
 

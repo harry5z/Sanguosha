@@ -5,11 +5,11 @@ import cards.Card.Color;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
-import core.server.game.controllers.ArbitrationController;
-import core.server.game.controllers.DodgeGameController;
+import core.server.game.controllers.ArbitrationRequiredGameController;
+import core.server.game.controllers.DecisionRequiredGameController;
 import core.server.game.controllers.GameController;
-import core.server.game.controllers.interfaces.ArbitrationRequiredGameController;
-import core.server.game.controllers.interfaces.DecisionRequiredGameController;
+import core.server.game.controllers.mechanics.ArbitrationController;
+import core.server.game.controllers.mechanics.DodgeGameController;
 
 public class TaichiFormationGameController extends AbstractGameController implements DecisionRequiredGameController, ArbitrationRequiredGameController {
 	

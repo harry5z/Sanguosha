@@ -2,7 +2,7 @@ package core.event.game.basic;
 
 import core.event.game.AbstractGameEvent;
 import core.player.PlayerCompleteServer;
-import core.server.game.controllers.AttackResolutionGameController;
+import core.server.game.controllers.mechanics.AttackResolutionGameController;
 
 public class AttackLockedSourceWeaponAbilitiesCheckEvent extends AbstractGameEvent {
 

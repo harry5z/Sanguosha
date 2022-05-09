@@ -11,9 +11,9 @@ import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerState;
 import core.server.game.Game;
-import core.server.game.controllers.ReceiveCardsGameController;
-import core.server.game.controllers.RecycleCardsGameController;
-import core.server.game.controllers.UnequipGameController;
+import core.server.game.controllers.mechanics.ReceiveCardsGameController;
+import core.server.game.controllers.mechanics.RecycleCardsGameController;
+import core.server.game.controllers.mechanics.UnequipGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class ReconsiderationSkillInGameServerCommand extends InGameServerCommand {

@@ -6,8 +6,8 @@ import cards.Card;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
-import core.server.game.controllers.UseCardOnHandGameController;
-import core.server.game.controllers.interfaces.AttackUsableGameController;
+import core.server.game.controllers.AttackUsableGameController;
+import core.server.game.controllers.mechanics.UseCardOnHandGameController;
 
 public class AttackReactionInGameServerCommand extends InGameServerCommand {
 

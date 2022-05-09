@@ -1,4 +1,4 @@
-package core.server.game.controllers;
+package core.server.game.controllers.mechanics;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,6 +7,7 @@ import core.event.game.damage.TargetEquipmentCheckDamageEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
 import core.server.game.Damage.Element;
+import core.server.game.controllers.AbstractGameController;
 import core.server.game.Game;
 import exceptions.server.game.GameFlowInterruptedException;
 import utils.EnumWithNextStage;

@@ -1,7 +1,6 @@
-package core.server.game.controllers.interfaces;
+package core.server.game.controllers;
 
 import cards.Card;
-import core.server.game.controllers.GameController;
 
 public interface PeachUsableGameController extends GameController {
 	

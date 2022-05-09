@@ -1,4 +1,4 @@
-package core.server.game.controllers;
+package core.server.game.controllers.mechanics;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -12,6 +12,7 @@ import core.event.game.turn.EndTurnEvent;
 import core.player.PlayerCompleteServer;
 import core.server.GameRoom;
 import core.server.game.Game;
+import core.server.game.controllers.GameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 import utils.DelayedStackItem;

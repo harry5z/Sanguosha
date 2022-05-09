@@ -4,8 +4,8 @@ import cards.basics.Attack;
 import core.server.game.Game;
 import core.server.game.Damage.Element;
 import core.server.game.controllers.AbstractGameController;
-import core.server.game.controllers.AttackGameController;
-import core.server.game.controllers.interfaces.DecisionRequiredGameController;
+import core.server.game.controllers.DecisionRequiredGameController;
+import core.server.game.controllers.mechanics.AttackGameController;
 
 public class FeatheredFanGameController extends AbstractGameController implements DecisionRequiredGameController {
 	

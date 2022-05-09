@@ -1,11 +1,13 @@
-package core.server.game.controllers;
+package core.server.game.controllers.mechanics;
 
 import java.util.Set;
 
 import cards.Card;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
-import core.server.game.controllers.interfaces.ArbitrationRequiredGameController;
+import core.server.game.controllers.AbstractGameController;
+import core.server.game.controllers.ArbitrationRequiredGameController;
+import core.server.game.controllers.GameController;
 import utils.EnumWithNextStage;
 
 public class ArbitrationController extends AbstractGameController {

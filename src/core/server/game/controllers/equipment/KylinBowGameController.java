@@ -11,12 +11,12 @@ import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
-import core.server.game.controllers.AttackResolutionGameController;
-import core.server.game.controllers.AttackResolutionGameController.AttackResolutionStage;
-import core.server.game.controllers.RecycleCardsGameController;
-import core.server.game.controllers.UnequipGameController;
-import core.server.game.controllers.interfaces.CardSelectableGameController;
-import core.server.game.controllers.interfaces.DecisionRequiredGameController;
+import core.server.game.controllers.CardSelectableGameController;
+import core.server.game.controllers.DecisionRequiredGameController;
+import core.server.game.controllers.mechanics.AttackResolutionGameController;
+import core.server.game.controllers.mechanics.RecycleCardsGameController;
+import core.server.game.controllers.mechanics.UnequipGameController;
+import core.server.game.controllers.mechanics.AttackResolutionGameController.AttackResolutionStage;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class KylinBowGameController

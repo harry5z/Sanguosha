@@ -10,10 +10,10 @@ import core.event.game.basic.RequestAttackEvent;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
-import core.server.game.controllers.AttackGameController;
-import core.server.game.controllers.ReceiveCardsGameController;
-import core.server.game.controllers.UnequipGameController;
-import core.server.game.controllers.interfaces.AttackUsableGameController;
+import core.server.game.controllers.AttackUsableGameController;
+import core.server.game.controllers.mechanics.AttackGameController;
+import core.server.game.controllers.mechanics.ReceiveCardsGameController;
+import core.server.game.controllers.mechanics.UnequipGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class BorrowSwordGameController

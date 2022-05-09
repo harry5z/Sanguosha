@@ -7,8 +7,8 @@ import cards.basics.Attack;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
-import core.server.game.controllers.AttackGameController;
-import core.server.game.controllers.UseCardOnHandGameController;
+import core.server.game.controllers.mechanics.AttackGameController;
+import core.server.game.controllers.mechanics.UseCardOnHandGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class InitiateAttackInGameServerCommand extends InGameServerCommand {

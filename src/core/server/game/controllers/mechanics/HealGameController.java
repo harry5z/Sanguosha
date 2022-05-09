@@ -1,8 +1,9 @@
-package core.server.game.controllers;
+package core.server.game.controllers.mechanics;
 
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractGameController;
 import utils.EnumWithNextStage;
 
 public final class HealGameController extends AbstractGameController {

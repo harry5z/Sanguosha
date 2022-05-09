@@ -1,7 +1,6 @@
-package core.server.game.controllers.interfaces;
+package core.server.game.controllers;
 
 import cards.equipments.Equipment;
-import core.server.game.controllers.GameController;
 
 public interface EquipmentUsableGameController extends GameController {
 

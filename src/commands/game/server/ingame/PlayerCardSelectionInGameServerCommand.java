@@ -3,7 +3,7 @@ package commands.game.server.ingame;
 import cards.Card;
 import core.player.PlayerCardZone;
 import core.server.game.Game;
-import core.server.game.controllers.interfaces.CardSelectableGameController;
+import core.server.game.controllers.CardSelectableGameController;
 
 public class PlayerCardSelectionInGameServerCommand extends InGameServerCommand {
 	

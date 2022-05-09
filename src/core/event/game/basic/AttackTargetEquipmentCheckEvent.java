@@ -2,7 +2,7 @@ package core.event.game.basic;
 
 import cards.basics.Attack;
 import core.player.PlayerInfo;
-import core.server.game.controllers.AttackResolutionGameController;
+import core.server.game.controllers.mechanics.AttackResolutionGameController;
 
 public class AttackTargetEquipmentCheckEvent extends AbstractSingleTargetGameEvent {
 	

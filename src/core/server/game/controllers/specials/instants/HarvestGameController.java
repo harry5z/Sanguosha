@@ -15,9 +15,9 @@ import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
-import core.server.game.controllers.ReceiveCardsGameController;
-import core.server.game.controllers.RecycleCardsGameController;
-import core.server.game.controllers.interfaces.CardSelectableGameController;
+import core.server.game.controllers.CardSelectableGameController;
+import core.server.game.controllers.mechanics.ReceiveCardsGameController;
+import core.server.game.controllers.mechanics.RecycleCardsGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class HarvestGameController extends AOEInstantSpecialGameController implements CardSelectableGameController {

@@ -4,7 +4,7 @@ import java.util.List;
 
 import cards.Card;
 import core.server.game.Game;
-import core.server.game.controllers.TurnGameController;
+import core.server.game.controllers.mechanics.TurnGameController;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class DiscardInGameServerCommand extends InGameServerCommand {

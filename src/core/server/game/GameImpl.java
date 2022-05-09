@@ -18,7 +18,7 @@ import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.GameRoom;
 import core.server.game.controllers.GameController;
-import core.server.game.controllers.TurnGameController;
+import core.server.game.controllers.mechanics.TurnGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import listeners.game.server.ServerInGameCardDisposalListener;
 import listeners.game.server.ServerInGameCardOnHandListener;
