@@ -11,19 +11,18 @@ import core.event.game.instants.PlayerCardSelectionEvent;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
-import core.server.game.controllers.AbstractGameController;
+import core.server.game.controllers.AbstractStagelessGameController;
 import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.DecisionRequiredGameController;
 import core.server.game.controllers.mechanics.AttackResolutionGameController;
+import core.server.game.controllers.mechanics.AttackResolutionGameController.AttackResolutionStage;
 import core.server.game.controllers.mechanics.RecycleCardsGameController;
 import core.server.game.controllers.mechanics.UnequipGameController;
-import core.server.game.controllers.mechanics.AttackResolutionGameController.AttackResolutionStage;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.GameStateErrorException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
-public class IcySwordGameController
-	extends AbstractGameController
+public class IcySwordGameController extends AbstractStagelessGameController
 	implements CardSelectableGameController, DecisionRequiredGameController {
 
 	private final PlayerCompleteServer source;
@@ -96,10 +95,8 @@ public class IcySwordGameController
 				break;
 			case EQUIPMENT:
 				Equipment equipment = (Equipment) card;
-				this.game.pushGameController(
-					new UnequipGameController(this.game, this.target, equipment.getEquipmentType())
-						.setNextController(new RecycleCardsGameController(this.game, this.target, Set.of(equipment)))
-				);
+				this.game.pushGameController(new RecycleCardsGameController(this.game, this.target, Set.of(equipment)));
+				this.game.pushGameController(new UnequipGameController(this.game, this.target, equipment.getEquipmentType()));
 				break;
 			default:
 				throw new GameStateErrorException("Icy Sword: Card is not from HAND or EQUIPMENT");

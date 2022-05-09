@@ -31,7 +31,7 @@ public class ZhugeliangTaichiDodgeEquipmentCheckEventHandler extends AbstractEve
 			return;
 		}
 		
-		game.pushGameController(new TaichiFormationGameController(game, this.player));
+		game.pushGameController(new TaichiFormationGameController(game, event.controller, this.player));
 		connection.sendCommandToAllPlayers(new DecisionUIClientCommand(
 			this.player.getPlayerInfo(),
 			"Use Taichi Formation?"

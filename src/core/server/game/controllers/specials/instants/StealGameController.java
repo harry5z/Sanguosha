@@ -65,10 +65,8 @@ public class StealGameController extends SingleTargetInstantSpecialGameControlle
 			case EQUIPMENT:
 				try {
 					Equipment equipment = (Equipment) card;
-					this.game.pushGameController(
-						new UnequipGameController(this.game, this.target, equipment.getEquipmentType())
-							.setNextController(new ReceiveCardsGameController(this.game, this.source, Set.of(equipment)))
-					);
+					this.game.pushGameController(new ReceiveCardsGameController(this.game, this.source, Set.of(equipment)));
+					this.game.pushGameController(new UnequipGameController(this.game, this.target, equipment.getEquipmentType()));
 				} catch (ClassCastException e) {
 					e.printStackTrace();
 				}

@@ -40,11 +40,8 @@ public class ReconsiderationSkillInGameServerCommand extends InGameServerCommand
 						break;
 					case EQUIPMENT:
 						Equipment equipment = (Equipment) entry.getKey();
-						game.pushGameController(
-							new UnequipGameController(game, source, equipment.getEquipmentType())
-								.setNextController(new RecycleCardsGameController(game, source, Set.of(equipment))
-							)
-						);
+						game.pushGameController(new RecycleCardsGameController(game, source, Set.of(equipment)));
+						game.pushGameController(new UnequipGameController(game, source, equipment.getEquipmentType()));
 						break;
 					default:
 						break;

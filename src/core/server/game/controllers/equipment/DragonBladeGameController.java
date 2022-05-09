@@ -1,16 +1,16 @@
-package core.server.game.controllers.specials.instants;
+package core.server.game.controllers.equipment;
 
 import cards.Card;
 import cards.basics.Attack;
 import core.event.game.basic.RequestAttackEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
-import core.server.game.controllers.AbstractGameController;
+import core.server.game.controllers.AbstractStagelessGameController;
 import core.server.game.controllers.AttackUsableGameController;
 import core.server.game.controllers.mechanics.AttackGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
-public class DragonBladeGameController extends AbstractGameController implements AttackUsableGameController {
+public class DragonBladeGameController extends AbstractStagelessGameController implements AttackUsableGameController {
 	
 	private final PlayerCompleteServer source;
 	private final PlayerCompleteServer target;

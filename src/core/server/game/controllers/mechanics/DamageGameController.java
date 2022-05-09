@@ -8,13 +8,13 @@ import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
 import core.server.game.Damage.Element;
 import core.server.game.controllers.AbstractGameController;
+import core.server.game.controllers.GameControllerStage;
 import core.server.game.Game;
 import exceptions.server.game.GameFlowInterruptedException;
-import utils.EnumWithNextStage;
 
-public class DamageGameController extends AbstractGameController {
+public class DamageGameController extends AbstractGameController<DamageGameController.DamageStage> {
 	
-	public static enum DamageStage implements EnumWithNextStage<DamageStage> {
+	public static enum DamageStage implements GameControllerStage<DamageStage> {
 		TARGET_HERO_SKILLS,
 		TARGET_EQUIPMENT_ABILITIES,
 		TARGET_CHECK_CHAINED,
@@ -26,14 +26,12 @@ public class DamageGameController extends AbstractGameController {
 	
 	private final Damage originalDamage;
 	private final Damage damage;
-	private DamageStage stage;
 	private final Set<DamageStage> skippedStages;
 
 	public DamageGameController(Damage damage, Game game) {
 		super(game);
 		this.damage = damage;
 		this.originalDamage = damage.clone();
-		this.stage = DamageStage.TARGET_HERO_SKILLS;
 		this.skippedStages = new HashSet<>();
 	}
 
@@ -106,6 +104,11 @@ public class DamageGameController extends AbstractGameController {
 	
 	public void skipStage(DamageStage stage) {
 		this.skippedStages.add(stage);
+	}
+
+	@Override
+	protected DamageStage getInitialStage() {
+		return DamageStage.TARGET_HERO_SKILLS;
 	}
 
 }

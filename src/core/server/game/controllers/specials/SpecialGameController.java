@@ -1,11 +1,11 @@
 package core.server.game.controllers.specials;
 
+import core.server.game.controllers.GameControllerStage;
 import core.server.game.controllers.GameController;
-import utils.EnumWithNextStage;
 
 public interface SpecialGameController extends GameController {
 	
-	public static enum SpecialStage implements EnumWithNextStage<SpecialStage> {
+	public static enum SpecialStage implements GameControllerStage<SpecialStage> {
 		TARGET_LOCKED,
 		NEUTRALIZATION,
 		EFFECT,

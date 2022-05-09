@@ -12,15 +12,15 @@ import core.event.game.turn.EndTurnEvent;
 import core.player.PlayerCompleteServer;
 import core.server.GameRoom;
 import core.server.game.Game;
+import core.server.game.controllers.GameControllerStage;
 import core.server.game.controllers.GameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 import utils.DelayedStackItem;
-import utils.EnumWithNextStage;
 
 public class TurnGameController implements GameController {
 	
-	public static enum TurnStage implements EnumWithNextStage<TurnStage> {
+	public static enum TurnStage implements GameControllerStage<TurnStage> {
 		START_BEGINNING,
 		START,
 		DELAYED_ARBITRATION_BEGINNING,

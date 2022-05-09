@@ -61,10 +61,8 @@ public class BorrowSwordGameController
 	public void onAttackNotUsed() {
 		this.actionTaken = true;
 		Weapon weapon = this.target.getWeapon();
-		this.game.pushGameController(
-			new UnequipGameController(this.game, this.target, EquipmentType.WEAPON)
-				.setNextController(new ReceiveCardsGameController(this.game, this.source, Set.of(weapon)))
-		);
+		this.game.pushGameController(new ReceiveCardsGameController(this.game, this.source, Set.of(weapon)));
+		this.game.pushGameController(new UnequipGameController(this.game, this.target, EquipmentType.WEAPON));
 	}
 
 }

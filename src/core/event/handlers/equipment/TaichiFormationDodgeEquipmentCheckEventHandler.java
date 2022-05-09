@@ -25,7 +25,7 @@ public class TaichiFormationDodgeEquipmentCheckEventHandler extends AbstractEven
 		if (!this.player.getPlayerInfo().equals(event.getTarget())) {
 			return;
 		}
-		game.pushGameController(new TaichiFormationGameController(game, this.player));
+		game.pushGameController(new TaichiFormationGameController(game, event.controller, this.player));
 		connection.sendCommandToAllPlayers(new DecisionUIClientCommand(
 			this.player.getPlayerInfo(),
 			"Use Taichi Formation?"

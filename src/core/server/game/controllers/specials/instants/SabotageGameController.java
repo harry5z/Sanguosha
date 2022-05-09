@@ -62,10 +62,8 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 			case EQUIPMENT:
 				try {
 					Equipment equipment = (Equipment) card;
-					this.game.pushGameController(
-						new UnequipGameController(this.game, this.target, equipment.getEquipmentType())
-							.setNextController(new RecycleCardsGameController(this.game, this.target, Set.of(equipment)))
-					);
+					this.game.pushGameController(new RecycleCardsGameController(this.game, this.target, Set.of(equipment)));
+					this.game.pushGameController(new UnequipGameController(this.game, this.target, equipment.getEquipmentType()));
 				} catch (ClassCastException e) {
 					e.printStackTrace();
 				}

@@ -5,7 +5,7 @@ import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;
-import core.server.game.controllers.specials.instants.DragonBladeGameController;
+import core.server.game.controllers.equipment.DragonBladeGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class DragonBladeAbilitiesCheckEventHandler extends AbstractEventHandler<AttackOnDodgedWeaponAbilitiesCheckEvent> {

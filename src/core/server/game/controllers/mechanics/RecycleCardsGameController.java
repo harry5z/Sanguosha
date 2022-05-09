@@ -6,24 +6,22 @@ import cards.Card;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
-import utils.EnumWithNextStage;
+import core.server.game.controllers.GameControllerStage;
 
-public class RecycleCardsGameController extends AbstractGameController {
+public class RecycleCardsGameController extends AbstractGameController<RecycleCardsGameController.RecycleCardStage> {
 
-	public static enum RecycleCardStage implements EnumWithNextStage<RecycleCardStage> {
+	public static enum RecycleCardStage implements GameControllerStage<RecycleCardStage> {
 		RECYCLE_CARDS,
 		END,
 	}
 	
 	private PlayerCompleteServer target;
 	private Collection<Card> cards;
-	private RecycleCardStage stage;
 	
 	public RecycleCardsGameController(Game game, PlayerCompleteServer target, Collection<Card> cards) {
 		super(game);
 		this.target = target;
 		this.cards = cards;
-		this.stage = RecycleCardStage.RECYCLE_CARDS;
 	}
 
 	@Override
@@ -42,6 +40,11 @@ public class RecycleCardsGameController extends AbstractGameController {
 				break;
 		}
 
+	}
+
+	@Override
+	protected RecycleCardStage getInitialStage() {
+		return RecycleCardStage.RECYCLE_CARDS;
 	}
 
 }

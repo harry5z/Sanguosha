@@ -7,27 +7,26 @@ import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.ArbitrationRequiredGameController;
-import core.server.game.controllers.GameController;
-import utils.EnumWithNextStage;
+import core.server.game.controllers.GameControllerStage;
 
-public class ArbitrationController extends AbstractGameController {
+public class ArbitrationController extends AbstractGameController<ArbitrationController.ArbitrationStage> {
 	
-	public static enum ArbitrationStage implements EnumWithNextStage<ArbitrationStage> {
+	public static enum ArbitrationStage implements GameControllerStage<ArbitrationStage> {
 		ARBITRATION,
 		POST_ARBITRATION_SKILLS,
 		ARBITRATION_CARD_DISPOSAL,
 		END;
 	}
 	
+	private final ArbitrationRequiredGameController nextController;
 	private Card arbitrationCard;
 	private PlayerCompleteServer target;
-	private ArbitrationStage stage;
 
-	public ArbitrationController(Game game, PlayerCompleteServer target) {
+	public ArbitrationController(Game game, ArbitrationRequiredGameController nextController, PlayerCompleteServer target) {
 		super(game);
+		this.nextController = nextController;
 		this.arbitrationCard = null;
 		this.target = target;
-		this.stage = ArbitrationStage.ARBITRATION;
 	}
 
 	@Override
@@ -35,6 +34,7 @@ public class ArbitrationController extends AbstractGameController {
 		switch (this.stage) {
 			case ARBITRATION:
 				this.arbitrationCard = this.game.getDeck().draw();
+				this.nextController.onArbitrationCompleted(this.arbitrationCard);
 				this.stage = this.stage.nextStage();
 				this.proceed();
 				break;
@@ -57,10 +57,10 @@ public class ArbitrationController extends AbstractGameController {
 				break;
 		}
 	}
-	
-	@Override
-	protected void onNextControllerLoaded(GameController controller) {
-		((ArbitrationRequiredGameController) controller).onArbitrationCompleted(this.arbitrationCard);
-	}
 
+	@Override
+	protected ArbitrationStage getInitialStage() {
+		return ArbitrationStage.ARBITRATION;
+	}
+	
 }

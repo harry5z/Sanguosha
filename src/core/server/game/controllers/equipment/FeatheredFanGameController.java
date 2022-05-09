@@ -1,13 +1,13 @@
 package core.server.game.controllers.equipment;
 
 import cards.basics.Attack;
-import core.server.game.Game;
 import core.server.game.Damage.Element;
-import core.server.game.controllers.AbstractGameController;
+import core.server.game.Game;
+import core.server.game.controllers.AbstractStagelessGameController;
 import core.server.game.controllers.DecisionRequiredGameController;
 import core.server.game.controllers.mechanics.AttackGameController;
 
-public class FeatheredFanGameController extends AbstractGameController implements DecisionRequiredGameController {
+public class FeatheredFanGameController extends AbstractStagelessGameController implements DecisionRequiredGameController {
 	
 	private final AttackGameController attackController;
 

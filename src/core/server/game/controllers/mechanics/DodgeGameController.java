@@ -10,31 +10,28 @@ import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.DodgeUsableGameController;
-import core.server.game.controllers.GameController;
+import core.server.game.controllers.GameControllerStage;
 import exceptions.server.game.GameFlowInterruptedException;
-import utils.EnumWithNextStage;
 
-public class DodgeGameController extends AbstractGameController {
+public class DodgeGameController extends AbstractGameController<DodgeGameController.DodgeStage> {
 	
-	public enum DodgeStage implements EnumWithNextStage<DodgeStage> {
+	public enum DodgeStage implements GameControllerStage<DodgeStage> {
 		TARGET_EQUIPMENT_ABILITIES,
 		DODGE,
 		AFTER_DODGED_SKILLS,
 		END,
 	}
 	
+	private final DodgeUsableGameController nextController;
 	private String message;
-	private DodgeStage stage;
 	private PlayerCompleteServer target;
-	private boolean dodged;
 	private final Set<DodgeStage> skippedStages;
 
-	public DodgeGameController(Game game, PlayerCompleteServer target, String message) {
+	public DodgeGameController(Game game, DodgeUsableGameController nextController, PlayerCompleteServer target, String message) {
 		super(game);
+		this.nextController = nextController;
 		this.message = message;
 		this.target = target;
-		this.stage = DodgeStage.TARGET_EQUIPMENT_ABILITIES;
-		this.dodged = false;
 		this.skippedStages = new HashSet<>();
 	}
 
@@ -48,7 +45,7 @@ public class DodgeGameController extends AbstractGameController {
 		switch (this.stage) {
 			case TARGET_EQUIPMENT_ABILITIES:
 				try {
-					this.game.emit(new DodgeTargetEquipmentCheckEvent(this.target.getPlayerInfo()));
+					this.game.emit(new DodgeTargetEquipmentCheckEvent(this, this.target.getPlayerInfo()));
 					this.stage = this.stage.nextStage();
 					this.proceed();
 				} catch (GameFlowInterruptedException e) {
@@ -75,37 +72,33 @@ public class DodgeGameController extends AbstractGameController {
 
 	public void onDodgeUsed(Card card) {
 		game.pushGameController(new UseCardOnHandGameController(game, target, Set.of(card)));
-		this.dodged = true;
+		this.nextController.onDodged();
 		this.stage = DodgeStage.AFTER_DODGED_SKILLS;
 	}
 	
 
 	public void onDodgeNotUsed() {
-		this.dodged = false;
+		this.nextController.onNotDodged();
 		this.stage = DodgeStage.END;
 	}
 
 	public void onDodgeStageSkipped() {
-		this.dodged = true;
+		this.nextController.onDodged();
 		this.stage = DodgeStage.AFTER_DODGED_SKILLS;
 	}
 
 	public void onDodgeStageNotSkipped() {
-		this.dodged = false;
+		this.nextController.onNotDodged();
 		this.stage = DodgeStage.DODGE;
 	}
-	
-	@Override
-	protected void onNextControllerLoaded(GameController controller) {
-		if (this.dodged) {
-			((DodgeUsableGameController) controller).onDodged();
-		} else {
-			((DodgeUsableGameController) controller).onNotDodged();
-		}
-	}
-	
+
 	public void skipStage(DodgeStage stage) {
 		this.skippedStages.add(stage);
+	}
+
+	@Override
+	protected DodgeStage getInitialStage() {
+		return DodgeStage.TARGET_EQUIPMENT_ABILITIES;
 	}
 
 }

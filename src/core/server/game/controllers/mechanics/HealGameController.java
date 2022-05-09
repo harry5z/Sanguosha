@@ -4,11 +4,11 @@ import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
-import utils.EnumWithNextStage;
+import core.server.game.controllers.GameControllerStage;
 
-public final class HealGameController extends AbstractGameController {
+public final class HealGameController extends AbstractGameController<HealGameController.HealStage> {
 	
-	public static enum HealStage implements EnumWithNextStage<HealStage> {
+	public static enum HealStage implements GameControllerStage<HealStage> {
 		HEAL_VALUE,
 		HEAL,
 		AFTER_HEAL,
@@ -18,7 +18,6 @@ public final class HealGameController extends AbstractGameController {
 	private PlayerCompleteServer source;
 	private PlayerCompleteServer target;
 	private int value;
-	private HealStage stage;
 
 	public HealGameController(PlayerInfo source, PlayerInfo target, Game game) {
 		this(source, target, game, 1);
@@ -28,7 +27,6 @@ public final class HealGameController extends AbstractGameController {
 		super(game);
 		this.source = game.findPlayer(source);
 		this.target = game.findPlayer(target);
-		this.stage = HealStage.HEAL_VALUE;
 		this.value = value;
 	}
 	
@@ -57,5 +55,10 @@ public final class HealGameController extends AbstractGameController {
 				this.game.getGameController().proceed();
 				break;
 		}
+	}
+
+	@Override
+	protected HealStage getInitialStage() {
+		return HealStage.HEAL_VALUE;
 	}
 }

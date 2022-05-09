@@ -46,8 +46,6 @@ public interface Game {
 	
 	public void pushGameController(GameController controller);
 	
-	public void pushNextGameController(GameController controller);
-
 	public void popGameController();
 
 	public Deck getDeck();

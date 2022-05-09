@@ -20,7 +20,7 @@ public class AxeReactionInGameServerCommand extends InGameServerCommand {
 
 	@Override
 	public void execute(Game game) {
-		AxeGameController controller = game.getGameController();
+		AxeGameController controller = game.<AxeGameController>getGameController();
 		for (Entry<Card, PlayerCardZone> entry : this.cards.entrySet()) {
 			controller.onCardSelected(entry.getKey(), entry.getValue());
 		}

@@ -2,8 +2,9 @@ package core.server.game.controllers.specials;
 
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
+import core.server.game.controllers.GameControllerStage;
 
-public abstract class AbstractSpecialGameController extends AbstractGameController implements SpecialGameController {
+public abstract class AbstractSpecialGameController<T extends GameControllerStage<?>> extends AbstractGameController<T> implements SpecialGameController {
 	
 	protected boolean neutralized;
 	protected int neutralizedCount;
@@ -24,7 +25,7 @@ public abstract class AbstractSpecialGameController extends AbstractGameControll
 	public void onNeutralizationCanceled() {
 		this.neutralizedCount++;
 	}
-
+	
 	protected abstract String getNeutralizationMessage();
 
 }

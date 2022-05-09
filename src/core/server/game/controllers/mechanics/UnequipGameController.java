@@ -6,13 +6,13 @@ import core.event.game.UnequipItemAbilityEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
+import core.server.game.controllers.GameControllerStage;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
-import utils.EnumWithNextStage;
 
-public class UnequipGameController extends AbstractGameController {
+public class UnequipGameController extends AbstractGameController<UnequipGameController.UnequipStage> {
 	
-	public static enum UnequipStage implements EnumWithNextStage<UnequipStage> {
+	public static enum UnequipStage implements GameControllerStage<UnequipStage> {
 		DISCARD_EQUIPMENT,
 		HERO_ABILITY,
 		ITEM_ABILITY,
@@ -21,13 +21,21 @@ public class UnequipGameController extends AbstractGameController {
 	
 	private final PlayerCompleteServer player;
 	private final EquipmentType type;
-	private UnequipStage stage;
 
+	/**
+	 * Unequip a certain equipment type from a player.
+	 * 
+	 * NOTE: this controller only removes an equipment from a player. The removed equipment must be 
+	 * recycled, or moved to some player via another GameController
+	 * 
+	 * @param game
+	 * @param player : the player to remove an equipment from
+	 * @param type : the removed equipment type
+	 */
 	public UnequipGameController(Game game, PlayerCompleteServer player, EquipmentType type) {
 		super(game);
 		this.player = player;
 		this.type = type;
-		this.stage = UnequipStage.DISCARD_EQUIPMENT;
 	}
 
 	@Override
@@ -66,6 +74,11 @@ public class UnequipGameController extends AbstractGameController {
 	
 	public void setStage(UnequipStage stage) {
 		this.stage = stage;
+	}
+
+	@Override
+	protected UnequipStage getInitialStage() {
+		return UnequipStage.DISCARD_EQUIPMENT;
 	}
 
 }

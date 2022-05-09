@@ -6,17 +6,16 @@ import cards.Card;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
+import core.server.game.controllers.GameControllerStage;
 import exceptions.server.game.InvalidPlayerCommandException;
-import utils.EnumWithNextStage;
 
-public class UseCardOnHandGameController extends AbstractGameController {
+public class UseCardOnHandGameController extends AbstractGameController<UseCardOnHandGameController.UseCardOnHandStage> {
 	
-	public static enum UseCardOnHandStage implements EnumWithNextStage<UseCardOnHandStage> {
+	public static enum UseCardOnHandStage implements GameControllerStage<UseCardOnHandStage> {
 		USE_CARDS,
 		END,
 	}
 	
-	private UseCardOnHandStage stage;
 	private final PlayerCompleteServer player;
 	private final Collection<Card> cards;
 
@@ -24,7 +23,6 @@ public class UseCardOnHandGameController extends AbstractGameController {
 		super(game);
 		this.player = player;
 		this.cards = cards;
-		this.stage = UseCardOnHandStage.USE_CARDS;
 	}
 
 	@Override
@@ -45,6 +43,11 @@ public class UseCardOnHandGameController extends AbstractGameController {
 				this.game.getGameController().proceed();
 				break;
 		}
+	}
+
+	@Override
+	protected UseCardOnHandStage getInitialStage() {
+		return UseCardOnHandStage.USE_CARDS;
 	}
 
 }

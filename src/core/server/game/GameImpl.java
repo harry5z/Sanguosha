@@ -13,7 +13,6 @@ import core.event.game.GameEvent;
 import core.event.handlers.EventHandler;
 import core.heroes.original.Blank;
 import core.heroes.original.SunQuan;
-import core.heroes.original.ZhugeliangHiddenDragon;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.GameRoom;
@@ -178,18 +177,13 @@ public class GameImpl implements Game {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends GameController> T getGameController() {
-		// TODO sanity check
+		// TODO make this method throw InvalidPlayerCommand if casting failed
 		return this.controllers.isEmpty() ? (T) this.turnController : (T) controllers.peek();
-	}
-	@Override
-	public void pushGameController(GameController controller) {
-		// TODO sanity check
-		controllers.push(controller);
 	}
 	
 	@Override
-	public void pushNextGameController(GameController controller) {
-		controllers.add(1, controller);
+	public void pushGameController(GameController controller) {
+		controllers.push(controller);
 	}
 	
 	@Override

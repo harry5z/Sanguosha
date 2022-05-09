@@ -25,6 +25,7 @@ public class ArrowSalvoGameController extends AOEInstantSpecialGameController im
 		if (!this.hasReacted) {
 			this.game.pushGameController(new DodgeGameController(
 				this.game,
+				this,
 				this.currentTarget,
 				this.source + " used Arrow Salvo on you, use Dodge to counter?"
 			));
@@ -60,13 +61,11 @@ public class ArrowSalvoGameController extends AOEInstantSpecialGameController im
 		// mark it not effective for the current target
 		this.hasReacted = true;
 		this.effective = false;
-		this.proceed();
 	}
 
 	@Override
 	public void onNotDodged() {
 		this.hasReacted = true;
-		this.proceed();
 	}
 
 }

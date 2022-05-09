@@ -15,12 +15,14 @@ import core.server.game.Damage;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.DodgeUsableGameController;
+import core.server.game.controllers.GameControllerStage;
 import exceptions.server.game.GameFlowInterruptedException;
-import utils.EnumWithNextStage;
 
-public class AttackResolutionGameController extends AbstractGameController implements DodgeUsableGameController {
+public class AttackResolutionGameController
+	extends AbstractGameController<AttackResolutionGameController.AttackResolutionStage>
+	implements DodgeUsableGameController {
 	
-	public static enum AttackResolutionStage implements EnumWithNextStage<AttackResolutionStage> {
+	public static enum AttackResolutionStage implements GameControllerStage<AttackResolutionStage> {
 		TARGET_LOCKED_TARGET_HERO_SKILLS,
 		TARGET_LOCKED_SOURCE_WEAPON_ABILITIES,
 		TARGET_LOCKED_TARGET_EQUIPMENT_ABILITIES,
@@ -32,7 +34,6 @@ public class AttackResolutionGameController extends AbstractGameController imple
 		END;
 	}
 	
-	private AttackResolutionStage stage;
 	private final PlayerCompleteServer source;
 	private final PlayerCompleteServer target;
 	private final Damage damage;
@@ -47,10 +48,10 @@ public class AttackResolutionGameController extends AbstractGameController imple
 		this.target = target;
 		this.attack = card;
 		this.damage = new Damage(damage, this.attack.getElement(), this.source, this.target);
-		this.stage = AttackResolutionStage.TARGET_LOCKED_TARGET_HERO_SKILLS;
 		this.skippedStages = new HashSet<>();
 		this.dodgeController = new DodgeGameController(
 			this.game,
+			this,
 			this.target,
 			this.source + " used " + this.attack + " on you, use Dodge to counter?"
 		);
@@ -157,6 +158,11 @@ public class AttackResolutionGameController extends AbstractGameController imple
 	
 	public Attack getAttackCard() {
 		return this.attack;
+	}
+
+	@Override
+	protected AttackResolutionStage getInitialStage() {
+		return AttackResolutionStage.TARGET_LOCKED_TARGET_HERO_SKILLS;
 	}
 	
 }

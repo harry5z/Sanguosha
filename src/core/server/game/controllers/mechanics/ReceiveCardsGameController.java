@@ -6,24 +6,22 @@ import cards.Card;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
-import utils.EnumWithNextStage;
+import core.server.game.controllers.GameControllerStage;
 
-public class ReceiveCardsGameController extends AbstractGameController {
+public class ReceiveCardsGameController extends AbstractGameController<ReceiveCardsGameController.ReceiveCardStage> {
 
-	public static enum ReceiveCardStage implements EnumWithNextStage<ReceiveCardStage> {
+	public static enum ReceiveCardStage implements GameControllerStage<ReceiveCardStage> {
 		ADD_CARDS,
 		END,
 	}
 	
 	private PlayerCompleteServer target;
 	private Collection<Card> cards;
-	private ReceiveCardStage stage;
 	
 	public ReceiveCardsGameController(Game game, PlayerCompleteServer target, Collection<Card> cards) {
 		super(game);
 		this.target = target;
 		this.cards = cards;
-		this.stage = ReceiveCardStage.ADD_CARDS;
 	}
 
 	@Override
@@ -40,6 +38,11 @@ public class ReceiveCardsGameController extends AbstractGameController {
 				break;
 		}
 
+	}
+
+	@Override
+	protected ReceiveCardStage getInitialStage() {
+		return ReceiveCardStage.ADD_CARDS;
 	}
 
 }
