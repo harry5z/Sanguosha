@@ -42,7 +42,7 @@ public class KylinBowGameController
 	protected void handleDecisionConfirmation() throws GameFlowInterruptedException {
 		if (!this.confirmed) {
 			// skip Action
-			this.currentStage = PlayerDecisionAction.END;
+			this.setStage(PlayerDecisionAction.END);
 		}
 	}
 

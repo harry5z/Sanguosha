@@ -60,7 +60,7 @@ public class AttackResolutionGameController
 
 	@Override
 	protected void handleStage(AttackResolutionStage stage) throws GameFlowInterruptedException {
-		if (this.skippedStages.contains(this.currentStage)) {
+		if (this.skippedStages.contains(stage)) {
 			this.nextStage();
 			return;
 		}
@@ -82,7 +82,7 @@ public class AttackResolutionGameController
 				break;
 			case ATTACK_DODGED_SOURCE_WEAPON_ABILITIES:
 				// by default, an Attack does not apply damage if dodged
-				this.currentStage = AttackResolutionStage.END;
+				this.setStage(AttackResolutionStage.END);
 				this.game.emit(new AttackOnDodgedWeaponAbilitiesCheckEvent(this.source, this.target, this));
 				break;
 			case PRE_DAMAGE_SOURCE_WEAPON_ABILITIES:
@@ -106,16 +106,12 @@ public class AttackResolutionGameController
 
 	@Override
 	public void onDodged() {
-		this.currentStage = AttackResolutionStage.ATTACK_DODGED_SOURCE_WEAPON_ABILITIES;
+		this.setStage(AttackResolutionStage.ATTACK_DODGED_SOURCE_WEAPON_ABILITIES);
 	}
 
 	@Override
 	public void onNotDodged() {
-		this.currentStage = AttackResolutionStage.PRE_DAMAGE_SOURCE_WEAPON_ABILITIES;
-	}
-	
-	public void setStage(AttackResolutionStage stage) {
-		this.currentStage = stage;
+		this.setStage(AttackResolutionStage.PRE_DAMAGE_SOURCE_WEAPON_ABILITIES);
 	}
 	
 	public void skipStage(AttackResolutionStage stage) {

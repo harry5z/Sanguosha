@@ -58,7 +58,7 @@ public class IcySwordGameController
 			this.controller.setStage(AttackResolutionStage.END);
 		} else {
 			// skip Action
-			this.currentStage = PlayerDecisionAction.END;
+			this.setStage(PlayerDecisionAction.END);
 		}
 	}
 
@@ -66,7 +66,7 @@ public class IcySwordGameController
 	protected void handleAction() throws GameFlowInterruptedException {
 		if (!this.discardCompleted) {
 			// stay in Action stage while discard is not completed
-			this.currentStage = PlayerDecisionAction.ACTION;
+			this.setStage(PlayerDecisionAction.ACTION);
 			this.game.emit(new PlayerCardSelectionEvent(
 				this.source.getPlayerInfo(),
 				this.target.getPlayerInfo(),

@@ -78,10 +78,6 @@ public class AttackGameController extends AbstractGameController<AttackGameContr
 				break;
 		}
 	}
-	
-	public void setStage(AttackStage stage) {
-		this.currentStage = stage;
-	}
 
 	public Attack getAttackCard() {
 		return this.attack;

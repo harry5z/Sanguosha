@@ -56,7 +56,7 @@ public abstract class AbstractDelayedArbitrationController
 					this.nextStage();
 					this.game.pushGameController(new ArbitrationController(this.game, this, this.target));
 				} else {
-					this.currentStage = DelayedArbitrationStage.BEFORE_END;
+					this.setStage(DelayedArbitrationStage.BEFORE_END);
 				}
 				break;
 			case EFFECT:

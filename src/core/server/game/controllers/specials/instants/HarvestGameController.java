@@ -54,7 +54,7 @@ public class HarvestGameController extends AOEInstantSpecialGameController imple
 
 	@Override
 	public void onCardSelected(Card card, PlayerCardZone zone) {
-		this.currentStage = this.currentStage.nextStage();
+		this.nextStage();
 		// TODO: sanity check
 		this.selectableCards.replace(card, true);
 		

@@ -74,7 +74,7 @@ public abstract class MultiTargetInstantSpecialGameController extends AbstractIn
 						next = this.targets.poll();
 					} else {
 						// reset the controller go to the next target
-						this.currentStage = SpecialStage.TARGET_LOCKED;
+						this.setStage(SpecialStage.TARGET_LOCKED);
 						this.neutralized = false;
 						this.neutralizedCount = 0;
 						this.currentTarget = next;
@@ -86,11 +86,7 @@ public abstract class MultiTargetInstantSpecialGameController extends AbstractIn
 				break;
 		}
 	}
-	
-	public void setStage(SpecialStage stage) {
-		this.currentStage = stage;
-	}
-	
+
 	protected abstract GameEvent getTargetEffectivenessEvent();
 	
 	protected abstract void takeEffect() throws GameFlowInterruptedException;

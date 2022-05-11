@@ -63,10 +63,6 @@ public class UnequipGameController extends AbstractGameController<UnequipGameCon
 				break;
 		}
 	}
-	
-	public void setStage(UnequipStage stage) {
-		this.currentStage = stage;
-	}
 
 	@Override
 	protected UnequipStage getInitialStage() {

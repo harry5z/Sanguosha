@@ -61,23 +61,23 @@ public class DodgeGameController extends AbstractGameController<DodgeGameControl
 	public void onDodgeUsed(Card card) {
 		game.pushGameController(new UseCardOnHandGameController(game, target, Set.of(card)));
 		this.nextController.onDodged();
-		this.currentStage = DodgeStage.AFTER_DODGED_SKILLS;
+		this.setStage(DodgeStage.AFTER_DODGED_SKILLS);
 	}
 	
 
 	public void onDodgeNotUsed() {
 		this.nextController.onNotDodged();
-		this.currentStage = DodgeStage.END;
+		this.setStage(DodgeStage.END);
 	}
 
 	public void onDodgeStageSkipped() {
 		this.nextController.onDodged();
-		this.currentStage = DodgeStage.AFTER_DODGED_SKILLS;
+		this.setStage(DodgeStage.AFTER_DODGED_SKILLS);
 	}
 
 	public void onDodgeStageNotSkipped() {
 		this.nextController.onNotDodged();
-		this.currentStage = DodgeStage.DODGE;
+		this.setStage(DodgeStage.DODGE);
 	}
 
 	public void skipStage(DodgeStage stage) {
