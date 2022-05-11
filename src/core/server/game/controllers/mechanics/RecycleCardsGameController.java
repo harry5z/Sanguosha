@@ -7,6 +7,7 @@ import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
+import exceptions.server.game.GameFlowInterruptedException;
 
 public class RecycleCardsGameController extends AbstractGameController<RecycleCardsGameController.RecycleCardStage> {
 
@@ -25,18 +26,15 @@ public class RecycleCardsGameController extends AbstractGameController<RecycleCa
 	}
 
 	@Override
-	public void proceed() {
-		switch(this.stage) {
+	protected void handleStage(RecycleCardStage stage) throws GameFlowInterruptedException {
+		switch(stage) {
 			case RECYCLE_CARDS:
 				for (Card card : this.cards) {
 					this.target.getDisposalListener().onCardDisposed(card);
 				}
-				this.stage = this.stage.nextStage();
-				this.proceed();
+				this.nextStage();
 				break;
 			case END:
-				this.onUnloaded();
-				this.game.getGameController().proceed();
 				break;
 		}
 

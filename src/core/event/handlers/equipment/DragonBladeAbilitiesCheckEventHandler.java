@@ -26,6 +26,8 @@ public class DragonBladeAbilitiesCheckEventHandler extends AbstractEventHandler<
 			return;
 		}
 		
+		// Dragon Blade does not use the existing AttackResolutionGameController
+		// Rather, the Attack enabled by Dragon Blade is considered a separate Attack instance
 		game.pushGameController(new DragonBladeGameController(game, event.source, event.target));
 	}
 

@@ -17,7 +17,6 @@ public class EquipInGameServerCommand extends InGameServerCommand {
 	@Override
 	public void execute(Game game) {
 		game.pushGameController(new EquipGameController(game, game.getCurrentPlayer(), equipment));
-		game.getGameController().proceed();
 	}
 
 }

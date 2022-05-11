@@ -30,7 +30,6 @@ public class UsePeachInGameServerCommand extends InGameServerCommand {
 			if (card != null) {
 				game.pushGameController(new UseCardOnHandGameController(game, currentPlayer, Set.of(card)));
 			}
-			game.getGameController().proceed();
 		} catch (InvalidPlayerCommandException e) {
 			// TODO handle error
 			e.printStackTrace();

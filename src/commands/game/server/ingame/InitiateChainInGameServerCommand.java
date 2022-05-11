@@ -34,7 +34,6 @@ public class InitiateChainInGameServerCommand extends InGameServerCommand {
 		if (card != null) {
 			game.pushGameController(new UseCardOnHandGameController(game, game.getCurrentPlayer(), Set.of(card)));
 		}
-		game.getGameController().proceed();
 	}
 
 }

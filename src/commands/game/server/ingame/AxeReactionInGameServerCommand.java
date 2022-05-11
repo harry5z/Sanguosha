@@ -25,7 +25,6 @@ public class AxeReactionInGameServerCommand extends InGameServerCommand {
 			controller.onCardSelected(entry.getKey(), entry.getValue());
 		}
 		controller.onDecisionMade(this.cards.size() == 2);
-		game.getGameController().proceed();
 	}
 
 }

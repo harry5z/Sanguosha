@@ -7,6 +7,7 @@ import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
+import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class EquipGameController extends AbstractGameController<EquipGameController.EquipStage> {
@@ -27,8 +28,8 @@ public class EquipGameController extends AbstractGameController<EquipGameControl
 	}
 
 	@Override
-	public void proceed() {
-		switch (this.stage) {
+	protected void handleStage(EquipStage stage) throws GameFlowInterruptedException {
+		switch (stage) {
 			case UNEQUIP:
 				try {
 					// TODO: convert to controller
@@ -43,22 +44,18 @@ public class EquipGameController extends AbstractGameController<EquipGameControl
 					this.game.pushGameController(new RecycleCardsGameController(this.game, this.player, Set.of(old)));
 					this.game.pushGameController(new UnequipGameController(this.game, this.player, this.equipment.getEquipmentType()));
 				}
-				this.stage = this.stage.nextStage();
-				this.game.getGameController().proceed();
+				this.nextStage();
 				break;
 			case EQUIP:
 				try {
 					this.player.equip(this.equipment);
 					this.equipment.onEquipped(this.game, this.player);
-					this.stage = this.stage.nextStage();
-					this.proceed();
+					this.nextStage();
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}
 				break;
 			case END:
-				this.onUnloaded();
-				this.game.getGameController().proceed();
 				break;
 		}
 	}

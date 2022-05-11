@@ -24,39 +24,32 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 	}
 
 	@Override
-	protected void takeEffect() {
+	protected void takeEffect() throws GameFlowInterruptedException {
+
 		if (this.shownCard == null) {
-			// ineffective if target has no card left on hand
 			if (this.target.getHandCount() == 0) {
-				this.stage = this.stage.nextStage();
-				this.proceed();
+				// ineffective if target has no card left on hand
+				this.nextStage();
 				return;
 			}
-			try {
-				this.game.emit(new RequestShowCardEvent(
-					this.target.getPlayerInfo(),
-					this.source + " used Fire Attack on you, please show a card."
-				));
-			} catch (GameFlowInterruptedException e) {
-				e.resume();
-			}
+			this.game.emit(new RequestShowCardEvent(
+				this.target.getPlayerInfo(),
+				this.source + " used Fire Attack on you, please show a card."
+			));
+			throw new GameFlowInterruptedException();
 		} else {
 			// ineffective if source has no card left on hand
 			if (this.source.getHandCount() == 0) {
-				this.stage = this.stage.nextStage();
-				this.proceed();
+				this.nextStage();
 				return;
 			}
-			try {
-				this.game.emit(
-					new RequestUseCardEvent(
-						this.source.getPlayerInfo(),
-						"Discard a card of suit " + this.shownCard.getSuit().toString() + " to finish Fire Attack?"
-					).addPredicate(RequestUseCardPredicate.sameSuit(this.shownCard.getSuit()))
-				);
-			} catch (GameFlowInterruptedException e) {
-				e.resume();
-			}
+			this.game.emit(
+				new RequestUseCardEvent(
+					this.source.getPlayerInfo(),
+					"Discard a card of suit " + this.shownCard.getSuit().toString() + " to finish Fire Attack?"
+				).addPredicate(RequestUseCardPredicate.sameSuit(this.shownCard.getSuit()))
+			);
+			throw new GameFlowInterruptedException();
 		}
 	}
 	
@@ -72,7 +65,7 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 			this.target.showCard(card);
 		} else {
 			// check if Fire Attack is effective
-			this.stage = this.stage.nextStage();
+			this.nextStage();
 			if (card != null) {
 				try {
 					// TODO: convert to controller

@@ -20,8 +20,7 @@ public class ChainGameController extends MultiTargetInstantSpecialGameController
 	@Override
 	protected void takeEffect() {
 		this.currentTarget.chain();
-		this.stage = this.stage.nextStage();
-		this.proceed();
+		this.nextStage();
 	}
 
 	@Override

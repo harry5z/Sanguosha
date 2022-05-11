@@ -59,79 +59,45 @@ public class AttackResolutionGameController
 	}
 
 	@Override
-	public void proceed() {
-		if (this.skippedStages.contains(this.stage)) {
-			this.stage = this.stage.nextStage();
-			this.proceed();
+	protected void handleStage(AttackResolutionStage stage) throws GameFlowInterruptedException {
+		if (this.skippedStages.contains(this.currentStage)) {
+			this.nextStage();
 			return;
 		}
-		switch(this.stage) {
+		switch(stage) {
 			case TARGET_LOCKED_TARGET_HERO_SKILLS:
-				try {
-					this.game.emit(new AttackLockedTargetSkillsCheckEvent(this.source, this.target, this));
-					this.stage = this.stage.nextStage();
-					this.proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+				this.nextStage();
+				this.game.emit(new AttackLockedTargetSkillsCheckEvent(this.source, this.target, this));
 				break;
 			case TARGET_LOCKED_SOURCE_WEAPON_ABILITIES:
-				try {
-					this.game.emit(new AttackLockedSourceWeaponAbilitiesCheckEvent(this.source, this.target, this));
-					this.stage = this.stage.nextStage();
-					this.proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+				this.nextStage();
+				this.game.emit(new AttackLockedSourceWeaponAbilitiesCheckEvent(this.source, this.target, this));
 				break;
 			case TARGET_LOCKED_TARGET_EQUIPMENT_ABILITIES:
-				try {
-					this.game.emit(new AttackTargetEquipmentCheckEvent(this.target.getPlayerInfo(), this.attack, this));
-					this.stage = this.stage.nextStage();
-					this.proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+				this.nextStage();
+				this.game.emit(new AttackTargetEquipmentCheckEvent(this.target.getPlayerInfo(), this.attack, this));
 				break;
 			case DODGE:
 				this.game.pushGameController(this.dodgeController);
-				this.game.getGameController().proceed();
 				break;
 			case ATTACK_DODGED_SOURCE_WEAPON_ABILITIES:
-				try {
-					this.game.emit(new AttackOnDodgedWeaponAbilitiesCheckEvent(this.source, this.target, this));
-					this.stage = AttackResolutionStage.END;
-					this.game.getGameController().proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+				// by default, an Attack does not apply damage if dodged
+				this.currentStage = AttackResolutionStage.END;
+				this.game.emit(new AttackOnDodgedWeaponAbilitiesCheckEvent(this.source, this.target, this));
 				break;
 			case PRE_DAMAGE_SOURCE_WEAPON_ABILITIES:
-				try {
-					this.game.emit(new AttackPreDamageWeaponAbilitiesCheckEvent(this.source, this.target, this));
-					this.stage = this.stage.nextStage();
-					this.proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+				this.nextStage();
+				this.game.emit(new AttackPreDamageWeaponAbilitiesCheckEvent(this.source, this.target, this));
 				break;
 			case PRE_DAMAGE_SOURCE_WEAPON_DAMAGE_MODIFIERS:
-				try {
-					this.game.emit(new AttackDamageModifierEvent(this.damage));
-					this.stage = this.stage.nextStage();
-					this.proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+				this.nextStage();
+				this.game.emit(new AttackDamageModifierEvent(this.damage));
 				break;
 			case APPLY_DAMAGE:
-				game.pushGameController(this.damageController);
-				stage = stage.nextStage();
-				game.getGameController().proceed();
+				this.nextStage();
+				this.game.pushGameController(this.damageController);
 				break;
 			case END:
-				this.onUnloaded();
-				this.game.getGameController().proceed();
 				break;
 		default:
 			break;
@@ -140,16 +106,16 @@ public class AttackResolutionGameController
 
 	@Override
 	public void onDodged() {
-		this.stage = AttackResolutionStage.ATTACK_DODGED_SOURCE_WEAPON_ABILITIES;
+		this.currentStage = AttackResolutionStage.ATTACK_DODGED_SOURCE_WEAPON_ABILITIES;
 	}
 
 	@Override
 	public void onNotDodged() {
-		this.stage = AttackResolutionStage.PRE_DAMAGE_SOURCE_WEAPON_ABILITIES;
+		this.currentStage = AttackResolutionStage.PRE_DAMAGE_SOURCE_WEAPON_ABILITIES;
 	}
 	
 	public void setStage(AttackResolutionStage stage) {
-		this.stage = stage;
+		this.currentStage = stage;
 	}
 	
 	public void skipStage(AttackResolutionStage stage) {

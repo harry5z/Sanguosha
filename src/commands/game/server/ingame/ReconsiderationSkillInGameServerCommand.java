@@ -49,7 +49,6 @@ public class ReconsiderationSkillInGameServerCommand extends InGameServerCommand
 			}
 			// TODO: convert to discard controller
 			source.discardCards(cardsOnHand);
-			game.getGameController().proceed();
 		} catch (InvalidPlayerCommandException e) {
 			// TODO handle error
 			e.printStackTrace();

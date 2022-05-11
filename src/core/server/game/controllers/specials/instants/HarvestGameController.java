@@ -42,12 +42,9 @@ public class HarvestGameController extends AOEInstantSpecialGameController imple
 	}
 	
 	@Override
-	protected void takeEffect() {
-		try {
-			this.game.emit(new HarvestCardSelectionEvent(this.currentTarget.getPlayerInfo(), new HashMap<>(this.selectableCards)));
-		} catch (GameFlowInterruptedException e) {
-			e.resume();
-		}
+	protected void takeEffect() throws GameFlowInterruptedException {
+		this.game.emit(new HarvestCardSelectionEvent(this.currentTarget.getPlayerInfo(), new HashMap<>(this.selectableCards)));
+		throw new GameFlowInterruptedException();
 	}
 	
 	@Override
@@ -57,7 +54,7 @@ public class HarvestGameController extends AOEInstantSpecialGameController imple
 
 	@Override
 	public void onCardSelected(Card card, PlayerCardZone zone) {
-		this.stage = this.stage.nextStage();
+		this.currentStage = this.currentStage.nextStage();
 		// TODO: sanity check
 		this.selectableCards.replace(card, true);
 		

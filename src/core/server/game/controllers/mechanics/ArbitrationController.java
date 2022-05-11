@@ -8,6 +8,7 @@ import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.ArbitrationRequiredGameController;
 import core.server.game.controllers.GameControllerStage;
+import exceptions.server.game.GameFlowInterruptedException;
 
 public class ArbitrationController extends AbstractGameController<ArbitrationController.ArbitrationStage> {
 	
@@ -28,39 +29,35 @@ public class ArbitrationController extends AbstractGameController<ArbitrationCon
 		this.arbitrationCard = null;
 		this.target = target;
 	}
-
+	
 	@Override
-	public void proceed() {
-		switch (this.stage) {
+	protected void handleStage(ArbitrationStage stage) throws GameFlowInterruptedException {
+		switch (stage) {
 			case ARBITRATION:
+				this.nextStage();
 				this.arbitrationCard = this.game.getDeck().draw();
 				this.nextController.onArbitrationCompleted(this.arbitrationCard);
-				this.stage = this.stage.nextStage();
-				this.proceed();
 				break;
 			case POST_ARBITRATION_SKILLS:
-				this.stage = this.stage.nextStage();
-				this.game.getGameController().proceed();
+				// Nothing yet
+				this.nextStage();
 				break;
 			case ARBITRATION_CARD_DISPOSAL:
-				this.stage = this.stage.nextStage();
+				this.nextStage();
 				this.game.pushGameController(new RecycleCardsGameController(
 					this.game,
 					this.target,
 					Set.of(this.arbitrationCard)
 				));
-				this.game.getGameController().proceed();
 				break;
 			case END:
-				this.onUnloaded();
-				this.game.getGameController().proceed();
 				break;
-		}
+		}		
 	}
 
 	@Override
 	protected ArbitrationStage getInitialStage() {
 		return ArbitrationStage.ARBITRATION;
 	}
-	
+
 }

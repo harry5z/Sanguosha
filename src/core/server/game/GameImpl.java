@@ -11,10 +11,10 @@ import commands.game.client.EnterOriginalGameRoomGameClientCommand;
 import core.Deck;
 import core.event.game.GameEvent;
 import core.event.handlers.EventHandler;
-import core.heroes.original.Blank;
-import core.heroes.original.SunQuan;
+import core.heroes.original.*;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
+import core.server.ConnectionController;
 import core.server.GameRoom;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.TurnGameController;
@@ -130,6 +130,11 @@ public class GameImpl implements Game {
 	public Deck getDeck() {
 		return deck;
 	}
+	
+	@Override
+	public ConnectionController getConnectionController() {
+		return this.room;
+	}
 
 	@Override
 	public void start() {
@@ -149,14 +154,14 @@ public class GameImpl implements Game {
 			player.registerPlayerStatusListener(new ServerInGamePlayerStatusListener(player.getName(), playerNames, room));
 			player.registerHeroListener(new ServerInGameHeroListener(player.getName(), playerNames, room));
 			player.registerDelayedListener(new ServerInGameDelayedListener(player.getName(), playerNames, room));
-			player.setHero(new SunQuan()); // TODO: add and change to other heroes
+			player.setHero(new GanNing()); // TODO: add and change to other heroes
 			player.onGameReady(this);
 		}
 		this.turnController = new TurnGameController(room);
 		for (PlayerCompleteServer player : players) {
 			player.addCards(deck.drawMany(4));
 		}
-		getGameController().proceed();
+		this.resume();
 	}
 
 	@Override
@@ -172,6 +177,22 @@ public class GameImpl implements Game {
 	@Override
 	public void drawCards(PlayerCompleteServer player, int amount) {
 		player.addCards(deck.drawMany(amount));
+	}
+	
+	@Override
+	public void resume() {
+		while (true) {
+			try {
+				if (this.controllers.isEmpty()) {
+					this.turnController.proceed();
+				} else {
+					this.controllers.peek().proceed();
+				}
+			} catch (GameFlowInterruptedException e) {
+				e.resume();
+				break;
+			}
+		}
 	}
 
 	@SuppressWarnings("unchecked")

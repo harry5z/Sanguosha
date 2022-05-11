@@ -14,11 +14,10 @@ public class BrotherhoodGameController extends AOEInstantSpecialGameController {
 
 	@Override
 	protected void takeEffect() {
-		this.stage = this.stage.nextStage();
+		this.nextStage();
 		if (this.currentTarget.isDamaged()) {
 			this.game.pushGameController(new HealGameController(this.source.getPlayerInfo(), this.currentTarget.getPlayerInfo(), this.game));
 		}
-		this.game.getGameController().proceed();
 	}
 	
 	@Override

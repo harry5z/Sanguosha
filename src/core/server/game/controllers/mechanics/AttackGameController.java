@@ -53,23 +53,17 @@ public class AttackGameController extends AbstractGameController<AttackGameContr
 	public AttackGameController(PlayerCompleteServer source, PlayerCompleteServer target, Attack card, Game game) {
 		this(source, Set.of(target), card, game);
 	}
-	
+
 	@Override
-	public void proceed() {
+	protected void handleStage(AttackStage stage) throws GameFlowInterruptedException {
 		switch (stage) {
 			case PRE_TARGET_ACQUISITION_WEAPON_ABILITIES:
-				try {
-					this.game.emit(new AttackPreAcquisitionWeaponAbilitiesCheckEvent(this.source, this));
-					this.stage = this.stage.nextStage();
-					this.proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+				this.nextStage();
+				this.game.emit(new AttackPreAcquisitionWeaponAbilitiesCheckEvent(this.source, this));
 				break;
 			case TARGET_ACQUISITION:
 				// Currently no item or hero skill affecting Target Acquisition
-				this.stage = this.stage.nextStage();
-				this.proceed();
+				this.nextStage();
 				break;
 			case ATTACK_RESOLUTION:
 				PlayerCompleteServer currentTarget = this.targets.get(this.currentTargetIndex);
@@ -77,19 +71,16 @@ public class AttackGameController extends AbstractGameController<AttackGameContr
 				this.currentTargetIndex++;
 				if (this.currentTargetIndex == this.targets.size()) {
 					this.currentTargetIndex = 0;
-					this.stage = this.stage.nextStage();
+					this.nextStage();
 				}
-				this.game.getGameController().proceed();
 				break;
 			case END:
-				this.onUnloaded();
-				this.game.getGameController().proceed();
 				break;
 		}
 	}
 	
 	public void setStage(AttackStage stage) {
-		this.stage = stage;
+		this.currentStage = stage;
 	}
 
 	public Attack getAttackCard() {

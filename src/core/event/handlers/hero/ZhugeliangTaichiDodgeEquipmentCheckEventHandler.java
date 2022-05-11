@@ -1,7 +1,6 @@
 package core.event.handlers.hero;
 
 import cards.equipments.Equipment.EquipmentType;
-import commands.game.client.DecisionUIClientCommand;
 import core.event.game.DodgeTargetEquipmentCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
@@ -32,10 +31,5 @@ public class ZhugeliangTaichiDodgeEquipmentCheckEventHandler extends AbstractEve
 		}
 		
 		game.pushGameController(new TaichiFormationGameController(game, event.controller, this.player));
-		connection.sendCommandToAllPlayers(new DecisionUIClientCommand(
-			this.player.getPlayerInfo(),
-			"Use Taichi Formation?"
-		));
-		throw new GameFlowInterruptedException();
 	}
 }

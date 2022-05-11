@@ -8,6 +8,7 @@ import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractSingleStageGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class DiscardTurnEventHandler extends AbstractEventHandler<DiscardTurnEvent> {
@@ -28,15 +29,19 @@ public class DiscardTurnEventHandler extends AbstractEventHandler<DiscardTurnEve
 		}
 		int amount = this.player.getHandCount() - this.player.getCardOnHandLimit();
 		if (amount > 0) {
-			throw new GameFlowInterruptedException(() -> {
-				connection.sendCommandToPlayers(
-					game.getPlayersInfo().stream().collect(
-						Collectors.toMap(
-							info -> info.getName(), 
-							info -> new DiscardGameUIClientCommand(this.player.getPlayerInfo(), amount)
+			game.pushGameController(new AbstractSingleStageGameController(game) {
+				@Override
+				protected void handleOnce() throws GameFlowInterruptedException {
+					game.getConnectionController().sendCommandToPlayers(
+						game.getPlayersInfo().stream().collect(
+							Collectors.toMap(
+								info -> info.getName(), 
+								info -> new DiscardGameUIClientCommand(game.getCurrentPlayer().getPlayerInfo(), amount)
+							)
 						)
-					)
-				);
+					);
+					throw new GameFlowInterruptedException();
+				}
 			});
 		}
 	}

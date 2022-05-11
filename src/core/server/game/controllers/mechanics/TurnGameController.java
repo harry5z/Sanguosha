@@ -32,7 +32,7 @@ public class TurnGameController implements GameController {
 		DISCARD_BEGINNING,
 		DISCARD,
 		DISCARD_END,
-		END;
+		TURN_END;
 	}
 
 	private final Game game;
@@ -49,7 +49,7 @@ public class TurnGameController implements GameController {
 	
 	public void nextStage() {
 		switch (currentStage) {
-			case END:
+			case TURN_END:
 				currentPlayer = game.getNextPlayerAlive(currentPlayer);
 				while (currentPlayer.isFlipped()) {
 					currentPlayer.flip();
@@ -69,7 +69,6 @@ public class TurnGameController implements GameController {
 				break;
 		}
 		currentStage = currentStage.nextStage();
-		proceed();
 	}
 	
 	public PlayerCompleteServer getCurrentPlayer() {
@@ -77,7 +76,7 @@ public class TurnGameController implements GameController {
 	}
 	
 	@Override
-	public void proceed() {
+	public void proceed() throws GameFlowInterruptedException {
 		switch (currentStage) {
 			case START_BEGINNING:
 				this.nextStage();
@@ -89,7 +88,6 @@ public class TurnGameController implements GameController {
 				this.delayedQueue = this.currentPlayer.getDelayedQueue();
 				if (delayedQueue.isEmpty()) {
 					this.currentStage = TurnStage.DRAW_BEGINNING;
-					this.proceed();
 				} else {
 					this.nextStage();
 				}
@@ -97,69 +95,45 @@ public class TurnGameController implements GameController {
 			case DELAYED_ARBITRATION:
 				if (this.delayedQueue.isEmpty()) {
 					this.currentStage = TurnStage.DRAW_BEGINNING;
-					this.proceed();
 				} else {
 					DelayedStackItem item = this.delayedQueue.poll();
 					this.game.pushGameController(item.type.getController(this.game, this.currentPlayer, this));
-					this.game.getGameController().proceed();
 				}
 				return;
 			case DRAW_BEGINNING:
-				try {
-					this.game.emit(new DrawStartTurnEvent(this));
-					this.nextStage();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+				this.nextStage();
+				this.game.emit(new DrawStartTurnEvent(this));
 				return;
 			case DRAW:
-				try {
-					this.game.emit(new DrawTurnEvent());
-					this.nextStage();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+				this.nextStage();
+				this.game.emit(new DrawTurnEvent());
 				return;
 			case DEAL_BEGINNING:
-				try {
-					this.game.emit(new DealStartTurnEvent(this));
-					this.nextStage();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+				this.nextStage();
+				this.game.emit(new DealStartTurnEvent(this));
 				return;
 			case DEAL:
-				try {
-					this.currentPlayer.clearDisposalArea();
-					this.game.emit(new DealTurnEvent());
-					this.nextStage();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
-				return;
+				this.currentPlayer.clearDisposalArea();
+				this.game.emit(new DealTurnEvent());
+				throw new GameFlowInterruptedException();
 			case DISCARD_BEGINNING:
+				// nothing here yet
 				this.nextStage();
 				return;
 			case DISCARD:
+				// nothing here yet
+				this.nextStage();
 				this.currentPlayer.clearDisposalArea();
-				try {
-					this.game.emit(new DiscardTurnEvent());
-					this.nextStage();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+				this.game.emit(new DiscardTurnEvent());
 				return;
 			case DISCARD_END:
+				// nothing here yet
 				this.nextStage();
 				return;
-			case END:
-				try {
-					this.game.emit(new EndTurnEvent());
-					this.currentPlayer.clearDisposalArea();
-					this.nextStage();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+			case TURN_END:
+				this.nextStage();
+				this.currentPlayer.clearDisposalArea();
+				this.game.emit(new EndTurnEvent());
 				return;
 			default:
 				break;
@@ -174,5 +148,5 @@ public class TurnGameController implements GameController {
 	public void setCurrentPlayer(PlayerCompleteServer player) {
 		this.currentPlayer = player;
 	}
-	
+
 }

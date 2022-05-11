@@ -28,6 +28,5 @@ public class InitiateStarvationInGameServerCommand extends InGameServerCommand {
 		} catch (InvalidPlayerCommandException e) {
 			e.printStackTrace();
 		}
-		game.getGameController().proceed();
 	}
 }

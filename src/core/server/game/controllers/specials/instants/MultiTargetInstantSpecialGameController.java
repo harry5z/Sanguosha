@@ -25,82 +25,75 @@ public abstract class MultiTargetInstantSpecialGameController extends AbstractIn
 	}
 
 	@Override
-	public void proceed() {
+	protected void handleStage(SpecialStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
 			case TARGET_LOCKED:
-				try {
-					GameEvent event = this.getTargetEffectivenessEvent();
-					if (event != null) {
-						this.game.emit(event);
-					}
-					this.stage = this.stage.nextStage();
-					this.proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
+				this.nextStage();
+				GameEvent event = this.getTargetEffectivenessEvent();
+				if (event != null) {
+					this.game.emit(event);
 				}
 				break;
 			case NEUTRALIZATION:
 				if (this.canBeNeutralized()) {
-					// WARNING: may need another initiator if some player died during neutralization check
 					if (this.neutralizedCount >= this.game.getNumberOfPlayersAlive()) {
 						this.neutralizedCount = 0;
-						this.stage = this.stage.nextStage();
-						this.proceed();
-					} else if (this.neutralizedCount == 0) {
-						try {
+						this.nextStage();
+					} else {
+						if (this.neutralizedCount == 0) {
 							this.game.emit(new RequestNeutralizationEvent(
 								this.currentTarget.getPlayerInfo(),
 								this.getNeutralizationMessage()
 							));
-						} catch (GameFlowInterruptedException e) {
-							e.resume();
 						}
+						throw new GameFlowInterruptedException();
 					}
 				} else {
-					this.stage = this.stage.nextStage();
-					this.proceed();
+					this.nextStage();
 				}
 				break;
 			case EFFECT:
-				if (this.neutralized) {
-					this.stage = this.stage.nextStage();
-					this.proceed();
-				} else {
+				if (!this.neutralized) {
 					this.takeEffect();
+				} else {
+					this.nextStage();
 				}
 				break;
-			case EFFECT_TAKEN:
+			case TARGET_SWITCH:
 				PlayerCompleteServer next = this.targets.poll();
 				while (true) {
+					// if no more targets, end the controller
 					if (next == null) {
-						this.game.popGameController();
 						this.onSettled();
-						this.game.getGameController().proceed();
+						this.nextStage();
 						return;
 					}
 					
-					if (next.isAlive()) {
-						break;
-					} else {
+					if (!next.isAlive()) {
+						// skip all dead targets (due to whatever reasons)
 						next = this.targets.poll();
+					} else {
+						// reset the controller go to the next target
+						this.currentStage = SpecialStage.TARGET_LOCKED;
+						this.neutralized = false;
+						this.neutralizedCount = 0;
+						this.currentTarget = next;
+						break;
 					}
 				}
-				this.stage = SpecialStage.TARGET_LOCKED;
-				this.neutralized = false;
-				this.neutralizedCount = 0;
-				this.currentTarget = next;
-				this.proceed();
+				break;
+			case END:
 				break;
 		}
 	}
 	
 	public void setStage(SpecialStage stage) {
-		this.stage = stage;
+		this.currentStage = stage;
 	}
 	
 	protected abstract GameEvent getTargetEffectivenessEvent();
 	
-	protected abstract void takeEffect();
+	protected abstract void takeEffect() throws GameFlowInterruptedException;
 	
 	protected boolean canBeNeutralized() {
 		return true;

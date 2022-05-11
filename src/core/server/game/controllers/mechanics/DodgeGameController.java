@@ -36,36 +36,24 @@ public class DodgeGameController extends AbstractGameController<DodgeGameControl
 	}
 
 	@Override
-	public void proceed() {
-		if (this.skippedStages.contains(this.stage)) {
-			this.stage = this.stage.nextStage();
-			this.proceed();
+	protected void handleStage(DodgeStage stage) throws GameFlowInterruptedException {
+		if (this.skippedStages.contains(stage)) {
+			this.nextStage();
 			return;
 		}
-		switch (this.stage) {
+		switch (stage) {
 			case TARGET_EQUIPMENT_ABILITIES:
-				try {
-					this.game.emit(new DodgeTargetEquipmentCheckEvent(this, this.target.getPlayerInfo()));
-					this.stage = this.stage.nextStage();
-					this.proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+				this.nextStage();
+				this.game.emit(new DodgeTargetEquipmentCheckEvent(this, this.target.getPlayerInfo()));
 				break;
 			case DODGE:
-				try {
-					this.game.emit(new RequestDodgeEvent(this.target.getPlayerInfo(), this.message));
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
-				break;
+				this.game.emit(new RequestDodgeEvent(this.target.getPlayerInfo(), this.message));
+				throw new GameFlowInterruptedException();
 			case AFTER_DODGED_SKILLS:
-				this.stage = this.stage.nextStage();
-				this.proceed();
+				// nothing here yet
+				this.nextStage();
 				break;
 			case END:
-				this.onUnloaded();
-				this.game.getGameController().proceed();
 				break;
 		}
 	}
@@ -73,23 +61,23 @@ public class DodgeGameController extends AbstractGameController<DodgeGameControl
 	public void onDodgeUsed(Card card) {
 		game.pushGameController(new UseCardOnHandGameController(game, target, Set.of(card)));
 		this.nextController.onDodged();
-		this.stage = DodgeStage.AFTER_DODGED_SKILLS;
+		this.currentStage = DodgeStage.AFTER_DODGED_SKILLS;
 	}
 	
 
 	public void onDodgeNotUsed() {
 		this.nextController.onNotDodged();
-		this.stage = DodgeStage.END;
+		this.currentStage = DodgeStage.END;
 	}
 
 	public void onDodgeStageSkipped() {
 		this.nextController.onDodged();
-		this.stage = DodgeStage.AFTER_DODGED_SKILLS;
+		this.currentStage = DodgeStage.AFTER_DODGED_SKILLS;
 	}
 
 	public void onDodgeStageNotSkipped() {
 		this.nextController.onNotDodged();
-		this.stage = DodgeStage.DODGE;
+		this.currentStage = DodgeStage.DODGE;
 	}
 
 	public void skipStage(DodgeStage stage) {

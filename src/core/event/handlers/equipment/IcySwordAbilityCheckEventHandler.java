@@ -27,13 +27,11 @@ public class IcySwordAbilityCheckEventHandler extends AbstractEventHandler<Attac
 		}
 		
 		if (event.target.getHandCount() == 0 && !event.target.isEquipped()) {
+			// cannot use Icy Sword if target does not have cards on hand or equipment
 			return;
 		}
 		
-		throw new GameFlowInterruptedException(() -> {
-			game.pushGameController(new IcySwordGameController(game, event.source, event.target, event.controller));
-			game.getGameController().proceed();
-		});
+		game.pushGameController(new IcySwordGameController(game, event.source, event.target, event.controller));
 	}
 
 }

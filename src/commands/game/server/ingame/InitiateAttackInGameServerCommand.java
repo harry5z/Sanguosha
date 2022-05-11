@@ -35,7 +35,6 @@ public class InitiateAttackInGameServerCommand extends InGameServerCommand {
 			if (attack != null) {
 				game.pushGameController(new UseCardOnHandGameController(game, player, Set.of(this.attack)));
 			}
-			game.getGameController().proceed();
 		} catch (InvalidPlayerCommandException e) {
 			// TODO reset game state
 			e.printStackTrace();

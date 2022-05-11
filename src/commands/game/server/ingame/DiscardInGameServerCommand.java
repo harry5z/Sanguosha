@@ -25,7 +25,6 @@ public class DiscardInGameServerCommand extends InGameServerCommand {
 			e.printStackTrace();
 			return;
 		}
-		game.getGameController().proceed();
 	}
 
 }

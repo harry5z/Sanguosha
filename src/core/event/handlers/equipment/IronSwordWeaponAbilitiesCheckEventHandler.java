@@ -5,6 +5,7 @@ import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.mechanics.AttackResolutionGameController.AttackResolutionStage;
 import core.server.game.controllers.mechanics.DamageGameController.DamageStage;
 import core.server.game.controllers.mechanics.DodgeGameController.DodgeStage;
@@ -28,10 +29,15 @@ public class IronSwordWeaponAbilitiesCheckEventHandler extends AbstractEventHand
 			return;
 		}
 		
-		// Fully ignore all stages which involve checking target equipment
-		event.controller.skipStage(AttackResolutionStage.TARGET_LOCKED_TARGET_EQUIPMENT_ABILITIES);
-		event.controller.dodgeController.skipStage(DodgeStage.TARGET_EQUIPMENT_ABILITIES);
-		event.controller.damageController.skipStage(DamageStage.TARGET_EQUIPMENT_ABILITIES);
+		game.pushGameController(new AbstractSingleStageGameController(game) {
+			@Override
+			protected void handleOnce() throws GameFlowInterruptedException {
+				// Fully ignore all stages which involve checking target equipment
+				event.controller.skipStage(AttackResolutionStage.TARGET_LOCKED_TARGET_EQUIPMENT_ABILITIES);
+				event.controller.dodgeController.skipStage(DodgeStage.TARGET_EQUIPMENT_ABILITIES);
+				event.controller.damageController.skipStage(DamageStage.TARGET_EQUIPMENT_ABILITIES);
+			}
+		});
 	}
 
 }

@@ -12,6 +12,7 @@ public abstract class InGameServerCommand implements GameServerCommand {
 	@Override
 	public final void execute(GameRoom room, Connection connection) {
 		this.execute(room.getGame());
+		room.getGame().resume();
 	}
 	
 	public abstract void execute(Game game);

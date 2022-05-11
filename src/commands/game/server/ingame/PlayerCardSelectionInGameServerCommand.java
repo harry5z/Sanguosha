@@ -20,7 +20,6 @@ public class PlayerCardSelectionInGameServerCommand extends InGameServerCommand 
 	@Override
 	public void execute(Game game) {
 		game.<CardSelectableGameController>getGameController().onCardSelected(this.card, this.zone);
-		game.getGameController().proceed();
 	}
 
 }

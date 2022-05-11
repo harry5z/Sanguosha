@@ -31,10 +31,7 @@ public class KylinBowAbilityCheckEventHandler extends AbstractEventHandler<Attac
 			return;
 		}
 		
-		throw new GameFlowInterruptedException(() -> {
-			game.pushGameController(new KylinBowGameController(game, event.source, event.target, event.controller));
-			game.getGameController().proceed();
-		});
+		game.pushGameController(new KylinBowGameController(game, event.source, event.target));
 	}
 
 }

@@ -21,7 +21,6 @@ public class DodgeReactionInGameServerCommand extends InGameServerCommand {
 		} else {
 			game.<DodgeGameController>getGameController().onDodgeNotUsed();
 		}
-		game.getGameController().proceed();
 	}
 
 }

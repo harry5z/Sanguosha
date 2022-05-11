@@ -11,7 +11,7 @@ import core.event.game.instants.PlayerCardSelectionEvent;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
-import core.server.game.controllers.AbstractStagelessGameController;
+import core.server.game.controllers.AbstractPlayerDecisionActionGameController;
 import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.DecisionRequiredGameController;
 import core.server.game.controllers.mechanics.AttackResolutionGameController;
@@ -22,14 +22,17 @@ import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.GameStateErrorException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
-public class IcySwordGameController extends AbstractStagelessGameController
+public class IcySwordGameController
+	extends AbstractPlayerDecisionActionGameController
 	implements CardSelectableGameController, DecisionRequiredGameController {
+	
 
 	private final PlayerCompleteServer source;
 	private final PlayerCompleteServer target;
 	private final AttackResolutionGameController controller;
 	private int numCardDiscarded;
-	private Boolean confirmed;
+	private boolean discardCompleted;
+	private boolean decisionConfirmed;
 	
 	public IcySwordGameController(Game game, PlayerCompleteServer source, PlayerCompleteServer target, AttackResolutionGameController controller) {
 		super(game);
@@ -37,47 +40,45 @@ public class IcySwordGameController extends AbstractStagelessGameController
 		this.target = target;
 		this.controller = controller;
 		this.numCardDiscarded = 0;
-		this.confirmed = null;
+		this.discardCompleted = false;
+		this.decisionConfirmed = false;
+	}
+	
+
+	@Override
+	protected void handleDecisionRequest() throws GameFlowInterruptedException {
+		this.game.emit(new RequestDecisionEvent(this.source.getPlayerInfo(), "Use Icy Sword?"));
+		throw new GameFlowInterruptedException();		
 	}
 
 	@Override
-	public void proceed() {
-		if (this.confirmed == null) {
-			try {
-				this.game.emit(new RequestDecisionEvent(this.source.getPlayerInfo(), "Use Icy Sword?"));
-			} catch (GameFlowInterruptedException e) {
-				// won't receive GameFlowInterruptedException
-			}
-			return;
-		} else if (this.confirmed == true) {
-			if (this.numCardDiscarded == 2) {
-				this.onUnloaded();
-				this.game.getGameController().proceed();
-			} else {
-				try {
-					this.game.emit(new PlayerCardSelectionEvent(
-						this.source.getPlayerInfo(),
-						this.target.getPlayerInfo(),
-						Set.of(PlayerCardZone.HAND, PlayerCardZone.EQUIPMENT)
-					));
-				} catch (GameFlowInterruptedException e) {
-					// won't receive GameFlowInterruptedException
-				}
-			}
+	protected void handleDecisionConfirmation() throws GameFlowInterruptedException {
+		if (this.decisionConfirmed) {
+			// If Icy Sword usage is confirmed, prevent Attack damage
+			this.controller.setStage(AttackResolutionStage.END);
 		} else {
-			this.onUnloaded();
-			this.game.getGameController().proceed();
+			// skip Action
+			this.currentStage = PlayerDecisionAction.END;
 		}
 	}
 
+	@Override
+	protected void handleAction() throws GameFlowInterruptedException {
+		if (!this.discardCompleted) {
+			// stay in Action stage while discard is not completed
+			this.currentStage = PlayerDecisionAction.ACTION;
+			this.game.emit(new PlayerCardSelectionEvent(
+				this.source.getPlayerInfo(),
+				this.target.getPlayerInfo(),
+				Set.of(PlayerCardZone.HAND, PlayerCardZone.EQUIPMENT)
+			));
+			throw new GameFlowInterruptedException();
+		}		
+	}
+	
 	@Override
 	public void onDecisionMade(boolean confirmed) {
-		this.confirmed = confirmed;
-		if (!confirmed) {
-			this.controller.setStage(AttackResolutionStage.PRE_DAMAGE_SOURCE_WEAPON_DAMAGE_MODIFIERS);
-		} else {
-			this.controller.setStage(AttackResolutionStage.END);
-		}
+		this.decisionConfirmed = confirmed;
 	}
 
 	@Override
@@ -102,9 +103,13 @@ public class IcySwordGameController extends AbstractStagelessGameController
 				throw new GameStateErrorException("Icy Sword: Card is not from HAND or EQUIPMENT");
 		}
 		
+		if (this.numCardDiscarded == 2) {
+			this.discardCompleted = true;
+		}
+		
 		// exit early if target has no more card to discard
 		if (this.target.getHandCount() == 0 && !this.target.isEquipped()) {
-			this.numCardDiscarded = 2;
+			this.discardCompleted = true;
 		}
 	}
 

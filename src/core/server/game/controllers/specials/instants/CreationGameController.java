@@ -12,8 +12,7 @@ public class CreationGameController extends SingleTargetInstantSpecialGameContro
 	@Override
 	protected void takeEffect() {
 		this.game.drawCards(this.source, 2);
-		this.stage = this.stage.nextStage();
-		this.proceed();
+		this.nextStage();
 	}
 	
 	@Override

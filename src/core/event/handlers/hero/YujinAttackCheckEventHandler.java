@@ -1,12 +1,12 @@
 package core.event.handlers.hero;
 
 import cards.Card.Color;
-import cards.basics.Attack;
 import core.event.game.basic.AttackLockedTargetSkillsCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.mechanics.AttackResolutionGameController.AttackResolutionStage;
 import exceptions.server.game.GameFlowInterruptedException;
 
@@ -27,16 +27,16 @@ public class YujinAttackCheckEventHandler extends AbstractEventHandler<AttackLoc
 		if (this.player != event.source) {
 			return;
 		}
-
-		Attack card = event.controller.getAttackCard();
 		
-		if (card.getColor() == Color.BLACK) {
-			throw new GameFlowInterruptedException(() -> {
-				event.controller.setStage(AttackResolutionStage.END);
-				event.controller.proceed();
+		if (event.controller.getAttackCard().getColor() == Color.BLACK) {
+			game.pushGameController(new AbstractSingleStageGameController(game) {
+				@Override
+				protected void handleOnce() throws GameFlowInterruptedException {
+					// skip Attack Resolution
+					event.controller.setStage(AttackResolutionStage.END);
+				}
 			});
 		}
-				
 
 	}
 

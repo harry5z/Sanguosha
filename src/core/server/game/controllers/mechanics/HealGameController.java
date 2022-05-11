@@ -5,6 +5,7 @@ import core.player.PlayerInfo;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
+import exceptions.server.game.GameFlowInterruptedException;
 
 public final class HealGameController extends AbstractGameController<HealGameController.HealStage> {
 	
@@ -35,24 +36,21 @@ public final class HealGameController extends AbstractGameController<HealGameCon
 	}
 
 	@Override
-	public void proceed() {
-		switch(this.stage) {
+	protected void handleStage(HealStage stage) throws GameFlowInterruptedException {
+		switch(stage) {
 			case HEAL_VALUE:
-				this.stage = this.stage.nextStage();
-				this.proceed();
+				// nothing here yet
+				this.nextStage();
 				break;
 			case HEAL:
 				this.target.changeHealthCurrentBy(this.value);
-				this.stage = this.stage.nextStage();
-				this.proceed();
+				this.nextStage();
 				break;
 			case AFTER_HEAL:
-				this.stage = this.stage.nextStage();
-				this.proceed();
+				// nothing here yet
+				this.nextStage();
 				break;
 			case END:
-				this.onUnloaded();
-				this.game.getGameController().proceed();
 				break;
 		}
 	}
@@ -61,4 +59,5 @@ public final class HealGameController extends AbstractGameController<HealGameCon
 	protected HealStage getInitialStage() {
 		return HealStage.HEAL_VALUE;
 	}
+
 }

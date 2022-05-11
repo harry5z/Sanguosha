@@ -37,7 +37,6 @@ public class SerpentSpearAttackReactionInGameServerCommand extends InGameServerC
 			);
 			game.<AttackUsableGameController>getGameController().onAttackUsed(new Attack(color));
 			game.pushGameController(new UseCardOnHandGameController(game, player, cards));
-			game.getGameController().proceed();
 		} catch (InvalidPlayerCommandException e) {
 			// TODO handle error
 			e.printStackTrace();

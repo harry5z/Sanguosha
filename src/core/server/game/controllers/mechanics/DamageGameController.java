@@ -17,10 +17,10 @@ public class DamageGameController extends AbstractGameController<DamageGameContr
 	public static enum DamageStage implements GameControllerStage<DamageStage> {
 		TARGET_HERO_SKILLS,
 		TARGET_EQUIPMENT_ABILITIES,
-		TARGET_CHECK_CHAINED,
 		TARGET_DAMAGE,
 		SOURCE_HERO_SKILLS_AFTER_DAMAGE,
 		SKILLS_AFTER_DAMAGE,
+		TARGET_CHAINED_DAMAGE,
 		END;
 	}
 	
@@ -36,48 +36,34 @@ public class DamageGameController extends AbstractGameController<DamageGameContr
 	}
 
 	@Override
-	public void proceed() {
-		if (this.skippedStages.contains(this.stage)) {
-			this.stage = this.stage.nextStage();
-			this.proceed();
+	protected void handleStage(DamageStage stage) throws GameFlowInterruptedException {
+		if (this.skippedStages.contains(stage)) {
+			this.nextStage();
 			return;
 		}
 		switch (stage) {
 			case TARGET_HERO_SKILLS:
 				// nothing here yet
-				stage = stage.nextStage();
-				this.proceed();
+				this.nextStage();
 				break;
 			case TARGET_EQUIPMENT_ABILITIES:
-				try {
-					this.game.emit(new TargetEquipmentCheckDamageEvent(damage));
-					stage = stage.nextStage();
-					this.proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
-				break;
-			case TARGET_CHECK_CHAINED:
-				// nothing here yet
-				stage = stage.nextStage();
-				this.proceed();
+				this.nextStage();
+				this.game.emit(new TargetEquipmentCheckDamageEvent(damage));
 				break;
 			case TARGET_DAMAGE:
-				damage.apply();
-				stage = stage.nextStage();
-				this.proceed();
+				this.nextStage();
+				this.damage.apply();
 				break;
 			case SOURCE_HERO_SKILLS_AFTER_DAMAGE:
 				// nothing here yet
-				stage = stage.nextStage();
-				this.proceed();
+				this.nextStage();
 				break;
 			case SKILLS_AFTER_DAMAGE:
 				// nothing here yet
-				stage = stage.nextStage();
-				this.proceed();
+				this.nextStage();
 				break;
-			case END:
+			case TARGET_CHAINED_DAMAGE:
+				this.nextStage();
 				PlayerCompleteServer target = this.originalDamage.getTarget();
 				// pass down damage too all chained players if damage type is not NORMAL
 				if (this.originalDamage.getElement() != Element.NORMAL && target.isChained()) {
@@ -89,15 +75,12 @@ public class DamageGameController extends AbstractGameController<DamageGameContr
 							Damage newDamage = new Damage(damageAmount, this.originalDamage.getElement(), this.originalDamage.getSource(), next);
 							newDamage.setIsChainedDamage(true);
 							this.game.pushGameController(new DamageGameController(newDamage, this.game));
-							this.game.getGameController().proceed();
 							return;
 						}
 					}
 				}
-				this.onUnloaded();
-				this.game.getGameController().proceed();
 				break;
-			default:
+			case END:
 				break;
 		}
 	}

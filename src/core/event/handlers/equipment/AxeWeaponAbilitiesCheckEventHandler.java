@@ -1,6 +1,5 @@
 package core.event.handlers.equipment;
 
-import commands.game.client.equipment.AxeAbilityGameClientCommand;
 import core.event.game.basic.AttackOnDodgedWeaponAbilitiesCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
@@ -27,10 +26,7 @@ public class AxeWeaponAbilitiesCheckEventHandler extends AbstractEventHandler<At
 			return;
 		}
 		
-		throw new GameFlowInterruptedException(() -> {
-			game.pushGameController(new AxeGameController(game, event.source, event.controller));
-			connection.sendCommandToAllPlayers(new AxeAbilityGameClientCommand(this.player.getPlayerInfo()));
-		});
+		game.pushGameController(new AxeGameController(game, event.source, event.controller));
 	}
 
 }

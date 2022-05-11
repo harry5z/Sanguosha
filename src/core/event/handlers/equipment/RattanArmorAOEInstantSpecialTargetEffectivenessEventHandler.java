@@ -7,6 +7,7 @@ import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.specials.SpecialGameController.SpecialStage;
 import exceptions.server.game.GameFlowInterruptedException;
 
@@ -32,9 +33,11 @@ public class RattanArmorAOEInstantSpecialTargetEffectivenessEventHandler extends
 			return;
 		}
 		
-		throw new GameFlowInterruptedException(() -> {
-			event.getController().setStage(SpecialStage.EFFECT_TAKEN);
-			event.getController().proceed();
+		game.pushGameController(new AbstractSingleStageGameController(game) {
+			@Override
+			protected void handleOnce() throws GameFlowInterruptedException {
+				event.getController().setStage(SpecialStage.TARGET_SWITCH);
+			}
 		});
 	}
 

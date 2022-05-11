@@ -8,6 +8,7 @@ import core.event.game.GameEvent;
 import core.event.handlers.EventHandler;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
+import core.server.ConnectionController;
 import core.server.game.controllers.GameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
@@ -47,8 +48,12 @@ public interface Game {
 	public void pushGameController(GameController controller);
 	
 	public void popGameController();
+	
+	public void resume();
 
 	public Deck getDeck();
+	
+	public ConnectionController getConnectionController();
 	
 	public <T extends GameEvent> void registerEventHandler(EventHandler<T> handler);
 	

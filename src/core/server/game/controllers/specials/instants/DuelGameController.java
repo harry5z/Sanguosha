@@ -20,18 +20,15 @@ public class DuelGameController extends SingleTargetInstantSpecialGameController
 	}
 
 	@Override
-	protected void takeEffect() {
-		try {
-			// Ask current attack user to use Attack
-			this.game.emit(new RequestAttackEvent(
-				this.currentAttackUser.getPlayerInfo(),
-				"You are in a Duel against " +
-				(this.currentAttackUser == this.target ? this.source : this.target) +
-				", it's your turn to use Attack."
-			));
-		} catch (GameFlowInterruptedException e) {
-			e.resume();
-		}
+	protected void takeEffect() throws GameFlowInterruptedException {
+		// Ask current attack user to use Attack
+		this.game.emit(new RequestAttackEvent(
+			this.currentAttackUser.getPlayerInfo(),
+			"You are in a Duel against " +
+			(this.currentAttackUser == this.target ? this.source : this.target) +
+			", it's your turn to use Attack."
+		));
+		throw new GameFlowInterruptedException();
 	}
 	
 
@@ -48,7 +45,7 @@ public class DuelGameController extends SingleTargetInstantSpecialGameController
 
 	@Override
 	public void onAttackNotUsed() {
-		this.stage = this.stage.nextStage();
+		this.nextStage();
 		// current attack user takes 1 damage from the other player
 		PlayerCompleteServer damageTarget = this.currentAttackUser;
 		PlayerCompleteServer damageSource = damageTarget == this.target ? this.source : this.target;

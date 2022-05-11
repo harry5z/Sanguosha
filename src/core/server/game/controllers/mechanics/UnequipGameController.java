@@ -39,41 +39,33 @@ public class UnequipGameController extends AbstractGameController<UnequipGameCon
 	}
 
 	@Override
-	public void proceed() {
-		switch(this.stage) {
+	protected void handleStage(UnequipStage stage) throws GameFlowInterruptedException {
+		switch(stage) {
 			case DISCARD_EQUIPMENT:
 				Equipment equipment = this.player.getEquipment(this.type);
 				try {
+					this.nextStage();
 					this.player.unequip(this.type);
 					equipment.onUnequipped(this.game, this.player);
-					this.stage = this.stage.nextStage();
-					this.game.getGameController().proceed();
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}
 				break;
 			case HERO_ABILITY:
-				this.stage = this.stage.nextStage();
-				this.proceed();
+				// nothing here yet
+				this.nextStage();
 				break;
 			case ITEM_ABILITY:
-				try {
-					this.game.emit(new UnequipItemAbilityEvent(this.player, this.type, this));
-					this.stage = this.stage.nextStage();
-					this.proceed();
-				} catch (GameFlowInterruptedException e) {
-					e.resume();
-				}
+				this.nextStage();
+				this.game.emit(new UnequipItemAbilityEvent(this.player, this.type, this));
 				break;
 			case END:
-				this.onUnloaded();
-				this.game.getGameController().proceed();
 				break;
 		}
 	}
 	
 	public void setStage(UnequipStage stage) {
-		this.stage = stage;
+		this.currentStage = stage;
 	}
 
 	@Override

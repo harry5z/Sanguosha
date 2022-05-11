@@ -28,7 +28,6 @@ public class NeutralizationReactionInGameServerCommand extends InGameServerComma
 		} else {
 			game.<SpecialGameController>getGameController().onNeutralizationCanceled();
 		}
-		game.getGameController().proceed();
 	}
 
 }

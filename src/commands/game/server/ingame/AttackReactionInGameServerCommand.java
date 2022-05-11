@@ -30,7 +30,6 @@ public class AttackReactionInGameServerCommand extends InGameServerCommand {
 		} else {
 			game.<AttackUsableGameController>getGameController().onAttackNotUsed();
 		}
-		game.getGameController().proceed();
 	}
 
 }

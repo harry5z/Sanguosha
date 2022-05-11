@@ -28,7 +28,6 @@ public class UseWineInGameServerCommand extends InGameServerCommand {
 				// TODO specify source as the source may not be the current player
 				game.pushGameController(new UseCardOnHandGameController(game, game.getCurrentPlayer(), Set.of(wine)));
 			}
-			game.getGameController().proceed();
 		} catch (InvalidPlayerCommandException e) {
 			// TODO handle error
 			e.printStackTrace();

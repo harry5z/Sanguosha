@@ -16,7 +16,6 @@ public class DecisionInGameServerCommand extends InGameServerCommand {
 	@Override
 	public void execute(Game game) {
 		game.<DecisionRequiredGameController>getGameController().onDecisionMade(this.confirmed);
-		game.getGameController().proceed();
 	}
 
 }

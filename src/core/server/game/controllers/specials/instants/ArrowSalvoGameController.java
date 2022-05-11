@@ -8,6 +8,7 @@ import core.server.game.Game;
 import core.server.game.controllers.DodgeUsableGameController;
 import core.server.game.controllers.mechanics.DamageGameController;
 import core.server.game.controllers.mechanics.DodgeGameController;
+import exceptions.server.game.GameFlowInterruptedException;
 
 public class ArrowSalvoGameController extends AOEInstantSpecialGameController implements DodgeUsableGameController {
 
@@ -21,7 +22,7 @@ public class ArrowSalvoGameController extends AOEInstantSpecialGameController im
 	}
 
 	@Override
-	protected void takeEffect() {
+	protected void takeEffect() throws GameFlowInterruptedException {
 		if (!this.hasReacted) {
 			this.game.pushGameController(new DodgeGameController(
 				this.game,
@@ -29,19 +30,12 @@ public class ArrowSalvoGameController extends AOEInstantSpecialGameController im
 				this.currentTarget,
 				this.source + " used Arrow Salvo on you, use Dodge to counter?"
 			));
-			this.game.getGameController().proceed();
 		} else {
-			this.stage = this.stage.nextStage();
+			this.nextStage();
 			this.hasReacted = false;
 			if (this.effective) {
 				// if effective, deal damage
-				this.effective = true;
 				this.game.pushGameController(new DamageGameController(new Damage(this.source, this.currentTarget), this.game));
-				this.game.getGameController().proceed();
-			} else {
-				// otherwise proceed to next
-				this.effective = true;
-				this.proceed();
 			}
 		}
 	}
@@ -66,6 +60,7 @@ public class ArrowSalvoGameController extends AOEInstantSpecialGameController im
 	@Override
 	public void onNotDodged() {
 		this.hasReacted = true;
+		this.effective = true;
 	}
 
 }

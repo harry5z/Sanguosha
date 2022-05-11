@@ -32,11 +32,9 @@ public class SuddenStrikeSkillInGameServerCommand extends InGameServerCommand {
 		game.pushGameController(new SabotageGameController(source, this.target, game));
 		if (this.zone == PlayerCardZone.HAND) {
 			game.pushGameController(new UseCardOnHandGameController(game, game.getCurrentPlayer(), Set.of(card)));
-			game.getGameController().proceed();
 		} else if (this.zone == PlayerCardZone.EQUIPMENT) {
 			game.pushGameController(new RecycleCardsGameController(game, game.getCurrentPlayer(), Set.of(card)));
 			game.pushGameController(new UnequipGameController(game, game.getCurrentPlayer(), ((Equipment) card).getEquipmentType()));
-			game.getGameController().proceed();
 		}
 	}
 

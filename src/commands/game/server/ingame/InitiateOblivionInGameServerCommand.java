@@ -28,6 +28,5 @@ public class InitiateOblivionInGameServerCommand extends InGameServerCommand {
 		} catch (InvalidPlayerCommandException e) {
 			e.printStackTrace();
 		}
-		game.getGameController().proceed();
 	}
 }

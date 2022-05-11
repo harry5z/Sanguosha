@@ -29,7 +29,6 @@ public abstract class AbstractInitiationInGameServerCommand extends InGameServer
 			PlayerCompleteServer source = game.getCurrentPlayer();
 			game.pushGameController(new UseCardOnHandGameController(game, source, Set.of(card)));			
 		}
-		game.getGameController().proceed();
 	}
 	
 	protected abstract GameController getController(Game game, PlayerInfo target);

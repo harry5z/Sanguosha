@@ -16,9 +16,10 @@ public class DealTurnEventHandler extends AbstractEventHandler<DealTurnEvent> {
 
 	@Override
 	public void handleIfActivated(DealTurnEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
-		throw new GameFlowInterruptedException(() -> {
-			connection.sendCommandToPlayer(player.getName(), new DealStartGameUIClientCommmand(game.getCurrentPlayer().getPlayerInfo()));
-		});
+		game.getConnectionController().sendCommandToPlayer(
+			player.getName(),
+			new DealStartGameUIClientCommmand(game.getCurrentPlayer().getPlayerInfo())
+		);
 	}
 
 	@Override

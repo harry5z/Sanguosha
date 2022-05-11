@@ -7,6 +7,7 @@ import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
+import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class UseCardOnHandGameController extends AbstractGameController<UseCardOnHandGameController.UseCardOnHandStage> {
@@ -26,21 +27,18 @@ public class UseCardOnHandGameController extends AbstractGameController<UseCardO
 	}
 
 	@Override
-	public void proceed() {
-		switch (this.stage) {
+	protected void handleStage(UseCardOnHandStage stage) throws GameFlowInterruptedException {
+		switch (stage) {
 			case USE_CARDS:
 				try {
+					this.nextStage();
 					this.player.useCards(this.cards);
-					this.stage = this.stage.nextStage();
-					this.proceed();
 				} catch (InvalidPlayerCommandException e) {
 					// TODO handle error
 					e.printStackTrace();
 				}
 				break;
 			case END:
-				this.onUnloaded();
-				this.game.getGameController().proceed();
 				break;
 		}
 	}

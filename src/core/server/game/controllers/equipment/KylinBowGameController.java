@@ -10,63 +10,56 @@ import core.event.game.instants.PlayerCardSelectionEvent;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
-import core.server.game.controllers.AbstractStagelessGameController;
+import core.server.game.controllers.AbstractPlayerDecisionActionGameController;
 import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.DecisionRequiredGameController;
-import core.server.game.controllers.mechanics.AttackResolutionGameController;
-import core.server.game.controllers.mechanics.AttackResolutionGameController.AttackResolutionStage;
 import core.server.game.controllers.mechanics.RecycleCardsGameController;
 import core.server.game.controllers.mechanics.UnequipGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
-public class KylinBowGameController extends AbstractStagelessGameController
+public class KylinBowGameController
+	extends AbstractPlayerDecisionActionGameController
 	implements CardSelectableGameController, DecisionRequiredGameController {
-
+	
 	private final PlayerCompleteServer source;
 	private final PlayerCompleteServer target;
-	private final AttackResolutionGameController controller;
-	private Boolean confirmed;
+	private boolean confirmed;
 	
-	public KylinBowGameController(Game game, PlayerCompleteServer source, PlayerCompleteServer target, AttackResolutionGameController controller) {
+	public KylinBowGameController(Game game, PlayerCompleteServer source, PlayerCompleteServer target) {
 		super(game);
 		this.source = source;
 		this.target = target;
-		this.controller = controller;
-		this.confirmed = null;
-		
+		this.confirmed = false;
+	}
+	
+	@Override
+	protected void handleDecisionRequest() throws GameFlowInterruptedException {
+		this.game.emit(new RequestDecisionEvent(this.source.getPlayerInfo(), "Use Icy Sword?"));
+		throw new GameFlowInterruptedException();		
 	}
 
 	@Override
-	public void proceed() {
-		if (this.confirmed == null) {
-			try {
-				this.game.emit(new RequestDecisionEvent(this.source.getPlayerInfo(), "Use Kylin Bow?"));
-			} catch (GameFlowInterruptedException e) {
-				// won't receive GameFlowInterruptedException
-			}
-			return;
-		} else if (this.confirmed == true) {
-			try {
-				this.confirmed = false; // enter exit code path
-				this.game.emit(new PlayerCardSelectionEvent(
-					this.source.getPlayerInfo(),
-					this.target.getPlayerInfo(),
-					Set.of(PlayerCardZone.EQUIPMENT),
-					Set.of(EquipmentType.HORSEPLUS, EquipmentType.HORSEMINUS)
-				));
-			} catch (GameFlowInterruptedException e) {
-				// won't receive GameFlowInterruptedException
-			}
-		} else {
-			this.onUnloaded();
-			this.game.getGameController().proceed();
+	protected void handleDecisionConfirmation() throws GameFlowInterruptedException {
+		if (!this.confirmed) {
+			// skip Action
+			this.currentStage = PlayerDecisionAction.END;
 		}
+	}
+
+	@Override
+	protected void handleAction() throws GameFlowInterruptedException {
+		this.game.emit(new PlayerCardSelectionEvent(
+			this.source.getPlayerInfo(),
+			this.target.getPlayerInfo(),
+			Set.of(PlayerCardZone.EQUIPMENT),
+			Set.of(EquipmentType.HORSEPLUS, EquipmentType.HORSEMINUS)
+		));
+		throw new GameFlowInterruptedException();		
 	}
 
 	@Override
 	public void onDecisionMade(boolean confirmed) {
 		this.confirmed = confirmed;
-		this.controller.setStage(AttackResolutionStage.PRE_DAMAGE_SOURCE_WEAPON_DAMAGE_MODIFIERS);
 	}
 
 	@Override

@@ -21,29 +21,24 @@ public class BorrowSwordGameController
 	implements AttackUsableGameController {
 	
 	private final PlayerCompleteServer attackTarget;
-	private boolean actionTaken;
 
 	public BorrowSwordGameController(PlayerInfo source, PlayerInfo target, PlayerInfo attackTarget, Game game) {
 		super(source, target, game);
 		this.attackTarget = game.findPlayer(attackTarget);
-		this.actionTaken = false;
 	}
 	
 	@Override
-	protected void takeEffect() {
-		if (this.actionTaken) {
-			this.onUnloaded();
-			this.game.getGameController().proceed();
-		} else {
-			try {
-				this.game.emit(new RequestAttackEvent(
-					this.target.getPlayerInfo(),
-					"Use Attack on " + this.attackTarget + " or else " + this.source + " takes your weapon"
-				));
-			} catch (GameFlowInterruptedException e) {
-				// should not receive GameFlowInterruptedException
-			}
+	protected void takeEffect() throws GameFlowInterruptedException {
+		if (!this.target.isEquipped(EquipmentType.WEAPON)) {
+			this.nextStage();
+			return;
 		}
+
+		this.game.emit(new RequestAttackEvent(
+			this.target.getPlayerInfo(),
+			"Use Attack on " + this.attackTarget + " or else " + this.source + " takes your weapon"
+		));
+		throw new GameFlowInterruptedException();
 	}
 
 	@Override
@@ -53,13 +48,13 @@ public class BorrowSwordGameController
 
 	@Override
 	public void onAttackUsed(Card card) {
-		this.actionTaken = true;
+		this.nextStage();
 		this.game.pushGameController(new AttackGameController(this.target, this.attackTarget, (Attack) card, this.game));
 	}
 
 	@Override
 	public void onAttackNotUsed() {
-		this.actionTaken = true;
+		this.nextStage();
 		Weapon weapon = this.target.getWeapon();
 		this.game.pushGameController(new ReceiveCardsGameController(this.game, this.source, Set.of(weapon)));
 		this.game.pushGameController(new UnequipGameController(this.game, this.target, EquipmentType.WEAPON));

@@ -16,45 +16,41 @@ public abstract class SingleTargetInstantSpecialGameController extends AbstractI
 	}
 
 	@Override
-	public final void proceed() {
-		// TODO: server side sanity check
-		switch(this.stage) {
+	protected void handleStage(SpecialStage stage) throws GameFlowInterruptedException {
+		switch(stage) {
 			case TARGET_LOCKED:
-				this.stage = this.stage.nextStage();
-				this.proceed();
+				// nothing here yet
+				this.nextStage();
 				break;
 			case NEUTRALIZATION:
-				// WARNING: may need another initiator if some player died during neutralization check
 				if (this.neutralizedCount >= this.game.getNumberOfPlayersAlive()) {
 					this.neutralizedCount = 0;
-					this.stage = this.stage.nextStage();
-					this.proceed();
-				} else if (this.neutralizedCount == 0) {
-					try {
+					this.nextStage();
+				} else {
+					if (this.neutralizedCount == 0) {
 						this.game.emit(new RequestNeutralizationEvent(
 							this.target.getPlayerInfo(),
 							this.getNeutralizationMessage()
 						));
-					} catch (GameFlowInterruptedException e) {
-						e.resume();
 					}
+					throw new GameFlowInterruptedException();
 				}
 				break;
 			case EFFECT:
 				if (!this.neutralized) {
 					this.takeEffect();
 				} else {
-					this.stage = this.stage.nextStage();
-					this.proceed();
+					this.nextStage();
 				}
 				break;
-			case EFFECT_TAKEN:
-				this.game.popGameController();
-				this.game.getGameController().proceed();
+			case TARGET_SWITCH:
+				this.nextStage();
+				break;
+			case END:
 				break;
 		}
 	}
 	
-	protected abstract void takeEffect();
+	protected abstract void takeEffect() throws GameFlowInterruptedException;
 
 }

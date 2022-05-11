@@ -7,6 +7,7 @@ import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
+import exceptions.server.game.GameFlowInterruptedException;
 
 public class ReceiveCardsGameController extends AbstractGameController<ReceiveCardsGameController.ReceiveCardStage> {
 
@@ -25,16 +26,13 @@ public class ReceiveCardsGameController extends AbstractGameController<ReceiveCa
 	}
 
 	@Override
-	public void proceed() {
-		switch(this.stage) {
+	protected void handleStage(ReceiveCardStage stage) throws GameFlowInterruptedException {
+		switch(stage) {
 			case ADD_CARDS:
-				this.stage = this.stage.nextStage();
+				this.nextStage();
 				this.target.addCards(this.cards);
-				this.proceed();
 				break;
 			case END:
-				this.onUnloaded();
-				this.game.getGameController().proceed();
 				break;
 		}
 

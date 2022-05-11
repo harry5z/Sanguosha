@@ -9,7 +9,8 @@ public interface SpecialGameController extends GameController {
 		TARGET_LOCKED,
 		NEUTRALIZATION,
 		EFFECT,
-		EFFECT_TAKEN;
+		TARGET_SWITCH,
+		END;
 	}
 	
 	public void onNeutralized();

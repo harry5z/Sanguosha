@@ -5,6 +5,7 @@ import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.ConnectionController;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.mechanics.TurnGameController.TurnStage;
 import exceptions.server.game.GameFlowInterruptedException;
 
@@ -25,11 +26,13 @@ public class SkipDrawTurnEventHandler extends AbstractEventHandler<DrawStartTurn
 			return;
 		}
 
-		throw new GameFlowInterruptedException(() -> {
-			game.removeEventHandler(this);
-			// skip DRAW
-			event.turn.setCurrentStage(TurnStage.DEAL_BEGINNING);
-			game.getGameController().proceed();
+		game.pushGameController(new AbstractSingleStageGameController(game) {
+			@Override
+			protected void handleOnce() throws GameFlowInterruptedException {
+				game.removeEventHandler(SkipDrawTurnEventHandler.this);
+				// skip DRAW
+				event.turn.setCurrentStage(TurnStage.DEAL_BEGINNING);				
+			}
 		});
 	}
 

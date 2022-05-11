@@ -5,15 +5,16 @@ import cards.basics.Attack;
 import core.event.game.basic.RequestAttackEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
-import core.server.game.controllers.AbstractStagelessGameController;
+import core.server.game.controllers.AbstractPlayerDecisionActionGameController;
 import core.server.game.controllers.AttackUsableGameController;
 import core.server.game.controllers.mechanics.AttackGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
-public class DragonBladeGameController extends AbstractStagelessGameController implements AttackUsableGameController {
+public class DragonBladeGameController extends AbstractPlayerDecisionActionGameController implements AttackUsableGameController {
 	
 	private final PlayerCompleteServer source;
 	private final PlayerCompleteServer target;
+	private Card card;
 	private boolean actionTaken;
 
 	public DragonBladeGameController(Game game, PlayerCompleteServer source, PlayerCompleteServer target) {
@@ -24,31 +25,35 @@ public class DragonBladeGameController extends AbstractStagelessGameController i
 	}
 
 	@Override
-	public void proceed() {
+	protected void handleDecisionRequest() throws GameFlowInterruptedException {
+		this.game.emit(new RequestAttackEvent(
+			this.source.getPlayerInfo(),
+			"Use Dragon Blade?"
+		));	
+		throw new GameFlowInterruptedException();
+	}
+
+	@Override
+	protected void handleDecisionConfirmation() throws GameFlowInterruptedException {
 		if (this.actionTaken) {
-			this.onUnloaded();
-			this.game.getGameController().proceed();
-		} else {
-			try {
-				this.game.emit(new RequestAttackEvent(
-					this.source.getPlayerInfo(),
-					"Use Dragon Blade?"
-				));
-			} catch (GameFlowInterruptedException e) {
-				e.resume();
-			}
+			this.game.pushGameController(new AttackGameController(this.source, this.target, (Attack) card, this.game));
 		}
+	}
+
+	@Override
+	protected void handleAction() throws GameFlowInterruptedException {
+		// Action is done in decision confirmation
 	}
 
 	@Override
 	public void onAttackUsed(Card card) {
 		this.actionTaken = true;
-		this.game.pushGameController(new AttackGameController(this.source, this.target, (Attack) card, this.game));
+		this.card = card;
 	}
 
 	@Override
 	public void onAttackNotUsed() {
-		this.actionTaken = true;
+		this.actionTaken = false;
 	}
 
 }

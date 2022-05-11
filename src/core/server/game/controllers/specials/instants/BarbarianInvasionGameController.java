@@ -23,28 +23,19 @@ public class BarbarianInvasionGameController extends AOEInstantSpecialGameContro
 	}
 
 	@Override
-	protected void takeEffect() {
+	protected void takeEffect() throws GameFlowInterruptedException {
 		if (!this.hasReacted) {
-			try {
-				this.game.emit(new RequestAttackEvent(
-					this.currentTarget.getPlayerInfo(),
-					this.source + " used Barbarian Invasion on you, use Attack to counter?"
-				));
-			} catch (GameFlowInterruptedException e) {
-				e.resume();
-			}
+			this.game.emit(new RequestAttackEvent(
+				this.currentTarget.getPlayerInfo(),
+				this.source + " used Barbarian Invasion on you, use Attack to counter?"
+			));
+			throw new GameFlowInterruptedException();
 		} else {
-			this.stage = this.stage.nextStage();
+			this.nextStage();
 			this.hasReacted = false;
 			if (this.effective) {
 				// if effective, deal damage
-				this.effective = true;
 				this.game.pushGameController(new DamageGameController(new Damage(this.source, this.currentTarget), this.game));
-				this.game.getGameController().proceed();
-			} else {
-				// otherwise proceed to next
-				this.effective = true;
-				this.proceed();
 			}
 		}
 	}
@@ -69,6 +60,7 @@ public class BarbarianInvasionGameController extends AOEInstantSpecialGameContro
 	@Override
 	public void onAttackNotUsed() {
 		this.hasReacted = true;
+		this.effective = true;
 	}
 
 }

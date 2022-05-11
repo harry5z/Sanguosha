@@ -23,22 +23,18 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 	}
 	
 	@Override
-	protected void takeEffect() {
+	protected void takeEffect() throws GameFlowInterruptedException {
 		if (this.target.getHandCount() == 0 && !this.target.isEquipped() && this.target.getDelayedQueue().isEmpty()) {
 			// if no card left on target, Sabotage is ineffective
-			this.stage = this.stage.nextStage();
-			this.proceed();
+			this.nextStage();
 			return;
 		}
-		try {
-			this.game.emit(new PlayerCardSelectionEvent(
-				this.source.getPlayerInfo(),
-				this.target.getPlayerInfo(),
-				Set.of(PlayerCardZone.HAND, PlayerCardZone.EQUIPMENT, PlayerCardZone.DELAYED)
-			));
-		} catch (GameFlowInterruptedException e) {
-			e.resume();
-		}
+		this.game.emit(new PlayerCardSelectionEvent(
+			this.source.getPlayerInfo(),
+			this.target.getPlayerInfo(),
+			Set.of(PlayerCardZone.HAND, PlayerCardZone.EQUIPMENT, PlayerCardZone.DELAYED)
+		));
+		throw new GameFlowInterruptedException();
 	}
 	
 	@Override
@@ -73,6 +69,6 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 				this.game.pushGameController(new RecycleCardsGameController(this.game, this.target, Set.of(card)));
 				break;
 		}
-		this.stage = this.stage.nextStage();
+		this.nextStage();
 	}
 }

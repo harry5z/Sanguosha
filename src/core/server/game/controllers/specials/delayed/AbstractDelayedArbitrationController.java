@@ -19,6 +19,7 @@ public abstract class AbstractDelayedArbitrationController
 		NEUTRALIZATION,
 		ARBITRATION,
 		EFFECT,
+		BEFORE_END,
 		END;
 	}
 	
@@ -34,45 +35,38 @@ public abstract class AbstractDelayedArbitrationController
 	}
 
 	@Override
-	public void proceed() {
-		switch(this.stage) {
+	protected void handleStage(DelayedArbitrationStage stage) throws GameFlowInterruptedException {
+		switch(stage) {
 			case NEUTRALIZATION:
-				// WARNING: may need another initiator if some player died during neutralization check
 				if (this.neutralizedCount >= this.game.getNumberOfPlayersAlive()) {
 					this.neutralizedCount = 0;
-					this.stage = this.stage.nextStage();
-					this.proceed();
-				} else if (this.neutralizedCount == 0) {
-					try {
+					this.nextStage();
+				} else {
+					if (this.neutralizedCount == 0) {
 						this.game.emit(new RequestNeutralizationEvent(
 							this.target.getPlayerInfo(),
 							this.getNeutralizationMessage()
 						));
-					} catch (GameFlowInterruptedException e) {
-						e.resume();
 					}
+					throw new GameFlowInterruptedException();
 				}
 				break;
 			case ARBITRATION:
 				if (!this.neutralized) {
-					this.stage = this.stage.nextStage();
+					this.nextStage();
 					this.game.pushGameController(new ArbitrationController(this.game, this, this.target));
 				} else {
-					this.stage = DelayedArbitrationStage.END;
+					this.currentStage = DelayedArbitrationStage.BEFORE_END;
 				}
-				this.game.getGameController().proceed();
 				break;
 			case EFFECT:
-				if (this.effective) {
-					this.takeEffect();
-				}
-				this.stage = this.stage.nextStage();
-				this.game.getGameController().proceed();
+				this.nextStage();
+				this.handleEffect();
 				break;
-			case END:
+			case BEFORE_END:
+				this.nextStage();
 				this.beforeEnd();
-				this.onUnloaded();
-				this.game.getGameController().proceed();
+			case END:
 				break;
 		}
 	}
@@ -87,7 +81,7 @@ public abstract class AbstractDelayedArbitrationController
 		this.effective = this.isArbitrationEffective(card);
 	}
 	
-	protected abstract void takeEffect();
+	protected abstract void handleEffect();
 	
 	protected abstract void beforeEnd();
 	
