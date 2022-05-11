@@ -7,8 +7,11 @@ import cards.basics.Attack;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractSingleStageGameController;
+import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.AttackGameController;
 import core.server.game.controllers.mechanics.UseCardOnHandGameController;
+import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class InitiateAttackInGameServerCommand extends InGameServerCommand {
@@ -26,20 +29,26 @@ public class InitiateAttackInGameServerCommand extends InGameServerCommand {
 	}
 
 	@Override
-	public void execute(Game game) {
-		PlayerCompleteServer player = game.findPlayer(source);
-		Set<PlayerCompleteServer> targets = this.targets.stream().map(target -> game.findPlayer(target)).collect(Collectors.toSet());
-		try {
-			player.useAttack(targets);
-			game.pushGameController(new AttackGameController(player, targets, attack, game));
-			if (attack != null) {
-				game.pushGameController(new UseCardOnHandGameController(game, player, Set.of(this.attack)));
+	protected GameController getGameController(Game game) {
+		return new AbstractSingleStageGameController(game) {
+			
+			@Override
+			protected void handleOnce() throws GameFlowInterruptedException {
+				PlayerCompleteServer player = game.findPlayer(source);
+				Set<PlayerCompleteServer> set = targets.stream().map(target -> game.findPlayer(target)).collect(Collectors.toSet());
+				try {
+					player.useAttack(set);
+					game.pushGameController(new AttackGameController(player, set, attack, game));
+					if (attack != null) {
+						game.pushGameController(new UseCardOnHandGameController(game, player, Set.of(attack)));
+					}
+				} catch (InvalidPlayerCommandException e) {
+					// TODO reset game state
+					e.printStackTrace();
+					return;
+				}
 			}
-		} catch (InvalidPlayerCommandException e) {
-			// TODO reset game state
-			e.printStackTrace();
-			return;
-		}
+		};
 	}
 
 }

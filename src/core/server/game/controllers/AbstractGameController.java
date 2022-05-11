@@ -13,10 +13,6 @@ public abstract class AbstractGameController<T extends GameControllerStage<?>> i
 		this.currentStage = this.getInitialStage();
 	}
 	
-	protected final void onUnloaded() {
-		this.game.popGameController();
-	}
-	
 	@Override
 	public final void proceed() throws GameFlowInterruptedException {
 		if (this.currentStage.isLastStage()) {

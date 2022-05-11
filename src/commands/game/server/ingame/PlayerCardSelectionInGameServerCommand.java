@@ -3,7 +3,10 @@ package commands.game.server.ingame;
 import cards.Card;
 import core.player.PlayerCardZone;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.CardSelectableGameController;
+import core.server.game.controllers.GameController;
+import exceptions.server.game.GameFlowInterruptedException;
 
 public class PlayerCardSelectionInGameServerCommand extends InGameServerCommand {
 	
@@ -18,8 +21,14 @@ public class PlayerCardSelectionInGameServerCommand extends InGameServerCommand 
 	}
 
 	@Override
-	public void execute(Game game) {
-		game.<CardSelectableGameController>getGameController().onCardSelected(this.card, this.zone);
+	protected GameController getGameController(Game game) {
+		return new AbstractSingleStageGameController(game) {
+			
+			@Override
+			protected void handleOnce() throws GameFlowInterruptedException {
+				game.<CardSelectableGameController>getNextGameController().onCardSelected(card, zone);
+			}
+		};
 	}
 
 }

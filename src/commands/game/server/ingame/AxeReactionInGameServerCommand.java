@@ -6,7 +6,10 @@ import java.util.Map.Entry;
 import cards.Card;
 import core.player.PlayerCardZone;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractSingleStageGameController;
+import core.server.game.controllers.GameController;
 import core.server.game.controllers.equipment.AxeGameController;
+import exceptions.server.game.GameFlowInterruptedException;
 
 public class AxeReactionInGameServerCommand extends InGameServerCommand {
 
@@ -19,12 +22,19 @@ public class AxeReactionInGameServerCommand extends InGameServerCommand {
 	}
 
 	@Override
-	public void execute(Game game) {
-		AxeGameController controller = game.<AxeGameController>getGameController();
-		for (Entry<Card, PlayerCardZone> entry : this.cards.entrySet()) {
-			controller.onCardSelected(entry.getKey(), entry.getValue());
-		}
-		controller.onDecisionMade(this.cards.size() == 2);
+	public GameController getGameController(Game game) {
+		return new AbstractSingleStageGameController(game) {
+			
+			@Override
+			protected void handleOnce() throws GameFlowInterruptedException {
+				AxeGameController controller = game.<AxeGameController>getNextGameController();
+				for (Entry<Card, PlayerCardZone> entry : cards.entrySet()) {
+					controller.onCardSelected(entry.getKey(), entry.getValue());
+				}
+				controller.onDecisionMade(cards.size() == 2);				
+			}
+		};
+
 	}
 
 }

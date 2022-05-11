@@ -198,9 +198,13 @@ public class GameImpl implements Game {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends GameController> T getGameController() {
+	public <T extends GameController> T getNextGameController() {
 		// TODO make this method throw InvalidPlayerCommand if casting failed
-		return this.controllers.isEmpty() ? (T) this.turnController : (T) controllers.peek();
+		if (this.controllers.size() >= 2) {
+			return (T) this.controllers.get(this.controllers.size() - 2);
+		} else {
+			return (T) this.turnController;
+		}
 	}
 	
 	@Override

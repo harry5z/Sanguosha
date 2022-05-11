@@ -9,8 +9,11 @@ import cards.basics.Attack;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractSingleStageGameController;
+import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.AttackGameController;
 import core.server.game.controllers.mechanics.UseCardOnHandGameController;
+import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class SerpentSpearInitiateAttackInGameServerCommand extends InGameServerCommand {
@@ -28,25 +31,31 @@ public class SerpentSpearInitiateAttackInGameServerCommand extends InGameServerC
 	}
 	
 	@Override
-	public void execute(Game game) {
-		try {
-			PlayerCompleteServer player = game.findPlayer(source);
-			Set<PlayerCompleteServer> targets = this.targets.stream().map(target -> game.findPlayer(target)).collect(Collectors.toSet());
-			player.useAttack(targets);
-	
-			if (this.cards.size() != 2) {
-				throw new InvalidPlayerCommandException("SerpentSpear requires 2 cards");
+	protected GameController getGameController(Game game) {
+		return new AbstractSingleStageGameController(game) {
+			
+			@Override
+			protected void handleOnce() throws GameFlowInterruptedException {
+				try {
+					PlayerCompleteServer player = game.findPlayer(source);
+					Set<PlayerCompleteServer> set = targets.stream().map(target -> game.findPlayer(target)).collect(Collectors.toSet());
+					player.useAttack(set);
+			
+					if (cards.size() != 2) {
+						throw new InvalidPlayerCommandException("SerpentSpear requires 2 cards");
+					}
+					Color color = cards.stream().map(card -> card.getColor()).reduce(
+						cards.iterator().next().getColor(),
+						(c1, c2) -> c1 == c2 ? c1 : Color.COLORLESS
+					);
+					game.pushGameController(new AttackGameController(player, set, new Attack(color), game));
+					game.pushGameController(new UseCardOnHandGameController(game, player, cards));
+				} catch (InvalidPlayerCommandException e) {
+					// TODO handle error
+					e.printStackTrace();
+				}
 			}
-			Color color = this.cards.stream().map(card -> card.getColor()).reduce(
-				this.cards.iterator().next().getColor(),
-				(c1, c2) -> c1 == c2 ? c1 : Color.COLORLESS
-			);
-			game.pushGameController(new AttackGameController(player, targets, new Attack(color), game));
-			game.pushGameController(new UseCardOnHandGameController(game, player, cards));
-		} catch (InvalidPlayerCommandException e) {
-			// TODO handle error
-			e.printStackTrace();
-		}
+		};
 	}
 
 }

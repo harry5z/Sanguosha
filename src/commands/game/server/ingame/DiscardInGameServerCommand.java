@@ -4,6 +4,9 @@ import java.util.List;
 
 import cards.Card;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractSingleStageGameController;
+import core.server.game.controllers.GameController;
+import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class DiscardInGameServerCommand extends InGameServerCommand {
@@ -17,14 +20,20 @@ public class DiscardInGameServerCommand extends InGameServerCommand {
 	}
 
 	@Override
-	public void execute(Game game) {
-		try {
-			// TODO convert to discard controller
-			game.getCurrentPlayer().discardCards(cards);
-		} catch (InvalidPlayerCommandException e) {
-			e.printStackTrace();
-			return;
-		}
+	protected GameController getGameController(Game game) {
+		return new AbstractSingleStageGameController(game) {
+			
+			@Override
+			protected void handleOnce() throws GameFlowInterruptedException {
+				try {
+					// TODO convert to discard controller
+					game.getCurrentPlayer().discardCards(cards);
+				} catch (InvalidPlayerCommandException e) {
+					e.printStackTrace();
+					return;
+				}
+			}
+		};
 	}
 
 }

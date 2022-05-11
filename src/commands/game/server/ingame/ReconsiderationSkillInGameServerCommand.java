@@ -11,9 +11,12 @@ import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerState;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractSingleStageGameController;
+import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.ReceiveCardsGameController;
 import core.server.game.controllers.mechanics.RecycleCardsGameController;
 import core.server.game.controllers.mechanics.UnequipGameController;
+import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class ReconsiderationSkillInGameServerCommand extends InGameServerCommand {
@@ -27,32 +30,38 @@ public class ReconsiderationSkillInGameServerCommand extends InGameServerCommand
 	}
 	
 	@Override
-	public void execute(Game game) {
-		try {
-			Set<Card> cardsOnHand = new HashSet<>();
-			PlayerCompleteServer source = game.getCurrentPlayer();
-			source.updatePlayerState(PlayerState.SUN_QUAN_RECONSIDERATION_COUNTER, 1);
-			game.pushGameController(new ReceiveCardsGameController(game, source, game.getDeck().drawMany(this.cards.size())));
-			for (Entry<Card, PlayerCardZone> entry : this.cards.entrySet()) {
-				switch(entry.getValue()) {
-					case HAND:
-						cardsOnHand.add(entry.getKey());
-						break;
-					case EQUIPMENT:
-						Equipment equipment = (Equipment) entry.getKey();
-						game.pushGameController(new RecycleCardsGameController(game, source, Set.of(equipment)));
-						game.pushGameController(new UnequipGameController(game, source, equipment.getEquipmentType()));
-						break;
-					default:
-						break;
+	protected GameController getGameController(Game game) {
+		return new AbstractSingleStageGameController(game) {
+			
+			@Override
+			protected void handleOnce() throws GameFlowInterruptedException {
+				try {
+					Set<Card> cardsOnHand = new HashSet<>();
+					PlayerCompleteServer source = game.getCurrentPlayer();
+					source.updatePlayerState(PlayerState.SUN_QUAN_RECONSIDERATION_COUNTER, 1);
+					game.pushGameController(new ReceiveCardsGameController(game, source, game.getDeck().drawMany(cards.size())));
+					for (Entry<Card, PlayerCardZone> entry : cards.entrySet()) {
+						switch(entry.getValue()) {
+							case HAND:
+								cardsOnHand.add(entry.getKey());
+								break;
+							case EQUIPMENT:
+								Equipment equipment = (Equipment) entry.getKey();
+								game.pushGameController(new RecycleCardsGameController(game, source, Set.of(equipment)));
+								game.pushGameController(new UnequipGameController(game, source, equipment.getEquipmentType()));
+								break;
+							default:
+								break;
+						}
+					}
+					// TODO: convert to discard controller
+					source.discardCards(cardsOnHand);
+				} catch (InvalidPlayerCommandException e) {
+					// TODO handle error
+					e.printStackTrace();
 				}
 			}
-			// TODO: convert to discard controller
-			source.discardCards(cardsOnHand);
-		} catch (InvalidPlayerCommandException e) {
-			// TODO handle error
-			e.printStackTrace();
-		}
+		};
 	}
 
 }

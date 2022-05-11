@@ -43,7 +43,7 @@ public interface Game {
 	
 	public PlayerCompleteServer getCurrentPlayer();
 	
-	public <T extends GameController> T getGameController();
+	public <T extends GameController> T getNextGameController();
 	
 	public void pushGameController(GameController controller);
 	

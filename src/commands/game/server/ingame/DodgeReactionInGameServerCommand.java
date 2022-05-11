@@ -2,7 +2,10 @@ package commands.game.server.ingame;
 
 import cards.Card;
 import core.server.game.Game;
+import core.server.game.controllers.AbstractSingleStageGameController;
+import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.DodgeGameController;
+import exceptions.server.game.GameFlowInterruptedException;
 
 public class DodgeReactionInGameServerCommand extends InGameServerCommand {
 
@@ -15,12 +18,18 @@ public class DodgeReactionInGameServerCommand extends InGameServerCommand {
 	}
 	
 	@Override
-	public void execute(Game game) {
-		if (dodge != null) {
-			game.<DodgeGameController>getGameController().onDodgeUsed(dodge);
-		} else {
-			game.<DodgeGameController>getGameController().onDodgeNotUsed();
-		}
+	protected GameController getGameController(Game game) {
+		return new AbstractSingleStageGameController(game) {
+			
+			@Override
+			protected void handleOnce() throws GameFlowInterruptedException {
+				if (dodge != null) {
+					game.<DodgeGameController>getNextGameController().onDodgeUsed(dodge);
+				} else {
+					game.<DodgeGameController>getNextGameController().onDodgeNotUsed();
+				}
+			}
+		};
 	}
-
+	
 }

@@ -1,7 +1,10 @@
 package commands.game.server.ingame;
 
 import core.server.game.Game;
+import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.DecisionRequiredGameController;
+import core.server.game.controllers.GameController;
+import exceptions.server.game.GameFlowInterruptedException;
 
 public class DecisionInGameServerCommand extends InGameServerCommand {
 
@@ -14,8 +17,14 @@ public class DecisionInGameServerCommand extends InGameServerCommand {
 	}
 	
 	@Override
-	public void execute(Game game) {
-		game.<DecisionRequiredGameController>getGameController().onDecisionMade(this.confirmed);
+	protected GameController getGameController(Game game) {
+		return new AbstractSingleStageGameController(game) {
+			
+			@Override
+			protected void handleOnce() throws GameFlowInterruptedException {
+				game.<DecisionRequiredGameController>getNextGameController().onDecisionMade(confirmed);
+			}
+		};
 	}
 
 }
