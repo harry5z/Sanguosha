@@ -4,7 +4,6 @@ import cards.Card.Color;
 import core.event.game.basic.AttackTargetEquipmentCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.ConnectionController;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.mechanics.AttackResolutionGameController.AttackResolutionStage;
@@ -22,7 +21,7 @@ public class IronShieldAttackTargetEuipmentCheckEventHandler extends AbstractEve
 	}
 
 	@Override
-	protected void handleIfActivated(AttackTargetEquipmentCheckEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
+	protected void handleIfActivated(AttackTargetEquipmentCheckEvent event, Game game) throws GameFlowInterruptedException {
 		if (!this.player.getPlayerInfo().equals(event.getTarget())) {
 			return;
 		}

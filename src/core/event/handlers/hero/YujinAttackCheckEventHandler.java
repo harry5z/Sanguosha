@@ -4,7 +4,6 @@ import cards.Card.Color;
 import core.event.game.basic.AttackLockedTargetSkillsCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.ConnectionController;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.mechanics.AttackResolutionGameController.AttackResolutionStage;
@@ -22,7 +21,7 @@ public class YujinAttackCheckEventHandler extends AbstractEventHandler<AttackLoc
 	}
 
 	@Override
-	protected void handleIfActivated(AttackLockedTargetSkillsCheckEvent event, Game game, ConnectionController connection)
+	protected void handleIfActivated(AttackLockedTargetSkillsCheckEvent event, Game game)
 		throws GameFlowInterruptedException {
 		if (this.player != event.source) {
 			return;

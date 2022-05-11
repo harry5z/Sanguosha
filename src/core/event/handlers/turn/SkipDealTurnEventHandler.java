@@ -3,7 +3,6 @@ package core.event.handlers.turn;
 import core.event.game.turn.DealStartTurnEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.ConnectionController;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.mechanics.TurnGameController.TurnStage;
@@ -21,7 +20,7 @@ public class SkipDealTurnEventHandler extends AbstractEventHandler<DealStartTurn
 	}
 
 	@Override
-	protected void handleIfActivated(DealStartTurnEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
+	protected void handleIfActivated(DealStartTurnEvent event, Game game) throws GameFlowInterruptedException {
 		if (this.player != game.getCurrentPlayer()) {
 			return;
 		}

@@ -3,7 +3,6 @@ package core.event.handlers.equipment;
 import core.event.game.basic.AttackLockedSourceWeaponAbilitiesCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.ConnectionController;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.mechanics.AttackResolutionGameController.AttackResolutionStage;
@@ -23,7 +22,7 @@ public class IronSwordWeaponAbilitiesCheckEventHandler extends AbstractEventHand
 	}
 
 	@Override
-	protected void handleIfActivated(AttackLockedSourceWeaponAbilitiesCheckEvent event, Game game, ConnectionController connection)
+	protected void handleIfActivated(AttackLockedSourceWeaponAbilitiesCheckEvent event, Game game)
 		throws GameFlowInterruptedException {
 		if (this.player != event.source) {
 			return;

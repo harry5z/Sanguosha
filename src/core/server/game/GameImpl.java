@@ -11,7 +11,8 @@ import commands.game.client.EnterOriginalGameRoomGameClientCommand;
 import core.Deck;
 import core.event.game.GameEvent;
 import core.event.handlers.EventHandler;
-import core.heroes.original.*;
+import core.heroes.original.Blank;
+import core.heroes.original.GanNing;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.ConnectionController;
@@ -234,7 +235,7 @@ public class GameImpl implements Game {
 		
 		do {
 			if (handlers.containsKey(currentCheckedPlayer)) {
-				handlers.get(currentCheckedPlayer).handle(event, this, this.room);
+				handlers.get(currentCheckedPlayer).handle(event, this);
 			}
 			currentCheckedPlayer = this.getNextPlayer(currentCheckedPlayer);
 		} while (initialPlayer != currentCheckedPlayer);

@@ -4,7 +4,6 @@ import cards.equipments.Equipment.EquipmentType;
 import core.event.game.DodgeTargetEquipmentCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.ConnectionController;
 import core.server.game.Game;
 import core.server.game.controllers.equipment.TaichiFormationGameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -21,7 +20,7 @@ public class ZhugeliangTaichiDodgeEquipmentCheckEventHandler extends AbstractEve
 	}
 
 	@Override
-	protected void handleIfActivated(DodgeTargetEquipmentCheckEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
+	protected void handleIfActivated(DodgeTargetEquipmentCheckEvent event, Game game) throws GameFlowInterruptedException {
 		if (!this.player.getPlayerInfo().equals(event.getTarget())) {
 			return;
 		}

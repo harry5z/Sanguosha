@@ -3,7 +3,6 @@ package core.event.handlers.equipment;
 import core.event.game.basic.AttackTargetEquipmentCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.ConnectionController;
 import core.server.game.Damage.Element;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractSingleStageGameController;
@@ -22,7 +21,7 @@ public class RattanArmorAttackTargetEquipmentCheckEventHandler extends AbstractE
 	}
 
 	@Override
-	protected void handleIfActivated(AttackTargetEquipmentCheckEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
+	protected void handleIfActivated(AttackTargetEquipmentCheckEvent event, Game game) throws GameFlowInterruptedException {
 		if (!this.player.getPlayerInfo().equals(event.getTarget())) {
 			return;
 		}

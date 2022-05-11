@@ -3,7 +3,6 @@ package core.event.handlers.turn;
 import core.event.game.turn.EndTurnEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.ConnectionController;
 import core.server.game.Game;
 import exceptions.server.game.GameFlowInterruptedException;
 
@@ -19,7 +18,7 @@ public class DefaultEndTurnEventHandler extends AbstractEventHandler<EndTurnEven
 	}
 
 	@Override
-	protected void handleIfActivated(EndTurnEvent event, Game game, ConnectionController connection)
+	protected void handleIfActivated(EndTurnEvent event, Game game)
 			throws GameFlowInterruptedException {
 		this.player.resetPlayerStates();
 	}

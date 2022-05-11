@@ -4,7 +4,6 @@ import commands.game.client.ShowCardSelectionPanelUIClientCommand;
 import core.event.game.instants.PlayerCardSelectionEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.ConnectionController;
 import core.server.game.Game;
 import exceptions.server.game.GameFlowInterruptedException;
 
@@ -20,9 +19,9 @@ public class PlayerCardSelectionEventHandler extends AbstractEventHandler<Player
 	}
 
 	@Override
-	protected void handleIfActivated(PlayerCardSelectionEvent event, Game game, ConnectionController connection)
+	protected void handleIfActivated(PlayerCardSelectionEvent event, Game game)
 		throws GameFlowInterruptedException {
-		connection.sendCommandToPlayer(
+		game.getConnectionController().sendCommandToPlayer(
 			this.player.getName(),
 			new ShowCardSelectionPanelUIClientCommand(
 				event.getSource(),

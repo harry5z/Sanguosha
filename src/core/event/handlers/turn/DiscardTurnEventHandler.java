@@ -6,7 +6,6 @@ import commands.game.client.DiscardGameUIClientCommand;
 import core.event.game.turn.DiscardTurnEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.ConnectionController;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -23,7 +22,7 @@ public class DiscardTurnEventHandler extends AbstractEventHandler<DiscardTurnEve
 	}
 
 	@Override
-	protected void handleIfActivated(DiscardTurnEvent event, Game game, ConnectionController connection) throws GameFlowInterruptedException {
+	protected void handleIfActivated(DiscardTurnEvent event, Game game) throws GameFlowInterruptedException {
 		if (!this.player.equals(game.getCurrentPlayer())) {
 			return;
 		}
