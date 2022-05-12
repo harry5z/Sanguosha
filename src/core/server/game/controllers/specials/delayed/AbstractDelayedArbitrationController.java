@@ -7,7 +7,6 @@ import core.server.game.GameInternal;
 import core.server.game.controllers.ArbitrationRequiredGameController;
 import core.server.game.controllers.GameControllerStage;
 import core.server.game.controllers.mechanics.ArbitrationController;
-import core.server.game.controllers.mechanics.TurnGameController;
 import core.server.game.controllers.specials.AbstractSpecialGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
@@ -24,12 +23,10 @@ public abstract class AbstractDelayedArbitrationController
 	}
 	
 	protected PlayerCompleteServer target;
-	protected final TurnGameController currentTurn;
 	protected boolean effective;
 
-	public AbstractDelayedArbitrationController(PlayerCompleteServer target, TurnGameController turn) {
+	public AbstractDelayedArbitrationController(PlayerCompleteServer target) {
 		this.target = target;
-		this.currentTurn = turn;
 		this.effective = false;
 	}
 

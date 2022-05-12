@@ -4,21 +4,20 @@ import cards.Card;
 import cards.Card.Suit;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
-import core.server.game.controllers.mechanics.TurnGameController;
 import core.server.game.controllers.mechanics.TurnGameController.TurnStage;
 import utils.DelayedStackItem;
 import utils.DelayedType;
 
 public class StarvationArbitrationController extends AbstractDelayedArbitrationController {
 
-	public StarvationArbitrationController(PlayerCompleteServer target, TurnGameController turn) {
-		super(target, turn);
+	public StarvationArbitrationController(PlayerCompleteServer target) {
+		super(target);
 	}
 
 	@Override
 	protected void handleEffect(GameInternal game) {
 		// skip DRAW
-		this.currentTurn.skipStage(TurnStage.DRAW);
+		game.getTurnController().skipStage(TurnStage.DRAW);
 		DelayedStackItem item = this.target.removeDelayed(DelayedType.STARVATION);
 		game.getDeck().discard(item.delayed);
 	}

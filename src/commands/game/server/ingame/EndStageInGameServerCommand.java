@@ -3,7 +3,6 @@ package commands.game.server.ingame;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
-import core.server.game.controllers.mechanics.TurnGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class EndStageInGameServerCommand extends InGameServerCommand {
@@ -16,7 +15,7 @@ public class EndStageInGameServerCommand extends InGameServerCommand {
 			
 			@Override
 			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
-				game.<TurnGameController>getNextGameController().nextStage();
+				game.getTurnController().nextStage();
 			}
 		};
 	}

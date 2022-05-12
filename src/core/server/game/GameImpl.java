@@ -1,6 +1,5 @@
 package core.server.game;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -62,11 +61,6 @@ public class GameImpl implements Game {
 		this.handlers = new GameEventHandler();
 	}
 
-	@Override
-	public List<PlayerCompleteServer> getPlayers() {
-		return new ArrayList<>(players);
-	}
-	
 	@Override
 	public List<PlayerCompleteServer> getPlayersAlive() {
 		return players.stream().filter(player -> player.isAlive()).collect(Collectors.toList());
@@ -189,6 +183,11 @@ public class GameImpl implements Game {
 		} else {
 			return (T) this.turnController;
 		}
+	}
+	
+	@Override
+	public TurnGameController getTurnController() {
+		return this.turnController;
 	}
 	
 	@Override

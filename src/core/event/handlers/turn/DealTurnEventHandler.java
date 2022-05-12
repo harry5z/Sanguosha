@@ -1,6 +1,5 @@
 package core.event.handlers.turn;
 
-import commands.game.client.DealStartGameUIClientCommmand;
 import core.event.game.turn.DealTurnEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
@@ -15,10 +14,7 @@ public class DealTurnEventHandler extends AbstractEventHandler<DealTurnEvent> {
 
 	@Override
 	public void handleIfActivated(DealTurnEvent event, GameDriver game) throws GameFlowInterruptedException {
-		game.getConnectionController().sendCommandToPlayer(
-			player.getName(),
-			new DealStartGameUIClientCommmand(event.currentPlayer.getPlayerInfo())
-		);
+		player.clearDisposalArea();
 	}
 
 	@Override

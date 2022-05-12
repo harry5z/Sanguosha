@@ -8,12 +8,11 @@ import core.event.game.GameEvent;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.controllers.GameController;
+import core.server.game.controllers.mechanics.TurnGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public interface GameInternal extends GameEventRegistrar, GameDriver {
 	
-	public List<PlayerCompleteServer> getPlayers();
-
 	public List<PlayerCompleteServer> getPlayersAlive();
 	
 	public int getNumberOfPlayersAlive();
@@ -27,6 +26,8 @@ public interface GameInternal extends GameEventRegistrar, GameDriver {
 	public PlayerCompleteServer getCurrentPlayer();
 	
 	public <T extends GameController> T getNextGameController();
+	
+	public TurnGameController getTurnController();
 
 	public void popGameController();
 

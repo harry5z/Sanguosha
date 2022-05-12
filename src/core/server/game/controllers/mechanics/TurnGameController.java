@@ -7,7 +7,6 @@ import core.event.game.turn.DealStartTurnEvent;
 import core.event.game.turn.DealTurnEvent;
 import core.event.game.turn.DiscardTurnEvent;
 import core.event.game.turn.DrawStartTurnEvent;
-import core.event.game.turn.DrawTurnEvent;
 import core.event.game.turn.EndTurnEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
@@ -100,7 +99,7 @@ public class TurnGameController implements GameController {
 					this.currentStage = TurnStage.DRAW_BEGINNING;
 				} else {
 					DelayedStackItem item = this.currentPlayer.getDelayedQueue().poll();
-					game.pushGameController(item.type.getController(this.currentPlayer, this));
+					game.pushGameController(item.type.getController(this.currentPlayer));
 				}
 				return;
 			case DRAW_BEGINNING:
@@ -109,16 +108,17 @@ public class TurnGameController implements GameController {
 				return;
 			case DRAW:
 				this.nextStage();
-				game.emit(new DrawTurnEvent(this.currentPlayer));
+				game.pushGameController(new ReceiveCardsGameController(currentPlayer, game.getDeck().drawMany(2)));
 				return;
 			case DEAL_BEGINNING:
 				this.nextStage();
 				game.emit(new DealStartTurnEvent(this));
 				return;
 			case DEAL:
-				this.currentPlayer.clearDisposalArea();
 				game.emit(new DealTurnEvent(this.currentPlayer));
-				throw new GameFlowInterruptedException();
+				// Does not call nextStage because this may be called multiple times
+				game.pushGameController(new DealPhaseGameController());
+				return;
 			case DISCARD_BEGINNING:
 				// nothing here yet
 				this.nextStage();
@@ -126,8 +126,8 @@ public class TurnGameController implements GameController {
 			case DISCARD:
 				// nothing here yet
 				this.nextStage();
-				this.currentPlayer.clearDisposalArea();
 				game.emit(new DiscardTurnEvent(this.currentPlayer));
+				game.pushGameController(new DiscardPhaseGameController());
 				return;
 			case DISCARD_END:
 				// nothing here yet

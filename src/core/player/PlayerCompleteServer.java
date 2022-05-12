@@ -12,7 +12,6 @@ import core.event.handlers.instant.PlayerCardSelectionEventHandler;
 import core.event.handlers.turn.DealTurnEventHandler;
 import core.event.handlers.turn.DefaultEndTurnEventHandler;
 import core.event.handlers.turn.DiscardTurnEventHandler;
-import core.event.handlers.turn.DrawTurnEventHandler;
 import core.server.game.Game;
 import exceptions.server.game.InvalidPlayerCommandException;
 
@@ -70,7 +69,6 @@ public class PlayerCompleteServer extends PlayerComplete {
 	public void onGameReady(Game game) {
 		/* setup event listeners */
 		game.registerEventHandler(new DealTurnEventHandler(this));
-		game.registerEventHandler(new DrawTurnEventHandler(this));
 		game.registerEventHandler(new DiscardTurnEventHandler(this));
 		game.registerEventHandler(new RequestDecisionEventHandler(this));
 		game.registerEventHandler(new RequestDodgeEventHandler(this));

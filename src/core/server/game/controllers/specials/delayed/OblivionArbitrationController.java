@@ -4,15 +4,14 @@ import cards.Card;
 import cards.Card.Suit;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
-import core.server.game.controllers.mechanics.TurnGameController;
 import core.server.game.controllers.mechanics.TurnGameController.TurnStage;
 import utils.DelayedStackItem;
 import utils.DelayedType;
 
 public class OblivionArbitrationController extends AbstractDelayedArbitrationController {
 
-	public OblivionArbitrationController(PlayerCompleteServer target, TurnGameController turn) {
-		super(target, turn);
+	public OblivionArbitrationController(PlayerCompleteServer target) {
+		super(target);
 	}
 
 	@Override
@@ -22,7 +21,7 @@ public class OblivionArbitrationController extends AbstractDelayedArbitrationCon
 
 	@Override
 	protected void handleEffect(GameInternal game) {
-		this.currentTurn.skipStage(TurnStage.DEAL);
+		game.getTurnController().skipStage(TurnStage.DEAL);
 		DelayedStackItem item = this.target.removeDelayed(DelayedType.OBLIVION);
 		game.getDeck().discard(item.delayed);
 	}

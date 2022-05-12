@@ -7,14 +7,13 @@ import core.server.game.Damage;
 import core.server.game.Damage.Element;
 import core.server.game.GameInternal;
 import core.server.game.controllers.mechanics.DamageGameController;
-import core.server.game.controllers.mechanics.TurnGameController;
 import utils.DelayedStackItem;
 import utils.DelayedType;
 
 public class LightningArbitrationController extends AbstractDelayedArbitrationController {
 	
-	public LightningArbitrationController(PlayerCompleteServer target, TurnGameController turn) {
-		super(target, turn);
+	public LightningArbitrationController(PlayerCompleteServer target) {
+		super(target);
 	}
 
 	@Override
