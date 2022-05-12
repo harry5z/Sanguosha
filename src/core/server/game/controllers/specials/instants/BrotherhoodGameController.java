@@ -5,7 +5,7 @@ import java.util.Queue;
 import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.BrotherhoodTargetEffectivenessEvent;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.mechanics.HealGameController;
 
 public class BrotherhoodGameController extends AbstractMultiTargetInstantSpecialGameController {
@@ -15,7 +15,7 @@ public class BrotherhoodGameController extends AbstractMultiTargetInstantSpecial
 	}
 
 	@Override
-	protected void takeEffect(Game game) {
+	protected void takeEffect(GameInternal game) {
 		this.nextStage();
 		if (this.currentTarget.isDamaged()) {
 			game.pushGameController(new HealGameController(this.source, this.currentTarget));

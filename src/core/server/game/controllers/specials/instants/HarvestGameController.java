@@ -12,7 +12,7 @@ import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.GenericAOEInstantSpecialTargetEffectivenessEvent;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.mechanics.ReceiveCardsGameController;
 import core.server.game.controllers.mechanics.RecycleCardsGameController;
@@ -27,7 +27,7 @@ public class HarvestGameController extends AbstractMultiTargetInstantSpecialGame
 	}
 	
 	@Override
-	protected void takeEffect(Game game) throws GameFlowInterruptedException {
+	protected void takeEffect(GameInternal game) throws GameFlowInterruptedException {
 		game.getConnectionController().sendCommandToAllPlayers(
 			new ShowHarvestCardSelectionPaneUIClientCommand(
 				this.currentTarget.getPlayerInfo(),
@@ -43,7 +43,7 @@ public class HarvestGameController extends AbstractMultiTargetInstantSpecialGame
 	}
 
 	@Override
-	public void onCardSelected(Game game, Card card, PlayerCardZone zone) {
+	public void onCardSelected(GameInternal game, Card card, PlayerCardZone zone) {
 		this.nextStage();
 		// TODO: sanity check
 		this.selectableCards.replace(card, true);
@@ -61,7 +61,7 @@ public class HarvestGameController extends AbstractMultiTargetInstantSpecialGame
 	}
 	
 	@Override
-	protected void onLoaded(Game game) {
+	protected void onLoaded(GameInternal game) {
 		this.selectableCards = game.getDeck().drawMany(game.getNumberOfPlayersAlive()).stream().collect(Collectors.toMap(card -> card, card -> false));
 		// for client UI update only, won't cause interruption
 		game.getConnectionController().sendCommandToAllPlayers(
@@ -70,7 +70,7 @@ public class HarvestGameController extends AbstractMultiTargetInstantSpecialGame
 	}
 
 	@Override
-	protected void onSettled(Game game) {
+	protected void onSettled(GameInternal game) {
 		// for client UI update only, won't cause interruption
 		game.getConnectionController().sendCommandToAllPlayers(new ShowHarvestCardSelectionPaneUIClientCommand(null, null));
 		// discard all unselected cards

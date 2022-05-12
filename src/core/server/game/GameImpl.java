@@ -1,5 +1,6 @@
 package core.server.game;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +12,6 @@ import commands.game.client.EnterOriginalGameRoomGameClientCommand;
 import core.Deck;
 import core.event.game.GameEvent;
 import core.event.handlers.EventHandler;
-import core.heroes.original.Blank;
 import core.heroes.original.GanNing;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
@@ -63,15 +63,10 @@ public class GameImpl implements Game {
 	}
 
 	@Override
-	public List<PlayerInfo> getPlayersInfo() {
-		return this.players.stream().map(player -> player.getPlayerInfo()).collect(Collectors.toList());
-	}
-
-	@Override
 	public List<PlayerCompleteServer> getPlayers() {
-		return players;
+		return new ArrayList<>(players);
 	}
-
+	
 	@Override
 	public List<PlayerCompleteServer> getPlayersAlive() {
 		return players.stream().filter(player -> player.isAlive()).collect(Collectors.toList());
@@ -98,13 +93,6 @@ public class GameImpl implements Game {
 		throw new RuntimeException("Player " + info.getName() + "does not exist?");
 	}
 
-	@Override
-	public void addPlayer(PlayerInfo info) {
-		PlayerCompleteServer player = new PlayerCompleteServer(info.getName(), info.getPosition());
-		player.setHero(new Blank()); // no heroes now..
-		players.add(player);
-	}
-	
 	private PlayerCompleteServer getNextPlayer(PlayerCompleteServer current) {
 		int pos = current.getPosition();
 		pos = (pos + 1) % this.players.size();
@@ -139,11 +127,12 @@ public class GameImpl implements Game {
 
 	@Override
 	public void start() {
+		List<PlayerInfo> playersInfo = players.stream().map(p -> p.getPlayerInfo()).collect(Collectors.toList());
 		this.room.sendCommandToPlayers(
 			this.players.stream().collect(
 				Collectors.toMap(
 					player -> player.getName(),
-					player -> new EnterOriginalGameRoomGameClientCommand(getPlayersInfo(), player.getPlayerInfo())
+					player -> new EnterOriginalGameRoomGameClientCommand(playersInfo, player.getPlayerInfo())
 				)
 			)
 		);
@@ -158,7 +147,7 @@ public class GameImpl implements Game {
 			player.setHero(new GanNing()); // TODO: add and change to other heroes
 			player.onGameReady(this);
 		}
-		this.turnController = new TurnGameController(room);
+		this.turnController = new TurnGameController(room.getGame());
 		for (PlayerCompleteServer player : players) {
 			player.addCards(deck.drawMany(4));
 		}
@@ -173,11 +162,6 @@ public class GameImpl implements Game {
 			}
 		}
 		throw new RuntimeException("No player found for predicate");
-	}
-
-	@Override
-	public void drawCards(PlayerCompleteServer player, int amount) {
-		player.addCards(deck.drawMany(amount));
 	}
 	
 	@Override

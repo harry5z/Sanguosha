@@ -9,7 +9,7 @@ import cards.equipments.Equipment;
 import core.event.game.instants.PlayerCardSelectionEvent;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.mechanics.ReceiveCardsGameController;
 import core.server.game.controllers.mechanics.UnequipGameController;
@@ -23,7 +23,7 @@ public class StealGameController extends SingleTargetInstantSpecialGameControlle
 	}
 
 	@Override
-	protected void takeEffect(Game game) throws GameFlowInterruptedException {
+	protected void takeEffect(GameInternal game) throws GameFlowInterruptedException {
 		if (this.target.getHandCount() == 0 && !this.target.isEquipped() && this.target.getDelayedQueue().isEmpty()) {
 			// if no card left on target, Sabotage is ineffective
 			this.nextStage();
@@ -43,7 +43,7 @@ public class StealGameController extends SingleTargetInstantSpecialGameControlle
 	}
 	
 	@Override
-	public void onCardSelected(Game game, Card card, PlayerCardZone zone) {
+	public void onCardSelected(GameInternal game, Card card, PlayerCardZone zone) {
 		this.nextStage();
 		switch(zone) {
 			case HAND:

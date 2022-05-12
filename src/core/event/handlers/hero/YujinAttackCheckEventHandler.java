@@ -5,6 +5,7 @@ import core.event.game.basic.AttackLockedTargetSkillsCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.mechanics.AttackResolutionGameController.AttackResolutionStage;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -30,7 +31,7 @@ public class YujinAttackCheckEventHandler extends AbstractEventHandler<AttackLoc
 		if (event.controller.getAttackCard().getColor() == Color.BLACK) {
 			game.pushGameController(new AbstractSingleStageGameController() {
 				@Override
-				protected void handleOnce(Game game) throws GameFlowInterruptedException {
+				protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 					// skip Attack Resolution
 					event.controller.setStage(AttackResolutionStage.END);
 				}

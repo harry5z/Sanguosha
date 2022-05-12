@@ -1,7 +1,7 @@
 package core.server.game.controllers.mechanics;
 
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -34,7 +34,7 @@ public final class HealGameController extends AbstractGameController<HealGameCon
 	}
 
 	@Override
-	protected void handleStage(Game game, HealStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(GameInternal game, HealStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
 			case HEAL_VALUE:
 				// nothing here yet

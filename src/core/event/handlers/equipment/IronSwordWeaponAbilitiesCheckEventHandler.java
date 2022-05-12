@@ -4,6 +4,7 @@ import core.event.game.basic.AttackLockedSourceWeaponAbilitiesCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.mechanics.AttackResolutionGameController.AttackResolutionStage;
 import core.server.game.controllers.mechanics.DamageGameController.DamageStage;
@@ -30,7 +31,7 @@ public class IronSwordWeaponAbilitiesCheckEventHandler extends AbstractEventHand
 		
 		game.pushGameController(new AbstractSingleStageGameController() {
 			@Override
-			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				// Fully ignore all stages which involve checking target equipment
 				event.controller.skipStage(AttackResolutionStage.TARGET_LOCKED_TARGET_EQUIPMENT_ABILITIES);
 				event.controller.dodgeController.skipStage(DodgeStage.TARGET_EQUIPMENT_ABILITIES);

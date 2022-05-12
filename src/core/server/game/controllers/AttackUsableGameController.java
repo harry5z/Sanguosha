@@ -1,11 +1,11 @@
 package core.server.game.controllers;
 
 import cards.Card;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 
 public interface AttackUsableGameController extends GameController {
 
-	public void onAttackUsed(Game game, Card card);
+	public void onAttackUsed(GameInternal game, Card card);
 	
-	public void onAttackNotUsed(Game game);
+	public void onAttackNotUsed(GameInternal game);
 }

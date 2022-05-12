@@ -5,6 +5,7 @@ import core.event.game.basic.AttackTargetEquipmentCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.mechanics.AttackResolutionGameController.AttackResolutionStage;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -33,7 +34,7 @@ public class IronShieldAttackTargetEuipmentCheckEventHandler extends AbstractEve
 		
 		game.pushGameController(new AbstractSingleStageGameController() {
 			@Override
-			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				// skip Attack Resolution
 				event.getController().setStage(AttackResolutionStage.END);
 			}

@@ -4,7 +4,7 @@ import java.util.Set;
 
 import cards.Card;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.ArbitrationRequiredGameController;
 import core.server.game.controllers.GameControllerStage;
@@ -30,7 +30,7 @@ public class ArbitrationController extends AbstractGameController<ArbitrationCon
 	}
 	
 	@Override
-	protected void handleStage(Game game, ArbitrationStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(GameInternal game, ArbitrationStage stage) throws GameFlowInterruptedException {
 		switch (stage) {
 			case ARBITRATION:
 				this.nextStage();

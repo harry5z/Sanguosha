@@ -1,6 +1,6 @@
 package core.server.game.controllers;
 
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public abstract class AbstractGameController<T extends GameControllerStage<?>> implements GameController {
@@ -12,7 +12,7 @@ public abstract class AbstractGameController<T extends GameControllerStage<?>> i
 	}
 	
 	@Override
-	public final void proceed(Game game) throws GameFlowInterruptedException {
+	public final void proceed(GameInternal game) throws GameFlowInterruptedException {
 		if (this.currentStage.isLastStage()) {
 			game.popGameController();
 			return;
@@ -29,7 +29,7 @@ public abstract class AbstractGameController<T extends GameControllerStage<?>> i
 		this.currentStage = stage;
 	}
 	
-	protected abstract void handleStage(Game game, T stage) throws GameFlowInterruptedException;
+	protected abstract void handleStage(GameInternal game, T stage) throws GameFlowInterruptedException;
 	
 	protected abstract T getInitialStage();
 	

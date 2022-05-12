@@ -5,7 +5,7 @@ import java.util.Set;
 import cards.Card;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.UseCardOnHandGameController;
@@ -27,7 +27,7 @@ public abstract class AbstractInitiationInGameServerCommand extends InGameServer
 	public final GameController getGameController() {
 		return new AbstractSingleStageGameController() {
 			@Override
-			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				game.pushGameController(getInitiationGameController(game, target != null ? game.findPlayer(target) : null));
 				if (card != null) {
 					PlayerCompleteServer source = game.getCurrentPlayer();
@@ -37,6 +37,6 @@ public abstract class AbstractInitiationInGameServerCommand extends InGameServer
 		};
 	}
 	
-	protected abstract GameController getInitiationGameController(Game game, PlayerCompleteServer target);
+	protected abstract GameController getInitiationGameController(GameInternal game, PlayerCompleteServer target);
 
 }

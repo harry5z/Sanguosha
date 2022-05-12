@@ -7,7 +7,7 @@ import cards.Card;
 import core.event.game.DodgeTargetEquipmentCheckEvent;
 import core.event.game.basic.RequestDodgeEvent;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.DodgeUsableGameController;
 import core.server.game.controllers.GameControllerStage;
@@ -35,7 +35,7 @@ public class DodgeGameController extends AbstractGameController<DodgeGameControl
 	}
 
 	@Override
-	protected void handleStage(Game game, DodgeStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(GameInternal game, DodgeStage stage) throws GameFlowInterruptedException {
 		if (this.skippedStages.contains(stage)) {
 			this.nextStage();
 			return;
@@ -57,7 +57,7 @@ public class DodgeGameController extends AbstractGameController<DodgeGameControl
 		}
 	}
 
-	public void onDodgeUsed(Game game, Card card) {
+	public void onDodgeUsed(GameInternal game, Card card) {
 		game.pushGameController(new UseCardOnHandGameController(target, Set.of(card)));
 		this.nextController.onDodged();
 		this.setStage(DodgeStage.AFTER_DODGED_SKILLS);

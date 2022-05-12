@@ -10,7 +10,7 @@ import core.event.game.basic.RequestDecisionEvent;
 import core.event.game.instants.PlayerCardSelectionEvent;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractPlayerDecisionActionGameController;
 import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.DecisionRequiredGameController;
@@ -45,13 +45,13 @@ public class IcySwordGameController
 	
 
 	@Override
-	protected void handleDecisionRequest(Game game) throws GameFlowInterruptedException {
+	protected void handleDecisionRequest(GameInternal game) throws GameFlowInterruptedException {
 		game.emit(new RequestDecisionEvent(this.source.getPlayerInfo(), "Use Icy Sword?"));
 		throw new GameFlowInterruptedException();		
 	}
 
 	@Override
-	protected void handleDecisionConfirmation(Game game) throws GameFlowInterruptedException {
+	protected void handleDecisionConfirmation(GameInternal game) throws GameFlowInterruptedException {
 		if (this.decisionConfirmed) {
 			// If Icy Sword usage is confirmed, prevent Attack damage
 			this.controller.setStage(AttackResolutionStage.END);
@@ -62,7 +62,7 @@ public class IcySwordGameController
 	}
 
 	@Override
-	protected void handleAction(Game game) throws GameFlowInterruptedException {
+	protected void handleAction(GameInternal game) throws GameFlowInterruptedException {
 		if (!this.discardCompleted) {
 			// stay in Action stage while discard is not completed
 			this.setStage(PlayerDecisionAction.ACTION);
@@ -81,7 +81,7 @@ public class IcySwordGameController
 	}
 
 	@Override
-	public void onCardSelected(Game game, Card card, PlayerCardZone zone) {
+	public void onCardSelected(GameInternal game, Card card, PlayerCardZone zone) {
 		this.numCardDiscarded++;
 		switch(zone) {
 			case HAND:

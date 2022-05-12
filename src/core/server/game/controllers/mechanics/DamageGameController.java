@@ -7,9 +7,9 @@ import core.event.game.damage.TargetEquipmentCheckDamageEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
 import core.server.game.Damage.Element;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
-import core.server.game.Game;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class DamageGameController extends AbstractGameController<DamageGameController.DamageStage> {
@@ -35,7 +35,7 @@ public class DamageGameController extends AbstractGameController<DamageGameContr
 	}
 
 	@Override
-	protected void handleStage(Game game, DamageStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(GameInternal game, DamageStage stage) throws GameFlowInterruptedException {
 		if (this.skippedStages.contains(stage)) {
 			this.nextStage();
 			return;

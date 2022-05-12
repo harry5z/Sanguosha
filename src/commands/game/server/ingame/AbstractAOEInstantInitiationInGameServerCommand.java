@@ -5,7 +5,7 @@ import java.util.Queue;
 
 import cards.Card;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.GameController;
 
 public abstract class AbstractAOEInstantInitiationInGameServerCommand extends AbstractInitiationInGameServerCommand {
@@ -17,7 +17,7 @@ public abstract class AbstractAOEInstantInitiationInGameServerCommand extends Ab
 	}
 
 	@Override
-	protected final GameController getInitiationGameController(Game game, PlayerCompleteServer target) {
+	protected final GameController getInitiationGameController(GameInternal game, PlayerCompleteServer target) {
 		Queue<PlayerCompleteServer> queue = new LinkedList<>();
 		PlayerCompleteServer currentPlayer = game.getCurrentPlayer();
 		PlayerCompleteServer next = game.getNextPlayerAlive(currentPlayer);

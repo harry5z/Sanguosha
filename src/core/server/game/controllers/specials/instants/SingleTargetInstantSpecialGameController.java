@@ -2,7 +2,7 @@ package core.server.game.controllers.specials.instants;
 
 import core.event.game.basic.RequestNullificationEvent;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public abstract class SingleTargetInstantSpecialGameController extends AbstractInstantSpecialGameController {
@@ -15,7 +15,7 @@ public abstract class SingleTargetInstantSpecialGameController extends AbstractI
 	}
 
 	@Override
-	protected void handleStage(Game game, SpecialStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(GameInternal game, SpecialStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
 			case LOADED:
 				// nothing here yet
@@ -54,6 +54,6 @@ public abstract class SingleTargetInstantSpecialGameController extends AbstractI
 		}
 	}
 	
-	protected abstract void takeEffect(Game game) throws GameFlowInterruptedException;
+	protected abstract void takeEffect(GameInternal game) throws GameFlowInterruptedException;
 
 }

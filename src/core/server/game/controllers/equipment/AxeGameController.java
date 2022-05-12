@@ -7,7 +7,7 @@ import cards.equipments.Equipment;
 import commands.game.client.equipment.AxeAbilityGameClientCommand;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractPlayerDecisionActionGameController;
 import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.DecisionRequiredGameController;
@@ -32,13 +32,13 @@ public class AxeGameController extends AbstractPlayerDecisionActionGameControlle
 	}
 
 	@Override
-	protected void handleDecisionRequest(Game game) throws GameFlowInterruptedException {
+	protected void handleDecisionRequest(GameInternal game) throws GameFlowInterruptedException {
 		game.getConnectionController().sendCommandToAllPlayers(new AxeAbilityGameClientCommand(this.source.getPlayerInfo()));
 		throw new GameFlowInterruptedException();		
 	}
 
 	@Override
-	protected void handleDecisionConfirmation(Game game) {
+	protected void handleDecisionConfirmation(GameInternal game) {
 		if (this.confirmed) {
 			// if confirmed, force the Attack to hit
 			this.controller.setStage(AttackResolutionStage.PRE_DAMAGE_SOURCE_WEAPON_ABILITIES);
@@ -46,7 +46,7 @@ public class AxeGameController extends AbstractPlayerDecisionActionGameControlle
 	}
 
 	@Override
-	protected void handleAction(Game game) {
+	protected void handleAction(GameInternal game) {
 		// handled in #onCardSelected
 	}
 	
@@ -56,7 +56,7 @@ public class AxeGameController extends AbstractPlayerDecisionActionGameControlle
 	}
 
 	@Override
-	public void onCardSelected(Game game, Card card, PlayerCardZone zone) {
+	public void onCardSelected(GameInternal game, Card card, PlayerCardZone zone) {
 		switch (zone) {
 			case HAND:
 				try {

@@ -4,7 +4,7 @@ import cards.basics.Attack;
 import commands.game.client.DecisionUIClientCommand;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage.Element;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractPlayerDecisionActionGameController;
 import core.server.game.controllers.DecisionRequiredGameController;
 import core.server.game.controllers.mechanics.AttackGameController;
@@ -28,7 +28,7 @@ public class FeatheredFanGameController extends AbstractPlayerDecisionActionGame
 	}
 
 	@Override
-	protected void handleDecisionRequest(Game game) throws GameFlowInterruptedException {
+	protected void handleDecisionRequest(GameInternal game) throws GameFlowInterruptedException {
 		game.getConnectionController().sendCommandToAllPlayers(
 			new DecisionUIClientCommand(this.source.getPlayerInfo(), "Use Feathered Fan?")
 		);
@@ -36,7 +36,7 @@ public class FeatheredFanGameController extends AbstractPlayerDecisionActionGame
 	}
 
 	@Override
-	protected void handleDecisionConfirmation(Game game) throws GameFlowInterruptedException {
+	protected void handleDecisionConfirmation(GameInternal game) throws GameFlowInterruptedException {
 		if (this.confirmed) {
 			Attack original = this.attackController.getAttackCard();
 			this.attackController.setAttackCard(new Attack(Element.FIRE, original.getNumber(), original.getSuit()));
@@ -44,7 +44,7 @@ public class FeatheredFanGameController extends AbstractPlayerDecisionActionGame
 	}
 
 	@Override
-	protected void handleAction(Game game) throws GameFlowInterruptedException {
+	protected void handleAction(GameInternal game) throws GameFlowInterruptedException {
 		// No action
 	}
 

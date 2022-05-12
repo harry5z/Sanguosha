@@ -2,7 +2,7 @@ package cards.equipments.weapons;
 
 import core.event.handlers.equipment.AncientFalchionAttackDamageEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameEventRegistrar;
 
 public class AncientFalchion extends Weapon {
 
@@ -18,12 +18,12 @@ public class AncientFalchion extends Weapon {
 	}
 	
 	@Override
-	public void onEquipped(Game game, PlayerCompleteServer owner) {
+	public void onEquipped(GameEventRegistrar game, PlayerCompleteServer owner) {
 		game.registerEventHandler(new AncientFalchionAttackDamageEventHandler(owner));
 	}
 	
 	@Override
-	public void onUnequipped(Game game, PlayerCompleteServer owner) {
+	public void onUnequipped(GameEventRegistrar game, PlayerCompleteServer owner) {
 		game.removeEventHandler(new AncientFalchionAttackDamageEventHandler(owner));
 	}
 

@@ -10,7 +10,7 @@ import cards.equipments.Equipment;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerState;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.ReceiveCardsGameController;
@@ -34,7 +34,7 @@ public class ReconsiderationSkillInGameServerCommand extends InGameServerCommand
 		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				try {
 					Set<Card> cardsOnHand = new HashSet<>();
 					PlayerCompleteServer source = game.getCurrentPlayer();

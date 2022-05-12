@@ -4,7 +4,7 @@ import java.util.Set;
 
 import cards.Card;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.HealGameController;
@@ -27,7 +27,7 @@ public class UsePeachInGameServerCommand extends InGameServerCommand {
 		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				PlayerCompleteServer currentPlayer = game.getCurrentPlayer();
 				try {
 					if (!currentPlayer.isDamaged()) {

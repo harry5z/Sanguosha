@@ -8,7 +8,7 @@ import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
 import core.server.game.Damage.Element;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.mechanics.DamageGameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -24,7 +24,7 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 	}
 
 	@Override
-	protected void takeEffect(Game game) throws GameFlowInterruptedException {
+	protected void takeEffect(GameInternal game) throws GameFlowInterruptedException {
 		if (this.shownCard == null) {
 			if (this.target.getHandCount() == 0) {
 				// ineffective if target has no card left on hand
@@ -58,7 +58,7 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 	}
 
 	@Override
-	public void onCardSelected(Game game, Card card, PlayerCardZone zone) {
+	public void onCardSelected(GameInternal game, Card card, PlayerCardZone zone) {
 		if (this.shownCard == null) {
 			this.shownCard = card;
 			this.target.showCard(card);

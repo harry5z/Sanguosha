@@ -6,6 +6,7 @@ import core.event.game.instants.BarbarianInvasionTargetEffectivenessEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.specials.SpecialGameController.SpecialStage;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -34,7 +35,7 @@ public class RattanArmorAOEInstantSpecialTargetEffectivenessEventHandler extends
 		
 		game.pushGameController(new AbstractSingleStageGameController() {
 			@Override
-			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				event.getController().setStage(SpecialStage.TARGET_SWITCH);
 			}
 		});

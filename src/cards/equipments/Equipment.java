@@ -6,7 +6,7 @@ import core.client.GamePanel;
 import core.client.game.operations.Operation;
 import core.client.game.operations.mechanics.EquipOperation;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameEventRegistrar;
 import ui.game.interfaces.Activatable;
 
 /**
@@ -59,7 +59,7 @@ public abstract class Equipment extends Card {
 	 * @param game
 	 * @param owner
 	 */
-	public void onEquipped(Game game, PlayerCompleteServer owner) {}
+	public void onEquipped(GameEventRegistrar game, PlayerCompleteServer owner) {}
 	
 	/**
 	 * Client side on-equip setup, e.g. registering Event Handlers
@@ -72,7 +72,7 @@ public abstract class Equipment extends Card {
 	 * @param game
 	 * @param owner
 	 */
-	public void onUnequipped(Game game, PlayerCompleteServer owner) {}
+	public void onUnequipped(GameEventRegistrar game, PlayerCompleteServer owner) {}
 	
 	/**
 	 * Client side on-unequip setup, e.g. unregistering Event Handlers

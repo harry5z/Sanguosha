@@ -3,7 +3,7 @@ package cards.equipments.shields;
 import core.event.handlers.equipment.SilverLionCheckDamageEventHandler;
 import core.event.handlers.equipment.SilverLionUnequipEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameEventRegistrar;
 
 public class SilverLion extends Shield {
 
@@ -19,13 +19,13 @@ public class SilverLion extends Shield {
 	}
 	
 	@Override
-	public void onEquipped(Game game, PlayerCompleteServer owner) {
+	public void onEquipped(GameEventRegistrar game, PlayerCompleteServer owner) {
 		game.registerEventHandler(new SilverLionCheckDamageEventHandler(owner));
 		game.registerEventHandler(new SilverLionUnequipEventHandler(owner));
 	}
 	
 	@Override
-	public void onUnequipped(Game game, PlayerCompleteServer owner) {
+	public void onUnequipped(GameEventRegistrar game, PlayerCompleteServer owner) {
 		game.removeEventHandler(new SilverLionCheckDamageEventHandler(owner));
 		/* unequip event handler is remove in @SilverLionUnequipEventHandler */
 	}

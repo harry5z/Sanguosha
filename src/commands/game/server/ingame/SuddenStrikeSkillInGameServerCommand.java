@@ -6,7 +6,7 @@ import cards.Card;
 import cards.equipments.Equipment;
 import core.player.PlayerCardZone;
 import core.player.PlayerInfo;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.RecycleCardsGameController;
@@ -34,7 +34,7 @@ public class SuddenStrikeSkillInGameServerCommand extends InGameServerCommand {
 		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				game.pushGameController(new SabotageGameController(game.getCurrentPlayer(), game.findPlayer(target)));
 				if (zone == PlayerCardZone.HAND) {
 					game.pushGameController(new UseCardOnHandGameController(game.getCurrentPlayer(), Set.of(card)));

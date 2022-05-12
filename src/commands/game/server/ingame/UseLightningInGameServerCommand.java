@@ -2,7 +2,7 @@ package commands.game.server.ingame;
 
 import cards.Card;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -24,7 +24,7 @@ public class UseLightningInGameServerCommand extends InGameServerCommand {
 		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				PlayerCompleteServer currentPlayer = game.getCurrentPlayer();
 				try {
 					currentPlayer.removeCardFromHand(card);

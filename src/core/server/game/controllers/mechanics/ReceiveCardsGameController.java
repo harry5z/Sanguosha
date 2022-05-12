@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import cards.Card;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -25,7 +25,7 @@ public class ReceiveCardsGameController extends AbstractGameController<ReceiveCa
 	}
 
 	@Override
-	protected void handleStage(Game game, ReceiveCardStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(GameInternal game, ReceiveCardStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
 			case ADD_CARDS:
 				this.nextStage();

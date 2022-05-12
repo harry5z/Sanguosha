@@ -6,7 +6,7 @@ import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.ArrowSalvoTargetEffectivenessEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.DodgeUsableGameController;
 import core.server.game.controllers.mechanics.DamageGameController;
 import core.server.game.controllers.mechanics.DodgeGameController;
@@ -24,7 +24,7 @@ public class ArrowSalvoGameController extends AbstractMultiTargetInstantSpecialG
 	}
 
 	@Override
-	protected void takeEffect(Game game) throws GameFlowInterruptedException {
+	protected void takeEffect(GameInternal game) throws GameFlowInterruptedException {
 		if (!this.hasReacted) {
 			game.pushGameController(new DodgeGameController(
 				this,

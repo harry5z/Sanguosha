@@ -5,7 +5,7 @@ import java.util.Queue;
 import core.event.game.GameEvent;
 import core.event.game.basic.RequestNullificationEvent;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public abstract class AbstractMultiTargetInstantSpecialGameController extends AbstractInstantSpecialGameController {
@@ -20,7 +20,7 @@ public abstract class AbstractMultiTargetInstantSpecialGameController extends Ab
 	}
 
 	@Override
-	protected void handleStage(Game game, SpecialStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(GameInternal game, SpecialStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
 			case LOADED:
 				this.nextStage();
@@ -88,14 +88,14 @@ public abstract class AbstractMultiTargetInstantSpecialGameController extends Ab
 
 	protected abstract GameEvent getTargetEffectivenessEvent();
 	
-	protected abstract void takeEffect(Game game) throws GameFlowInterruptedException;
+	protected abstract void takeEffect(GameInternal game) throws GameFlowInterruptedException;
 	
 	protected boolean canBeNullified() {
 		return true;
 	}
 	
-	protected void onLoaded(Game game) {}
+	protected void onLoaded(GameInternal game) {}
 	
-	protected void onSettled(Game game) {}
+	protected void onSettled(GameInternal game) {}
 
 }

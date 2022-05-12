@@ -1,7 +1,8 @@
 package core.server.game.controllers.specials.instants;
 
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
+import core.server.game.controllers.mechanics.ReceiveCardsGameController;
 
 public class CreationGameController extends SingleTargetInstantSpecialGameController {
 
@@ -10,8 +11,8 @@ public class CreationGameController extends SingleTargetInstantSpecialGameContro
 	}
 
 	@Override
-	protected void takeEffect(Game game) {
-		game.drawCards(this.source, 2);
+	protected void takeEffect(GameInternal game) {
+		game.pushGameController(new ReceiveCardsGameController(source, game.getDeck().drawMany(2)));
 		this.nextStage();
 	}
 	

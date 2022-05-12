@@ -3,7 +3,7 @@ package core.server.game.controllers.specials.delayed;
 import cards.Card;
 import core.event.game.basic.RequestNullificationEvent;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.ArbitrationRequiredGameController;
 import core.server.game.controllers.GameControllerStage;
 import core.server.game.controllers.mechanics.ArbitrationController;
@@ -34,7 +34,7 @@ public abstract class AbstractDelayedArbitrationController
 	}
 
 	@Override
-	protected void handleStage(Game game, DelayedArbitrationStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(GameInternal game, DelayedArbitrationStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
 			case NULLIFICATION:
 				if (this.nullifiedCount >= game.getNumberOfPlayersAlive()) {
@@ -82,9 +82,9 @@ public abstract class AbstractDelayedArbitrationController
 		this.effective = this.isArbitrationEffective(card);
 	}
 	
-	protected abstract void handleEffect(Game game);
+	protected abstract void handleEffect(GameInternal game);
 	
-	protected abstract void beforeEnd(Game game);
+	protected abstract void beforeEnd(GameInternal game);
 	
 	protected abstract boolean isArbitrationEffective(Card card);
 	

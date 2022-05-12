@@ -5,7 +5,7 @@ import java.util.Set;
 import cards.Card;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.AttackUsableGameController;
 import core.server.game.controllers.GameController;
@@ -29,7 +29,7 @@ public class AttackReactionInGameServerCommand extends InGameServerCommand {
 		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				PlayerCompleteServer user = game.findPlayer(source);
 				if (attack != null) {
 					game.<AttackUsableGameController>getNextGameController().onAttackUsed(game, attack);

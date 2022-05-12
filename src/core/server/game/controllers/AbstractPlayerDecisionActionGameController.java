@@ -1,6 +1,6 @@
 package core.server.game.controllers;
 
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public abstract class AbstractPlayerDecisionActionGameController
@@ -14,7 +14,7 @@ public abstract class AbstractPlayerDecisionActionGameController
 	}
 
 	@Override
-	protected final void handleStage(Game game, PlayerDecisionAction stage) throws GameFlowInterruptedException {
+	protected final void handleStage(GameInternal game, PlayerDecisionAction stage) throws GameFlowInterruptedException {
 		switch (stage) {
 			case DECISION_REQUEST:
 				this.nextStage();
@@ -38,10 +38,10 @@ public abstract class AbstractPlayerDecisionActionGameController
 		return PlayerDecisionAction.DECISION_REQUEST;
 	}
 	
-	protected abstract void handleDecisionRequest(Game game) throws GameFlowInterruptedException;
+	protected abstract void handleDecisionRequest(GameInternal game) throws GameFlowInterruptedException;
 	
-	protected abstract void handleDecisionConfirmation(Game game) throws GameFlowInterruptedException;
+	protected abstract void handleDecisionConfirmation(GameInternal game) throws GameFlowInterruptedException;
 	
-	protected abstract void handleAction(Game game) throws GameFlowInterruptedException;
+	protected abstract void handleAction(GameInternal game) throws GameFlowInterruptedException;
 
 }

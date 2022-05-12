@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import cards.Card;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -25,7 +25,7 @@ public class RecycleCardsGameController extends AbstractGameController<RecycleCa
 	}
 
 	@Override
-	protected void handleStage(Game game, RecycleCardStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(GameInternal game, RecycleCardStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
 			case RECYCLE_CARDS:
 				for (Card card : this.cards) {

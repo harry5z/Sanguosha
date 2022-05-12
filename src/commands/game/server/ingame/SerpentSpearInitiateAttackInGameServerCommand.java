@@ -8,7 +8,7 @@ import cards.Card.Color;
 import cards.basics.Attack;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.AttackGameController;
@@ -35,7 +35,7 @@ public class SerpentSpearInitiateAttackInGameServerCommand extends InGameServerC
 		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				try {
 					PlayerCompleteServer player = game.findPlayer(source);
 					Set<PlayerCompleteServer> set = targets.stream().map(target -> game.findPlayer(target)).collect(Collectors.toSet());

@@ -8,7 +8,7 @@ import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.BarbarianInvasionTargetEffectivenessEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AttackUsableGameController;
 import core.server.game.controllers.mechanics.DamageGameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -25,7 +25,7 @@ public class BarbarianInvasionGameController extends AbstractMultiTargetInstantS
 	}
 
 	@Override
-	protected void takeEffect(Game game) throws GameFlowInterruptedException {
+	protected void takeEffect(GameInternal game) throws GameFlowInterruptedException {
 		if (!this.hasReacted) {
 			game.emit(new RequestAttackEvent(
 				this.currentTarget.getPlayerInfo(),
@@ -53,14 +53,14 @@ public class BarbarianInvasionGameController extends AbstractMultiTargetInstantS
 	}
 
 	@Override
-	public void onAttackUsed(Game game, Card card) {
+	public void onAttackUsed(GameInternal game, Card card) {
 		// mark it not effective for the current target
 		this.hasReacted = true;
 		this.effective = false;
 	}
 
 	@Override
-	public void onAttackNotUsed(Game game) {
+	public void onAttackNotUsed(GameInternal game) {
 		this.hasReacted = true;
 		this.effective = true;
 	}

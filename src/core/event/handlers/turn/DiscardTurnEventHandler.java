@@ -7,6 +7,7 @@ import core.event.game.turn.DiscardTurnEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
@@ -30,12 +31,12 @@ public class DiscardTurnEventHandler extends AbstractEventHandler<DiscardTurnEve
 		if (amount > 0) {
 			game.pushGameController(new AbstractSingleStageGameController() {
 				@Override
-				protected void handleOnce(Game game) throws GameFlowInterruptedException {
+				protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 					game.getConnectionController().sendCommandToPlayers(
-						game.getPlayersInfo().stream().collect(
+						game.getPlayers().stream().collect(
 							Collectors.toMap(
-								info -> info.getName(), 
-								info -> new DiscardGameUIClientCommand(game.getCurrentPlayer().getPlayerInfo(), amount)
+								p -> p.getName(), 
+								p -> new DiscardGameUIClientCommand(game.getCurrentPlayer().getPlayerInfo(), amount)
 							)
 						)
 					);

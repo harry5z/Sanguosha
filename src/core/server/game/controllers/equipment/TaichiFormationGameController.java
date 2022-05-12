@@ -4,7 +4,7 @@ import cards.Card;
 import cards.Card.Color;
 import commands.game.client.DecisionUIClientCommand;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractPlayerDecisionActionGameController;
 import core.server.game.controllers.ArbitrationRequiredGameController;
 import core.server.game.controllers.DecisionRequiredGameController;
@@ -29,7 +29,7 @@ public class TaichiFormationGameController
 	}
 	
 	@Override
-	protected void handleDecisionRequest(Game game) throws GameFlowInterruptedException {
+	protected void handleDecisionRequest(GameInternal game) throws GameFlowInterruptedException {
 		game.getConnectionController().sendCommandToAllPlayers(new DecisionUIClientCommand(
 			this.target.getPlayerInfo(),
 			"Use Taichi Formation?"
@@ -38,14 +38,14 @@ public class TaichiFormationGameController
 	}
 
 	@Override
-	protected void handleDecisionConfirmation(Game game) throws GameFlowInterruptedException {
+	protected void handleDecisionConfirmation(GameInternal game) throws GameFlowInterruptedException {
 		if (this.confirmed) {
 			game.pushGameController(new ArbitrationController(this, this.target));
 		}		
 	}
 
 	@Override
-	protected void handleAction(Game game) throws GameFlowInterruptedException {
+	protected void handleAction(GameInternal game) throws GameFlowInterruptedException {
 		if (this.effective) {
 			this.nextController.onDodgeStageSkipped();
 		} else {

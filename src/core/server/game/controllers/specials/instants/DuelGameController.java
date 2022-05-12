@@ -4,7 +4,7 @@ import cards.Card;
 import core.event.game.basic.RequestAttackEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AttackUsableGameController;
 import core.server.game.controllers.mechanics.DamageGameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -19,7 +19,7 @@ public class DuelGameController extends SingleTargetInstantSpecialGameController
 	}
 
 	@Override
-	protected void takeEffect(Game game) throws GameFlowInterruptedException {
+	protected void takeEffect(GameInternal game) throws GameFlowInterruptedException {
 		// Ask current attack user to use Attack
 		game.emit(new RequestAttackEvent(
 			this.currentAttackUser.getPlayerInfo(),
@@ -37,13 +37,13 @@ public class DuelGameController extends SingleTargetInstantSpecialGameController
 	}
 
 	@Override
-	public void onAttackUsed(Game game, Card card) {
+	public void onAttackUsed(GameInternal game, Card card) {
 		// change attack user and continue
 		this.currentAttackUser = this.currentAttackUser == this.target ? this.source : this.target;
 	}
 
 	@Override
-	public void onAttackNotUsed(Game game) {
+	public void onAttackNotUsed(GameInternal game) {
 		this.nextStage();
 		// current attack user takes 1 damage from the other player
 		PlayerCompleteServer damageTarget = this.currentAttackUser;

@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import cards.Card;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -26,7 +26,7 @@ public class UseCardOnHandGameController extends AbstractGameController<UseCardO
 	}
 
 	@Override
-	protected void handleStage(Game game, UseCardOnHandStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(GameInternal game, UseCardOnHandStage stage) throws GameFlowInterruptedException {
 		switch (stage) {
 			case USE_CARDS:
 				try {

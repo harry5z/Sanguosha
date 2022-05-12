@@ -3,7 +3,7 @@ package core.server.game.controllers.specials.delayed;
 import cards.Card;
 import cards.Card.Suit;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.mechanics.TurnGameController;
 import core.server.game.controllers.mechanics.TurnGameController.TurnStage;
 import utils.DelayedStackItem;
@@ -16,7 +16,7 @@ public class StarvationArbitrationController extends AbstractDelayedArbitrationC
 	}
 
 	@Override
-	protected void handleEffect(Game game) {
+	protected void handleEffect(GameInternal game) {
 		// skip DRAW
 		this.currentTurn.skipStage(TurnStage.DRAW);
 		DelayedStackItem item = this.target.removeDelayed(DelayedType.STARVATION);
@@ -29,7 +29,7 @@ public class StarvationArbitrationController extends AbstractDelayedArbitrationC
 	}
 
 	@Override
-	protected void beforeEnd(Game game) {
+	protected void beforeEnd(GameInternal game) {
 		// if Starvation is not effective, discard it
 		if (this.target.hasDelayedType(DelayedType.STARVATION)) {
 			DelayedStackItem item = this.target.removeDelayed(DelayedType.STARVATION);

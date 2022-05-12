@@ -2,7 +2,7 @@ package cards.equipments.shields;
 
 import core.event.handlers.equipment.IronShieldAttackTargetEuipmentCheckEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameEventRegistrar;
 
 public class IronShield extends Shield {
 
@@ -18,12 +18,12 @@ public class IronShield extends Shield {
 	}
 	
 	@Override
-	public void onEquipped(Game game, PlayerCompleteServer owner) {
+	public void onEquipped(GameEventRegistrar game, PlayerCompleteServer owner) {
 		game.registerEventHandler(new IronShieldAttackTargetEuipmentCheckEventHandler(owner));
 	}
 	
 	@Override
-	public void onUnequipped(Game game, PlayerCompleteServer owner) {
+	public void onUnequipped(GameEventRegistrar game, PlayerCompleteServer owner) {
 		game.removeEventHandler(new IronShieldAttackTargetEuipmentCheckEventHandler(owner));
 	}
 	

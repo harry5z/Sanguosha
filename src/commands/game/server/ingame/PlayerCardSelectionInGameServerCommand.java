@@ -2,7 +2,7 @@ package commands.game.server.ingame;
 
 import cards.Card;
 import core.player.PlayerCardZone;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.GameController;
@@ -25,7 +25,7 @@ public class PlayerCardSelectionInGameServerCommand extends InGameServerCommand 
 		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				game.<CardSelectableGameController>getNextGameController().onCardSelected(game, card, zone);
 			}
 		};

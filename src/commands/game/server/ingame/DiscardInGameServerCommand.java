@@ -3,7 +3,7 @@ package commands.game.server.ingame;
 import java.util.List;
 
 import cards.Card;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -24,7 +24,7 @@ public class DiscardInGameServerCommand extends InGameServerCommand {
 		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				try {
 					// TODO convert to discard controller
 					game.getCurrentPlayer().discardCards(cards);

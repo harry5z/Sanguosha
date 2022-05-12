@@ -4,7 +4,7 @@ import core.client.GamePanel;
 import core.client.game.listener.equipment.HalberdClientEventListener;
 import core.player.PlayerCompleteServer;
 import core.player.query_listener.HalberdPlayerAttackTargetLimitQueryListener;
-import core.server.game.Game;
+import core.server.game.GameEventRegistrar;
 
 public class Halberd extends Weapon {
 
@@ -20,7 +20,7 @@ public class Halberd extends Weapon {
 	}
 	
 	@Override
-	public void onEquipped(Game game, PlayerCompleteServer owner) {
+	public void onEquipped(GameEventRegistrar game, PlayerCompleteServer owner) {
 		owner.registerPlayerStatusQueryListener(new HalberdPlayerAttackTargetLimitQueryListener());
 	}
 	
@@ -30,7 +30,7 @@ public class Halberd extends Weapon {
 	}
 	
 	@Override
-	public void onUnequipped(Game game, PlayerCompleteServer owner) {
+	public void onUnequipped(GameEventRegistrar game, PlayerCompleteServer owner) {
 		owner.removePlayerStatusQueryListener(new HalberdPlayerAttackTargetLimitQueryListener());
 	}
 	

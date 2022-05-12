@@ -1,6 +1,6 @@
 package commands.game.server.ingame;
 
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.TurnGameController;
@@ -15,7 +15,7 @@ public class EndStageInGameServerCommand extends InGameServerCommand {
 		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				game.<TurnGameController>getNextGameController().nextStage();
 			}
 		};

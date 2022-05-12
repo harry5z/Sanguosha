@@ -5,7 +5,7 @@ import cards.Card.Suit;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
 import core.server.game.Damage.Element;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.mechanics.DamageGameController;
 import core.server.game.controllers.mechanics.TurnGameController;
 import utils.DelayedStackItem;
@@ -23,7 +23,7 @@ public class LightningArbitrationController extends AbstractDelayedArbitrationCo
 	}
 
 	@Override
-	protected void handleEffect(Game game) {
+	protected void handleEffect(GameInternal game) {
 		DelayedStackItem item = this.target.removeDelayed(DelayedType.LIGHTNING);
 		game.getDeck().discard(item.delayed);
 		game.pushGameController(new DamageGameController(new Damage(3, Element.THUNDER, null, this.target)));
@@ -35,7 +35,7 @@ public class LightningArbitrationController extends AbstractDelayedArbitrationCo
 	}
 
 	@Override
-	protected void beforeEnd(Game game) {
+	protected void beforeEnd(GameInternal game) {
 		// if Lightning is not effective, it is transferred to the next player
 		if (this.target.hasDelayedType(DelayedType.LIGHTNING)) {
 			DelayedStackItem item = this.target.removeDelayed(DelayedType.LIGHTNING);

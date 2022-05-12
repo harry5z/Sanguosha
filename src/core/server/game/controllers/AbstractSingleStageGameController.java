@@ -1,6 +1,6 @@
 package core.server.game.controllers;
 
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public abstract class AbstractSingleStageGameController extends AbstractGameController<AbstractSingleStageGameController.GenericGameControllerStage> {
@@ -19,7 +19,7 @@ public abstract class AbstractSingleStageGameController extends AbstractGameCont
 	}
 	
 	@Override
-	protected final void handleStage(Game game, GenericGameControllerStage stage) throws GameFlowInterruptedException {
+	protected final void handleStage(GameInternal game, GenericGameControllerStage stage) throws GameFlowInterruptedException {
 		switch (stage) {
 			case START:
 				this.nextStage();
@@ -30,6 +30,6 @@ public abstract class AbstractSingleStageGameController extends AbstractGameCont
 		}
 	}
 	
-	protected abstract void handleOnce(Game game) throws GameFlowInterruptedException;
+	protected abstract void handleOnce(GameInternal game) throws GameFlowInterruptedException;
 
 }

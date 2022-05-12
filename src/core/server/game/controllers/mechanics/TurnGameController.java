@@ -10,8 +10,7 @@ import core.event.game.turn.DrawStartTurnEvent;
 import core.event.game.turn.DrawTurnEvent;
 import core.event.game.turn.EndTurnEvent;
 import core.player.PlayerCompleteServer;
-import core.server.GameRoom;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.GameControllerStage;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -35,13 +34,13 @@ public class TurnGameController implements GameController {
 		TURN_END;
 	}
 
-	private final Game game;
+	private final GameInternal game;
 	private PlayerCompleteServer currentPlayer;
 	private TurnStage currentStage;
 	private final Set<TurnStage> skippedStages;
 	
-	public TurnGameController(GameRoom room) {
-		this.game = room.getGame();
+	public TurnGameController(GameInternal game) {
+		this.game = game;
 		this.currentPlayer = game.findPlayer(player -> player.getPosition() == 0);
 		this.currentStage = TurnStage.START_BEGINNING;
 		this.skippedStages = new HashSet<>();
@@ -76,7 +75,7 @@ public class TurnGameController implements GameController {
 	}
 	
 	@Override
-	public void proceed(Game game) throws GameFlowInterruptedException {
+	public void proceed(GameInternal game) throws GameFlowInterruptedException {
 		if (skippedStages.contains(currentStage)) {
 			skippedStages.remove(currentStage);
 			nextStage();

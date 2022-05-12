@@ -8,7 +8,7 @@ import cards.equipments.Equipment.EquipmentType;
 import cards.equipments.weapons.Weapon;
 import core.event.game.basic.RequestAttackEvent;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AttackUsableGameController;
 import core.server.game.controllers.mechanics.AttackGameController;
 import core.server.game.controllers.mechanics.ReceiveCardsGameController;
@@ -27,7 +27,7 @@ public class BorrowSwordGameController
 	}
 	
 	@Override
-	protected void takeEffect(Game game) throws GameFlowInterruptedException {
+	protected void takeEffect(GameInternal game) throws GameFlowInterruptedException {
 		if (!this.target.isEquipped(EquipmentType.WEAPON)) {
 			this.nextStage();
 			return;
@@ -46,13 +46,13 @@ public class BorrowSwordGameController
 	}
 
 	@Override
-	public void onAttackUsed(Game game, Card card) {
+	public void onAttackUsed(GameInternal game, Card card) {
 		this.nextStage();
 		game.pushGameController(new AttackGameController(this.target, this.attackTarget, (Attack) card));
 	}
 
 	@Override
-	public void onAttackNotUsed(Game game) {
+	public void onAttackNotUsed(GameInternal game) {
 		this.nextStage();
 		Weapon weapon = this.target.getWeapon();
 		game.pushGameController(new ReceiveCardsGameController(this.source, Set.of(weapon)));

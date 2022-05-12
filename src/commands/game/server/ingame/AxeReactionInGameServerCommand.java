@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 
 import cards.Card;
 import core.player.PlayerCardZone;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.equipment.AxeGameController;
@@ -26,7 +26,7 @@ public class AxeReactionInGameServerCommand extends InGameServerCommand {
 		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				AxeGameController controller = game.<AxeGameController>getNextGameController();
 				for (Entry<Card, PlayerCardZone> entry : cards.entrySet()) {
 					controller.onCardSelected(game, entry.getKey(), entry.getValue());

@@ -7,7 +7,7 @@ import java.util.Set;
 import cards.basics.Attack;
 import core.event.game.basic.AttackPreAcquisitionWeaponAbilitiesCheckEvent;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -47,7 +47,7 @@ public class AttackGameController extends AbstractGameController<AttackGameContr
 	}
 
 	@Override
-	protected void handleStage(Game game, AttackStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(GameInternal game, AttackStage stage) throws GameFlowInterruptedException {
 		switch (stage) {
 			case PRE_TARGET_ACQUISITION_WEAPON_ABILITIES:
 				this.nextStage();

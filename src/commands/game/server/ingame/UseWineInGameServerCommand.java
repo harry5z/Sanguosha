@@ -3,7 +3,7 @@ package commands.game.server.ingame;
 import java.util.Set;
 
 import cards.Card;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.UseCardOnHandGameController;
@@ -25,7 +25,7 @@ public class UseWineInGameServerCommand extends InGameServerCommand {
 		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				try {
 					if (game.getCurrentPlayer().isWineUsed()) {
 						throw new InvalidPlayerCommandException("wine is already used");

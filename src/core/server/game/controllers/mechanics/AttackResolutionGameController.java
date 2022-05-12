@@ -12,7 +12,7 @@ import core.event.game.basic.AttackTargetEquipmentCheckEvent;
 import core.event.game.damage.AttackDamageModifierEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.DodgeUsableGameController;
 import core.server.game.controllers.GameControllerStage;
@@ -57,7 +57,7 @@ public class AttackResolutionGameController
 	}
 
 	@Override
-	protected void handleStage(Game game, AttackResolutionStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(GameInternal game, AttackResolutionStage stage) throws GameFlowInterruptedException {
 		if (this.skippedStages.contains(stage)) {
 			this.nextStage();
 			return;
