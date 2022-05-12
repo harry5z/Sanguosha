@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import cards.Card;
+import commands.game.client.RequestDodgeGameUIClientCommand;
 import core.event.game.DodgeTargetEquipmentCheckEvent;
-import core.event.game.basic.RequestDodgeEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
@@ -46,7 +46,9 @@ public class DodgeGameController extends AbstractGameController<DodgeGameControl
 				game.emit(new DodgeTargetEquipmentCheckEvent(this, this.target.getPlayerInfo()));
 				break;
 			case DODGE:
-				game.emit(new RequestDodgeEvent(this.target.getPlayerInfo(), this.message));
+				game.getConnectionController().sendCommandToAllPlayers(
+					new RequestDodgeGameUIClientCommand(target.getPlayerInfo(), message)
+				);
 				throw new GameFlowInterruptedException();
 			case AFTER_DODGED_SKILLS:
 				// nothing here yet
