@@ -6,7 +6,7 @@ import cards.Card;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
 import commands.game.client.DecisionUIClientCommand;
-import core.event.game.instants.PlayerCardSelectionEvent;
+import commands.game.client.ShowCardSelectionPanelUIClientCommand;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
@@ -52,12 +52,14 @@ public class KylinBowGameController
 
 	@Override
 	protected void handleAction(GameInternal game) throws GameFlowInterruptedException {
-		game.emit(new PlayerCardSelectionEvent(
-			this.source.getPlayerInfo(),
-			this.target.getPlayerInfo(),
-			Set.of(PlayerCardZone.EQUIPMENT),
-			Set.of(EquipmentType.HORSEPLUS, EquipmentType.HORSEMINUS)
-		));
+		game.getConnectionController().sendCommandToAllPlayers(
+			new ShowCardSelectionPanelUIClientCommand(
+				source.getPlayerInfo(),
+				target.getPlayerInfo(),
+				Set.of(PlayerCardZone.EQUIPMENT),
+				Set.of(EquipmentType.HORSEPLUS, EquipmentType.HORSEMINUS)
+			)
+		);
 		throw new GameFlowInterruptedException();		
 	}
 

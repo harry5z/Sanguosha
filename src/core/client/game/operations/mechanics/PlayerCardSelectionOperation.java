@@ -1,6 +1,5 @@
 package core.client.game.operations.mechanics;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import cards.equipments.Equipment.EquipmentType;
@@ -25,7 +24,7 @@ public class PlayerCardSelectionOperation extends AbstractOperation {
 	) {
 		this.target = target;
 		this.zones = zones;
-		this.equipmentTypes = equipmentTypes != null ? equipmentTypes : Arrays.asList(EquipmentType.values());
+		this.equipmentTypes = equipmentTypes;
 	}
 	
 	@Override

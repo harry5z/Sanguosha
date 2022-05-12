@@ -1,12 +1,14 @@
 package core.server.game.controllers.specials.instants;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
 import cards.Card;
 import cards.equipments.Equipment;
-import core.event.game.instants.PlayerCardSelectionEvent;
+import cards.equipments.Equipment.EquipmentType;
+import commands.game.client.ShowCardSelectionPanelUIClientCommand;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
@@ -29,11 +31,14 @@ public class StealGameController extends SingleTargetInstantSpecialGameControlle
 			this.nextStage();
 			return;
 		}
-		game.emit(new PlayerCardSelectionEvent(
-			this.source.getPlayerInfo(),
-			this.target.getPlayerInfo(),
-			Set.of(PlayerCardZone.HAND, PlayerCardZone.EQUIPMENT, PlayerCardZone.DELAYED)
-		));
+		game.getConnectionController().sendCommandToAllPlayers(
+			new ShowCardSelectionPanelUIClientCommand(
+				source.getPlayerInfo(),
+				target.getPlayerInfo(),
+				Set.of(PlayerCardZone.HAND, PlayerCardZone.EQUIPMENT, PlayerCardZone.DELAYED),
+				Arrays.asList(EquipmentType.values())
+			)
+		);
 		throw new GameFlowInterruptedException();
 	}
 	
