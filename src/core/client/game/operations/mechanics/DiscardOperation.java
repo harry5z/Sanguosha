@@ -18,7 +18,7 @@ public class DiscardOperation extends AbstractMultiCardNoTargetReactionOperation
 
 	@Override
 	protected boolean isConfirmEnabled() {
-		return this.cards.size() > 0;
+		return this.cards.size() == this.maxCards;
 	}
 
 	@Override
