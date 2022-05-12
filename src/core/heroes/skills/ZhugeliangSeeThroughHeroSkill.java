@@ -21,7 +21,7 @@ public class ZhugeliangSeeThroughHeroSkill implements ActiveSkill {
 
 	@Override
 	public String getDescription() {
-		return "You may use any BLACK card on hand as Neutralization";
+		return "You may use any BLACK card on hand as Nullification";
 	}
 
 	@Override

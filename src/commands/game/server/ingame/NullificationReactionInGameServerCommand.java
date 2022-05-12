@@ -11,16 +11,16 @@ import core.server.game.controllers.mechanics.UseCardOnHandGameController;
 import core.server.game.controllers.specials.SpecialGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
-public class NeutralizationReactionInGameServerCommand extends InGameServerCommand {
+public class NullificationReactionInGameServerCommand extends InGameServerCommand {
 
 	private static final long serialVersionUID = 8912576615284742483L;
 	
 	private final PlayerInfo source;
-	private final Card neutralization;
+	private final Card nullification;
 	
-	public NeutralizationReactionInGameServerCommand(PlayerInfo source, Card neutralization) {
+	public NullificationReactionInGameServerCommand(PlayerInfo source, Card nullification) {
 		this.source = source;
-		this.neutralization = neutralization;
+		this.nullification = nullification;
 	}
 
 	@Override
@@ -29,11 +29,11 @@ public class NeutralizationReactionInGameServerCommand extends InGameServerComma
 			
 			@Override
 			protected void handleOnce(Game game) throws GameFlowInterruptedException {
-				if (neutralization != null) {
-					game.<SpecialGameController>getNextGameController().onNeutralized();
-					game.pushGameController(new UseCardOnHandGameController(game.findPlayer(source), Set.of(neutralization)));
+				if (nullification != null) {
+					game.<SpecialGameController>getNextGameController().onNullified();
+					game.pushGameController(new UseCardOnHandGameController(game.findPlayer(source), Set.of(nullification)));
 				} else {
-					game.<SpecialGameController>getNextGameController().onNeutralizationCanceled();
+					game.<SpecialGameController>getNextGameController().onNullificationCanceled();
 				}
 			}
 		};

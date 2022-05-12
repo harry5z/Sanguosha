@@ -47,7 +47,7 @@ import cards.specials.instant.Creation;
 import cards.specials.instant.Duel;
 import cards.specials.instant.FireAttack;
 import cards.specials.instant.Harvest;
-import cards.specials.instant.Neutralization;
+import cards.specials.instant.Nullification;
 import cards.specials.instant.Sabotage;
 import cards.specials.instant.Steal;
 import utils.CardIDUtil;
@@ -219,9 +219,9 @@ public class Deck {
 		used.add(new BorrowSword(12, CLUB, util.getUID()));
 		used.add(new BorrowSword(13, CLUB, util.getUID()));
 
-		used.add(new Neutralization(11, SPADE, util.getUID()));
-		used.add(new Neutralization(12, CLUB, util.getUID()));
-		used.add(new Neutralization(13, CLUB, util.getUID()));
+		used.add(new Nullification(11, SPADE, util.getUID()));
+		used.add(new Nullification(12, CLUB, util.getUID()));
+		used.add(new Nullification(13, CLUB, util.getUID()));
 	}
 
 	private void initDelayed() {
@@ -265,7 +265,7 @@ public class Deck {
 		used.add(new IcySword(2,SPADE, util.getUID()));
 		used.add(new IronShield(2, CLUB, util.getUID()));
 		used.add(new Lightning(12,HEART, util.getUID()));
-		used.add(new Neutralization(12, DIAMOND, util.getUID()));
+		used.add(new Nullification(12, DIAMOND, util.getUID()));
 	}
 
 	private void initBasicBattle() {
@@ -310,9 +310,9 @@ public class Deck {
 		used.add(new FireAttack(2, HEART, util.getUID()));
 		used.add(new FireAttack(4, HEART, util.getUID()));
 		used.add(new FireAttack(12, DIAMOND, util.getUID()));
-		used.add(new Neutralization(1, HEART, util.getUID()));
-		used.add(new Neutralization(13, SPADE, util.getUID()));
-		used.add(new Neutralization(13, HEART, util.getUID()));
+		used.add(new Nullification(1, HEART, util.getUID()));
+		used.add(new Nullification(13, SPADE, util.getUID()));
+		used.add(new Nullification(13, HEART, util.getUID()));
 		used.add(new Chain(10,CLUB, util.getUID()));
 		used.add(new Chain(11,SPADE, util.getUID()));
 		used.add(new Chain(11,CLUB, util.getUID()));

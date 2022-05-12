@@ -16,8 +16,8 @@ public class CreationGameController extends SingleTargetInstantSpecialGameContro
 	}
 	
 	@Override
-	protected String getNeutralizationMessage() {
-		return this.source + " used Creation, use Neutralization?";
+	protected String getNullificationMessage() {
+		return this.source + " used Creation, use Nullification?";
 	}
 
 }

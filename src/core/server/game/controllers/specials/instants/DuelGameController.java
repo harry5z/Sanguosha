@@ -32,8 +32,8 @@ public class DuelGameController extends SingleTargetInstantSpecialGameController
 	
 
 	@Override
-	protected String getNeutralizationMessage() {
-		return this.source + " used Duel on " + this.target + ", use Neutralization?";
+	protected String getNullificationMessage() {
+		return this.source + " used Duel on " + this.target + ", use Nullification?";
 	}
 
 	@Override

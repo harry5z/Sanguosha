@@ -2,7 +2,7 @@ package core.client.game.operations;
 
 /**
  * A generic Operation for when the player is expected to use a card to react
- * to some event (e.g. use Dodge/Neutralization)
+ * to some event (e.g. use Dodge/Nullification)
  * 
  * @author Harry
  *

@@ -4,7 +4,7 @@ import cards.Card;
 import cards.Card.Color;
 import cards.equipments.Equipment.EquipmentType;
 import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.NeutralizationReactionInGameServerCommand;
+import commands.game.server.ingame.NullificationReactionInGameServerCommand;
 import core.player.PlayerSimple;
 import ui.game.interfaces.SkillUI;
 
@@ -36,12 +36,12 @@ public class SeeThroughSkillOperation extends AbstractMultiCardMultiTargetSkillO
 
 	@Override
 	protected String getMessage() {
-		return "Select a BLACK card on hand as Neutralization";
+		return "Select a BLACK card on hand as Nullification";
 	}
 
 	@Override
 	protected InGameServerCommand getCommandOnConfirm() {
-		return new NeutralizationReactionInGameServerCommand(
+		return new NullificationReactionInGameServerCommand(
 			this.panel.getGameState().getSelf().getPlayerInfo(), 
 			this.getFirstCardUI().getCard()
 		);

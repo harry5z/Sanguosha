@@ -24,8 +24,8 @@ public class ChainGameController extends AbstractMultiTargetInstantSpecialGameCo
 	}
 
 	@Override
-	protected String getNeutralizationMessage() {
-		return this.source + " used Chain on " + this.currentTarget + ", use Neutralization?";
+	protected String getNullificationMessage() {
+		return this.source + " used Chain on " + this.currentTarget + ", use Nullification?";
 	}
 
 }

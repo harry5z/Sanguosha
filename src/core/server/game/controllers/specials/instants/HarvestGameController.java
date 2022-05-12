@@ -40,8 +40,8 @@ public class HarvestGameController extends AbstractMultiTargetInstantSpecialGame
 	}
 	
 	@Override
-	protected String getNeutralizationMessage() {
-		return this.currentTarget + " will select a card from Harvest, use Neutralization?";
+	protected String getNullificationMessage() {
+		return this.currentTarget + " will select a card from Harvest, use Nullification?";
 	}
 
 	@Override

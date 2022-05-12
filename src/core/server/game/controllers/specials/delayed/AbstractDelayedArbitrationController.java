@@ -1,7 +1,7 @@
 package core.server.game.controllers.specials.delayed;
 
 import cards.Card;
-import core.event.game.basic.RequestNeutralizationEvent;
+import core.event.game.basic.RequestNullificationEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.ArbitrationRequiredGameController;
@@ -16,7 +16,7 @@ public abstract class AbstractDelayedArbitrationController
 	implements ArbitrationRequiredGameController {
 	
 	public static enum DelayedArbitrationStage implements GameControllerStage<DelayedArbitrationStage> {
-		NEUTRALIZATION,
+		NULLIFICATION,
 		ARBITRATION,
 		EFFECT,
 		BEFORE_END,
@@ -36,22 +36,22 @@ public abstract class AbstractDelayedArbitrationController
 	@Override
 	protected void handleStage(Game game, DelayedArbitrationStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
-			case NEUTRALIZATION:
-				if (this.neutralizedCount >= game.getNumberOfPlayersAlive()) {
-					this.neutralizedCount = 0;
+			case NULLIFICATION:
+				if (this.nullifiedCount >= game.getNumberOfPlayersAlive()) {
+					this.nullifiedCount = 0;
 					this.nextStage();
 				} else {
-					if (this.neutralizedCount == 0) {
-						game.emit(new RequestNeutralizationEvent(
+					if (this.nullifiedCount == 0) {
+						game.emit(new RequestNullificationEvent(
 							this.target.getPlayerInfo(),
-							this.getNeutralizationMessage()
+							this.getNullificationMessage()
 						));
 					}
 					throw new GameFlowInterruptedException();
 				}
 				break;
 			case ARBITRATION:
-				if (!this.neutralized) {
+				if (!this.nullified) {
 					this.nextStage();
 					game.pushGameController(new ArbitrationController(this, this.target));
 				} else {
@@ -72,7 +72,7 @@ public abstract class AbstractDelayedArbitrationController
 	
 	@Override
 	protected final DelayedArbitrationStage getInitialStage() {
-		return DelayedArbitrationStage.NEUTRALIZATION;
+		return DelayedArbitrationStage.NULLIFICATION;
 	}
 	
 	@Override

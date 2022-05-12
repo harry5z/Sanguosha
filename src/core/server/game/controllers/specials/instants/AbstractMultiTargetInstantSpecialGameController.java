@@ -3,7 +3,7 @@ package core.server.game.controllers.specials.instants;
 import java.util.Queue;
 
 import core.event.game.GameEvent;
-import core.event.game.basic.RequestNeutralizationEvent;
+import core.event.game.basic.RequestNullificationEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -29,16 +29,16 @@ public abstract class AbstractMultiTargetInstantSpecialGameController extends Ab
 					game.emit(event);
 				}
 				break;
-			case NEUTRALIZATION:
-				if (this.canBeNeutralized()) {
-					if (this.neutralizedCount >= game.getNumberOfPlayersAlive()) {
-						this.neutralizedCount = 0;
+			case NULLIFICATION:
+				if (this.canBeNullified()) {
+					if (this.nullifiedCount >= game.getNumberOfPlayersAlive()) {
+						this.nullifiedCount = 0;
 						this.nextStage();
 					} else {
-						if (this.neutralizedCount == 0) {
-							game.emit(new RequestNeutralizationEvent(
+						if (this.nullifiedCount == 0) {
+							game.emit(new RequestNullificationEvent(
 								this.currentTarget.getPlayerInfo(),
-								this.getNeutralizationMessage()
+								this.getNullificationMessage()
 							));
 						}
 						throw new GameFlowInterruptedException();
@@ -48,7 +48,7 @@ public abstract class AbstractMultiTargetInstantSpecialGameController extends Ab
 				}
 				break;
 			case EFFECT:
-				if (!this.neutralized) {
+				if (!this.nullified) {
 					this.takeEffect(game);
 				} else {
 					this.nextStage();
@@ -70,8 +70,8 @@ public abstract class AbstractMultiTargetInstantSpecialGameController extends Ab
 					} else {
 						// reset the controller go to the next target
 						this.setStage(SpecialStage.TARGET_LOCKED);
-						this.neutralized = false;
-						this.neutralizedCount = 0;
+						this.nullified = false;
+						this.nullifiedCount = 0;
 						this.currentTarget = next;
 						break;
 					}
@@ -86,7 +86,7 @@ public abstract class AbstractMultiTargetInstantSpecialGameController extends Ab
 	
 	protected abstract void takeEffect(Game game) throws GameFlowInterruptedException;
 	
-	protected boolean canBeNeutralized() {
+	protected boolean canBeNullified() {
 		return true;
 	}
 	

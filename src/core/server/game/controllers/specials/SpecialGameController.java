@@ -7,14 +7,14 @@ public interface SpecialGameController extends GameController {
 	
 	public static enum SpecialStage implements GameControllerStage<SpecialStage> {
 		TARGET_LOCKED,
-		NEUTRALIZATION,
+		NULLIFICATION,
 		EFFECT,
 		TARGET_SWITCH,
 		END;
 	}
 	
-	public void onNeutralized();
+	public void onNullified();
 	
-	public void onNeutralizationCanceled();
+	public void onNullificationCanceled();
 
 }

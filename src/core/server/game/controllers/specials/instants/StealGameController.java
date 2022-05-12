@@ -38,8 +38,8 @@ public class StealGameController extends SingleTargetInstantSpecialGameControlle
 	}
 	
 	@Override
-	protected String getNeutralizationMessage() {
-		return this.source + " used Steal on " + this.target + ", use Neutralization?";
+	protected String getNullificationMessage() {
+		return this.source + " used Steal on " + this.target + ", use Nullification?";
 	}
 	
 	@Override

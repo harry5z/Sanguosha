@@ -68,11 +68,11 @@ Fixed card equality bug: added unique ID to each real card, also made equality c
 
 #### 1/5/2014:
 
-Added two [instant](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/Instant.java) type cards: [Duel](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/Duel.java) and [Neutralization](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/Neutralization.java). All instant cards are of [special](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/Special.java) type. 
+Added two [instant](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/Instant.java) type cards: [Duel](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/Duel.java) and [Nullification](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/Nullification.java). All instant cards are of [special](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/Special.java) type. 
 
 Fixed game flow bug brought up by Duel (when turn_player dies in a duel)
 
-[Neutralization](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/NeutralizationOperation.java): while anyone uses an instant type card, or when a delayed type card is to be decided, any player can deal an Neutralization to cancel the effect of this special-type card. Of course, Neutralization itself is a special-type card so its effect can be neutralized as well.
+[Nullification](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/NullificationOperation.java): while anyone uses an instant type card, or when a delayed type card is to be decided, any player can deal an Nullification to cancel the effect of this special-type card. Of course, Nullification itself is a special-type card so its effect can be nullified as well.
 
 [Duel](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/DuelOperation.java): Used by a player to duel with another player during turn_deal. Once a target is selected, starting from the target, two players take turns to deal an Attack. The first player that fails to do so takes (by default) 1 damage from the other player.
 
@@ -88,15 +88,15 @@ Added two instant type cards: [Creation](https://github.com/harry5z/Sanguosha/bl
 
 Fixed ExecutorService bug: can now add any number of players.
 
-Fixed bug in Neutralization: Dead players will not be asked for Neutralization.
+Fixed bug in Nullification: Dead players will not be asked for Nullification.
 
 Added three instant cards with [Area of Effect](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/AreaOfEffectOperation.java) property: [Barbarian Invasion](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/BarbarianInvasion.java), [ArrowSalvo](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/ArrowSalvo.java), and [Brotherhood](https://github.com/harry5z/Sanguosha/blob/master/src/cards/specials/instant/Brotherhood.java).
 
-[Barbarian Invasion](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/BarbarianInvasionOperation.java): From the next player of the current player (who plays this card), each player except source player himself has to play an Attack one by one (the effect of this card can be neutralized on each player too). Those who fails to do so takes 1 damage from source.
+[Barbarian Invasion](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/BarbarianInvasionOperation.java): From the next player of the current player (who plays this card), each player except source player himself has to play an Attack one by one (the effect of this card can be nullified on each player too). Those who fails to do so takes 1 damage from source.
 
 [Arrow Salvo](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/ArrowSalvoOperation.java): very similar to Barbarian Invasion, except that each player plays a Dodge.
 
-[Brotherhood](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/BrotherhoodOperation.java): All injured players gain 1 health point (the effect of this card can be neutralized on each player too).
+[Brotherhood](https://github.com/harry5z/Sanguosha/blob/master/src/update/operations/special_operations/BrotherhoodOperation.java): All injured players gain 1 health point (the effect of this card can be nullified on each player too).
 
 #### 1/17/2014:
 

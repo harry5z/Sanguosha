@@ -23,12 +23,12 @@ public class BrotherhoodGameController extends AbstractMultiTargetInstantSpecial
 	}
 	
 	@Override
-	protected String getNeutralizationMessage() {
-		return this.source + " used Brotherhood on " + this.currentTarget + ", use Neutralization?";
+	protected String getNullificationMessage() {
+		return this.source + " used Brotherhood on " + this.currentTarget + ", use Nullification?";
 	}
 	
 	@Override
-	protected boolean canBeNeutralized() {
+	protected boolean canBeNullified() {
 		// only consider players that is not at full health
 		return this.currentTarget.isDamaged();
 	}

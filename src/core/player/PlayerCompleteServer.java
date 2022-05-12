@@ -5,7 +5,7 @@ import java.util.Set;
 import core.event.handlers.basic.RequestAttackEventHandler;
 import core.event.handlers.basic.RequestDecisionEventHandler;
 import core.event.handlers.basic.RequestDodgeEventHandler;
-import core.event.handlers.basic.RequestNeutralizationEventHandler;
+import core.event.handlers.basic.RequestNullificationEventHandler;
 import core.event.handlers.basic.RequestShowCardEventHandler;
 import core.event.handlers.basic.RequestUseCardEventHandler;
 import core.event.handlers.instant.PlayerCardSelectionEventHandler;
@@ -75,7 +75,7 @@ public class PlayerCompleteServer extends PlayerComplete {
 		game.registerEventHandler(new RequestDecisionEventHandler(this));
 		game.registerEventHandler(new RequestDodgeEventHandler(this));
 		game.registerEventHandler(new RequestAttackEventHandler(this));
-		game.registerEventHandler(new RequestNeutralizationEventHandler(this));
+		game.registerEventHandler(new RequestNullificationEventHandler(this));
 		game.registerEventHandler(new RequestShowCardEventHandler(this));
 		game.registerEventHandler(new RequestUseCardEventHandler(this));
 		game.registerEventHandler(new PlayerCardSelectionEventHandler(this));

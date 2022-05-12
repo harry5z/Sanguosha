@@ -5,25 +5,25 @@ import core.server.game.controllers.GameControllerStage;
 
 public abstract class AbstractSpecialGameController<T extends GameControllerStage<?>> extends AbstractGameController<T> implements SpecialGameController {
 	
-	protected boolean neutralized;
-	protected int neutralizedCount;
+	protected boolean nullified;
+	protected int nullifiedCount;
 
 	public AbstractSpecialGameController() {
-		this.neutralized = false;
-		this.neutralizedCount = 0;
+		this.nullified = false;
+		this.nullifiedCount = 0;
 	}
 
 	@Override
-	public void onNeutralized() {
-		this.neutralized = !this.neutralized;
-		this.neutralizedCount = 0;
+	public void onNullified() {
+		this.nullified = !this.nullified;
+		this.nullifiedCount = 0;
 	}
 	
 	@Override
-	public void onNeutralizationCanceled() {
-		this.neutralizedCount++;
+	public void onNullificationCanceled() {
+		this.nullifiedCount++;
 	}
 	
-	protected abstract String getNeutralizationMessage();
+	protected abstract String getNullificationMessage();
 
 }

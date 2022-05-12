@@ -41,8 +41,8 @@ public class BorrowSwordGameController
 	}
 
 	@Override
-	protected String getNeutralizationMessage() {
-		return this.source + " used Borrow Sword on " + this.target + ", use Neutralization?";
+	protected String getNullificationMessage() {
+		return this.source + " used Borrow Sword on " + this.target + ", use Nullification?";
 	}
 
 	@Override

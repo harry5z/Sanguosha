@@ -53,8 +53,8 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 	}
 	
 	@Override
-	protected String getNeutralizationMessage() {
-		return this.source + " used Fire Attack on " + this.target + ", use Neutralization?";
+	protected String getNullificationMessage() {
+		return this.source + " used Fire Attack on " + this.target + ", use Nullification?";
 	}
 
 	@Override

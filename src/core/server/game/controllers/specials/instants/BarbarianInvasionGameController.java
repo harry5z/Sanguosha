@@ -43,8 +43,8 @@ public class BarbarianInvasionGameController extends AbstractMultiTargetInstantS
 	}
 	
 	@Override
-	protected String getNeutralizationMessage() {
-		return this.source + " used Barbarian Invasion on " + this.currentTarget + ", use Neutralization?";
+	protected String getNullificationMessage() {
+		return this.source + " used Barbarian Invasion on " + this.currentTarget + ", use Nullification?";
 	}
 
 	@Override

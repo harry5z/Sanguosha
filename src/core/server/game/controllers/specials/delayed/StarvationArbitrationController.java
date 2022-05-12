@@ -23,8 +23,8 @@ public class StarvationArbitrationController extends AbstractDelayedArbitrationC
 	}
 	
 	@Override
-	protected String getNeutralizationMessage() {
-		return this.target + " will start arbitration for Starvation, use Neutralization?";
+	protected String getNullificationMessage() {
+		return this.target + " will start arbitration for Starvation, use Nullification?";
 	}
 
 	@Override

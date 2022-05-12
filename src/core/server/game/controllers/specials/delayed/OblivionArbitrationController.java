@@ -28,8 +28,8 @@ public class OblivionArbitrationController extends AbstractDelayedArbitrationCon
 	}
 	
 	@Override
-	protected String getNeutralizationMessage() {
-		return this.target + " will start arbitration for Oblivion, use Neutralization?";
+	protected String getNullificationMessage() {
+		return this.target + " will start arbitration for Oblivion, use Nullification?";
 	}
 
 	@Override

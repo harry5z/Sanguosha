@@ -32,8 +32,8 @@ public class LightningArbitrationController extends AbstractDelayedArbitrationCo
 	}
 	
 	@Override
-	protected String getNeutralizationMessage() {
-		return this.target + " will start arbitration for Lightning, use Neutralization?";
+	protected String getNullificationMessage() {
+		return this.target + " will start arbitration for Lightning, use Nullification?";
 	}
 
 	@Override
