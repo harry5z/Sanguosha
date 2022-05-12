@@ -2,7 +2,7 @@ package core.server.game.controllers.equipment;
 
 import cards.Card;
 import cards.basics.Attack;
-import core.event.game.basic.RequestAttackEvent;
+import commands.game.client.RequestAttackGameUIClientCommand;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractPlayerDecisionActionGameController;
@@ -25,10 +25,9 @@ public class DragonBladeGameController extends AbstractPlayerDecisionActionGameC
 
 	@Override
 	protected void handleDecisionRequest(GameInternal game) throws GameFlowInterruptedException {
-		game.emit(new RequestAttackEvent(
-			this.source.getPlayerInfo(),
-			"Use Dragon Blade?"
-		));	
+		game.getConnectionController().sendCommandToAllPlayers(
+			new RequestAttackGameUIClientCommand(source.getPlayerInfo(), "Dragon Blade: Use another Attack?")
+		);
 		throw new GameFlowInterruptedException();
 	}
 

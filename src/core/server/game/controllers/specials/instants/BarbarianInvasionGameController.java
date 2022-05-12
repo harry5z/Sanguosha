@@ -3,7 +3,7 @@ package core.server.game.controllers.specials.instants;
 import java.util.Queue;
 
 import cards.Card;
-import core.event.game.basic.RequestAttackEvent;
+import commands.game.client.RequestAttackGameUIClientCommand;
 import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.BarbarianInvasionTargetEffectivenessEvent;
 import core.player.PlayerCompleteServer;
@@ -27,10 +27,12 @@ public class BarbarianInvasionGameController extends AbstractMultiTargetInstantS
 	@Override
 	protected void takeEffect(GameInternal game) throws GameFlowInterruptedException {
 		if (!this.hasReacted) {
-			game.emit(new RequestAttackEvent(
-				this.currentTarget.getPlayerInfo(),
-				this.source + " used Barbarian Invasion on you, use Attack to counter?"
-			));
+			game.getConnectionController().sendCommandToAllPlayers(
+				new RequestAttackGameUIClientCommand(
+					this.currentTarget.getPlayerInfo(),
+					this.source + " used Barbarian Invasion on you, use Attack to counter?"
+				)
+			);
 			throw new GameFlowInterruptedException();
 		} else {
 			this.nextStage();

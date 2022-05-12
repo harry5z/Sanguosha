@@ -1,7 +1,7 @@
 package core.server.game.controllers.specials.instants;
 
 import cards.Card;
-import core.event.game.basic.RequestAttackEvent;
+import commands.game.client.RequestAttackGameUIClientCommand;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
 import core.server.game.GameInternal;
@@ -21,12 +21,12 @@ public class DuelGameController extends SingleTargetInstantSpecialGameController
 	@Override
 	protected void takeEffect(GameInternal game) throws GameFlowInterruptedException {
 		// Ask current attack user to use Attack
-		game.emit(new RequestAttackEvent(
-			this.currentAttackUser.getPlayerInfo(),
-			"You are in a Duel against " +
-			(this.currentAttackUser == this.target ? this.source : this.target) +
-			", it's your turn to use Attack."
-		));
+		game.getConnectionController().sendCommandToAllPlayers(
+			new RequestAttackGameUIClientCommand(
+				this.currentAttackUser.getPlayerInfo(),
+				"Duel: it is your turn to use Attack."
+			)
+		);
 		throw new GameFlowInterruptedException();
 	}
 	

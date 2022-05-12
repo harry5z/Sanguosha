@@ -6,7 +6,7 @@ import cards.Card;
 import cards.basics.Attack;
 import cards.equipments.Equipment.EquipmentType;
 import cards.equipments.weapons.Weapon;
-import core.event.game.basic.RequestAttackEvent;
+import commands.game.client.RequestAttackGameUIClientCommand;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AttackUsableGameController;
@@ -33,10 +33,12 @@ public class BorrowSwordGameController
 			return;
 		}
 
-		game.emit(new RequestAttackEvent(
-			this.target.getPlayerInfo(),
-			"Use Attack on " + this.attackTarget + " or else " + this.source + " takes your weapon"
-		));
+		game.getConnectionController().sendCommandToAllPlayers(
+			new RequestAttackGameUIClientCommand(
+				this.target.getPlayerInfo(),
+				"Use Attack on " + this.attackTarget + " or else " + this.source + " takes your weapon"
+			)
+		);
 		throw new GameFlowInterruptedException();
 	}
 
