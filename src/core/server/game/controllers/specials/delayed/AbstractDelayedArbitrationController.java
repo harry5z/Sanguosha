@@ -60,7 +60,9 @@ public abstract class AbstractDelayedArbitrationController
 				break;
 			case EFFECT:
 				this.nextStage();
-				this.handleEffect(game);
+				if (this.effective) {
+					this.handleEffect(game);
+				}
 				break;
 			case BEFORE_END:
 				this.nextStage();

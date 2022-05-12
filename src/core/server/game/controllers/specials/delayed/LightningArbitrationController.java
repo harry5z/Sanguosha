@@ -24,11 +24,9 @@ public class LightningArbitrationController extends AbstractDelayedArbitrationCo
 
 	@Override
 	protected void handleEffect(Game game) {
-		if (this.effective) {
-			DelayedStackItem item = this.target.removeDelayed(DelayedType.LIGHTNING);
-			game.getDeck().discard(item.delayed);
-			game.pushGameController(new DamageGameController(new Damage(3, Element.THUNDER, null, this.target)));
-		}
+		DelayedStackItem item = this.target.removeDelayed(DelayedType.LIGHTNING);
+		game.getDeck().discard(item.delayed);
+		game.pushGameController(new DamageGameController(new Damage(3, Element.THUNDER, null, this.target)));
 	}
 	
 	@Override

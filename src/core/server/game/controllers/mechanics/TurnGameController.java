@@ -1,7 +1,7 @@
 package core.server.game.controllers.mechanics;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.HashSet;
+import java.util.Set;
 
 import core.event.game.turn.DealStartTurnEvent;
 import core.event.game.turn.DealTurnEvent;
@@ -12,8 +12,8 @@ import core.event.game.turn.EndTurnEvent;
 import core.player.PlayerCompleteServer;
 import core.server.GameRoom;
 import core.server.game.Game;
-import core.server.game.controllers.GameControllerStage;
 import core.server.game.controllers.GameController;
+import core.server.game.controllers.GameControllerStage;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 import utils.DelayedStackItem;
@@ -38,13 +38,13 @@ public class TurnGameController implements GameController {
 	private final Game game;
 	private PlayerCompleteServer currentPlayer;
 	private TurnStage currentStage;
-	private Queue<DelayedStackItem> delayedQueue;
+	private final Set<TurnStage> skippedStages;
 	
 	public TurnGameController(GameRoom room) {
 		this.game = room.getGame();
 		this.currentPlayer = game.findPlayer(player -> player.getPosition() == 0);
 		this.currentStage = TurnStage.START_BEGINNING;
-		this.delayedQueue = new LinkedList<>();
+		this.skippedStages = new HashSet<>();
 	}
 	
 	public void nextStage() {
@@ -77,6 +77,11 @@ public class TurnGameController implements GameController {
 	
 	@Override
 	public void proceed(Game game) throws GameFlowInterruptedException {
+		if (skippedStages.contains(currentStage)) {
+			skippedStages.remove(currentStage);
+			nextStage();
+			return;
+		}
 		switch (currentStage) {
 			case START_BEGINNING:
 				this.nextStage();
@@ -85,18 +90,17 @@ public class TurnGameController implements GameController {
 				this.nextStage();
 				return;
 			case DELAYED_ARBITRATION_BEGINNING:
-				this.delayedQueue = this.currentPlayer.getDelayedQueue();
-				if (delayedQueue.isEmpty()) {
+				if (this.currentPlayer.getDelayedQueue().isEmpty()) {
 					this.currentStage = TurnStage.DRAW_BEGINNING;
 				} else {
 					this.nextStage();
 				}
 				return;
 			case DELAYED_ARBITRATION:
-				if (this.delayedQueue.isEmpty()) {
+				if (this.currentPlayer.getDelayedQueue().isEmpty()) {
 					this.currentStage = TurnStage.DRAW_BEGINNING;
 				} else {
-					DelayedStackItem item = this.delayedQueue.poll();
+					DelayedStackItem item = this.currentPlayer.getDelayedQueue().poll();
 					game.pushGameController(item.type.getController(this.currentPlayer, this));
 				}
 				return;
@@ -147,6 +151,10 @@ public class TurnGameController implements GameController {
 	
 	public void setCurrentPlayer(PlayerCompleteServer player) {
 		this.currentPlayer = player;
+	}
+	
+	public void skipStage(TurnStage stage) {
+		this.skippedStages.add(stage);
 	}
 
 }

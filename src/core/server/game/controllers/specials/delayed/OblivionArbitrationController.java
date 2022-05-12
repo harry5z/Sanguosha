@@ -2,10 +2,10 @@ package core.server.game.controllers.specials.delayed;
 
 import cards.Card;
 import cards.Card.Suit;
-import core.event.handlers.turn.SkipDealTurnEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.mechanics.TurnGameController;
+import core.server.game.controllers.mechanics.TurnGameController.TurnStage;
 import utils.DelayedStackItem;
 import utils.DelayedType;
 
@@ -22,7 +22,7 @@ public class OblivionArbitrationController extends AbstractDelayedArbitrationCon
 
 	@Override
 	protected void handleEffect(Game game) {
-		game.registerEventHandler(new SkipDealTurnEventHandler(this.target));
+		this.currentTurn.skipStage(TurnStage.DEAL);
 		DelayedStackItem item = this.target.removeDelayed(DelayedType.OBLIVION);
 		game.getDeck().discard(item.delayed);
 	}

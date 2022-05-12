@@ -2,10 +2,10 @@ package core.server.game.controllers.specials.delayed;
 
 import cards.Card;
 import cards.Card.Suit;
-import core.event.handlers.turn.SkipDrawTurnEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.mechanics.TurnGameController;
+import core.server.game.controllers.mechanics.TurnGameController.TurnStage;
 import utils.DelayedStackItem;
 import utils.DelayedType;
 
@@ -17,7 +17,8 @@ public class StarvationArbitrationController extends AbstractDelayedArbitrationC
 
 	@Override
 	protected void handleEffect(Game game) {
-		game.registerEventHandler(new SkipDrawTurnEventHandler(this.target));
+		// skip DRAW
+		this.currentTurn.skipStage(TurnStage.DRAW);
 		DelayedStackItem item = this.target.removeDelayed(DelayedType.STARVATION);
 		game.getDeck().discard(item.delayed);
 	}
