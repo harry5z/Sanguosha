@@ -1,7 +1,7 @@
 package core.server.game.controllers.specials.delayed;
 
 import cards.Card;
-import core.event.game.basic.RequestNullificationEvent;
+import commands.game.client.RequestNullificationGameUIClientCommand;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
 import core.server.game.controllers.ArbitrationRequiredGameController;
@@ -39,10 +39,9 @@ public abstract class AbstractDelayedArbitrationController
 					this.nextStage();
 				} else {
 					if (this.nullifiedCount == 0) {
-						game.emit(new RequestNullificationEvent(
-							this.target.getPlayerInfo(),
-							this.getNullificationMessage()
-						));
+						game.getConnectionController().sendCommandToAllPlayers(
+							new RequestNullificationGameUIClientCommand(getNullificationMessage())
+						);
 					}
 					throw new GameFlowInterruptedException();
 				}

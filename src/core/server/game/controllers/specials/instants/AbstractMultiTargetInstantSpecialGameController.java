@@ -2,8 +2,8 @@ package core.server.game.controllers.specials.instants;
 
 import java.util.Queue;
 
+import commands.game.client.RequestNullificationGameUIClientCommand;
 import core.event.game.GameEvent;
-import core.event.game.basic.RequestNullificationEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -40,10 +40,9 @@ public abstract class AbstractMultiTargetInstantSpecialGameController extends Ab
 						this.nextStage();
 					} else {
 						if (this.nullifiedCount == 0) {
-							game.emit(new RequestNullificationEvent(
-								this.currentTarget.getPlayerInfo(),
-								this.getNullificationMessage()
-							));
+							game.getConnectionController().sendCommandToAllPlayers(
+								new RequestNullificationGameUIClientCommand(getNullificationMessage())
+							);
 						}
 						throw new GameFlowInterruptedException();
 					}
