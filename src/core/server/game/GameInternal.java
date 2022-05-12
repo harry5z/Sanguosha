@@ -7,6 +7,7 @@ import core.Deck;
 import core.event.game.GameEvent;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
+import core.server.ConnectionController;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.TurnGameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -34,4 +35,7 @@ public interface GameInternal extends GameEventRegistrar, GameDriver {
 	public Deck getDeck();
 	
 	public <T extends GameEvent> void emit(T event) throws GameFlowInterruptedException;
+
+	public ConnectionController getConnectionController();
+
 }
