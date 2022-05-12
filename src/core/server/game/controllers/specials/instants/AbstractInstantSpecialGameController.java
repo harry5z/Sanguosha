@@ -14,7 +14,7 @@ public abstract class AbstractInstantSpecialGameController extends AbstractSpeci
 	
 	@Override
 	protected final SpecialStage getInitialStage() {
-		return SpecialStage.TARGET_LOCKED;
+		return SpecialStage.LOADED;
 	}
 	
 }

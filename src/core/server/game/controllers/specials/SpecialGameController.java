@@ -6,6 +6,7 @@ import core.server.game.controllers.GameController;
 public interface SpecialGameController extends GameController {
 	
 	public static enum SpecialStage implements GameControllerStage<SpecialStage> {
+		LOADED,
 		TARGET_LOCKED,
 		NULLIFICATION,
 		EFFECT,

@@ -17,6 +17,10 @@ public abstract class SingleTargetInstantSpecialGameController extends AbstractI
 	@Override
 	protected void handleStage(Game game, SpecialStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
+			case LOADED:
+				// nothing here yet
+				this.nextStage();
+				break;
 			case TARGET_LOCKED:
 				// nothing here yet
 				this.nextStage();

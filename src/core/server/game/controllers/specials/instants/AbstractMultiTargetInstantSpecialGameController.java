@@ -22,6 +22,10 @@ public abstract class AbstractMultiTargetInstantSpecialGameController extends Ab
 	@Override
 	protected void handleStage(Game game, SpecialStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
+			case LOADED:
+				this.nextStage();
+				this.onLoaded(game);
+				break;
 			case TARGET_LOCKED:
 				this.nextStage();
 				GameEvent event = this.getTargetEffectivenessEvent();
@@ -89,6 +93,8 @@ public abstract class AbstractMultiTargetInstantSpecialGameController extends Ab
 	protected boolean canBeNullified() {
 		return true;
 	}
+	
+	protected void onLoaded(Game game) {}
 	
 	protected void onSettled(Game game) {}
 
