@@ -21,6 +21,7 @@ public class UnequipGameController extends AbstractGameController<UnequipGameCon
 	
 	private final PlayerCompleteServer player;
 	private final EquipmentType type;
+	private Equipment equipment;
 
 	/**
 	 * Unequip a certain equipment type from a player.
@@ -35,28 +36,31 @@ public class UnequipGameController extends AbstractGameController<UnequipGameCon
 	public UnequipGameController(PlayerCompleteServer player, EquipmentType type) {
 		this.player = player;
 		this.type = type;
+		this.equipment = null;
 	}
 
 	@Override
 	protected void handleStage(GameInternal game, UnequipStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
 			case DISCARD_EQUIPMENT:
-				Equipment equipment = this.player.getEquipment(this.type);
+				this.equipment = this.player.getEquipment(this.type);
 				try {
 					this.nextStage();
 					this.player.unequip(this.type);
-					equipment.onUnequipped(game, this.player);
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}
 				break;
 			case HERO_ABILITY:
-				// nothing here yet
+				// NOTE: By game design, no on-unequip hero ability shall be able to
+				// trigger any interaction that may be affected by the unequipped
+				// equipment, since equipment's listeners are only removed in the next stage
 				this.nextStage();
 				break;
 			case ITEM_ABILITY:
 				this.nextStage();
 				game.emit(new UnequipItemAbilityEvent(this.player, this.type, this));
+				this.equipment.onUnequipped(game, this.player);
 				break;
 			case END:
 				break;

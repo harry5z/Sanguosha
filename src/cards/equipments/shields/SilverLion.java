@@ -27,7 +27,7 @@ public class SilverLion extends Shield {
 	@Override
 	public void onUnequipped(GameEventRegistrar game, PlayerCompleteServer owner) {
 		game.removeEventHandler(new SilverLionCheckDamageEventHandler(owner));
-		/* unequip event handler is remove in @SilverLionUnequipEventHandler */
+		game.removeEventHandler(new SilverLionUnequipEventHandler(owner));
 	}
 	
 }

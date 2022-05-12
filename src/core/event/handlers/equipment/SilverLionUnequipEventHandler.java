@@ -5,8 +5,6 @@ import core.event.game.UnequipItemAbilityEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameDriver;
-import core.server.game.GameInternal;
-import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.mechanics.HealGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
@@ -22,17 +20,9 @@ public class SilverLionUnequipEventHandler extends AbstractEventHandler<UnequipI
 			return;
 		}
 		
-		game.pushGameController(new AbstractSingleStageGameController() {
-			@Override
-			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
-				// remove event handler here because unequip event happens before the heal
-				game.removeEventHandler(SilverLionUnequipEventHandler.this);
-				if (event.player.isDamaged()) {
-					game.pushGameController(new HealGameController(event.player, event.player));
-				};
-			}
-		});
-
+		if (player.isDamaged()) {
+			game.pushGameController(new HealGameController(player, player));
+		}
 	}
 
 	@Override
