@@ -5,7 +5,7 @@ import java.util.Set;
 import cards.Card;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
-import core.event.game.basic.RequestDecisionEvent;
+import commands.game.client.DecisionUIClientCommand;
 import core.event.game.instants.PlayerCardSelectionEvent;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
@@ -33,7 +33,12 @@ public class KylinBowGameController
 	
 	@Override
 	protected void handleDecisionRequest(GameInternal game) throws GameFlowInterruptedException {
-		game.emit(new RequestDecisionEvent(this.source.getPlayerInfo(), "Use Icy Sword?"));
+		game.getConnectionController().sendCommandToAllPlayers(
+			new DecisionUIClientCommand(
+				source.getPlayerInfo(),
+				"Kylin Bow: Use to discard an equipped horse from target?"
+			)
+		);
 		throw new GameFlowInterruptedException();		
 	}
 

@@ -6,7 +6,7 @@ import java.util.Set;
 
 import cards.Card;
 import cards.equipments.Equipment;
-import core.event.game.basic.RequestDecisionEvent;
+import commands.game.client.DecisionUIClientCommand;
 import core.event.game.instants.PlayerCardSelectionEvent;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
@@ -46,7 +46,12 @@ public class IcySwordGameController
 
 	@Override
 	protected void handleDecisionRequest(GameInternal game) throws GameFlowInterruptedException {
-		game.emit(new RequestDecisionEvent(this.source.getPlayerInfo(), "Use Icy Sword?"));
+		game.getConnectionController().sendCommandToAllPlayers(
+			new DecisionUIClientCommand(
+				source.getPlayerInfo(),
+				"Icy Sword: Use to prevent damage and discard 2 cards from target?"
+			)
+		);
 		throw new GameFlowInterruptedException();		
 	}
 

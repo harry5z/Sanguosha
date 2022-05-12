@@ -2,7 +2,6 @@ package core.player;
 
 import java.util.Set;
 
-import core.event.handlers.basic.RequestDecisionEventHandler;
 import core.event.handlers.basic.RequestNullificationEventHandler;
 import core.event.handlers.basic.RequestShowCardEventHandler;
 import core.event.handlers.basic.RequestUseCardEventHandler;
@@ -64,7 +63,6 @@ public class PlayerCompleteServer extends PlayerComplete {
 	
 	public void onGameReady(Game game) {
 		/* setup event listeners */
-		game.registerEventHandler(new RequestDecisionEventHandler(this));
 		game.registerEventHandler(new RequestNullificationEventHandler(this));
 		game.registerEventHandler(new RequestShowCardEventHandler(this));
 		game.registerEventHandler(new RequestUseCardEventHandler(this));
