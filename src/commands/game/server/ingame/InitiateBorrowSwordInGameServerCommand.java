@@ -1,6 +1,7 @@
 package commands.game.server.ingame;
 
 import cards.Card;
+import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
 import core.server.game.controllers.GameController;
@@ -17,8 +18,8 @@ public class InitiateBorrowSwordInGameServerCommand extends AbstractInitiationIn
 	}
 
 	@Override
-	protected GameController getController(Game game, PlayerInfo target) {
-		return new BorrowSwordGameController(game.getCurrentPlayer().getPlayerInfo(), target, attackTarget, game);
+	protected GameController getInitiationGameController(Game game, PlayerCompleteServer target) {
+		return new BorrowSwordGameController(game.getCurrentPlayer(), target, game.findPlayer(attackTarget));
 	}
 
 }

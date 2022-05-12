@@ -17,11 +17,11 @@ public class DecisionInGameServerCommand extends InGameServerCommand {
 	}
 	
 	@Override
-	protected GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	protected GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				game.<DecisionRequiredGameController>getNextGameController().onDecisionMade(confirmed);
 			}
 		};

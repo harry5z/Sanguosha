@@ -18,12 +18,12 @@ public class EquipInGameServerCommand extends InGameServerCommand {
 	}
 
 	@Override
-	protected GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	protected GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
-				game.pushGameController(new EquipGameController(game, game.getCurrentPlayer(), equipment));
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+				game.pushGameController(new EquipGameController(game.getCurrentPlayer(), equipment));
 			}
 		};
 	}

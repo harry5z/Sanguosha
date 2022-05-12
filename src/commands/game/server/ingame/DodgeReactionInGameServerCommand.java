@@ -18,13 +18,13 @@ public class DodgeReactionInGameServerCommand extends InGameServerCommand {
 	}
 	
 	@Override
-	protected GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	protected GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				if (dodge != null) {
-					game.<DodgeGameController>getNextGameController().onDodgeUsed(dodge);
+					game.<DodgeGameController>getNextGameController().onDodgeUsed(game, dodge);
 				} else {
 					game.<DodgeGameController>getNextGameController().onDodgeNotUsed();
 				}

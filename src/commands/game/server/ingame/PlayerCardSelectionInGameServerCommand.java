@@ -21,12 +21,12 @@ public class PlayerCardSelectionInGameServerCommand extends InGameServerCommand 
 	}
 
 	@Override
-	protected GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	protected GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
-				game.<CardSelectableGameController>getNextGameController().onCardSelected(card, zone);
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+				game.<CardSelectableGameController>getNextGameController().onCardSelected(game, card, zone);
 			}
 		};
 	}

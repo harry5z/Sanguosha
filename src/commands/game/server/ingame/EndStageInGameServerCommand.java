@@ -11,11 +11,11 @@ public class EndStageInGameServerCommand extends InGameServerCommand {
 	private static final long serialVersionUID = 9055072795730543708L;
 
 	@Override
-	protected GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	protected GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				game.<TurnGameController>getNextGameController().nextStage();
 			}
 		};

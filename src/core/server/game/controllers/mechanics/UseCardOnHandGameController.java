@@ -20,14 +20,13 @@ public class UseCardOnHandGameController extends AbstractGameController<UseCardO
 	private final PlayerCompleteServer player;
 	private final Collection<Card> cards;
 
-	public UseCardOnHandGameController(Game game, PlayerCompleteServer player, Collection<Card> cards) {
-		super(game);
+	public UseCardOnHandGameController(PlayerCompleteServer player, Collection<Card> cards) {
 		this.player = player;
 		this.cards = cards;
 	}
 
 	@Override
-	protected void handleStage(UseCardOnHandStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(Game game, UseCardOnHandStage stage) throws GameFlowInterruptedException {
 		switch (stage) {
 			case USE_CARDS:
 				try {

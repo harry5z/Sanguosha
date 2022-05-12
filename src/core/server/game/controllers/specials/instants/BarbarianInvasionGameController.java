@@ -1,31 +1,33 @@
 package core.server.game.controllers.specials.instants;
 
+import java.util.Queue;
+
 import cards.Card;
 import core.event.game.basic.RequestAttackEvent;
 import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.BarbarianInvasionTargetEffectivenessEvent;
-import core.player.PlayerInfo;
+import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
 import core.server.game.Game;
 import core.server.game.controllers.AttackUsableGameController;
 import core.server.game.controllers.mechanics.DamageGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
-public class BarbarianInvasionGameController extends AOEInstantSpecialGameController implements AttackUsableGameController {
+public class BarbarianInvasionGameController extends AbstractMultiTargetInstantSpecialGameController implements AttackUsableGameController {
 	
 	private boolean effective;
 	private boolean hasReacted;
 
-	public BarbarianInvasionGameController(PlayerInfo source, Game game) {
-		super(source, game, false);
+	public BarbarianInvasionGameController(PlayerCompleteServer source, Queue<PlayerCompleteServer> targets) {
+		super(source, targets);
 		this.effective = true;
 		this.hasReacted = false;
 	}
 
 	@Override
-	protected void takeEffect() throws GameFlowInterruptedException {
+	protected void takeEffect(Game game) throws GameFlowInterruptedException {
 		if (!this.hasReacted) {
-			this.game.emit(new RequestAttackEvent(
+			game.emit(new RequestAttackEvent(
 				this.currentTarget.getPlayerInfo(),
 				this.source + " used Barbarian Invasion on you, use Attack to counter?"
 			));
@@ -35,7 +37,7 @@ public class BarbarianInvasionGameController extends AOEInstantSpecialGameContro
 			this.hasReacted = false;
 			if (this.effective) {
 				// if effective, deal damage
-				this.game.pushGameController(new DamageGameController(new Damage(this.source, this.currentTarget), this.game));
+				game.pushGameController(new DamageGameController(new Damage(this.source, this.currentTarget)));
 			}
 		}
 	}
@@ -51,14 +53,14 @@ public class BarbarianInvasionGameController extends AOEInstantSpecialGameContro
 	}
 
 	@Override
-	public void onAttackUsed(Card card) {
+	public void onAttackUsed(Game game, Card card) {
 		// mark it not effective for the current target
 		this.hasReacted = true;
 		this.effective = false;
 	}
 
 	@Override
-	public void onAttackNotUsed() {
+	public void onAttackNotUsed(Game game) {
 		this.hasReacted = true;
 		this.effective = true;
 	}

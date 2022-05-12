@@ -23,7 +23,7 @@ public class TaichiFormationDodgeEquipmentCheckEventHandler extends AbstractEven
 		if (!this.player.getPlayerInfo().equals(event.getTarget())) {
 			return;
 		}
-		game.pushGameController(new TaichiFormationGameController(game, event.controller, this.player));
+		game.pushGameController(new TaichiFormationGameController(event.controller, this.player));
 	}
 
 }

@@ -8,7 +8,7 @@ import cards.Card;
 import cards.equipments.Equipment;
 import core.event.game.instants.PlayerCardSelectionEvent;
 import core.player.PlayerCardZone;
-import core.player.PlayerInfo;
+import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.mechanics.RecycleCardsGameController;
@@ -18,18 +18,18 @@ import exceptions.server.game.InvalidPlayerCommandException;
 
 public class SabotageGameController extends SingleTargetInstantSpecialGameController implements CardSelectableGameController {
 
-	public SabotageGameController(PlayerInfo source, PlayerInfo target, Game game) {
-		super(source, target, game);
+	public SabotageGameController(PlayerCompleteServer source, PlayerCompleteServer target) {
+		super(source, target);
 	}
 	
 	@Override
-	protected void takeEffect() throws GameFlowInterruptedException {
+	protected void takeEffect(Game game) throws GameFlowInterruptedException {
 		if (this.target.getHandCount() == 0 && !this.target.isEquipped() && this.target.getDelayedQueue().isEmpty()) {
 			// if no card left on target, Sabotage is ineffective
 			this.nextStage();
 			return;
 		}
-		this.game.emit(new PlayerCardSelectionEvent(
+		game.emit(new PlayerCardSelectionEvent(
 			this.source.getPlayerInfo(),
 			this.target.getPlayerInfo(),
 			Set.of(PlayerCardZone.HAND, PlayerCardZone.EQUIPMENT, PlayerCardZone.DELAYED)
@@ -43,7 +43,7 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 	}
 
 	@Override
-	public void onCardSelected(Card card, PlayerCardZone zone) {
+	public void onCardSelected(Game game, Card card, PlayerCardZone zone) {
 		switch(zone) {
 			case HAND:
 				try {
@@ -58,15 +58,15 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 			case EQUIPMENT:
 				try {
 					Equipment equipment = (Equipment) card;
-					this.game.pushGameController(new RecycleCardsGameController(this.game, this.target, Set.of(equipment)));
-					this.game.pushGameController(new UnequipGameController(this.game, this.target, equipment.getEquipmentType()));
+					game.pushGameController(new RecycleCardsGameController(this.target, Set.of(equipment)));
+					game.pushGameController(new UnequipGameController(this.target, equipment.getEquipmentType()));
 				} catch (ClassCastException e) {
 					e.printStackTrace();
 				}
 				break;
 			case DELAYED:
 				this.target.removeDelayed(card);
-				this.game.pushGameController(new RecycleCardsGameController(this.game, this.target, Set.of(card)));
+				game.pushGameController(new RecycleCardsGameController(this.target, Set.of(card)));
 				break;
 		}
 		this.nextStage();

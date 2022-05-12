@@ -31,9 +31,9 @@ public class IronShieldAttackTargetEuipmentCheckEventHandler extends AbstractEve
 			return;
 		}
 		
-		game.pushGameController(new AbstractSingleStageGameController(game) {
+		game.pushGameController(new AbstractSingleStageGameController() {
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				// skip Attack Resolution
 				event.getController().setStage(AttackResolutionStage.END);
 			}

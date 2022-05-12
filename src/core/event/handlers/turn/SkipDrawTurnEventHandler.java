@@ -25,9 +25,9 @@ public class SkipDrawTurnEventHandler extends AbstractEventHandler<DrawStartTurn
 			return;
 		}
 
-		game.pushGameController(new AbstractSingleStageGameController(game) {
+		game.pushGameController(new AbstractSingleStageGameController() {
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				game.removeEventHandler(SkipDrawTurnEventHandler.this);
 				// skip DRAW
 				event.turn.setCurrentStage(TurnStage.DEAL_BEGINNING);				

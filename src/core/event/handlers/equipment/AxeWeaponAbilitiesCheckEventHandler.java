@@ -25,7 +25,7 @@ public class AxeWeaponAbilitiesCheckEventHandler extends AbstractEventHandler<At
 			return;
 		}
 		
-		game.pushGameController(new AxeGameController(game, event.source, event.controller));
+		game.pushGameController(new AxeGameController(event.source, event.controller));
 	}
 
 }

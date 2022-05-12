@@ -1,8 +1,7 @@
 package core.server.game.controllers.mechanics;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 import cards.basics.Attack;
@@ -22,26 +21,19 @@ public class AttackGameController extends AbstractGameController<AttackGameContr
 		END,
 	}
 	
-	private PlayerCompleteServer source;
-	private List<PlayerCompleteServer> targets;
-	private int currentTargetIndex;
-	private int damageAmount;
+	private final PlayerCompleteServer source;
+	private final Set<PlayerCompleteServer> targets;
+	private final int damageAmount;
 	private Attack attack;
 	
-	public AttackGameController(PlayerCompleteServer source, Collection<PlayerCompleteServer> targets, Attack card, Game game) {
-		super(game);
+	public AttackGameController(PlayerCompleteServer source, Collection<PlayerCompleteServer> targets, Attack card) {
 		this.source = source;
-		this.targets = new ArrayList<>();
-		for (PlayerCompleteServer next = game.getNextPlayerAlive(source); next != source; next = game.getNextPlayerAlive(next)) {
-			if (targets.contains(next)) {
-				this.targets.add(next);
-			}
-		}
-		this.currentTargetIndex = 0;
-		this.damageAmount = 1;
+		this.targets = new HashSet<>(targets);
 		if (source.isWineEffective()) {
-			this.damageAmount++;
+			this.damageAmount = 2;
 			this.source.resetWineEffective();
+		} else {
+			this.damageAmount = 1;
 		}
 		if (card != null) {
 			this.attack = card;
@@ -50,28 +42,35 @@ public class AttackGameController extends AbstractGameController<AttackGameContr
 		}
 	}
 	
-	public AttackGameController(PlayerCompleteServer source, PlayerCompleteServer target, Attack card, Game game) {
-		this(source, Set.of(target), card, game);
+	public AttackGameController(PlayerCompleteServer source, PlayerCompleteServer target, Attack card) {
+		this(source, Set.of(target), card);
 	}
 
 	@Override
-	protected void handleStage(AttackStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(Game game, AttackStage stage) throws GameFlowInterruptedException {
 		switch (stage) {
 			case PRE_TARGET_ACQUISITION_WEAPON_ABILITIES:
 				this.nextStage();
-				this.game.emit(new AttackPreAcquisitionWeaponAbilitiesCheckEvent(this.source, this));
+				game.emit(new AttackPreAcquisitionWeaponAbilitiesCheckEvent(this.source, this));
 				break;
 			case TARGET_ACQUISITION:
 				// Currently no item or hero skill affecting Target Acquisition
 				this.nextStage();
 				break;
 			case ATTACK_RESOLUTION:
-				PlayerCompleteServer currentTarget = this.targets.get(this.currentTargetIndex);
-				this.game.pushGameController(new AttackResolutionGameController(this.source, currentTarget, this.attack, this.damageAmount, this.game));
-				this.currentTargetIndex++;
-				if (this.currentTargetIndex == this.targets.size()) {
-					this.currentTargetIndex = 0;
+				PlayerCompleteServer currentTarget = null;
+				// TODO sanity check that targets do not contain source
+				for (PlayerCompleteServer next = game.getNextPlayerAlive(source); next != source; next = game.getNextPlayerAlive(next)) {
+					if (this.targets.contains(next)) {
+						this.targets.remove(next);
+						currentTarget = next;
+						break;
+					}
+				}
+				if (currentTarget == null) {
 					this.nextStage();
+				} else {
+					game.pushGameController(new AttackResolutionGameController(this.source, currentTarget, this.attack, this.damageAmount));
 				}
 				break;
 			case END:

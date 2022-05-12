@@ -23,19 +23,18 @@ public class ArbitrationController extends AbstractGameController<ArbitrationCon
 	private Card arbitrationCard;
 	private PlayerCompleteServer target;
 
-	public ArbitrationController(Game game, ArbitrationRequiredGameController nextController, PlayerCompleteServer target) {
-		super(game);
+	public ArbitrationController(ArbitrationRequiredGameController nextController, PlayerCompleteServer target) {
 		this.nextController = nextController;
 		this.arbitrationCard = null;
 		this.target = target;
 	}
 	
 	@Override
-	protected void handleStage(ArbitrationStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(Game game, ArbitrationStage stage) throws GameFlowInterruptedException {
 		switch (stage) {
 			case ARBITRATION:
 				this.nextStage();
-				this.arbitrationCard = this.game.getDeck().draw();
+				this.arbitrationCard = game.getDeck().draw();
 				this.nextController.onArbitrationCompleted(this.arbitrationCard);
 				break;
 			case POST_ARBITRATION_SKILLS:
@@ -44,8 +43,7 @@ public class ArbitrationController extends AbstractGameController<ArbitrationCon
 				break;
 			case ARBITRATION_CARD_DISPOSAL:
 				this.nextStage();
-				this.game.pushGameController(new RecycleCardsGameController(
-					this.game,
+				game.pushGameController(new RecycleCardsGameController(
 					this.target,
 					Set.of(this.arbitrationCard)
 				));

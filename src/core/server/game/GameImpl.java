@@ -185,9 +185,9 @@ public class GameImpl implements Game {
 		while (true) {
 			try {
 				if (this.controllers.isEmpty()) {
-					this.turnController.proceed();
+					this.turnController.proceed(this);
 				} else {
-					this.controllers.peek().proceed();
+					this.controllers.peek().proceed(this);
 				}
 			} catch (GameFlowInterruptedException e) {
 				e.resume();

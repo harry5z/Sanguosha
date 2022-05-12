@@ -30,16 +30,16 @@ public class ReconsiderationSkillInGameServerCommand extends InGameServerCommand
 	}
 	
 	@Override
-	protected GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	protected GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				try {
 					Set<Card> cardsOnHand = new HashSet<>();
 					PlayerCompleteServer source = game.getCurrentPlayer();
 					source.updatePlayerState(PlayerState.SUN_QUAN_RECONSIDERATION_COUNTER, 1);
-					game.pushGameController(new ReceiveCardsGameController(game, source, game.getDeck().drawMany(cards.size())));
+					game.pushGameController(new ReceiveCardsGameController(source, game.getDeck().drawMany(cards.size())));
 					for (Entry<Card, PlayerCardZone> entry : cards.entrySet()) {
 						switch(entry.getValue()) {
 							case HAND:
@@ -47,8 +47,8 @@ public class ReconsiderationSkillInGameServerCommand extends InGameServerCommand
 								break;
 							case EQUIPMENT:
 								Equipment equipment = (Equipment) entry.getKey();
-								game.pushGameController(new RecycleCardsGameController(game, source, Set.of(equipment)));
-								game.pushGameController(new UnequipGameController(game, source, equipment.getEquipmentType()));
+								game.pushGameController(new RecycleCardsGameController(source, Set.of(equipment)));
+								game.pushGameController(new UnequipGameController(source, equipment.getEquipmentType()));
 								break;
 							default:
 								break;

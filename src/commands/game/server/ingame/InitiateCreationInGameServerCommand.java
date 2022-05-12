@@ -1,7 +1,7 @@
 package commands.game.server.ingame;
 
 import cards.Card;
-import core.player.PlayerInfo;
+import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.specials.instants.CreationGameController;
@@ -15,8 +15,8 @@ public class InitiateCreationInGameServerCommand extends AbstractInitiationInGam
 	}
 
 	@Override
-	protected GameController getController(Game game, PlayerInfo target) {
-		return new CreationGameController(game.getCurrentPlayer().getPlayerInfo(), game);
+	protected GameController getInitiationGameController(Game game, PlayerCompleteServer target) {
+		return new CreationGameController(game.getCurrentPlayer());
 	}
 
 }

@@ -42,24 +42,22 @@ public class AttackResolutionGameController
 	public final DodgeGameController dodgeController;
 	public final DamageGameController damageController;
 
-	public AttackResolutionGameController(PlayerCompleteServer source, PlayerCompleteServer target, Attack card, int damage, Game game) {
-		super(game);
+	public AttackResolutionGameController(PlayerCompleteServer source, PlayerCompleteServer target, Attack card, int damage) {
 		this.source = source;
 		this.target = target;
 		this.attack = card;
 		this.damage = new Damage(damage, this.attack.getElement(), this.source, this.target);
 		this.skippedStages = new HashSet<>();
 		this.dodgeController = new DodgeGameController(
-			this.game,
 			this,
 			this.target,
 			this.source + " used " + this.attack + " on you, use Dodge to counter?"
 		);
-		this.damageController = new DamageGameController(this.damage, game);
+		this.damageController = new DamageGameController(this.damage);
 	}
 
 	@Override
-	protected void handleStage(AttackResolutionStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(Game game, AttackResolutionStage stage) throws GameFlowInterruptedException {
 		if (this.skippedStages.contains(stage)) {
 			this.nextStage();
 			return;
@@ -67,35 +65,35 @@ public class AttackResolutionGameController
 		switch(stage) {
 			case TARGET_LOCKED_TARGET_HERO_SKILLS:
 				this.nextStage();
-				this.game.emit(new AttackLockedTargetSkillsCheckEvent(this.source, this.target, this));
+				game.emit(new AttackLockedTargetSkillsCheckEvent(this.source, this.target, this));
 				break;
 			case TARGET_LOCKED_SOURCE_WEAPON_ABILITIES:
 				this.nextStage();
-				this.game.emit(new AttackLockedSourceWeaponAbilitiesCheckEvent(this.source, this.target, this));
+				game.emit(new AttackLockedSourceWeaponAbilitiesCheckEvent(this.source, this.target, this));
 				break;
 			case TARGET_LOCKED_TARGET_EQUIPMENT_ABILITIES:
 				this.nextStage();
-				this.game.emit(new AttackTargetEquipmentCheckEvent(this.target.getPlayerInfo(), this.attack, this));
+				game.emit(new AttackTargetEquipmentCheckEvent(this.target.getPlayerInfo(), this.attack, this));
 				break;
 			case DODGE:
-				this.game.pushGameController(this.dodgeController);
+				game.pushGameController(this.dodgeController);
 				break;
 			case ATTACK_DODGED_SOURCE_WEAPON_ABILITIES:
 				// by default, an Attack does not apply damage if dodged
 				this.setStage(AttackResolutionStage.END);
-				this.game.emit(new AttackOnDodgedWeaponAbilitiesCheckEvent(this.source, this.target, this));
+				game.emit(new AttackOnDodgedWeaponAbilitiesCheckEvent(this.source, this.target, this));
 				break;
 			case PRE_DAMAGE_SOURCE_WEAPON_ABILITIES:
 				this.nextStage();
-				this.game.emit(new AttackPreDamageWeaponAbilitiesCheckEvent(this.source, this.target, this));
+				game.emit(new AttackPreDamageWeaponAbilitiesCheckEvent(this.source, this.target, this));
 				break;
 			case PRE_DAMAGE_SOURCE_WEAPON_DAMAGE_MODIFIERS:
 				this.nextStage();
-				this.game.emit(new AttackDamageModifierEvent(this.damage));
+				game.emit(new AttackDamageModifierEvent(this.damage));
 				break;
 			case APPLY_DAMAGE:
 				this.nextStage();
-				this.game.pushGameController(this.damageController);
+				game.pushGameController(this.damageController);
 				break;
 			case END:
 				break;

@@ -25,21 +25,20 @@ public class KylinBowGameController
 	private final PlayerCompleteServer target;
 	private boolean confirmed;
 	
-	public KylinBowGameController(Game game, PlayerCompleteServer source, PlayerCompleteServer target) {
-		super(game);
+	public KylinBowGameController(PlayerCompleteServer source, PlayerCompleteServer target) {
 		this.source = source;
 		this.target = target;
 		this.confirmed = false;
 	}
 	
 	@Override
-	protected void handleDecisionRequest() throws GameFlowInterruptedException {
-		this.game.emit(new RequestDecisionEvent(this.source.getPlayerInfo(), "Use Icy Sword?"));
+	protected void handleDecisionRequest(Game game) throws GameFlowInterruptedException {
+		game.emit(new RequestDecisionEvent(this.source.getPlayerInfo(), "Use Icy Sword?"));
 		throw new GameFlowInterruptedException();		
 	}
 
 	@Override
-	protected void handleDecisionConfirmation() throws GameFlowInterruptedException {
+	protected void handleDecisionConfirmation(Game game) throws GameFlowInterruptedException {
 		if (!this.confirmed) {
 			// skip Action
 			this.setStage(PlayerDecisionAction.END);
@@ -47,8 +46,8 @@ public class KylinBowGameController
 	}
 
 	@Override
-	protected void handleAction() throws GameFlowInterruptedException {
-		this.game.emit(new PlayerCardSelectionEvent(
+	protected void handleAction(Game game) throws GameFlowInterruptedException {
+		game.emit(new PlayerCardSelectionEvent(
 			this.source.getPlayerInfo(),
 			this.target.getPlayerInfo(),
 			Set.of(PlayerCardZone.EQUIPMENT),
@@ -63,10 +62,10 @@ public class KylinBowGameController
 	}
 
 	@Override
-	public void onCardSelected(Card card, PlayerCardZone zone) {
+	public void onCardSelected(Game game, Card card, PlayerCardZone zone) {
 		Equipment equipment = (Equipment) card;
-		this.game.pushGameController(new RecycleCardsGameController(this.game, this.target, Set.of(equipment)));
-		this.game.pushGameController(new UnequipGameController(this.game, this.target, equipment.getEquipmentType()));
+		game.pushGameController(new RecycleCardsGameController(this.target, Set.of(equipment)));
+		game.pushGameController(new UnequipGameController(this.target, equipment.getEquipmentType()));
 	}
 
 }

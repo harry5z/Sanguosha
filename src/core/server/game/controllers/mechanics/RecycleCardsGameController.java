@@ -19,14 +19,13 @@ public class RecycleCardsGameController extends AbstractGameController<RecycleCa
 	private PlayerCompleteServer target;
 	private Collection<Card> cards;
 	
-	public RecycleCardsGameController(Game game, PlayerCompleteServer target, Collection<Card> cards) {
-		super(game);
+	public RecycleCardsGameController(PlayerCompleteServer target, Collection<Card> cards) {
 		this.target = target;
 		this.cards = cards;
 	}
 
 	@Override
-	protected void handleStage(RecycleCardStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(Game game, RecycleCardStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
 			case RECYCLE_CARDS:
 				for (Card card : this.cards) {

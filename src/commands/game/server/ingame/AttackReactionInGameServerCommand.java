@@ -25,17 +25,17 @@ public class AttackReactionInGameServerCommand extends InGameServerCommand {
 	}
 	
 	@Override
-	public GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	public GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				PlayerCompleteServer user = game.findPlayer(source);
 				if (attack != null) {
-					game.<AttackUsableGameController>getNextGameController().onAttackUsed(attack);
-					game.pushGameController(new UseCardOnHandGameController(game, user, Set.of(attack)));
+					game.<AttackUsableGameController>getNextGameController().onAttackUsed(game, attack);
+					game.pushGameController(new UseCardOnHandGameController(user, Set.of(attack)));
 				} else {
-					game.<AttackUsableGameController>getNextGameController().onAttackNotUsed();
+					game.<AttackUsableGameController>getNextGameController().onAttackNotUsed(game);
 				}				
 			}
 		};

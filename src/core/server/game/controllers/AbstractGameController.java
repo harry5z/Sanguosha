@@ -5,21 +5,19 @@ import exceptions.server.game.GameFlowInterruptedException;
 
 public abstract class AbstractGameController<T extends GameControllerStage<?>> implements GameController {
 	
-	protected final Game game;
 	private T currentStage;
 	
-	public AbstractGameController(Game game) {
-		this.game = game;
+	public AbstractGameController() {
 		this.currentStage = this.getInitialStage();
 	}
 	
 	@Override
-	public final void proceed() throws GameFlowInterruptedException {
+	public final void proceed(Game game) throws GameFlowInterruptedException {
 		if (this.currentStage.isLastStage()) {
-			this.game.popGameController();
+			game.popGameController();
 			return;
 		}
-		this.handleStage(this.currentStage);
+		this.handleStage(game, this.currentStage);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -31,7 +29,7 @@ public abstract class AbstractGameController<T extends GameControllerStage<?>> i
 		this.currentStage = stage;
 	}
 	
-	protected abstract void handleStage(T stage) throws GameFlowInterruptedException;
+	protected abstract void handleStage(Game game, T stage) throws GameFlowInterruptedException;
 	
 	protected abstract T getInitialStage();
 	

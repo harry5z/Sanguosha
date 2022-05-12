@@ -11,15 +11,15 @@ import utils.DelayedType;
 
 public class StarvationArbitrationController extends AbstractDelayedArbitrationController {
 
-	public StarvationArbitrationController(Game game, PlayerCompleteServer target, TurnGameController turn) {
-		super(game, target, turn);
+	public StarvationArbitrationController(PlayerCompleteServer target, TurnGameController turn) {
+		super(target, turn);
 	}
 
 	@Override
-	protected void handleEffect() {
-		this.game.registerEventHandler(new SkipDrawTurnEventHandler(this.target));
+	protected void handleEffect(Game game) {
+		game.registerEventHandler(new SkipDrawTurnEventHandler(this.target));
 		DelayedStackItem item = this.target.removeDelayed(DelayedType.STARVATION);
-		this.game.getDeck().discard(item.delayed);
+		game.getDeck().discard(item.delayed);
 	}
 	
 	@Override
@@ -28,11 +28,11 @@ public class StarvationArbitrationController extends AbstractDelayedArbitrationC
 	}
 
 	@Override
-	protected void beforeEnd() {
+	protected void beforeEnd(Game game) {
 		// if Starvation is not effective, discard it
 		if (this.target.hasDelayedType(DelayedType.STARVATION)) {
 			DelayedStackItem item = this.target.removeDelayed(DelayedType.STARVATION);
-			this.game.getDeck().discard(item.delayed);
+			game.getDeck().discard(item.delayed);
 		}
 	}
 

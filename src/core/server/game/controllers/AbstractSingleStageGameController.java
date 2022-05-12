@@ -13,27 +13,23 @@ public abstract class AbstractSingleStageGameController extends AbstractGameCont
 		END;
 	}
 	
-	public AbstractSingleStageGameController(Game game) {
-		super(game);
-	}
-	
 	@Override
 	protected final GenericGameControllerStage getInitialStage() {
 		return GenericGameControllerStage.START;
 	}
 	
 	@Override
-	protected final void handleStage(GenericGameControllerStage stage) throws GameFlowInterruptedException {
+	protected final void handleStage(Game game, GenericGameControllerStage stage) throws GameFlowInterruptedException {
 		switch (stage) {
 			case START:
 				this.nextStage();
-				this.handleOnce();
+				this.handleOnce(game);
 				break;
 			case END:
 				break;
 		}
 	}
 	
-	protected abstract void handleOnce() throws GameFlowInterruptedException;
+	protected abstract void handleOnce(Game game) throws GameFlowInterruptedException;
 
 }

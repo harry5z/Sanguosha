@@ -1,7 +1,6 @@
 package core.server.game.controllers.mechanics;
 
 import core.player.PlayerCompleteServer;
-import core.player.PlayerInfo;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
@@ -20,14 +19,13 @@ public final class HealGameController extends AbstractGameController<HealGameCon
 	private PlayerCompleteServer target;
 	private int value;
 
-	public HealGameController(PlayerInfo source, PlayerInfo target, Game game) {
-		this(source, target, game, 1);
+	public HealGameController(PlayerCompleteServer source, PlayerCompleteServer target) {
+		this(source, target, 1);
 	}
 	
-	public HealGameController(PlayerInfo source, PlayerInfo target, Game game, int value) {
-		super(game);
-		this.source = game.findPlayer(source);
-		this.target = game.findPlayer(target);
+	public HealGameController(PlayerCompleteServer source, PlayerCompleteServer target, int value) {
+		this.source = source;
+		this.target = target;
 		this.value = value;
 	}
 	
@@ -36,7 +34,7 @@ public final class HealGameController extends AbstractGameController<HealGameCon
 	}
 
 	@Override
-	protected void handleStage(HealStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(Game game, HealStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
 			case HEAL_VALUE:
 				// nothing here yet

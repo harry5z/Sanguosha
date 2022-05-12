@@ -11,8 +11,8 @@ import utils.DelayedType;
 
 public class OblivionArbitrationController extends AbstractDelayedArbitrationController {
 
-	public OblivionArbitrationController(Game game, PlayerCompleteServer target, TurnGameController turn) {
-		super(game, target, turn);
+	public OblivionArbitrationController(PlayerCompleteServer target, TurnGameController turn) {
+		super(target, turn);
 	}
 
 	@Override
@@ -21,10 +21,10 @@ public class OblivionArbitrationController extends AbstractDelayedArbitrationCon
 	}
 
 	@Override
-	protected void handleEffect() {
-		this.game.registerEventHandler(new SkipDealTurnEventHandler(this.target));
+	protected void handleEffect(Game game) {
+		game.registerEventHandler(new SkipDealTurnEventHandler(this.target));
 		DelayedStackItem item = this.target.removeDelayed(DelayedType.OBLIVION);
-		this.game.getDeck().discard(item.delayed);
+		game.getDeck().discard(item.delayed);
 	}
 	
 	@Override
@@ -33,11 +33,11 @@ public class OblivionArbitrationController extends AbstractDelayedArbitrationCon
 	}
 
 	@Override
-	protected void beforeEnd() {
+	protected void beforeEnd(Game game) {
 		// if Oblivion is not effective, discard it
 		if (this.target.hasDelayedType(DelayedType.OBLIVION)) {
 			DelayedStackItem item = this.target.removeDelayed(DelayedType.OBLIVION);
-			this.game.getDeck().discard(item.delayed);
+			game.getDeck().discard(item.delayed);
 		}
 	}
 

@@ -28,9 +28,9 @@ public class DiscardTurnEventHandler extends AbstractEventHandler<DiscardTurnEve
 		}
 		int amount = this.player.getHandCount() - this.player.getCardOnHandLimit();
 		if (amount > 0) {
-			game.pushGameController(new AbstractSingleStageGameController(game) {
+			game.pushGameController(new AbstractSingleStageGameController() {
 				@Override
-				protected void handleOnce() throws GameFlowInterruptedException {
+				protected void handleOnce(Game game) throws GameFlowInterruptedException {
 					game.getConnectionController().sendCommandToPlayers(
 						game.getPlayersInfo().stream().collect(
 							Collectors.toMap(

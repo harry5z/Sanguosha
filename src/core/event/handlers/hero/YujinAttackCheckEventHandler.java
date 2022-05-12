@@ -28,9 +28,9 @@ public class YujinAttackCheckEventHandler extends AbstractEventHandler<AttackLoc
 		}
 		
 		if (event.controller.getAttackCard().getColor() == Color.BLACK) {
-			game.pushGameController(new AbstractSingleStageGameController(game) {
+			game.pushGameController(new AbstractSingleStageGameController() {
 				@Override
-				protected void handleOnce() throws GameFlowInterruptedException {
+				protected void handleOnce(Game game) throws GameFlowInterruptedException {
 					// skip Attack Resolution
 					event.controller.setStage(AttackResolutionStage.END);
 				}

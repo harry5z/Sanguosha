@@ -30,7 +30,7 @@ public class KylinBowAbilityCheckEventHandler extends AbstractEventHandler<Attac
 			return;
 		}
 		
-		game.pushGameController(new KylinBowGameController(game, event.source, event.target));
+		game.pushGameController(new KylinBowGameController(event.source, event.target));
 	}
 
 }

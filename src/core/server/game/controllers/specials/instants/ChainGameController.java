@@ -3,13 +3,13 @@ package core.server.game.controllers.specials.instants;
 import java.util.Queue;
 
 import core.event.game.GameEvent;
-import core.player.PlayerInfo;
+import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 
-public class ChainGameController extends MultiTargetInstantSpecialGameController {
+public class ChainGameController extends AbstractMultiTargetInstantSpecialGameController {
 
-	public ChainGameController(PlayerInfo source, Game game, Queue<PlayerInfo> targets) {
-		super(source, game, targets);
+	public ChainGameController(PlayerCompleteServer source, Queue<PlayerCompleteServer> targets) {
+		super(source, targets);
 	}
 
 	@Override
@@ -18,7 +18,7 @@ public class ChainGameController extends MultiTargetInstantSpecialGameController
 	}
 
 	@Override
-	protected void takeEffect() {
+	protected void takeEffect(Game game) {
 		this.currentTarget.chain();
 		this.nextStage();
 	}

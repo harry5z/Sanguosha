@@ -25,9 +25,9 @@ public class SkipDealTurnEventHandler extends AbstractEventHandler<DealStartTurn
 			return;
 		}
 
-		game.pushGameController(new AbstractSingleStageGameController(game) {
+		game.pushGameController(new AbstractSingleStageGameController() {
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				game.removeEventHandler(SkipDealTurnEventHandler.this);
 				// skip DEAL
 				event.turn.setCurrentStage(TurnStage.DISCARD_BEGINNING);				

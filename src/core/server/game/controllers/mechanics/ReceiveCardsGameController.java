@@ -19,14 +19,13 @@ public class ReceiveCardsGameController extends AbstractGameController<ReceiveCa
 	private PlayerCompleteServer target;
 	private Collection<Card> cards;
 	
-	public ReceiveCardsGameController(Game game, PlayerCompleteServer target, Collection<Card> cards) {
-		super(game);
+	public ReceiveCardsGameController(PlayerCompleteServer target, Collection<Card> cards) {
 		this.target = target;
 		this.cards = cards;
 	}
 
 	@Override
-	protected void handleStage(ReceiveCardStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(Game game, ReceiveCardStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
 			case ADD_CARDS:
 				this.nextStage();

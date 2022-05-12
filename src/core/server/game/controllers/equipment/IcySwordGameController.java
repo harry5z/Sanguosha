@@ -34,8 +34,7 @@ public class IcySwordGameController
 	private boolean discardCompleted;
 	private boolean decisionConfirmed;
 	
-	public IcySwordGameController(Game game, PlayerCompleteServer source, PlayerCompleteServer target, AttackResolutionGameController controller) {
-		super(game);
+	public IcySwordGameController(PlayerCompleteServer source, PlayerCompleteServer target, AttackResolutionGameController controller) {
 		this.source = source;
 		this.target = target;
 		this.controller = controller;
@@ -46,13 +45,13 @@ public class IcySwordGameController
 	
 
 	@Override
-	protected void handleDecisionRequest() throws GameFlowInterruptedException {
-		this.game.emit(new RequestDecisionEvent(this.source.getPlayerInfo(), "Use Icy Sword?"));
+	protected void handleDecisionRequest(Game game) throws GameFlowInterruptedException {
+		game.emit(new RequestDecisionEvent(this.source.getPlayerInfo(), "Use Icy Sword?"));
 		throw new GameFlowInterruptedException();		
 	}
 
 	@Override
-	protected void handleDecisionConfirmation() throws GameFlowInterruptedException {
+	protected void handleDecisionConfirmation(Game game) throws GameFlowInterruptedException {
 		if (this.decisionConfirmed) {
 			// If Icy Sword usage is confirmed, prevent Attack damage
 			this.controller.setStage(AttackResolutionStage.END);
@@ -63,11 +62,11 @@ public class IcySwordGameController
 	}
 
 	@Override
-	protected void handleAction() throws GameFlowInterruptedException {
+	protected void handleAction(Game game) throws GameFlowInterruptedException {
 		if (!this.discardCompleted) {
 			// stay in Action stage while discard is not completed
 			this.setStage(PlayerDecisionAction.ACTION);
-			this.game.emit(new PlayerCardSelectionEvent(
+			game.emit(new PlayerCardSelectionEvent(
 				this.source.getPlayerInfo(),
 				this.target.getPlayerInfo(),
 				Set.of(PlayerCardZone.HAND, PlayerCardZone.EQUIPMENT)
@@ -82,7 +81,7 @@ public class IcySwordGameController
 	}
 
 	@Override
-	public void onCardSelected(Card card, PlayerCardZone zone) {
+	public void onCardSelected(Game game, Card card, PlayerCardZone zone) {
 		this.numCardDiscarded++;
 		switch(zone) {
 			case HAND:
@@ -96,8 +95,8 @@ public class IcySwordGameController
 				break;
 			case EQUIPMENT:
 				Equipment equipment = (Equipment) card;
-				this.game.pushGameController(new RecycleCardsGameController(this.game, this.target, Set.of(equipment)));
-				this.game.pushGameController(new UnequipGameController(this.game, this.target, equipment.getEquipmentType()));
+				game.pushGameController(new RecycleCardsGameController(this.target, Set.of(equipment)));
+				game.pushGameController(new UnequipGameController(this.target, equipment.getEquipmentType()));
 				break;
 			default:
 				throw new GameStateErrorException("Icy Sword: Card is not from HAND or EQUIPMENT");

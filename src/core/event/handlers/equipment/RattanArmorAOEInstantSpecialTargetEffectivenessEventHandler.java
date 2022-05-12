@@ -32,9 +32,9 @@ public class RattanArmorAOEInstantSpecialTargetEffectivenessEventHandler extends
 			return;
 		}
 		
-		game.pushGameController(new AbstractSingleStageGameController(game) {
+		game.pushGameController(new AbstractSingleStageGameController() {
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				event.getController().setStage(SpecialStage.TARGET_SWITCH);
 			}
 		});

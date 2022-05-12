@@ -21,8 +21,7 @@ public class TaichiFormationGameController
 	private boolean confirmed;
 	private boolean effective;
 
-	public TaichiFormationGameController(Game game, DodgeGameController nextController, PlayerCompleteServer target) {
-		super(game);
+	public TaichiFormationGameController(DodgeGameController nextController, PlayerCompleteServer target) {
 		this.target = target;
 		this.nextController = nextController;
 		this.confirmed = false;
@@ -30,8 +29,8 @@ public class TaichiFormationGameController
 	}
 	
 	@Override
-	protected void handleDecisionRequest() throws GameFlowInterruptedException {
-		this.game.getConnectionController().sendCommandToAllPlayers(new DecisionUIClientCommand(
+	protected void handleDecisionRequest(Game game) throws GameFlowInterruptedException {
+		game.getConnectionController().sendCommandToAllPlayers(new DecisionUIClientCommand(
 			this.target.getPlayerInfo(),
 			"Use Taichi Formation?"
 		));
@@ -39,14 +38,14 @@ public class TaichiFormationGameController
 	}
 
 	@Override
-	protected void handleDecisionConfirmation() throws GameFlowInterruptedException {
+	protected void handleDecisionConfirmation(Game game) throws GameFlowInterruptedException {
 		if (this.confirmed) {
-			this.game.pushGameController(new ArbitrationController(this.game, this, this.target));
+			game.pushGameController(new ArbitrationController(this, this.target));
 		}		
 	}
 
 	@Override
-	protected void handleAction() throws GameFlowInterruptedException {
+	protected void handleAction(Game game) throws GameFlowInterruptedException {
 		if (this.effective) {
 			this.nextController.onDodgeStageSkipped();
 		} else {

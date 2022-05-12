@@ -5,10 +5,10 @@ import core.event.game.basic.RequestShowCardEvent;
 import core.event.game.basic.RequestUseCardEvent;
 import core.event.game.basic.RequestUseCardEvent.RequestUseCardPredicate;
 import core.player.PlayerCardZone;
-import core.player.PlayerInfo;
+import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
-import core.server.game.Game;
 import core.server.game.Damage.Element;
+import core.server.game.Game;
 import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.mechanics.DamageGameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -18,21 +18,20 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 	
 	private Card shownCard;
 
-	public FireAttackController(PlayerInfo source, PlayerInfo target, Game game) {
-		super(source, target, game);
+	public FireAttackController(PlayerCompleteServer source, PlayerCompleteServer target) {
+		super(source, target);
 		this.shownCard = null;
 	}
 
 	@Override
-	protected void takeEffect() throws GameFlowInterruptedException {
-
+	protected void takeEffect(Game game) throws GameFlowInterruptedException {
 		if (this.shownCard == null) {
 			if (this.target.getHandCount() == 0) {
 				// ineffective if target has no card left on hand
 				this.nextStage();
 				return;
 			}
-			this.game.emit(new RequestShowCardEvent(
+			game.emit(new RequestShowCardEvent(
 				this.target.getPlayerInfo(),
 				this.source + " used Fire Attack on you, please show a card."
 			));
@@ -43,7 +42,7 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 				this.nextStage();
 				return;
 			}
-			this.game.emit(
+			game.emit(
 				new RequestUseCardEvent(
 					this.source.getPlayerInfo(),
 					"Discard a card of suit " + this.shownCard.getSuit().toString() + " to finish Fire Attack?"
@@ -59,7 +58,7 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 	}
 
 	@Override
-	public void onCardSelected(Card card, PlayerCardZone zone) {
+	public void onCardSelected(Game game, Card card, PlayerCardZone zone) {
 		if (this.shownCard == null) {
 			this.shownCard = card;
 			this.target.showCard(card);
@@ -73,7 +72,7 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}
-				this.game.pushGameController(new DamageGameController(new Damage(1, Element.FIRE, this.source, this.target), this.game));
+				game.pushGameController(new DamageGameController(new Damage(1, Element.FIRE, this.source, this.target)));
 			}
 		}
 	}

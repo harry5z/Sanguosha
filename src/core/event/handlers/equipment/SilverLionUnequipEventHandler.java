@@ -21,13 +21,13 @@ public class SilverLionUnequipEventHandler extends AbstractEventHandler<UnequipI
 			return;
 		}
 		
-		game.pushGameController(new AbstractSingleStageGameController(game) {
+		game.pushGameController(new AbstractSingleStageGameController() {
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				// remove event handler here because unequip event happens before the heal
 				game.removeEventHandler(SilverLionUnequipEventHandler.this);
 				if (event.player.isDamaged()) {
-					game.pushGameController(new HealGameController(event.player.getPlayerInfo(), event.player.getPlayerInfo(), game));
+					game.pushGameController(new HealGameController(event.player, event.player));
 				};
 			}
 		});

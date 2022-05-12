@@ -21,11 +21,11 @@ public class UseWineInGameServerCommand extends InGameServerCommand {
 	}
 	
 	@Override
-	protected GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	protected GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				try {
 					if (game.getCurrentPlayer().isWineUsed()) {
 						throw new InvalidPlayerCommandException("wine is already used");
@@ -33,7 +33,7 @@ public class UseWineInGameServerCommand extends InGameServerCommand {
 					game.getCurrentPlayer().useWine();
 					if (wine != null) {
 						// TODO specify source as the source may not be the current player
-						game.pushGameController(new UseCardOnHandGameController(game, game.getCurrentPlayer(), Set.of(wine)));
+						game.pushGameController(new UseCardOnHandGameController(game.getCurrentPlayer(), Set.of(wine)));
 					}
 				} catch (InvalidPlayerCommandException e) {
 					// TODO handle error

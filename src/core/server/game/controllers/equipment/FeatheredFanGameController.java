@@ -16,8 +16,7 @@ public class FeatheredFanGameController extends AbstractPlayerDecisionActionGame
 	private final PlayerCompleteServer source;
 	private boolean confirmed;
 
-	public FeatheredFanGameController(Game game, PlayerCompleteServer source, AttackGameController attackController) {
-		super(game);
+	public FeatheredFanGameController(PlayerCompleteServer source, AttackGameController attackController) {
 		this.source = source;
 		this.attackController = attackController;
 		this.confirmed = false;
@@ -29,15 +28,15 @@ public class FeatheredFanGameController extends AbstractPlayerDecisionActionGame
 	}
 
 	@Override
-	protected void handleDecisionRequest() throws GameFlowInterruptedException {
-		this.game.getConnectionController().sendCommandToAllPlayers(
+	protected void handleDecisionRequest(Game game) throws GameFlowInterruptedException {
+		game.getConnectionController().sendCommandToAllPlayers(
 			new DecisionUIClientCommand(this.source.getPlayerInfo(), "Use Feathered Fan?")
 		);
 		throw new GameFlowInterruptedException();		
 	}
 
 	@Override
-	protected void handleDecisionConfirmation() throws GameFlowInterruptedException {
+	protected void handleDecisionConfirmation(Game game) throws GameFlowInterruptedException {
 		if (this.confirmed) {
 			Attack original = this.attackController.getAttackCard();
 			this.attackController.setAttackCard(new Attack(Element.FIRE, original.getNumber(), original.getSuit()));
@@ -45,7 +44,7 @@ public class FeatheredFanGameController extends AbstractPlayerDecisionActionGame
 	}
 
 	@Override
-	protected void handleAction() throws GameFlowInterruptedException {
+	protected void handleAction(Game game) throws GameFlowInterruptedException {
 		// No action
 	}
 

@@ -8,7 +8,6 @@ import cards.equipments.Equipment.EquipmentType;
 import cards.equipments.weapons.Weapon;
 import core.event.game.basic.RequestAttackEvent;
 import core.player.PlayerCompleteServer;
-import core.player.PlayerInfo;
 import core.server.game.Game;
 import core.server.game.controllers.AttackUsableGameController;
 import core.server.game.controllers.mechanics.AttackGameController;
@@ -22,19 +21,19 @@ public class BorrowSwordGameController
 	
 	private final PlayerCompleteServer attackTarget;
 
-	public BorrowSwordGameController(PlayerInfo source, PlayerInfo target, PlayerInfo attackTarget, Game game) {
-		super(source, target, game);
-		this.attackTarget = game.findPlayer(attackTarget);
+	public BorrowSwordGameController(PlayerCompleteServer source, PlayerCompleteServer target, PlayerCompleteServer attackTarget) {
+		super(source, target);
+		this.attackTarget = attackTarget;
 	}
 	
 	@Override
-	protected void takeEffect() throws GameFlowInterruptedException {
+	protected void takeEffect(Game game) throws GameFlowInterruptedException {
 		if (!this.target.isEquipped(EquipmentType.WEAPON)) {
 			this.nextStage();
 			return;
 		}
 
-		this.game.emit(new RequestAttackEvent(
+		game.emit(new RequestAttackEvent(
 			this.target.getPlayerInfo(),
 			"Use Attack on " + this.attackTarget + " or else " + this.source + " takes your weapon"
 		));
@@ -47,17 +46,17 @@ public class BorrowSwordGameController
 	}
 
 	@Override
-	public void onAttackUsed(Card card) {
+	public void onAttackUsed(Game game, Card card) {
 		this.nextStage();
-		this.game.pushGameController(new AttackGameController(this.target, this.attackTarget, (Attack) card, this.game));
+		game.pushGameController(new AttackGameController(this.target, this.attackTarget, (Attack) card));
 	}
 
 	@Override
-	public void onAttackNotUsed() {
+	public void onAttackNotUsed(Game game) {
 		this.nextStage();
 		Weapon weapon = this.target.getWeapon();
-		this.game.pushGameController(new ReceiveCardsGameController(this.game, this.source, Set.of(weapon)));
-		this.game.pushGameController(new UnequipGameController(this.game, this.target, EquipmentType.WEAPON));
+		game.pushGameController(new ReceiveCardsGameController(this.source, Set.of(weapon)));
+		game.pushGameController(new UnequipGameController(this.target, EquipmentType.WEAPON));
 	}
 
 }

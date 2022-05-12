@@ -12,25 +12,21 @@ public abstract class AbstractPlayerDecisionActionGameController
 		ACTION,
 		END,
 	}
-	
-	public AbstractPlayerDecisionActionGameController(Game game) {
-		super(game);
-	}
 
 	@Override
-	protected final void handleStage(PlayerDecisionAction stage) throws GameFlowInterruptedException {
+	protected final void handleStage(Game game, PlayerDecisionAction stage) throws GameFlowInterruptedException {
 		switch (stage) {
 			case DECISION_REQUEST:
 				this.nextStage();
-				this.handleDecisionRequest();
+				this.handleDecisionRequest(game);
 				break;
 			case DECISION_CONFIRMATION:
 				this.nextStage();
-				this.handleDecisionConfirmation();
+				this.handleDecisionConfirmation(game);
 				break;
 			case ACTION:
 				this.nextStage();
-				this.handleAction();
+				this.handleAction(game);
 				break;
 			case END:
 				break;
@@ -42,10 +38,10 @@ public abstract class AbstractPlayerDecisionActionGameController
 		return PlayerDecisionAction.DECISION_REQUEST;
 	}
 	
-	protected abstract void handleDecisionRequest() throws GameFlowInterruptedException;
+	protected abstract void handleDecisionRequest(Game game) throws GameFlowInterruptedException;
 	
-	protected abstract void handleDecisionConfirmation() throws GameFlowInterruptedException;
+	protected abstract void handleDecisionConfirmation(Game game) throws GameFlowInterruptedException;
 	
-	protected abstract void handleAction() throws GameFlowInterruptedException;
+	protected abstract void handleAction(Game game) throws GameFlowInterruptedException;
 
 }

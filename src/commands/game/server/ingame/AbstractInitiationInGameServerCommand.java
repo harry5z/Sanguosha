@@ -24,20 +24,19 @@ public abstract class AbstractInitiationInGameServerCommand extends InGameServer
 	}
 
 	@Override
-	public final GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	public final GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
-				game.pushGameController(getController(game, target));
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+				game.pushGameController(getInitiationGameController(game, target != null ? game.findPlayer(target) : null));
 				if (card != null) {
-					// TODO specify source in command since initiator may not be the current player
 					PlayerCompleteServer source = game.getCurrentPlayer();
-					game.pushGameController(new UseCardOnHandGameController(game, source, Set.of(card)));			
+					game.pushGameController(new UseCardOnHandGameController(source, Set.of(card)));			
 				}				
 			}
 		};
 	}
 	
-	protected abstract GameController getController(Game game, PlayerInfo target);
+	protected abstract GameController getInitiationGameController(Game game, PlayerCompleteServer target);
 
 }

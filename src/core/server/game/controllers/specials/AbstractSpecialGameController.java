@@ -1,6 +1,5 @@
 package core.server.game.controllers.specials;
 
-import core.server.game.Game;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
 
@@ -9,8 +8,7 @@ public abstract class AbstractSpecialGameController<T extends GameControllerStag
 	protected boolean neutralized;
 	protected int neutralizedCount;
 
-	public AbstractSpecialGameController(Game game) {
-		super(game);
+	public AbstractSpecialGameController() {
 		this.neutralized = false;
 		this.neutralizedCount = 0;
 	}

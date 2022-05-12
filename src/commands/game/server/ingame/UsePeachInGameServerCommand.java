@@ -23,19 +23,19 @@ public class UsePeachInGameServerCommand extends InGameServerCommand {
 	}
 
 	@Override
-	protected GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	protected GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				PlayerCompleteServer currentPlayer = game.getCurrentPlayer();
 				try {
 					if (!currentPlayer.isDamaged()) {
 						throw new InvalidPlayerCommandException("player is at full health");
 					}
-					game.pushGameController(new HealGameController(currentPlayer.getPlayerInfo(), currentPlayer.getPlayerInfo(), game));
+					game.pushGameController(new HealGameController(currentPlayer, currentPlayer));
 					if (card != null) {
-						game.pushGameController(new UseCardOnHandGameController(game, currentPlayer, Set.of(card)));
+						game.pushGameController(new UseCardOnHandGameController(currentPlayer, Set.of(card)));
 					}
 				} catch (InvalidPlayerCommandException e) {
 					// TODO handle error

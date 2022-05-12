@@ -27,8 +27,7 @@ public class DodgeGameController extends AbstractGameController<DodgeGameControl
 	private PlayerCompleteServer target;
 	private final Set<DodgeStage> skippedStages;
 
-	public DodgeGameController(Game game, DodgeUsableGameController nextController, PlayerCompleteServer target, String message) {
-		super(game);
+	public DodgeGameController(DodgeUsableGameController nextController, PlayerCompleteServer target, String message) {
 		this.nextController = nextController;
 		this.message = message;
 		this.target = target;
@@ -36,7 +35,7 @@ public class DodgeGameController extends AbstractGameController<DodgeGameControl
 	}
 
 	@Override
-	protected void handleStage(DodgeStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(Game game, DodgeStage stage) throws GameFlowInterruptedException {
 		if (this.skippedStages.contains(stage)) {
 			this.nextStage();
 			return;
@@ -44,10 +43,10 @@ public class DodgeGameController extends AbstractGameController<DodgeGameControl
 		switch (stage) {
 			case TARGET_EQUIPMENT_ABILITIES:
 				this.nextStage();
-				this.game.emit(new DodgeTargetEquipmentCheckEvent(this, this.target.getPlayerInfo()));
+				game.emit(new DodgeTargetEquipmentCheckEvent(this, this.target.getPlayerInfo()));
 				break;
 			case DODGE:
-				this.game.emit(new RequestDodgeEvent(this.target.getPlayerInfo(), this.message));
+				game.emit(new RequestDodgeEvent(this.target.getPlayerInfo(), this.message));
 				throw new GameFlowInterruptedException();
 			case AFTER_DODGED_SKILLS:
 				// nothing here yet
@@ -58,8 +57,8 @@ public class DodgeGameController extends AbstractGameController<DodgeGameControl
 		}
 	}
 
-	public void onDodgeUsed(Card card) {
-		game.pushGameController(new UseCardOnHandGameController(game, target, Set.of(card)));
+	public void onDodgeUsed(Game game, Card card) {
+		game.pushGameController(new UseCardOnHandGameController(target, Set.of(card)));
 		this.nextController.onDodged();
 		this.setStage(DodgeStage.AFTER_DODGED_SKILLS);
 	}

@@ -1,9 +1,11 @@
 package commands.game.server.ingame;
 
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
 import cards.Card;
+import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
 import core.server.game.controllers.AbstractSingleStageGameController;
@@ -26,20 +28,24 @@ public class InitiateChainInGameServerCommand extends InGameServerCommand {
 	}
 
 	@Override
-	protected GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	protected GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				// TODO specify source as the source may not be the current player
 				if (targets.isEmpty()) {
 					// "Recast"
-					game.pushGameController(new ReceiveCardsGameController(game, game.getCurrentPlayer(), game.getDeck().drawMany(1)));
+					game.pushGameController(new ReceiveCardsGameController(game.getCurrentPlayer(), game.getDeck().drawMany(1)));
 				} else {
-					game.pushGameController(new ChainGameController(game.getCurrentPlayer().getPlayerInfo(), game, targets));
+					Queue<PlayerCompleteServer> queue = new LinkedList<>();
+					for (PlayerInfo target : targets) {
+						queue.add(game.findPlayer(target));
+					}
+					game.pushGameController(new ChainGameController(game.getCurrentPlayer(), queue));
 				}
 				if (card != null) {
-					game.pushGameController(new UseCardOnHandGameController(game, game.getCurrentPlayer(), Set.of(card)));
+					game.pushGameController(new UseCardOnHandGameController(game.getCurrentPlayer(), Set.of(card)));
 				}
 			}
 		};

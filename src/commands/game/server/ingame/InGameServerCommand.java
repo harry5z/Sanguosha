@@ -2,7 +2,6 @@ package commands.game.server.ingame;
 
 import commands.game.server.GameServerCommand;
 import core.server.GameRoom;
-import core.server.game.Game;
 import core.server.game.controllers.GameController;
 import net.Connection;
 
@@ -12,9 +11,9 @@ public abstract class InGameServerCommand implements GameServerCommand {
 
 	@Override
 	public final void execute(GameRoom room, Connection connection) {
-		room.getGame().pushGameController(this.getGameController(room.getGame()));
+		room.getGame().pushGameController(this.getGameController());
 		room.getGame().resume();
 	}
 	
-	protected abstract GameController getGameController(Game game);
+	protected abstract GameController getGameController();
 }

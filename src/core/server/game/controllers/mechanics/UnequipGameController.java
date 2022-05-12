@@ -32,21 +32,20 @@ public class UnequipGameController extends AbstractGameController<UnequipGameCon
 	 * @param player : the player to remove an equipment from
 	 * @param type : the removed equipment type
 	 */
-	public UnequipGameController(Game game, PlayerCompleteServer player, EquipmentType type) {
-		super(game);
+	public UnequipGameController(PlayerCompleteServer player, EquipmentType type) {
 		this.player = player;
 		this.type = type;
 	}
 
 	@Override
-	protected void handleStage(UnequipStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(Game game, UnequipStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
 			case DISCARD_EQUIPMENT:
 				Equipment equipment = this.player.getEquipment(this.type);
 				try {
 					this.nextStage();
 					this.player.unequip(this.type);
-					equipment.onUnequipped(this.game, this.player);
+					equipment.onUnequipped(game, this.player);
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}
@@ -57,7 +56,7 @@ public class UnequipGameController extends AbstractGameController<UnequipGameCon
 				break;
 			case ITEM_ABILITY:
 				this.nextStage();
-				this.game.emit(new UnequipItemAbilityEvent(this.player, this.type, this));
+				game.emit(new UnequipItemAbilityEvent(this.player, this.type, this));
 				break;
 			case END:
 				break;

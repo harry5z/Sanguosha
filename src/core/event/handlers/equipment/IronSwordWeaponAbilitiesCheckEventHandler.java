@@ -28,9 +28,9 @@ public class IronSwordWeaponAbilitiesCheckEventHandler extends AbstractEventHand
 			return;
 		}
 		
-		game.pushGameController(new AbstractSingleStageGameController(game) {
+		game.pushGameController(new AbstractSingleStageGameController() {
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				// Fully ignore all stages which involve checking target equipment
 				event.controller.skipStage(AttackResolutionStage.TARGET_LOCKED_TARGET_EQUIPMENT_ABILITIES);
 				event.controller.dodgeController.skipStage(DodgeStage.TARGET_EQUIPMENT_ABILITIES);

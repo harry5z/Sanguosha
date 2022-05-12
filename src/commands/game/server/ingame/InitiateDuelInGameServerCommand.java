@@ -1,6 +1,7 @@
 package commands.game.server.ingame;
 
 import cards.Card;
+import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.server.game.Game;
 import core.server.game.controllers.GameController;
@@ -15,8 +16,8 @@ public class InitiateDuelInGameServerCommand extends AbstractInitiationInGameSer
 	}
 
 	@Override
-	protected GameController getController(Game game, PlayerInfo target) {
-		return new DuelGameController(game.getCurrentPlayer().getPlayerInfo(), target, game);
+	protected GameController getInitiationGameController(Game game, PlayerCompleteServer target) {
+		return new DuelGameController(game.getCurrentPlayer(), target);
 	}
 
 }

@@ -29,18 +29,18 @@ public class InitiateAttackInGameServerCommand extends InGameServerCommand {
 	}
 
 	@Override
-	protected GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	protected GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				PlayerCompleteServer player = game.findPlayer(source);
 				Set<PlayerCompleteServer> set = targets.stream().map(target -> game.findPlayer(target)).collect(Collectors.toSet());
 				try {
 					player.useAttack(set);
-					game.pushGameController(new AttackGameController(player, set, attack, game));
+					game.pushGameController(new AttackGameController(player, set, attack));
 					if (attack != null) {
-						game.pushGameController(new UseCardOnHandGameController(game, player, Set.of(attack)));
+						game.pushGameController(new UseCardOnHandGameController(player, Set.of(attack)));
 					}
 				} catch (InvalidPlayerCommandException e) {
 					// TODO reset game state

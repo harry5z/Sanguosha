@@ -29,6 +29,6 @@ public class ZhugeliangTaichiDodgeEquipmentCheckEventHandler extends AbstractEve
 			return;
 		}
 		
-		game.pushGameController(new TaichiFormationGameController(game, event.controller, this.player));
+		game.pushGameController(new TaichiFormationGameController(event.controller, this.player));
 	}
 }

@@ -22,14 +22,14 @@ public class AxeReactionInGameServerCommand extends InGameServerCommand {
 	}
 
 	@Override
-	public GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	public GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				AxeGameController controller = game.<AxeGameController>getNextGameController();
 				for (Entry<Card, PlayerCardZone> entry : cards.entrySet()) {
-					controller.onCardSelected(entry.getKey(), entry.getValue());
+					controller.onCardSelected(game, entry.getKey(), entry.getValue());
 				}
 				controller.onDecisionMade(cards.size() == 2);				
 			}

@@ -1,8 +1,10 @@
 package core.server.game.controllers.specials.instants;
 
+import java.util.Queue;
+
 import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.ArrowSalvoTargetEffectivenessEvent;
-import core.player.PlayerInfo;
+import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
 import core.server.game.Game;
 import core.server.game.controllers.DodgeUsableGameController;
@@ -10,22 +12,21 @@ import core.server.game.controllers.mechanics.DamageGameController;
 import core.server.game.controllers.mechanics.DodgeGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
-public class ArrowSalvoGameController extends AOEInstantSpecialGameController implements DodgeUsableGameController {
+public class ArrowSalvoGameController extends AbstractMultiTargetInstantSpecialGameController implements DodgeUsableGameController {
 
 	private boolean effective;
 	private boolean hasReacted;
 
-	public ArrowSalvoGameController(PlayerInfo source, Game game) {
-		super(source, game, false);
+	public ArrowSalvoGameController(PlayerCompleteServer source, Queue<PlayerCompleteServer> targets) {
+		super(source, targets);
 		this.effective = true;
 		this.hasReacted = false;
 	}
 
 	@Override
-	protected void takeEffect() throws GameFlowInterruptedException {
+	protected void takeEffect(Game game) throws GameFlowInterruptedException {
 		if (!this.hasReacted) {
-			this.game.pushGameController(new DodgeGameController(
-				this.game,
+			game.pushGameController(new DodgeGameController(
 				this,
 				this.currentTarget,
 				this.source + " used Arrow Salvo on you, use Dodge to counter?"
@@ -35,7 +36,7 @@ public class ArrowSalvoGameController extends AOEInstantSpecialGameController im
 			this.hasReacted = false;
 			if (this.effective) {
 				// if effective, deal damage
-				this.game.pushGameController(new DamageGameController(new Damage(this.source, this.currentTarget), this.game));
+				game.pushGameController(new DamageGameController(new Damage(this.source, this.currentTarget)));
 			}
 		}
 	}

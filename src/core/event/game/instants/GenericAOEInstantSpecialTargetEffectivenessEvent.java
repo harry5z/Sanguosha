@@ -1,14 +1,14 @@
 package core.event.game.instants;
 
 import core.player.PlayerCompleteServer;
-import core.server.game.controllers.specials.instants.AOEInstantSpecialGameController;
+import core.server.game.controllers.specials.instants.AbstractMultiTargetInstantSpecialGameController;
 
 public class GenericAOEInstantSpecialTargetEffectivenessEvent implements AOEInstantSpecialTargetEffectivenessEvent {
 	
 	private final PlayerCompleteServer target;
-	private final AOEInstantSpecialGameController controller;
+	private final AbstractMultiTargetInstantSpecialGameController controller;
 	
-	public GenericAOEInstantSpecialTargetEffectivenessEvent(PlayerCompleteServer target, AOEInstantSpecialGameController controller) {
+	public GenericAOEInstantSpecialTargetEffectivenessEvent(PlayerCompleteServer target, AbstractMultiTargetInstantSpecialGameController controller) {
 		this.target = target;
 		this.controller = controller;
 	}
@@ -19,7 +19,7 @@ public class GenericAOEInstantSpecialTargetEffectivenessEvent implements AOEInst
 	}
 
 	@Override
-	public AOEInstantSpecialGameController getController() {
+	public AbstractMultiTargetInstantSpecialGameController getController() {
 		return this.controller;
 	}
 

@@ -18,38 +18,38 @@ public class EquipGameController extends AbstractGameController<EquipGameControl
 		END;
 	}
 	
-	private final PlayerCompleteServer player;
+	private final PlayerCompleteServer source;
 	private final Equipment equipment;
 	
-	public EquipGameController(Game game, PlayerCompleteServer player, Equipment equipment) {
-		super(game);
-		this.player = player;
+	public EquipGameController(PlayerCompleteServer player, Equipment equipment) {
+		this.source = player;
 		this.equipment = equipment;
 	}
-
+	
 	@Override
-	protected void handleStage(EquipStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(Game game, EquipStage stage) throws GameFlowInterruptedException {
+		PlayerCompleteServer player = this.source != null ? this.source : game.getCurrentPlayer();
 		switch (stage) {
 			case UNEQUIP:
 				try {
 					// TODO: convert to controller
-					this.player.removeCardFromHand(this.equipment);
+					player.removeCardFromHand(this.equipment);
 				} catch (InvalidPlayerCommandException e) {
 					
 				}
 				
 				// discard old equipment (if any) at the same slot
-				if (this.player.isEquipped(this.equipment.getEquipmentType())) {
-					Equipment old  = this.player.getEquipment(this.equipment.getEquipmentType());
-					this.game.pushGameController(new RecycleCardsGameController(this.game, this.player, Set.of(old)));
-					this.game.pushGameController(new UnequipGameController(this.game, this.player, this.equipment.getEquipmentType()));
+				if (player.isEquipped(this.equipment.getEquipmentType())) {
+					Equipment old  = player.getEquipment(this.equipment.getEquipmentType());
+					game.pushGameController(new RecycleCardsGameController(player, Set.of(old)));
+					game.pushGameController(new UnequipGameController(player, this.equipment.getEquipmentType()));
 				}
 				this.nextStage();
 				break;
 			case EQUIP:
 				try {
-					this.player.equip(this.equipment);
-					this.equipment.onEquipped(this.game, this.player);
+					player.equip(this.equipment);
+					this.equipment.onEquipped(game, player);
 					this.nextStage();
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();

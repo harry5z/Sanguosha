@@ -1,8 +1,11 @@
 package core.server.game.controllers.specials.instants;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,37 +16,26 @@ import core.event.game.instants.HarvestCardSelectionEvent;
 import core.event.handlers.instant.HarvestCardSelectionEventHandler;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
-import core.player.PlayerInfo;
 import core.server.game.Game;
 import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.mechanics.ReceiveCardsGameController;
 import core.server.game.controllers.mechanics.RecycleCardsGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
-public class HarvestGameController extends AOEInstantSpecialGameController implements CardSelectableGameController {
+public class HarvestGameController extends AbstractMultiTargetInstantSpecialGameController implements CardSelectableGameController {
 
 	private Map<Card, Boolean> selectableCards;
 	private List<PlayerCompleteServer> players;
 
-	public HarvestGameController(PlayerInfo source, Game game) {
-		super(source, game, true);
-		this.selectableCards = null;
-		this.players = game.getPlayersAlive();
-		// register handlers
-		this.players.forEach(player -> game.registerEventHandler(new HarvestCardSelectionEventHandler(player)));
-		this.selectableCards = game.getDeck().drawMany(game.getNumberOfPlayersAlive()).stream().collect(Collectors.toMap(card -> card, card -> false));
-		
-		// for client UI update only, won't cause interruption
-		try {
-			this.game.emit(new HarvestCardSelectionEvent(null, new HashMap<>(this.selectableCards)));
-		} catch (GameFlowInterruptedException e) {
-			e.resume();
-		}
+	public HarvestGameController(PlayerCompleteServer source, Queue<PlayerCompleteServer> targets, Collection<Card> selectableCards) {
+		super(source, targets);
+		this.selectableCards = selectableCards.stream().collect(Collectors.toMap(card -> card, card -> false));
+		this.players = new ArrayList<>(targets);
 	}
 	
 	@Override
-	protected void takeEffect() throws GameFlowInterruptedException {
-		this.game.emit(new HarvestCardSelectionEvent(this.currentTarget.getPlayerInfo(), new HashMap<>(this.selectableCards)));
+	protected void takeEffect(Game game) throws GameFlowInterruptedException {
+		game.emit(new HarvestCardSelectionEvent(this.currentTarget.getPlayerInfo(), new HashMap<>(this.selectableCards)));
 		throw new GameFlowInterruptedException();
 	}
 	
@@ -53,19 +45,19 @@ public class HarvestGameController extends AOEInstantSpecialGameController imple
 	}
 
 	@Override
-	public void onCardSelected(Card card, PlayerCardZone zone) {
+	public void onCardSelected(Game game, Card card, PlayerCardZone zone) {
 		this.nextStage();
 		// TODO: sanity check
 		this.selectableCards.replace(card, true);
 		
 		// for client UI update only, won't cause interruption
 		try {
-			this.game.emit(new HarvestCardSelectionEvent(null, new HashMap<>(this.selectableCards)));
+			game.emit(new HarvestCardSelectionEvent(null, new HashMap<>(this.selectableCards)));
 		} catch (GameFlowInterruptedException e) {
 			e.resume();
 		}
 		
-		this.game.pushGameController(new ReceiveCardsGameController(this.game, this.currentTarget, Set.of(card)));
+		game.pushGameController(new ReceiveCardsGameController(this.currentTarget, Set.of(card)));
 	}
 
 	@Override
@@ -74,10 +66,10 @@ public class HarvestGameController extends AOEInstantSpecialGameController imple
 	}
 
 	@Override
-	protected void onSettled() {
+	protected void onSettled(Game game) {
 		// for client UI update only, won't cause interruption
 		try {
-			this.game.emit(new HarvestCardSelectionEvent(null, null));
+			game.emit(new HarvestCardSelectionEvent(null, null));
 		} catch (GameFlowInterruptedException e) {
 			e.resume();
 		}
@@ -86,7 +78,7 @@ public class HarvestGameController extends AOEInstantSpecialGameController imple
 		// discard all unselected cards
 		Set<Card> unselected = this.selectableCards.entrySet().stream().filter(entry -> !entry.getValue()).map(entry -> entry.getKey()).collect(Collectors.toSet());
 		if (unselected.size() > 0) {
-			this.game.pushGameController(new RecycleCardsGameController(this.game, this.source, unselected));
+			game.pushGameController(new RecycleCardsGameController(this.source, unselected));
 		}
 	}
 

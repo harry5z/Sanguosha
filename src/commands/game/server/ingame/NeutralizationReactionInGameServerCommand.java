@@ -24,14 +24,14 @@ public class NeutralizationReactionInGameServerCommand extends InGameServerComma
 	}
 
 	@Override
-	protected GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	protected GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				if (neutralization != null) {
 					game.<SpecialGameController>getNextGameController().onNeutralized();
-					game.pushGameController(new UseCardOnHandGameController(game, game.findPlayer(source), Set.of(neutralization)));
+					game.pushGameController(new UseCardOnHandGameController(game.findPlayer(source), Set.of(neutralization)));
 				} else {
 					game.<SpecialGameController>getNextGameController().onNeutralizationCanceled();
 				}

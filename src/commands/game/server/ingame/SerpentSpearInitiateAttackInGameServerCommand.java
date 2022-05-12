@@ -31,11 +31,11 @@ public class SerpentSpearInitiateAttackInGameServerCommand extends InGameServerC
 	}
 	
 	@Override
-	protected GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	protected GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				try {
 					PlayerCompleteServer player = game.findPlayer(source);
 					Set<PlayerCompleteServer> set = targets.stream().map(target -> game.findPlayer(target)).collect(Collectors.toSet());
@@ -48,8 +48,8 @@ public class SerpentSpearInitiateAttackInGameServerCommand extends InGameServerC
 						cards.iterator().next().getColor(),
 						(c1, c2) -> c1 == c2 ? c1 : Color.COLORLESS
 					);
-					game.pushGameController(new AttackGameController(player, set, new Attack(color), game));
-					game.pushGameController(new UseCardOnHandGameController(game, player, cards));
+					game.pushGameController(new AttackGameController(player, set, new Attack(color)));
+					game.pushGameController(new UseCardOnHandGameController(player, cards));
 				} catch (InvalidPlayerCommandException e) {
 					// TODO handle error
 					e.printStackTrace();

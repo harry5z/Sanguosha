@@ -30,18 +30,17 @@ public class SuddenStrikeSkillInGameServerCommand extends InGameServerCommand {
 	}
 	
 	@Override
-	protected GameController getGameController(Game game) {
-		return new AbstractSingleStageGameController(game) {
+	protected GameController getGameController() {
+		return new AbstractSingleStageGameController() {
 			
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
-				PlayerInfo source = game.getCurrentPlayer().getPlayerInfo();
-				game.pushGameController(new SabotageGameController(source, target, game));
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
+				game.pushGameController(new SabotageGameController(game.getCurrentPlayer(), game.findPlayer(target)));
 				if (zone == PlayerCardZone.HAND) {
-					game.pushGameController(new UseCardOnHandGameController(game, game.getCurrentPlayer(), Set.of(card)));
+					game.pushGameController(new UseCardOnHandGameController(game.getCurrentPlayer(), Set.of(card)));
 				} else if (zone == PlayerCardZone.EQUIPMENT) {
-					game.pushGameController(new RecycleCardsGameController(game, game.getCurrentPlayer(), Set.of(card)));
-					game.pushGameController(new UnequipGameController(game, game.getCurrentPlayer(), ((Equipment) card).getEquipmentType()));
+					game.pushGameController(new RecycleCardsGameController(game.getCurrentPlayer(), Set.of(card)));
+					game.pushGameController(new UnequipGameController(game.getCurrentPlayer(), ((Equipment) card).getEquipmentType()));
 				}
 			}
 		};

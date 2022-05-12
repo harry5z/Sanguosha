@@ -1,17 +1,17 @@
 package core.server.game.controllers.specials.instants;
 
-import core.player.PlayerInfo;
+import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 
 public class CreationGameController extends SingleTargetInstantSpecialGameController {
 
-	public CreationGameController(PlayerInfo source, Game game) {
-		super(source, source, game);
+	public CreationGameController(PlayerCompleteServer source) {
+		super(source, source);
 	}
 
 	@Override
-	protected void takeEffect() {
-		this.game.drawCards(this.source, 2);
+	protected void takeEffect(Game game) {
+		game.drawCards(this.source, 2);
 		this.nextStage();
 	}
 	

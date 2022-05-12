@@ -28,15 +28,14 @@ public class DamageGameController extends AbstractGameController<DamageGameContr
 	private final Damage damage;
 	private final Set<DamageStage> skippedStages;
 
-	public DamageGameController(Damage damage, Game game) {
-		super(game);
+	public DamageGameController(Damage damage) {
 		this.damage = damage;
 		this.originalDamage = damage.clone();
 		this.skippedStages = new HashSet<>();
 	}
 
 	@Override
-	protected void handleStage(DamageStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(Game game, DamageStage stage) throws GameFlowInterruptedException {
 		if (this.skippedStages.contains(stage)) {
 			this.nextStage();
 			return;
@@ -48,7 +47,7 @@ public class DamageGameController extends AbstractGameController<DamageGameContr
 				break;
 			case TARGET_EQUIPMENT_ABILITIES:
 				this.nextStage();
-				this.game.emit(new TargetEquipmentCheckDamageEvent(damage));
+				game.emit(new TargetEquipmentCheckDamageEvent(damage));
 				break;
 			case TARGET_DAMAGE:
 				this.nextStage();
@@ -68,13 +67,13 @@ public class DamageGameController extends AbstractGameController<DamageGameContr
 				// pass down damage too all chained players if damage type is not NORMAL
 				if (this.originalDamage.getElement() != Element.NORMAL && target.isChained()) {
 					target.setChained(false);
-					for (PlayerCompleteServer next = this.game.getNextPlayerAlive(target); next != target; next = this.game.getNextPlayerAlive(next)) {
+					for (PlayerCompleteServer next = game.getNextPlayerAlive(target); next != target; next = game.getNextPlayerAlive(next)) {
 						if (next.isChained()) {
 							// chained players always take damage based on the initial damage value
 							int damageAmount = this.originalDamage.isChainedDamage() ? this.originalDamage.getAmount() : this.damage.getAmount();
 							Damage newDamage = new Damage(damageAmount, this.originalDamage.getElement(), this.originalDamage.getSource(), next);
 							newDamage.setIsChainedDamage(true);
-							this.game.pushGameController(new DamageGameController(newDamage, this.game));
+							game.pushGameController(new DamageGameController(newDamage));
 							return;
 						}
 					}

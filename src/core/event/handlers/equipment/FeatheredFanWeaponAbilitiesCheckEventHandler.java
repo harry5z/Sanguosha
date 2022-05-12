@@ -27,7 +27,7 @@ public class FeatheredFanWeaponAbilitiesCheckEventHandler extends AbstractEventH
 		}
 		
 		if (event.controller.getAttackCard().getElement() == Element.NORMAL) {
-			game.pushGameController(new FeatheredFanGameController(game, event.source, event.controller));
+			game.pushGameController(new FeatheredFanGameController(event.source, event.controller));
 		}
 	}
 

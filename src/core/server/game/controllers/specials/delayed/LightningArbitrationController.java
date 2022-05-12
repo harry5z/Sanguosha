@@ -13,8 +13,8 @@ import utils.DelayedType;
 
 public class LightningArbitrationController extends AbstractDelayedArbitrationController {
 	
-	public LightningArbitrationController(Game game, PlayerCompleteServer target, TurnGameController turn) {
-		super(game, target, turn);
+	public LightningArbitrationController(PlayerCompleteServer target, TurnGameController turn) {
+		super(target, turn);
 	}
 
 	@Override
@@ -23,11 +23,11 @@ public class LightningArbitrationController extends AbstractDelayedArbitrationCo
 	}
 
 	@Override
-	protected void handleEffect() {
+	protected void handleEffect(Game game) {
 		if (this.effective) {
 			DelayedStackItem item = this.target.removeDelayed(DelayedType.LIGHTNING);
-			this.game.getDeck().discard(item.delayed);
-			this.game.pushGameController(new DamageGameController(new Damage(3, Element.THUNDER, null, this.target), this.game));
+			game.getDeck().discard(item.delayed);
+			game.pushGameController(new DamageGameController(new Damage(3, Element.THUNDER, null, this.target)));
 		}
 	}
 	
@@ -37,14 +37,14 @@ public class LightningArbitrationController extends AbstractDelayedArbitrationCo
 	}
 
 	@Override
-	protected void beforeEnd() {
+	protected void beforeEnd(Game game) {
 		// if Lightning is not effective, it is transferred to the next player
 		if (this.target.hasDelayedType(DelayedType.LIGHTNING)) {
 			DelayedStackItem item = this.target.removeDelayed(DelayedType.LIGHTNING);
-			PlayerCompleteServer next = this.game.getNextPlayerAlive(this.target);
+			PlayerCompleteServer next = game.getNextPlayerAlive(this.target);
 			// NOTE: May cause an infinite loop if more than 2 Lightning cards exist
 			while (next.hasDelayedType(DelayedType.LIGHTNING)) {
-				next = this.game.getNextPlayerAlive(next);
+				next = game.getNextPlayerAlive(next);
 			}
 			next.pushDelayed(item.delayed, item.type);
 		}

@@ -17,16 +17,15 @@ public class DragonBladeGameController extends AbstractPlayerDecisionActionGameC
 	private Card card;
 	private boolean actionTaken;
 
-	public DragonBladeGameController(Game game, PlayerCompleteServer source, PlayerCompleteServer target) {
-		super(game);
+	public DragonBladeGameController(PlayerCompleteServer source, PlayerCompleteServer target) {
 		this.source = source;
 		this.target = target;
 		this.actionTaken = false;
 	}
 
 	@Override
-	protected void handleDecisionRequest() throws GameFlowInterruptedException {
-		this.game.emit(new RequestAttackEvent(
+	protected void handleDecisionRequest(Game game) throws GameFlowInterruptedException {
+		game.emit(new RequestAttackEvent(
 			this.source.getPlayerInfo(),
 			"Use Dragon Blade?"
 		));	
@@ -34,25 +33,25 @@ public class DragonBladeGameController extends AbstractPlayerDecisionActionGameC
 	}
 
 	@Override
-	protected void handleDecisionConfirmation() throws GameFlowInterruptedException {
+	protected void handleDecisionConfirmation(Game game) throws GameFlowInterruptedException {
 		if (this.actionTaken) {
-			this.game.pushGameController(new AttackGameController(this.source, this.target, (Attack) card, this.game));
+			game.pushGameController(new AttackGameController(this.source, this.target, (Attack) card));
 		}
 	}
 
 	@Override
-	protected void handleAction() throws GameFlowInterruptedException {
+	protected void handleAction(Game game) throws GameFlowInterruptedException {
 		// Action is done in decision confirmation
 	}
 
 	@Override
-	public void onAttackUsed(Card card) {
+	public void onAttackUsed(Game game, Card card) {
 		this.actionTaken = true;
 		this.card = card;
 	}
 
 	@Override
-	public void onAttackNotUsed() {
+	public void onAttackNotUsed(Game game) {
 		this.actionTaken = false;
 	}
 

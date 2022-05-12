@@ -31,9 +31,9 @@ public class RattanArmorAttackTargetEquipmentCheckEventHandler extends AbstractE
 			return;
 		}
 		
-		game.pushGameController(new AbstractSingleStageGameController(game) {
+		game.pushGameController(new AbstractSingleStageGameController() {
 			@Override
-			protected void handleOnce() throws GameFlowInterruptedException {
+			protected void handleOnce(Game game) throws GameFlowInterruptedException {
 				event.getController().setStage(AttackResolutionStage.END);
 			}
 		});

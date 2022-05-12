@@ -30,7 +30,7 @@ public class IcySwordAbilityCheckEventHandler extends AbstractEventHandler<Attac
 			return;
 		}
 		
-		game.pushGameController(new IcySwordGameController(game, event.source, event.target, event.controller));
+		game.pushGameController(new IcySwordGameController(event.source, event.target, event.controller));
 	}
 
 }

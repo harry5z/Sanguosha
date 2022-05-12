@@ -3,7 +3,6 @@ package core.server.game.controllers.specials.instants;
 import cards.Card;
 import core.event.game.basic.RequestAttackEvent;
 import core.player.PlayerCompleteServer;
-import core.player.PlayerInfo;
 import core.server.game.Damage;
 import core.server.game.Game;
 import core.server.game.controllers.AttackUsableGameController;
@@ -14,15 +13,15 @@ public class DuelGameController extends SingleTargetInstantSpecialGameController
 	
 	private PlayerCompleteServer currentAttackUser;
 	
-	public DuelGameController(PlayerInfo source, PlayerInfo target, Game game) {
-		super(source, target, game);
+	public DuelGameController(PlayerCompleteServer source, PlayerCompleteServer target) {
+		super(source, target);
 		this.currentAttackUser = this.target;
 	}
 
 	@Override
-	protected void takeEffect() throws GameFlowInterruptedException {
+	protected void takeEffect(Game game) throws GameFlowInterruptedException {
 		// Ask current attack user to use Attack
-		this.game.emit(new RequestAttackEvent(
+		game.emit(new RequestAttackEvent(
 			this.currentAttackUser.getPlayerInfo(),
 			"You are in a Duel against " +
 			(this.currentAttackUser == this.target ? this.source : this.target) +
@@ -38,18 +37,18 @@ public class DuelGameController extends SingleTargetInstantSpecialGameController
 	}
 
 	@Override
-	public void onAttackUsed(Card card) {
+	public void onAttackUsed(Game game, Card card) {
 		// change attack user and continue
 		this.currentAttackUser = this.currentAttackUser == this.target ? this.source : this.target;
 	}
 
 	@Override
-	public void onAttackNotUsed() {
+	public void onAttackNotUsed(Game game) {
 		this.nextStage();
 		// current attack user takes 1 damage from the other player
 		PlayerCompleteServer damageTarget = this.currentAttackUser;
 		PlayerCompleteServer damageSource = damageTarget == this.target ? this.source : this.target;
-		this.game.pushGameController(new DamageGameController(new Damage(damageSource, damageTarget), this.game));
+		game.pushGameController(new DamageGameController(new Damage(damageSource, damageTarget)));
 	}
 
 }

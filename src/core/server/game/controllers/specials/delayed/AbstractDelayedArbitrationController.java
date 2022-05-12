@@ -27,23 +27,22 @@ public abstract class AbstractDelayedArbitrationController
 	protected final TurnGameController currentTurn;
 	protected boolean effective;
 
-	public AbstractDelayedArbitrationController(Game game, PlayerCompleteServer target, TurnGameController turn) {
-		super(game);
+	public AbstractDelayedArbitrationController(PlayerCompleteServer target, TurnGameController turn) {
 		this.target = target;
 		this.currentTurn = turn;
 		this.effective = false;
 	}
 
 	@Override
-	protected void handleStage(DelayedArbitrationStage stage) throws GameFlowInterruptedException {
+	protected void handleStage(Game game, DelayedArbitrationStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
 			case NEUTRALIZATION:
-				if (this.neutralizedCount >= this.game.getNumberOfPlayersAlive()) {
+				if (this.neutralizedCount >= game.getNumberOfPlayersAlive()) {
 					this.neutralizedCount = 0;
 					this.nextStage();
 				} else {
 					if (this.neutralizedCount == 0) {
-						this.game.emit(new RequestNeutralizationEvent(
+						game.emit(new RequestNeutralizationEvent(
 							this.target.getPlayerInfo(),
 							this.getNeutralizationMessage()
 						));
@@ -54,18 +53,18 @@ public abstract class AbstractDelayedArbitrationController
 			case ARBITRATION:
 				if (!this.neutralized) {
 					this.nextStage();
-					this.game.pushGameController(new ArbitrationController(this.game, this, this.target));
+					game.pushGameController(new ArbitrationController(this, this.target));
 				} else {
 					this.setStage(DelayedArbitrationStage.BEFORE_END);
 				}
 				break;
 			case EFFECT:
 				this.nextStage();
-				this.handleEffect();
+				this.handleEffect(game);
 				break;
 			case BEFORE_END:
 				this.nextStage();
-				this.beforeEnd();
+				this.beforeEnd(game);
 			case END:
 				break;
 		}
@@ -81,9 +80,9 @@ public abstract class AbstractDelayedArbitrationController
 		this.effective = this.isArbitrationEffective(card);
 	}
 	
-	protected abstract void handleEffect();
+	protected abstract void handleEffect(Game game);
 	
-	protected abstract void beforeEnd();
+	protected abstract void beforeEnd(Game game);
 	
 	protected abstract boolean isArbitrationEffective(Card card);
 	

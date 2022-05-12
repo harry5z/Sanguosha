@@ -25,21 +25,20 @@ public class AxeGameController extends AbstractPlayerDecisionActionGameControlle
 	private final AttackResolutionGameController controller;
 	private boolean confirmed;
 
-	public AxeGameController(Game game, PlayerCompleteServer source, AttackResolutionGameController controller) {
-		super(game);
+	public AxeGameController(PlayerCompleteServer source, AttackResolutionGameController controller) {
 		this.source = source;
 		this.controller = controller;
 		this.confirmed = false;
 	}
 
 	@Override
-	protected void handleDecisionRequest() throws GameFlowInterruptedException {
-		this.game.getConnectionController().sendCommandToAllPlayers(new AxeAbilityGameClientCommand(this.source.getPlayerInfo()));
+	protected void handleDecisionRequest(Game game) throws GameFlowInterruptedException {
+		game.getConnectionController().sendCommandToAllPlayers(new AxeAbilityGameClientCommand(this.source.getPlayerInfo()));
 		throw new GameFlowInterruptedException();		
 	}
 
 	@Override
-	protected void handleDecisionConfirmation() {
+	protected void handleDecisionConfirmation(Game game) {
 		if (this.confirmed) {
 			// if confirmed, force the Attack to hit
 			this.controller.setStage(AttackResolutionStage.PRE_DAMAGE_SOURCE_WEAPON_ABILITIES);
@@ -47,7 +46,7 @@ public class AxeGameController extends AbstractPlayerDecisionActionGameControlle
 	}
 
 	@Override
-	protected void handleAction() {
+	protected void handleAction(Game game) {
 		// handled in #onCardSelected
 	}
 	
@@ -57,7 +56,7 @@ public class AxeGameController extends AbstractPlayerDecisionActionGameControlle
 	}
 
 	@Override
-	public void onCardSelected(Card card, PlayerCardZone zone) {
+	public void onCardSelected(Game game, Card card, PlayerCardZone zone) {
 		switch (zone) {
 			case HAND:
 				try {
@@ -69,8 +68,8 @@ public class AxeGameController extends AbstractPlayerDecisionActionGameControlle
 				break;
 			case EQUIPMENT:
 				Equipment equipment = (Equipment) card;
-				this.game.pushGameController(new RecycleCardsGameController(this.game, this.source, Set.of(equipment)));
-				this.game.pushGameController(new UnequipGameController(this.game, this.source, equipment.getEquipmentType()));
+				game.pushGameController(new RecycleCardsGameController(this.source, Set.of(equipment)));
+				game.pushGameController(new UnequipGameController(this.source, equipment.getEquipmentType()));
 				break;
 			default:
 				break;

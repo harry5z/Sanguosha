@@ -1,22 +1,24 @@
 package core.server.game.controllers.specials.instants;
 
+import java.util.Queue;
+
 import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.BrotherhoodTargetEffectivenessEvent;
-import core.player.PlayerInfo;
+import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import core.server.game.controllers.mechanics.HealGameController;
 
-public class BrotherhoodGameController extends AOEInstantSpecialGameController {
+public class BrotherhoodGameController extends AbstractMultiTargetInstantSpecialGameController {
 
-	public BrotherhoodGameController(PlayerInfo source, Game game) {
-		super(source, game, true);
+	public BrotherhoodGameController(PlayerCompleteServer source, Queue<PlayerCompleteServer> targets) {
+		super(source, targets);
 	}
 
 	@Override
-	protected void takeEffect() {
+	protected void takeEffect(Game game) {
 		this.nextStage();
 		if (this.currentTarget.isDamaged()) {
-			this.game.pushGameController(new HealGameController(this.source.getPlayerInfo(), this.currentTarget.getPlayerInfo(), this.game));
+			game.pushGameController(new HealGameController(this.source, this.currentTarget));
 		}
 	}
 	
