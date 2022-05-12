@@ -1,7 +1,7 @@
 package core.server.game.controllers.specials.instants;
 
 import cards.Card;
-import core.event.game.basic.RequestShowCardEvent;
+import commands.game.client.RequestShowCardGameUIClientCommand;
 import core.event.game.basic.RequestUseCardEvent;
 import core.event.game.basic.RequestUseCardEvent.RequestUseCardPredicate;
 import core.player.PlayerCardZone;
@@ -31,10 +31,12 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 				this.nextStage();
 				return;
 			}
-			game.emit(new RequestShowCardEvent(
-				this.target.getPlayerInfo(),
-				this.source + " used Fire Attack on you, please show a card."
-			));
+			game.getConnectionController().sendCommandToAllPlayers(
+				new RequestShowCardGameUIClientCommand(
+					this.target.getPlayerInfo(),
+					this.source + " used Fire Attack on you, please show a card."
+				)
+			);
 			throw new GameFlowInterruptedException();
 		} else {
 			// ineffective if source has no card left on hand
