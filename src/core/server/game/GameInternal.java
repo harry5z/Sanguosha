@@ -7,11 +7,10 @@ import core.Deck;
 import core.event.game.GameEvent;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
-import core.server.ConnectionController;
 import core.server.game.controllers.GameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
-public interface GameInternal extends GameEventRegistrar {
+public interface GameInternal extends GameEventRegistrar, GameDriver {
 	
 	public List<PlayerCompleteServer> getPlayers();
 
@@ -27,15 +26,11 @@ public interface GameInternal extends GameEventRegistrar {
 	
 	public PlayerCompleteServer getCurrentPlayer();
 	
-	public void pushGameController(GameController controller);
-	
 	public <T extends GameController> T getNextGameController();
 
 	public void popGameController();
 
 	public Deck getDeck();
 	
-	public ConnectionController getConnectionController();
-
 	public <T extends GameEvent> void emit(T event) throws GameFlowInterruptedException;
 }

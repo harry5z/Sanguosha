@@ -3,7 +3,7 @@ package core.event.handlers.turn;
 import core.event.game.turn.DrawTurnEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.mechanics.ReceiveCardsGameController;
@@ -21,9 +21,9 @@ public class DrawTurnEventHandler extends AbstractEventHandler<DrawTurnEvent> {
 	}
 
 	@Override
-	protected void handleIfActivated(DrawTurnEvent event, Game game) throws GameFlowInterruptedException {
+	protected void handleIfActivated(DrawTurnEvent event, GameDriver game) throws GameFlowInterruptedException {
 		this.player.clearDisposalArea();
-		if (this.player.equals(game.getCurrentPlayer())) {
+		if (this.player.equals(event.currentPlayer)) {
 			game.pushGameController(new AbstractSingleStageGameController() {
 				@Override
 				protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {

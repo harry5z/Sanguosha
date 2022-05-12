@@ -4,7 +4,7 @@ import core.event.game.damage.TargetEquipmentCheckDamageEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
 import core.server.game.Damage.Element;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class RattanArmorCheckDamageEventHandler extends AbstractTargetEquipmentCheckDamageEventHandler {
@@ -14,7 +14,7 @@ public class RattanArmorCheckDamageEventHandler extends AbstractTargetEquipmentC
 	}
 
 	@Override
-	protected void handleIfActivated(TargetEquipmentCheckDamageEvent event, Game game) throws GameFlowInterruptedException {
+	protected void handleIfActivated(TargetEquipmentCheckDamageEvent event, GameDriver game) throws GameFlowInterruptedException {
 		Damage damage = event.getDamage();
 		if (!this.player.equals(damage.getTarget())) {
 			return;

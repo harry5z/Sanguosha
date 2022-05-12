@@ -6,7 +6,7 @@ import commands.game.client.DiscardGameUIClientCommand;
 import core.event.game.turn.DiscardTurnEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -23,8 +23,8 @@ public class DiscardTurnEventHandler extends AbstractEventHandler<DiscardTurnEve
 	}
 
 	@Override
-	protected void handleIfActivated(DiscardTurnEvent event, Game game) throws GameFlowInterruptedException {
-		if (!this.player.equals(game.getCurrentPlayer())) {
+	protected void handleIfActivated(DiscardTurnEvent event, GameDriver game) throws GameFlowInterruptedException {
+		if (!this.player.equals(event.currentPlayer)) {
 			return;
 		}
 		int amount = this.player.getHandCount() - this.player.getCardOnHandLimit();

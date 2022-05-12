@@ -6,7 +6,7 @@ import java.util.Map;
 import core.event.game.GameEvent;
 import core.event.handlers.EventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class GameEventHandler {
@@ -62,7 +62,7 @@ public class GameEventHandler {
 		}
 		
 		@SuppressWarnings("unchecked")
-		public <T extends GameEvent> void handle(T event, Game game) throws GameFlowInterruptedException {
+		public <T extends GameEvent> void handle(T event, GameDriver game) throws GameFlowInterruptedException {
 			for (Node current = this.root; current != null; current = current.next) {
 				((EventHandler<T>) current.handler).handle(event, game);
 			}

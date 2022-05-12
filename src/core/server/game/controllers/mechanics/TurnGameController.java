@@ -109,7 +109,7 @@ public class TurnGameController implements GameController {
 				return;
 			case DRAW:
 				this.nextStage();
-				game.emit(new DrawTurnEvent());
+				game.emit(new DrawTurnEvent(this.currentPlayer));
 				return;
 			case DEAL_BEGINNING:
 				this.nextStage();
@@ -117,7 +117,7 @@ public class TurnGameController implements GameController {
 				return;
 			case DEAL:
 				this.currentPlayer.clearDisposalArea();
-				game.emit(new DealTurnEvent());
+				game.emit(new DealTurnEvent(this.currentPlayer));
 				throw new GameFlowInterruptedException();
 			case DISCARD_BEGINNING:
 				// nothing here yet
@@ -127,7 +127,7 @@ public class TurnGameController implements GameController {
 				// nothing here yet
 				this.nextStage();
 				this.currentPlayer.clearDisposalArea();
-				game.emit(new DiscardTurnEvent());
+				game.emit(new DiscardTurnEvent(this.currentPlayer));
 				return;
 			case DISCARD_END:
 				// nothing here yet

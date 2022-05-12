@@ -2,7 +2,7 @@ package core.event.handlers;
 
 import core.event.Event;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public abstract class AbstractEventHandler<T extends Event> implements EventHandler<T> {
@@ -21,13 +21,13 @@ public abstract class AbstractEventHandler<T extends Event> implements EventHand
 	}
 	
 	@Override
-	public final void handle(T event, Game game) throws GameFlowInterruptedException {
+	public final void handle(T event, GameDriver game) throws GameFlowInterruptedException {
 		if (this.activated && this.player.isAlive()) {
 			this.handleIfActivated(event, game);
 		}
 	}
 	
-	protected abstract void handleIfActivated(T event, Game game) throws GameFlowInterruptedException;
+	protected abstract void handleIfActivated(T event, GameDriver game) throws GameFlowInterruptedException;
 	
 	@Override
 	public final void deactivate() {

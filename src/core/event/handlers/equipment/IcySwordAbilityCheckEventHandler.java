@@ -3,7 +3,7 @@ package core.event.handlers.equipment;
 import core.event.game.basic.AttackPreDamageWeaponAbilitiesCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import core.server.game.controllers.equipment.IcySwordGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
@@ -19,8 +19,7 @@ public class IcySwordAbilityCheckEventHandler extends AbstractEventHandler<Attac
 	}
 
 	@Override
-	protected void handleIfActivated(AttackPreDamageWeaponAbilitiesCheckEvent event, Game game)
-		throws GameFlowInterruptedException {
+	protected void handleIfActivated(AttackPreDamageWeaponAbilitiesCheckEvent event, GameDriver game) throws GameFlowInterruptedException {
 		if (this.player != event.source) {
 			return;
 		}

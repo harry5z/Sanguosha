@@ -4,7 +4,7 @@ import core.event.game.basic.AttackPreAcquisitionWeaponAbilitiesCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage.Element;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import core.server.game.controllers.equipment.FeatheredFanGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
@@ -20,8 +20,7 @@ public class FeatheredFanWeaponAbilitiesCheckEventHandler extends AbstractEventH
 	}
 
 	@Override
-	protected void handleIfActivated(AttackPreAcquisitionWeaponAbilitiesCheckEvent event, Game game)
-		throws GameFlowInterruptedException {
+	protected void handleIfActivated(AttackPreAcquisitionWeaponAbilitiesCheckEvent event, GameDriver game) throws GameFlowInterruptedException {
 		if (this.player != event.source) {
 			return;
 		}

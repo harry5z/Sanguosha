@@ -4,7 +4,7 @@ import commands.game.client.DecisionUIClientCommand;
 import core.event.game.basic.RequestDecisionEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class RequestDecisionEventHandler extends AbstractEventHandler<RequestDecisionEvent> {
@@ -19,8 +19,7 @@ public class RequestDecisionEventHandler extends AbstractEventHandler<RequestDec
 	}
 
 	@Override
-	protected void handleIfActivated(RequestDecisionEvent event, Game game)
-		throws GameFlowInterruptedException {
+	protected void handleIfActivated(RequestDecisionEvent event, GameDriver game) throws GameFlowInterruptedException {
 		game.getConnectionController().sendCommandToPlayer(
 			this.player.getName(),
 			new DecisionUIClientCommand(event.getTarget(), event.getMessage())

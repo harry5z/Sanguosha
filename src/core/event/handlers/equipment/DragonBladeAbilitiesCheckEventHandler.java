@@ -3,7 +3,7 @@ package core.event.handlers.equipment;
 import core.event.game.basic.AttackOnDodgedWeaponAbilitiesCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import core.server.game.controllers.equipment.DragonBladeGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
@@ -19,8 +19,7 @@ public class DragonBladeAbilitiesCheckEventHandler extends AbstractEventHandler<
 	}
 
 	@Override
-	protected void handleIfActivated(AttackOnDodgedWeaponAbilitiesCheckEvent event, Game game)
-		throws GameFlowInterruptedException {
+	protected void handleIfActivated(AttackOnDodgedWeaponAbilitiesCheckEvent event, GameDriver game) throws GameFlowInterruptedException {
 		if (this.player != event.source) {
 			return;
 		}

@@ -4,7 +4,7 @@ import cards.equipments.Equipment.EquipmentType;
 import core.event.game.UnequipItemAbilityEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.mechanics.HealGameController;
@@ -17,7 +17,7 @@ public class SilverLionUnequipEventHandler extends AbstractEventHandler<UnequipI
 	}
 
 	@Override
-	protected void handleIfActivated(UnequipItemAbilityEvent event, Game game) throws GameFlowInterruptedException {
+	protected void handleIfActivated(UnequipItemAbilityEvent event, GameDriver game) throws GameFlowInterruptedException {
 		if (!this.player.equals(event.player) || event.equipmentType != EquipmentType.SHIELD) {
 			return;
 		}

@@ -5,7 +5,7 @@ import core.event.game.instants.ArrowSalvoTargetEffectivenessEvent;
 import core.event.game.instants.BarbarianInvasionTargetEffectivenessEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.specials.SpecialGameController.SpecialStage;
@@ -23,7 +23,7 @@ public class RattanArmorAOEInstantSpecialTargetEffectivenessEventHandler extends
 	}
 
 	@Override
-	protected void handleIfActivated(AOEInstantSpecialTargetEffectivenessEvent event, Game game) throws GameFlowInterruptedException {
+	protected void handleIfActivated(AOEInstantSpecialTargetEffectivenessEvent event, GameDriver game) throws GameFlowInterruptedException {
 		if (!this.player.equals(event.getCurrentTarget())) {
 			return;
 		}

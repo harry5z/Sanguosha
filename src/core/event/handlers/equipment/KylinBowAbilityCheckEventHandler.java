@@ -4,7 +4,7 @@ import cards.equipments.Equipment.EquipmentType;
 import core.event.game.basic.AttackPreDamageWeaponAbilitiesCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import core.server.game.controllers.equipment.KylinBowGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
@@ -20,8 +20,7 @@ public class KylinBowAbilityCheckEventHandler extends AbstractEventHandler<Attac
 	}
 
 	@Override
-	protected void handleIfActivated(AttackPreDamageWeaponAbilitiesCheckEvent event, Game game)
-		throws GameFlowInterruptedException {
+	protected void handleIfActivated(AttackPreDamageWeaponAbilitiesCheckEvent event, GameDriver game) throws GameFlowInterruptedException {
 		if (this.player != event.source) {
 			return;
 		}

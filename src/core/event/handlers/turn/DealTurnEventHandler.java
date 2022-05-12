@@ -4,7 +4,7 @@ import commands.game.client.DealStartGameUIClientCommmand;
 import core.event.game.turn.DealTurnEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class DealTurnEventHandler extends AbstractEventHandler<DealTurnEvent> {
@@ -14,10 +14,10 @@ public class DealTurnEventHandler extends AbstractEventHandler<DealTurnEvent> {
 	}
 
 	@Override
-	public void handleIfActivated(DealTurnEvent event, Game game) throws GameFlowInterruptedException {
+	public void handleIfActivated(DealTurnEvent event, GameDriver game) throws GameFlowInterruptedException {
 		game.getConnectionController().sendCommandToPlayer(
 			player.getName(),
-			new DealStartGameUIClientCommmand(game.getCurrentPlayer().getPlayerInfo())
+			new DealStartGameUIClientCommmand(event.currentPlayer.getPlayerInfo())
 		);
 	}
 

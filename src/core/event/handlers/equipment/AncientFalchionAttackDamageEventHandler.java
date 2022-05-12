@@ -3,7 +3,7 @@ package core.event.handlers.equipment;
 import core.event.game.damage.AttackDamageModifierEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class AncientFalchionAttackDamageEventHandler extends AbstractEventHandler<AttackDamageModifierEvent> {
@@ -18,7 +18,7 @@ public class AncientFalchionAttackDamageEventHandler extends AbstractEventHandle
 	}
 
 	@Override
-	protected void handleIfActivated(AttackDamageModifierEvent event, Game game) throws GameFlowInterruptedException {
+	protected void handleIfActivated(AttackDamageModifierEvent event, GameDriver game) throws GameFlowInterruptedException {
 		if (this.player != event.getDamage().getSource()) {
 			return;
 		}

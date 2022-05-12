@@ -4,7 +4,7 @@ import commands.game.client.RequestUseCardGameUIClientCommand;
 import core.event.game.basic.RequestUseCardEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class RequestUseCardEventHandler extends AbstractEventHandler<RequestUseCardEvent> {
@@ -19,7 +19,7 @@ public class RequestUseCardEventHandler extends AbstractEventHandler<RequestUseC
 	}
 
 	@Override
-	protected void handleIfActivated(RequestUseCardEvent event, Game game) throws GameFlowInterruptedException {
+	protected void handleIfActivated(RequestUseCardEvent event, GameDriver game) throws GameFlowInterruptedException {
 		game.getConnectionController().sendCommandToPlayer(
 			this.player.getName(),
 			new RequestUseCardGameUIClientCommand(event.getTarget(), event.getMessage(), event.getPredicates())

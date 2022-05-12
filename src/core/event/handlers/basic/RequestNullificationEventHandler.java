@@ -4,7 +4,7 @@ import commands.game.client.RequestNullificationGameUIClientCommand;
 import core.event.game.basic.RequestNullificationEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameDriver;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class RequestNullificationEventHandler extends AbstractEventHandler<RequestNullificationEvent> {
@@ -19,7 +19,7 @@ public class RequestNullificationEventHandler extends AbstractEventHandler<Reque
 	}
 
 	@Override
-	protected void handleIfActivated(RequestNullificationEvent event, Game game) throws GameFlowInterruptedException {
+	protected void handleIfActivated(RequestNullificationEvent event, GameDriver game) throws GameFlowInterruptedException {
 		game.getConnectionController().sendCommandToPlayer(this.player.getName(), new RequestNullificationGameUIClientCommand(event.getMessage()));
 	}
 
