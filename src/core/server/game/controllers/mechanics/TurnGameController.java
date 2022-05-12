@@ -5,7 +5,6 @@ import java.util.Set;
 
 import core.event.game.turn.DealStartTurnEvent;
 import core.event.game.turn.DrawStartTurnEvent;
-import core.event.game.turn.EndTurnEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
 import core.server.game.controllers.GameController;
@@ -131,8 +130,8 @@ public class TurnGameController implements GameController {
 				return;
 			case TURN_END:
 				this.nextStage();
+				this.currentPlayer.resetPlayerStates();
 				this.currentPlayer.clearDisposalArea();
-				game.emit(new EndTurnEvent());
 				return;
 			default:
 				break;

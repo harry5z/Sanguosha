@@ -2,7 +2,6 @@ package core.player;
 
 import java.util.Set;
 
-import core.event.handlers.turn.DefaultEndTurnEventHandler;
 import core.server.game.Game;
 import exceptions.server.game.InvalidPlayerCommandException;
 
@@ -58,8 +57,6 @@ public class PlayerCompleteServer extends PlayerComplete {
 	}
 	
 	public void onGameReady(Game game) {
-		/* setup event listeners */
-		game.registerEventHandler(new DefaultEndTurnEventHandler(this));
 		// let the hero and its skills register themselves in the game
 		this.getHero().onGameReady(game, this);
 	}
