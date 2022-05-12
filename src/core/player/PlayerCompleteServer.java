@@ -2,7 +2,6 @@ package core.player;
 
 import java.util.Set;
 
-import core.event.handlers.basic.RequestUseCardEventHandler;
 import core.event.handlers.instant.PlayerCardSelectionEventHandler;
 import core.event.handlers.turn.DefaultEndTurnEventHandler;
 import core.server.game.Game;
@@ -61,7 +60,6 @@ public class PlayerCompleteServer extends PlayerComplete {
 	
 	public void onGameReady(Game game) {
 		/* setup event listeners */
-		game.registerEventHandler(new RequestUseCardEventHandler(this));
 		game.registerEventHandler(new PlayerCardSelectionEventHandler(this));
 		game.registerEventHandler(new DefaultEndTurnEventHandler(this));
 		// let the hero and its skills register themselves in the game

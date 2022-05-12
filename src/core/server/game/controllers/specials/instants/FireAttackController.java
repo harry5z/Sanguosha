@@ -2,8 +2,8 @@ package core.server.game.controllers.specials.instants;
 
 import cards.Card;
 import commands.game.client.RequestShowCardGameUIClientCommand;
-import core.event.game.basic.RequestUseCardEvent;
-import core.event.game.basic.RequestUseCardEvent.RequestUseCardPredicate;
+import commands.game.client.RequestUseCardGameUIClientCommand;
+import commands.game.client.RequestUseCardGameUIClientCommand.RequestUseCardFilter;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
@@ -44,11 +44,12 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 				this.nextStage();
 				return;
 			}
-			game.emit(
-				new RequestUseCardEvent(
-					this.source.getPlayerInfo(),
-					"Discard a card of suit " + this.shownCard.getSuit().toString() + " to finish Fire Attack?"
-				).addPredicate(RequestUseCardPredicate.sameSuit(this.shownCard.getSuit()))
+			game.getConnectionController().sendCommandToAllPlayers(
+				new RequestUseCardGameUIClientCommand(
+					source.getPlayerInfo(),
+					"Discard a card of suit " + shownCard.getSuit().toString() + " to finish Fire Attack?",
+					RequestUseCardFilter.sameSuit(shownCard.getSuit())
+				)
 			);
 			throw new GameFlowInterruptedException();
 		}

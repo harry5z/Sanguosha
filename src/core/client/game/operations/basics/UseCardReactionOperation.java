@@ -1,24 +1,19 @@
 package core.client.game.operations.basics;
 
-import java.util.Collection;
-
 import cards.Card;
+import commands.game.client.RequestUseCardGameUIClientCommand.RequestUseCardFilter;
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
 import core.client.game.operations.AbstractSingleCardReactionOperation;
-import core.event.game.basic.RequestUseCardEvent.RequestUseCardPredicate;
 import core.player.PlayerCardZone;
 
 public class UseCardReactionOperation extends AbstractSingleCardReactionOperation {
 	
-	private final Collection<RequestUseCardPredicate> predicates;
+	private final RequestUseCardFilter predicate;
 	
-	public UseCardReactionOperation(
-		String message,
-		Collection<RequestUseCardPredicate> predicates
-	) {
+	public UseCardReactionOperation(String message, RequestUseCardFilter predicate) {
 		super(message);
-		this.predicates = predicates;
+		this.predicate = predicate;
 	}
 
 	@Override
@@ -28,12 +23,7 @@ public class UseCardReactionOperation extends AbstractSingleCardReactionOperatio
 
 	@Override
 	protected boolean isCardActivatable(Card card) {
-		for (RequestUseCardPredicate predicate : this.predicates) {
-			if (!predicate.test(card)) {
-				return false;
-			}
-		}
-		return true;
+		return predicate.test(card);
 	}
 
 	@Override
