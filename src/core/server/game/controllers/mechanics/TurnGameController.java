@@ -4,8 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import core.event.game.turn.DealStartTurnEvent;
-import core.event.game.turn.DealTurnEvent;
-import core.event.game.turn.DiscardTurnEvent;
 import core.event.game.turn.DrawStartTurnEvent;
 import core.event.game.turn.EndTurnEvent;
 import core.player.PlayerCompleteServer;
@@ -115,7 +113,6 @@ public class TurnGameController implements GameController {
 				game.emit(new DealStartTurnEvent(this));
 				return;
 			case DEAL:
-				game.emit(new DealTurnEvent(this.currentPlayer));
 				// Does not call nextStage because this may be called multiple times
 				game.pushGameController(new DealPhaseGameController());
 				return;
@@ -126,7 +123,6 @@ public class TurnGameController implements GameController {
 			case DISCARD:
 				// nothing here yet
 				this.nextStage();
-				game.emit(new DiscardTurnEvent(this.currentPlayer));
 				game.pushGameController(new DiscardPhaseGameController());
 				return;
 			case DISCARD_END:
