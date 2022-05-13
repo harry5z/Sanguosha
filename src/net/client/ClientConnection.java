@@ -2,6 +2,8 @@ package net.client;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -18,10 +20,12 @@ public class ClientConnection extends Connection {
 	private static final String TAG = "Client Connection";
 	
 	private int currentCommandID;
+	private final Set<Integer> receivedCommandIDs;
 
 	public ClientConnection(Socket socket) throws IOException {
 		super(socket);
 		this.currentCommandID = 0;
+		this.receivedCommandIDs = new HashSet<Integer>();
 	}
 
 	@Override
@@ -37,6 +41,20 @@ public class ClientConnection extends Connection {
 			int id = packet.getID();
 			Timer t = new Timer();
 			synchronized (this) {
+				
+				// prevent identical commands from executing twice
+				if (this.receivedCommandIDs.contains(id)) {
+					return;
+				}
+				this.receivedCommandIDs.add(id);
+
+				// Confirm with server that the command has been received
+				sendCommandPacket(new CommandPacket(CommandPacket.CONFIRM, new CommandConfirmationServerCommand(packet.getID())));
+
+				// A rudimentary, half-working lost command recovery mechanism
+				// If a future command cannot be executed after a certain timeout
+				// e.g. 3s, then it requests ONCE the previous command that's missing
+				// TODO build a more robust and efficient recovery mechanism
 				t.schedule(new TimerTask() {
 					@Override
 					public void run() {
@@ -47,15 +65,20 @@ public class ClientConnection extends Connection {
 						}
 					}
 					
-				}, 2000);
+				}, 3000);
+				
 				while (id > currentCommandID) {
-					wait();
+					wait(); // wait until previous commands are received and executed
 				}
+				t.cancel(); // lost command recovery no longer needed
 			}
-			t.cancel();
-			// TODO: what if... currentCommand is executing but timer fired?
+			
+			// execute the command
 			((Command<? super ConnectionListener>) packet.getCommand()).execute(listener, ClientConnection.this);
-			sendCommandPacket(new CommandPacket(CommandPacket.CONFIRM, new CommandConfirmationServerCommand(packet.getID())));
+			
+			// this guarantees that all commands are executed in sequential order
+			// as they're sent, to prevent newer commands being received and executed by
+			// client earlier than older commands
 			synchronized (this) {
 				currentCommandID++;
 				notifyAll();

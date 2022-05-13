@@ -61,6 +61,7 @@ public class ServerConnection extends Connection {
 			if (historyCommands.containsKey(id)) {
 				command = historyCommands.get(id);
 			} else {
+				// Technically no an error since it could happen normally
 				Log.error(TAG, "command " + id + " no longer exists");
 				return;
 			}
