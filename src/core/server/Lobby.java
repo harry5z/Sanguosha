@@ -40,8 +40,8 @@ public class Lobby extends ServerEntity {
 	 * @param connection : user's connection
 	 */
 	public void proceedToRoom(int roomID, Connection connection) {
-		rooms.stream().filter(room -> room.getRoomID() == roomID).forEach(room -> {
-			synchronized(connection.accessLock) {
+		synchronized (this) {
+			rooms.stream().filter(room -> room.getRoomID() == roomID).forEach(room -> {
 				if (this.connections.contains(connection)) {
 					if(room.onReceivedConnection(connection)) {
 						connections.remove(connection);
@@ -50,14 +50,14 @@ public class Lobby extends ServerEntity {
 				}
 				else
 					Log.error(TAG, "Connection does not exist");
-			}
-		});
+			});
+		}
 		// TODO handle the case when room does not exist
 	}
 	
 	@Override
 	public boolean onReceivedConnection(Connection connection) {
-		synchronized (connection.accessLock) {
+		synchronized (this) {
 			if (connections.contains(connection)) {
 				Log.error(TAG, "Connection already in lobby");
 				return false;
@@ -83,13 +83,13 @@ public class Lobby extends ServerEntity {
 	
 	@Override
 	public void onConnectionLeft(Connection connection) {
-		synchronized (connection.accessLock) {
+		synchronized (this) {
 			if (!connections.contains(connection)) {
 				return;
 			}
 			connections.remove(connection);
-			session.onReceivedConnection(connection);
 		}
+		session.onReceivedConnection(connection);
 	}
 	
 	/**
@@ -103,7 +103,7 @@ public class Lobby extends ServerEntity {
 	 * @see RoomConfig#RoomConfig()
 	 */
 	public void addRoom(GameConfig gameConfig, RoomConfig roomConfig, Connection connection) {
-		synchronized (connection.accessLock) {
+		synchronized (this) {
 			if (!connections.contains(connection)) {
 				return;
 			}
@@ -119,8 +119,10 @@ public class Lobby extends ServerEntity {
 	
 	@Override
 	public void onConnectionLost(Connection connection, String message) {
+		synchronized (this) {
+			connections.remove(connection);
+		}
 		Log.error(TAG, "Connection is lost. " + message);
-		connections.remove(connection);
 	}
 
 	private List<RoomInfo> getRoomsInfo() {

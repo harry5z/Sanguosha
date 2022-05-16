@@ -1,9 +1,9 @@
 package commands.game.client.sync.health;
 
-import commands.game.client.AbstractGameUIClientCommand;
+import commands.game.client.sync.AbstractSyncGameUIClientCommand;
 import core.client.GamePanel;
 
-public class SyncHealthCurrentGameUIClientCommand extends AbstractGameUIClientCommand {
+public class SyncHealthCurrentGameUIClientCommand extends AbstractSyncGameUIClientCommand {
 	
 	private static final long serialVersionUID = 1096072100232629409L;
 

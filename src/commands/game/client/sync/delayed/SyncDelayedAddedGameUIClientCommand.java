@@ -1,11 +1,11 @@
 package commands.game.client.sync.delayed;
 
 import cards.Card;
-import commands.game.client.AbstractGameUIClientCommand;
+import commands.game.client.sync.AbstractSyncGameUIClientCommand;
 import core.client.GamePanel;
 import utils.DelayedType;
 
-public class SyncDelayedAddedGameUIClientCommand extends AbstractGameUIClientCommand {
+public class SyncDelayedAddedGameUIClientCommand extends AbstractSyncGameUIClientCommand {
 	
 	private static final long serialVersionUID = 1L;
 	

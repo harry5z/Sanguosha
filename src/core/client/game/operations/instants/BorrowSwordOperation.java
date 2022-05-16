@@ -76,7 +76,7 @@ public class BorrowSwordOperation extends AbstractOperation {
 	@Override
 	public void onConfirmed() {
 		super.onConfirmed();
-		this.panel.getChannel().send(new InitiateBorrowSwordInGameServerCommand(
+		this.panel.sendResponse(new InitiateBorrowSwordInGameServerCommand(
 			this.cardTarget.getPlayer().getPlayerInfo(),
 			this.attackTarget.getPlayer().getPlayerInfo(),
 			((CardGui) this.activator).getCard()

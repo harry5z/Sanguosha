@@ -29,7 +29,7 @@ public class DealOperation extends AbstractOperation {
 	public void onEnded() {
 		this.onUnloaded();
 		this.onDeactivated();
-		this.panel.getChannel().send(new EndStageInGameServerCommand());
+		this.panel.sendResponse(new EndStageInGameServerCommand());
 	}
 	
 	@Override

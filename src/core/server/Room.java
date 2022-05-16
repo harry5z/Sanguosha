@@ -100,15 +100,13 @@ public class Room extends ServerEntity {
 	@Override
 	public void onConnectionLeft(Connection connection) {
 		synchronized (entranceLock) {
-			synchronized (connection.accessLock) {
-				if (!connections.contains(connection)) {
-					return;
-				}
-				connections.remove(connection);
-				lobby.onUpdateRoomInfo(this);
-				lobby.onReceivedConnection(connection);
-				ServerUtils.sendCommandToConnections(new UpdateRoomUIClientCommand(getUserInfos(false)), connections);
+			if (!connections.contains(connection)) {
+				return;
 			}
+			connections.remove(connection);
+			lobby.onUpdateRoomInfo(this);
+			lobby.onReceivedConnection(connection);
+			ServerUtils.sendCommandToConnections(new UpdateRoomUIClientCommand(getUserInfos(false)), connections);
 		}
 	}
 
@@ -124,10 +122,10 @@ public class Room extends ServerEntity {
 	@Override
 	public void onConnectionLost(Connection connection, String message) {
 		synchronized (entranceLock) {
-			Log.error(TAG, "Connection Lost");
 			connections.remove(connection);
 			lobby.onUpdateRoomInfo(this);
 		}
+		Log.error(TAG, "Connection Lost");
 	}
 
 	@Override

@@ -3,12 +3,12 @@ package commands.game.client.sync.status;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import commands.game.client.AbstractGameUIClientCommand;
+import commands.game.client.sync.AbstractSyncGameUIClientCommand;
 import core.client.GamePanel;
 import core.player.PlayerInfo;
 import exceptions.server.game.InvalidPlayerCommandException;
 
-public class SyncAttackUsedGameUIClientCommand extends AbstractGameUIClientCommand {
+public class SyncAttackUsedGameUIClientCommand extends AbstractSyncGameUIClientCommand {
 
 	private static final long serialVersionUID = 7306926860771153864L;
 	

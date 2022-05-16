@@ -31,7 +31,7 @@ public class PlayerCardSelectionOperation extends AbstractOperation {
 	public void onSelectionPaneCardClicked(CardUI card, PlayerCardZone zone) {
 		this.onUnloaded();
 		this.onDeactivated();
-		this.panel.getChannel().send(new PlayerCardSelectionInGameServerCommand(card.getCard(), zone));
+		this.panel.sendResponse(new PlayerCardSelectionInGameServerCommand(card.getCard(), zone));
 	}
 
 	@Override

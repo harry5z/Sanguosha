@@ -10,7 +10,7 @@ public class EndStageInGameServerCommand extends InGameServerCommand {
 	private static final long serialVersionUID = 9055072795730543708L;
 
 	@Override
-	protected GameController getGameController() {
+	public GameController getGameController() {
 		return new AbstractSingleStageGameController() {
 			
 			@Override

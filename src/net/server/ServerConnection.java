@@ -27,11 +27,16 @@ public class ServerConnection extends Connection {
 	@Override
 	protected void processReceivedObject(Object obj) {
 		try {
-			((Command<? super ConnectionListener>) ((CommandPacket) obj).getCommand()).execute(listener, ServerConnection.this);
+			// Only one command is allowed from client at any time
+			// in the future may allow concurrent commands of different types,
+			// e.g. chat messages and player actions can happen concurrently
+			synchronized (this.accessLock) {
+				((Command<? super ConnectionListener>) ((CommandPacket) obj).getCommand()).execute(listener, ServerConnection.this);
+			}
 		} catch (ClassCastException e) {
 			Log.error(TAG, "Command sent to the wrong object: " + e.getMessage());
 			e.printStackTrace();
-		}		
+		}
 	}
 	
 	/**
@@ -47,7 +52,7 @@ public class ServerConnection extends Connection {
 	@Override
 	public void send(Command<?> command) {
 		CommandPacket packet = null;
-		synchronized (this) {
+		synchronized (this.writeLock) {
 			historyCommands.put(commandCounter, command);
 			packet = new CommandPacket(commandCounter, command);
 			commandCounter++;
@@ -57,7 +62,7 @@ public class ServerConnection extends Connection {
 	
 	public void resendCommand(int id) {
 		Command<?> command = null;
-		synchronized (this) {
+		synchronized (this.writeLock) {
 			if (historyCommands.containsKey(id)) {
 				command = historyCommands.get(id);
 			} else {
@@ -69,9 +74,11 @@ public class ServerConnection extends Connection {
 		sendCommandPacket(new CommandPacket(id, command));
 	}
 	
-	public synchronized void confirmCommand(int id) {
-		if (historyCommands.containsKey(id)) {
-			historyCommands.remove(id);
+	public void confirmCommand(int id) {
+		synchronized (this.writeLock) {
+			if (historyCommands.containsKey(id)) {
+				historyCommands.remove(id);
+			}
 		}
 	}
 

@@ -24,7 +24,7 @@ public class HarvestCardSelectionOperation extends AbstractOperation {
 	public void onSelectionPaneCardClicked(CardUI card, PlayerCardZone zone) {
 		this.onUnloaded();
 		this.onDeactivated();
-		this.panel.getChannel().send(new PlayerCardSelectionInGameServerCommand(card.getCard(), null));
+		this.panel.sendResponse(new PlayerCardSelectionInGameServerCommand(card.getCard(), null));
 	}
 
 	@Override

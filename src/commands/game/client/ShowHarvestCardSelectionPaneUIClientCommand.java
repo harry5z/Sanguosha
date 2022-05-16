@@ -1,6 +1,7 @@
 package commands.game.client;
 
 import java.util.Map;
+import java.util.UUID;
 
 import cards.Card;
 import core.client.GamePanel;
@@ -14,6 +15,7 @@ public class ShowHarvestCardSelectionPaneUIClientCommand extends AbstractGameUIC
 	
 	private final PlayerInfo target;
 	private final Map<Card, Boolean> selectableCards;
+	private UUID uuid;
 	
 	public ShowHarvestCardSelectionPaneUIClientCommand(PlayerInfo target, Map<Card, Boolean> selectableCards) {
 		this.target = target;
@@ -37,11 +39,20 @@ public class ShowHarvestCardSelectionPaneUIClientCommand extends AbstractGameUIC
 		
 		// selection command
 		if (panel.getGameState().getSelf().getPlayerInfo().equals(this.target)) {
+			panel.setNextResponseID(uuid);
 			panel.pushOperation(new HarvestCardSelectionOperation(this.target, this.selectableCards));
 		} else {
 			// only display selection pane if not current target
 			panel.getGameUI().displayCustomizedSelectionPaneAtCenter(new HarvestSelectionPane(this.selectableCards, this.target.getName(), null));
 		}
+	}
+
+	@Override
+	public UUID generateResponseID(String name) {
+		if (this.target != null && this.target.getName().equals(name)) {
+			this.uuid = UUID.randomUUID();
+		}
+		return uuid;
 	}
 
 }

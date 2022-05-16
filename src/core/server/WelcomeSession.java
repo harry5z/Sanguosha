@@ -23,7 +23,9 @@ public class WelcomeSession extends ServerEntity {
 
 	@Override
 	public boolean onReceivedConnection(Connection connection) {
-		connections.add(connection);
+		synchronized (this) {
+			connections.add(connection);
+		}
 		connection.setConnectionListener(this);
 		connection.activate();
 		connection.send(new WelcomeSessionDisplayClientCommand());
@@ -32,17 +34,17 @@ public class WelcomeSession extends ServerEntity {
 	
 	@Override
 	public void onConnectionLeft(Connection connection) {
-		synchronized (connection.accessLock) {
+		synchronized (this) {
 			if (!connections.contains(connection)) {
 				return;
 			}
-			connection.send(new WelcomeSessionExitClientCommand());
 			connections.remove(connection);
 		}
+		connection.send(new WelcomeSessionExitClientCommand());
 	}
 
 	public void enterLobby(Connection connection) {
-		synchronized(connection.accessLock) {
+		synchronized(this) {
 			if (connections.contains(connection)) {
 				if(lobby.onReceivedConnection(connection))
 					connections.remove(connection);
@@ -54,7 +56,9 @@ public class WelcomeSession extends ServerEntity {
 
 	@Override
 	public void onConnectionLost(Connection connection, String message) {
+		synchronized (this) {
+			connections.remove(connection);
+		}
 		Log.error(TAG, "Client connection lost. " + message);
-		connections.remove(connection);
 	}
 }

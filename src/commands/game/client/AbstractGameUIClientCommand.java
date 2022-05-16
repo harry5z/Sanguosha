@@ -7,7 +7,7 @@ import net.Connection;
 public abstract class AbstractGameUIClientCommand implements GameClientCommand {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	@Override
 	public final void execute(ClientFrame frame, Connection connection) {
 		try {

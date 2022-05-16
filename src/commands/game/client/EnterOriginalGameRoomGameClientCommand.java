@@ -1,6 +1,7 @@
 package commands.game.client;
 
 import java.util.List;
+import java.util.UUID;
 
 import core.client.ClientFrame;
 import core.client.GamePanelOriginal;
@@ -21,6 +22,11 @@ public class EnterOriginalGameRoomGameClientCommand implements GameClientCommand
 	@Override
 	public void execute(ClientFrame ui, Connection connection) {
 		ui.onNewPanelDisplayed(new GamePanelOriginal(self, players, connection));
+	}
+	
+	@Override
+	public UUID generateResponseID(String name) {
+		return null;
 	}
 
 }

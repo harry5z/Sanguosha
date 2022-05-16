@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.UUID;
 
 import javax.swing.JPanel;
 
+import commands.game.server.ingame.InGameServerCommand;
 import core.GameState;
 import core.client.game.event.ClientGameEvent;
 import core.client.game.listener.ClientEventListener;
@@ -33,6 +35,7 @@ public class GamePanelOriginal implements GamePanel {
 	private final Stack<Operation> currentOperations;
 	private final Map<Class<? extends ClientGameEvent>, Set<ClientEventListener<? extends ClientGameEvent>>> listeners;
 	private final Channel channel;
+	private UUID uuid;
 	
 	public GamePanelOriginal(PlayerInfo info, List<PlayerInfo> players, Channel channel) {
 		GamePanelGui panel = new GamePanelGui(info, this);
@@ -45,6 +48,7 @@ public class GamePanelOriginal implements GamePanel {
 		this.listeners = new HashMap<>();
 		this.currentOperations = new Stack<>();
 		this.panel = panel;
+		this.uuid = null;
 	}
 	
 	@Override
@@ -120,8 +124,10 @@ public class GamePanelOriginal implements GamePanel {
 	}
 	
 	@Override
-	public Channel getChannel() {
-		return channel;
+	public void sendResponse(InGameServerCommand command) {
+		// response ID must be present for the response to be accepted by server
+		command.setResponseID(uuid);
+		channel.send(command);
 	}
 	
 	@Override
@@ -143,6 +149,11 @@ public class GamePanelOriginal implements GamePanel {
 	@Override
 	public GameState getGameState() {
 		return panel;
+	}
+
+	@Override
+	public void setNextResponseID(UUID id) {
+		this.uuid = id;
 	}
 
 }

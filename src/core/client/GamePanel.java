@@ -1,10 +1,12 @@
 package core.client;
 
+import java.util.UUID;
+
+import commands.game.server.ingame.InGameServerCommand;
 import core.GameState;
 import core.client.game.event.ClientGameEvent;
 import core.client.game.listener.ClientEventListener;
 import core.client.game.operations.Operation;
-import net.Channel;
 import ui.game.interfaces.GameUI;
 
 /**
@@ -38,10 +40,12 @@ public interface GamePanel extends ClientPanel {
 
 	public Operation getCurrentOperation();
 
-	public Channel getChannel();
-	
 	public GameUI getGameUI();
 	
 	public GameState getGameState();
+	
+	public void setNextResponseID(UUID id);
+	
+	public void sendResponse(InGameServerCommand command);
 
 }

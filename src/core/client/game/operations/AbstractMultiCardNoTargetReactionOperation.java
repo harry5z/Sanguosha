@@ -30,7 +30,7 @@ public abstract class AbstractMultiCardNoTargetReactionOperation extends Abstrac
 		} else { // Give up card reaction
 			this.onUnloaded();
 			this.onDeactivated();
-			this.panel.getChannel().send(getCommandOnInaction());
+			this.panel.sendResponse(getCommandOnInaction());
 		}
 	}
 	

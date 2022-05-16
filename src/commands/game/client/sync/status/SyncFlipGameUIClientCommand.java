@@ -1,10 +1,10 @@
 package commands.game.client.sync.status;
 
-import commands.game.client.AbstractGameUIClientCommand;
+import commands.game.client.sync.AbstractSyncGameUIClientCommand;
 import core.client.GamePanel;
 import core.player.Player;
 
-public class SyncFlipGameUIClientCommand extends AbstractGameUIClientCommand {
+public class SyncFlipGameUIClientCommand extends AbstractSyncGameUIClientCommand {
 
 	private static final long serialVersionUID = -2324631715303653440L;
 

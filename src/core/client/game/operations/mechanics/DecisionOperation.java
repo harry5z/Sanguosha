@@ -15,14 +15,14 @@ public class DecisionOperation extends AbstractOperation {
 	public void onConfirmed() {
 		this.onUnloaded();
 		this.onDeactivated();
-		this.panel.getChannel().send(new DecisionInGameServerCommand(true));
+		this.panel.sendResponse(new DecisionInGameServerCommand(true));
 	}
 	
 	@Override
 	public void onCanceled() {
 		this.onUnloaded();
 		this.onDeactivated();
-		this.panel.getChannel().send(new DecisionInGameServerCommand(false));
+		this.panel.sendResponse(new DecisionInGameServerCommand(false));
 	}
 
 	@Override

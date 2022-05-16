@@ -23,7 +23,7 @@ public class InitiateStarvationInGameServerCommand extends InGameServerCommand {
 	}
 
 	@Override
-	protected GameController getGameController() {
+	public GameController getGameController() {
 		return new AbstractSingleStageGameController() {
 			
 			@Override

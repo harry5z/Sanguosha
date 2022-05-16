@@ -44,7 +44,7 @@ public abstract class AbstractMultiCardMultiTargetOperation extends AbstractOper
 	@Override
 	public final void onConfirmed() {
 		super.onConfirmed();
-		this.panel.getChannel().send(getCommandOnConfirm());
+		this.panel.sendResponse(getCommandOnConfirm());
 	}
 	
 	@Override

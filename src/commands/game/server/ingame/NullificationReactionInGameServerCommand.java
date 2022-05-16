@@ -24,7 +24,7 @@ public class NullificationReactionInGameServerCommand extends InGameServerComman
 	}
 
 	@Override
-	protected GameController getGameController() {
+	public GameController getGameController() {
 		return new AbstractSingleStageGameController() {
 			
 			@Override

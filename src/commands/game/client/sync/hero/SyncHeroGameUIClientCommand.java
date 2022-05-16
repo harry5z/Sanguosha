@@ -1,10 +1,10 @@
 package commands.game.client.sync.hero;
 
-import commands.game.client.AbstractGameUIClientCommand;
+import commands.game.client.sync.AbstractSyncGameUIClientCommand;
 import core.client.GamePanel;
 import core.heroes.Hero;
 
-public class SyncHeroGameUIClientCommand extends AbstractGameUIClientCommand {
+public class SyncHeroGameUIClientCommand extends AbstractSyncGameUIClientCommand {
 
 	private static final long serialVersionUID = 1L;
 	

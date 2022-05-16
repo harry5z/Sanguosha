@@ -1,10 +1,10 @@
 package commands.game.client.sync.disposal;
 
 import cards.Card;
-import commands.game.client.AbstractGameUIClientCommand;
+import commands.game.client.sync.AbstractSyncGameUIClientCommand;
 import core.client.GamePanel;
 
-public class SyncCardShownGameUIClientCommand extends AbstractGameUIClientCommand {
+public class SyncCardShownGameUIClientCommand extends AbstractSyncGameUIClientCommand {
 
 	private static final long serialVersionUID = 1L;
 

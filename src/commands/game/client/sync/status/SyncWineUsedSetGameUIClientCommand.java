@@ -1,10 +1,10 @@
 package commands.game.client.sync.status;
 
-import commands.game.client.AbstractGameUIClientCommand;
+import commands.game.client.sync.AbstractSyncGameUIClientCommand;
 import core.client.GamePanel;
 import exceptions.server.game.InvalidPlayerCommandException;
 
-public class SyncWineUsedSetGameUIClientCommand extends AbstractGameUIClientCommand {
+public class SyncWineUsedSetGameUIClientCommand extends AbstractSyncGameUIClientCommand {
 
 	private static final long serialVersionUID = -1579729852291363280L;
 

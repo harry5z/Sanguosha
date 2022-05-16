@@ -31,7 +31,7 @@ public class SerpentSpearInitiateAttackInGameServerCommand extends InGameServerC
 	}
 	
 	@Override
-	protected GameController getGameController() {
+	public GameController getGameController() {
 		return new AbstractSingleStageGameController() {
 			
 			@Override
