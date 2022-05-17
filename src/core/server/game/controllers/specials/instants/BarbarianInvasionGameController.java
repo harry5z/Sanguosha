@@ -29,7 +29,7 @@ public class BarbarianInvasionGameController extends AbstractMultiTargetInstantS
 		if (!this.hasReacted) {
 			throw new GameFlowInterruptedException(
 				new RequestAttackGameUIClientCommand(
-					this.currentTarget.getPlayerInfo(),
+					this.currentTarget,
 					this.source + " used Barbarian Invasion on you, use Attack to counter?"
 				)
 			); 

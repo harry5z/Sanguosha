@@ -1,5 +1,7 @@
 package cards.specials.instant;
 
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.InitiateSabotageInGameServerCommand;
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.SabotageOperation;
 import ui.game.interfaces.Activatable;
@@ -20,5 +22,10 @@ public class Sabotage extends Instant {
 	@Override
 	public Operation generateOperation(Activatable source) {
 		return new SabotageOperation(source);
+	}
+
+	@Override
+	public Class<? extends InGameServerCommand> getAllowedDealPhaseResponseType() {
+		return InitiateSabotageInGameServerCommand.class;
 	}
 }

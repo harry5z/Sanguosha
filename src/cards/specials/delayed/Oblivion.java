@@ -1,5 +1,7 @@
 package cards.specials.delayed;
 
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.InitiateOblivionInGameServerCommand;
 import core.GameState;
 import core.client.game.operations.Operation;
 import core.client.game.operations.delayed.OblivionOperation;
@@ -26,6 +28,11 @@ public class Oblivion extends Delayed {
 	@Override
 	public Operation generateOperation(Activatable source) {
 		return new OblivionOperation(source);
+	}
+
+	@Override
+	public Class<? extends InGameServerCommand> getAllowedDealPhaseResponseType() {
+		return InitiateOblivionInGameServerCommand.class;
 	}
 
 }

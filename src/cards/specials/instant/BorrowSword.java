@@ -1,6 +1,8 @@
 package cards.specials.instant;
 
 import cards.equipments.Equipment.EquipmentType;
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.InitiateBorrowSwordInGameServerCommand;
 import core.GameState;
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.BorrowSwordOperation;
@@ -33,6 +35,11 @@ public class BorrowSword extends Instant {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public Class<? extends InGameServerCommand> getAllowedDealPhaseResponseType() {
+		return InitiateBorrowSwordInGameServerCommand.class;
 	}
 
 }

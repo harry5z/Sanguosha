@@ -1,5 +1,7 @@
 package cards.basics;
 
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.UseWineInGameServerCommand;
 import core.GameState;
 import core.client.game.operations.Operation;
 import core.client.game.operations.basics.WineOperation;
@@ -30,5 +32,10 @@ public class Wine extends Basic {
 	@Override
 	public Operation generateOperation(Activatable source) {
 		return new WineOperation(source);
+	}
+
+	@Override
+	public Class<? extends InGameServerCommand> getAllowedDealPhaseResponseType() {
+		return UseWineInGameServerCommand.class;
 	}
 }

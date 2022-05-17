@@ -2,6 +2,7 @@ package core.server;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,12 +24,14 @@ public class GameRoom extends ServerEntity implements ConnectionController {
 	private final Game game;
 	private final Map<String, Connection> connectionMap;
 	private final Map<Connection, UUID> allowedResponses;
+	private final Set<Class<? extends InGameServerCommand>> allowedResponseTypes;
 	
 	public GameRoom(Room room, Set<Connection> connections, GameConfig config) {
 		this.connections.addAll(connections);
 		this.room = room;
 		this.connectionMap = new HashMap<>();
 		this.allowedResponses = new HashMap<>();
+		this.allowedResponseTypes = new HashSet<>();
 		
 		// TODO: Fix this when we have actual player info
 		// begin ugly part because connection doesn't have unique user information yet
@@ -54,13 +57,18 @@ public class GameRoom extends ServerEntity implements ConnectionController {
 			Log.error("GameRoom", "Player response UUID mismatch");
 			return;
 		}
+		if (!this.allowedResponseTypes.contains(command.getClass())) {
+			Log.error("GameRoom", "Invalid Response Type: " + command.getClass().getSimpleName());
+			return;
+		}
 		this.allowedResponses.remove(connection); // clear UUID once a valid response is received
 		game.pushGameController(command.getGameController());
 		game.resume();
 	}
 	
-	@Override
-	public synchronized void sendCommandToAllPlayers(GameClientCommand command) {
+	public synchronized void sendActionCommandToAllPlayers(GameClientCommand command) {
+		this.allowedResponseTypes.clear();
+		this.allowedResponseTypes.addAll(command.getAllowedResponseTypes());
 		this.connectionMap.forEach((name, connection) -> {
 			this.allowedResponses.put(connection, command.generateResponseID(name));
 			connection.send(command);
@@ -68,16 +76,21 @@ public class GameRoom extends ServerEntity implements ConnectionController {
 	}
 	
 	@Override
+	public synchronized void sendCommandToAllPlayers(GameClientCommand command) {
+		this.connectionMap.forEach((name, connection) -> {
+			connection.send(command);
+		});
+	}
+	
+	@Override
 	public synchronized void sendCommandToPlayers(Map<String, GameClientCommand> commands) {
 		commands.forEach((name, command) -> {
-			this.allowedResponses.put(this.connectionMap.get(name), command.generateResponseID(name));
 			this.connectionMap.get(name).send(command);
 		});
 	}
 	
 	@Override
 	public synchronized void sendCommandToPlayer(String name, GameClientCommand command) {
-		this.allowedResponses.put(this.connectionMap.get(name), command.generateResponseID(name));
 		this.connectionMap.get(name).send(command);
 	}
 	

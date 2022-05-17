@@ -1,5 +1,7 @@
 package cards.specials.instant;
 
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.InitiateFireAttackInGameServerCommand;
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.FireAttackOperation;
 import ui.game.interfaces.Activatable;
@@ -20,5 +22,10 @@ public class FireAttack extends Instant {
 	@Override
 	public Operation generateOperation(Activatable source) {
 		return new FireAttackOperation(source);
+	}
+
+	@Override
+	public Class<? extends InGameServerCommand> getAllowedDealPhaseResponseType() {
+		return InitiateFireAttackInGameServerCommand.class;
 	}
 }

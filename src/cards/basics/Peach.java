@@ -1,5 +1,7 @@
 package cards.basics;
 
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.UsePeachInGameServerCommand;
 import core.GameState;
 import core.client.game.operations.Operation;
 import core.client.game.operations.basics.PeachOperation;
@@ -28,5 +30,10 @@ public class Peach extends Basic {
 	@Override
 	public Operation generateOperation(Activatable source) {
 		return new PeachOperation(source);
+	}
+
+	@Override
+	public Class<? extends InGameServerCommand> getAllowedDealPhaseResponseType() {
+		return UsePeachInGameServerCommand.class;
 	}
 }

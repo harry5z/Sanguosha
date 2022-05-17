@@ -1,5 +1,7 @@
 package core.heroes.skills;
 
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.ReconsiderationSkillInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.listener.skills.ReconsiderationSkillDealEventListener;
 import core.player.PlayerCompleteServer;
@@ -7,7 +9,9 @@ import core.player.PlayerState;
 import core.server.game.Game;
 import ui.game.interfaces.SkillUI;
 
-public class SunQuanReconsiderationHeroSkill implements ActiveSkill {
+public class SunQuanReconsiderationHeroSkill extends AbstractDealPhaseActiveSkill {
+
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void onGameReady(Game game, PlayerCompleteServer player) {
@@ -32,6 +36,11 @@ public class SunQuanReconsiderationHeroSkill implements ActiveSkill {
 	@Override
 	public void onClientSkillUnloaded(GamePanel panel, SkillUI skill) {
 		panel.removeEventListener(new ReconsiderationSkillDealEventListener(skill));
+	}
+
+	@Override
+	protected Class<? extends InGameServerCommand> getAllowedDealPhaseResponseType() {
+		return ReconsiderationSkillInGameServerCommand.class;
 	}
 
 }

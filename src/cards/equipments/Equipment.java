@@ -1,6 +1,8 @@
 package cards.equipments;
 
 import cards.Card;
+import commands.game.server.ingame.EquipInGameServerCommand;
+import commands.game.server.ingame.InGameServerCommand;
 import core.GameState;
 import core.client.GamePanel;
 import core.client.game.operations.Operation;
@@ -79,5 +81,10 @@ public abstract class Equipment extends Card {
 	 * @param panel
 	 */
 	public void onUnequipped(GamePanel panel) {}
+	
+	@Override
+	public Class<? extends InGameServerCommand> getAllowedDealPhaseResponseType() {
+		return EquipInGameServerCommand.class;
+	}
 	
 }

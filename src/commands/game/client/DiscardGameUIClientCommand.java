@@ -1,5 +1,9 @@
 package commands.game.client;
 
+import java.util.Set;
+
+import commands.game.server.ingame.DiscardInGameServerCommand;
+import commands.game.server.ingame.InGameServerCommand;
 import core.client.game.operations.Operation;
 import core.client.game.operations.mechanics.DiscardOperation;
 import core.player.PlayerInfo;
@@ -23,6 +27,11 @@ public class DiscardGameUIClientCommand extends AbstractSingleTargetOperationGam
 	@Override
 	protected Operation getOperation() {
 		return new DiscardOperation(amount);
+	}
+
+	@Override
+	public Set<Class<? extends InGameServerCommand>> getAllowedResponseTypes() {
+		return Set.of(DiscardInGameServerCommand.class);
 	}
 	
 }

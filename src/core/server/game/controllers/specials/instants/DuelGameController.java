@@ -23,7 +23,7 @@ public class DuelGameController extends SingleTargetInstantSpecialGameController
 		// Ask current attack user to use Attack
 		throw new GameFlowInterruptedException(
 			new RequestAttackGameUIClientCommand(
-				this.currentAttackUser.getPlayerInfo(),
+				this.currentAttackUser,
 				"Duel: it is your turn to use Attack."
 			)
 		);

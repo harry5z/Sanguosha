@@ -24,6 +24,10 @@ public class GameFlowInterruptedException extends Exception {
 		this.command = command;
 	}
 	
+	public GameFlowInterruptedException() {
+		this.command = null;
+	}
+	
 	/**
 	 * 
 	 * @return the command to be sent to all players, or null if no command

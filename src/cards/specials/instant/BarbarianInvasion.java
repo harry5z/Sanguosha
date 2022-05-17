@@ -1,5 +1,7 @@
 package cards.specials.instant;
 
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.InitiateBarbarianInvasionInGameServerCommand;
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.BarbarianInvasionOperation;
 import ui.game.interfaces.Activatable;
@@ -22,6 +24,11 @@ public class BarbarianInvasion extends Instant {
 	@Override
 	public Operation generateOperation(Activatable source) {
 		return new BarbarianInvasionOperation(source);
+	}
+
+	@Override
+	public Class<? extends InGameServerCommand> getAllowedDealPhaseResponseType() {
+		return InitiateBarbarianInvasionInGameServerCommand.class;
 	}
 
 }

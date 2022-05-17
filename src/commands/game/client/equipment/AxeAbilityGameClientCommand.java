@@ -1,6 +1,10 @@
 package commands.game.client.equipment;
 
+import java.util.Set;
+
 import commands.game.client.AbstractSingleTargetOperationGameClientCommand;
+import commands.game.server.ingame.AxeReactionInGameServerCommand;
+import commands.game.server.ingame.InGameServerCommand;
 import core.client.game.operations.Operation;
 import core.client.game.operations.equipment.AxeOperation;
 import core.player.PlayerInfo;
@@ -16,6 +20,11 @@ public class AxeAbilityGameClientCommand extends AbstractSingleTargetOperationGa
 	@Override
 	protected Operation getOperation() {
 		return new AxeOperation();
+	}
+
+	@Override
+	public Set<Class<? extends InGameServerCommand>> getAllowedResponseTypes() {
+		return Set.of(AxeReactionInGameServerCommand.class);
 	}
 
 }

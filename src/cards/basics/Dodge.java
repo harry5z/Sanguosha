@@ -1,5 +1,6 @@
 package cards.basics;
 
+import commands.game.server.ingame.InGameServerCommand;
 import core.GameState;
 import core.client.game.operations.Operation;
 import ui.game.interfaces.Activatable;
@@ -27,6 +28,11 @@ public class Dodge extends Basic {
 	@Override
 	public Operation generateOperation(Activatable source) {
 		throw new RuntimeException("Dodge should not be activated");
+	}
+
+	@Override
+	public Class<? extends InGameServerCommand> getAllowedDealPhaseResponseType() {
+		return null;
 	}
 
 }

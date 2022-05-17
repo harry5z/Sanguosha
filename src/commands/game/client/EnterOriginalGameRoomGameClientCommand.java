@@ -1,8 +1,10 @@
 package commands.game.client;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
+import commands.game.server.ingame.InGameServerCommand;
 import core.client.ClientFrame;
 import core.client.GamePanelOriginal;
 import core.player.PlayerInfo;
@@ -26,6 +28,10 @@ public class EnterOriginalGameRoomGameClientCommand implements GameClientCommand
 	
 	@Override
 	public UUID generateResponseID(String name) {
+		return null;
+	}
+	@Override
+	public Set<Class<? extends InGameServerCommand>> getAllowedResponseTypes() {
 		return null;
 	}
 

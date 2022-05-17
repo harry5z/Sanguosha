@@ -1,10 +1,13 @@
 package commands.game.client;
 
 import java.io.Serializable;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import cards.Card;
 import cards.Card.Suit;
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
 import core.client.game.operations.Operation;
 import core.client.game.operations.basics.UseCardReactionOperation;
 import core.player.PlayerInfo;
@@ -37,6 +40,11 @@ public class RequestUseCardGameUIClientCommand extends AbstractSingleTargetOpera
 	@Override
 	protected Operation getOperation() {
 		return new UseCardReactionOperation(this.message, this.predicate);
+	}
+
+	@Override
+	public Set<Class<? extends InGameServerCommand>> getAllowedResponseTypes() {
+		return Set.of(PlayerCardSelectionInGameServerCommand.class);
 	}
 
 }

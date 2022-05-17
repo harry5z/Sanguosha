@@ -1,13 +1,16 @@
 package core.heroes.skills;
 
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.InitiateFireAttackInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.listener.skills.FireAttackSkillDealEventListener;
 import core.player.PlayerCompleteServer;
 import core.server.game.Game;
 import ui.game.interfaces.SkillUI;
 
-@SuppressWarnings("serial")
-public class ZhugeliangFireAttackOriginalHeroSkill implements ActiveSkill {
+public class ZhugeliangFireAttackOriginalHeroSkill extends AbstractDealPhaseActiveSkill {
+
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void onGameReady(Game game, PlayerCompleteServer player) {
@@ -32,6 +35,12 @@ public class ZhugeliangFireAttackOriginalHeroSkill implements ActiveSkill {
 	@Override
 	public void onClientSkillUnloaded(GamePanel panel, SkillUI skill) {
 		panel.removeEventListener(new FireAttackSkillDealEventListener(skill));
+	}
+
+	@Override
+	protected Class<? extends InGameServerCommand> getAllowedDealPhaseResponseType() {
+		// TODO change to its own command
+		return InitiateFireAttackInGameServerCommand.class;
 	}
 
 }

@@ -1,5 +1,7 @@
 package cards.specials.delayed;
 
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.UseLightningInGameServerCommand;
 import core.GameState;
 import core.client.game.operations.Operation;
 import core.client.game.operations.delayed.LightningOperation;
@@ -27,6 +29,11 @@ public class Lightning extends Delayed {
 	@Override
 	public Operation generateOperation(Activatable source) {
 		return new LightningOperation(source);
+	}
+	
+	@Override
+	public Class<? extends InGameServerCommand> getAllowedDealPhaseResponseType() {
+		return UseLightningInGameServerCommand.class;
 	}
 
 }

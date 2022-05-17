@@ -47,7 +47,7 @@ public class DodgeGameController extends AbstractGameController<DodgeGameControl
 				break;
 			case DODGE:
 				throw new GameFlowInterruptedException(
-					new RequestDodgeGameUIClientCommand(target.getPlayerInfo(), message)
+					new RequestDodgeGameUIClientCommand(target, message)
 				);
 			case AFTER_DODGED_SKILLS:
 				// nothing here yet

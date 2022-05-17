@@ -1,5 +1,6 @@
 package cards.specials.instant;
 
+import commands.game.server.ingame.InGameServerCommand;
 import core.GameState;
 import core.client.game.operations.Operation;
 import ui.game.interfaces.Activatable;
@@ -26,6 +27,11 @@ public class Nullification extends Instant {
 
 	@Override
 	public Operation generateOperation(Activatable source) {
+		return null;
+	}
+
+	@Override
+	public Class<? extends InGameServerCommand> getAllowedDealPhaseResponseType() {
 		return null;
 	}
 

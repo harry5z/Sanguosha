@@ -1,7 +1,10 @@
 package commands.game.client;
 
+import java.util.Set;
 import java.util.UUID;
 
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.NullificationReactionInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.operations.instants.NullificationOperation;
 
@@ -27,6 +30,12 @@ public class RequestNullificationGameUIClientCommand extends AbstractGameUIClien
 	public UUID generateResponseID(String name) {
 		uuid = UUID.randomUUID(); // anyone can respond to Nullification
 		return uuid;
+	}
+
+	@Override
+	public Set<Class<? extends InGameServerCommand>> getAllowedResponseTypes() {
+		// TODO also look for hero skills
+		return Set.of(NullificationReactionInGameServerCommand.class);
 	}
 
 }

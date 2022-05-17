@@ -2,6 +2,7 @@ package cards;
 
 import java.io.Serializable;
 
+import commands.game.server.ingame.InGameServerCommand;
 import core.GameState;
 import core.client.game.operations.Operation;
 import ui.game.interfaces.Activatable;
@@ -86,6 +87,14 @@ public abstract class Card implements Serializable {
 	 * @return the corresponding operation
 	 */
 	public abstract Operation generateOperation(Activatable source);
+	
+	/**
+	 * get the allowed response type during Deal phase, i.e. the command type for the usage
+	 * of this card, e.g. InitiateAttackInGameServerCommand.class for Attack
+	 * 
+	 * @return the command type for the usage of this card
+	 */
+	public abstract Class<? extends InGameServerCommand> getAllowedDealPhaseResponseType();
 
 	/**
 	 * decides whether the card is activatable by player during TURN_DEAL

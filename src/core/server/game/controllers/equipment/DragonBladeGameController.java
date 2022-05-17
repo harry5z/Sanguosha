@@ -26,7 +26,7 @@ public class DragonBladeGameController extends AbstractPlayerDecisionActionGameC
 	@Override
 	protected void handleDecisionRequest(GameInternal game) throws GameFlowInterruptedException {
 		throw new GameFlowInterruptedException(
-			new RequestAttackGameUIClientCommand(source.getPlayerInfo(), "Dragon Blade: Use another Attack?")
+			new RequestAttackGameUIClientCommand(source, "Dragon Blade: Use another Attack?")
 		);
 	}
 

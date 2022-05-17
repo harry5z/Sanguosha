@@ -1,8 +1,11 @@
 package commands.game.client;
 
 import java.util.Collection;
+import java.util.Set;
 
 import cards.equipments.Equipment.EquipmentType;
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
 import core.client.game.operations.Operation;
 import core.client.game.operations.mechanics.PlayerCardSelectionOperation;
 import core.player.PlayerCardZone;
@@ -31,6 +34,11 @@ public class ShowCardSelectionPanelUIClientCommand extends AbstractSingleTargetO
 	@Override
 	protected Operation getOperation() {
 		return new PlayerCardSelectionOperation(this.selectionTarget, this.zones, this.equipmentTypes);
+	}
+
+	@Override
+	public Set<Class<? extends InGameServerCommand>> getAllowedResponseTypes() {
+		return Set.of(PlayerCardSelectionInGameServerCommand.class);
 	}
 
 }

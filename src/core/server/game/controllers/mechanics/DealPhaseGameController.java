@@ -10,7 +10,7 @@ public class DealPhaseGameController extends AbstractSingleStageGameController {
 	@Override
 	protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 		throw new GameFlowInterruptedException(
-			new DealStartGameUIClientCommmand(game.getCurrentPlayer().getPlayerInfo())
+			new DealStartGameUIClientCommmand(game.getCurrentPlayer())
 		);
 	}
 

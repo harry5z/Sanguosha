@@ -169,7 +169,7 @@ public class GameImpl implements Game {
 				}
 			} catch (GameFlowInterruptedException e) {
 				if (e.getCommand() != null) {
-					room.sendCommandToAllPlayers(e.getCommand());
+					room.sendActionCommandToAllPlayers(e.getCommand());
 				}
 				break;
 			}

@@ -36,7 +36,7 @@ public class BorrowSwordGameController
 
 		throw new GameFlowInterruptedException(
 			new RequestAttackGameUIClientCommand(
-				this.target.getPlayerInfo(),
+				this.target,
 				"Use Attack on " + this.attackTarget + " or else " + this.source + " takes your weapon"
 			)
 		);

@@ -1,9 +1,12 @@
 package commands.game.client;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import cards.Card;
+import commands.game.server.ingame.InGameServerCommand;
+import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.operations.instants.HarvestCardSelectionOperation;
 import core.player.PlayerInfo;
@@ -53,6 +56,11 @@ public class ShowHarvestCardSelectionPaneUIClientCommand extends AbstractGameUIC
 			this.uuid = UUID.randomUUID();
 		}
 		return uuid;
+	}
+
+	@Override
+	public Set<Class<? extends InGameServerCommand>> getAllowedResponseTypes() {
+		return Set.of(PlayerCardSelectionInGameServerCommand.class);
 	}
 
 }
