@@ -8,7 +8,7 @@ import commands.game.server.ingame.NullificationReactionInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.operations.instants.NullificationOperation;
 
-public class RequestNullificationGameUIClientCommand extends AbstractGameUIClientCommand {
+public class RequestNullificationGameUIClientCommand extends AbstractPlayerActionGameClientCommand {
 
 	private static final long serialVersionUID = 1L;
 	

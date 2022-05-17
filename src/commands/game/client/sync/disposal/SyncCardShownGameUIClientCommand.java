@@ -17,7 +17,7 @@ public class SyncCardShownGameUIClientCommand extends AbstractSyncGameUIClientCo
 	}
 
 	@Override
-	protected void execute(GamePanel panel) {
+	protected void sync(GamePanel panel) {
 		if (panel.getGameState().getSelf().getName().equals(name)) {
 			panel.getGameState().getSelf().getDisposalListener().onCardShown(card);
 		} else {

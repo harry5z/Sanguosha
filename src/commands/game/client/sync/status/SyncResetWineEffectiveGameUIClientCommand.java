@@ -14,7 +14,7 @@ public class SyncResetWineEffectiveGameUIClientCommand extends AbstractSyncGameU
 	}
 	
 	@Override
-	protected void execute(GamePanel panel) {
+	protected void sync(GamePanel panel) {
 		if (panel.getGameState().getSelf().getName().equals(name)) {
 			panel.getGameState().getSelf().resetWineEffective();
 		} else {

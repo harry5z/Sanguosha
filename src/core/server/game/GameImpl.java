@@ -14,7 +14,7 @@ import core.event.handlers.EventHandler;
 import core.heroes.original.GanNing;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
-import core.server.ConnectionController;
+import core.server.SyncController;
 import core.server.GameRoom;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.TurnGameController;
@@ -115,14 +115,14 @@ public class GameImpl implements Game {
 	}
 	
 	@Override
-	public ConnectionController getConnectionController() {
+	public SyncController getSyncController() {
 		return this.room;
 	}
 
 	@Override
 	public void start() {
 		List<PlayerInfo> playersInfo = players.stream().map(p -> p.getPlayerInfo()).collect(Collectors.toList());
-		this.room.sendCommandToPlayers(
+		this.room.sendSyncCommandToPlayers(
 			this.players.stream().collect(
 				Collectors.toMap(
 					player -> player.getName(),

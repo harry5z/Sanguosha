@@ -7,18 +7,18 @@ import cards.equipments.Equipment.EquipmentType;
 import commands.game.client.sync.SyncCommandsUtil;
 import commands.game.client.sync.equipment.SyncEquipGameUIClientCommand;
 import commands.game.client.sync.equipment.SyncUnequipGameUIClientCommand;
-import core.server.GameRoom;
+import core.server.SyncController;
 import listeners.game.EquipmentListener;
 
 public class ServerInGameEquipmentListener extends ServerInGamePlayerListener implements EquipmentListener {
 	
-	public ServerInGameEquipmentListener(String name, Set<String> allNames, GameRoom room) {
-		super(name, allNames, room);
+	public ServerInGameEquipmentListener(String name, Set<String> allNames, SyncController controller) {
+		super(name, allNames, controller);
 	}
 	
 	@Override
 	public void onEquipped(Equipment equipment) {
-		room.sendCommandToPlayers(
+		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
@@ -29,7 +29,7 @@ public class ServerInGameEquipmentListener extends ServerInGamePlayerListener im
 
 	@Override
 	public void onUnequipped(EquipmentType type) {
-		room.sendCommandToPlayers(
+		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 

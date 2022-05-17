@@ -7,18 +7,18 @@ import commands.game.client.sync.health.SyncDeathGameUIClientCommand;
 import commands.game.client.sync.health.SyncHealthCurrentChangedGameUIClientCommand;
 import commands.game.client.sync.health.SyncHealthCurrentGameUIClientCommand;
 import commands.game.client.sync.health.SyncHealthLimitGameUIClientCommand;
-import core.server.GameRoom;
+import core.server.SyncController;
 import listeners.game.HealthListener;
 
 public class ServerInGameHealthListener extends ServerInGamePlayerListener implements HealthListener {
 
-	public ServerInGameHealthListener(String name, Set<String> allNames, GameRoom room) {
-		super(name, allNames, room);
+	public ServerInGameHealthListener(String name, Set<String> allNames, SyncController controller) {
+		super(name, allNames, controller);
 	}
 	
 	@Override
 	public void onSetHealthLimit(int limit) {
-		room.sendCommandToPlayers(
+		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
@@ -29,7 +29,7 @@ public class ServerInGameHealthListener extends ServerInGamePlayerListener imple
 
 	@Override
 	public void onSetHealthCurrent(int current) {
-		room.sendCommandToPlayers(
+		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
@@ -40,7 +40,7 @@ public class ServerInGameHealthListener extends ServerInGamePlayerListener imple
 
 	@Override
 	public void onHealthChangedBy(int amount) {
-		room.sendCommandToPlayers(
+		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
@@ -51,7 +51,7 @@ public class ServerInGameHealthListener extends ServerInGamePlayerListener imple
 
 	@Override
 	public void onDeath() {
-		room.sendCommandToPlayers(
+		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 

@@ -6,17 +6,17 @@ import cards.Card;
 import commands.game.client.sync.SyncCommandsUtil;
 import commands.game.client.sync.cardonhand.SyncOtherPlayerCardGameUIClientCommand;
 import commands.game.client.sync.cardonhand.SyncPlayerCardGameUIClientCommand;
-import core.server.GameRoom;
+import core.server.SyncController;
 import listeners.game.CardOnHandListener;
 
 public class ServerInGameCardOnHandListener extends ServerInGamePlayerListener implements CardOnHandListener {
 
-	public ServerInGameCardOnHandListener(String name, Set<String> allNames, GameRoom room) {
-		super(name, allNames, room);
+	public ServerInGameCardOnHandListener(String name, Set<String> allNames, SyncController controller) {
+		super(name, allNames, controller);
 	}
 	@Override
 	public void onCardAdded(Card card) {
-		room.sendCommandToPlayers(
+		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForDifferentCommand(
 				name, 
 				otherNames, 
@@ -28,7 +28,7 @@ public class ServerInGameCardOnHandListener extends ServerInGamePlayerListener i
 
 	@Override
 	public void onCardRemoved(Card card) {
-		room.sendCommandToPlayers(
+		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForDifferentCommand(
 				name, 
 				otherNames, 

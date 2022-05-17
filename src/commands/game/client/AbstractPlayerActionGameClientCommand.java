@@ -4,7 +4,7 @@ import core.client.ClientFrame;
 import core.client.GamePanel;
 import net.Connection;
 
-public abstract class AbstractGameUIClientCommand implements GameClientCommand {
+public abstract class AbstractPlayerActionGameClientCommand implements PlayerActionGameClientCommand {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -17,7 +17,7 @@ public abstract class AbstractGameUIClientCommand implements GameClientCommand {
 		} catch (Exception e) {
 			// TODO handle command error
 			e.printStackTrace();
-			throw new RuntimeException("GameUIClientCommand received while no Game UI available");
+			throw new RuntimeException("PlayerActionGameClientCommand received while no Game UI available");
 		}
 	}
 	

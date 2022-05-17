@@ -17,7 +17,7 @@ public class SyncHeroGameUIClientCommand extends AbstractSyncGameUIClientCommand
 	}
 
 	@Override
-	protected void execute(GamePanel panel) {
+	protected void sync(GamePanel panel) {
 		if (panel.getGameState().getSelf().getName().equals(this.owner)) {
 			panel.getGameState().getSelf().setHero(this.hero);
 		} else {

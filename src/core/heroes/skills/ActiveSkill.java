@@ -1,6 +1,6 @@
 package core.heroes.skills;
 
-import commands.game.client.GameClientCommand;
+import commands.game.client.PlayerActionGameClientCommand;
 import commands.game.server.ingame.InGameServerCommand;
 
 /**
@@ -20,6 +20,6 @@ public interface ActiveSkill extends OriginalHeroSkill {
 	 * @param command : outgoing command
 	 * @return type of allowed player action, or null if no action is allowed
 	 */
-	public Class<? extends InGameServerCommand> getAllowedResponseType(GameClientCommand command);
+	public Class<? extends InGameServerCommand> getAllowedResponseType(PlayerActionGameClientCommand command);
 
 }

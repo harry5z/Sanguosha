@@ -22,7 +22,7 @@ public class SyncOtherPlayerCardGameUIClientCommand extends AbstractSyncGameUICl
 	}
 
 	@Override
-	public void execute(GamePanel panel) {
+	public void sync(GamePanel panel) {
 		PlayerSimple player = panel.getGameState().getPlayer(name);
 		if (add) {
 			player.addCards(Collections.nCopies(amount, null));

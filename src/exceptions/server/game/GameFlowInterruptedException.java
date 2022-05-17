@@ -1,6 +1,6 @@
 package exceptions.server.game;
 
-import commands.game.client.GameClientCommand;
+import commands.game.client.PlayerActionGameClientCommand;
 
 /**
  * 
@@ -18,9 +18,9 @@ public class GameFlowInterruptedException extends Exception {
 	
 	private static final long serialVersionUID = -1L;
 	
-	private final GameClientCommand command;
+	private final PlayerActionGameClientCommand command;
 	
-	public GameFlowInterruptedException(GameClientCommand command) {
+	public GameFlowInterruptedException(PlayerActionGameClientCommand command) {
 		this.command = command;
 	}
 	
@@ -32,7 +32,7 @@ public class GameFlowInterruptedException extends Exception {
 	 * 
 	 * @return the command to be sent to all players, or null if no command
 	 */
-	public GameClientCommand getCommand() {
+	public PlayerActionGameClientCommand getCommand() {
 		return command;
 	}
 	

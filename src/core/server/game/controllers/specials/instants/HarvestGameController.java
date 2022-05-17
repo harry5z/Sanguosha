@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import cards.Card;
 import commands.game.client.ShowHarvestCardSelectionPaneUIClientCommand;
+import commands.game.client.sync.SyncHarvestCardSelectionPaneGameUIClientCommand;
 import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.GenericAOEInstantSpecialTargetEffectivenessEvent;
 import core.player.PlayerCardZone;
@@ -49,8 +50,8 @@ public class HarvestGameController extends AbstractMultiTargetInstantSpecialGame
 		game.pushGameController(new ReceiveCardsGameController(this.currentTarget, Set.of(card)));
 		
 		// for client UI update only, won't cause interruption
-		game.getConnectionController().sendCommandToAllPlayers(
-			new ShowHarvestCardSelectionPaneUIClientCommand(null, new HashMap<>(this.selectableCards))
+		game.getSyncController().sendSyncCommandToAllPlayers(
+			new SyncHarvestCardSelectionPaneGameUIClientCommand(new HashMap<>(this.selectableCards))
 		);
 	}
 
@@ -63,15 +64,15 @@ public class HarvestGameController extends AbstractMultiTargetInstantSpecialGame
 	protected void onLoaded(GameInternal game) {
 		this.selectableCards = game.getDeck().drawMany(game.getNumberOfPlayersAlive()).stream().collect(Collectors.toMap(card -> card, card -> false));
 		// for client UI update only, won't cause interruption
-		game.getConnectionController().sendCommandToAllPlayers(
-			new ShowHarvestCardSelectionPaneUIClientCommand(null, new HashMap<>(this.selectableCards))
+		game.getSyncController().sendSyncCommandToAllPlayers(
+			new SyncHarvestCardSelectionPaneGameUIClientCommand(new HashMap<>(this.selectableCards))
 		);
 	}
 
 	@Override
 	protected void onSettled(GameInternal game) {
 		// for client UI update only, won't cause interruption
-		game.getConnectionController().sendCommandToAllPlayers(new ShowHarvestCardSelectionPaneUIClientCommand(null, null));
+		game.getSyncController().sendSyncCommandToAllPlayers(new SyncHarvestCardSelectionPaneGameUIClientCommand(null));
 		// discard all unselected cards
 		Set<Card> unselected = this.selectableCards.entrySet().stream().filter(entry -> !entry.getValue()).map(entry -> entry.getKey()).collect(Collectors.toSet());
 		if (unselected.size() > 0) {

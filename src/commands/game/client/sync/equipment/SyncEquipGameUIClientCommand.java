@@ -18,7 +18,7 @@ public class SyncEquipGameUIClientCommand extends AbstractSyncGameUIClientComman
 	}
 	
 	@Override
-	protected void execute(GamePanel panel) {
+	protected void sync(GamePanel panel) {
 		try {
 			if (panel.getGameState().getSelf().getName().equals(name)) {
 				panel.getGameState().getSelf().equip(equipment);

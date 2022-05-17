@@ -6,7 +6,7 @@ import core.client.GamePanel;
 import core.client.game.operations.Operation;
 import core.player.PlayerInfo;
 
-public abstract class AbstractSingleTargetOperationGameClientCommand extends AbstractGameUIClientCommand {
+public abstract class AbstractSingleTargetOperationGameClientCommand extends AbstractPlayerActionGameClientCommand {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -22,18 +22,20 @@ public abstract class AbstractSingleTargetOperationGameClientCommand extends Abs
 	protected final void execute(GamePanel panel) {
 		if (shouldClearGamePanel()) {
 			panel.getGameState().getSelf().clearDisposalArea();
+			panel.getGameUI().removeSelectionPane();
 		}
 		if (panel.getGameState().getSelf().getPlayerInfo().equals(this.target)) {
 			// response ID must be present for the response to be accepted by server
 			panel.setNextResponseID(uuid);
 			panel.pushOperation(this.getOperation());
 		} else {
+			updateForOtherPlayer(panel);
 			panel.getGameUI().getOtherPlayerUI(this.target).showCountdownBar();
 		}
 	}
 	
 	@Override
-	public UUID generateResponseID(String name) {
+	public final UUID generateResponseID(String name) {
 		if (name.equals(this.target.getName())) {
 			uuid = UUID.randomUUID();
 		}
@@ -45,5 +47,7 @@ public abstract class AbstractSingleTargetOperationGameClientCommand extends Abs
 	protected boolean shouldClearGamePanel() {
 		return false;
 	}
+	
+	protected void updateForOtherPlayer(GamePanel panel) {}
 
 }

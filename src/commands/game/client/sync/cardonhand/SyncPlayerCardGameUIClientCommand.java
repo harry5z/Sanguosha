@@ -18,7 +18,7 @@ public class SyncPlayerCardGameUIClientCommand extends AbstractSyncGameUIClientC
 	}
 
 	@Override
-	public void execute(GamePanel panel) {
+	public void sync(GamePanel panel) {
 		PlayerCompleteClient player = panel.getGameState().getSelf();
 		if (add) {
 			player.addCard(card);

@@ -17,7 +17,7 @@ public class SyncPlayerStateGameUIClientCommand extends AbstractSyncGameUIClient
 	}
 
 	@Override
-	protected void execute(GamePanel panel) {
+	protected void sync(GamePanel panel) {
 		panel.getGameState().getSelf().updatePlayerState(state, value);
 	}
 

@@ -26,7 +26,7 @@ import core.client.ClientFrame;
  * @author Harry
  *
  */
-public interface GameClientCommand extends Command<ClientFrame> {
+public interface PlayerActionGameClientCommand extends Command<ClientFrame> {
 	
 	/**
 	 * Optionally generate and store a response UUID to be sent to a certain player within this command. 

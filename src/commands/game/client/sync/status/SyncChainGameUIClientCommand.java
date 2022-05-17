@@ -17,7 +17,7 @@ public class SyncChainGameUIClientCommand extends AbstractSyncGameUIClientComman
 	}
 
 	@Override
-	protected void execute(GamePanel panel) {
+	protected void sync(GamePanel panel) {
 		Player player = panel.getGameState().getSelf();
 		if (player.getName().equals(this.name)) {
 			player.setChained(this.chained);

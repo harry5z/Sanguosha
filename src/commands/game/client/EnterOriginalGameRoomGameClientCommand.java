@@ -1,16 +1,14 @@
 package commands.game.client;
 
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
-import commands.game.server.ingame.InGameServerCommand;
+import commands.game.client.sync.SyncGameUIClientCommand;
 import core.client.ClientFrame;
 import core.client.GamePanelOriginal;
 import core.player.PlayerInfo;
 import net.Connection;
 
-public class EnterOriginalGameRoomGameClientCommand implements GameClientCommand {
+public class EnterOriginalGameRoomGameClientCommand implements SyncGameUIClientCommand {
 	
 	private static final long serialVersionUID = 1094417892948875381L;
 	
@@ -26,13 +24,4 @@ public class EnterOriginalGameRoomGameClientCommand implements GameClientCommand
 		ui.onNewPanelDisplayed(new GamePanelOriginal(self, players, connection));
 	}
 	
-	@Override
-	public UUID generateResponseID(String name) {
-		return null;
-	}
-	@Override
-	public Set<Class<? extends InGameServerCommand>> getAllowedResponseTypes() {
-		return null;
-	}
-
 }

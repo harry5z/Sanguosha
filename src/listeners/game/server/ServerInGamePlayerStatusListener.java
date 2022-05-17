@@ -15,18 +15,18 @@ import commands.game.client.sync.status.SyncWineUsedGameUIClientCommand;
 import commands.game.client.sync.status.SyncWineUsedSetGameUIClientCommand;
 import core.player.Player;
 import core.player.PlayerState;
-import core.server.GameRoom;
+import core.server.SyncController;
 import listeners.game.PlayerStatusListener;
 
 public class ServerInGamePlayerStatusListener extends ServerInGamePlayerListener implements PlayerStatusListener {
 
-	public ServerInGamePlayerStatusListener(String name, Set<String> allNames, GameRoom room) {
-		super(name, allNames, room);
+	public ServerInGamePlayerStatusListener(String name, Set<String> allNames, SyncController controller) {
+		super(name, allNames, controller);
 	}
 
 	@Override
 	public void onWineUsed() {
-		room.sendCommandToPlayers(
+		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
@@ -37,29 +37,29 @@ public class ServerInGamePlayerStatusListener extends ServerInGamePlayerListener
 
 	@Override
 	public void onAttackUsed(Set<? extends Player> targets) {
-		room.sendCommandToPlayer(name, new SyncAttackUsedGameUIClientCommand(
+		controller.sendSyncCommandToPlayer(name, new SyncAttackUsedGameUIClientCommand(
 			targets.stream().map(player -> player.getPlayerInfo()).collect(Collectors.toSet())
 		));
 	}
 
 	@Override
 	public void onSetAttackLimit(int limit) {
-		room.sendCommandToPlayer(name, new SyncAttackLimitsSetGameUIClientCommand(limit));
+		controller.sendSyncCommandToPlayer(name, new SyncAttackLimitsSetGameUIClientCommand(limit));
 	}
 
 	@Override
 	public void onSetAttackUsed(int amount) {
-		room.sendCommandToPlayer(name, new SyncAttackUsedSetGameUIClientCommand(amount));
+		controller.sendSyncCommandToPlayer(name, new SyncAttackUsedSetGameUIClientCommand(amount));
 	}
 
 	@Override
 	public void onSetWineUsed(int amount) {
-		room.sendCommandToPlayer(name, new SyncWineUsedSetGameUIClientCommand(amount));
+		controller.sendSyncCommandToPlayer(name, new SyncWineUsedSetGameUIClientCommand(amount));
 	}
 	
 	@Override
 	public void onResetWineEffective() {
-		room.sendCommandToPlayers(
+		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
@@ -70,7 +70,7 @@ public class ServerInGamePlayerStatusListener extends ServerInGamePlayerListener
 
 	@Override
 	public void onFlip(boolean flipped) {
-		room.sendCommandToPlayers(
+		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
@@ -81,12 +81,12 @@ public class ServerInGamePlayerStatusListener extends ServerInGamePlayerListener
 	
 	@Override
 	public void onChained(boolean chained) {
-		room.sendCommandToAllPlayers(new SyncChainGameUIClientCommand(this.name, chained));
+		controller.sendSyncCommandToAllPlayers(new SyncChainGameUIClientCommand(this.name, chained));
 	}
 
 	@Override
 	public void onPlayerStateUpdated(PlayerState state, int value) {
-		room.sendCommandToPlayer(name, new SyncPlayerStateGameUIClientCommand(state, value));
+		controller.sendSyncCommandToPlayer(name, new SyncPlayerStateGameUIClientCommand(state, value));
 	}
 
 }

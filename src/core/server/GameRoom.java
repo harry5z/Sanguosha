@@ -8,7 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import commands.game.client.GameClientCommand;
+import commands.game.client.PlayerActionGameClientCommand;
+import commands.game.client.sync.SyncGameUIClientCommand;
 import commands.game.server.ingame.InGameServerCommand;
 import core.player.PlayerInfo;
 import core.server.game.Game;
@@ -18,7 +19,7 @@ import net.Connection;
 import net.server.ServerEntity;
 import utils.Log;
 
-public class GameRoom extends ServerEntity implements ConnectionController {
+public class GameRoom extends ServerEntity implements SyncController {
 	
 	private final Room room;
 	private final Game game;
@@ -66,7 +67,7 @@ public class GameRoom extends ServerEntity implements ConnectionController {
 		game.resume();
 	}
 	
-	public synchronized void sendActionCommandToAllPlayers(GameClientCommand command) {
+	public synchronized void sendActionCommandToAllPlayers(PlayerActionGameClientCommand command) {
 		this.allowedResponseTypes.clear();
 		this.allowedResponseTypes.addAll(command.getAllowedResponseTypes());
 		this.connectionMap.forEach((name, connection) -> {
@@ -76,21 +77,21 @@ public class GameRoom extends ServerEntity implements ConnectionController {
 	}
 	
 	@Override
-	public synchronized void sendCommandToAllPlayers(GameClientCommand command) {
+	public synchronized void sendSyncCommandToAllPlayers(SyncGameUIClientCommand command) {
 		this.connectionMap.forEach((name, connection) -> {
 			connection.send(command);
 		});
 	}
 	
 	@Override
-	public synchronized void sendCommandToPlayers(Map<String, GameClientCommand> commands) {
+	public synchronized void sendSyncCommandToPlayers(Map<String, SyncGameUIClientCommand> commands) {
 		commands.forEach((name, command) -> {
 			this.connectionMap.get(name).send(command);
 		});
 	}
 	
 	@Override
-	public synchronized void sendCommandToPlayer(String name, GameClientCommand command) {
+	public synchronized void sendSyncCommandToPlayer(String name, SyncGameUIClientCommand command) {
 		this.connectionMap.get(name).send(command);
 	}
 	

@@ -8,7 +8,7 @@ public class SyncDisposalAreaRefreshGameUIClientCommand extends AbstractSyncGame
 	private static final long serialVersionUID = 279006683296367016L;
 
 	@Override
-	protected void execute(GamePanel panel) {
+	protected void sync(GamePanel panel) {
 		panel.getGameState().getSelf().clearDisposalArea();
 	}
 

@@ -24,7 +24,7 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 	@Override
 	public void onCardUsed(Card card) {
 		this.deck.discard(card);
-		room.sendCommandToPlayers(
+		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
@@ -37,7 +37,7 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 	public void onCardDisposed(Card card) {
 		// TODO: some abilities might affect disposed cards
 		this.deck.discard(card);
-		room.sendCommandToPlayers(
+		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
@@ -48,7 +48,7 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 	
 	@Override
 	public void onCardShown(Card card) {
-		room.sendCommandToPlayers(
+		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
@@ -59,7 +59,7 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 
 	@Override
 	public void refresh() {
-		room.sendCommandToPlayers(
+		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 

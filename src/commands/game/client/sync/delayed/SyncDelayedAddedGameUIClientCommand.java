@@ -22,7 +22,7 @@ public class SyncDelayedAddedGameUIClientCommand extends AbstractSyncGameUIClien
 	}
 
 	@Override
-	protected void execute(GamePanel panel) {
+	protected void sync(GamePanel panel) {
 		if (panel.getGameState().getSelf().getName().equals(this.name)) {
 			if (this.add) {
 				panel.getGameState().getSelf().pushDelayed(this.card, this.type);

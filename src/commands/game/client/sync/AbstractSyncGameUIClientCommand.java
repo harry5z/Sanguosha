@@ -1,24 +1,25 @@
 package commands.game.client.sync;
 
-import java.util.Set;
-import java.util.UUID;
+import core.client.ClientFrame;
+import core.client.GamePanel;
+import net.Connection;
 
-import commands.game.client.AbstractGameUIClientCommand;
-import commands.game.server.ingame.InGameServerCommand;
-
-public abstract class AbstractSyncGameUIClientCommand extends AbstractGameUIClientCommand {
+public abstract class AbstractSyncGameUIClientCommand implements SyncGameUIClientCommand {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public UUID generateResponseID(String name) {
-		// Sync commands do not allow responses
-		return null;
+	public final void execute(ClientFrame frame, Connection connection) {
+		try {
+			// A GamePanel should have already been set up. If not, it's an error
+			this.sync((GamePanel) frame.getPanel());
+		} catch (Exception e) {
+			// TODO handle command error
+			e.printStackTrace();
+			throw new RuntimeException("SyncGameUIClientCommand received while no Game UI available");
+		}
 	}
-	
-	@Override
-	public Set<Class<? extends InGameServerCommand>> getAllowedResponseTypes() {
-		return null;
-	}
+
+	protected abstract void sync(GamePanel panel);
 
 }

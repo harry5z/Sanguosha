@@ -20,7 +20,7 @@ public class SyncAttackUsedGameUIClientCommand extends AbstractSyncGameUIClientC
 	
 
 	@Override
-	protected void execute(GamePanel panel) {
+	protected void sync(GamePanel panel) {
 		try {
 			panel.getGameState().getSelf().useAttack(
 				this.targets.stream().map(info -> panel.getGameState().getPlayer(info.getName())).collect(Collectors.toSet())

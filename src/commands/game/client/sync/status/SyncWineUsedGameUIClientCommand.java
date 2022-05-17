@@ -15,7 +15,7 @@ public class SyncWineUsedGameUIClientCommand extends AbstractSyncGameUIClientCom
 	}
 	
 	@Override
-	protected void execute(GamePanel panel) {
+	protected void sync(GamePanel panel) {
 		if (panel.getGameState().getSelf().getName().equals(name)) {
 			try {
 				panel.getGameState().getSelf().useWine();
