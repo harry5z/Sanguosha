@@ -33,8 +33,7 @@ public class AxeGameController extends AbstractPlayerDecisionActionGameControlle
 
 	@Override
 	protected void handleDecisionRequest(GameInternal game) throws GameFlowInterruptedException {
-		game.getConnectionController().sendCommandToAllPlayers(new AxeAbilityGameClientCommand(this.source.getPlayerInfo()));
-		throw new GameFlowInterruptedException();		
+		throw new GameFlowInterruptedException(new AxeAbilityGameClientCommand(this.source.getPlayerInfo()));		
 	}
 
 	@Override

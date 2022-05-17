@@ -21,13 +21,12 @@ public class DuelGameController extends SingleTargetInstantSpecialGameController
 	@Override
 	protected void takeEffect(GameInternal game) throws GameFlowInterruptedException {
 		// Ask current attack user to use Attack
-		game.getConnectionController().sendCommandToAllPlayers(
+		throw new GameFlowInterruptedException(
 			new RequestAttackGameUIClientCommand(
 				this.currentAttackUser.getPlayerInfo(),
 				"Duel: it is your turn to use Attack."
 			)
 		);
-		throw new GameFlowInterruptedException();
 	}
 	
 

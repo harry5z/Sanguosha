@@ -168,7 +168,9 @@ public class GameImpl implements Game {
 					this.controllers.peek().proceed(this);
 				}
 			} catch (GameFlowInterruptedException e) {
-				e.resume();
+				if (e.getCommand() != null) {
+					room.sendCommandToAllPlayers(e.getCommand());
+				}
 				break;
 			}
 		}

@@ -1,5 +1,7 @@
 package exceptions.server.game;
 
+import commands.game.client.GameClientCommand;
+
 /**
  * 
  * In a {@link core.server.game.controllers.GameController GameController}, there could be multiple steps where the game requires player input (or timeout).
@@ -16,18 +18,18 @@ public class GameFlowInterruptedException extends Exception {
 	
 	private static final long serialVersionUID = -1L;
 	
-	private final Runnable callback;
+	private final GameClientCommand command;
 	
-	public GameFlowInterruptedException() {
-		this.callback = () -> {};
+	public GameFlowInterruptedException(GameClientCommand command) {
+		this.command = command;
 	}
 	
-	public GameFlowInterruptedException(Runnable callback) {
-		this.callback = callback;
+	/**
+	 * 
+	 * @return the command to be sent to all players, or null if no command
+	 */
+	public GameClientCommand getCommand() {
+		return command;
 	}
 	
-	public void resume() {
-		this.callback.run();
-	}
-
 }

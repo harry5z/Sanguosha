@@ -30,11 +30,12 @@ public class TaichiFormationGameController
 	
 	@Override
 	protected void handleDecisionRequest(GameInternal game) throws GameFlowInterruptedException {
-		game.getConnectionController().sendCommandToAllPlayers(new DecisionUIClientCommand(
-			this.target.getPlayerInfo(),
-			"Use Taichi Formation?"
-		));
-		throw new GameFlowInterruptedException();		
+		throw new GameFlowInterruptedException(
+			new DecisionUIClientCommand(
+				this.target.getPlayerInfo(),
+				"Use Taichi Formation?"
+			)
+		);		
 	}
 
 	@Override

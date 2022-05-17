@@ -48,13 +48,12 @@ public class IcySwordGameController
 
 	@Override
 	protected void handleDecisionRequest(GameInternal game) throws GameFlowInterruptedException {
-		game.getConnectionController().sendCommandToAllPlayers(
+		throw new GameFlowInterruptedException(
 			new DecisionUIClientCommand(
 				source.getPlayerInfo(),
 				"Icy Sword: Use to prevent damage and discard 2 cards from target?"
 			)
-		);
-		throw new GameFlowInterruptedException();		
+		);		
 	}
 
 	@Override
@@ -73,7 +72,7 @@ public class IcySwordGameController
 		if (!this.discardCompleted) {
 			// stay in Action stage while discard is not completed
 			this.setStage(PlayerDecisionAction.ACTION);
-			game.getConnectionController().sendCommandToAllPlayers(
+			throw new GameFlowInterruptedException(
 				new ShowCardSelectionPanelUIClientCommand(
 					source.getPlayerInfo(),
 					target.getPlayerInfo(),
@@ -81,7 +80,6 @@ public class IcySwordGameController
 					Arrays.asList(EquipmentType.values())
 				)
 			);
-			throw new GameFlowInterruptedException();
 		}		
 	}
 	

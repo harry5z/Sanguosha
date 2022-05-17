@@ -29,10 +29,9 @@ public class FeatheredFanGameController extends AbstractPlayerDecisionActionGame
 
 	@Override
 	protected void handleDecisionRequest(GameInternal game) throws GameFlowInterruptedException {
-		game.getConnectionController().sendCommandToAllPlayers(
+		throw new GameFlowInterruptedException(
 			new DecisionUIClientCommand(this.source.getPlayerInfo(), "Use Feathered Fan?")
-		);
-		throw new GameFlowInterruptedException();		
+		);		
 	}
 
 	@Override

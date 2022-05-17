@@ -46,10 +46,9 @@ public class DodgeGameController extends AbstractGameController<DodgeGameControl
 				game.emit(new DodgeTargetEquipmentCheckEvent(this, this.target.getPlayerInfo()));
 				break;
 			case DODGE:
-				game.getConnectionController().sendCommandToAllPlayers(
+				throw new GameFlowInterruptedException(
 					new RequestDodgeGameUIClientCommand(target.getPlayerInfo(), message)
 				);
-				throw new GameFlowInterruptedException();
 			case AFTER_DODGED_SKILLS:
 				// nothing here yet
 				this.nextStage();

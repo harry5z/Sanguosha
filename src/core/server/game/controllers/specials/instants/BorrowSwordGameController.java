@@ -28,18 +28,18 @@ public class BorrowSwordGameController
 	
 	@Override
 	protected void takeEffect(GameInternal game) throws GameFlowInterruptedException {
+		// depending on the rule, may also need to check attack range at this point
 		if (!this.target.isEquipped(EquipmentType.WEAPON)) {
 			this.nextStage();
 			return;
 		}
 
-		game.getConnectionController().sendCommandToAllPlayers(
+		throw new GameFlowInterruptedException(
 			new RequestAttackGameUIClientCommand(
 				this.target.getPlayerInfo(),
 				"Use Attack on " + this.attackTarget + " or else " + this.source + " takes your weapon"
 			)
 		);
-		throw new GameFlowInterruptedException();
 	}
 
 	@Override

@@ -31,7 +31,7 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 			this.nextStage();
 			return;
 		}
-		game.getConnectionController().sendCommandToAllPlayers(
+		throw new GameFlowInterruptedException(
 			new ShowCardSelectionPanelUIClientCommand(
 				source.getPlayerInfo(),
 				target.getPlayerInfo(),
@@ -39,7 +39,6 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 				Arrays.asList(EquipmentType.values())
 			)
 		);
-		throw new GameFlowInterruptedException();
 	}
 	
 	@Override

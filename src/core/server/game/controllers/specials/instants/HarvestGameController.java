@@ -28,13 +28,12 @@ public class HarvestGameController extends AbstractMultiTargetInstantSpecialGame
 	
 	@Override
 	protected void takeEffect(GameInternal game) throws GameFlowInterruptedException {
-		game.getConnectionController().sendCommandToAllPlayers(
+		throw new GameFlowInterruptedException(
 			new ShowHarvestCardSelectionPaneUIClientCommand(
 				this.currentTarget.getPlayerInfo(),
 				new HashMap<>(this.selectableCards)
 			)
 		);
-		throw new GameFlowInterruptedException();
 	}
 	
 	@Override

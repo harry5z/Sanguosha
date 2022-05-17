@@ -31,11 +31,12 @@ public abstract class SingleTargetInstantSpecialGameController extends AbstractI
 					this.nextStage();
 				} else {
 					if (this.nullifiedCount == 0) {
-						game.getConnectionController().sendCommandToAllPlayers(
+						throw new GameFlowInterruptedException(
 							new RequestNullificationGameUIClientCommand(getNullificationMessage())
 						);
+					} else {
+						throw new GameFlowInterruptedException(null);
 					}
-					throw new GameFlowInterruptedException();
 				}
 				break;
 			case EFFECT:

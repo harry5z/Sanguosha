@@ -33,13 +33,12 @@ public class KylinBowGameController
 	
 	@Override
 	protected void handleDecisionRequest(GameInternal game) throws GameFlowInterruptedException {
-		game.getConnectionController().sendCommandToAllPlayers(
+		throw new GameFlowInterruptedException(
 			new DecisionUIClientCommand(
 				source.getPlayerInfo(),
 				"Kylin Bow: Use to discard an equipped horse from target?"
-			)
-		);
-		throw new GameFlowInterruptedException();		
+			)		
+		);		
 	}
 
 	@Override
@@ -52,15 +51,14 @@ public class KylinBowGameController
 
 	@Override
 	protected void handleAction(GameInternal game) throws GameFlowInterruptedException {
-		game.getConnectionController().sendCommandToAllPlayers(
+		throw new GameFlowInterruptedException(
 			new ShowCardSelectionPanelUIClientCommand(
 				source.getPlayerInfo(),
 				target.getPlayerInfo(),
 				Set.of(PlayerCardZone.EQUIPMENT),
 				Set.of(EquipmentType.HORSEPLUS, EquipmentType.HORSEMINUS)
 			)
-		);
-		throw new GameFlowInterruptedException();		
+		);		
 	}
 
 	@Override

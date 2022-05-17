@@ -31,7 +31,7 @@ public class StealGameController extends SingleTargetInstantSpecialGameControlle
 			this.nextStage();
 			return;
 		}
-		game.getConnectionController().sendCommandToAllPlayers(
+		throw new GameFlowInterruptedException(
 			new ShowCardSelectionPanelUIClientCommand(
 				source.getPlayerInfo(),
 				target.getPlayerInfo(),
@@ -39,7 +39,6 @@ public class StealGameController extends SingleTargetInstantSpecialGameControlle
 				Arrays.asList(EquipmentType.values())
 			)
 		);
-		throw new GameFlowInterruptedException();
 	}
 	
 	@Override

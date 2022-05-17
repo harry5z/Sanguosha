@@ -31,27 +31,25 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 				this.nextStage();
 				return;
 			}
-			game.getConnectionController().sendCommandToAllPlayers(
+			throw new GameFlowInterruptedException(
 				new RequestShowCardGameUIClientCommand(
 					this.target.getPlayerInfo(),
 					this.source + " used Fire Attack on you, please show a card."
 				)
 			);
-			throw new GameFlowInterruptedException();
 		} else {
 			// ineffective if source has no card left on hand
 			if (this.source.getHandCount() == 0) {
 				this.nextStage();
 				return;
 			}
-			game.getConnectionController().sendCommandToAllPlayers(
+			throw new GameFlowInterruptedException(
 				new RequestUseCardGameUIClientCommand(
 					source.getPlayerInfo(),
 					"Discard a card of suit " + shownCard.getSuit().toString() + " to finish Fire Attack?",
 					RequestUseCardFilter.sameSuit(shownCard.getSuit())
 				)
 			);
-			throw new GameFlowInterruptedException();
 		}
 	}
 	

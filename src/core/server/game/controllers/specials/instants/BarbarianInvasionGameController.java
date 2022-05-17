@@ -27,13 +27,12 @@ public class BarbarianInvasionGameController extends AbstractMultiTargetInstantS
 	@Override
 	protected void takeEffect(GameInternal game) throws GameFlowInterruptedException {
 		if (!this.hasReacted) {
-			game.getConnectionController().sendCommandToAllPlayers(
+			throw new GameFlowInterruptedException(
 				new RequestAttackGameUIClientCommand(
 					this.currentTarget.getPlayerInfo(),
 					this.source + " used Barbarian Invasion on you, use Attack to counter?"
 				)
-			);
-			throw new GameFlowInterruptedException();
+			); 
 		} else {
 			this.nextStage();
 			this.hasReacted = false;

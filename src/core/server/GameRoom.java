@@ -54,7 +54,7 @@ public class GameRoom extends ServerEntity implements ConnectionController {
 			Log.error("GameRoom", "Player response UUID mismatch");
 			return;
 		}
-		this.allowedResponses.clear(); // clear all allowed responses once a valid response is received
+		this.allowedResponses.remove(connection); // clear UUID once a valid response is received
 		game.pushGameController(command.getGameController());
 		game.resume();
 	}
