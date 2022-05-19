@@ -1,5 +1,6 @@
 package ui.game;
 
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -32,6 +33,7 @@ public class HeroGui extends JPanel implements HeroUI {
 	public static final int HEIGHT = WIDTH;
 	private boolean activated = false;
 	private boolean chained = false;
+	private boolean wineUsed = false;
 	private BufferedImage chainedImage;
 	private SkillBarGui skillBar = null;
 	private final GamePanel panel;
@@ -104,6 +106,13 @@ public class HeroGui extends JPanel implements HeroUI {
 		g.setColor(activated ? Color.RED : Color.BLACK);
 		((Graphics2D) g).setStroke(new BasicStroke(Constants.BORDER_WIDTH));
 		g.drawRect(0, 0, WIDTH, HEIGHT);
+		
+		if (wineUsed) {
+			g.setColor(Color.RED);
+			AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 0.3);
+			((Graphics2D) g).setComposite(ac);
+			g.fillRect(0, 0, WIDTH, HEIGHT - SkillBarGui.HEIGHT);
+		}
 	}
 
 	@Override
@@ -123,12 +132,14 @@ public class HeroGui extends JPanel implements HeroUI {
 
 	@Override
 	public void setWineUsed(boolean used) {
-		// nothing to show
+		this.wineUsed = used;
+		repaint();
 	}
 
 	@Override
 	public void onWineUsed() {
-		// TODO implement - make hero image red
+		this.wineUsed = true;
+		repaint();
 	}
 
 	@Override
@@ -153,7 +164,8 @@ public class HeroGui extends JPanel implements HeroUI {
 
 	@Override
 	public void onResetWineEffective() {
-		// TODO: clear hero image red layer
+		this.wineUsed = false;
+		repaint();
 	}
 
 	@Override

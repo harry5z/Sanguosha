@@ -1,5 +1,6 @@
 package ui.game;
 
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -47,6 +48,7 @@ public class PlayerGui extends JPanel implements PlayerUI {
 	private PlayerSimple player;
 	private boolean activated = false;
 	private boolean chained = false;
+	private boolean wineUsed = false;
 	private BufferedImage chainedImage;
 	private CountdownBarGui countdownBar;
 	private JButton heroButton;
@@ -294,6 +296,13 @@ public class PlayerGui extends JPanel implements PlayerUI {
 		g.setColor(activated ? Color.RED : Color.BLACK);
 		((Graphics2D) g).setStroke(new BasicStroke(Constants.BORDER_WIDTH));
 		g.drawRect(0, 0, WIDTH, HEIGHT);
+		
+		if (wineUsed) {
+			g.setColor(Color.RED);
+			AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 0.3);
+			((Graphics2D) g).setComposite(ac);
+			g.fillRect(0, NAMETAG_HEIGHT, WIDTH, PICTURE_HEIGHT);
+		}
 	}
 
 	@Override
@@ -308,7 +317,8 @@ public class PlayerGui extends JPanel implements PlayerUI {
 
 	@Override
 	public void setWineUsed(boolean used) {
-		// TODO implement (ui)
+		this.wineUsed = used;
+		repaint();
 	}
 
 	@Override
