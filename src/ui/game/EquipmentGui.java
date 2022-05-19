@@ -22,10 +22,10 @@ public class EquipmentGui extends JButton implements EquipmentUI {
 	private Equipment equipment;
 	private boolean activated;
 
-	public EquipmentGui(int verticalLocation) {
+	public EquipmentGui(int verticalLocation, int fontSize) {
 		setSize(WIDTH, HEIGHT);
 		setLocation(0, verticalLocation);
-		setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
+		setFont(new Font(Font.MONOSPACED, Font.BOLD, fontSize));
 		this.setHorizontalAlignment(JButton.CENTER);
 		setEnabled(false);
 		this.activated = false;

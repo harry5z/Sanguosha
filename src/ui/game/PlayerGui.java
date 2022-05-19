@@ -62,8 +62,7 @@ public class PlayerGui extends JPanel implements PlayerUI {
 		name.setHorizontalAlignment(JLabel.CENTER);
 		add(name);
 		
-		// TODO change name to hero name
-		heroButton = new JButton("TEMP");
+		heroButton = new JButton();
 		heroButton.setSize(WIDTH, PICTURE_HEIGHT);
 		heroButton.setLocation(0, NAMETAG_HEIGHT);
 		heroButton.setEnabled(false);
@@ -93,14 +92,12 @@ public class PlayerGui extends JPanel implements PlayerUI {
 		add(countdownBar);
 		
 		player.registerHeroListener(new HeroListener() {
-			
 			@Override
 			public void onHeroRegistered(Hero hero) {
-				// TODO fill with real player UI hero listener
+				heroButton.setText(hero.getName());
 			}
 		});
 
-		
 		try {
 			this.chainedImage = ImageIO.read(getClass().getResource("cards/chained.png"));
 		} catch (IOException e1) {
@@ -201,10 +198,10 @@ public class PlayerGui extends JPanel implements PlayerUI {
 			setSize(WIDTH, HEIGHT);
 			setLayout(null);
 			setLocation(0, PlayerGui.HEIGHT - HEIGHT);
-			weapon = new EquipmentGui(0);
-			shield = new EquipmentGui(PlayerGui.EQUIPMENTBAR_HEIGHT);
-			horsePlus = new EquipmentGui(2 * PlayerGui.EQUIPMENTBAR_HEIGHT);
-			horseMinus = new EquipmentGui(3 * PlayerGui.EQUIPMENTBAR_HEIGHT);
+			weapon = new EquipmentGui(0, 10);
+			shield = new EquipmentGui(PlayerGui.EQUIPMENTBAR_HEIGHT, 10);
+			horsePlus = new EquipmentGui(2 * PlayerGui.EQUIPMENTBAR_HEIGHT, 10);
+			horseMinus = new EquipmentGui(3 * PlayerGui.EQUIPMENTBAR_HEIGHT, 10);
 			weapon.setSize(WIDTH, PlayerGui.EQUIPMENTBAR_HEIGHT);
 			shield.setSize(WIDTH, PlayerGui.EQUIPMENTBAR_HEIGHT);
 			horsePlus.setSize(WIDTH, PlayerGui.EQUIPMENTBAR_HEIGHT);

@@ -46,10 +46,13 @@ public class DealOperation extends AbstractOperation {
 				cardUI.setActivatable(true);
 			}
 		}
+		panelUI.setMessage("It is your turn to deal");
 		panelUI.setEndEnabled(true); // This should be the only class where setEndEnabled is called
 		this.panel.emit(new EnableAttackClientGameEvent(true));
 		this.panel.emit(new DealClientGameEvent(true));
 	}
+	
+	
 	
 	@Override
 	public void onUnloaded() {

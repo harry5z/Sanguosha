@@ -36,19 +36,19 @@ public class EquipmentRackGui extends JPanel implements EquipmentListener, Equip
 		setSize(WIDTH, HEIGHT);
 		setLayout(null);
 		setLocation(0, GamePanelGui.HEIGHT - HEIGHT);
-		weapon = new EquipmentGui(0);
+		weapon = new EquipmentGui(0, 20);
 		weapon.addActionListener(e -> {
 			this.weaponAction.accept(weapon);
 		});
-		shield = new EquipmentGui(EquipmentGui.HEIGHT);
+		shield = new EquipmentGui(EquipmentGui.HEIGHT, 20);
 		shield.addActionListener(e -> {
 			this.shieldAction.accept(shield);
 		});
-		horsePlus = new EquipmentGui(2 * EquipmentGui.HEIGHT);
+		horsePlus = new EquipmentGui(2 * EquipmentGui.HEIGHT, 20);
 		horsePlus.addActionListener(e -> {
 			this.horsePlusAction.accept(horsePlus);
 		});
-		horseMinus = new EquipmentGui(3 * EquipmentGui.HEIGHT);
+		horseMinus = new EquipmentGui(3 * EquipmentGui.HEIGHT, 20);
 		horseMinus.addActionListener(e -> {
 			this.horseMinusAction.accept(horseMinus);
 		});
