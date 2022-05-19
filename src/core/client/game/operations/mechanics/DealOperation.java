@@ -60,6 +60,7 @@ public class DealOperation extends AbstractOperation {
 		for(CardUI cardUI : panelUI.getCardRackUI().getCardUIs()) {
 			cardUI.setActivatable(false);
 		}
+		panelUI.clearMessage();
 		this.panel.emit(new EnableAttackClientGameEvent(false));
 		this.panel.emit(new DealClientGameEvent(false));
 	}
