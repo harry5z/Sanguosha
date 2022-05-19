@@ -2,13 +2,13 @@ package commands.game.client;
 
 import java.util.List;
 
-import commands.game.client.sync.SyncGameUIClientCommand;
+import commands.game.client.sync.SyncGameClientCommand;
 import core.client.ClientFrame;
 import core.client.GamePanelOriginal;
 import core.player.PlayerInfo;
 import net.Connection;
 
-public class EnterOriginalGameRoomGameClientCommand implements SyncGameUIClientCommand {
+public class EnterOriginalGameRoomGameClientCommand implements SyncGameClientCommand {
 	
 	private static final long serialVersionUID = 1094417892948875381L;
 	

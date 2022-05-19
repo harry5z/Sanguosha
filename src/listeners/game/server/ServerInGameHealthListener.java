@@ -3,10 +3,10 @@ package listeners.game.server;
 import java.util.Set;
 
 import commands.game.client.sync.SyncCommandsUtil;
-import commands.game.client.sync.health.SyncDeathGameUIClientCommand;
-import commands.game.client.sync.health.SyncHealthCurrentChangedGameUIClientCommand;
-import commands.game.client.sync.health.SyncHealthCurrentGameUIClientCommand;
-import commands.game.client.sync.health.SyncHealthLimitGameUIClientCommand;
+import commands.game.client.sync.player.SyncDeathGameClientCommand;
+import commands.game.client.sync.player.SyncHealthCurrentChangedGameClientCommand;
+import commands.game.client.sync.player.SyncHealthCurrentGameClientCommand;
+import commands.game.client.sync.player.SyncHealthLimitGameClientCommand;
 import core.server.SyncController;
 import listeners.game.HealthListener;
 
@@ -22,7 +22,7 @@ public class ServerInGameHealthListener extends ServerInGamePlayerListener imple
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
-				new SyncHealthLimitGameUIClientCommand(name, limit)
+				new SyncHealthLimitGameClientCommand(name, limit)
 			)
 		);
 	}
@@ -33,7 +33,7 @@ public class ServerInGameHealthListener extends ServerInGamePlayerListener imple
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
-				new SyncHealthCurrentGameUIClientCommand(name, current)
+				new SyncHealthCurrentGameClientCommand(name, current)
 			)
 		);
 	}
@@ -44,7 +44,7 @@ public class ServerInGameHealthListener extends ServerInGamePlayerListener imple
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
-				new SyncHealthCurrentChangedGameUIClientCommand(name, amount)
+				new SyncHealthCurrentChangedGameClientCommand(name, amount)
 			)
 		);		
 	}
@@ -55,7 +55,7 @@ public class ServerInGameHealthListener extends ServerInGamePlayerListener imple
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
-				new SyncDeathGameUIClientCommand(name)
+				new SyncDeathGameClientCommand(name)
 			)
 		);	
 	}

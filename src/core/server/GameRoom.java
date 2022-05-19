@@ -11,7 +11,7 @@ import java.util.TimerTask;
 import java.util.UUID;
 
 import commands.game.client.PlayerActionGameClientCommand;
-import commands.game.client.sync.SyncGameUIClientCommand;
+import commands.game.client.sync.SyncGameClientCommand;
 import commands.game.server.ingame.InGameServerCommand;
 import core.player.PlayerInfo;
 import core.server.game.Game;
@@ -114,21 +114,21 @@ public class GameRoom extends ServerEntity implements SyncController {
 	}
 	
 	@Override
-	public synchronized void sendSyncCommandToAllPlayers(SyncGameUIClientCommand command) {
+	public synchronized void sendSyncCommandToAllPlayers(SyncGameClientCommand command) {
 		this.connectionMap.forEach((name, connection) -> {
 			connection.send(command);
 		});
 	}
 	
 	@Override
-	public synchronized void sendSyncCommandToPlayers(Map<String, SyncGameUIClientCommand> commands) {
+	public synchronized void sendSyncCommandToPlayers(Map<String, SyncGameClientCommand> commands) {
 		commands.forEach((name, command) -> {
 			this.connectionMap.get(name).send(command);
 		});
 	}
 	
 	@Override
-	public synchronized void sendSyncCommandToPlayer(String name, SyncGameUIClientCommand command) {
+	public synchronized void sendSyncCommandToPlayer(String name, SyncGameClientCommand command) {
 		this.connectionMap.get(name).send(command);
 	}
 	

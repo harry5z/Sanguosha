@@ -1,12 +1,12 @@
-package commands.game.client.sync;
+package commands.game.client.sync.ui;
 
 import java.util.Map;
 
 import cards.Card;
-import core.client.GamePanel;
 import ui.game.custom.HarvestSelectionPane;
+import ui.game.interfaces.GameUI;
 
-public class SyncHarvestCardSelectionPaneGameUIClientCommand extends AbstractSyncGameUIClientCommand {
+public class SyncHarvestCardSelectionPaneGameUIClientCommand extends AbstractCustomGameUIClientCommand {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -17,8 +17,8 @@ public class SyncHarvestCardSelectionPaneGameUIClientCommand extends AbstractSyn
 	}
 
 	@Override
-	protected void sync(GamePanel panel) {
-		panel.getGameUI().removeSelectionPane();
+	protected void sync(GameUI ui) {
+		ui.removeSelectionPane();
 		
 		// clear selection pane command
 		if (this.selectableCards == null) {
@@ -26,7 +26,7 @@ public class SyncHarvestCardSelectionPaneGameUIClientCommand extends AbstractSyn
 		}
 		
 		// sync selection status command
-		panel.getGameUI().displayCustomizedSelectionPaneAtCenter(new HarvestSelectionPane(this.selectableCards, null, null));
+		ui.displayCustomizedSelectionPaneAtCenter(new HarvestSelectionPane(this.selectableCards, null, null));
 	}
 
 }

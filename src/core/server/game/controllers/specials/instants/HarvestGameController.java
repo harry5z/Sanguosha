@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import cards.Card;
 import commands.game.client.ShowHarvestCardSelectionPaneUIClientCommand;
-import commands.game.client.sync.SyncHarvestCardSelectionPaneGameUIClientCommand;
+import commands.game.client.sync.ui.SyncHarvestCardSelectionPaneGameUIClientCommand;
 import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.GenericAOEInstantSpecialTargetEffectivenessEvent;
 import core.player.PlayerCardZone;

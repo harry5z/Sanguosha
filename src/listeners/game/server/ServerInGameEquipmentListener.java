@@ -5,8 +5,8 @@ import java.util.Set;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
 import commands.game.client.sync.SyncCommandsUtil;
-import commands.game.client.sync.equipment.SyncEquipGameUIClientCommand;
-import commands.game.client.sync.equipment.SyncUnequipGameUIClientCommand;
+import commands.game.client.sync.player.SyncEquipGameClientCommand;
+import commands.game.client.sync.player.SyncUnequipGameClientCommand;
 import core.server.SyncController;
 import listeners.game.EquipmentListener;
 
@@ -22,7 +22,7 @@ public class ServerInGameEquipmentListener extends ServerInGamePlayerListener im
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
-				new SyncEquipGameUIClientCommand(name, equipment)
+				new SyncEquipGameClientCommand(name, equipment)
 			)
 		);
 	}
@@ -33,7 +33,7 @@ public class ServerInGameEquipmentListener extends ServerInGamePlayerListener im
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
-				new SyncUnequipGameUIClientCommand(name, type)
+				new SyncUnequipGameClientCommand(name, type)
 			)	
 		);
 	}

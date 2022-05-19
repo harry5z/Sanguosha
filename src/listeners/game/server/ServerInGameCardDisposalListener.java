@@ -4,10 +4,10 @@ import java.util.Set;
 
 import cards.Card;
 import commands.game.client.sync.SyncCommandsUtil;
-import commands.game.client.sync.disposal.SyncCardDisposedGameUIClientCommand;
-import commands.game.client.sync.disposal.SyncCardShownGameUIClientCommand;
-import commands.game.client.sync.disposal.SyncCardUsedGameUIClientCommand;
-import commands.game.client.sync.disposal.SyncDisposalAreaRefreshGameUIClientCommand;
+import commands.game.client.sync.player.SyncCardDisposedGameClientCommand;
+import commands.game.client.sync.player.SyncCardShownGameClientCommand;
+import commands.game.client.sync.player.SyncCardUsedGameClientCommand;
+import commands.game.client.sync.player.SyncDisposalAreaRefreshGameClientCommand;
 import core.Deck;
 import core.server.GameRoom;
 import listeners.game.CardDisposalListener;
@@ -28,7 +28,7 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
-				new SyncCardUsedGameUIClientCommand(name, card)
+				new SyncCardUsedGameClientCommand(name, card)
 			)
 		);
 	}
@@ -41,7 +41,7 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
-				new SyncCardDisposedGameUIClientCommand(name, card)
+				new SyncCardDisposedGameClientCommand(name, card)
 			)
 		);
 	}
@@ -52,7 +52,7 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
-				new SyncCardShownGameUIClientCommand(name, card)
+				new SyncCardShownGameClientCommand(name, card)
 			)
 		);
 	}
@@ -63,7 +63,7 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
-				new SyncDisposalAreaRefreshGameUIClientCommand()
+				new SyncDisposalAreaRefreshGameClientCommand()
 			)
 		);
 	}

@@ -3,7 +3,7 @@ package listeners.game.server;
 import java.util.Set;
 
 import cards.Card;
-import commands.game.client.sync.delayed.SyncDelayedAddedGameUIClientCommand;
+import commands.game.client.sync.player.SyncDelayedAddedGameClientCommand;
 import core.server.SyncController;
 import listeners.game.DelayedListener;
 import utils.DelayedType;
@@ -16,12 +16,12 @@ public class ServerInGameDelayedListener extends ServerInGamePlayerListener impl
 
 	@Override
 	public void onDelayedAdded(Card card, DelayedType type) {
-		this.controller.sendSyncCommandToAllPlayers(new SyncDelayedAddedGameUIClientCommand(this.name, card, type, true));
+		this.controller.sendSyncCommandToAllPlayers(new SyncDelayedAddedGameClientCommand(this.name, card, type, true));
 	}
 
 	@Override
 	public void onDelayedRemove(DelayedType type) {
-		this.controller.sendSyncCommandToAllPlayers(new SyncDelayedAddedGameUIClientCommand(this.name, null, type, false));
+		this.controller.sendSyncCommandToAllPlayers(new SyncDelayedAddedGameClientCommand(this.name, null, type, false));
 	}
 
 }

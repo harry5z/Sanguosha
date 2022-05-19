@@ -2,13 +2,13 @@ package core.server;
 
 import java.util.Map;
 
-import commands.game.client.sync.SyncGameUIClientCommand;
+import commands.game.client.sync.SyncGameClientCommand;
 
 public interface SyncController {
 	
-	public void sendSyncCommandToAllPlayers(SyncGameUIClientCommand command);
+	public void sendSyncCommandToAllPlayers(SyncGameClientCommand command);
 	
-	public void sendSyncCommandToPlayers(Map<String, SyncGameUIClientCommand> commands);
+	public void sendSyncCommandToPlayers(Map<String, SyncGameClientCommand> commands);
 	
-	public void sendSyncCommandToPlayer(String name, SyncGameUIClientCommand command);
+	public void sendSyncCommandToPlayer(String name, SyncGameClientCommand command);
 }

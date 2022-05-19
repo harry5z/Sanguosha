@@ -4,8 +4,8 @@ import java.util.Set;
 
 import cards.Card;
 import commands.game.client.sync.SyncCommandsUtil;
-import commands.game.client.sync.cardonhand.SyncOtherPlayerCardGameUIClientCommand;
-import commands.game.client.sync.cardonhand.SyncPlayerCardGameUIClientCommand;
+import commands.game.client.sync.player.SyncOtherPlayerCardGameClientCommand;
+import commands.game.client.sync.player.SyncPlayerCardGameClientCommand;
 import core.server.SyncController;
 import listeners.game.CardOnHandListener;
 
@@ -20,8 +20,8 @@ public class ServerInGameCardOnHandListener extends ServerInGamePlayerListener i
 			SyncCommandsUtil.generateMapForDifferentCommand(
 				name, 
 				otherNames, 
-				new SyncPlayerCardGameUIClientCommand(card, true), 
-				new SyncOtherPlayerCardGameUIClientCommand(name, true, 1)
+				new SyncPlayerCardGameClientCommand(card, true), 
+				new SyncOtherPlayerCardGameClientCommand(name, true, 1)
 			)
 		);
 	}
@@ -32,8 +32,8 @@ public class ServerInGameCardOnHandListener extends ServerInGamePlayerListener i
 			SyncCommandsUtil.generateMapForDifferentCommand(
 				name, 
 				otherNames, 
-				new SyncPlayerCardGameUIClientCommand(card, false), 
-				new SyncOtherPlayerCardGameUIClientCommand(name, false, 1)
+				new SyncPlayerCardGameClientCommand(card, false), 
+				new SyncOtherPlayerCardGameClientCommand(name, false, 1)
 			)
 		);	
 	}

@@ -3,9 +3,9 @@ package listeners.game.server;
 import java.util.Set;
 
 import commands.game.client.sync.SyncCommandsUtil;
-import commands.game.client.sync.hero.SyncHeroGameUIClientCommand;
-import commands.game.client.sync.status.SyncResetWineEffectiveGameUIClientCommand;
-import commands.game.client.sync.status.SyncWineUsedGameUIClientCommand;
+import commands.game.client.sync.player.SyncHeroGameClientCommand;
+import commands.game.client.sync.player.SyncResetWineEffectiveGameClientCommand;
+import commands.game.client.sync.player.SyncWineUsedGameClientCommand;
 import core.heroes.Hero;
 import core.server.SyncController;
 import listeners.game.HeroListener;
@@ -22,7 +22,7 @@ public class ServerInGameHeroListener extends ServerInGamePlayerListener impleme
 			SyncCommandsUtil.generateMapForSameCommand(
 				name, 
 				otherNames, 
-				new SyncHeroGameUIClientCommand(name, hero)
+				new SyncHeroGameClientCommand(name, hero)
 			)
 		);
 	}
@@ -34,7 +34,7 @@ public class ServerInGameHeroListener extends ServerInGamePlayerListener impleme
 				SyncCommandsUtil.generateMapForSameCommand(
 					name, 
 					otherNames, 
-					new SyncWineUsedGameUIClientCommand(name)
+					new SyncWineUsedGameClientCommand(name)
 				)
 			);
 		} else {
@@ -42,7 +42,7 @@ public class ServerInGameHeroListener extends ServerInGamePlayerListener impleme
 				SyncCommandsUtil.generateMapForSameCommand(
 					name, 
 					otherNames, 
-					new SyncResetWineEffectiveGameUIClientCommand(name)
+					new SyncResetWineEffectiveGameClientCommand(name)
 				)
 			);
 		}

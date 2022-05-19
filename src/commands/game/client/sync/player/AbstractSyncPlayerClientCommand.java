@@ -1,10 +1,13 @@
-package commands.game.client.sync;
+package commands.game.client.sync.player;
 
+import commands.game.client.sync.SyncGameClientCommand;
+import core.GameState;
 import core.client.ClientFrame;
 import core.client.GamePanel;
+import exceptions.server.game.InvalidPlayerCommandException;
 import net.Connection;
 
-public abstract class AbstractSyncGameUIClientCommand implements SyncGameUIClientCommand {
+public abstract class AbstractSyncPlayerClientCommand implements SyncGameClientCommand {
 
 	private static final long serialVersionUID = 1L;
 
@@ -13,8 +16,11 @@ public abstract class AbstractSyncGameUIClientCommand implements SyncGameUIClien
 		try {
 			// A GamePanel should have already been set up. If not, it's an error
 			synchronized (frame.getPanel()) {
-				this.sync((GamePanel) frame.getPanel());
+				this.sync(((GamePanel) frame.getPanel()).getGameState());
 			}
+		} catch (InvalidPlayerCommandException e) {
+			// should not happen
+			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO handle command error
 			e.printStackTrace();
@@ -22,6 +28,6 @@ public abstract class AbstractSyncGameUIClientCommand implements SyncGameUIClien
 		}
 	}
 
-	protected abstract void sync(GamePanel panel);
+	protected abstract void sync(GameState state) throws InvalidPlayerCommandException;
 
 }
