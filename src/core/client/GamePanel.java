@@ -39,8 +39,9 @@ public interface GamePanel extends ClientPanel {
 	 * on the current operation
 	 * 
 	 * @param operation
+	 * @param timeoutMS
 	 */
-	public void pushPlayerActionOperation(Operation operation);
+	public void pushPlayerActionOperation(Operation operation, int timeoutMS);
 
 	public void popOperation();
 	

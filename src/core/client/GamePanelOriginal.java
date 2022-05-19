@@ -105,7 +105,7 @@ public class GamePanelOriginal implements GamePanel {
 	}
 	
 	@Override
-	public synchronized void pushPlayerActionOperation(Operation operation) {
+	public synchronized void pushPlayerActionOperation(Operation operation, int timeoutMS) {
 		if (!currentOperations.empty()) {
 			currentOperations.peek().onUnloaded();
 			currentOperations.peek().onDeactivated();
@@ -125,13 +125,14 @@ public class GamePanelOriginal implements GamePanel {
 					if (!currentOperations.empty()) {
 						currentOperations.peek().onUnloaded();
 						currentOperations.peek().onDeactivated();
+						panel.stopCountdown();
 					}
 				}
 			}
 		};
 		
-		// TODO use server provided timeout value
-		timer.schedule(actionTimeoutTask, 10000);
+		timer.schedule(actionTimeoutTask, timeoutMS);
+		panel.showCountdownBar(timeoutMS);
 		
 		operation.onActivated(this);
 		currentOperations.push(operation);
@@ -170,6 +171,7 @@ public class GamePanelOriginal implements GamePanel {
 				actionTimeoutTask = null;
 			}
 		}
+		panel.stopCountdown();
 		// response ID must be present for the response to be accepted by server
 		command.setResponseID(uuid);
 		channel.send(command);

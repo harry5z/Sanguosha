@@ -8,13 +8,18 @@ public abstract class AbstractPlayerActionGameClientCommand implements PlayerAct
 
 	private static final long serialVersionUID = 1L;
 	
+	protected int timeoutMS;
+	
 	@Override
 	public final void execute(ClientFrame frame, Connection connection) {
 		try {
 			// A GameUIClientCommand should be sent to a previously set up GamePanel
 			// if not, it's an error
 			synchronized (frame.getPanel()) {
-				this.execute((GamePanel) frame.getPanel());
+				GamePanel panel = (GamePanel) frame.getPanel();
+				// Other players' countdown bar is stopped upon new Player Action received.
+				panel.getGameUI().getOtherPlayersUI().forEach(playerUI -> playerUI.stopCountdown());
+				this.execute(panel);
 			}
 		} catch (Exception e) {
 			// TODO handle command error
@@ -24,5 +29,10 @@ public abstract class AbstractPlayerActionGameClientCommand implements PlayerAct
 	}
 	
 	protected abstract void execute(GamePanel panel);
+	
+	@Override
+	public final void setResponseTimeoutMS(int timeMS) {
+		this.timeoutMS = timeMS;
+	}
 
 }

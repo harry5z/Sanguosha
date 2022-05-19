@@ -108,6 +108,7 @@ public class GameRoom extends ServerEntity implements SyncController {
 			if (id != null) {
 				this.allowedResponseIDs.put(connection, id);
 			}
+			command.setResponseTimeoutMS(room.gameConfig.getGameSpeed() * 1000);
 			connection.send(command);
 		});
 	}

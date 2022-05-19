@@ -57,6 +57,4 @@ public interface GameUI {
 	
 	public void clearMessage();
 
-	public void showCountdownBar();
-	
 }

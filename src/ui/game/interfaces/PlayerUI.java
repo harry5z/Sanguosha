@@ -6,8 +6,10 @@ public interface PlayerUI extends Activatable {
 
 	public PlayerSimple getPlayer();
 
-	public void showCountdownBar();
-
+	public void showCountdownBar(int timeMS);
+	
+	public void stopCountdown();
+	
 	public void setWineUsed(boolean used);
 
 	public void setFlipped(boolean flipped);

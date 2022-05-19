@@ -24,7 +24,8 @@ public class RequestNullificationGameUIClientCommand extends AbstractPlayerActio
 	protected void execute(GamePanel panel) {
 		// response ID must be present for the response to be accepted by server
 		panel.setNextResponseID(uuid);
-		panel.pushPlayerActionOperation(new NullificationOperation(this.message));
+		panel.pushPlayerActionOperation(new NullificationOperation(this.message), timeoutMS);
+		panel.getGameUI().getOtherPlayersUI().forEach(ui -> ui.showCountdownBar(timeoutMS));
 	}
 
 	@Override

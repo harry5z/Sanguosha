@@ -112,8 +112,13 @@ public class HeroGui extends JPanel implements HeroUI {
 	}
 
 	@Override
-	public void showCountdownBar() {
-		// TODO implement
+	public void showCountdownBar(int timeMS) {
+		
+	}
+	
+	@Override
+	public void stopCountdown() {
+		
 	}
 
 	@Override

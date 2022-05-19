@@ -27,10 +27,10 @@ public abstract class AbstractSingleTargetOperationGameClientCommand extends Abs
 		if (panel.getGameState().getSelf().getPlayerInfo().equals(this.target)) {
 			// response ID must be present for the response to be accepted by server
 			panel.setNextResponseID(uuid);
-			panel.pushPlayerActionOperation(getOperation());
+			panel.pushPlayerActionOperation(getOperation(), timeoutMS);
 		} else {
 			updateForOtherPlayer(panel);
-			panel.getGameUI().getOtherPlayerUI(this.target).showCountdownBar();
+			panel.getGameUI().getOtherPlayerUI(this.target).showCountdownBar(timeoutMS);
 		}
 	}
 	

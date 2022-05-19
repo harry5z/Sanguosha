@@ -43,6 +43,7 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 
 	private JLabel deckSize;
 	private MessageBoxGui messageBox;
+	private CountdownBarGui countdownBar;
 	
 	private final GamePanel panel;
 	
@@ -66,6 +67,8 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 		delayedGui.setLocation(WIDTH - 120, HEIGHT - CardRackGui.HEIGHT - 35);
 		messageBox = new MessageBoxGui();
 		messageBox.setLocation(equipmentRack.getWidth(), HEIGHT - cardRack.getHeight() - MessageBoxGui.HEIGHT);
+		countdownBar = new CountdownBarGui(CardRackGui.WIDTH - ButtonGui.WIDTH * 2, 30);
+		countdownBar.setLocation(equipmentRack.getWidth() + ButtonGui.WIDTH, HEIGHT - cardRack.getHeight() - MessageBoxGui.HEIGHT - 40);
 
 		myself.registerCardOnHandListener(cardRack);
 		myself.registerEquipmentListener(equipmentRack);
@@ -97,6 +100,7 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 		add(end);
 		add(deckSize);
 		add(messageBox);
+		add(countdownBar);
 	}
 
 	public synchronized void addPlayer(PlayerInfo info) {
@@ -238,9 +242,12 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 		}
 	}
 	
-	@Override
-	public void showCountdownBar() {
-		// TODO implement action bar for self
+	public void showCountdownBar(int timeMS) {
+		countdownBar.countdown(timeMS);
+	}
+	
+	public void stopCountdown() {
+		countdownBar.stopCountdown();
 	}
 	
 }

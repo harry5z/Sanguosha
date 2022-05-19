@@ -62,4 +62,11 @@ public interface PlayerActionGameClientCommand extends Command<ClientFrame> {
 	 */
 	public InGameServerCommand getDefaultResponse();
 	
+	/**
+	 * Set a timeout in millisecond for the client to display countdown bar and disable response
+	 * when timeout is reached. By default, it should be the timeout set via game config.
+	 * 
+	 * @param timeMS : timeout in milliseconds
+	 */
+	public void setResponseTimeoutMS(int timeMS);
 }

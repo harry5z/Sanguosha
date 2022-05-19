@@ -33,7 +33,7 @@ import ui.game.interfaces.PlayerUI;
  * @author Harry
  *
  */
-public class PlayerGui extends JButton implements PlayerUI {
+public class PlayerGui extends JPanel implements PlayerUI {
 
 	private static final long serialVersionUID = 7793033583166480640L;
 
@@ -48,25 +48,27 @@ public class PlayerGui extends JButton implements PlayerUI {
 	private boolean activated = false;
 	private boolean chained = false;
 	private BufferedImage chainedImage;
+	private CountdownBarGui countdownBar;
+	private JButton heroButton;
 
 	public PlayerGui(PlayerSimple player, GamePanel panel) {
 		this.player = player;
-		setSize(WIDTH, HEIGHT + 35);
+		setSize(WIDTH, HEIGHT + 60);
 		setLayout(null);
-		setEnabled(false);
+		
 		JLabel name = new JLabel(player.getName());
 		name.setSize(WIDTH, NAMETAG_HEIGHT);
 		name.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
 		name.setHorizontalAlignment(JLabel.CENTER);
 		add(name);
-
-		// temp
-		JLabel hero = new JLabel("TEMP");
-		hero.setSize(WIDTH, PICTURE_HEIGHT);
-		hero.setFont(new Font(Font.MONOSPACED, Font.BOLD, 40));
-		hero.setHorizontalAlignment(JLabel.CENTER);
-		hero.setLocation(0, NAMETAG_HEIGHT);
-		add(hero);
+		
+		// TODO change name to hero name
+		heroButton = new JButton("TEMP");
+		heroButton.setSize(WIDTH, PICTURE_HEIGHT);
+		heroButton.setLocation(0, NAMETAG_HEIGHT);
+		heroButton.setEnabled(false);
+		heroButton.addActionListener(e -> panel.getCurrentOperation().onPlayerClicked(this));
+		add(heroButton);
 
 		PlayerCardGui cardsCount = new PlayerCardGui();
 		player.registerCardOnHandListener(cardsCount);
@@ -86,6 +88,10 @@ public class PlayerGui extends JButton implements PlayerUI {
 		player.registerDelayedListener(delayedBar);
 		add(delayedBar);
 		
+		countdownBar = new CountdownBarGui(WIDTH, 20);
+		countdownBar.setLocation(0, HEIGHT + 40);
+		add(countdownBar);
+		
 		player.registerHeroListener(new HeroListener() {
 			
 			@Override
@@ -94,7 +100,6 @@ public class PlayerGui extends JButton implements PlayerUI {
 			}
 		});
 
-		addActionListener(e -> panel.getCurrentOperation().onPlayerClicked(this));
 		
 		try {
 			this.chainedImage = ImageIO.read(getClass().getResource("cards/chained.png"));
@@ -105,7 +110,7 @@ public class PlayerGui extends JButton implements PlayerUI {
 
 	@Override
 	public void setActivatable(boolean activatable) {
-		setEnabled(activatable);
+		heroButton.setEnabled(activatable);
 	}
 	
 	@Override
@@ -295,8 +300,13 @@ public class PlayerGui extends JButton implements PlayerUI {
 	}
 
 	@Override
-	public void showCountdownBar() {
-		// TODO implement (countdown bar)
+	public void showCountdownBar(int timeMS) {
+		countdownBar.countdown(timeMS);
+	}
+	
+	@Override
+	public void stopCountdown() {
+		countdownBar.stopCountdown();
 	}
 
 	@Override
