@@ -38,6 +38,8 @@ public abstract class AbstractSingleTargetOperationGameClientCommand extends Abs
 	public final UUID generateResponseID(String name) {
 		if (name.equals(this.target.getName())) {
 			uuid = UUID.randomUUID();
+		} else {
+			uuid = null;
 		}
 		return uuid;
 	}
