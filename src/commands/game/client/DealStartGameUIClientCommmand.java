@@ -70,4 +70,9 @@ public class DealStartGameUIClientCommmand extends AbstractSingleTargetOperation
 		return types;
 	}
 
+	@Override
+	public InGameServerCommand getDefaultResponse() {
+		return new EndStageInGameServerCommand();
+	}
+
 }

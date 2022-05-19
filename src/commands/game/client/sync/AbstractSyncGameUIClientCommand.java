@@ -12,7 +12,9 @@ public abstract class AbstractSyncGameUIClientCommand implements SyncGameUIClien
 	public final void execute(ClientFrame frame, Connection connection) {
 		try {
 			// A GamePanel should have already been set up. If not, it's an error
-			this.sync((GamePanel) frame.getPanel());
+			synchronized (frame.getPanel()) {
+				this.sync((GamePanel) frame.getPanel());
+			}
 		} catch (Exception e) {
 			// TODO handle command error
 			e.printStackTrace();

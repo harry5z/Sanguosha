@@ -1,21 +1,24 @@
 package commands.game.client;
 
+import java.util.List;
 import java.util.Set;
 
 import commands.game.server.ingame.DiscardInGameServerCommand;
 import commands.game.server.ingame.InGameServerCommand;
 import core.client.game.operations.Operation;
 import core.client.game.operations.mechanics.DiscardOperation;
-import core.player.PlayerInfo;
+import core.player.PlayerCompleteServer;
 
 public class DiscardGameUIClientCommand extends AbstractSingleTargetOperationGameClientCommand {
 
 	private static final long serialVersionUID = 1L;
 	
+	private final transient PlayerCompleteServer player;
 	private final int amount;
 
-	public DiscardGameUIClientCommand(PlayerInfo target, int amount) {
-		super(target);
+	public DiscardGameUIClientCommand(PlayerCompleteServer target, int amount) {
+		super(target.getPlayerInfo());
+		this.player = target;
 		this.amount = amount;
 	}
 	
@@ -32,6 +35,12 @@ public class DiscardGameUIClientCommand extends AbstractSingleTargetOperationGam
 	@Override
 	public Set<Class<? extends InGameServerCommand>> getAllowedResponseTypes() {
 		return Set.of(DiscardInGameServerCommand.class);
+	}
+
+	@Override
+	public InGameServerCommand getDefaultResponse() {
+		// by default, discard the first X cards
+		return new DiscardInGameServerCommand(List.copyOf(player.getCardsOnHand().subList(0, amount)));
 	}
 	
 }

@@ -2,7 +2,6 @@ package core.server.game.controllers.specials.instants;
 
 import java.util.Queue;
 
-import commands.game.client.RequestNullificationGameUIClientCommand;
 import core.event.game.GameEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
@@ -35,18 +34,7 @@ public abstract class AbstractMultiTargetInstantSpecialGameController extends Ab
 				break;
 			case NULLIFICATION:
 				if (this.canBeNullified()) {
-					if (this.nullifiedCount >= game.getNumberOfPlayersAlive()) {
-						this.nullifiedCount = 0;
-						this.nextStage();
-					} else {
-						if (this.nullifiedCount == 0) {
-							throw new GameFlowInterruptedException(
-								new RequestNullificationGameUIClientCommand(getNullificationMessage())
-							);
-						} else {
-							throw new GameFlowInterruptedException(null);
-						}
-					}
+					handleNullificationStage(game);
 				} else {
 					this.nextStage();
 				}

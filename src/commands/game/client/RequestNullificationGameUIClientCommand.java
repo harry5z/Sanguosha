@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.NullificationReactionInGameServerCommand;
+import commands.game.server.ingame.NullificationTimeoutInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.operations.instants.NullificationOperation;
 
@@ -23,7 +24,7 @@ public class RequestNullificationGameUIClientCommand extends AbstractPlayerActio
 	protected void execute(GamePanel panel) {
 		// response ID must be present for the response to be accepted by server
 		panel.setNextResponseID(uuid);
-		panel.pushOperation(new NullificationOperation(this.message));
+		panel.pushPlayerActionOperation(new NullificationOperation(this.message));
 	}
 
 	@Override
@@ -36,6 +37,13 @@ public class RequestNullificationGameUIClientCommand extends AbstractPlayerActio
 	public Set<Class<? extends InGameServerCommand>> getAllowedResponseTypes() {
 		// TODO also look for hero skills
 		return Set.of(NullificationReactionInGameServerCommand.class);
+	}
+
+	@Override
+	public InGameServerCommand getDefaultResponse() {
+		// Note that Nullification Timeout response is not an allowed response type.
+		// This can only be used by the server internally
+		return new NullificationTimeoutInGameServerCommand();
 	}
 
 }

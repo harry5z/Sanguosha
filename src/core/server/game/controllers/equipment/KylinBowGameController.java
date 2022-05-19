@@ -54,7 +54,7 @@ public class KylinBowGameController
 		throw new GameFlowInterruptedException(
 			new ShowCardSelectionPanelUIClientCommand(
 				source.getPlayerInfo(),
-				target.getPlayerInfo(),
+				target,
 				Set.of(PlayerCardZone.EQUIPMENT),
 				Set.of(EquipmentType.HORSEPLUS, EquipmentType.HORSEMINUS)
 			)

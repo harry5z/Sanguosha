@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 import javax.swing.JPanel;
@@ -36,6 +38,8 @@ public class GamePanelOriginal implements GamePanel {
 	private final Map<Class<? extends ClientGameEvent>, Set<ClientEventListener<? extends ClientGameEvent>>> listeners;
 	private final Channel channel;
 	private UUID uuid;
+	private TimerTask actionTimeoutTask;
+	private final Timer timer;
 	
 	public GamePanelOriginal(PlayerInfo info, List<PlayerInfo> players, Channel channel) {
 		GamePanelGui panel = new GamePanelGui(info, this);
@@ -49,6 +53,8 @@ public class GamePanelOriginal implements GamePanel {
 		this.currentOperations = new Stack<>();
 		this.panel = panel;
 		this.uuid = null;
+		this.actionTimeoutTask = null;
+		this.timer = new Timer();
 	}
 	
 	@Override
@@ -99,6 +105,39 @@ public class GamePanelOriginal implements GamePanel {
 	}
 	
 	@Override
+	public synchronized void pushPlayerActionOperation(Operation operation) {
+		if (!currentOperations.empty()) {
+			currentOperations.peek().onUnloaded();
+			currentOperations.peek().onDeactivated();
+		}
+
+		if (this.actionTimeoutTask != null) {
+			this.actionTimeoutTask.cancel();
+		}
+		this.actionTimeoutTask = new TimerTask() {
+			@Override
+			public void run() {
+				synchronized (GamePanelOriginal.this) {
+					if (actionTimeoutTask != this) {
+						return;
+					}
+					actionTimeoutTask = null;
+					if (!currentOperations.empty()) {
+						currentOperations.peek().onUnloaded();
+						currentOperations.peek().onDeactivated();
+					}
+				}
+			}
+		};
+		
+		// TODO use server provided timeout value
+		timer.schedule(actionTimeoutTask, 10000);
+		
+		operation.onActivated(this);
+		currentOperations.push(operation);
+	}
+	
+	@Override
 	public synchronized void pushOperation(Operation operation) {
 		if (!currentOperations.empty()) {
 			currentOperations.peek().onUnloaded();
@@ -125,6 +164,12 @@ public class GamePanelOriginal implements GamePanel {
 	
 	@Override
 	public void sendResponse(InGameServerCommand command) {
+		synchronized (this) {
+			if (actionTimeoutTask != null) {
+				actionTimeoutTask.cancel();
+				actionTimeoutTask = null;
+			}
+		}
 		// response ID must be present for the response to be accepted by server
 		command.setResponseID(uuid);
 		channel.send(command);

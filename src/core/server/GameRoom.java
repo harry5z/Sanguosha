@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 import commands.game.client.PlayerActionGameClientCommand;
@@ -24,15 +26,19 @@ public class GameRoom extends ServerEntity implements SyncController {
 	private final Room room;
 	private final Game game;
 	private final Map<String, Connection> connectionMap;
-	private final Map<Connection, UUID> allowedResponses;
+	private final Map<Connection, UUID> allowedResponseIDs;
 	private final Set<Class<? extends InGameServerCommand>> allowedResponseTypes;
+	private final Timer timer;
+	private TimerTask defaultResponseTask;
 	
 	public GameRoom(Room room, Set<Connection> connections, GameConfig config) {
 		this.connections.addAll(connections);
 		this.room = room;
 		this.connectionMap = new HashMap<>();
-		this.allowedResponses = new HashMap<>();
+		this.allowedResponseIDs = new HashMap<>();
 		this.allowedResponseTypes = new HashSet<>();
+		this.timer = new Timer();
+		this.defaultResponseTask = null;
 		
 		// TODO: Fix this when we have actual player info
 		// begin ugly part because connection doesn't have unique user information yet
@@ -53,7 +59,7 @@ public class GameRoom extends ServerEntity implements SyncController {
 	}
 	
 	public synchronized void onCommandReceived(InGameServerCommand command, Connection connection) {
-		UUID allowed = this.allowedResponses.get(connection);
+		UUID allowed = this.allowedResponseIDs.get(connection);
 		if (allowed == null || !allowed.equals(command.getResponseID())) {
 			Log.error("GameRoom", "Player response UUID mismatch");
 			return;
@@ -62,7 +68,18 @@ public class GameRoom extends ServerEntity implements SyncController {
 			Log.error("GameRoom", "Invalid Response Type: " + command.getClass().getSimpleName());
 			return;
 		}
-		this.allowedResponses.remove(connection); // clear UUID once a valid response is received
+		this.allowedResponseIDs.remove(connection); // clear UUID once a valid response is received
+		if (this.allowedResponseIDs.size() == 0) {
+			this.defaultResponseTask.cancel();
+			this.defaultResponseTask = null;
+		}
+		game.pushGameController(command.getGameController());
+		game.resume();
+	}
+	
+	public synchronized void onDefaultResponseReceived(InGameServerCommand command) {
+		allowedResponseIDs.clear();
+		allowedResponseTypes.clear();
 		game.pushGameController(command.getGameController());
 		game.resume();
 	}
@@ -70,8 +87,27 @@ public class GameRoom extends ServerEntity implements SyncController {
 	public synchronized void sendActionCommandToAllPlayers(PlayerActionGameClientCommand command) {
 		this.allowedResponseTypes.clear();
 		this.allowedResponseTypes.addAll(command.getAllowedResponseTypes());
+		this.defaultResponseTask = new TimerTask() {
+			@Override
+			public void run() {
+				synchronized (GameRoom.this) {
+					// skip if already past the current stage
+					if (defaultResponseTask != this) {
+						return;
+					}
+					defaultResponseTask = null;
+					command.getDefaultResponse().execute(GameRoom.this, null);
+				}
+			}
+		};
+		// add one second to account for potential network delays
+		timer.schedule(defaultResponseTask, (room.gameConfig.getGameSpeed() + 1) * 1000);
+		
 		this.connectionMap.forEach((name, connection) -> {
-			this.allowedResponses.put(connection, command.generateResponseID(name));
+			UUID id = command.generateResponseID(name);
+			if (id != null) {
+				this.allowedResponseIDs.put(connection, id);
+			}
 			connection.send(command);
 		});
 	}

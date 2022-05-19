@@ -75,7 +75,7 @@ public class IcySwordGameController
 			throw new GameFlowInterruptedException(
 				new ShowCardSelectionPanelUIClientCommand(
 					source.getPlayerInfo(),
-					target.getPlayerInfo(),
+					target,
 					Set.of(PlayerCardZone.HAND, PlayerCardZone.EQUIPMENT),
 					Arrays.asList(EquipmentType.values())
 				)

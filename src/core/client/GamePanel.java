@@ -29,6 +29,18 @@ public interface GamePanel extends ClientPanel {
 	 * @param operation
 	 */
 	public void pushOperation(Operation operation);
+	
+	/**
+	 * Call by a server command to push a new Operation into 
+	 * the game execution stack. The only difference between
+	 * this method and {@link #pushOperation(Operation)} is that 
+	 * this method also sets a countdown timer (based on game config) 
+	 * which, upon timeout, calls #onUnloaded() and #onDeactivated() 
+	 * on the current operation
+	 * 
+	 * @param operation
+	 */
+	public void pushPlayerActionOperation(Operation operation);
 
 	public void popOperation();
 	

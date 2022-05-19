@@ -1,6 +1,5 @@
 package core.server.game.controllers.specials.instants;
 
-import commands.game.client.RequestNullificationGameUIClientCommand;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -26,18 +25,7 @@ public abstract class SingleTargetInstantSpecialGameController extends AbstractI
 				this.nextStage();
 				break;
 			case NULLIFICATION:
-				if (this.nullifiedCount >= game.getNumberOfPlayersAlive()) {
-					this.nullifiedCount = 0;
-					this.nextStage();
-				} else {
-					if (this.nullifiedCount == 0) {
-						throw new GameFlowInterruptedException(
-							new RequestNullificationGameUIClientCommand(getNullificationMessage())
-						);
-					} else {
-						throw new GameFlowInterruptedException(null);
-					}
-				}
+				handleNullificationStage(game);
 				break;
 			case EFFECT:
 				if (!this.nullified) {

@@ -31,9 +31,18 @@ public abstract class InGameServerCommand implements GameServerCommand {
 		return responseID;
 	}
 
+	/**
+	 * <p>{@inheritDoc}</p>
+	 * 
+	 * if connection is null, then it's called by the game internally as a default response
+	 */
 	@Override
 	public final void execute(GameRoom room, Connection connection) {
-		room.onCommandReceived(this, connection);
+		if (connection == null) {
+			room.onDefaultResponseReceived(this);
+		} else {
+			room.onCommandReceived(this, connection);
+		}
 	}
 	
 	public abstract GameController getGameController();

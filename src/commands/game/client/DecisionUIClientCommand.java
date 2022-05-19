@@ -29,4 +29,9 @@ public class DecisionUIClientCommand extends AbstractSingleTargetOperationGameCl
 		return Set.of(DecisionInGameServerCommand.class);
 	}
 
+	@Override
+	public InGameServerCommand getDefaultResponse() {
+		return new DecisionInGameServerCommand(false);
+	}
+
 }

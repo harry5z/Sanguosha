@@ -10,6 +10,7 @@ import commands.game.server.ingame.InGameServerCommand;
 import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
 import core.client.game.operations.Operation;
 import core.client.game.operations.basics.UseCardReactionOperation;
+import core.player.PlayerCardZone;
 import core.player.PlayerInfo;
 
 public class RequestUseCardGameUIClientCommand extends AbstractSingleTargetOperationGameClientCommand {
@@ -45,6 +46,11 @@ public class RequestUseCardGameUIClientCommand extends AbstractSingleTargetOpera
 	@Override
 	public Set<Class<? extends InGameServerCommand>> getAllowedResponseTypes() {
 		return Set.of(PlayerCardSelectionInGameServerCommand.class);
+	}
+
+	@Override
+	public InGameServerCommand getDefaultResponse() {
+		return new PlayerCardSelectionInGameServerCommand(null, PlayerCardZone.HAND);
 	}
 
 }

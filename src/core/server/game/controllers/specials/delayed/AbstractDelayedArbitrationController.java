@@ -1,7 +1,6 @@
 package core.server.game.controllers.specials.delayed;
 
 import cards.Card;
-import commands.game.client.RequestNullificationGameUIClientCommand;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
 import core.server.game.controllers.ArbitrationRequiredGameController;
@@ -34,18 +33,7 @@ public abstract class AbstractDelayedArbitrationController
 	protected void handleStage(GameInternal game, DelayedArbitrationStage stage) throws GameFlowInterruptedException {
 		switch(stage) {
 			case NULLIFICATION:
-				if (this.nullifiedCount >= game.getNumberOfPlayersAlive()) {
-					this.nullifiedCount = 0;
-					this.nextStage();
-				} else {
-					if (this.nullifiedCount == 0) {
-						throw new GameFlowInterruptedException(
-							new RequestNullificationGameUIClientCommand(getNullificationMessage())
-						);
-					} else {
-						throw new GameFlowInterruptedException(null);
-					}
-				}
+				handleNullificationStage(game);
 				break;
 			case ARBITRATION:
 				if (!this.nullified) {

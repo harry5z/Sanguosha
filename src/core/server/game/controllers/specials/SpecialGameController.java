@@ -17,5 +17,11 @@ public interface SpecialGameController extends GameController {
 	public void onNullified();
 	
 	public void onNullificationCanceled();
+	
+	/**
+	 * This should only be called by the default response command to stop waiting for
+	 * all players to submit nullification decision
+	 */
+	public void onNullificationTimeout();
 
 }

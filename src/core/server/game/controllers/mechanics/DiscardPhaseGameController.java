@@ -12,7 +12,7 @@ public class DiscardPhaseGameController extends AbstractSingleStageGameControlle
 		int amount = game.getCurrentPlayer().getHandCount() - game.getCurrentPlayer().getCardOnHandLimit();
 		if (amount > 0) {
 			throw new GameFlowInterruptedException(
-				new DiscardGameUIClientCommand(game.getCurrentPlayer().getPlayerInfo(), amount)
+				new DiscardGameUIClientCommand(game.getCurrentPlayer(), amount)
 			);
 		}
 	}

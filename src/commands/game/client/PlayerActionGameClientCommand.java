@@ -53,4 +53,13 @@ public interface PlayerActionGameClientCommand extends Command<ClientFrame> {
 	 */
 	public Set<Class<? extends InGameServerCommand>> getAllowedResponseTypes();
 	
+	/**
+	 * Get the default response for a player action. For each action, the player has a limited
+	 * amount of time to post a reaction. If no reaction is posted and the action times out, the
+	 * default response will be used in place of player response.
+	 * 
+	 * @return the default response that will be used upon player action timeout
+	 */
+	public InGameServerCommand getDefaultResponse();
+	
 }

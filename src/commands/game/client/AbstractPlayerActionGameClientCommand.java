@@ -13,7 +13,9 @@ public abstract class AbstractPlayerActionGameClientCommand implements PlayerAct
 		try {
 			// A GameUIClientCommand should be sent to a previously set up GamePanel
 			// if not, it's an error
-			this.execute((GamePanel) frame.getPanel());
+			synchronized (frame.getPanel()) {
+				this.execute((GamePanel) frame.getPanel());
+			}
 		} catch (Exception e) {
 			// TODO handle command error
 			e.printStackTrace();

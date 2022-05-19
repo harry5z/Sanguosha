@@ -33,7 +33,7 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 			}
 			throw new GameFlowInterruptedException(
 				new RequestShowCardGameUIClientCommand(
-					this.target.getPlayerInfo(),
+					this.target,
 					this.source + " used Fire Attack on you, please show a card."
 				)
 			);

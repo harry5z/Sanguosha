@@ -43,4 +43,15 @@ public class ShowHarvestCardSelectionPaneUIClientCommand extends AbstractSingleT
 		panel.getGameUI().displayCustomizedSelectionPaneAtCenter(new HarvestSelectionPane(this.selectableCards, this.target.getName(), null));
 	}
 
+	@Override
+	public InGameServerCommand getDefaultResponse() {
+		for (Map.Entry<Card, Boolean> entry : selectableCards.entrySet()) {
+			if (!entry.getValue()) {
+				return new PlayerCardSelectionInGameServerCommand(entry.getKey(), null);
+			}
+		}
+		// by design we should not reach here
+		throw new RuntimeException("Harvest has no valid card to select");
+	}
+
 }

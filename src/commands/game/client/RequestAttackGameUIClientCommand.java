@@ -59,4 +59,9 @@ public class RequestAttackGameUIClientCommand extends AbstractSingleTargetOperat
 		return types;
 	}
 
+	@Override
+	public InGameServerCommand getDefaultResponse() {
+		return new AttackReactionInGameServerCommand(target, null);
+	}
+
 }

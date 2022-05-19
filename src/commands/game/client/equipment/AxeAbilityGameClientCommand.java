@@ -1,5 +1,6 @@
 package commands.game.client.equipment;
 
+import java.util.HashMap;
 import java.util.Set;
 
 import commands.game.client.AbstractSingleTargetOperationGameClientCommand;
@@ -25,6 +26,11 @@ public class AxeAbilityGameClientCommand extends AbstractSingleTargetOperationGa
 	@Override
 	public Set<Class<? extends InGameServerCommand>> getAllowedResponseTypes() {
 		return Set.of(AxeReactionInGameServerCommand.class);
+	}
+
+	@Override
+	public InGameServerCommand getDefaultResponse() {
+		return new AxeReactionInGameServerCommand(new HashMap<>());
 	}
 
 }

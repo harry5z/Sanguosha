@@ -34,7 +34,7 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 		throw new GameFlowInterruptedException(
 			new ShowCardSelectionPanelUIClientCommand(
 				source.getPlayerInfo(),
-				target.getPlayerInfo(),
+				target,
 				Set.of(PlayerCardZone.HAND, PlayerCardZone.EQUIPMENT, PlayerCardZone.DELAYED),
 				Arrays.asList(EquipmentType.values())
 			)

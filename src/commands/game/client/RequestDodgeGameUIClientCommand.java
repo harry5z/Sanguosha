@@ -46,4 +46,9 @@ public class RequestDodgeGameUIClientCommand extends AbstractSingleTargetOperati
 		return types;
 	}
 
+	@Override
+	public InGameServerCommand getDefaultResponse() {
+		return new DodgeReactionInGameServerCommand(null);
+	}
+
 }
