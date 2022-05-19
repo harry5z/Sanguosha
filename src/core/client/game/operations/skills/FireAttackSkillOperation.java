@@ -4,7 +4,7 @@ import cards.Card;
 import cards.Card.Color;
 import cards.equipments.Equipment.EquipmentType;
 import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateFireAttackInGameServerCommand;
+import commands.game.server.ingame.ZhugeliangInitiateFireAttackInGameServerCommand;
 import core.player.PlayerSimple;
 import ui.game.interfaces.SkillUI;
 
@@ -46,7 +46,7 @@ public class FireAttackSkillOperation extends AbstractMultiCardMultiTargetSkillO
 
 	@Override
 	protected InGameServerCommand getCommandOnConfirm() {
-		return new InitiateFireAttackInGameServerCommand(
+		return new ZhugeliangInitiateFireAttackInGameServerCommand(
 			this.targets.peek().getPlayer().getPlayerInfo(),
 			this.getFirstCardUI().getCard()
 		);

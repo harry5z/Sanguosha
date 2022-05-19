@@ -1,7 +1,7 @@
 package core.heroes.skills;
 
 import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateFireAttackInGameServerCommand;
+import commands.game.server.ingame.ZhugeliangInitiateFireAttackInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.listener.skills.FireAttackSkillDealEventListener;
 import core.player.PlayerCompleteServer;
@@ -39,8 +39,7 @@ public class ZhugeliangFireAttackOriginalHeroSkill extends AbstractDealPhaseActi
 
 	@Override
 	protected Class<? extends InGameServerCommand> getAllowedDealPhaseResponseType() {
-		// TODO change to its own command
-		return InitiateFireAttackInGameServerCommand.class;
+		return ZhugeliangInitiateFireAttackInGameServerCommand.class;
 	}
 
 }
