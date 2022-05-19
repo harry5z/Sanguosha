@@ -2,6 +2,7 @@ package core.server.game.controllers.mechanics;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import core.event.game.turn.DealStartTurnEvent;
 import core.event.game.turn.DrawStartTurnEvent;
@@ -12,6 +13,7 @@ import core.server.game.controllers.GameControllerStage;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.InvalidPlayerCommandException;
 import utils.DelayedStackItem;
+import utils.DelayedType;
 
 public class TurnGameController implements GameController {
 	
@@ -34,12 +36,14 @@ public class TurnGameController implements GameController {
 	private PlayerCompleteServer currentPlayer;
 	private TurnStage currentStage;
 	private final Set<TurnStage> skippedStages;
+	private final Set<DelayedType> seenDelayedTypes;
 	
 	public TurnGameController(GameInternal game) {
 		this.game = game;
 		this.currentPlayer = game.findPlayer(player -> player.getPosition() == 0);
 		this.currentStage = TurnStage.START_BEGINNING;
 		this.skippedStages = new HashSet<>();
+		this.seenDelayedTypes = new HashSet<>();
 	}
 	
 	public void nextStage() {
@@ -92,10 +96,18 @@ public class TurnGameController implements GameController {
 				}
 				return;
 			case DELAYED_ARBITRATION:
-				if (this.currentPlayer.getDelayedQueue().isEmpty()) {
+				if (this.currentPlayer.getDelayedQueue().isEmpty() ||
+					this.seenDelayedTypes.containsAll(this.currentPlayer.getDelayedQueue().stream().map(item -> item.type).collect(Collectors.toSet()))
+				) {
 					this.currentStage = TurnStage.DRAW_BEGINNING;
 				} else {
 					DelayedStackItem item = this.currentPlayer.getDelayedQueue().poll();
+					// do not initiate arbitration for the same delayed type multiple times
+					// in particular, Lightning
+					if (this.seenDelayedTypes.contains(item.type)) {
+						return;
+					}
+					this.seenDelayedTypes.add(item.type);
 					game.pushGameController(item.type.getController(this.currentPlayer));
 				}
 				return;
@@ -130,6 +142,7 @@ public class TurnGameController implements GameController {
 				return;
 			case TURN_END:
 				this.nextStage();
+				this.seenDelayedTypes.clear();
 				this.currentPlayer.resetPlayerStates();
 				this.currentPlayer.clearDisposalArea();
 				return;
