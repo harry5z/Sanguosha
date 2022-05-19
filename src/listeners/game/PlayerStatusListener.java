@@ -7,8 +7,6 @@ import core.player.PlayerState;
 
 public interface PlayerStatusListener {
 
-	public void onWineUsed();
-	
 	public void onAttackUsed(Set<? extends Player> targets);
 	
 	public void onSetAttackLimit(int limit);
@@ -16,8 +14,6 @@ public interface PlayerStatusListener {
 	public void onSetAttackUsed(int amount);
 	
 	public void onSetWineUsed(int amount);
-	
-	public void onResetWineEffective();
 	
 	public void onFlip(boolean flipped);
 	

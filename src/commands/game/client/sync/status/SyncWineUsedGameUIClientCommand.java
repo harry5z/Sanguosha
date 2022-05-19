@@ -16,16 +16,14 @@ public class SyncWineUsedGameUIClientCommand extends AbstractSyncGameUIClientCom
 	
 	@Override
 	protected void sync(GamePanel panel) {
-		if (panel.getGameState().getSelf().getName().equals(name)) {
-			try {
+		try {
+			if (panel.getGameState().getSelf().getName().equals(name)) {
 				panel.getGameState().getSelf().useWine();
-			} catch (InvalidPlayerCommandException e) {
-				e.printStackTrace();
+			} else {
+				panel.getGameState().getPlayer(name).useWine();
 			}
-		} else {
-			// directly modify UI here because there is no record of 
-			// other player's wine usage
-			panel.getGameUI().getOtherPlayerUI(name).setWineUsed(true);
+		} catch (InvalidPlayerCommandException e) {
+			e.printStackTrace();
 		}
 	}
 

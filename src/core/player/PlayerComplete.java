@@ -33,7 +33,6 @@ public class PlayerComplete extends PlayerSimple {
 							// default 1
 	private volatile int wineUsed;// number of wines already used this TURN_DEAL
 	private volatile boolean isWineUsed;// whether wine is used
-	private volatile boolean wineEffective; // whether wine is currently effective
 	private final Map<PlayerState, Integer> stateCounters;
 	private final Map<PlayerState, Integer> defaultStateCounters;
 	
@@ -54,7 +53,6 @@ public class PlayerComplete extends PlayerSimple {
 		wineLimit = 1;
 		wineUsed = 0;
 		isWineUsed = false;
-		wineEffective = false;
 		this.stateCounters = new HashMap<>();
 		this.defaultStateCounters = new HashMap<>();
 	}
@@ -176,22 +174,11 @@ public class PlayerComplete extends PlayerSimple {
 		}
 	}
 	
+	@Override
 	public void useWine() throws InvalidPlayerCommandException {
 		wineUsed++;
 		isWineUsed = true;
-		wineEffective = true;
-		statusListener.onWineUsed();
-	}
-	
-	public boolean isWineEffective() {
-		return this.wineEffective;
-	}
-	
-	public void resetWineEffective() {
-		if (this.wineEffective) {
-			this.wineEffective = false;
-			statusListener.onResetWineEffective();
-		}
+		super.useWine();
 	}
 	
 	public int getAttackUsed() {

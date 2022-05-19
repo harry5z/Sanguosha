@@ -10,8 +10,6 @@ import commands.game.client.sync.status.SyncAttackUsedSetGameUIClientCommand;
 import commands.game.client.sync.status.SyncChainGameUIClientCommand;
 import commands.game.client.sync.status.SyncFlipGameUIClientCommand;
 import commands.game.client.sync.status.SyncPlayerStateGameUIClientCommand;
-import commands.game.client.sync.status.SyncResetWineEffectiveGameUIClientCommand;
-import commands.game.client.sync.status.SyncWineUsedGameUIClientCommand;
 import commands.game.client.sync.status.SyncWineUsedSetGameUIClientCommand;
 import core.player.Player;
 import core.player.PlayerState;
@@ -22,17 +20,6 @@ public class ServerInGamePlayerStatusListener extends ServerInGamePlayerListener
 
 	public ServerInGamePlayerStatusListener(String name, Set<String> allNames, SyncController controller) {
 		super(name, allNames, controller);
-	}
-
-	@Override
-	public void onWineUsed() {
-		controller.sendSyncCommandToPlayers(
-			SyncCommandsUtil.generateMapForSameCommand(
-				name, 
-				otherNames, 
-				new SyncWineUsedGameUIClientCommand(name)
-			)
-		);
 	}
 
 	@Override
@@ -55,17 +42,6 @@ public class ServerInGamePlayerStatusListener extends ServerInGamePlayerListener
 	@Override
 	public void onSetWineUsed(int amount) {
 		controller.sendSyncCommandToPlayer(name, new SyncWineUsedSetGameUIClientCommand(amount));
-	}
-	
-	@Override
-	public void onResetWineEffective() {
-		controller.sendSyncCommandToPlayers(
-			SyncCommandsUtil.generateMapForSameCommand(
-				name, 
-				otherNames, 
-				new SyncResetWineEffectiveGameUIClientCommand(name)
-			)
-		);
 	}
 
 	@Override

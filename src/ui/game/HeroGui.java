@@ -131,18 +131,6 @@ public class HeroGui extends JPanel implements HeroUI {
 	}
 
 	@Override
-	public void setWineUsed(boolean used) {
-		this.wineUsed = used;
-		repaint();
-	}
-
-	@Override
-	public void onWineUsed() {
-		this.wineUsed = true;
-		repaint();
-	}
-
-	@Override
 	public void onAttackUsed(Set<? extends Player> targets) {
 		// nothing to show
 	}
@@ -163,8 +151,8 @@ public class HeroGui extends JPanel implements HeroUI {
 	}
 
 	@Override
-	public void onResetWineEffective() {
-		this.wineUsed = false;
+	public void onWineEffective(boolean effective) {
+		this.wineUsed = effective;
 		repaint();
 	}
 

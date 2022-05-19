@@ -98,6 +98,13 @@ public class PlayerGui extends JPanel implements PlayerUI {
 			public void onHeroRegistered(Hero hero) {
 				heroButton.setText(hero.getName());
 			}
+
+			@Override
+			public void onWineEffective(boolean effective) {
+				wineUsed = effective;
+				repaint();
+			}
+
 		});
 
 		try {
@@ -313,12 +320,6 @@ public class PlayerGui extends JPanel implements PlayerUI {
 	@Override
 	public void stopCountdown() {
 		countdownBar.stopCountdown();
-	}
-
-	@Override
-	public void setWineUsed(boolean used) {
-		this.wineUsed = used;
-		repaint();
 	}
 
 	@Override

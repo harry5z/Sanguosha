@@ -20,7 +20,7 @@ public class SyncResetWineEffectiveGameUIClientCommand extends AbstractSyncGameU
 		} else {
 			// directly modify UI here because no data record of other player's
 			// wine usage is needed
-			panel.getGameUI().getOtherPlayerUI(name).setWineUsed(false);
+			panel.getGameState().getPlayer(name).resetWineEffective();
 		}
 	}
 

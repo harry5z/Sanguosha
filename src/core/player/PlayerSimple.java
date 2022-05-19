@@ -33,10 +33,12 @@ public class PlayerSimple extends Player {
 	private DelayedListener delayedListener;
 	
 	private int cardsCount;
+	private boolean wineEffective; // whether wine is currently effective
 
 	public PlayerSimple(String name, int position) {
 		super(name, position);
 		cardsCount = 0;
+		wineEffective = false;
 	}
 
 	/**
@@ -263,6 +265,22 @@ public class PlayerSimple extends Player {
 
 	public void clearDisposalArea() {
 		disposalListener.refresh();
+	}
+	
+	public void useWine() throws InvalidPlayerCommandException {
+		wineEffective = true;
+		heroListener.onWineEffective(true);
+	}
+	
+	public boolean isWineEffective() {
+		return this.wineEffective;
+	}
+	
+	public void resetWineEffective() {
+		if (this.wineEffective) {
+			this.wineEffective = false;
+			heroListener.onWineEffective(false);
+		}
 	}
 
 }
