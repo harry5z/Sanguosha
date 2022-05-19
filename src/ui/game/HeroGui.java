@@ -6,13 +6,13 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import core.Constants;
 import core.client.GamePanel;
@@ -31,7 +31,8 @@ public class HeroGui extends JPanel implements HeroUI {
 	public static final int WIDTH = CardRackGui.HEIGHT;
 	public static final int HEIGHT = WIDTH;
 	private boolean activated = false;
-	private JComponent chain = null;
+	private boolean chained = false;
+	private BufferedImage chainedImage;
 	private SkillBarGui skillBar = null;
 	private final GamePanel panel;
 	private final JButton heroButton;
@@ -54,6 +55,12 @@ public class HeroGui extends JPanel implements HeroUI {
 		this.skillBar = new SkillBarGui();
 		this.skillBar.setLocation(0, HEIGHT - SkillBarGui.HEIGHT);
 		this.add(skillBar);
+		
+		try {
+			this.chainedImage = ImageIO.read(getClass().getResource("cards/chained.png"));
+		} catch (IOException e1) {
+			System.err.println("File cards/chained.png not found");
+		}
 	}
 
 	@Override
@@ -91,10 +98,10 @@ public class HeroGui extends JPanel implements HeroUI {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		if (activated)
-			g.setColor(Color.RED);
-		else
-			g.setColor(Color.BLACK);
+		if (chained) {
+			g.drawImage(chainedImage, 0, 25, null);
+		}
+		g.setColor(activated ? Color.RED : Color.BLACK);
 		((Graphics2D) g).setStroke(new BasicStroke(Constants.BORDER_WIDTH));
 		g.drawRect(0, 0, WIDTH, HEIGHT);
 	}
@@ -157,22 +164,11 @@ public class HeroGui extends JPanel implements HeroUI {
 
 	@Override
 	public void setChained(boolean chained) {
-		if (!chained && this.chain != null) {
-			this.remove(this.chain);
-			this.chain = null;
-		} else if (chained) {
-			JLabel chain = new JLabel("Chained");
-			chain.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
-			chain.setSize(WIDTH, 30);
-			chain.setHorizontalAlignment(SwingConstants.CENTER);
-			chain.setAlignmentY(TOP_ALIGNMENT);
-			this.chain = chain;
-			this.add(chain);
-		}
+		this.chained = chained;
 		this.validate();
 		this.repaint();
 	}
-
+	
 	@Override
 	public void onChained(boolean chained) {
 		this.setChained(chained);

@@ -5,9 +5,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -44,7 +46,8 @@ public class PlayerGui extends JButton implements PlayerUI {
 	private static final int CARDCOUNT_HEIGHT = 20;
 	private PlayerSimple player;
 	private boolean activated = false;
-	private JComponent chain = null;
+	private boolean chained = false;
+	private BufferedImage chainedImage;
 
 	public PlayerGui(PlayerSimple player, GamePanel panel) {
 		this.player = player;
@@ -92,6 +95,12 @@ public class PlayerGui extends JButton implements PlayerUI {
 		});
 
 		addActionListener(e -> panel.getCurrentOperation().onPlayerClicked(this));
+		
+		try {
+			this.chainedImage = ImageIO.read(getClass().getResource("cards/chained.png"));
+		} catch (IOException e1) {
+			System.err.println("File cards/chained.png not found");
+		}
 	}
 
 	@Override
@@ -277,10 +286,10 @@ public class PlayerGui extends JButton implements PlayerUI {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		if (activated)
-			g.setColor(Color.RED);
-		else
-			g.setColor(Color.BLACK);
+		if (chained) {
+			g.drawImage(chainedImage, 0, 25, null);
+		}
+		g.setColor(activated ? Color.RED : Color.BLACK);
 		((Graphics2D) g).setStroke(new BasicStroke(Constants.BORDER_WIDTH));
 		g.drawRect(0, 0, WIDTH, HEIGHT);
 	}
@@ -303,18 +312,7 @@ public class PlayerGui extends JButton implements PlayerUI {
 
 	@Override
 	public void setChained(boolean chained) {
-		if (!chained && this.chain != null) {
-			this.remove(this.chain);
-			this.chain = null;
-		} else if (chained) {
-			JLabel chain = new JLabel("Chained");
-			chain.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
-			chain.setSize(WIDTH, 20);
-			chain.setLocation(0, NAMETAG_HEIGHT);
-			chain.setHorizontalAlignment(CENTER);
-			this.chain = chain;
-			this.add(chain);
-		}
+		this.chained = chained;
 		this.validate();
 		this.repaint();
 	}
