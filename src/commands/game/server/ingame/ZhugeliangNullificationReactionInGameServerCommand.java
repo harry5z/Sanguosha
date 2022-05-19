@@ -1,0 +1,38 @@
+package commands.game.server.ingame;
+
+import java.util.Set;
+
+import cards.Card;
+import core.player.PlayerInfo;
+import core.server.game.GameInternal;
+import core.server.game.controllers.AbstractSingleStageGameController;
+import core.server.game.controllers.GameController;
+import core.server.game.controllers.mechanics.UseCardOnHandGameController;
+import core.server.game.controllers.specials.SpecialGameController;
+import exceptions.server.game.GameFlowInterruptedException;
+
+public class ZhugeliangNullificationReactionInGameServerCommand extends InGameServerCommand {
+
+	private static final long serialVersionUID = 8912576615284742483L;
+	
+	private final PlayerInfo source;
+	private final Card nullification;
+	
+	public ZhugeliangNullificationReactionInGameServerCommand(PlayerInfo source, Card nullification) {
+		this.source = source;
+		this.nullification = nullification;
+	}
+
+	@Override
+	public GameController getGameController() {
+		return new AbstractSingleStageGameController() {
+			
+			@Override
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
+				game.<SpecialGameController>getNextGameController().onNullified();
+				game.pushGameController(new UseCardOnHandGameController(game.findPlayer(source), Set.of(nullification)));
+			}
+		};
+	}
+
+}

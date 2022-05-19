@@ -3,7 +3,7 @@ package core.heroes.skills;
 import commands.game.client.PlayerActionGameClientCommand;
 import commands.game.client.RequestNullificationGameUIClientCommand;
 import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.NullificationReactionInGameServerCommand;
+import commands.game.server.ingame.ZhugeliangNullificationReactionInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.listener.skills.SeeThroughSkillClientEventListener;
 import core.player.PlayerCompleteServer;
@@ -42,8 +42,7 @@ public class ZhugeliangSeeThroughHeroSkill implements ActiveSkill {
 	@Override
 	public Class<? extends InGameServerCommand> getAllowedResponseType(PlayerActionGameClientCommand command) {
 		if (command.getClass() == RequestNullificationGameUIClientCommand.class) {
-			// TODO change to its own command
-			return NullificationReactionInGameServerCommand.class;
+			return ZhugeliangNullificationReactionInGameServerCommand.class;
 		}
 		return null;
 	}

@@ -40,7 +40,7 @@ public abstract class AbstractSpecialGameController<T extends GameControllerStag
 		} else {
 			if (this.nullifiedCount == 0) {
 				throw new GameFlowInterruptedException(
-					new RequestNullificationGameUIClientCommand(getNullificationMessage())
+					new RequestNullificationGameUIClientCommand(getNullificationMessage(), game.getPlayersAlive())
 				);
 			} else {
 				throw new GameFlowInterruptedException(null);
