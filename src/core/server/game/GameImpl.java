@@ -14,8 +14,8 @@ import core.event.handlers.EventHandler;
 import core.heroes.original.GanNing;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
-import core.server.SyncController;
 import core.server.GameRoom;
+import core.server.SyncController;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.TurnGameController;
 import exceptions.server.game.GameFlowInterruptedException;
@@ -79,12 +79,15 @@ public class GameImpl implements Game {
 	
 	@Override
 	public PlayerCompleteServer findPlayer(PlayerInfo info) {
+		if (info == null) {
+			return null;
+		}
 		for (PlayerCompleteServer player : this.players) {
 			if (player.getName().equals(info.getName())) {
 				return player;
 			}
 		}
-		throw new RuntimeException("Player " + info.getName() + "does not exist?");
+		return null;
 	}
 
 	private PlayerCompleteServer getNextPlayer(PlayerCompleteServer current) {
@@ -182,6 +185,16 @@ public class GameImpl implements Game {
 		// TODO make this method throw InvalidPlayerCommand if casting failed
 		if (this.controllers.size() >= 2) {
 			return (T) this.controllers.get(this.controllers.size() - 2);
+		} else {
+			return (T) this.turnController;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends GameController> T getCurrentGameController() {
+		if (!this.controllers.empty()) {
+			return (T) this.controllers.peek();
 		} else {
 			return (T) this.turnController;
 		}

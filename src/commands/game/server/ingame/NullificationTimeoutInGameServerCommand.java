@@ -5,6 +5,7 @@ import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.specials.SpecialGameController;
 import exceptions.server.game.GameFlowInterruptedException;
+import exceptions.server.game.IllegalPlayerActionException;
 
 public class NullificationTimeoutInGameServerCommand extends InGameServerCommand {
 
@@ -19,6 +20,11 @@ public class NullificationTimeoutInGameServerCommand extends InGameServerCommand
 				game.<SpecialGameController>getNextGameController().onNullificationTimeout();;
 			}
 		};
+	}
+
+	@Override
+	public void validate(GameInternal game) throws IllegalPlayerActionException {
+		// nothing to validate as it is a server side command
 	}
 
 }

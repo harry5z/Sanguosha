@@ -52,7 +52,6 @@ public class InitiateAttackOperation extends AbstractCardInitiatedMultiTargetOpe
 	@Override
 	protected InGameServerCommand getCommandOnConfirm() {
 		return new InitiateAttackInGameServerCommand(
-			this.getSelf().getPlayerInfo(),
 			this.targets.stream().map(target -> target.getPlayer().getPlayerInfo()).collect(Collectors.toSet()),
 			(Attack) this.activator.getCard()
 		);

@@ -4,6 +4,7 @@ import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
 import exceptions.server.game.GameFlowInterruptedException;
+import exceptions.server.game.IllegalPlayerActionException;
 
 public class EndStageInGameServerCommand extends InGameServerCommand {
 
@@ -18,5 +19,10 @@ public class EndStageInGameServerCommand extends InGameServerCommand {
 				game.getTurnController().nextStage();
 			}
 		};
+	}
+
+	@Override
+	public void validate(GameInternal game) throws IllegalPlayerActionException {
+		// nothing to validate
 	}
 }

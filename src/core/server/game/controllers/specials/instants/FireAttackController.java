@@ -12,6 +12,7 @@ import core.server.game.GameInternal;
 import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.mechanics.DamageGameController;
 import exceptions.server.game.GameFlowInterruptedException;
+import exceptions.server.game.IllegalPlayerActionException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class FireAttackController extends SingleTargetInstantSpecialGameController implements CardSelectableGameController {
@@ -66,14 +67,31 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 		} else {
 			// check if Fire Attack is effective
 			this.nextStage();
-			if (card != null) {
-				try {
-					// TODO: convert to controller
-					this.source.discardCard(card);
-				} catch (InvalidPlayerCommandException e) {
-					e.printStackTrace();
-				}
-				game.pushGameController(new DamageGameController(new Damage(1, Element.FIRE, this.source, this.target)));
+			try {
+				// TODO: convert to controller
+				this.source.discardCard(card);
+			} catch (InvalidPlayerCommandException e) {
+				e.printStackTrace();
+			}
+			game.pushGameController(new DamageGameController(new Damage(1, Element.FIRE, this.source, this.target)));
+		}
+	}
+
+	@Override
+	public void validateCardSelected(GameInternal game, Card card, PlayerCardZone zone) throws IllegalPlayerActionException {
+		if (card == null) {
+			throw new IllegalPlayerActionException("Fire Attack: Card cannot be null");
+		}
+		if (this.shownCard == null) {
+			if (!target.getCardsOnHand().contains(card)) {
+				throw new IllegalPlayerActionException("Fire Attack: Target does not have this card on hand");
+			}
+		} else {
+			if (!source.getCardsOnHand().contains(card)) {
+				throw new IllegalPlayerActionException("Fire Attack: Source does not have this card on hand");
+			}
+			if (card.getSuit() != shownCard.getSuit()) {
+				throw new IllegalPlayerActionException("Fire Attack: Shown card and discarded card are not of the same suit");
 			}
 		}
 	}

@@ -4,6 +4,7 @@ import java.util.Set;
 
 import cards.Card;
 import cards.equipments.Equipment;
+import cards.equipments.Equipment.EquipmentType;
 import commands.game.client.equipment.AxeAbilityGameClientCommand;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
@@ -16,6 +17,7 @@ import core.server.game.controllers.mechanics.AttackResolutionGameController.Att
 import core.server.game.controllers.mechanics.RecycleCardsGameController;
 import core.server.game.controllers.mechanics.UnequipGameController;
 import exceptions.server.game.GameFlowInterruptedException;
+import exceptions.server.game.IllegalPlayerActionException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class AxeGameController extends AbstractPlayerDecisionActionGameController
@@ -73,6 +75,33 @@ public class AxeGameController extends AbstractPlayerDecisionActionGameControlle
 			default:
 				break;
 		}
+	}
+
+	@Override
+	public void validateCardSelected(GameInternal game, Card card, PlayerCardZone zone) throws IllegalPlayerActionException {
+		if (card == null) {
+			throw new IllegalPlayerActionException("Axe Reaction: Card cannot be null");
+		}
+		switch (zone) {
+			case HAND:
+				if (!source.getCardsOnHand().contains(card)) {
+					throw new IllegalPlayerActionException("Axe Reaction: Player does not own the card used");
+				}
+				break;
+			case EQUIPMENT:
+				if (!(card instanceof Equipment)) {
+					throw new IllegalPlayerActionException("Axe Reaction: Card is not an Equipment");
+				}
+				if (((Equipment) card).getEquipmentType() == EquipmentType.WEAPON) {
+					throw new IllegalPlayerActionException("Axe Reaction: Axe itself cannot be discarded");
+				}
+				if (!source.isEquippedWith((Equipment) card)) {
+					throw new IllegalPlayerActionException("Axe Reaction: Player is not equipped with " + card);
+				}
+				break;
+			default:
+				throw new IllegalPlayerActionException("Axe Reaction: Invalid zone");
+		}		
 	}
 
 }

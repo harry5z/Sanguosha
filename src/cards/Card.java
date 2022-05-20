@@ -121,6 +121,10 @@ public abstract class Card implements Serializable {
 		return suit;
 	}
 	
+	public int getID() {
+		return id;
+	}
+	
 	@Override
 	public int hashCode() {
 		return getName().hashCode();

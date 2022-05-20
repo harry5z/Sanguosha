@@ -22,6 +22,7 @@ import core.server.game.controllers.mechanics.RecycleCardsGameController;
 import core.server.game.controllers.mechanics.UnequipGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import exceptions.server.game.GameStateErrorException;
+import exceptions.server.game.IllegalPlayerActionException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class IcySwordGameController
@@ -118,6 +119,30 @@ public class IcySwordGameController
 		if (this.target.getHandCount() == 0 && !this.target.isEquipped()) {
 			this.discardCompleted = true;
 		}
+	}
+	
+	@Override
+	public void validateCardSelected(GameInternal game, Card card, PlayerCardZone zone) throws IllegalPlayerActionException {
+		if (card == null) {
+			throw new IllegalPlayerActionException("Icy Sword: Card cannot be null");
+		}
+		switch (zone) {
+			case HAND:
+				if (!target.getCardsOnHand().contains(card)) {
+					throw new IllegalPlayerActionException("Icy Sword: Target does not own the card used");
+				}
+				break;
+			case EQUIPMENT:
+				if (!(card instanceof Equipment)) {
+					throw new IllegalPlayerActionException("Icy Sword: Card is not an Equipment");
+				}
+				if (!source.isEquippedWith((Equipment) card)) {
+					throw new IllegalPlayerActionException("Icy Sword: Target is not equipped with " + card);
+				}
+				break;
+			default:
+				throw new IllegalPlayerActionException("Icy Sword: Invalid zone");
+		}		
 	}
 
 }

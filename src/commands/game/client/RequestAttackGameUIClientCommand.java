@@ -61,7 +61,7 @@ public class RequestAttackGameUIClientCommand extends AbstractSingleTargetOperat
 
 	@Override
 	public InGameServerCommand getDefaultResponse() {
-		return new AttackReactionInGameServerCommand(target, null);
+		return new AttackReactionInGameServerCommand(null);
 	}
 
 }

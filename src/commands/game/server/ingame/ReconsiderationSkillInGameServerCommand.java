@@ -1,5 +1,6 @@
 package commands.game.server.ingame;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -8,7 +9,6 @@ import java.util.Set;
 import cards.Card;
 import cards.equipments.Equipment;
 import core.player.PlayerCardZone;
-import core.player.PlayerCompleteServer;
 import core.player.PlayerState;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
@@ -17,13 +17,15 @@ import core.server.game.controllers.mechanics.ReceiveCardsGameController;
 import core.server.game.controllers.mechanics.RecycleCardsGameController;
 import core.server.game.controllers.mechanics.UnequipGameController;
 import exceptions.server.game.GameFlowInterruptedException;
+import exceptions.server.game.IllegalPlayerActionException;
+import exceptions.server.game.InvalidCardException;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class ReconsiderationSkillInGameServerCommand extends InGameServerCommand {
 
 	private static final long serialVersionUID = 1L;
 	
-	private final Map<Card, PlayerCardZone> cards;
+	private Map<Card, PlayerCardZone> cards;
 	
 	public ReconsiderationSkillInGameServerCommand(Map<Card, PlayerCardZone> cards) {
 		this.cards = cards;
@@ -37,7 +39,6 @@ public class ReconsiderationSkillInGameServerCommand extends InGameServerCommand
 			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				try {
 					Set<Card> cardsOnHand = new HashSet<>();
-					PlayerCompleteServer source = game.getCurrentPlayer();
 					source.updatePlayerState(PlayerState.SUN_QUAN_RECONSIDERATION_COUNTER, 1);
 					game.pushGameController(new ReceiveCardsGameController(source, game.getDeck().drawMany(cards.size())));
 					for (Entry<Card, PlayerCardZone> entry : cards.entrySet()) {
@@ -62,6 +63,41 @@ public class ReconsiderationSkillInGameServerCommand extends InGameServerCommand
 				}
 			}
 		};
+	}
+
+	@Override
+	public void validate(GameInternal game) throws IllegalPlayerActionException {
+		if (cards == null || cards.isEmpty()) {
+			throw new IllegalPlayerActionException("Reconsideration: cards cannot be null or empty");
+		}
+		Map<Card, PlayerCardZone> map = new HashMap<>();
+		for (Map.Entry<Card, PlayerCardZone> entry : cards.entrySet()) {
+			Card card = null;
+			try {
+				card = game.getDeck().getValidatedCard(entry.getKey());
+			} catch (InvalidCardException e) {
+				throw new IllegalPlayerActionException("Reconsideration: Card is invalid. " + e.getMessage());
+			}
+			switch (entry.getValue()) {
+				case HAND:
+					if (!source.getCardsOnHand().contains(card)) {
+						throw new IllegalPlayerActionException("Reconsideration: Player does not own the card used");
+					}
+					break;
+				case EQUIPMENT:
+					if (!(card instanceof Equipment)) {
+						throw new IllegalPlayerActionException("Reconsideration: Card is not an Equipment");
+					}
+					if (!source.isEquippedWith((Equipment) card)) {
+						throw new IllegalPlayerActionException("Reconsideration: Player is not equipped with " + card);
+					}
+					break;
+				default:
+					throw new IllegalPlayerActionException("Reconsideration: Invalid zone");
+			}
+			map.put(card, entry.getValue());
+		}
+		cards = map;
 	}
 
 }

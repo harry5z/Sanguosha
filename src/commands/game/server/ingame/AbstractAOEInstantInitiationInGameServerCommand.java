@@ -7,6 +7,7 @@ import cards.Card;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
 import core.server.game.controllers.GameController;
+import exceptions.server.game.IllegalPlayerActionException;
 
 public abstract class AbstractAOEInstantInitiationInGameServerCommand extends AbstractInitiationInGameServerCommand {
 
@@ -26,6 +27,11 @@ public abstract class AbstractAOEInstantInitiationInGameServerCommand extends Ab
 			next = game.getNextPlayerAlive(next);
 		}
 		return getAOEInitiationGameController(currentPlayer, queue);
+	}
+	
+	@Override
+	protected final void validateTarget(GameInternal game) throws IllegalPlayerActionException {
+		// AOE cards have no target
 	}
 	
 	protected abstract GameController getAOEInitiationGameController(PlayerCompleteServer self, Queue<PlayerCompleteServer> others);

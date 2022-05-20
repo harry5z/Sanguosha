@@ -30,18 +30,12 @@ public class AttackReactionOperation extends AbstractSingleCardReactionOperation
 
 	@Override
 	protected InGameServerCommand getCommandOnConfirm() {
-		return new AttackReactionInGameServerCommand(
-			this.panel.getGameState().getSelf().getPlayerInfo(),
-			this.getFirstCardUI().getCard()
-		);
+		return new AttackReactionInGameServerCommand(this.getFirstCardUI().getCard());
 	}
 
 	@Override
 	protected InGameServerCommand getCommandOnInaction() {
-		return new AttackReactionInGameServerCommand(
-			this.panel.getGameState().getSelf().getPlayerInfo(),
-			null
-		);
+		return new AttackReactionInGameServerCommand(null);
 	}
 
 	@Override

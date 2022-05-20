@@ -3,8 +3,11 @@ package commands.game.server.ingame;
 import java.util.UUID;
 
 import commands.game.server.GameServerCommand;
+import core.player.PlayerCompleteServer;
 import core.server.GameRoom;
+import core.server.game.GameInternal;
 import core.server.game.controllers.GameController;
+import exceptions.server.game.IllegalPlayerActionException;
 import net.Connection;
 
 public abstract class InGameServerCommand implements GameServerCommand {
@@ -12,6 +15,7 @@ public abstract class InGameServerCommand implements GameServerCommand {
 	private static final long serialVersionUID = 4744490907869746041L;
 	
 	private UUID responseID;
+	protected transient PlayerCompleteServer source;
 	
 	/**
 	 * Set the response ID for this command so the server may accept it
@@ -30,6 +34,25 @@ public abstract class InGameServerCommand implements GameServerCommand {
 	public UUID getResponseID() {
 		return responseID;
 	}
+	
+	/**
+	 * Called by the server upon receiving this command to set the source player who made this response
+	 * 
+	 * @param source : the player who sent this response command
+	 */
+	public void setSource(PlayerCompleteServer source) {
+		this.source = source;
+	}
+	
+	/**
+	 * Validate the integrity of the command received from client. If any part is malformed 
+	 * or the command cannot be executed (e.g. Use a card that the player does not have), 
+	 * an {@link IllegalPlayerActionException} is thrown and this player action is not executed
+	 * 
+	 * @param game
+	 * @throws IllegalPlayerActionException
+	 */
+	public abstract void validate(GameInternal game) throws IllegalPlayerActionException;
 
 	/**
 	 * <p>{@inheritDoc}</p>

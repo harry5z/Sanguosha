@@ -3,23 +3,23 @@ package commands.game.server.ingame;
 import java.util.Set;
 
 import cards.Card;
-import core.player.PlayerInfo;
+import cards.Card.Color;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.UseCardOnHandGameController;
 import core.server.game.controllers.specials.SpecialGameController;
 import exceptions.server.game.GameFlowInterruptedException;
+import exceptions.server.game.IllegalPlayerActionException;
+import exceptions.server.game.InvalidCardException;
 
 public class ZhugeliangNullificationReactionInGameServerCommand extends InGameServerCommand {
 
-	private static final long serialVersionUID = 8912576615284742483L;
+	private static final long serialVersionUID = 1L;
 	
-	private final PlayerInfo source;
-	private final Card nullification;
+	private Card nullification;
 	
-	public ZhugeliangNullificationReactionInGameServerCommand(PlayerInfo source, Card nullification) {
-		this.source = source;
+	public ZhugeliangNullificationReactionInGameServerCommand(Card nullification) {
 		this.nullification = nullification;
 	}
 
@@ -30,9 +30,30 @@ public class ZhugeliangNullificationReactionInGameServerCommand extends InGameSe
 			@Override
 			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				game.<SpecialGameController>getNextGameController().onNullified();
-				game.pushGameController(new UseCardOnHandGameController(game.findPlayer(source), Set.of(nullification)));
+				game.pushGameController(new UseCardOnHandGameController(source, Set.of(nullification)));
 			}
 		};
+	}
+	
+	@Override
+	public void validate(GameInternal game) throws IllegalPlayerActionException {
+		if (nullification == null) {
+			throw new IllegalPlayerActionException("See Through: Card cannot be null");
+		}
+		
+		try {
+			nullification = game.getDeck().getValidatedCard(nullification);
+		} catch (InvalidCardException e) {
+			throw new IllegalPlayerActionException("See Through: Card is invalid");
+		}
+		
+		if (nullification.getColor() != Color.BLACK) {
+			throw new IllegalPlayerActionException("See Through: Card must be BLACK");
+		}
+
+		if (!source.getCardsOnHand().contains(nullification)) {
+			throw new IllegalPlayerActionException("See Through: Player does not own the card used");
+		}
 	}
 
 }

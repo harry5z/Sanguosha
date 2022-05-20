@@ -16,6 +16,7 @@ import core.server.game.controllers.DecisionRequiredGameController;
 import core.server.game.controllers.mechanics.RecycleCardsGameController;
 import core.server.game.controllers.mechanics.UnequipGameController;
 import exceptions.server.game.GameFlowInterruptedException;
+import exceptions.server.game.IllegalPlayerActionException;
 
 public class KylinBowGameController
 	extends AbstractPlayerDecisionActionGameController
@@ -71,6 +72,26 @@ public class KylinBowGameController
 		Equipment equipment = (Equipment) card;
 		game.pushGameController(new RecycleCardsGameController(this.target, Set.of(equipment)));
 		game.pushGameController(new UnequipGameController(this.target, equipment.getEquipmentType()));
+	}
+	
+	@Override
+	public void validateCardSelected(GameInternal game, Card card, PlayerCardZone zone) throws IllegalPlayerActionException {
+		if (zone != PlayerCardZone.EQUIPMENT) {
+			throw new IllegalPlayerActionException("Kylin Bow: Discarded card must be an equipment");
+		}
+		
+		if (card == null) {
+			throw new IllegalPlayerActionException("Kylin Bow: Card cannot be null");
+		}
+		
+		if (!(card instanceof Equipment)) {
+			throw new IllegalPlayerActionException("Kylin Bow: Discared card is not an Equipment");
+		}
+		
+		Equipment equipment = (Equipment) card;
+		if (equipment.getEquipmentType() != EquipmentType.HORSEMINUS && equipment.getEquipmentType() != EquipmentType.HORSEPLUS) {
+			throw new IllegalPlayerActionException("Kylin Bow: Discarded card is not a horse");
+		}
 	}
 
 }

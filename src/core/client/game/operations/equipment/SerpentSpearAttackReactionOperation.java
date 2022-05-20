@@ -69,7 +69,6 @@ public class SerpentSpearAttackReactionOperation extends AbstractMultiCardMultiT
 	@Override
 	protected InGameServerCommand getCommandOnConfirm() {
 		return new SerpentSpearAttackReactionInGameServerCommand(
-			this.getSelf().getPlayerInfo(),
 			this.cards.keySet().stream().map(ui -> ui.getCard()).collect(Collectors.toSet())
 		);
 	}

@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import cards.Card;
 import cards.basics.Attack;
@@ -50,6 +52,7 @@ import cards.specials.instant.Harvest;
 import cards.specials.instant.Nullification;
 import cards.specials.instant.Sabotage;
 import cards.specials.instant.Steal;
+import exceptions.server.game.InvalidCardException;
 import utils.CardIDUtil;
 import utils.Log;
 
@@ -70,6 +73,10 @@ public class Deck {
 	 * deck of cards to be drawn from
 	 */
 	private List<Card> deck;
+	/**
+	 * A copy of all valid cards for validation
+	 */
+	private Map<Integer, Card> allCards;
 	private CardIDUtil util;
 
 	public enum DeckPack {
@@ -81,6 +88,24 @@ public class Deck {
 		deck = new ArrayList<Card>();
 		util = new CardIDUtil();
 		initializeDeck(packs);
+		allCards = deck.stream().collect(Collectors.toMap(card -> card.getID(), card -> card));
+	}
+	
+	/**
+	 * Return a validated card from the deck, or throw exception if the given card is not present
+	 * 
+	 * @param card : card to be validated
+	 * @return a valid card from the deck
+	 * @throws InvalidCardException
+	 */
+	public Card getValidatedCard(Card card) throws InvalidCardException {
+		if (card == null) {
+			throw new InvalidCardException("Card is null");
+		}
+		if (!allCards.containsKey(card.getID())) {
+			throw new InvalidCardException("Card ID: " + card.getID() + " does not exist");
+		}
+		return allCards.get(card.getID());
 	}
 
 	public Card draw() {

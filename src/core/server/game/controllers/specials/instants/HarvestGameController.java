@@ -18,6 +18,7 @@ import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.mechanics.ReceiveCardsGameController;
 import core.server.game.controllers.mechanics.RecycleCardsGameController;
 import exceptions.server.game.GameFlowInterruptedException;
+import exceptions.server.game.IllegalPlayerActionException;
 
 public class HarvestGameController extends AbstractMultiTargetInstantSpecialGameController implements CardSelectableGameController {
 
@@ -45,7 +46,6 @@ public class HarvestGameController extends AbstractMultiTargetInstantSpecialGame
 	@Override
 	public void onCardSelected(GameInternal game, Card card, PlayerCardZone zone) {
 		this.nextStage();
-		// TODO: sanity check
 		this.selectableCards.replace(card, true);
 		game.pushGameController(new ReceiveCardsGameController(this.currentTarget, Set.of(card)));
 		
@@ -53,6 +53,19 @@ public class HarvestGameController extends AbstractMultiTargetInstantSpecialGame
 		game.getSyncController().sendSyncCommandToAllPlayers(
 			new SyncHarvestCardSelectionPaneGameUIClientCommand(new HashMap<>(this.selectableCards))
 		);
+	}
+
+	@Override
+	public void validateCardSelected(GameInternal game, Card card, PlayerCardZone zone) throws IllegalPlayerActionException {
+		if (card == null) {
+			throw new IllegalPlayerActionException("Harvest: Card cannot be null");
+		}
+		if (!selectableCards.containsKey(card)) {
+			throw new IllegalPlayerActionException("Harvest: Card is not in selectable cards");
+		}
+		if (selectableCards.get(card)) {
+			throw new IllegalPlayerActionException("Harvest: Card already selected");
+		}
 	}
 
 	@Override

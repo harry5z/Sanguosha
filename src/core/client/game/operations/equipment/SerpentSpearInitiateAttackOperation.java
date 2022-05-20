@@ -72,7 +72,6 @@ public class SerpentSpearInitiateAttackOperation extends AbstractMultiCardMultiT
 	@Override
 	protected InGameServerCommand getCommandOnConfirm() {
 		return new SerpentSpearInitiateAttackInGameServerCommand(
-			this.getSelf().getPlayerInfo(),
 			Set.of(this.targets.peek().getPlayer().getPlayerInfo()),
 			this.cards.keySet().stream().map(ui -> ui.getCard()).collect(Collectors.toSet())
 		);

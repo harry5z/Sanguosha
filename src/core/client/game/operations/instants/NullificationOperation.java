@@ -45,14 +45,11 @@ public class NullificationOperation extends AbstractSingleCardReactionOperation 
 
 	@Override
 	protected InGameServerCommand getCommandOnInaction() {
-		return new NullificationReactionInGameServerCommand(null, null);
+		return new NullificationReactionInGameServerCommand(null);
 	}
 
 	@Override
 	protected InGameServerCommand getCommandOnConfirm() {
-		return new NullificationReactionInGameServerCommand(
-			this.getSelf().getPlayerInfo(),
-			this.getFirstCardUI().getCard()
-		);
+		return new NullificationReactionInGameServerCommand(this.getFirstCardUI().getCard());
 	}
 }

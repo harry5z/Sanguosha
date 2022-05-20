@@ -17,6 +17,7 @@ import core.player.PlayerInfo;
 import core.server.game.Game;
 import core.server.game.GameConfig;
 import core.server.game.GameImpl;
+import exceptions.server.game.IllegalPlayerActionException;
 import net.Connection;
 import net.server.ServerEntity;
 import utils.Log;
@@ -64,10 +65,24 @@ public class GameRoom extends ServerEntity implements SyncController {
 			Log.error("GameRoom", "Player response UUID mismatch");
 			return;
 		}
+		
 		if (!this.allowedResponseTypes.contains(command.getClass())) {
 			Log.error("GameRoom", "Invalid Response Type: " + command.getClass().getSimpleName());
 			return;
 		}
+		this.connectionMap.forEach((name, c) -> {
+			if (c == connection) {
+				command.setSource(game.findPlayer(player -> player.getName().equals(name)));
+			}
+		});
+		
+		try {
+			command.validate(game);
+		} catch (IllegalPlayerActionException e) {
+			System.err.println(e.getMessage());
+			return;
+		}
+		
 		this.allowedResponseIDs.remove(connection); // clear UUID once a valid response is received
 		if (this.allowedResponseIDs.size() == 0) {
 			this.defaultResponseTask.cancel();

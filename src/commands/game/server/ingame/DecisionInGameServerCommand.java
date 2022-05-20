@@ -5,6 +5,7 @@ import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.DecisionRequiredGameController;
 import core.server.game.controllers.GameController;
 import exceptions.server.game.GameFlowInterruptedException;
+import exceptions.server.game.IllegalPlayerActionException;
 
 public class DecisionInGameServerCommand extends InGameServerCommand {
 
@@ -25,6 +26,11 @@ public class DecisionInGameServerCommand extends InGameServerCommand {
 				game.<DecisionRequiredGameController>getNextGameController().onDecisionMade(confirmed);
 			}
 		};
+	}
+
+	@Override
+	public void validate(GameInternal game) throws IllegalPlayerActionException {
+		// nothing to validate
 	}
 
 }

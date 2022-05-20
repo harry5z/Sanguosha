@@ -20,25 +20,33 @@ public class RequestNullificationGameUIClientCommand extends AbstractPlayerActio
 	
 	private final String message;
 	private UUID uuid;
-	private final transient Collection<PlayerCompleteServer> players;
+	private final transient Collection<PlayerCompleteServer> playersAlive;
 	
 	public RequestNullificationGameUIClientCommand(String message, Collection<PlayerCompleteServer> players) {
 		this.message = message;
-		this.players = players;
+		this.playersAlive = players;
 	}
 	
 	@Override
 	protected void execute(GamePanel panel) {
-		// response ID must be present for the response to be accepted by server
-		panel.setNextResponseID(uuid);
-		panel.pushPlayerActionOperation(new NullificationOperation(this.message), timeoutMS);
+		if (panel.getGameState().getSelf().isAlive()) {
+			// response ID must be present for the response to be accepted by server
+			panel.setNextResponseID(uuid);
+			panel.pushPlayerActionOperation(new NullificationOperation(this.message), timeoutMS);
+		}
 		panel.getGameUI().getOtherPlayersUI().forEach(ui -> ui.showCountdownBar(timeoutMS));
 	}
 
 	@Override
 	public UUID generateResponseID(String name) {
-		uuid = UUID.randomUUID(); // anyone can respond to Nullification
-		return uuid;
+		for (PlayerCompleteServer player : playersAlive) {
+			if (player.getName().equals(name)) {
+				uuid = UUID.randomUUID(); // anyone alive can respond to Nullification
+				return uuid;
+			}
+		}
+		uuid = null;
+		return null;
 	}
 
 	@Override
@@ -47,7 +55,7 @@ public class RequestNullificationGameUIClientCommand extends AbstractPlayerActio
 		// allow regular Nullification reaction
 		types.add(NullificationReactionInGameServerCommand.class);
 		
-		for (PlayerCompleteServer player : players) {
+		for (PlayerCompleteServer player : playersAlive) {
 			for (Skill skill : player.getHero().getSkills()) {
 				if (skill instanceof ActiveSkill) {
 					Class<? extends InGameServerCommand> type = ((ActiveSkill) skill).getAllowedResponseType(this);

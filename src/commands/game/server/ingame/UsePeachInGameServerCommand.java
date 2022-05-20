@@ -3,20 +3,21 @@ package commands.game.server.ingame;
 import java.util.Set;
 
 import cards.Card;
-import core.player.PlayerCompleteServer;
+import cards.basics.Peach;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.HealGameController;
 import core.server.game.controllers.mechanics.UseCardOnHandGameController;
 import exceptions.server.game.GameFlowInterruptedException;
-import exceptions.server.game.InvalidPlayerCommandException;
+import exceptions.server.game.IllegalPlayerActionException;
+import exceptions.server.game.InvalidCardException;
 
 public class UsePeachInGameServerCommand extends InGameServerCommand {
 
 	private static final long serialVersionUID = 9088626402130251064L;
 	
-	private final Card card;
+	private Card card;
 
 	public UsePeachInGameServerCommand(Card card) {
 		this.card = card;
@@ -28,21 +29,33 @@ public class UsePeachInGameServerCommand extends InGameServerCommand {
 			
 			@Override
 			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
-				PlayerCompleteServer currentPlayer = game.getCurrentPlayer();
-				try {
-					if (!currentPlayer.isDamaged()) {
-						throw new InvalidPlayerCommandException("player is at full health");
-					}
-					game.pushGameController(new HealGameController(currentPlayer, currentPlayer));
-					if (card != null) {
-						game.pushGameController(new UseCardOnHandGameController(currentPlayer, Set.of(card)));
-					}
-				} catch (InvalidPlayerCommandException e) {
-					// TODO handle error
-					e.printStackTrace();
-				}
+				game.pushGameController(new HealGameController(source, source));
+				game.pushGameController(new UseCardOnHandGameController(source, Set.of(card)));
 			}
 		};
+	}
+
+	@Override
+	public void validate(GameInternal game) throws IllegalPlayerActionException {
+		if (card == null) {
+			throw new IllegalPlayerActionException("Peach: Card cannot be null");
+		}
+		
+		try {
+			card = (Peach) game.getDeck().getValidatedCard(card);
+		} catch (InvalidCardException e) {
+			throw new IllegalPlayerActionException("Peach: Card is invalid");
+		} catch (ClassCastException e) {
+			throw new IllegalPlayerActionException("Peach: Card is not a Peach");
+		}
+
+		if (!source.getCardsOnHand().contains(card)) {
+			throw new IllegalPlayerActionException("Peach: Player does not own the card used");
+		}
+		
+		if (!source.isDamaged()) {
+			throw new IllegalPlayerActionException("Peach: Player is at full health");
+		}		
 	}
 
 }

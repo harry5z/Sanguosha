@@ -18,6 +18,11 @@ public interface GameInternal extends GameEventRegistrar, GameDriver {
 	
 	public int getNumberOfPlayersAlive();
 	
+	/**
+	 * Get the player represented by a PlayerInfo, or null if not found
+	 * @param info
+	 * @return player, or null
+	 */
 	public PlayerCompleteServer findPlayer(PlayerInfo info);
 	
 	public PlayerCompleteServer findPlayer(Predicate<PlayerCompleteServer> predicate);
@@ -27,6 +32,8 @@ public interface GameInternal extends GameEventRegistrar, GameDriver {
 	public PlayerCompleteServer getCurrentPlayer();
 	
 	public <T extends GameController> T getNextGameController();
+	
+	public <T extends GameController> T getCurrentGameController();
 	
 	public TurnGameController getTurnController();
 

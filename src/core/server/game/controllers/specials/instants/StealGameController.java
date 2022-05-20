@@ -16,7 +16,9 @@ import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.mechanics.ReceiveCardsGameController;
 import core.server.game.controllers.mechanics.UnequipGameController;
 import exceptions.server.game.GameFlowInterruptedException;
+import exceptions.server.game.IllegalPlayerActionException;
 import exceptions.server.game.InvalidPlayerCommandException;
+import utils.DelayedStackItem;
 
 public class StealGameController extends SingleTargetInstantSpecialGameController implements CardSelectableGameController {
 
@@ -63,19 +65,53 @@ public class StealGameController extends SingleTargetInstantSpecialGameControlle
 				}
 				break;
 			case EQUIPMENT:
-				try {
 					Equipment equipment = (Equipment) card;
 					game.pushGameController(new ReceiveCardsGameController(this.source, Set.of(equipment)));
 					game.pushGameController(new UnequipGameController(this.target, equipment.getEquipmentType()));
-				} catch (ClassCastException e) {
-					e.printStackTrace();
-				}
 				break;
 			case DELAYED:
 				this.target.removeDelayed(card);
 				game.pushGameController(new ReceiveCardsGameController(this.source, Set.of(card)));
 				break;
 		}
+	}
+
+	@Override
+	public void validateCardSelected(GameInternal game, Card card, PlayerCardZone zone) throws IllegalPlayerActionException {
+		switch(zone) {
+			case HAND:
+				if (target.getHandCount() == 0) {
+					throw new IllegalPlayerActionException("Steal: Target does not have any card on hand");
+				}
+				break;
+			case EQUIPMENT:
+				if (card == null) {
+					throw new IllegalPlayerActionException("Steal: Card cannot be null");
+				}
+				if (!(card instanceof Equipment)) {
+					throw new IllegalPlayerActionException("Steal: Card is not an Equipment");
+				}
+				if (!target.isEquippedWith((Equipment) card)) {
+					throw new IllegalPlayerActionException("Steal: Target is not equipped with " + card);
+				}
+				break;
+			case DELAYED:
+				if (card == null) {
+					throw new IllegalPlayerActionException("Steal: Card cannot be null");
+				}
+				boolean cardFound = false;
+				for (DelayedStackItem item : target.getDelayedQueue()) {
+					if (item.delayed.equals(card)) {
+						cardFound = true;
+					}
+				}
+				if (!cardFound) {
+					throw new IllegalPlayerActionException("Steal: Target does not have selected Delayed card");
+				}
+				break;
+			default:
+				throw new IllegalPlayerActionException("Steal: Invalid zone");
+		}		
 	}
 
 }
