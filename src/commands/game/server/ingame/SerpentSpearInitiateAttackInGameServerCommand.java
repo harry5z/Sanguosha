@@ -39,7 +39,7 @@ public class SerpentSpearInitiateAttackInGameServerCommand extends InGameServerC
 			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				try {
 					Set<PlayerCompleteServer> set = targets.stream().map(target -> game.findPlayer(target)).collect(Collectors.toSet());
-					source.useAttack(set);
+					source.useAttack();
 					Color color = cards.stream().map(card -> card.getColor()).reduce(
 						cards.iterator().next().getColor(),
 						(c1, c2) -> c1 == c2 ? c1 : Color.COLORLESS

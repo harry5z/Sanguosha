@@ -7,6 +7,8 @@ import cards.equipments.Equipment.EquipmentType;
 import commands.game.client.sync.SyncCommandsUtil;
 import commands.game.client.sync.player.SyncEquipGameClientCommand;
 import commands.game.client.sync.player.SyncUnequipGameClientCommand;
+import core.player.PlayerCompleteServer;
+import core.player.PlayerSimple;
 import core.server.SyncController;
 import listeners.game.EquipmentListener;
 
@@ -36,6 +38,20 @@ public class ServerInGameEquipmentListener extends ServerInGamePlayerListener im
 				new SyncUnequipGameClientCommand(name, type)
 			)	
 		);
+	}
+
+	@Override
+	public void refreshSelf(PlayerCompleteServer self) {
+		for (Equipment equipment : self.getEquipments()) {
+			controller.sendSyncCommandToPlayer(name, new SyncEquipGameClientCommand(self.getName(), equipment));
+		}
+	}
+
+	@Override
+	public void refreshOther(PlayerSimple other) {
+		for (Equipment equipment : other.getEquipments()) {
+			controller.sendSyncCommandToPlayer(name, new SyncEquipGameClientCommand(other.getName(), equipment));
+		}
 	}
 
 }

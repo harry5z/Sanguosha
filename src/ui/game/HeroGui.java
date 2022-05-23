@@ -9,7 +9,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -19,7 +18,6 @@ import core.Constants;
 import core.client.GamePanel;
 import core.heroes.Hero;
 import core.heroes.skills.Skill;
-import core.player.Player;
 import core.player.PlayerCompleteClient;
 import core.player.PlayerSimple;
 import core.player.PlayerState;
@@ -131,7 +129,7 @@ public class HeroGui extends JPanel implements HeroUI {
 	}
 
 	@Override
-	public void onAttackUsed(Set<? extends Player> targets) {
+	public void onAttackUsed() {
 		// nothing to show
 	}
 

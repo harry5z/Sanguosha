@@ -15,7 +15,7 @@ public abstract class AbstractSyncPlayerClientCommand implements SyncGameClientC
 	public final void execute(ClientFrame frame, Connection connection) {
 		try {
 			// A GamePanel should have already been set up. If not, it's an error
-			synchronized (frame.getPanel()) {
+			synchronized (frame) {
 				this.sync(((GamePanel) frame.getPanel()).getGameState());
 			}
 		} catch (InvalidPlayerCommandException e) {

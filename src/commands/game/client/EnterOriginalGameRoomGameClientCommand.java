@@ -20,8 +20,10 @@ public class EnterOriginalGameRoomGameClientCommand implements SyncGameClientCom
 		this.self = self;
 	}
 	@Override
-	public void execute(ClientFrame ui, Connection connection) {
-		ui.onNewPanelDisplayed(new GamePanelOriginal(self, players, connection));
+	public void execute(ClientFrame frame, Connection connection) {
+		synchronized (frame) {
+			frame.onNewPanelDisplayed(new GamePanelOriginal(self, players, connection));
+		}
 	}
 	
 }

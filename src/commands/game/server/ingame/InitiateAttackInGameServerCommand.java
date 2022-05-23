@@ -37,7 +37,7 @@ public class InitiateAttackInGameServerCommand extends InGameServerCommand {
 			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				try {
 					Set<PlayerCompleteServer> set = targets.stream().map(target -> game.findPlayer(target)).collect(Collectors.toSet());
-					source.useAttack(set);
+					source.useAttack();
 					game.pushGameController(new AttackGameController(source, set, attack));
 					game.pushGameController(new UseCardOnHandGameController(source, Set.of(attack)));
 				} catch (InvalidPlayerCommandException e) {

@@ -159,9 +159,9 @@ public class PlayerComplete extends PlayerSimple {
 		}
 	}
 
-	public void useAttack(Set<? extends Player> targets) throws InvalidPlayerCommandException {
+	public void useAttack() throws InvalidPlayerCommandException {
 		attackUsed++;
-		statusListener.onAttackUsed(targets);
+		statusListener.onAttackUsed();
 	}
 
 	public void setWineUsed(int amount) throws InvalidPlayerCommandException {
@@ -227,6 +227,10 @@ public class PlayerComplete extends PlayerSimple {
 	
 	public int getPlayerState(PlayerState key) {
 		return this.stateCounters.get(key);
+	}
+	
+	public Set<PlayerState> getPlayerStates() {
+		return this.stateCounters.keySet();
 	}
 
 }

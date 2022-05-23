@@ -9,6 +9,8 @@ import commands.game.client.sync.player.SyncCardShownGameClientCommand;
 import commands.game.client.sync.player.SyncCardUsedGameClientCommand;
 import commands.game.client.sync.player.SyncDisposalAreaRefreshGameClientCommand;
 import core.Deck;
+import core.player.PlayerCompleteServer;
+import core.player.PlayerSimple;
 import core.server.GameRoom;
 import listeners.game.CardDisposalListener;
 
@@ -35,7 +37,6 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 
 	@Override
 	public void onCardDisposed(Card card) {
-		// TODO: some abilities might affect disposed cards
 		this.deck.discard(card);
 		controller.sendSyncCommandToPlayers(
 			SyncCommandsUtil.generateMapForSameCommand(
@@ -66,6 +67,16 @@ public class ServerInGameCardDisposalListener extends ServerInGamePlayerListener
 				new SyncDisposalAreaRefreshGameClientCommand()
 			)
 		);
+	}
+
+	@Override
+	public void refreshSelf(PlayerCompleteServer self) {
+		// nothing to refresh
+	}
+
+	@Override
+	public void refreshOther(PlayerSimple other) {
+		// nothing to refresh
 	}
 
 }

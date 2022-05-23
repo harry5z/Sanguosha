@@ -19,8 +19,10 @@ public class SyncFlipGameClientCommand extends AbstractSyncPlayerClientCommand {
 	@Override
 	protected void sync(GameState state) throws InvalidPlayerCommandException {
 		Player player = state.getSelf();
-		if (player.getName().equals(name) && player.isFlipped() != flipped) {
-			player.flip();
+		if (player.getName().equals(name)) {
+			if (player.isFlipped() != flipped) {
+				player.flip();
+			}
 		} else {
 			state.getPlayer(name).flip();
 		}

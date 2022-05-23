@@ -15,7 +15,7 @@ public abstract class AbstractPlayerActionGameClientCommand implements PlayerAct
 		try {
 			// A GameUIClientCommand should be sent to a previously set up GamePanel
 			// if not, it's an error
-			synchronized (frame.getPanel()) {
+			synchronized (frame) {
 				GamePanel panel = (GamePanel) frame.getPanel();
 				// Other players' countdown bar is stopped upon new Player Action received.
 				panel.getGameUI().getOtherPlayersUI().forEach(playerUI -> playerUI.stopCountdown());

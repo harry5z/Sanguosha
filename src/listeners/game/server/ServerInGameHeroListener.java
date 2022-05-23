@@ -7,6 +7,8 @@ import commands.game.client.sync.player.SyncHeroGameClientCommand;
 import commands.game.client.sync.player.SyncResetWineEffectiveGameClientCommand;
 import commands.game.client.sync.player.SyncWineUsedGameClientCommand;
 import core.heroes.Hero;
+import core.player.PlayerCompleteServer;
+import core.player.PlayerSimple;
 import core.server.SyncController;
 import listeners.game.HeroListener;
 
@@ -45,6 +47,22 @@ public class ServerInGameHeroListener extends ServerInGamePlayerListener impleme
 					new SyncResetWineEffectiveGameClientCommand(name)
 				)
 			);
+		}
+	}
+
+	@Override
+	public void refreshSelf(PlayerCompleteServer self) {
+		controller.sendSyncCommandToPlayer(name, new SyncHeroGameClientCommand(self.getName(), self.getHero()));
+		if (self.isWineEffective()) {
+			controller.sendSyncCommandToPlayer(name, new SyncWineUsedGameClientCommand(self.getName()));
+		}
+	}
+
+	@Override
+	public void refreshOther(PlayerSimple other) {
+		controller.sendSyncCommandToPlayer(name, new SyncHeroGameClientCommand(other.getName(), other.getHero()));
+		if (other.isWineEffective()) {
+			controller.sendSyncCommandToPlayer(name, new SyncWineUsedGameClientCommand(other.getName()));
 		}
 	}
 

@@ -1,5 +1,7 @@
 package core.server.game;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +27,7 @@ import listeners.game.server.ServerInGameDelayedListener;
 import listeners.game.server.ServerInGameEquipmentListener;
 import listeners.game.server.ServerInGameHealthListener;
 import listeners.game.server.ServerInGameHeroListener;
+import listeners.game.server.ServerInGamePlayerListener;
 import listeners.game.server.ServerInGamePlayerStatusListener;
 import utils.GameEventHandler;
 import utils.GameEventHandler.EventHandlerStack;
@@ -47,6 +50,7 @@ public class GameImpl implements Game {
 	private Stack<GameController> controllers;
 	private TurnGameController turnController;
 	private GameEventHandler handlers;
+	private Map<String, Set<ServerInGamePlayerListener>> playerListeners;
 
 	public GameImpl(GameRoom room, GameConfig config, List<PlayerInfo> playerInfos) {
 		this.room = room;
@@ -59,6 +63,7 @@ public class GameImpl implements Game {
 		this.playerNames = playerInfos.stream().map(info -> info.getName()).collect(Collectors.toSet());
 		this.controllers = new Stack<>();
 		this.handlers = new GameEventHandler();
+		this.playerListeners = new HashMap<>();
 	}
 
 	@Override
@@ -134,13 +139,38 @@ public class GameImpl implements Game {
 			)
 		);
 		for (PlayerCompleteServer player : players) {
-			player.registerCardOnHandListener(new ServerInGameCardOnHandListener(player.getName(), playerNames, room));
-			player.registerEquipmentListener(new ServerInGameEquipmentListener(player.getName(), playerNames, room));
-			player.registerHealthListener(new ServerInGameHealthListener(player.getName(), playerNames, room));
-			player.registerCardDisposalListener(new ServerInGameCardDisposalListener(player.getName(), playerNames, room));
-			player.registerPlayerStatusListener(new ServerInGamePlayerStatusListener(player.getName(), playerNames, room));
-			player.registerHeroListener(new ServerInGameHeroListener(player.getName(), playerNames, room));
-			player.registerDelayedListener(new ServerInGameDelayedListener(player.getName(), playerNames, room));
+			Set<ServerInGamePlayerListener> listeners = new HashSet<>();
+			
+			ServerInGameCardOnHandListener cardOnHand = new ServerInGameCardOnHandListener(player.getName(), playerNames, room);
+			listeners.add(cardOnHand);
+			player.registerCardOnHandListener(cardOnHand);
+			
+			ServerInGameEquipmentListener equipment = new ServerInGameEquipmentListener(player.getName(), playerNames, room);
+			listeners.add(equipment);
+			player.registerEquipmentListener(equipment);
+			
+			ServerInGameHealthListener health = new ServerInGameHealthListener(player.getName(), playerNames, room);
+			listeners.add(health);
+			player.registerHealthListener(health);
+			
+			ServerInGameCardDisposalListener cardDisposal = new ServerInGameCardDisposalListener(player.getName(), playerNames, room);
+			listeners.add(cardDisposal);
+			player.registerCardDisposalListener(cardDisposal);
+			
+			ServerInGamePlayerStatusListener status = new ServerInGamePlayerStatusListener(player.getName(), playerNames, room);
+			listeners.add(status);
+			player.registerPlayerStatusListener(status);
+			
+			ServerInGameHeroListener hero = new ServerInGameHeroListener(player.getName(), playerNames, room);
+			listeners.add(hero);
+			player.registerHeroListener(hero);
+			
+			ServerInGameDelayedListener delayed = new ServerInGameDelayedListener(player.getName(), playerNames, room);
+			listeners.add(delayed);
+			player.registerDelayedListener(delayed);
+			
+			this.playerListeners.put(player.getName(), listeners);
+			
 			player.setHero(new GanNing()); // TODO: add and change to other heroes
 			player.onGameReady(this);
 		}
@@ -149,6 +179,23 @@ public class GameImpl implements Game {
 			player.addCards(deck.drawMany(4));
 		}
 		this.resume();
+	}
+	
+	public void refreshForPlayer(String name) {
+		PlayerCompleteServer self = findPlayer(p -> p.getName().equals(name));
+		this.room.sendSyncCommandToPlayer(name, new EnterOriginalGameRoomGameClientCommand(
+			players.stream().map(p -> p.getPlayerInfo()).collect(Collectors.toList()),
+			self.getPlayerInfo()
+		));
+		for (ServerInGamePlayerListener listener : this.playerListeners.get(name)) {
+			for (PlayerCompleteServer player : this.players) {
+				if (player == self) {
+					listener.refreshSelf(player);
+				} else {
+					listener.refreshOther(player);
+				}
+			}
+		}
 	}
 
 	@Override

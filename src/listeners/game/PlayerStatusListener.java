@@ -1,13 +1,10 @@
 package listeners.game;
 
-import java.util.Set;
-
-import core.player.Player;
 import core.player.PlayerState;
 
 public interface PlayerStatusListener {
 
-	public void onAttackUsed(Set<? extends Player> targets);
+	public void onAttackUsed();
 	
 	public void onSetAttackLimit(int limit);
 	

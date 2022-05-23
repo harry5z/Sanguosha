@@ -7,6 +7,8 @@ import commands.game.client.sync.player.SyncDeathGameClientCommand;
 import commands.game.client.sync.player.SyncHealthCurrentChangedGameClientCommand;
 import commands.game.client.sync.player.SyncHealthCurrentGameClientCommand;
 import commands.game.client.sync.player.SyncHealthLimitGameClientCommand;
+import core.player.PlayerCompleteServer;
+import core.player.PlayerSimple;
 import core.server.SyncController;
 import listeners.game.HealthListener;
 
@@ -58,6 +60,18 @@ public class ServerInGameHealthListener extends ServerInGamePlayerListener imple
 				new SyncDeathGameClientCommand(name)
 			)
 		);	
+	}
+
+	@Override
+	public void refreshSelf(PlayerCompleteServer self) {
+		controller.sendSyncCommandToPlayer(name, new SyncHealthLimitGameClientCommand(self.getName(), self.getHealthLimit()));
+		controller.sendSyncCommandToPlayer(name, new SyncHealthCurrentGameClientCommand(self.getName(), self.getHealthCurrent()));
+	}
+
+	@Override
+	public void refreshOther(PlayerSimple other) {
+		controller.sendSyncCommandToPlayer(name, new SyncHealthLimitGameClientCommand(other.getName(), other.getHealthLimit()));
+		controller.sendSyncCommandToPlayer(name, new SyncHealthCurrentGameClientCommand(other.getName(), other.getHealthCurrent()));
 	}
 
 }

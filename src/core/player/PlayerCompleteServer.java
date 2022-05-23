@@ -1,7 +1,5 @@
 package core.player;
 
-import java.util.Set;
-
 import core.server.game.Game;
 import exceptions.server.game.InvalidPlayerCommandException;
 
@@ -12,16 +10,11 @@ public class PlayerCompleteServer extends PlayerComplete {
 	}
 
 	@Override
-	public void useAttack(Set<? extends Player> targets) throws InvalidPlayerCommandException {
+	public void useAttack() throws InvalidPlayerCommandException {
 		if (getAttackUsed() >= getAttackLimit()) {
 			throw new InvalidPlayerCommandException("Attack used exceeds attack limit");
 		}
-		
-		int targetLimit = this.getAttackTargetLimit();
-		if (targets.size() > targetLimit) {
-			throw new InvalidPlayerCommandException("Number of targets (" + targets.size() + ") exceeds limit (" + targetLimit +")");
-		}
-		super.useAttack(targets);
+		super.useAttack();
 	}
 	
 	@Override
@@ -60,4 +53,5 @@ public class PlayerCompleteServer extends PlayerComplete {
 		// let the hero and its skills register themselves in the game
 		this.getHero().onGameReady(game, this);
 	}
+
 }
