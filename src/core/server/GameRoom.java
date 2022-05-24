@@ -25,7 +25,7 @@ import utils.Log;
 public class GameRoom extends ServerEntity implements SyncController {
 	
 	private final Room room;
-	private final Game game;
+	private final GameImpl game;
 	private final Map<String, Connection> connectionMap;
 	private final Map<Connection, UUID> allowedResponseIDs;
 	private final Set<Class<? extends InGameServerCommand>> allowedResponseTypes;
@@ -41,16 +41,15 @@ public class GameRoom extends ServerEntity implements SyncController {
 		this.timer = new Timer();
 		this.defaultResponseTask = null;
 		
-		// TODO: Fix this when we have actual player info
-		// begin ugly part because connection doesn't have unique user information yet
+		// TODO: randomize player position
 		int i = 0;
 		List<PlayerInfo> players = new ArrayList<>();
 		for (Connection connection : this.connections) {
-			this.connectionMap.put("Player " + i, connection);
-			players.add(new PlayerInfo("Player " + i, i));
+			String name = OnlineUserManager.get().getUser(connection).getName();
+			this.connectionMap.put(name, connection);
+			players.add(new PlayerInfo(name, i));
 			i++;
 		}
-		// end ugly part
 		this.game = new GameImpl(this, config, players);
 
 	}
@@ -131,32 +130,43 @@ public class GameRoom extends ServerEntity implements SyncController {
 	@Override
 	public synchronized void sendSyncCommandToAllPlayers(SyncGameClientCommand command) {
 		this.connectionMap.forEach((name, connection) -> {
-			connection.send(command);
+			if (this.connectionMap.containsKey(name)) {
+				connection.send(command);
+			}
 		});
 	}
 	
 	@Override
 	public synchronized void sendSyncCommandToPlayers(Map<String, SyncGameClientCommand> commands) {
 		commands.forEach((name, command) -> {
-			this.connectionMap.get(name).send(command);
+			if (this.connectionMap.containsKey(name)) {
+				this.connectionMap.get(name).send(command);
+			}
 		});
 	}
 	
 	@Override
 	public synchronized void sendSyncCommandToPlayer(String name, SyncGameClientCommand command) {
-		this.connectionMap.get(name).send(command);
+		if (this.connectionMap.containsKey(name)) {
+			this.connectionMap.get(name).send(command);
+		}
 	}
 	
 	@Override
-	public void onConnectionLost(Connection connection, String message) {
-		// TODO Auto-generated method stub
-		
+	public synchronized void onConnectionLost(Connection connection, String message) {
+		this.connectionMap.remove(OnlineUserManager.get().getUser(connection).getName());
+		this.allowedResponseIDs.remove(connection);
+		OnlineUserManager.get().onUserConnectionLost(connection, this);
 	}
 
 	@Override
-	public boolean onReceivedConnection(Connection connection) {
-		// TODO Auto-generated method stub
-		return false;
+	public synchronized boolean onUserJoined(Connection connection) {
+		// TODO exit if game has ended
+		String name = OnlineUserManager.get().getUser(connection).getName();
+		this.connectionMap.put(name, connection);
+		connection.setConnectionListener(this);
+		this.game.refreshForPlayer(name);
+		return true;
 	}
 
 	@Override

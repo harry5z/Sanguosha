@@ -1,6 +1,7 @@
 package ui.client.test;
 
 import java.util.Random;
+import java.util.UUID;
 
 import javax.swing.JFrame;
 
@@ -34,6 +35,7 @@ public class ClientFrameTestGui implements ClientFrame, ConnectionListener {
 	
 	public synchronized void toRoom(Client client) {
 		try {
+			client.setName(UUID.randomUUID().toString().substring(0, 5));
 			Connection connection = client.connect();
 			wait();
 			connection.send(new EnterLobbyServerCommand());

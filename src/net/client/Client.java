@@ -7,6 +7,7 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import commands.welcome.LoginServerCommand;
 import net.Connection;
 import net.ConnectionListener;
 import ui.client.ClientFrameGui;
@@ -22,6 +23,7 @@ import utils.Log;
 public class Client {
 	private static final String TAG = "Client";
 	private final Connector connector;
+	private String name;
 	private ConnectionListener listener;
 
 	public Client() {
@@ -38,12 +40,17 @@ public class Client {
 		    Connection connection = connector.connect();
 			connection.setConnectionListener(this.getClientListener());
 			connection.activate();
+			connection.send(new LoginServerCommand(name));
 			Log.log(TAG, "Listening to Server...");
 			return connection;
 		} catch (IOException e) {
 			listener.onConnectionLost(null, "Connection Failed");
 			return null;
 		}
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void registerClientListener(ConnectionListener listener) {

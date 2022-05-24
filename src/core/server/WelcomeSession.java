@@ -4,8 +4,12 @@ import net.Connection;
 import net.server.ServerEntity;
 import utils.Log;
 
+import java.io.IOException;
+
 import commands.welcome.WelcomeSessionDisplayClientCommand;
 import commands.welcome.WelcomeSessionExitClientCommand;
+import core.server.OnlineUserManager.DuplicatedUserException;
+import core.server.OnlineUserManager.UserReconnectionException;
 
 /**
  * This class represents the welcome session (before user login)
@@ -16,20 +20,38 @@ import commands.welcome.WelcomeSessionExitClientCommand;
 public class WelcomeSession extends ServerEntity {
 	private static final String TAG = "WelcomeSession";
 	private final ServerEntity lobby;
+	private final OnlineUserManager manager;
 
 	public WelcomeSession() {
 		this.lobby = new Lobby(this);
+		this.manager = OnlineUserManager.get();
 	}
 
 	@Override
-	public boolean onReceivedConnection(Connection connection) {
+	public boolean onUserJoined(Connection connection) {
 		synchronized (this) {
 			connections.add(connection);
 		}
 		connection.setConnectionListener(this);
 		connection.activate();
-		connection.send(new WelcomeSessionDisplayClientCommand());
 		return true;
+	}
+	
+	public void onUserLoggingIn(Connection connection, String name) {
+		try {
+			manager.login(name, connection);
+			Log.log(TAG, "User '" + name + "' Logged in");
+			connection.send(new WelcomeSessionDisplayClientCommand());
+		} catch (DuplicatedUserException e) {
+			System.err.println(e.getMessage());
+			try {
+				connection.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		} catch (UserReconnectionException e) {
+			Log.log(TAG, e.getMessage());
+		}
 	}
 	
 	@Override
@@ -46,7 +68,7 @@ public class WelcomeSession extends ServerEntity {
 	public void enterLobby(Connection connection) {
 		synchronized(this) {
 			if (connections.contains(connection)) {
-				if(lobby.onReceivedConnection(connection))
+				if(lobby.onUserJoined(connection))
 					connections.remove(connection);
 			}
 			else

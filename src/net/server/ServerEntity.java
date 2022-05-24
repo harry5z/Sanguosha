@@ -29,7 +29,7 @@ public abstract class ServerEntity implements ConnectionListener {
 	 * @param connection : connection received
 	 * @return true on success, false on failure
 	 */
-	public abstract boolean onReceivedConnection(Connection connection);
+	public abstract boolean onUserJoined(Connection connection);
 	
 	/**
 	 * Connection left this entity.

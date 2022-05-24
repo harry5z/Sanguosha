@@ -54,7 +54,7 @@ public class Server {
 					Log.log(TAG, "receiving new connection...");
 					try {
 						Connection connection = new ServerConnection(socket);
-						session.onReceivedConnection(connection);
+						session.onUserJoined(connection);
 					} 
 					catch (IOException e) {
 						Log.error(TAG, "I/O Exception");

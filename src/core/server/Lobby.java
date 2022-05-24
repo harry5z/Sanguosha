@@ -43,7 +43,7 @@ public class Lobby extends ServerEntity {
 		synchronized (this) {
 			rooms.stream().filter(room -> room.getRoomID() == roomID).forEach(room -> {
 				if (this.connections.contains(connection)) {
-					if(room.onReceivedConnection(connection)) {
+					if(room.onUserJoined(connection)) {
 						connections.remove(connection);
 						ServerUtils.sendCommandToConnections(new UpdateRoomLobbyUIClientCommand(room.getRoomInfo()), connections);
 					}
@@ -56,7 +56,7 @@ public class Lobby extends ServerEntity {
 	}
 	
 	@Override
-	public boolean onReceivedConnection(Connection connection) {
+	public boolean onUserJoined(Connection connection) {
 		synchronized (this) {
 			if (connections.contains(connection)) {
 				Log.error(TAG, "Connection already in lobby");
@@ -89,7 +89,7 @@ public class Lobby extends ServerEntity {
 			}
 			connections.remove(connection);
 		}
-		session.onReceivedConnection(connection);
+		session.onUserJoined(connection);
 	}
 	
 	/**

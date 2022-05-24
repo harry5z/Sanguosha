@@ -54,7 +54,6 @@ public abstract class Connection implements Channel {
 					}
 					catch (IOException e) { // This is fatal
 						listener.onConnectionLost(Connection.this, "Unknown IO Exception");
-						e.printStackTrace();
 						return; // exit eval loop
 					}
 				}

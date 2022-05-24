@@ -60,7 +60,7 @@ public class Room extends ServerEntity {
 	 * @return false if room is full, or if room does not exist any more
 	 */
 	@Override
-	public boolean onReceivedConnection(Connection connection) {
+	public boolean onUserJoined(Connection connection) {
 		synchronized (entranceLock) {
 			if (connections.size() == roomConfig.getCapacity()) {
 				// TODO error command
@@ -71,28 +71,21 @@ public class Room extends ServerEntity {
 				Log.error(TAG, "Connection already in room");
 				return false;
 			}
-			ServerUtils.sendCommandToConnections(new UpdateRoomUIClientCommand(getUserInfos(true)), connections);
 			connections.add(connection);
 			connection.setConnectionListener(this);
 			Log.log(TAG, "Player entered room " + id);
-			// race condition
-			connection.send(new DisplayRoomUIClientCommand(getRoomInfo(), getUserInfos(false)));
+			connection.send(new DisplayRoomUIClientCommand(getRoomInfo(), getUserInfos()));
+			ServerUtils.sendCommandToConnections(new UpdateRoomUIClientCommand(getUserInfos()), connections);
 			return true;
 		}
 	}
 	
-	/*
-	 * This is way too ugly, change later when I have actual users
-	 */
-	private List<UserInfo> getUserInfos(boolean optional) {
+	private List<UserInfo> getUserInfos() {
 		List<UserInfo> userInfos = new ArrayList<UserInfo>();
 		int i = 0;
 		for (Connection connection : connections) {
-			userInfos.add(new UserInfo("Player " + i, i));
+			userInfos.add(new UserInfo(OnlineUserManager.get().getUser(connection).getName(), i));
 			i++;
-		}
-		if (optional) {
-			userInfos.add(new UserInfo("Player " + i, i));
 		}
 		return userInfos;
 	}
@@ -105,8 +98,8 @@ public class Room extends ServerEntity {
 			}
 			connections.remove(connection);
 			lobby.onUpdateRoomInfo(this);
-			lobby.onReceivedConnection(connection);
-			ServerUtils.sendCommandToConnections(new UpdateRoomUIClientCommand(getUserInfos(false)), connections);
+			lobby.onUserJoined(connection);
+			ServerUtils.sendCommandToConnections(new UpdateRoomUIClientCommand(getUserInfos()), connections);
 		}
 	}
 
