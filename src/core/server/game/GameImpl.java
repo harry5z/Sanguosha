@@ -10,12 +10,14 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import commands.game.client.EnterOriginalGameRoomGameClientCommand;
+import commands.game.client.sync.player.DisplayPopupMessageGameClientCommand;
 import core.Deck;
 import core.event.game.GameEvent;
 import core.event.handlers.EventHandler;
 import core.heroes.original.GanNing;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
+import core.player.Role;
 import core.server.GameRoom;
 import core.server.SyncController;
 import core.server.game.controllers.GameController;
@@ -175,7 +177,7 @@ public class GameImpl implements Game {
 			player.setHero(new GanNing()); // TODO: add and change to other heroes
 			player.onGameReady(this);
 		}
-		this.turnController = new TurnGameController(room.getGame());
+		this.turnController = new TurnGameController(this);
 		this.pushGameController(new GameStartGameController());
 		this.resume();
 	}
@@ -204,7 +206,7 @@ public class GameImpl implements Game {
 				return player;
 			}
 		}
-		throw new RuntimeException("No player found for predicate");
+		return null;
 	}
 	
 	@Override
@@ -223,6 +225,12 @@ public class GameImpl implements Game {
 				break;
 			}
 		}
+	}
+	
+	@Override
+	public void end(List<Role> winners) {
+		room.sendSyncCommandToAllPlayers(new DisplayPopupMessageGameClientCommand(winners));
+		room.endGame();
 	}
 
 	@SuppressWarnings("unchecked")

@@ -46,6 +46,15 @@ public class Room extends ServerEntity {
 		}
 	}
 	
+	public void onGameEnded() {
+		synchronized (entranceLock) {
+			for (Connection connection : connections) {
+				connection.setConnectionListener(this);
+			}
+			ServerUtils.sendCommandToConnections(new DisplayRoomUIClientCommand(getRoomInfo(), getUserInfos()), connections);
+		}
+	}
+	
 	/**
 	 * Get the room's unique id
 	 * @return room id

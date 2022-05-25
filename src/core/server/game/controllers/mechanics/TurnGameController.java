@@ -40,7 +40,6 @@ public class TurnGameController implements GameController {
 	
 	public TurnGameController(GameInternal game) {
 		this.game = game;
-		this.currentPlayer = game.findPlayer(player -> player.getPosition() == 0);
 		this.currentStage = TurnStage.START_BEGINNING;
 		this.skippedStages = new HashSet<>();
 		this.seenDelayedTypes = new HashSet<>();

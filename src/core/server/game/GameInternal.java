@@ -7,6 +7,7 @@ import core.Deck;
 import core.event.game.GameEvent;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
+import core.player.Role;
 import core.server.SyncController;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.mechanics.TurnGameController;
@@ -44,5 +45,10 @@ public interface GameInternal extends GameEventRegistrar, GameDriver {
 	public <T extends GameEvent> void emit(T event) throws GameFlowInterruptedException;
 
 	public SyncController getSyncController();
+	
+	/**
+	 * Use only when game ends
+	 */
+	public void end(List<Role> winners);
 
 }

@@ -1,11 +1,13 @@
 package commands.game.client;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import cards.Card;
 import cards.equipments.Equipment;
 import core.player.PlayerCompleteServer;
+import core.player.Role;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
@@ -21,6 +23,7 @@ public class DeathResolutionGameController
 	public static enum DeathResolutionStage implements GameControllerStage<DeathResolutionStage> {
 		RESCUE_INQUIRY,
 		DEATH,
+		GAME_END_CHECK,
 		AFTER_DEATH_SETTLEMENT,
 		END;
 	}
@@ -76,7 +79,25 @@ public class DeathResolutionGameController
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}
-				// TODO resolve game end
+				break;
+			case GAME_END_CHECK:
+				// Game ends when Emperor dies (Rebel or Usurper wins)
+				if (dyingPlayer.getRole() == Role.EMPEROR) {
+					if (game.getNumberOfPlayersAlive() >= 2) {
+						// Rebel wins if Emperor is not the last one to die
+						game.end(List.of(Role.REBEL));
+					} else {
+						// Usurper (or Rebel, if only 2 players) wins if Emperor is the last one to die
+						game.end(List.of(game.getPlayersAlive().get(0).getRole()));
+					}
+					throw new GameFlowInterruptedException();
+				}
+				// Game ends when there's no Rebel or Usurper left (Emperor & Loyalist wins)
+				if (!game.getPlayersAlive().stream().anyMatch(p -> p.getRole() == Role.USURPER || p.getRole() == Role.REBEL)) {
+					game.end(List.of(Role.EMPEROR, Role.LOYALIST));
+					throw new GameFlowInterruptedException();
+				}
+				this.nextStage();
 				break;
 			case AFTER_DEATH_SETTLEMENT:
 				this.nextStage();

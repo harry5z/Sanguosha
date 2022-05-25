@@ -58,6 +58,10 @@ public class GameRoom extends ServerEntity implements SyncController {
 		return game;
 	}
 	
+	public void endGame() {
+		room.onGameEnded();
+	}
+	
 	public synchronized void onCommandReceived(InGameServerCommand command, Connection connection) {
 		UUID allowed = this.allowedResponseIDs.get(connection);
 		if (allowed == null || !allowed.equals(command.getResponseID())) {

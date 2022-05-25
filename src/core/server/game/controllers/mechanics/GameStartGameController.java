@@ -28,6 +28,8 @@ public class GameStartGameController extends AbstractGameController<GameStartGam
 				List<PlayerCompleteServer> players = game.getPlayersAlive();
 				Collections.shuffle(players);
 				players.forEach(player -> player.setRole(Role.ROLES_LIST.get(player.getPosition())));
+				// Emperor always starts first
+				game.getTurnController().setCurrentPlayer(game.findPlayer(p -> p.getRole() == Role.EMPEROR));
 				break;
 			case EMPEROR_HERO_SELECTION:
 				this.nextStage();
