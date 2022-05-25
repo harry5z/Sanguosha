@@ -3,6 +3,7 @@ package core.server.game.controllers.mechanics;
 import java.util.HashSet;
 import java.util.Set;
 
+import commands.game.client.DeathResolutionGameController;
 import core.event.game.damage.TargetEquipmentCheckDamageEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
@@ -52,6 +53,9 @@ public class DamageGameController extends AbstractGameController<DamageGameContr
 			case TARGET_DAMAGE:
 				this.nextStage();
 				this.damage.apply();
+				if (damage.getTarget().isDying()) {
+					game.pushGameController(new DeathResolutionGameController(damage.getTarget(), game.getCurrentPlayer()));
+				}
 				break;
 			case SOURCE_HERO_SKILLS_AFTER_DAMAGE:
 				// nothing here yet

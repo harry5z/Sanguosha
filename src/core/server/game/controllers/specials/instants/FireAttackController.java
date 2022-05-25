@@ -67,26 +67,28 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 		} else {
 			// check if Fire Attack is effective
 			this.nextStage();
-			try {
-				// TODO: convert to controller
-				this.source.discardCard(card);
-			} catch (InvalidPlayerCommandException e) {
-				e.printStackTrace();
+			if (card != null) {
+				try {
+					// TODO: convert to controller
+					this.source.discardCard(card);
+				} catch (InvalidPlayerCommandException e) {
+					e.printStackTrace();
+				}
+				game.pushGameController(new DamageGameController(new Damage(1, Element.FIRE, this.source, this.target)));
 			}
-			game.pushGameController(new DamageGameController(new Damage(1, Element.FIRE, this.source, this.target)));
 		}
 	}
 
 	@Override
 	public void validateCardSelected(GameInternal game, Card card, PlayerCardZone zone) throws IllegalPlayerActionException {
-		if (card == null) {
-			throw new IllegalPlayerActionException("Fire Attack: Card cannot be null");
-		}
 		if (this.shownCard == null) {
+			if (card == null) {
+				throw new IllegalPlayerActionException("Fire Attack: Shown card cannot be null");
+			}
 			if (!target.getCardsOnHand().contains(card)) {
 				throw new IllegalPlayerActionException("Fire Attack: Target does not have this card on hand");
 			}
-		} else {
+		} else if (card != null) {
 			if (!source.getCardsOnHand().contains(card)) {
 				throw new IllegalPlayerActionException("Fire Attack: Source does not have this card on hand");
 			}
