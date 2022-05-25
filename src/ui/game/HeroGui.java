@@ -12,6 +12,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import core.Constants;
@@ -21,6 +22,7 @@ import core.heroes.skills.Skill;
 import core.player.PlayerCompleteClient;
 import core.player.PlayerSimple;
 import core.player.PlayerState;
+import core.player.Role;
 import ui.game.interfaces.HeroUI;
 
 @SuppressWarnings("serial")
@@ -29,6 +31,7 @@ public class HeroGui extends JPanel implements HeroUI {
 	private PlayerCompleteClient self;
 	public static final int WIDTH = CardRackGui.HEIGHT;
 	public static final int HEIGHT = WIDTH;
+	private static final int NAMETAG_HEIGHT = 30;
 	private boolean activated = false;
 	private boolean chained = false;
 	private boolean wineUsed = false;
@@ -36,6 +39,7 @@ public class HeroGui extends JPanel implements HeroUI {
 	private SkillBarGui skillBar = null;
 	private final GamePanel panel;
 	private final JButton heroButton;
+	private final JLabel nameLabel;
 
 	public HeroGui(GamePanel panel) {
 		this.panel = panel;
@@ -43,9 +47,16 @@ public class HeroGui extends JPanel implements HeroUI {
 		this.setSize(WIDTH, HEIGHT);
 		this.setLocation(GamePanelGui.WIDTH - LifebarGui.WIDTH - WIDTH, GamePanelGui.HEIGHT - HEIGHT);
 		
+		nameLabel = new JLabel();
+		nameLabel.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
+		nameLabel.setHorizontalAlignment(JLabel.CENTER);
+		nameLabel.setSize(WIDTH, NAMETAG_HEIGHT);
+		nameLabel.setLocation(0, 0);
+		add(nameLabel);
+				
 		JButton hero = new JButton();
-		hero.setSize(new Dimension(WIDTH, HEIGHT - SkillBarGui.HEIGHT));
-		hero.setLocation(0, 0);
+		hero.setSize(new Dimension(WIDTH, HEIGHT - SkillBarGui.HEIGHT - NAMETAG_HEIGHT));
+		hero.setLocation(0, NAMETAG_HEIGHT);
 		hero.setEnabled(false);
 		hero.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
 		hero.addActionListener(e -> panel.getCurrentOperation().onPlayerClicked(this));
@@ -77,6 +88,7 @@ public class HeroGui extends JPanel implements HeroUI {
 	@Override
 	public synchronized void setPlayer(PlayerCompleteClient player) {
 		this.self = player;
+		nameLabel.setText(player.getName());
 		repaint();
 	}
 	
@@ -180,6 +192,11 @@ public class HeroGui extends JPanel implements HeroUI {
 	@Override
 	public void onPlayerStateUpdated(PlayerState state, int value) {
 		// Nothing to do
+	}
+
+	@Override
+	public void onRoleAssigned(Role role) {
+		nameLabel.setText(nameLabel.getText() + "(" + role + ")");
 	}
 
 }

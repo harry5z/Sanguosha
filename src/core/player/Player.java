@@ -31,6 +31,7 @@ import utils.DelayedType;
  */
 public abstract class Player {
 	// ********* personal properties *********
+	private Role role;
 	private String name;
 	private int position;
 	private Hero hero;
@@ -517,6 +518,14 @@ public abstract class Player {
 	 */
 	public boolean isPlayerInDistance(Player player, int numberOfPlayersAlive) {
 		return getDistanceTo(player, numberOfPlayersAlive) <= 1;
+	}
+	
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	
+	public Role getRole() {
+		return role;
 	}
 
 	@Override

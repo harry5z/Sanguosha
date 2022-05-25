@@ -21,6 +21,7 @@ import core.Constants;
 import core.client.GamePanel;
 import core.heroes.Hero;
 import core.player.PlayerSimple;
+import core.player.Role;
 import listeners.game.CardOnHandListener;
 import listeners.game.EquipmentListener;
 import listeners.game.HealthListener;
@@ -60,7 +61,7 @@ public class PlayerGui extends JPanel implements PlayerUI {
 		
 		JLabel name = new JLabel(player.getName());
 		name.setSize(WIDTH, NAMETAG_HEIGHT);
-		name.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+		name.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
 		name.setHorizontalAlignment(JLabel.CENTER);
 		add(name);
 		
@@ -103,6 +104,11 @@ public class PlayerGui extends JPanel implements PlayerUI {
 			public void onWineEffective(boolean effective) {
 				wineUsed = effective;
 				repaint();
+			}
+
+			@Override
+			public void onRoleAssigned(Role role) {
+				name.setText(name.getText() + "(" + role.name() +")");
 			}
 
 		});

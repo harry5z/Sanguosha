@@ -24,7 +24,7 @@ public abstract class HeroOriginal implements Hero
 	/**
 	 * Wei/Shu/Wu/Qun
 	 */
-	private final Force force;
+	private final Faction force;
 	
 	/**
 	 * Male/Female
@@ -54,7 +54,7 @@ public abstract class HeroOriginal implements Hero
 	 * @param name : hero's name
 	 * @param skills : hero's skills
 	 */
-	public HeroOriginal(int healthLimit, Force force, Gender gender, String name, OriginalHeroSkill... skills)
+	public HeroOriginal(int healthLimit, Faction force, Gender gender, String name, OriginalHeroSkill... skills)
 	{
 		this.name = name;
 		this.force = force;
@@ -106,7 +106,7 @@ public abstract class HeroOriginal implements Hero
 		return gender;
 	}
 	@Override
-	public Force getForce()
+	public Faction getForce()
 	{
 		return force;
 	}

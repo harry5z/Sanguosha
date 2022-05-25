@@ -10,12 +10,12 @@ import core.server.game.Game;
 public interface Hero extends Serializable
 {
 	/**
-	 * Four forces of heroes
+	 * Four factions of heroes
 	 * @author Harry
 	 */
-	public enum Force
+	public enum Faction
 	{
-		WEI, SHU, WU, QUN, FORCELESS;
+		WEI, SHU, WU, QUN;
 	}
 	
 	public enum Gender
@@ -39,7 +39,7 @@ public interface Hero extends Serializable
 	
 	public Gender getGender();
 
-	public Force getForce();
+	public Faction getForce();
 
 	public List<? extends Skill> getSkills();
 	

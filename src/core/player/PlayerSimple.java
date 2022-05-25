@@ -278,5 +278,10 @@ public class PlayerSimple extends Player {
 			heroListener.onWineEffective(false);
 		}
 	}
-
+	
+	@Override
+	public void setRole(Role role) {
+		super.setRole(role);
+		heroListener.onRoleAssigned(role);
+	}
 }

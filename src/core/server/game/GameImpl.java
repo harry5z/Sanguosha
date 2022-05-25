@@ -19,6 +19,7 @@ import core.player.PlayerInfo;
 import core.server.GameRoom;
 import core.server.SyncController;
 import core.server.game.controllers.GameController;
+import core.server.game.controllers.mechanics.GameStartGameController;
 import core.server.game.controllers.mechanics.TurnGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 import listeners.game.server.ServerInGameCardDisposalListener;
@@ -175,9 +176,7 @@ public class GameImpl implements Game {
 			player.onGameReady(this);
 		}
 		this.turnController = new TurnGameController(room.getGame());
-		for (PlayerCompleteServer player : players) {
-			player.addCards(deck.drawMany(4));
-		}
+		this.pushGameController(new GameStartGameController());
 		this.resume();
 	}
 	

@@ -7,7 +7,7 @@ import core.heroes.skills.ZhugeliangTaichiOriginalHeroSkill;
 public class ZhugeliangRestingDragon extends HeroOriginal {
 
 	public ZhugeliangRestingDragon() {
-		super(3, Force.SHU, Gender.MALE, "Zhugeliang (Dragon)",
+		super(3, Faction.SHU, Gender.MALE, "Zhugeliang (Dragon)",
 			new ZhugeliangTaichiOriginalHeroSkill(),
 			new ZhugeliangSeeThroughHeroSkill(),
 			new ZhugeliangFireAttackOriginalHeroSkill()

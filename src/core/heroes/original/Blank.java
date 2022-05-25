@@ -10,7 +10,7 @@ package core.heroes.original;
 public class Blank extends HeroOriginal {
 
 	public Blank() {
-		super(5, Force.QUN, Gender.MALE, "Blank");
+		super(5, Faction.QUN, Gender.MALE, "Blank");
 	}
 
 }
