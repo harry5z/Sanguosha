@@ -138,6 +138,7 @@ public class PlayerGui extends JPanel implements PlayerUI {
 		public HorizontalLifebarGui() {
 			setSize(WIDTH, HEIGHT);
 			setLocation(0, NAMETAG_HEIGHT + PICTURE_HEIGHT);
+			setLayout(null);
 			alive = true;
 			limit = 0;
 			current = 0;
@@ -168,8 +169,11 @@ public class PlayerGui extends JPanel implements PlayerUI {
 			alive = false;
 			JLabel death = new JLabel("Dead");
 			death.setSize(WIDTH, HEIGHT);
-			death.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
+			death.setHorizontalAlignment(JLabel.CENTER);
+			death.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
 			add(death);
+			revalidate();
+			repaint();
 		}
 
 		@Override

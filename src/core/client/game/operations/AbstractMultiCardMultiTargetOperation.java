@@ -110,7 +110,7 @@ public abstract class AbstractMultiCardMultiTargetOperation extends AbstractOper
 		this.panel.getGameUI().setMessage(getMessage());
 		// enable viable targets
 		this.panel.getGameUI().getOtherPlayersUI().forEach(ui -> {
-			if (isPlayerActivatable(ui.getPlayer())) {
+			if (ui.getPlayer().isAlive() && isPlayerActivatable(ui.getPlayer())) {
 				ui.setActivatable(true);
 			}
 		});

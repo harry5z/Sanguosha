@@ -89,7 +89,7 @@ public class PlayerComplete extends PlayerSimple {
 	}
 	
 	public List<Card> getCardsOnHand() {
-		return cardsOnHand;
+		return List.copyOf(cardsOnHand);
 	}
 
 	@Override

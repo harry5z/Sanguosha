@@ -1,6 +1,5 @@
 package commands.game.client;
 
-import java.util.List;
 import java.util.Set;
 
 import commands.game.server.ingame.DiscardInGameServerCommand;
@@ -40,7 +39,7 @@ public class DiscardGameUIClientCommand extends AbstractSingleTargetOperationGam
 	@Override
 	public InGameServerCommand getDefaultResponse() {
 		// by default, discard the first X cards
-		return new DiscardInGameServerCommand(List.copyOf(player.getCardsOnHand().subList(0, amount)));
+		return new DiscardInGameServerCommand(player.getCardsOnHand().subList(0, amount));
 	}
 	
 }

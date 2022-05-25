@@ -257,10 +257,6 @@ public class PlayerSimple extends Player {
 	public void kill() {
 		super.kill();
 		healthListener.onDeath();
-		equipmentListener.onUnequipped(EquipmentType.WEAPON);
-		equipmentListener.onUnequipped(EquipmentType.SHIELD);
-		equipmentListener.onUnequipped(EquipmentType.HORSEPLUS);
-		equipmentListener.onUnequipped(EquipmentType.HORSEMINUS);
 	}
 
 	public void clearDisposalArea() {

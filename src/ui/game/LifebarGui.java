@@ -1,8 +1,10 @@
 package ui.game;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import listeners.game.HealthListener;
@@ -22,6 +24,7 @@ public class LifebarGui extends JPanel implements HealthListener {
 	public static final int HEIGHT = CardRackGui.HEIGHT;
 	private int limit;
 	private int current;
+	private boolean alive;
 
 	public LifebarGui() {
 		setSize(WIDTH, HEIGHT);
@@ -29,6 +32,7 @@ public class LifebarGui extends JPanel implements HealthListener {
 		setLayout(null);
 		limit = 0;
 		current = 0;
+		alive = true;
 	}
 
 	@Override
@@ -53,12 +57,22 @@ public class LifebarGui extends JPanel implements HealthListener {
 
 	@Override
 	public synchronized void onDeath() {
-
+		alive = false;
+		JLabel death = new JLabel("<HTML>D<br />E<br />A<br />D</HTML>");
+		death.setSize(WIDTH, HEIGHT);
+		death.setHorizontalAlignment(JLabel.CENTER);
+		death.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+		add(death);
+		revalidate();
+		repaint();
 	}
 
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
+		if (!alive) {
+			return;
+		}
 		g.drawRect(0, 0, WIDTH, HEIGHT);
 		if (limit == 0)
 			return;

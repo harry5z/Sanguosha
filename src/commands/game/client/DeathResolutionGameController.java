@@ -1,11 +1,19 @@
 package commands.game.client;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import cards.Card;
+import cards.equipments.Equipment;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
 import core.server.game.controllers.mechanics.HealGameController;
+import core.server.game.controllers.mechanics.RecycleCardsGameController;
 import exceptions.server.game.GameFlowInterruptedException;
+import exceptions.server.game.InvalidPlayerCommandException;
+import utils.DelayedStackItem;
 
 public class DeathResolutionGameController
 	extends AbstractGameController<DeathResolutionGameController.DeathResolutionStage> {
@@ -44,7 +52,30 @@ public class DeathResolutionGameController
 				throw new GameFlowInterruptedException(new RequestRescueGameClientCommand(currentRescuer, dyingPlayer));
 			case DEATH:
 				this.nextStage();
-				dyingPlayer.kill();
+				
+				try {
+					Set<Card> disposedCards = new HashSet<>();
+					// Dead player discards all cards on hand
+					// TODO move to GameController
+					dyingPlayer.discardCards(dyingPlayer.getCardsOnHand());
+					
+					// Dead player discards all equipments
+					for (Equipment equipment : dyingPlayer.getEquipments()) {
+						dyingPlayer.unequip(equipment.getEquipmentType());
+						disposedCards.add(equipment);
+					}
+					
+					// Dead player discards all delayed items
+					for (DelayedStackItem item : dyingPlayer.getDelayedQueue()) {
+						dyingPlayer.removeDelayed(item.type);
+						disposedCards.add(item.delayed);
+					}
+					
+					dyingPlayer.kill();
+					game.pushGameController(new RecycleCardsGameController(dyingPlayer, disposedCards));
+				} catch (InvalidPlayerCommandException e) {
+					e.printStackTrace();
+				}
 				// TODO resolve game end
 				break;
 			case AFTER_DEATH_SETTLEMENT:
