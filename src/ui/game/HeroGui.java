@@ -196,7 +196,12 @@ public class HeroGui extends JPanel implements HeroUI {
 
 	@Override
 	public void onRoleAssigned(Role role) {
-		nameLabel.setText(nameLabel.getText() + "(" + role + ")");
+		nameLabel.setText(self.getName() + "(" + role + ")");
+	}
+	
+	@Override
+	public void onRoleRevealed(Role role) {
+		// One always knows their own role
 	}
 
 }

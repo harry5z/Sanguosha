@@ -108,8 +108,15 @@ public class PlayerGui extends JPanel implements PlayerUI {
 
 			@Override
 			public void onRoleAssigned(Role role) {
-				name.setText(name.getText() + "(" + role.name() +")");
+				name.setText(PlayerGui.this.player.getName() + "(" + role.name() +")");
 			}
+			
+			public void onRoleRevealed(Role role) {
+				if (role == null) {
+					return;
+				}
+				onRoleAssigned(role);
+			};
 
 		});
 

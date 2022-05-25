@@ -257,6 +257,8 @@ public class PlayerSimple extends Player {
 	public void kill() {
 		super.kill();
 		healthListener.onDeath();
+		// Player role is revealed upon death
+		heroListener.onRoleRevealed(getRole());
 	}
 
 	public void clearDisposalArea() {

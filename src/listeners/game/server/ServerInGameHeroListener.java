@@ -60,6 +60,11 @@ public class ServerInGameHeroListener extends ServerInGamePlayerListener impleme
 			controller.sendSyncCommandToPlayer(name, new SyncRoleGameClientCommand(name, role));
 		}
 	}
+	
+	@Override
+	public void onRoleRevealed(Role role) {
+		controller.sendSyncCommandToAllPlayers(new SyncRoleGameClientCommand(name, role));
+	}
 
 	@Override
 	public void refreshSelf(PlayerCompleteServer self) {
@@ -76,7 +81,7 @@ public class ServerInGameHeroListener extends ServerInGamePlayerListener impleme
 		if (other.isWineEffective()) {
 			controller.sendSyncCommandToPlayer(name, new SyncWineUsedGameClientCommand(other.getName()));
 		}
-		if (other.getRole() == Role.EMPEROR) {
+		if (other.getRole() == Role.EMPEROR || !other.isAlive()) {
 			controller.sendSyncCommandToPlayer(name, new SyncRoleGameClientCommand(other.getName(), other.getRole()));
 		}
 	}
