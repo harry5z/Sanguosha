@@ -9,6 +9,6 @@ package core.heroes.skills;
  * @author Harry
  *
  */
-public interface PassiveSkill extends OriginalHeroSkill {
+public interface PassiveSkill extends HeroSkill {
 
 }

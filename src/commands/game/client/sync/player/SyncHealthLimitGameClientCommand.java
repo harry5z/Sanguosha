@@ -18,9 +18,9 @@ public class SyncHealthLimitGameClientCommand extends AbstractSyncPlayerClientCo
 	@Override
 	protected void sync(GameState state) throws InvalidPlayerCommandException {
 		if (state.getSelf().getName().equals(name)) {
-			state.getSelf().changeHealthLimitTo(limit);
+			state.getSelf().setHealthLimit(limit);
 		} else {
-			state.getPlayer(name).changeHealthLimitTo(limit);
+			state.getPlayer(name).setHealthLimit(limit);
 		}
 	}
 

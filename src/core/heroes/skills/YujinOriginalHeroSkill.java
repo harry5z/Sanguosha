@@ -2,7 +2,7 @@ package core.heroes.skills;
 
 import core.event.handlers.hero.YujinAttackCheckEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 
 /**
  * One of the easiest skill to implement. (Original) Yujin's skill is simply that BLACK attacks
@@ -25,7 +25,7 @@ public class YujinOriginalHeroSkill extends AbstractPassiveSkill {
 	}
 
 	@Override
-	public void onGameReady(Game game, PlayerCompleteServer owner) {
+	public void onGameReady(GameInternal game, PlayerCompleteServer owner) {
 		game.registerEventHandler(new YujinAttackCheckEventHandler(owner));
 	}
 

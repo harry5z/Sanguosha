@@ -7,7 +7,7 @@ package core.heroes.original;
  * @author Harry
  *
  */
-public class Blank extends HeroOriginal {
+public class Blank extends AbstractHero {
 
 	public Blank() {
 		super(5, Faction.QUN, Gender.MALE, "Blank");

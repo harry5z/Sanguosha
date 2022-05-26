@@ -3,6 +3,9 @@ package core.server.game.controllers.mechanics;
 import java.util.Collections;
 import java.util.List;
 
+import core.heroes.Hero;
+import core.heroes.original.GanNing;
+import core.heroes.original.SunQuan;
 import core.player.PlayerCompleteServer;
 import core.player.Role;
 import core.server.game.GameInternal;
@@ -22,6 +25,7 @@ public class GameStartGameController extends AbstractGameController<GameStartGam
 	
 	@Override
 	protected void handleStage(GameInternal game, GameStartStage stage) throws GameFlowInterruptedException {
+		;
 		switch (stage) {
 			case ROLE_ASSIGNMENT:
 				this.nextStage();
@@ -33,9 +37,31 @@ public class GameStartGameController extends AbstractGameController<GameStartGam
 				break;
 			case EMPEROR_HERO_SELECTION:
 				this.nextStage();
+				PlayerCompleteServer emperor = game.findPlayer(p -> p.getRole() == Role.EMPEROR);
+				Hero emperorHero = new SunQuan(); // TODO replace with player selected hero
+				emperor.setHero(emperorHero);
+				// by default, a player's health limit is equal to their hero's health limit
+				emperor.setHealthLimit(emperorHero.getHealthLimit());
+				if (game.getNumberOfPlayersAlive() > 2) {
+					// In a game with more than 2 players, the Emperor starts with 1 extra health limit
+					emperor.changeHealthLimitBy(1);
+				}
+				emperor.setHealthCurrent(emperor.getHealthLimit());
+				emperor.onGameReady(game);
 				break;
 			case OTHERS_HERO_SELECTION:
 				this.nextStage();
+				game.getPlayersAlive().forEach(player -> {
+					if (player.getRole() == Role.EMPEROR) {
+						return;
+					}
+					Hero playerHero = new GanNing(); // TODO replace with player selected hero
+					player.setHero(playerHero);
+					// by default, a player's health limit is equal to their hero's health limit
+					player.setHealthLimit(playerHero.getHealthLimit());
+					player.setHealthCurrent(player.getHealthLimit());
+					player.onGameReady(game);
+				});
 				break;
 			case INITIAL_DRAW:
 				this.nextStage();

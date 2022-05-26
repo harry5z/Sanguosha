@@ -173,9 +173,6 @@ public class GameImpl implements Game {
 			player.registerDelayedListener(delayed);
 			
 			this.playerListeners.put(player.getName(), listeners);
-			
-			player.setHero(new GanNing()); // TODO: add and change to other heroes
-			player.onGameReady(this);
 		}
 		this.turnController = new TurnGameController(this);
 		this.pushGameController(new GameStartGameController());

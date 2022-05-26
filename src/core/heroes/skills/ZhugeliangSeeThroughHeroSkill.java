@@ -7,7 +7,7 @@ import commands.game.server.ingame.ZhugeliangNullificationReactionInGameServerCo
 import core.client.GamePanel;
 import core.client.game.listener.skills.SeeThroughSkillClientEventListener;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import ui.game.interfaces.SkillUI;
 
 public class ZhugeliangSeeThroughHeroSkill implements ActiveSkill {
@@ -15,7 +15,7 @@ public class ZhugeliangSeeThroughHeroSkill implements ActiveSkill {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void onGameReady(Game game, PlayerCompleteServer player) {
+	public void onGameReady(GameInternal game, PlayerCompleteServer player) {
 
 	}
 

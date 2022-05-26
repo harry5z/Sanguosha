@@ -1,6 +1,6 @@
 package core.player;
 
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import exceptions.server.game.InvalidPlayerCommandException;
 
 public class PlayerCompleteServer extends PlayerComplete {
@@ -49,7 +49,7 @@ public class PlayerCompleteServer extends PlayerComplete {
 		super.setWineUsed(amount);
 	}
 	
-	public void onGameReady(Game game) {
+	public void onGameReady(GameInternal game) {
 		// let the hero and its skills register themselves in the game
 		this.getHero().onGameReady(game, this);
 	}

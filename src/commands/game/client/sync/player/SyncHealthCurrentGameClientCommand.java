@@ -18,9 +18,9 @@ public class SyncHealthCurrentGameClientCommand extends AbstractSyncPlayerClient
 	@Override
 	protected void sync(GameState state) throws InvalidPlayerCommandException {
 		if (state.getSelf().getName().equals(name)) {
-			state.getSelf().changeHealthCurrentTo(current);
+			state.getSelf().setHealthCurrent(current);
 		} else {
-			state.getPlayer(name).changeHealthCurrentTo(current);
+			state.getPlayer(name).setHealthCurrent(current);
 		}
 	}
 

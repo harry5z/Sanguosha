@@ -2,7 +2,7 @@ package core.heroes.skills;
 
 import core.event.handlers.hero.ZhugeliangTaichiDodgeEquipmentCheckEventHandler;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 
 @SuppressWarnings("serial")
 public class ZhugeliangTaichiOriginalHeroSkill extends AbstractPassiveSkill {
@@ -18,7 +18,7 @@ public class ZhugeliangTaichiOriginalHeroSkill extends AbstractPassiveSkill {
 	}
 
 	@Override
-	public void onGameReady(Game game, PlayerCompleteServer player) {
+	public void onGameReady(GameInternal game, PlayerCompleteServer player) {
 		game.registerEventHandler(new ZhugeliangTaichiDodgeEquipmentCheckEventHandler(player));
 	}
 

@@ -30,28 +30,26 @@ import utils.DelayedType;
  *
  */
 public abstract class Player {
-	// ********* personal properties *********
+	// ********* player properties *********
 	private Role role;
 	private String name;
 	private int position;
 	private Hero hero;
 
 	// ********* in-game properties ***********
-	private int healthCurrent;
-
-	private boolean flipped;// whether player is flipped (not implemented yet)
+	private int healthCurrent; // current health. By default, may not exceed health limit
+	private int healthLimit; // health limit. By default, equal to hero's health limit
+	private int cardOnHandLimit; // max cards on hand allowed. By default, may not exceed current health
+	private boolean flipped; // whether player is flipped
 	private boolean chained; // whether player is chained (by Chain)
-	private boolean isAlive;// whether player is alive
-	private boolean dying;// whether player is in the near-death stage
+	private boolean isAlive; // whether player is alive
+	private boolean dying; // whether player is in the near-death stage
 
-	// ********* cards other than cardsOnHand, public to all other players
-	// *********
+	// ********* cards other than cardsOnHand, public to all other players *********
 	private Weapon weapon;
 	private Shield shield;
 	private HorsePlus horsePlus;
 	private HorseMinus horseMinus;
-	
-	// Delayed Special
 	private Stack<DelayedStackItem> delayedStack;
 
 	private final PlayerInfo info;
@@ -60,11 +58,12 @@ public abstract class Player {
 		this.name = name;
 		this.position = position;
 		this.info = new PlayerInfo(name, position);
-		init();
-	}
-
-	private void init() {
-		// init in-game properties
+		
+		// in-game properties
+		healthCurrent = 1;
+		healthLimit = 1;
+		cardOnHandLimit = 1;
+		flipped = false;
 		isAlive = true;
 		dying = false;
 		chained = false;
@@ -89,9 +88,8 @@ public abstract class Player {
 	 */
 	public void setHero(Hero hero) {
 		this.hero = hero;
-		healthCurrent = hero.getHealthLimit();
 	}
-
+	
 	/**
 	 * use this very carefully, usually only at game start
 	 * 
@@ -117,7 +115,6 @@ public abstract class Player {
 		return name;
 	}
 
-	// ************* methods related to flipping ***************
 	public final boolean isFlipped() {
 		return flipped;
 	}
@@ -138,9 +135,8 @@ public abstract class Player {
 		this.chained = chained;
 	}
 
-	// **************** methods related to health *******************
 	/**
-	 * kill the player
+	 * mark the player dead
 	 */
 	public void kill() {
 		isAlive = false;
@@ -155,20 +151,17 @@ public abstract class Player {
 		return dying;
 	}
 
-	public void setIsDying(boolean isDying) {
-		this.dying = isDying;
-	}
-
 	/**
 	 * change of health limit, if current health is greater than health limit
 	 * after change, make it equal to health limit
 	 * 
 	 * @param n
 	 */
-	public void changeHealthLimitTo(int n) {
-		hero.changeHealthLimitTo(n);
-		if (healthCurrent > hero.getHealthLimit())
-			changeHealthCurrentTo(hero.getHealthLimit());
+	public void setHealthLimit(int n) {
+		healthLimit = n;
+		if (healthCurrent > healthLimit) {
+			setHealthCurrent(healthLimit);
+		}
 	}
 
 	/**
@@ -178,42 +171,36 @@ public abstract class Player {
 	 * @param n
 	 */
 	public void changeHealthLimitBy(int n) {
-		hero.changeHealthLimitBy(n);
-		if (healthCurrent > hero.getHealthLimit())
-			changeHealthCurrentTo(hero.getHealthLimit());
-
+		healthLimit += n;
+		if (healthCurrent > healthLimit) {
+			setHealthCurrent(healthLimit);
+		}
 	}
 
 	public int getHealthLimit() {
-		return hero.getHealthLimit();
+		return healthLimit;
 	}
 
 	/**
-	 * strict change of health (i.e. no damage, does not invoke skills).
+	 * strict change of health (i.e. no damage, does not invoke on-damage skills).
 	 * 
 	 * @param n
 	 */
-	public void changeHealthCurrentTo(int n) {
+	public void setHealthCurrent(int n) {
 		healthCurrent = n;
-		hero.changeCardLimitTo(healthCurrent);
-		if (healthCurrent < 1)// is dying
-			dying = true;
-		else
-			dying = false;
+		cardOnHandLimit = n;
+		dying = healthCurrent < 1; // player enters dying state when current health below 1
 	}
 
 	/**
-	 * strict change of health (i.e. no damage, does not invoke skills).
+	 * strict change of health (i.e. no damage, does not invoke on-damage skills).
 	 * 
 	 * @param n
 	 */
 	public void changeHealthCurrentBy(int n) {
 		healthCurrent += n;
-		hero.changeCardLimitTo(healthCurrent);
-		if (healthCurrent < 1)// is dying
-			dying = true;
-		else
-			dying = false;
+		cardOnHandLimit = healthCurrent;
+		dying = healthCurrent < 1; // player enters dying state when current health below 1
 	}
 
 	public int getHealthCurrent() {
@@ -221,12 +208,11 @@ public abstract class Player {
 	}
 	
 	public boolean isDamaged() {
-		return this.getHealthCurrent() < this.getHealthLimit();
+		return healthCurrent < healthLimit;
 	}
 
-	// **************** methods related to cards on hand ***************
 	public int getCardOnHandLimit() {
-		return hero.getCardOnHandLimit();
+		return cardOnHandLimit;
 	}
 
 	public abstract void addCard(Card card);
@@ -530,16 +516,16 @@ public abstract class Player {
 
 	@Override
 	public int hashCode() {
-		return position;
+		return name.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return (obj instanceof Player) ? position == ((Player) obj).position : false;
+		return (obj instanceof Player) ? name.equals(((Player) obj).name) : false;
 	}
 	
 	@Override
 	public String toString() {
-		return this.getName();
+		return name;
 	}
 }

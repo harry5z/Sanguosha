@@ -89,9 +89,9 @@ public class PlayerSimple extends Player {
 	 * <li>{@link HealthListener} notified
 	 */
 	@Override
-	public void changeHealthLimitTo(int n) {
-		super.changeHealthLimitTo(n);
-		healthListener.onSetHealthLimit(getHero().getHealthLimit());
+	public void setHealthLimit(int n) {
+		super.setHealthLimit(n);
+		healthListener.onSetHealthLimit(n);
 	}
 
 	/**
@@ -100,15 +100,15 @@ public class PlayerSimple extends Player {
 	@Override
 	public void changeHealthLimitBy(int n) {
 		super.changeHealthLimitBy(n);
-		healthListener.onSetHealthLimit(getHero().getHealthLimit());
+		healthListener.onSetHealthLimit(getHealthLimit());
 	}
 
 	/**
 	 * <li>{@link HealthListener} notified
 	 */
 	@Override
-	public void changeHealthCurrentTo(int n) {
-		super.changeHealthCurrentTo(n);
+	public void setHealthCurrent(int n) {
+		super.setHealthCurrent(n);
 		healthListener.onSetHealthCurrent(n);
 	}
 
@@ -152,8 +152,6 @@ public class PlayerSimple extends Player {
 	public void setHero(Hero hero) {
 		super.setHero(hero);
 		heroListener.onHeroRegistered(hero);
-		healthListener.onSetHealthLimit(hero.getHealthLimit());
-		healthListener.onSetHealthCurrent(hero.getHealthLimit());
 	}
 
 	/**

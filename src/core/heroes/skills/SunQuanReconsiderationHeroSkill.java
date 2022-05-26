@@ -6,7 +6,7 @@ import core.client.GamePanel;
 import core.client.game.listener.skills.ReconsiderationSkillDealEventListener;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerState;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import ui.game.interfaces.SkillUI;
 
 public class SunQuanReconsiderationHeroSkill extends AbstractDealPhaseActiveSkill {
@@ -14,7 +14,7 @@ public class SunQuanReconsiderationHeroSkill extends AbstractDealPhaseActiveSkil
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void onGameReady(Game game, PlayerCompleteServer player) {
+	public void onGameReady(GameInternal game, PlayerCompleteServer player) {
 		player.registerDefaultPlayerState(PlayerState.SUN_QUAN_RECONSIDERATION_COUNTER, 0);
 	}
 

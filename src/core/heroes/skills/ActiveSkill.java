@@ -12,7 +12,7 @@ import commands.game.server.ingame.InGameServerCommand;
  * @author Harry
  *
  */
-public interface ActiveSkill extends OriginalHeroSkill {
+public interface ActiveSkill extends HeroSkill {
 	
 	/**
 	 * Get the allowed player action type based on the outgoing command type

@@ -5,7 +5,7 @@ import commands.game.server.ingame.SuddenStrikeSkillInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.listener.skills.SuddenStrikeSkillDealEventListener;
 import core.player.PlayerCompleteServer;
-import core.server.game.Game;
+import core.server.game.GameInternal;
 import ui.game.interfaces.SkillUI;
 
 public class GanNingSuddenStrikeHeroSkill extends AbstractDealPhaseActiveSkill {
@@ -13,7 +13,7 @@ public class GanNingSuddenStrikeHeroSkill extends AbstractDealPhaseActiveSkill {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void onGameReady(Game game, PlayerCompleteServer player) {
+	public void onGameReady(GameInternal game, PlayerCompleteServer player) {
 		
 	}
 

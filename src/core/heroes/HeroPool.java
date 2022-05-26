@@ -1,47 +1,43 @@
 package core.heroes;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
+import core.heroes.original.GanNing;
+import core.heroes.original.SunQuan;
+import core.heroes.original.YuJin;
+import core.heroes.original.ZhugeliangRestingDragon;
 import core.server.game.Game;
 
 /**
- * This class is mainly used by a {@link Game} to 
- * specify what packs of heroes are allowed.
- * @author Harry
- *
+ * This class is mainly used by a {@link Game}
+ * are allowed.
+ * 
  */
-public class HeroPool 
-{
-	private Set<Hero> heroes;
+public class HeroPool {
 	
-	public enum HeroPack
-	{
-		STANDARD, WIND, FIRE, FOREST, MOUNTAIN, EX1, EX2, EX3, SP, LEGENDARY;
+	private static final HeroPool INSTANCE = new HeroPool();
+	
+	private final Set<Hero> heroes;
+	private final Set<Hero> emperorHeroes;
+
+	private HeroPool() {
+		this.emperorHeroes = Set.of(
+			new SunQuan()
+		);
+		this.heroes = Set.of(
+			new GanNing(),
+			new SunQuan(),
+			new YuJin(),
+			new ZhugeliangRestingDragon()
+		);
 	}
 	
-	public HeroPool(Set<HeroPack> packs)
-	{
-		this.heroes = new HashSet<Hero>();
-		if (packs.contains(HeroPack.STANDARD))
-			initStandard();
-		if (packs.contains(HeroPack.WIND))
-			initWind();
+	public static Set<Hero> getEmperorHeroes() {
+		return Set.copyOf(INSTANCE.emperorHeroes);
 	}
-	
-	public Set<Hero> getHeroes()
-	{
-		return Collections.unmodifiableSet(this.heroes);
+
+	public static Set<Hero> getAllHeroes() {
+		return Set.copyOf(INSTANCE.heroes);
 	}
-	private void initStandard() {}
-	private void initWind() {}
-	private void initFire() {}
-	private void initForest() {}
-	private void initMountain() {}
-	private void initEX1() {}
-	private void initEX2() {}
-	private void initEX3() {}
-	private void initSP() {}
-	private void initLegendary() {} 
+
 }
