@@ -54,6 +54,7 @@ public abstract class Connection implements Channel {
 					}
 					catch (IOException e) { // This is fatal
 						listener.onConnectionLost(Connection.this, "Unknown IO Exception");
+						onExit();
 						return; // exit eval loop
 					}
 				}
@@ -62,6 +63,8 @@ public abstract class Connection implements Channel {
 	}
 	
 	protected abstract void processReceivedObject(Object obj);
+	
+	protected abstract void onExit();
 	
 	public void setConnectionListener(ConnectionListener listener) {
 		this.listener = listener;

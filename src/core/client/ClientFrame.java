@@ -1,6 +1,8 @@
 package core.client;
 
-public interface ClientFrame {
+import net.ConnectionListener;
+
+public interface ClientFrame extends ConnectionListener {
 
 	/**
 	 * TODO: add check to ensure that this panel is received in the correct order

@@ -5,11 +5,10 @@ import javax.swing.JFrame;
 import core.client.ClientFrame;
 import core.client.ClientPanel;
 import net.Connection;
-import net.ConnectionListener;
 import net.client.Client;
 import utils.Log;
 
-public class ClientFrameGui implements ClientFrame, ConnectionListener {
+public class ClientFrameGui implements ClientFrame {
 	private final JFrame frame;
 	private ClientPanel panel;
 

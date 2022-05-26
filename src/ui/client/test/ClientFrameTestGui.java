@@ -11,7 +11,6 @@ import core.Constants;
 import core.client.ClientFrame;
 import core.client.ClientPanel;
 import net.Connection;
-import net.ConnectionListener;
 import net.client.Client;
 import utils.Log;
 
@@ -21,7 +20,7 @@ import utils.Log;
  * @author Harry
  *
  */
-public class ClientFrameTestGui implements ClientFrame, ConnectionListener {
+public class ClientFrameTestGui implements ClientFrame {
 	private final JFrame frame;
 	private ClientPanel panel;
 

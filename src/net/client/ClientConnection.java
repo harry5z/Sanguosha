@@ -92,4 +92,9 @@ public class ClientConnection extends Connection {
 		}		
 	}
 
+	@Override
+	protected void onExit() {
+		
+	}
+
 }

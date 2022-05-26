@@ -26,7 +26,7 @@ import core.client.ClientFrame;
  * @author Harry
  *
  */
-public interface PlayerActionGameClientCommand extends Command<ClientFrame> {
+public interface PlayerActionGameClientCommand extends Command<ClientFrame>, Cloneable {
 	
 	/**
 	 * Optionally generate and store a response UUID to be sent to a certain player within this command. 
@@ -69,4 +69,12 @@ public interface PlayerActionGameClientCommand extends Command<ClientFrame> {
 	 * @param timeMS : timeout in milliseconds
 	 */
 	public void setResponseTimeoutMS(int timeMS);
+	
+	/**
+	 * Clone the command. Many Player Action commands will be sent to multiple players, with slightly
+	 * different content. Thus a separate command is needed for each player
+	 * 
+	 * @return a shallow copy of the command
+	 */
+	public PlayerActionGameClientCommand clone();
 }

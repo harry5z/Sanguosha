@@ -34,5 +34,16 @@ public abstract class AbstractPlayerActionGameClientCommand implements PlayerAct
 	public final void setResponseTimeoutMS(int timeMS) {
 		this.timeoutMS = timeMS;
 	}
+	
+	
+	@Override
+	public PlayerActionGameClientCommand clone() {
+		try {
+			return (PlayerActionGameClientCommand) super.clone();
+		} catch (CloneNotSupportedException e) {
+			// should not happen
+			return null;
+		}
+	}
 
 }
