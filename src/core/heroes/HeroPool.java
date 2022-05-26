@@ -5,6 +5,7 @@ import java.util.List;
 
 import core.heroes.original.GanNing;
 import core.heroes.original.SunQuan;
+import core.heroes.original.WeiYan;
 import core.heroes.original.YuJin;
 import core.heroes.original.ZhugeliangRestingDragon;
 import core.server.game.Game;
@@ -29,6 +30,7 @@ public class HeroPool {
 		this.nonEmperorHeroes = List.of(
 			new GanNing(),
 			new YuJin(),
+			new WeiYan(),
 			new ZhugeliangRestingDragon()
 		);
 		this.heroes = new ArrayList<>();
