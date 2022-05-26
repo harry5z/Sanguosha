@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import core.Constants;
 import core.GameState;
 import core.client.GamePanel;
-import core.heroes.original.Blank;
 import core.player.PlayerCompleteClient;
 import core.player.PlayerInfo;
 import core.player.PlayerSimple;
@@ -76,9 +75,6 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 		myself.registerCardDisposalListener(disposalGui);
 		myself.registerDelayedListener(delayedGui);
 		myself.registerHeroListener(heroGui);
-		myself.setHero(new Blank());// change in the future
-		healthGui.onSetHealthLimit(myself.getHero().getHealthLimit()); // change in the future
-		healthGui.onSetHealthCurrent(myself.getHero().getHealthLimit()); // change in the future
 		heroGui.setPlayer(myself);
 		confirm = new ButtonGui("Confirm", e -> panel.getCurrentOperation().onConfirmed());
 		confirm.setLocation(0, HEIGHT - CardRackGui.HEIGHT - ButtonGui.HEIGHT);

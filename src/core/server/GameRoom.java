@@ -13,7 +13,9 @@ import java.util.UUID;
 import commands.game.client.PlayerActionGameClientCommand;
 import commands.game.client.sync.SyncGameClientCommand;
 import commands.game.server.ingame.InGameServerCommand;
+import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
+import core.server.OnlineUserManager.LoggedInUser;
 import core.server.game.Game;
 import core.server.game.GameConfig;
 import core.server.game.GameImpl;
@@ -73,11 +75,19 @@ public class GameRoom extends ServerEntity implements SyncController {
 			Log.error("GameRoom", "Invalid Response Type: " + command.getClass().getSimpleName());
 			return;
 		}
-		this.connectionMap.forEach((name, c) -> {
-			if (c == connection) {
-				command.setSource(game.findPlayer(player -> player.getName().equals(name)));
-			}
-		});
+		
+		LoggedInUser user = OnlineUserManager.get().getUser(connection);
+		if (user == null) {
+			Log.error("GameRoom", "User not found");
+			return;
+		}
+		
+		PlayerCompleteServer source = game.findPlayer(player -> player.getName().equals(user.getName()));
+		if (source == null) {
+			Log.error("GameRoom", "Player '" + user.getName() + "' not found");
+			return;
+		}
+		command.setSource(source);
 		
 		try {
 			command.validate(game);
@@ -118,8 +128,6 @@ public class GameRoom extends ServerEntity implements SyncController {
 				}
 			}
 		};
-		// add one second to account for potential network delays
-		timer.schedule(defaultResponseTask, (room.gameConfig.getGameSpeed() + 1) * 1000);
 		
 		this.connectionMap.forEach((name, connection) -> {
 			UUID id = command.generateResponseID(name);
@@ -129,6 +137,9 @@ public class GameRoom extends ServerEntity implements SyncController {
 			command.setResponseTimeoutMS(room.gameConfig.getGameSpeed() * 1000);
 			connection.send(command.clone());
 		});
+		
+		// add one second to account for potential network delays
+		timer.schedule(defaultResponseTask, command.getTimeoutMS() + 1000);
 	}
 	
 	@Override

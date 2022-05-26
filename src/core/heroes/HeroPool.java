@@ -1,6 +1,7 @@
 package core.heroes;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import core.heroes.original.GanNing;
 import core.heroes.original.SunQuan;
@@ -17,27 +18,46 @@ public class HeroPool {
 	
 	private static final HeroPool INSTANCE = new HeroPool();
 	
-	private final Set<Hero> heroes;
-	private final Set<Hero> emperorHeroes;
+	private final List<Hero> heroes;
+	private final List<Hero> emperorHeroes;
+	private final List<Hero> nonEmperorHeroes;
 
 	private HeroPool() {
-		this.emperorHeroes = Set.of(
+		this.emperorHeroes = List.of(
 			new SunQuan()
 		);
-		this.heroes = Set.of(
+		this.nonEmperorHeroes = List.of(
 			new GanNing(),
-			new SunQuan(),
 			new YuJin(),
 			new ZhugeliangRestingDragon()
 		);
+		this.heroes = new ArrayList<>();
+		this.heroes.addAll(emperorHeroes);
+		this.heroes.addAll(nonEmperorHeroes);
 	}
 	
-	public static Set<Hero> getEmperorHeroes() {
-		return Set.copyOf(INSTANCE.emperorHeroes);
+	/**
+	 * Get a list of heroes that are considered emperor heroes
+	 * @return an unmodifiable list of emperor heroes
+	 */
+	public static List<Hero> getEmperorHeroes() {
+		return List.copyOf(INSTANCE.emperorHeroes);
+	}
+	
+	/**
+	 * Get a list of heroes that are not considered emperor heroes
+	 * @return an unmodifiable list of non-emperor heroes
+	 */
+	public static List<Hero> getNonEmperorHeroes() {
+		return List.copyOf(INSTANCE.nonEmperorHeroes);
 	}
 
-	public static Set<Hero> getAllHeroes() {
-		return Set.copyOf(INSTANCE.heroes);
+	/**
+	 * Get a list of all heroes
+	 * @return an unmodifiable list of all heroes
+	 */
+	public static List<Hero> getAllHeroes() {
+		return List.copyOf(INSTANCE.heroes);
 	}
 
 }

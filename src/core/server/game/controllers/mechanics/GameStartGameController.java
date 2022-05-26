@@ -1,44 +1,74 @@
 package core.server.game.controllers.mechanics;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
+import commands.game.client.SelectHeroGameClientCommand;
 import core.heroes.Hero;
+import core.heroes.HeroPool;
 import core.heroes.original.GanNing;
-import core.heroes.original.SunQuan;
 import core.player.PlayerCompleteServer;
 import core.player.Role;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
 import exceptions.server.game.GameFlowInterruptedException;
+import exceptions.server.game.IllegalPlayerActionException;
 
 public class GameStartGameController extends AbstractGameController<GameStartGameController.GameStartStage> {
 	
 	public static enum GameStartStage implements GameControllerStage<GameStartStage> {
 		ROLE_ASSIGNMENT,
+		EMPEROR_HERO_SELECTION_REQUEST,
 		EMPEROR_HERO_SELECTION,
 		OTHERS_HERO_SELECTION,
 		INITIAL_DRAW,
 		END;
 	}
 	
+	private final Map<PlayerCompleteServer, List<Hero>> allowedHeroChoices;
+	private final Map<PlayerCompleteServer, Integer> heroChoices;
+	
+	public GameStartGameController() {
+		allowedHeroChoices = new HashMap<>();
+		heroChoices = new HashMap<>();
+	}
+	
 	@Override
 	protected void handleStage(GameInternal game, GameStartStage stage) throws GameFlowInterruptedException {
-		;
+		PlayerCompleteServer emperor;
 		switch (stage) {
 			case ROLE_ASSIGNMENT:
 				this.nextStage();
 				List<PlayerCompleteServer> players = game.getPlayersAlive();
 				Collections.shuffle(players);
-				players.forEach(player -> player.setRole(Role.ROLES_LIST.get(player.getPosition())));
+				for (int i = 0; i< players.size(); i++) {
+					players.get(i).setRole(Role.ROLES_LIST.get(i));
+				}
 				// Emperor always starts first
 				game.getTurnController().setCurrentPlayer(game.findPlayer(p -> p.getRole() == Role.EMPEROR));
 				break;
-			case EMPEROR_HERO_SELECTION:
+			case EMPEROR_HERO_SELECTION_REQUEST:
 				this.nextStage();
-				PlayerCompleteServer emperor = game.findPlayer(p -> p.getRole() == Role.EMPEROR);
-				Hero emperorHero = new SunQuan(); // TODO replace with player selected hero
+				List<Hero> availableHeroes = new ArrayList<>();
+				// emperor is always allowed to select emperor heroes
+				availableHeroes.addAll(HeroPool.getEmperorHeroes());
+				
+				List<Hero> otherHeroes = new ArrayList<>(HeroPool.getNonEmperorHeroes());
+				Collections.shuffle(otherHeroes);
+				// select 3 other heroes for the emperor to choose from;
+				availableHeroes.addAll(otherHeroes.subList(0, 3));
+				
+				emperor = game.findPlayer(p -> p.getRole() == Role.EMPEROR);
+				allowedHeroChoices.put(emperor, availableHeroes);
+				throw new GameFlowInterruptedException(new SelectHeroGameClientCommand(emperor, availableHeroes));
+			case EMPEROR_HERO_SELECTION:
+				emperor = game.findPlayer(p -> p.getRole() == Role.EMPEROR);
+				Hero emperorHero = allowedHeroChoices.get(emperor).get(heroChoices.get(emperor));
 				emperor.setHero(emperorHero);
 				// by default, a player's health limit is equal to their hero's health limit
 				emperor.setHealthLimit(emperorHero.getHealthLimit());
@@ -48,6 +78,7 @@ public class GameStartGameController extends AbstractGameController<GameStartGam
 				}
 				emperor.setHealthCurrent(emperor.getHealthLimit());
 				emperor.onGameReady(game);
+				this.nextStage();
 				break;
 			case OTHERS_HERO_SELECTION:
 				this.nextStage();
@@ -77,6 +108,31 @@ public class GameStartGameController extends AbstractGameController<GameStartGam
 	@Override
 	protected GameStartStage getInitialStage() {
 		return GameStartStage.ROLE_ASSIGNMENT;
+	}
+	
+	public void validateHeroSelection(PlayerCompleteServer source, int index) throws IllegalPlayerActionException {
+		if (!allowedHeroChoices.containsKey(source)) {
+			throw new IllegalPlayerActionException("Hero Selection: Player '" + source.getName() + "' is not allowed to select a hero");
+		}
+		if (index < 0 || index > allowedHeroChoices.get(source).size() - 1) {
+			throw new IllegalPlayerActionException("Hero Selection: Player '" + source.getName() + "' selection out of range");
+		}
+	}
+	
+	public void setHeroSelection(PlayerCompleteServer source, int index) {
+		heroChoices.put(source, index);
+	}
+	
+	/**
+	 * This should be called by the default response command on timeout
+	 */
+	public void setDefaultHeroSelection() {
+		// for whoever that failed to select a hero in time, simply select a random one
+		for (PlayerCompleteServer player : allowedHeroChoices.keySet()) {
+			if (!heroChoices.containsKey(player)) {
+				heroChoices.put(player, new Random().nextInt(allowedHeroChoices.get(player).size()));
+			}
+		}
 	}
 
 }

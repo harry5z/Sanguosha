@@ -14,7 +14,6 @@ import commands.game.client.sync.player.DisplayPopupMessageGameClientCommand;
 import core.Deck;
 import core.event.game.GameEvent;
 import core.event.handlers.EventHandler;
-import core.heroes.original.GanNing;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
 import core.player.Role;

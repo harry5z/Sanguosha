@@ -31,10 +31,14 @@ public abstract class AbstractPlayerActionGameClientCommand implements PlayerAct
 	protected abstract void execute(GamePanel panel);
 	
 	@Override
-	public final void setResponseTimeoutMS(int timeMS) {
+	public void setResponseTimeoutMS(int timeMS) {
 		this.timeoutMS = timeMS;
 	}
 	
+	@Override
+	public int getTimeoutMS() {
+		return timeoutMS;
+	}
 	
 	@Override
 	public PlayerActionGameClientCommand clone() {

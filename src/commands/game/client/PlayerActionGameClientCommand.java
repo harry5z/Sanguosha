@@ -71,6 +71,14 @@ public interface PlayerActionGameClientCommand extends Command<ClientFrame>, Clo
 	public void setResponseTimeoutMS(int timeMS);
 	
 	/**
+	 * Get the timeout in millisecond for the client to display countdown bar and disable response
+	 * when timeout is reached. By default, it should be the timeout set via game config
+	 * 
+	 * @return timeout in milliseconds
+	 */
+	public int getTimeoutMS();
+	
+	/**
 	 * Clone the command. Many Player Action commands will be sent to multiple players, with slightly
 	 * different content. Thus a separate command is needed for each player
 	 * 
