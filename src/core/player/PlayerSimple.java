@@ -284,4 +284,22 @@ public class PlayerSimple extends Player {
 		super.setRole(role);
 		heroListener.onRoleAssigned(role);
 	}
+	
+	@Override
+	public void flip() {
+		super.flip();
+		heroListener.onFlipped(isFlipped());
+	}
+	
+	@Override
+	public void chain() {
+		super.chain();
+		heroListener.onChained(isChained());
+	}
+	
+	@Override
+	public void setChained(boolean chained) {
+		super.setChained(chained);
+		heroListener.onChained(chained);
+	}
 }

@@ -74,7 +74,6 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 		myself.registerEquipmentListener(equipmentRack);
 		myself.registerHealthListener(healthGui);
 		myself.registerCardDisposalListener(disposalGui);
-		myself.registerPlayerStatusListener(heroGui);
 		myself.registerDelayedListener(delayedGui);
 		myself.registerHeroListener(heroGui);
 		myself.setHero(new Blank());// change in the future
@@ -107,7 +106,6 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 		PlayerSimple player = new PlayerSimple(info.getName(), info.getPosition());
 		player.registerCardDisposalListener(disposalGui);
 		PlayerGui p = new PlayerGui(player, panel);
-		player.setHero(new Blank()); // remove later
 		otherPlayers.add(p);
 		p.setLocation(WIDTH - (otherPlayers.size()) * PlayerGui.WIDTH, 0);
 		add(p);

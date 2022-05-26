@@ -1,8 +1,9 @@
 package ui.game.interfaces;
 
 import core.player.PlayerSimple;
+import listeners.game.HeroListener;
 
-public interface PlayerUI extends Activatable {
+public interface PlayerUI extends Activatable, HeroListener {
 
 	public PlayerSimple getPlayer();
 
@@ -10,8 +11,4 @@ public interface PlayerUI extends Activatable {
 	
 	public void stopCountdown();
 	
-	public void setFlipped(boolean flipped);
-	
-	public void setChained(boolean chained);
-
 }

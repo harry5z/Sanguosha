@@ -25,7 +25,6 @@ import core.player.Role;
 import listeners.game.CardOnHandListener;
 import listeners.game.EquipmentListener;
 import listeners.game.HealthListener;
-import listeners.game.HeroListener;
 import ui.game.interfaces.PlayerUI;
 
 /**
@@ -53,17 +52,18 @@ public class PlayerGui extends JPanel implements PlayerUI {
 	private BufferedImage chainedImage;
 	private CountdownBarGui countdownBar;
 	private JButton heroButton;
+	private JLabel nameLabel;
 
 	public PlayerGui(PlayerSimple player, GamePanel panel) {
 		this.player = player;
 		setSize(WIDTH, HEIGHT + 60);
 		setLayout(null);
 		
-		JLabel name = new JLabel(player.getName());
-		name.setSize(WIDTH, NAMETAG_HEIGHT);
-		name.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
-		name.setHorizontalAlignment(JLabel.CENTER);
-		add(name);
+		nameLabel = new JLabel(player.getName());
+		nameLabel.setSize(WIDTH, NAMETAG_HEIGHT);
+		nameLabel.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
+		nameLabel.setHorizontalAlignment(JLabel.CENTER);
+		add(nameLabel);
 		
 		heroButton = new JButton();
 		heroButton.setSize(WIDTH, PICTURE_HEIGHT);
@@ -94,32 +94,8 @@ public class PlayerGui extends JPanel implements PlayerUI {
 		countdownBar.setLocation(0, HEIGHT + 40);
 		add(countdownBar);
 		
-		player.registerHeroListener(new HeroListener() {
-			@Override
-			public void onHeroRegistered(Hero hero) {
-				heroButton.setText(hero.getName());
-			}
-
-			@Override
-			public void onWineEffective(boolean effective) {
-				wineUsed = effective;
-				repaint();
-			}
-
-			@Override
-			public void onRoleAssigned(Role role) {
-				name.setText(PlayerGui.this.player.getName() + "(" + role.name() +")");
-			}
-			
-			public void onRoleRevealed(Role role) {
-				if (role == null) {
-					return;
-				}
-				onRoleAssigned(role);
-			};
-
-		});
-
+		player.registerHeroListener(this);
+		
 		try {
 			this.chainedImage = ImageIO.read(getClass().getResource("cards/chained.png"));
 		} catch (IOException e1) {
@@ -338,17 +314,40 @@ public class PlayerGui extends JPanel implements PlayerUI {
 	public void stopCountdown() {
 		countdownBar.stopCountdown();
 	}
-
+	
 	@Override
-	public void setFlipped(boolean flipped) {
-		// TODO Auto-generated method stub
-		
+	public void onHeroRegistered(Hero hero) {
+		heroButton.setText(hero.getName());
 	}
 
 	@Override
-	public void setChained(boolean chained) {
+	public void onWineEffective(boolean effective) {
+		wineUsed = effective;
+		repaint();
+	}
+
+	@Override
+	public void onRoleAssigned(Role role) {
+		nameLabel.setText(PlayerGui.this.player.getName() + "(" + role.name() +")");
+	}
+	
+	public void onRoleRevealed(Role role) {
+		if (role == null) {
+			return;
+		}
+		onRoleAssigned(role);
+	}
+
+	@Override
+	public void onFlipped(boolean flipped) {
+		// TODO add "flipped" layer
+	}
+
+	@Override
+	public void onChained(boolean chained) {
 		this.chained = chained;
 		this.validate();
-		this.repaint();
-	}
+		this.repaint();						
+	};
+	
 }

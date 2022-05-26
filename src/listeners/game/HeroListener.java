@@ -12,5 +12,9 @@ public interface HeroListener {
 	public void onHeroRegistered(Hero hero);
 	
 	public void onWineEffective(boolean effective);
+	
+	public void onFlipped(boolean flipped);
+	
+	public void onChained(boolean chained);
 
 }

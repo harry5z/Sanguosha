@@ -3,6 +3,8 @@ package listeners.game.server;
 import java.util.Set;
 
 import commands.game.client.sync.SyncCommandsUtil;
+import commands.game.client.sync.player.SyncChainGameClientCommand;
+import commands.game.client.sync.player.SyncFlipGameClientCommand;
 import commands.game.client.sync.player.SyncHeroGameClientCommand;
 import commands.game.client.sync.player.SyncResetWineEffectiveGameClientCommand;
 import commands.game.client.sync.player.SyncRoleGameClientCommand;
@@ -65,11 +67,29 @@ public class ServerInGameHeroListener extends ServerInGamePlayerListener impleme
 	public void onRoleRevealed(Role role) {
 		controller.sendSyncCommandToAllPlayers(new SyncRoleGameClientCommand(name, role));
 	}
+	
+	@Override
+	public void onFlipped(boolean flipped) {
+		controller.sendSyncCommandToPlayers(
+			SyncCommandsUtil.generateMapForSameCommand(
+				name, 
+				otherNames, 
+				new SyncFlipGameClientCommand(name, flipped)
+			)
+		);
+	}
+	
+	@Override
+	public void onChained(boolean chained) {
+		controller.sendSyncCommandToAllPlayers(new SyncChainGameClientCommand(this.name, chained));
+	}
 
 	@Override
 	public void refreshSelf(PlayerCompleteServer self) {
 		controller.sendSyncCommandToPlayer(name, new SyncRoleGameClientCommand(self.getName(), self.getRole()));
 		controller.sendSyncCommandToPlayer(name, new SyncHeroGameClientCommand(self.getName(), self.getHero()));
+		controller.sendSyncCommandToPlayer(name, new SyncFlipGameClientCommand(self.getName(), self.isFlipped()));
+		controller.sendSyncCommandToPlayer(name, new SyncChainGameClientCommand(self.getName(), self.isChained()));
 		if (self.isWineEffective()) {
 			controller.sendSyncCommandToPlayer(name, new SyncWineUsedGameClientCommand(self.getName()));
 		}
@@ -78,6 +98,8 @@ public class ServerInGameHeroListener extends ServerInGamePlayerListener impleme
 	@Override
 	public void refreshOther(PlayerSimple other) {
 		controller.sendSyncCommandToPlayer(name, new SyncHeroGameClientCommand(other.getName(), other.getHero()));
+		controller.sendSyncCommandToPlayer(name, new SyncFlipGameClientCommand(other.getName(), other.isFlipped()));
+		controller.sendSyncCommandToPlayer(name, new SyncChainGameClientCommand(other.getName(), other.isChained()));
 		if (other.isWineEffective()) {
 			controller.sendSyncCommandToPlayer(name, new SyncWineUsedGameClientCommand(other.getName()));
 		}

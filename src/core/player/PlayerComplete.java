@@ -50,6 +50,7 @@ public class PlayerComplete extends PlayerSimple {
 		isWineUsed = false;
 		this.stateCounters = new HashMap<>();
 		this.defaultStateCounters = new HashMap<>();
+		statusListener = null;
 	}
 	
 	public void registerPlayerStatusListener(PlayerStatusListener listener) {
@@ -120,35 +121,20 @@ public class PlayerComplete extends PlayerSimple {
 		super.discardCard(card);
 	}
 
-	// ************** methods related to in-game properties ****************
-	@Override
-	public void flip() {
-		super.flip();
-		statusListener.onFlip(isFlipped());
-	}
-	
-	@Override
-	public void chain() {
-		super.chain();
-		this.statusListener.onChained(this.isChained());
-	}
-	
-	@Override
-	public void setChained(boolean chained) {
-		super.setChained(chained);
-		this.statusListener.onChained(chained);
-	}
-	
 	public void setAttackUsed(int amount) throws InvalidPlayerCommandException {
 		if (amount != getAttackUsed()) {
 			attackUsed = amount;
-			statusListener.onSetAttackUsed(amount);
+			if (statusListener != null) {
+				statusListener.onSetAttackUsed(amount);
+			}
 		}
 	}
 
 	public void useAttack() throws InvalidPlayerCommandException {
 		attackUsed++;
-		statusListener.onAttackUsed();
+		if (statusListener != null) {
+			statusListener.onAttackUsed();
+		}
 	}
 
 	public void setWineUsed(int amount) throws InvalidPlayerCommandException {
@@ -157,7 +143,9 @@ public class PlayerComplete extends PlayerSimple {
 			if (wineUsed == 0) {
 				isWineUsed = false;
 			}
-			statusListener.onSetWineUsed(amount);
+			if (statusListener != null) {
+				statusListener.onSetWineUsed(amount);
+			}
 		}
 	}
 	
@@ -209,7 +197,9 @@ public class PlayerComplete extends PlayerSimple {
 	
 	public void updatePlayerState(PlayerState key, int value) {
 		this.stateCounters.put(key, value);
-		this.statusListener.onPlayerStateUpdated(key, value);
+		if (statusListener != null) {
+			statusListener.onPlayerStateUpdated(key, value);
+		}
 	}
 	
 	public int getPlayerState(PlayerState key) {

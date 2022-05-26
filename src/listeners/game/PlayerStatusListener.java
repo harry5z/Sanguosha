@@ -10,10 +10,6 @@ public interface PlayerStatusListener {
 	
 	public void onSetWineUsed(int amount);
 	
-	public void onFlip(boolean flipped);
-	
-	public void onChained(boolean chained);
-	
 	public void onPlayerStateUpdated(PlayerState state, int value);
 	
 }

@@ -21,7 +21,6 @@ import core.heroes.Hero;
 import core.heroes.skills.Skill;
 import core.player.PlayerCompleteClient;
 import core.player.PlayerSimple;
-import core.player.PlayerState;
 import core.player.Role;
 import ui.game.interfaces.HeroUI;
 
@@ -141,52 +140,22 @@ public class HeroGui extends JPanel implements HeroUI {
 	}
 
 	@Override
-	public void onAttackUsed() {
-		// nothing to show
-	}
-
-	@Override
-	public void onSetAttackUsed(int amount) {
-		// nothing to show
-	}
-
-	@Override
-	public void onSetWineUsed(int amount) {
-		// nothing to show
-	}
-
-	@Override
 	public void onWineEffective(boolean effective) {
 		this.wineUsed = effective;
 		repaint();
 	}
 
 	@Override
-	public void onFlip(boolean flipped) {
+	public void onFlipped(boolean flipped) {
 		// TODO add "flipped" layer
 		
 	}
 
 	@Override
-	public void setFlipped(boolean flipped) {
-		// TODO add "flipped" layer
-	}
-
-	@Override
-	public void setChained(boolean chained) {
+	public void onChained(boolean chained) {
 		this.chained = chained;
 		this.validate();
 		this.repaint();
-	}
-	
-	@Override
-	public void onChained(boolean chained) {
-		this.setChained(chained);
-	}
-
-	@Override
-	public void onPlayerStateUpdated(PlayerState state, int value) {
-		// Nothing to do
 	}
 
 	@Override
