@@ -11,13 +11,13 @@ import core.client.game.operations.mechanics.HeroSelectionOperation;
 import core.heroes.Hero;
 import core.player.PlayerCompleteServer;
 
-public class SelectHeroGameClientCommand extends AbstractSingleTargetOperationGameClientCommand {
+public class EmperorHeroSelectionGameClientCommand extends AbstractSingleTargetOperationGameClientCommand {
 
 	private static final long serialVersionUID = 1L;
 	
 	private final List<Hero> availableHeroes;
 
-	public SelectHeroGameClientCommand(PlayerCompleteServer target, List<Hero> availableHeroes) {
+	public EmperorHeroSelectionGameClientCommand(PlayerCompleteServer target, List<Hero> availableHeroes) {
 		super(target.getPlayerInfo());
 		this.availableHeroes = availableHeroes;
 		this.timeoutMS = 30000; // allow each player to spend 30s on hero selection

@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import commands.game.client.SelectHeroGameClientCommand;
+import commands.game.client.EmperorHeroSelectionGameClientCommand;
+import commands.game.client.NonEmperorHeroSelectionGameClientCommand;
 import core.heroes.Hero;
 import core.heroes.HeroPool;
-import core.heroes.original.GanNing;
 import core.player.PlayerCompleteServer;
 import core.player.Role;
 import core.server.game.GameInternal;
@@ -25,13 +25,14 @@ public class GameStartGameController extends AbstractGameController<GameStartGam
 		ROLE_ASSIGNMENT,
 		EMPEROR_HERO_SELECTION_REQUEST,
 		EMPEROR_HERO_SELECTION,
+		OTHERS_HERO_SELECTION_REQUEST,
 		OTHERS_HERO_SELECTION,
 		INITIAL_DRAW,
 		END;
 	}
 	
-	private final Map<PlayerCompleteServer, List<Hero>> allowedHeroChoices;
-	private final Map<PlayerCompleteServer, Integer> heroChoices;
+	private final Map<PlayerCompleteServer, List<Hero>> allowedHeroChoices; // allowed heroes for each player
+	private final Map<PlayerCompleteServer, Integer> heroChoices; // selected hero (index) for each player
 	
 	public GameStartGameController() {
 		allowedHeroChoices = new HashMap<>();
@@ -65,7 +66,7 @@ public class GameStartGameController extends AbstractGameController<GameStartGam
 				
 				emperor = game.findPlayer(p -> p.getRole() == Role.EMPEROR);
 				allowedHeroChoices.put(emperor, availableHeroes);
-				throw new GameFlowInterruptedException(new SelectHeroGameClientCommand(emperor, availableHeroes));
+				throw new GameFlowInterruptedException(new EmperorHeroSelectionGameClientCommand(emperor, availableHeroes));
 			case EMPEROR_HERO_SELECTION:
 				emperor = game.findPlayer(p -> p.getRole() == Role.EMPEROR);
 				Hero emperorHero = allowedHeroChoices.get(emperor).get(heroChoices.get(emperor));
@@ -78,21 +79,38 @@ public class GameStartGameController extends AbstractGameController<GameStartGam
 				}
 				emperor.setHealthCurrent(emperor.getHealthLimit());
 				emperor.onGameReady(game);
+				allowedHeroChoices.remove(emperor);
+				heroChoices.remove(emperor);
 				this.nextStage();
 				break;
-			case OTHERS_HERO_SELECTION:
+			case OTHERS_HERO_SELECTION_REQUEST:
 				this.nextStage();
-				game.getPlayersAlive().forEach(player -> {
+				for (PlayerCompleteServer player : game.getPlayersAlive()) {
 					if (player.getRole() == Role.EMPEROR) {
-						return;
+						continue;
 					}
-					Hero playerHero = new GanNing(); // TODO replace with player selected hero
+					List<Hero> heroes = new ArrayList<>(HeroPool.getAllHeroes());
+					Collections.shuffle(heroes);
+					// give each player 3 random heroes to select from
+					// TODO increase selection limit and make each player's hero pool mutually exclusive
+					// TODO remove emperor's hero from pool too
+					allowedHeroChoices.put(player, new ArrayList<>(heroes.subList(0, 3)));
+				}
+				throw new GameFlowInterruptedException(new NonEmperorHeroSelectionGameClientCommand(Map.copyOf(allowedHeroChoices)));
+			case OTHERS_HERO_SELECTION:
+				if (heroChoices.size() < allowedHeroChoices.size()) {
+					// not everyone has selected yet
+					throw new GameFlowInterruptedException();
+				}
+				heroChoices.forEach((player, index) -> {
+					Hero playerHero = allowedHeroChoices.get(player).get(index);
 					player.setHero(playerHero);
 					// by default, a player's health limit is equal to their hero's health limit
 					player.setHealthLimit(playerHero.getHealthLimit());
 					player.setHealthCurrent(player.getHealthLimit());
 					player.onGameReady(game);
 				});
+				this.nextStage();
 				break;
 			case INITIAL_DRAW:
 				this.nextStage();
