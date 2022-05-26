@@ -1,10 +1,9 @@
 package ui.game;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import cards.Card;
 import listeners.game.CardDisposalListener;
@@ -15,17 +14,19 @@ import listeners.game.CardDisposalListener;
  * @author Harry
  *
  */
-public class CardDisposalGui extends JPanel implements CardDisposalListener, ActionListener {
+public class CardDisposalGui extends JPanel implements CardDisposalListener {
 
 	private static final long serialVersionUID = 1L;
 	
 	public static final int WIDTH = 600;
 	public static final int HEIGHT = CardGui.HEIGHT;
-	private static final int TIME = 50;
-	private CardRackGui usage;
-	private Timer timer;
-	private int ms;
-	private JPanel parent;
+	private static final int STEPS = 50;
+	private static final int INTERVAL = 50;
+	private final CardRackGui usage;
+	private final Timer timer;
+	private TimerTask task;
+	private int ticks;
+	private final JPanel parent;
 
 	public CardDisposalGui(JPanel parentPanel) {
 		this.parent = parentPanel;
@@ -37,8 +38,9 @@ public class CardDisposalGui extends JPanel implements CardDisposalListener, Act
 		usage.setLocation(0, 0);
 		add(usage);
 
-		timer = new Timer(10, this);
-		ms = 0;
+		timer = new Timer();
+		task = null;
+		ticks = 0;
 	}
 
 	@Override
@@ -63,22 +65,27 @@ public class CardDisposalGui extends JPanel implements CardDisposalListener, Act
 	}
 
 	@Override
-	public void refresh() {
-		timer.start();
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (ms == 2 * TIME) {
-			usage.clearRack();
-			timer.stop();
-			ms = 0;
-		} else {
-			ms++;
-			if (ms > TIME) {
-				usage.fadeCards(1.0f / TIME);
-			}
+	public synchronized void refresh() {
+		if (task != null || usage.getCardUIs().isEmpty()) {
+			return;
 		}
+		task = new TimerTask() {
+			@Override
+			public void run() {
+				synchronized (CardDisposalGui.this) {
+					if (ticks >= STEPS) {
+						cancel();
+						task = null;
+						usage.clearRack();
+						return;
+					}
+					usage.fadeCards(1f / STEPS);
+					ticks++;
+				}
+			}
+		};
+		ticks = 0;
+		timer.schedule(task, 0, INTERVAL);
 	}
 
 }
