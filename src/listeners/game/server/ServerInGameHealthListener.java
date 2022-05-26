@@ -66,12 +66,18 @@ public class ServerInGameHealthListener extends ServerInGamePlayerListener imple
 	public void refreshSelf(PlayerCompleteServer self) {
 		controller.sendSyncCommandToPlayer(name, new SyncHealthLimitGameClientCommand(self.getName(), self.getHealthLimit()));
 		controller.sendSyncCommandToPlayer(name, new SyncHealthCurrentGameClientCommand(self.getName(), self.getHealthCurrent()));
+		if (!self.isAlive()) {
+			controller.sendSyncCommandToPlayer(name, new SyncDeathGameClientCommand(name));
+		}
 	}
 
 	@Override
 	public void refreshOther(PlayerSimple other) {
 		controller.sendSyncCommandToPlayer(name, new SyncHealthLimitGameClientCommand(other.getName(), other.getHealthLimit()));
 		controller.sendSyncCommandToPlayer(name, new SyncHealthCurrentGameClientCommand(other.getName(), other.getHealthCurrent()));
+		if (!other.isAlive()) {
+			controller.sendSyncCommandToPlayer(name, new SyncDeathGameClientCommand(other.getName()));
+		}
 	}
 
 }
