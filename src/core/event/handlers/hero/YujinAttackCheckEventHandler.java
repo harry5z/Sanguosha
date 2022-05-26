@@ -23,7 +23,7 @@ public class YujinAttackCheckEventHandler extends AbstractEventHandler<AttackLoc
 
 	@Override
 	protected void handleIfActivated(AttackLockedTargetSkillsCheckEvent event, GameDriver game) throws GameFlowInterruptedException {
-		if (this.player != event.source) {
+		if (this.player != event.target) {
 			return;
 		}
 		

@@ -9,6 +9,8 @@ package core.heroes.original;
  */
 public class Blank extends AbstractHero {
 
+	private static final long serialVersionUID = 1L;
+
 	public Blank() {
 		super(5, Faction.QUN, Gender.MALE, "Blank");
 	}

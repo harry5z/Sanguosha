@@ -4,7 +4,7 @@ import cards.Card;
 import cards.Card.Color;
 import cards.equipments.Equipment.EquipmentType;
 import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.NullificationReactionInGameServerCommand;
+import commands.game.server.ingame.ZhugeliangNullificationReactionInGameServerCommand;
 import core.player.PlayerSimple;
 import ui.game.interfaces.SkillUI;
 
@@ -41,6 +41,6 @@ public class SeeThroughSkillOperation extends AbstractMultiCardMultiTargetSkillO
 
 	@Override
 	protected InGameServerCommand getCommandOnConfirm() {
-		return new NullificationReactionInGameServerCommand(this.getFirstCardUI().getCard());
+		return new ZhugeliangNullificationReactionInGameServerCommand(this.getFirstCardUI().getCard());
 	}
 }

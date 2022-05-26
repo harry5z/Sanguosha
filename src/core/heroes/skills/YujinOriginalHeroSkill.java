@@ -11,8 +11,9 @@ import core.server.game.GameInternal;
  * @author Harry
  *
  */
-@SuppressWarnings("serial")
 public class YujinOriginalHeroSkill extends AbstractPassiveSkill {
+
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public String getName() {

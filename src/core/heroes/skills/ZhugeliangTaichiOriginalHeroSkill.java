@@ -4,8 +4,9 @@ import core.event.handlers.hero.ZhugeliangTaichiDodgeEquipmentCheckEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
 
-@SuppressWarnings("serial")
 public class ZhugeliangTaichiOriginalHeroSkill extends AbstractPassiveSkill {
+
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public String getName() {
