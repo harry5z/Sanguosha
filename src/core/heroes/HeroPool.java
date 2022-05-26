@@ -8,6 +8,7 @@ import core.heroes.original.HuangZhong;
 import core.heroes.original.SunQuan;
 import core.heroes.original.WeiYan;
 import core.heroes.original.YuJin;
+import core.heroes.original.YuanShao;
 import core.heroes.original.ZhugeliangRestingDragon;
 import core.server.game.Game;
 
@@ -26,7 +27,8 @@ public class HeroPool {
 
 	private HeroPool() {
 		this.emperorHeroes = List.of(
-			new SunQuan()
+			new SunQuan(),
+			new YuanShao()
 		);
 		this.nonEmperorHeroes = List.of(
 			new GanNing(),

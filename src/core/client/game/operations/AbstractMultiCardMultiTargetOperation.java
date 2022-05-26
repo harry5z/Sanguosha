@@ -73,6 +73,10 @@ public abstract class AbstractMultiCardMultiTargetOperation extends AbstractOper
 			return;
 		}
 		this.onCardClicked(card, PlayerCardZone.HAND);
+		// enable or disable cards on hand again based on clicked card
+		this.panel.getGameUI().getCardRackUI().getCardUIs().forEach(ui -> {
+			ui.setActivatable(isCardActivatable(ui.getCard()));
+		});
 	}
 	
 	private final void onEquipmentClicked(EquipmentUI equipment) {
