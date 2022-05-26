@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import cards.basics.Attack;
+import core.event.game.basic.AttackLockedSourceSkillsCheckEvent;
 import core.event.game.basic.AttackLockedSourceWeaponAbilitiesCheckEvent;
 import core.event.game.basic.AttackLockedTargetSkillsCheckEvent;
 import core.event.game.basic.AttackOnDodgedWeaponAbilitiesCheckEvent;
@@ -23,6 +24,7 @@ public class AttackResolutionGameController
 	implements DodgeUsableGameController {
 	
 	public static enum AttackResolutionStage implements GameControllerStage<AttackResolutionStage> {
+		TARGET_LOCKED_SOURCE_HERO_SKILLS,
 		TARGET_LOCKED_TARGET_HERO_SKILLS,
 		TARGET_LOCKED_SOURCE_WEAPON_ABILITIES,
 		TARGET_LOCKED_TARGET_EQUIPMENT_ABILITIES,
@@ -63,6 +65,10 @@ public class AttackResolutionGameController
 			return;
 		}
 		switch(stage) {
+			case TARGET_LOCKED_SOURCE_HERO_SKILLS:
+				this.nextStage();
+				game.emit(new AttackLockedSourceSkillsCheckEvent(source, target, this));
+				break;
 			case TARGET_LOCKED_TARGET_HERO_SKILLS:
 				this.nextStage();
 				game.emit(new AttackLockedTargetSkillsCheckEvent(this.source, this.target, this));
@@ -114,6 +120,10 @@ public class AttackResolutionGameController
 	
 	public void skipStage(AttackResolutionStage stage) {
 		this.skippedStages.add(stage);
+		if (stage == AttackResolutionStage.DODGE) {
+			// if dodge is skipped, also skip post-dodge stages
+			this.skippedStages.add(AttackResolutionStage.ATTACK_DODGED_SOURCE_WEAPON_ABILITIES);
+		}
 	}
 	
 	public Attack getAttackCard() {
@@ -122,7 +132,7 @@ public class AttackResolutionGameController
 
 	@Override
 	protected AttackResolutionStage getInitialStage() {
-		return AttackResolutionStage.TARGET_LOCKED_TARGET_HERO_SKILLS;
+		return AttackResolutionStage.TARGET_LOCKED_SOURCE_HERO_SKILLS;
 	}
 	
 }

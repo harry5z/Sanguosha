@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import core.heroes.original.GanNing;
+import core.heroes.original.HuangZhong;
 import core.heroes.original.SunQuan;
 import core.heroes.original.WeiYan;
 import core.heroes.original.YuJin;
@@ -31,6 +32,7 @@ public class HeroPool {
 			new GanNing(),
 			new YuJin(),
 			new WeiYan(),
+			new HuangZhong(),
 			new ZhugeliangRestingDragon()
 		);
 		this.heroes = new ArrayList<>();
