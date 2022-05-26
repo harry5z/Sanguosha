@@ -3,7 +3,6 @@ package listeners.game.server;
 import java.util.Set;
 
 import commands.game.client.sync.SyncCommandsUtil;
-import commands.game.client.sync.player.SyncAttackLimitsSetGameClientCommand;
 import commands.game.client.sync.player.SyncAttackUsedGameClientCommand;
 import commands.game.client.sync.player.SyncAttackUsedSetGameClientCommand;
 import commands.game.client.sync.player.SyncChainGameClientCommand;
@@ -25,11 +24,6 @@ public class ServerInGamePlayerStatusListener extends ServerInGamePlayerListener
 	@Override
 	public void onAttackUsed() {
 		controller.sendSyncCommandToPlayer(name, new SyncAttackUsedGameClientCommand());
-	}
-
-	@Override
-	public void onSetAttackLimit(int limit) {
-		controller.sendSyncCommandToPlayer(name, new SyncAttackLimitsSetGameClientCommand(limit));
 	}
 
 	@Override
@@ -66,7 +60,6 @@ public class ServerInGamePlayerStatusListener extends ServerInGamePlayerListener
 	@Override
 	public void refreshSelf(PlayerCompleteServer self) {
 		controller.sendSyncCommandToPlayer(name, new SyncAttackUsedSetGameClientCommand(self.getAttackUsed()));
-		controller.sendSyncCommandToPlayer(name, new SyncAttackLimitsSetGameClientCommand(self.getAttackLimit()));
 		controller.sendSyncCommandToPlayer(name, new SyncWineUsedSetGameClientCommand(self.getWineUsed()));
 		controller.sendSyncCommandToPlayer(name, new SyncFlipGameClientCommand(self.getName(), self.isFlipped()));
 		controller.sendSyncCommandToPlayer(name, new SyncChainGameClientCommand(self.getName(), self.isChained()));

@@ -26,14 +26,6 @@ public class PlayerCompleteServer extends PlayerComplete {
 	}
 	
 	@Override
-	public void setAttackLimit(int limit) throws InvalidPlayerCommandException {
-		if (limit < 0) {
-			throw new InvalidPlayerCommandException("Attack limit cannot be smaller than 0");
-		}
-		super.setAttackLimit(limit);
-	}
-	
-	@Override
 	public void setAttackUsed(int amount) throws InvalidPlayerCommandException {
 		if (amount < 0) {
 			throw new InvalidPlayerCommandException("Attack used cannot be smaller than 0");

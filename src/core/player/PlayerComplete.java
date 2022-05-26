@@ -24,10 +24,6 @@ import listeners.game.PlayerStatusListener;
 public class PlayerComplete extends PlayerSimple {
 	// ******** in-game properties ***********
 	private List<Card> cardsOnHand;
-	@SuppressWarnings("unused")
-	@Deprecated
-	private int attackLimit;// limit of attacks can be used in one TURN_DEAL, by
-							// default 1
 	private int attackUsed;// number of attacks already used this TURN_DEAL
 	private volatile int wineLimit;// limit of wines can be used in on TURN_DEAL, by
 							// default 1
@@ -48,7 +44,6 @@ public class PlayerComplete extends PlayerSimple {
 		this.playerQueryListeners = new HashMap<>();
 
 		// init in-game interactive properties
-		attackLimit = 1;
 		attackUsed = 0;
 		wineLimit = 1;
 		wineUsed = 0;
@@ -144,14 +139,6 @@ public class PlayerComplete extends PlayerSimple {
 		this.statusListener.onChained(chained);
 	}
 	
-	@Deprecated
-	public void setAttackLimit(int limit) throws InvalidPlayerCommandException {
-		if (limit != getAttackLimit()) {
-			attackLimit = limit;
-			statusListener.onSetAttackLimit(limit);
-		}
-	}
-
 	public void setAttackUsed(int amount) throws InvalidPlayerCommandException {
 		if (amount != getAttackUsed()) {
 			attackUsed = amount;

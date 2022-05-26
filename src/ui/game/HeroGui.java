@@ -146,11 +146,6 @@ public class HeroGui extends JPanel implements HeroUI {
 	}
 
 	@Override
-	public void onSetAttackLimit(int limit) {
-		// nothing to show
-	}
-
-	@Override
 	public void onSetAttackUsed(int amount) {
 		// nothing to show
 	}
