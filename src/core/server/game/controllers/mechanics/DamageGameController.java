@@ -6,6 +6,7 @@ import java.util.Set;
 import core.event.game.damage.SourceHeroOnDamageEvent;
 import core.event.game.damage.TargetEquipmentCheckDamageEvent;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.Damage;
 import core.server.game.Damage.Element;
 import core.server.game.GameInternal;
@@ -53,6 +54,7 @@ public class DamageGameController extends AbstractGameController<DamageGameContr
 			case TARGET_DAMAGE:
 				this.nextStage();
 				this.damage.apply();
+				game.log(BattleLog.playerADamagedPlayerB(damage.getSource(), damage.getTarget(), damage));
 				if (damage.getTarget().isDying()) {
 					game.pushGameController(new DeathResolutionGameController(damage.getTarget(), game.getCurrentPlayer()));
 				}

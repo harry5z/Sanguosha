@@ -50,5 +50,7 @@ public interface GameInternal extends GameEventRegistrar, GameDriver {
 	 * Use only when game ends
 	 */
 	public void end(List<Role> winners);
+	
+	public void log(BattleLog log);
 
 }

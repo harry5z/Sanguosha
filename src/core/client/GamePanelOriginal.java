@@ -21,6 +21,7 @@ import core.client.game.operations.Operation;
 import core.player.PlayerInfo;
 import net.Channel;
 import net.client.ClientMessageListener;
+import ui.game.BattleLogGui;
 import ui.game.GamePanelGui;
 import ui.game.interfaces.GameUI;
 
@@ -33,7 +34,9 @@ import ui.game.interfaces.GameUI;
  */
 public class GamePanelOriginal implements GamePanel {
 
-	private final GamePanelGui panel;
+	private final JPanel displayPanel;
+	private final GamePanelGui mainPanel;
+	private final BattleLogGui battleLogPanel;
 	private final Stack<Operation> currentOperations;
 	private final Map<Class<? extends ClientGameEvent>, Set<ClientEventListener<? extends ClientGameEvent>>> listeners;
 	private final Channel channel;
@@ -53,7 +56,11 @@ public class GamePanelOriginal implements GamePanel {
 		panel.repaint();
 		this.listeners = new HashMap<>();
 		this.currentOperations = new Stack<>();
-		this.panel = panel;
+		this.mainPanel = panel;
+		this.battleLogPanel = new BattleLogGui();
+		this.displayPanel = new JPanel();
+		this.displayPanel.add(panel);
+		this.displayPanel.add(battleLogPanel);
 		this.uuid = null;
 		this.actionTimeoutTask = null;
 		this.timer = new Timer();
@@ -127,14 +134,14 @@ public class GamePanelOriginal implements GamePanel {
 					if (!currentOperations.empty()) {
 						currentOperations.peek().onUnloaded();
 						currentOperations.peek().onDeactivated();
-						panel.stopCountdown();
+						mainPanel.stopCountdown();
 					}
 				}
 			}
 		};
 		
 		timer.schedule(actionTimeoutTask, timeoutMS);
-		panel.showCountdownBar(timeoutMS);
+		mainPanel.showCountdownBar(timeoutMS);
 		
 		operation.onActivated(this);
 		currentOperations.push(operation);
@@ -173,7 +180,7 @@ public class GamePanelOriginal implements GamePanel {
 				actionTimeoutTask = null;
 			}
 		}
-		panel.stopCountdown();
+		mainPanel.stopCountdown();
 		// response ID must be present for the response to be accepted by server
 		command.setResponseID(uuid);
 		channel.send(command);
@@ -181,7 +188,7 @@ public class GamePanelOriginal implements GamePanel {
 	
 	@Override
 	public GameUI getGameUI() {
-		return panel;
+		return mainPanel;
 	}
 
 	@Override
@@ -192,17 +199,21 @@ public class GamePanelOriginal implements GamePanel {
 
 	@Override
 	public JPanel getPanelUI() {
-		return panel;
+		return displayPanel;
 	}
 
 	@Override
 	public GameState getGameState() {
-		return panel;
+		return mainPanel;
 	}
 
 	@Override
 	public void setNextResponseID(UUID id) {
 		this.uuid = id;
+	}
+
+	public void pushBattleLog(String log) {
+		this.battleLogPanel.pushBattleLog(log);
 	}
 
 }

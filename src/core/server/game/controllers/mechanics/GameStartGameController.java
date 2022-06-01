@@ -13,6 +13,7 @@ import core.heroes.Hero;
 import core.heroes.HeroPool;
 import core.player.PlayerCompleteServer;
 import core.player.Role;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
@@ -52,6 +53,7 @@ public class GameStartGameController extends AbstractGameController<GameStartGam
 				}
 				// Emperor always starts first
 				game.getTurnController().setCurrentPlayer(game.findPlayer(p -> p.getRole() == Role.EMPEROR));
+				game.log(BattleLog.custom("<b>" + game.findPlayer(p -> p.getRole() == Role.EMPEROR).getName() + "</b> is selected as the Emperor"));
 				break;
 			case EMPEROR_HERO_SELECTION_REQUEST:
 				this.nextStage();
@@ -79,6 +81,7 @@ public class GameStartGameController extends AbstractGameController<GameStartGam
 				}
 				emperor.setHealthCurrent(emperor.getHealthLimit());
 				emperor.onGameReady(game);
+				game.log(BattleLog.playerADidX(emperor, " selected Hero <b>" + emperorHero.getName() + "</b>"));
 				allowedHeroChoices.remove(emperor);
 				heroChoices.remove(emperor);
 				this.nextStage();

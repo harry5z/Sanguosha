@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import core.Constants;
 import core.GameState;
-import core.client.GamePanel;
+import core.client.GamePanelOriginal;
 import core.player.PlayerCompleteClient;
 import core.player.PlayerInfo;
 import core.player.PlayerSimple;
@@ -44,9 +44,9 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 	private MessageBoxGui messageBox;
 	private CountdownBarGui countdownBar;
 	
-	private final GamePanel panel;
+	private final GamePanelOriginal panel;
 	
-	public GamePanelGui(PlayerInfo player, GamePanel panel) {
+	public GamePanelGui(PlayerInfo player, GamePanelOriginal panel) {
 		this.panel = panel;
 		setLayout(null);
 		myself = new PlayerCompleteClient(player.getName(), player.getPosition());
@@ -286,6 +286,11 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 	
 	public void stopCountdown() {
 		countdownBar.stopCountdown();
+	}
+
+	@Override
+	public void pushBattleLog(String log) {
+		this.panel.pushBattleLog(log);
 	}
 	
 }

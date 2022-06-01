@@ -1,5 +1,6 @@
 package core.server.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 
 import commands.game.client.EnterOriginalGameRoomGameClientCommand;
 import commands.game.client.sync.player.DisplayPopupMessageGameClientCommand;
+import commands.game.client.sync.ui.SyncBattleLogGameUIClientCommand;
 import core.Deck;
 import core.event.game.GameEvent;
 import core.event.handlers.EventHandler;
@@ -53,6 +55,7 @@ public class GameImpl implements Game {
 	private TurnGameController turnController;
 	private GameEventHandler handlers;
 	private Map<String, Set<ServerInGamePlayerListener>> playerListeners;
+	private final List<BattleLog> battleLogs;
 
 	public GameImpl(GameRoom room, GameConfig config, List<PlayerInfo> playerInfos) {
 		this.room = room;
@@ -66,6 +69,7 @@ public class GameImpl implements Game {
 		this.controllers = new Stack<>();
 		this.handlers = new GameEventHandler();
 		this.playerListeners = new HashMap<>();
+		this.battleLogs = new ArrayList<>();
 	}
 
 	@Override
@@ -193,6 +197,9 @@ public class GameImpl implements Game {
 				}
 			}
 		}
+		for (BattleLog log : battleLogs) {
+			room.sendSyncCommandToPlayer(name, new SyncBattleLogGameUIClientCommand(log.getLogMessage()));
+		}
 	}
 
 	@Override
@@ -291,6 +298,12 @@ public class GameImpl implements Game {
 			}
 			currentCheckedPlayer = this.getNextPlayer(currentCheckedPlayer);
 		} while (initialPlayer != currentCheckedPlayer);
+	}
+
+	@Override
+	public void log(BattleLog log) {
+		battleLogs.add(log);
+		room.sendSyncCommandToAllPlayers(new SyncBattleLogGameUIClientCommand(log.getLogMessage()));
 	}
 
 }

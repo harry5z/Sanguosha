@@ -1,5 +1,6 @@
 package core.server.game.controllers.equipment;
 
+import java.util.List;
 import java.util.Set;
 
 import cards.Card;
@@ -8,6 +9,7 @@ import cards.equipments.Equipment.EquipmentType;
 import commands.game.client.equipment.AxeAbilityGameClientCommand;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractPlayerDecisionActionGameController;
 import core.server.game.controllers.CardSelectableGameController;
@@ -43,6 +45,7 @@ public class AxeGameController extends AbstractPlayerDecisionActionGameControlle
 		if (this.confirmed) {
 			// if confirmed, force the Attack to hit
 			this.controller.setStage(AttackResolutionStage.PRE_DAMAGE_SOURCE_WEAPON_ABILITIES);
+			game.log(BattleLog.playerADidX(source, "used Axe, discarding 2 cards to make the Attack hit"));
 		}
 	}
 
@@ -63,6 +66,7 @@ public class AxeGameController extends AbstractPlayerDecisionActionGameControlle
 				try {
 					// TODO: convert to discard controller
 					this.source.discardCard(card);
+					game.log(BattleLog.playerADidXToCards(source, "discarded", List.of(card)));
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}

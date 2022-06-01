@@ -12,6 +12,7 @@ import core.event.game.basic.AttackPreDamageWeaponAbilitiesCheckEvent;
 import core.event.game.basic.AttackTargetEquipmentCheckEvent;
 import core.event.game.damage.AttackDamageModifierEvent;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.Damage;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
@@ -87,6 +88,7 @@ public class AttackResolutionGameController
 			case ATTACK_DODGED_SOURCE_WEAPON_ABILITIES:
 				// by default, an Attack does not apply damage if dodged
 				this.setStage(AttackResolutionStage.END);
+				game.log(BattleLog.playerADidX(target, "Dodged the Attack"));
 				game.emit(new AttackOnDodgedWeaponAbilitiesCheckEvent(this.source, this.target, this));
 				break;
 			case PRE_DAMAGE_SOURCE_WEAPON_ABILITIES:
