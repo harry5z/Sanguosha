@@ -35,7 +35,7 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 	private JPanel customizedSelectionPane;
 
 	private PlayerCompleteClient myself;
-	private List<PlayerUI> otherPlayers;
+	private List<PlayerGui> otherPlayers;
 	private ButtonGui confirm;
 	private ButtonGui cancel;
 	private ButtonGui end;
@@ -57,7 +57,7 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 		healthGui = new LifebarGui();
 		disposalGui = new CardDisposalGui(this);
 		delayedGui = new DelayedBarGui();
-		otherPlayers = new ArrayList<PlayerUI>();
+		otherPlayers = new ArrayList<>();
 		deckSize = new JLabel();
 		deckSize.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
 		deckSize.setSize(100, 100);
@@ -102,10 +102,54 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 		PlayerSimple player = new PlayerSimple(info.getName(), info.getPosition());
 		player.registerCardDisposalListener(disposalGui);
 		PlayerGui p = new PlayerGui(player, panel);
+		
+		otherPlayers.forEach(ui -> this.remove(ui));
 		otherPlayers.add(p);
-		p.setLocation(WIDTH - (otherPlayers.size()) * PlayerGui.WIDTH, 0);
-		add(p);
-		repaint();
+		int myPosition = myself.getPosition();
+		int size = otherPlayers.size();
+		// players with position higher than self must be at the front, as they act after oneself
+		otherPlayers.sort((p1, p2) -> {
+			return ((p1.getPlayer().getPosition() + size - myPosition) % (size + 1)) -
+					((p2.getPlayer().getPosition() + size - myPosition) % (size + 1));
+		});
+		
+		if (size == 1) {
+			otherPlayers.get(0).setLocation(WIDTH / 2 - PlayerGui.WIDTH / 2, 0);
+		} else if (size == 2) {
+			otherPlayers.get(0).setLocation(WIDTH / 3 - PlayerGui.WIDTH / 2, 0);
+			otherPlayers.get(1).setLocation(WIDTH / 3 * 2 - PlayerGui.WIDTH / 2, 0);
+		} else if (size == 3) {
+			otherPlayers.get(0).setLocation(0, HEIGHT / 2 - PlayerGui.HEIGHT / 2);
+			otherPlayers.get(1).setLocation(WIDTH / 2 - PlayerGui.WIDTH / 2, 0);
+			otherPlayers.get(2).setLocation(WIDTH - PlayerGui.WIDTH, HEIGHT / 2 - PlayerGui.HEIGHT / 2);
+		} else if (size == 4) {
+			otherPlayers.get(0).setLocation(0, HEIGHT / 2 - PlayerGui.HEIGHT / 2);
+			otherPlayers.get(1).setLocation(WIDTH / 3 - PlayerGui.WIDTH / 2, 0);
+			otherPlayers.get(2).setLocation(WIDTH / 3 * 2 - PlayerGui.WIDTH / 2, 0);
+			otherPlayers.get(3).setLocation(WIDTH - PlayerGui.WIDTH, HEIGHT / 2 - PlayerGui.HEIGHT / 2);
+		} else if (size == 5) {
+			otherPlayers.get(0).setLocation(0, HEIGHT / 2 - PlayerGui.HEIGHT / 2);
+			otherPlayers.get(1).setLocation(WIDTH / 4 - PlayerGui.WIDTH / 2, 0);
+			otherPlayers.get(2).setLocation(WIDTH / 4 * 2 - PlayerGui.WIDTH / 2, 0);
+			otherPlayers.get(3).setLocation(WIDTH / 4 * 3 - PlayerGui.WIDTH / 2, 0);
+			otherPlayers.get(4).setLocation(WIDTH - PlayerGui.WIDTH, HEIGHT / 2 - PlayerGui.HEIGHT / 2);
+		} else if (size == 6) {
+			otherPlayers.get(0).setLocation(0, HEIGHT / 2 - PlayerGui.HEIGHT / 2);
+			otherPlayers.get(1).setLocation(0, 0);
+			otherPlayers.get(2).setLocation(WIDTH / 3 - PlayerGui.WIDTH / 2, 0);
+			otherPlayers.get(3).setLocation(WIDTH / 3 * 2 - PlayerGui.WIDTH / 2, 0);
+			otherPlayers.get(4).setLocation(WIDTH - PlayerGui.WIDTH, 0);
+			otherPlayers.get(5).setLocation(WIDTH - PlayerGui.WIDTH, HEIGHT / 2 - PlayerGui.HEIGHT / 2);
+		} else if (size == 7) {
+			otherPlayers.get(0).setLocation(0, HEIGHT / 2 - PlayerGui.HEIGHT / 2);
+			otherPlayers.get(1).setLocation(0, 0);
+			otherPlayers.get(2).setLocation(WIDTH / 4 - PlayerGui.WIDTH / 2, 0);
+			otherPlayers.get(3).setLocation(WIDTH / 4 * 2 - PlayerGui.WIDTH / 2, 0);
+			otherPlayers.get(4).setLocation(WIDTH / 4 * 3 - PlayerGui.WIDTH / 2, 0);
+			otherPlayers.get(5).setLocation(WIDTH - PlayerGui.WIDTH, 0);
+			otherPlayers.get(6).setLocation(WIDTH - PlayerGui.WIDTH, HEIGHT / 2 - PlayerGui.HEIGHT / 2);
+		} // total number of player would not exceed 8 (i.e. max 7 "other players")
+		otherPlayers.forEach(ui -> this.add(ui));
 	}
 
 	@Override
@@ -125,7 +169,7 @@ public class GamePanelGui extends JPanel implements GameUI, GameState {
 	
 	@Override
 	public List<PlayerUI> getOtherPlayersUI() {
-		return otherPlayers;
+		return new ArrayList<>(otherPlayers);
 	}
 	
 	@Override

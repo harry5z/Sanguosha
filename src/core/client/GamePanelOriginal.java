@@ -49,6 +49,8 @@ public class GamePanelOriginal implements GamePanel {
 				panel.addPlayer(player);
 			}
 		}
+		panel.validate();
+		panel.repaint();
 		this.listeners = new HashMap<>();
 		this.currentOperations = new Stack<>();
 		this.panel = panel;
