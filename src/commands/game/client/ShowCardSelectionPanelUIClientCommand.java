@@ -72,5 +72,10 @@ public class ShowCardSelectionPanelUIClientCommand extends AbstractSingleTargetO
 		// by design we should not reach here
 		throw new RuntimeException("Target has no valid card to select");
 	}
+	
+	@Override
+	protected String getMessageForOthers() {
+		return "Waiting on " + target.getName() + " to select a card";
+	}
 
 }

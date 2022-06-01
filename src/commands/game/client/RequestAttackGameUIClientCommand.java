@@ -63,5 +63,10 @@ public class RequestAttackGameUIClientCommand extends AbstractSingleTargetOperat
 	public InGameServerCommand getDefaultResponse() {
 		return new AttackReactionInGameServerCommand(null);
 	}
+	
+	@Override
+	protected String getMessageForOthers() {
+		return "Waiting on " + target.getName() + " to use Attack";
+	}
 
 }

@@ -30,9 +30,12 @@ public abstract class AbstractSingleTargetOperationGameClientCommand extends Abs
 			panel.pushPlayerActionOperation(getOperation(), timeoutMS);
 		} else {
 			updateForOtherPlayer(panel);
+			panel.getGameUI().setMessage(getMessageForOthers());
 			panel.getGameUI().getOtherPlayerUI(this.target).showCountdownBar(timeoutMS);
 		}
 	}
+	
+	protected abstract String getMessageForOthers();
 	
 	@Override
 	public final UUID generateResponseID(String name) {

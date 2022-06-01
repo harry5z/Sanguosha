@@ -75,4 +75,9 @@ public class DealStartGameUIClientCommmand extends AbstractSingleTargetOperation
 		return new EndStageInGameServerCommand();
 	}
 
+	@Override
+	protected String getMessageForOthers() {
+		return "Waiting for " + target.getName() + " to Deal";
+	}
+
 }

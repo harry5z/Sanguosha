@@ -53,5 +53,10 @@ public class ShowHarvestCardSelectionPaneUIClientCommand extends AbstractSingleT
 		// by design we should not reach here
 		throw new RuntimeException("Harvest has no valid card to select");
 	}
+	
+	@Override
+	protected String getMessageForOthers() {
+		return "Waiting on " + target.getName() + " to select a card from Harvest";
+	}
 
 }

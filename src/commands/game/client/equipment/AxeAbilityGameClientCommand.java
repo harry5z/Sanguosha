@@ -32,5 +32,10 @@ public class AxeAbilityGameClientCommand extends AbstractSingleTargetOperationGa
 	public InGameServerCommand getDefaultResponse() {
 		return new AxeReactionInGameServerCommand(new HashMap<>());
 	}
+	
+	@Override
+	protected String getMessageForOthers() {
+		return "Waiting on " + target.getName() + " to decide wheter to use Axe";
+	}
 
 }

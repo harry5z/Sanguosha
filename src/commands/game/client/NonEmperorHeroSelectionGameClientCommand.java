@@ -32,7 +32,7 @@ public class NonEmperorHeroSelectionGameClientCommand extends AbstractPlayerActi
 	protected void execute(GamePanel panel) {
 		if (panel.getGameState().getSelf().getRole() == Role.EMPEROR) {
 			// emperor waits for others to complete hero selection
-			panel.getGameUI().setMessage("Waiting for others to select hero");
+			panel.getGameUI().setMessage("Waiting for others to select heroes");
 			panel.getGameUI().getOtherPlayersUI().forEach(ui -> ui.showCountdownBar(timeoutMS));
 		} else {
 			// response ID must be present for the response to be accepted by server

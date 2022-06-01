@@ -50,5 +50,10 @@ public class RequestDodgeGameUIClientCommand extends AbstractSingleTargetOperati
 	public InGameServerCommand getDefaultResponse() {
 		return new DodgeReactionInGameServerCommand(null);
 	}
+	
+	@Override
+	protected String getMessageForOthers() {
+		return "Waiting on " + target.getName() + " to use Dodge";
+	}
 
 }

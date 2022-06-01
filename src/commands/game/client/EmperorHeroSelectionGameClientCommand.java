@@ -48,4 +48,9 @@ public class EmperorHeroSelectionGameClientCommand extends AbstractSingleTargetO
 		// disable changing timeout
 	}
 	
+	@Override
+	protected String getMessageForOthers() {
+		return "Waiting on " + target.getName() + " to select a hero";
+	}
+	
 }

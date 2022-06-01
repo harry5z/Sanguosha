@@ -52,5 +52,10 @@ public class RequestUseCardGameUIClientCommand extends AbstractSingleTargetOpera
 	public InGameServerCommand getDefaultResponse() {
 		return new PlayerCardSelectionInGameServerCommand(null, PlayerCardZone.HAND);
 	}
+	
+	@Override
+	protected String getMessageForOthers() {
+		return "Waiting on " + target.getName() + " to use a card";
+	}
 
 }

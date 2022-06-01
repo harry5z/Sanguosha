@@ -41,5 +41,10 @@ public class RequestRescueGameClientCommand extends AbstractSingleTargetOperatio
 	protected Operation getOperation() {
 		return new RescueReactionOperation(dyingPlayer, message);
 	}
+	
+	@Override
+	protected String getMessageForOthers() {
+		return "Waiting on " + target.getName() + " to decide whether to save " + dyingPlayer.getName();
+	}
 
 }

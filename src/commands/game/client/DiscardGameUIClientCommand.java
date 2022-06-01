@@ -41,5 +41,10 @@ public class DiscardGameUIClientCommand extends AbstractSingleTargetOperationGam
 		// by default, discard the first X cards
 		return new DiscardInGameServerCommand(player.getCardsOnHand().subList(0, amount));
 	}
+
+	@Override
+	protected String getMessageForOthers() {
+		return "Waiting on " + target.getName() + " to discard " + amount + " cards";
+	}
 	
 }

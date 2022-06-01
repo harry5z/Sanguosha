@@ -34,4 +34,9 @@ public class DecisionUIClientCommand extends AbstractSingleTargetOperationGameCl
 		return new DecisionInGameServerCommand(false);
 	}
 
+	@Override
+	protected String getMessageForOthers() {
+		return "Waiting on " + target.getName() + " to make a decision";
+	}
+
 }

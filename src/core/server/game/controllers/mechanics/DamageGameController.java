@@ -3,7 +3,6 @@ package core.server.game.controllers.mechanics;
 import java.util.HashSet;
 import java.util.Set;
 
-import commands.game.client.DeathResolutionGameController;
 import core.event.game.damage.SourceHeroOnDamageEvent;
 import core.event.game.damage.TargetEquipmentCheckDamageEvent;
 import core.player.PlayerCompleteServer;

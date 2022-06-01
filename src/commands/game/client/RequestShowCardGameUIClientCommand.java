@@ -39,5 +39,10 @@ public class RequestShowCardGameUIClientCommand extends AbstractSingleTargetOper
 			PlayerCardZone.HAND
 		);
 	}
+	
+	@Override
+	protected String getMessageForOthers() {
+		return "Waiting on " + target.getName() + " to show a card";
+	}
 
 }
