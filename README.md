@@ -17,20 +17,21 @@ These issues were the original motives of my project. A big fan of Sanguosha, I 
 
 2. Run any number of [Client.java](https://github.com/harry5z/Sanguosha/blob/master/src/net/client/Client.java) without arguments. A window would appear for each Client. Enter a unique name and click "Start".
 
-## Architecture
+## System Design
 
 ### Overview
-While this project is meant for personal use, the analysis for its architecture is largely based on it being a real-world commercial online multiplayer card game. I identified a number of design concerns, listed below ranked by importance (high to low):
+
+The design concerns are listed below ranked by importance (high to low):
 
 ##### Tier 1
  - [**Extensibility**](#extensibility): The framework must be extensible to allow easy addition of new heroes, skills, features, etc.
- - **Security**: In a real-world scenario, an online game like this must avoid hacking, cheating, sniffing, etc.
- - **Consistency**: The game must behave as per the rules, even during complex game flow interactions.
+ - [**Security**](#security): The game must avoid cheating, leaking, and sniffing for personal information, etc.
+ - [**Consistency**](#consistency): The game must behave as per the rules, even during complex game flow interactions.
 ##### Tier 2
-- **Reliability**: Must be internally tolerant to errors like race conditions, and externally tolerant to user failures like internet disconnection.
-- **Performance**: In a real-world scenario, the game must minimize memory & CPU usage, and avoid memory leaks.
+- [**Reliability**](#reliability): Must be internally tolerant to errors like race conditions, and externally tolerant to user failures like internet disconnection.
+- [**Performance**](#performance): Minimize network usage, memory & CPU usage, and avoid memory leaks.
 ##### Tier 3
-- **Learnability/Maintainability (of the codebase)**: While I am the sole developer for this project, in a real-world scenario, a game of this scale would involve a team of engineers. The framework must be intuitive and minimize errors due to human oversights.
+- [**Learnability/Maintainability (of the codebase)**](#learnability): While I am the sole developer for this project, in a real-world scenario, a game of this scale would involve a team of engineers. The framework must be intuitive and minimize errors due to human oversights.
 
 A few other common design concerns have been deprioritized for various reasons, listed below:
 - **Scalability**: While scalability is important for a real-world online game, it is beyond the capacity of one developer (myself), and beyond the scope of this project, to build and test a scalable system.
@@ -44,14 +45,49 @@ Other minor "engineering best practices" such as proper documentation and single
 ---
 
 #### Extensibility
-##### Completion: 5/5 
-Extensibility is arguably the most important aspect of the architecture. Designing with extensibility in mind allows for (1) less time adding new features, (2) less effort maintaining, (3) less likelihood of regression, all of which are extremely beneficial especially to a small developer team.
+##### Completion: 5/5
 
-With the architecture, heroes and skills could be implemented quickly. For example, see the commits for:
+The architecture is built so that new heroes and skills can be added quickly, with minimum edits to existing code. For example, see the commits for:
 
 - [Wei Yan](https://github.com/harry5z/Sanguosha/commit/4a68e5f8d622d4c117df2a4581a8a48d4f736bbb), a hero with a passive skill
-- [Huang Zhong](https://github.com/harry5z/Sanguosha/commit/e370a1f679d13b00bb62037a1431e516458f9990), a hero with a semi-passive skill
+- [Huang Zhong](https://github.com/harry5z/Sanguosha/commit/e370a1f679d13b00bb62037a1431e516458f9990), a hero with a passively-triggered skill
 - [Yuan Shao](https://github.com/harry5z/Sanguosha/commit/0a053bc3dbd6a77fab0a23fc8cbee8e2e5e17270), a hero with an active skill which involves client-side player UI interaction
+
+#### Security
+##### Completion: 5/5
+
+The game's security consists of 3 parts, Anti-cheat, Anti-leak, and Anti-sniff.
+
+Anti-cheat: there are
+- Illegal Player Actions, including attempting to use a Card/Equipment/Skill they do not have, setting an invalid target, etc. This is prevented with player action validation.
+- Game Flow Disruption. The player may attempt to act when not allowed to, or the game may receive a previously valid but currently illegal action due to network delay. This is prevented with response ID and allowed response types.
+- Impersonation. The player may attempt to act on behalf of another player. This is prevented by only using server-side validated action source in received player actions.
+
+Anti-leak: The game does not send to players any information they should not know of. For example, when Player A receives 1 Card, only Player A themselves is sent the concrete Card information, whereas other players only receive a package to increment Player A's card count by 1.
+
+Anti-sniff: The client-server communication is currently unencyrpted, because no password information is present. TODO: implement HTTPS-like encyrption for client-server communication.
+
+#### Consistency
+##### Completion: 5/5
+
+#### Reliability
+##### Completion: 5/5
+
+Player Reconnection
+Client-side incoming command ordering
+
+#### Performance
+##### Completion: 5/5
+
+Network usage is minimized with Aggregated Command. Network utilization is trottled.
+
+TODO: Build CPU & memory monitoring system
+
+#### Learnability
+##### Completion: 5/5
+
+client-side operation
+
 
 ---
 
