@@ -1,7 +1,10 @@
 package commands.game.server.ingame;
 
+import java.util.List;
+
 import cards.Card;
 import cards.basics.Dodge;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
@@ -35,6 +38,7 @@ public class DodgeReactionInGameServerCommand extends InGameServerCommand {
 			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				if (dodge != null) {
 					game.<DodgeGameController>getNextGameController().onDodgeUsed(game, dodge);
+					game.log(BattleLog.playerADidXToCards(source, "used", List.of(dodge)));
 				} else {
 					game.<DodgeGameController>getNextGameController().onDodgeNotUsed();
 				}

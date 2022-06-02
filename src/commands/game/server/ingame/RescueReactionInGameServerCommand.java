@@ -6,6 +6,7 @@ import cards.Card;
 import cards.basics.Peach;
 import cards.basics.Wine;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
@@ -38,7 +39,13 @@ public class RescueReactionInGameServerCommand extends InGameServerCommand {
 			@Override
 			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				if (card != null) {
-					game.<DeathResolutionGameController>getNextGameController().onRescueReaction(game, true);
+					DeathResolutionGameController controller = game.<DeathResolutionGameController>getNextGameController();
+					controller.onRescueReaction(game, true);
+					game.log(BattleLog
+						.playerADidX(source, "contributed to the rescue")
+						.onPlayer(controller.getDyingPlayer())
+						.withCard(card)
+					);
 					game.pushGameController(new UseCardOnHandGameController(source, Set.of(card)));
 				} else {
 					game.<DeathResolutionGameController>getNextGameController().onRescueReaction(game, false);

@@ -30,6 +30,7 @@ public class BattleLogGui extends JPanel {
 		label.setSize(WIDTH, 50);
 		logArea = new JTextPane();
 		logArea.setContentType("text/html");
+		logArea.setEditable(false);
 		logArea.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
 		logArea.setSize(WIDTH, HEIGHT - 50);
 		logArea.setLocation(0, 50);

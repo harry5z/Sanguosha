@@ -3,6 +3,7 @@ package core.server.game.controllers.specials.delayed;
 import cards.Card;
 import cards.Card.Suit;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.mechanics.TurnGameController.TurnStage;
 import utils.DelayedStackItem;
@@ -40,4 +41,13 @@ public class OblivionArbitrationController extends AbstractDelayedArbitrationCon
 		}
 	}
 
+	@Override
+	protected BattleLog getLogOnEffectiveArbitration() {
+		return BattleLog.custom("<b>Oblivion</b> is effective");
+	}
+
+	@Override
+	protected BattleLog getLogOnIneffectiveArbitration() {
+		return BattleLog.custom("<b>Oblivion</b> is not effective");
+	}
 }

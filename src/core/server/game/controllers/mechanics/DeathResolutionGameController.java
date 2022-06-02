@@ -9,6 +9,7 @@ import cards.equipments.Equipment;
 import commands.game.client.RequestRescueGameClientCommand;
 import core.player.PlayerCompleteServer;
 import core.player.Role;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
@@ -72,8 +73,9 @@ public class DeathResolutionGameController
 						dyingPlayer.removeDelayed(item.type);
 						disposedCards.add(item.delayed);
 					}
-					
+					game.log(BattleLog.playerADidXToCards(dyingPlayer, "discarded", disposedCards));
 					dyingPlayer.kill();
+					game.log(BattleLog.playerADidX(dyingPlayer, "died"));
 					game.pushGameController(new RecycleCardsGameController(dyingPlayer, disposedCards));
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();

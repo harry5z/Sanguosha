@@ -4,6 +4,7 @@ import java.util.Set;
 
 import cards.Card;
 import cards.basics.Peach;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
@@ -31,6 +32,7 @@ public class UsePeachInGameServerCommand extends InGameServerCommand {
 			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				game.pushGameController(new HealGameController(source, source));
 				game.pushGameController(new UseCardOnHandGameController(source, Set.of(card)));
+				game.log(BattleLog.playerADidXToCards(source, "used", Set.of(card)));
 			}
 		};
 	}

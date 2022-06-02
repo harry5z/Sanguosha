@@ -3,8 +3,12 @@ package core.event.handlers.hero;
 import cards.equipments.Equipment.EquipmentType;
 import core.event.game.DodgeTargetEquipmentCheckEvent;
 import core.event.handlers.AbstractEventHandler;
+import core.heroes.skills.ZhugeliangTaichiOriginalHeroSkill;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameDriver;
+import core.server.game.GameInternal;
+import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.equipment.TaichiFormationGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
@@ -29,6 +33,12 @@ public class ZhugeliangTaichiDodgeEquipmentCheckEventHandler extends AbstractEve
 			return;
 		}
 		
-		game.pushGameController(new TaichiFormationGameController(event.controller, this.player));
+		game.pushGameController(new AbstractSingleStageGameController() {
+			@Override
+			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
+				game.pushGameController(new TaichiFormationGameController(event.controller, player));
+				game.log(BattleLog.playerASkillPassivelyTriggered(player, new ZhugeliangTaichiOriginalHeroSkill(), ""));
+			}
+		});
 	}
 }

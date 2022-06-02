@@ -9,6 +9,7 @@ import cards.Card;
 import cards.specials.instant.Chain;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
@@ -39,13 +40,15 @@ public class InitiateChainInGameServerCommand extends InGameServerCommand {
 			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				if (targets.isEmpty()) {
 					// "Recast"
-					game.pushGameController(new ReceiveCardsGameController(source, game.getDeck().drawMany(1)));
+					game.pushGameController(new ReceiveCardsGameController(source, game.getDeck().drawMany(1), false));
+					game.log(BattleLog.playerADidXToCards(source, "used", List.of(card)));
 				} else {
 					Queue<PlayerCompleteServer> queue = new LinkedList<>();
 					for (PlayerInfo target : targets) {
 						queue.add(game.findPlayer(target));
 					}
 					game.pushGameController(new ChainGameController(source, queue));
+					game.log(BattleLog.playerADidXToCards(source, "used", List.of(card)).onPlayers(queue));
 				}
 				game.pushGameController(new UseCardOnHandGameController(source, Set.of(card)));
 			}

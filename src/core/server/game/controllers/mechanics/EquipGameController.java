@@ -1,9 +1,11 @@
 package core.server.game.controllers.mechanics;
 
+import java.util.List;
 import java.util.Set;
 
 import cards.equipments.Equipment;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
@@ -50,6 +52,7 @@ public class EquipGameController extends AbstractGameController<EquipGameControl
 				try {
 					player.equip(this.equipment);
 					this.equipment.onEquipped(game, player);
+					game.log(BattleLog.playerADidXToCards(player, "equipped", List.of(equipment)));
 					this.nextStage();
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();

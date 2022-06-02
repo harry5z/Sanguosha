@@ -1,8 +1,11 @@
 package commands.game.server.ingame;
 
+import java.util.List;
+
 import cards.Card;
 import cards.specials.delayed.Lightning;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
@@ -32,6 +35,10 @@ public class UseLightningInGameServerCommand extends InGameServerCommand {
 				try {
 					currentPlayer.removeCardFromHand(card);
 					currentPlayer.pushDelayed(card, DelayedType.LIGHTNING);
+					game.log(BattleLog
+						.playerADidXToCards(currentPlayer, "used", List.of(card))
+						.onPlayer(currentPlayer)
+					);
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}

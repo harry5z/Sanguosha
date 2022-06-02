@@ -5,6 +5,7 @@ import core.event.game.instants.ArrowSalvoTargetEffectivenessEvent;
 import core.event.game.instants.BarbarianInvasionTargetEffectivenessEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameDriver;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
@@ -37,6 +38,7 @@ public class RattanArmorAOEInstantSpecialTargetEffectivenessEventHandler extends
 			@Override
 			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				event.getController().setStage(SpecialStage.TARGET_SWITCH);
+				game.log(BattleLog.playerAEquipmentPassivelyTriggered(player, player.getShield(), "Barbarian Invasion is blocked"));
 			}
 		});
 	}

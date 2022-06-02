@@ -9,6 +9,7 @@ import commands.game.client.DecisionUIClientCommand;
 import commands.game.client.ShowCardSelectionPanelUIClientCommand;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractPlayerDecisionActionGameController;
 import core.server.game.controllers.CardSelectableGameController;
@@ -72,6 +73,11 @@ public class KylinBowGameController
 		Equipment equipment = (Equipment) card;
 		game.pushGameController(new RecycleCardsGameController(this.target, Set.of(equipment)));
 		game.pushGameController(new UnequipGameController(this.target, equipment.getEquipmentType()));
+		game.log(BattleLog
+			.playerAUsedEquipment(source, source.getWeapon())
+			.onPlayer(target)
+			.to("discard their horse: " + BattleLog.formatCard(equipment))
+		);
 	}
 	
 	@Override

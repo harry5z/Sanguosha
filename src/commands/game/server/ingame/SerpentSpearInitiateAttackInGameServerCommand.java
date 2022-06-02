@@ -9,6 +9,7 @@ import cards.Card.Color;
 import cards.basics.Attack;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
@@ -46,6 +47,12 @@ public class SerpentSpearInitiateAttackInGameServerCommand extends InGameServerC
 					);
 					game.pushGameController(new AttackGameController(source, set, new Attack(color)));
 					game.pushGameController(new UseCardOnHandGameController(source, cards));
+					game.log(BattleLog
+						.playerAUsedEquipment(source, source.getWeapon())
+						.withCards(cards)
+						.to("convert into an Attack")
+						.onPlayers(set)
+					);
 				} catch (InvalidPlayerCommandException e) {
 					// TODO handle error
 					e.printStackTrace();

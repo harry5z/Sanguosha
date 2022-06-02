@@ -106,6 +106,12 @@ public class GameRoom extends ServerEntity implements SyncController {
 	}
 	
 	public synchronized void onDefaultResponseReceived(InGameServerCommand command) {
+		if (!allowedResponseIDs.isEmpty()) {
+			PlayerCompleteServer source = game.findPlayer(player -> player.getName().equals(
+				OnlineUserManager.get().getUser(allowedResponseIDs.keySet().iterator().next()).getName()
+			));
+			command.setSource(source);
+		}
 		allowedResponseIDs.clear();
 		allowedResponseTypes.clear();
 		game.pushGameController(command.getGameController());

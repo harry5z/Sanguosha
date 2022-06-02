@@ -5,6 +5,7 @@ import java.util.Queue;
 import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.ArrowSalvoTargetEffectivenessEvent;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.Damage;
 import core.server.game.GameInternal;
 import core.server.game.controllers.DodgeUsableGameController;
@@ -37,6 +38,8 @@ public class ArrowSalvoGameController extends AbstractMultiTargetInstantSpecialG
 			if (this.effective) {
 				// if effective, deal damage
 				game.pushGameController(new DamageGameController(new Damage(this.source, this.currentTarget)));
+			} else {
+				game.log(BattleLog.playerADidX(currentTarget, "Dodged Arrow Salvo"));
 			}
 		}
 	}

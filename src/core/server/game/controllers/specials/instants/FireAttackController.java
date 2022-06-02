@@ -1,11 +1,14 @@
 package core.server.game.controllers.specials.instants;
 
+import java.util.Set;
+
 import cards.Card;
 import commands.game.client.RequestShowCardGameUIClientCommand;
 import commands.game.client.RequestUseCardGameUIClientCommand;
 import commands.game.client.RequestUseCardGameUIClientCommand.RequestUseCardFilter;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.Damage;
 import core.server.game.Damage.Element;
 import core.server.game.GameInternal;
@@ -64,6 +67,7 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 		if (this.shownCard == null) {
 			this.shownCard = card;
 			this.target.showCard(card);
+			game.log(BattleLog.playerADidXToCards(target, "showed", Set.of(card)));
 		} else {
 			// check if Fire Attack is effective
 			this.nextStage();
@@ -71,6 +75,7 @@ public class FireAttackController extends SingleTargetInstantSpecialGameControll
 				try {
 					// TODO: convert to controller
 					this.source.discardCard(card);
+					game.log(BattleLog.playerADidXToCards(source, "discarded", Set.of(card)));
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}

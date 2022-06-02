@@ -11,6 +11,7 @@ import cards.equipments.Equipment.EquipmentType;
 import commands.game.client.ShowCardSelectionPanelUIClientCommand;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.CardSelectableGameController;
 import core.server.game.controllers.mechanics.RecycleCardsGameController;
@@ -56,7 +57,9 @@ public class SabotageGameController extends SingleTargetInstantSpecialGameContro
 					// TODO: convert to discard controller
 					List<Card> cards = this.target.getCardsOnHand();
 					// By default discard a random card from hand
-					this.target.discardCard(cards.get(new Random().nextInt(cards.size())));
+					Card discardedCard = cards.get(new Random().nextInt(cards.size()));
+					this.target.discardCard(discardedCard);
+					game.log(BattleLog.playerADidXToCards(target, "discarded", List.of(discardedCard)));
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}

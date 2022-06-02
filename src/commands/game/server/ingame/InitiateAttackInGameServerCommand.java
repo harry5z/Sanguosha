@@ -1,7 +1,6 @@
 package commands.game.server.ingame;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,7 +41,7 @@ public class InitiateAttackInGameServerCommand extends InGameServerCommand {
 					source.useAttack();
 					game.pushGameController(new AttackGameController(source, set, attack));
 					game.pushGameController(new UseCardOnHandGameController(source, Set.of(attack)));
-					game.log(BattleLog.playerADidXToPlayersWithCards(source, "Attacked", set, List.of(attack)));
+					game.log(BattleLog.playerADidX(source, "used Attack").onPlayers(set).withCard(attack));
 				} catch (InvalidPlayerCommandException e) {
 					// TODO reset game state
 					e.printStackTrace();

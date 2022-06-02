@@ -8,8 +8,10 @@ import java.util.Set;
 
 import cards.Card;
 import cards.equipments.Equipment;
+import core.heroes.skills.SunQuanReconsiderationHeroSkill;
 import core.player.PlayerCardZone;
 import core.player.PlayerState;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
@@ -40,7 +42,7 @@ public class ReconsiderationSkillInGameServerCommand extends InGameServerCommand
 				try {
 					Set<Card> cardsOnHand = new HashSet<>();
 					source.updatePlayerState(PlayerState.SUN_QUAN_RECONSIDERATION_COUNTER, 1);
-					game.pushGameController(new ReceiveCardsGameController(source, game.getDeck().drawMany(cards.size())));
+					game.pushGameController(new ReceiveCardsGameController(source, game.getDeck().drawMany(cards.size()), false));
 					for (Entry<Card, PlayerCardZone> entry : cards.entrySet()) {
 						switch(entry.getValue()) {
 							case HAND:
@@ -57,6 +59,11 @@ public class ReconsiderationSkillInGameServerCommand extends InGameServerCommand
 					}
 					// TODO: convert to discard controller
 					source.discardCards(cardsOnHand);
+					game.log(BattleLog
+						.playerAUsedSkill(source, new SunQuanReconsiderationHeroSkill())
+						.withCards(cards.keySet())
+						.to("replace them with <b>" + cards.size() + "</b> cards from Deck")
+					);
 				} catch (InvalidPlayerCommandException e) {
 					// TODO handle error
 					e.printStackTrace();

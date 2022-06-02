@@ -3,6 +3,7 @@ package core.server.game.controllers.specials.delayed;
 import cards.Card;
 import cards.Card.Suit;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.Damage;
 import core.server.game.Damage.Element;
 import core.server.game.GameInternal;
@@ -45,6 +46,16 @@ public class LightningArbitrationController extends AbstractDelayedArbitrationCo
 			}
 			next.pushDelayed(item.delayed, item.type);
 		}
+	}
+
+	@Override
+	protected BattleLog getLogOnEffectiveArbitration() {
+		return BattleLog.custom("<b>Lightning</b>  is effective");
+	}
+
+	@Override
+	protected BattleLog getLogOnIneffectiveArbitration() {
+		return BattleLog.custom("<b>Lightning</b>  is not effective");
 	}
 
 }

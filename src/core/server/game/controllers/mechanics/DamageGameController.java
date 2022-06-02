@@ -56,6 +56,7 @@ public class DamageGameController extends AbstractGameController<DamageGameContr
 				this.damage.apply();
 				game.log(BattleLog.playerADamagedPlayerB(damage.getSource(), damage.getTarget(), damage));
 				if (damage.getTarget().isDying()) {
+					game.log(BattleLog.playerADidX(damage.getTarget(), "is dying. They need <b>" + (1 - damage.getTarget().getHealthCurrent()) + "</b>HP to revive"));
 					game.pushGameController(new DeathResolutionGameController(damage.getTarget(), game.getCurrentPlayer()));
 				}
 				break;

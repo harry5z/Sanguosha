@@ -2,8 +2,10 @@ package commands.game.server.ingame;
 
 import cards.Card;
 import cards.Card.Color;
+import core.heroes.skills.ZhugeliangFireAttackOriginalHeroSkill;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.specials.instants.FireAttackController;
@@ -29,6 +31,15 @@ public class ZhugeliangInitiateFireAttackInGameServerCommand extends AbstractIni
 		}
 	}
 
+	@Override
+	protected BattleLog getBattleLog(GameInternal game) {
+		return BattleLog
+			.playerAUsedSkill(source, new ZhugeliangFireAttackOriginalHeroSkill())
+			.withCard(card)
+			.to("convert into Fire Attack")
+			.onPlayer(game.findPlayer(target));
+	}
+	
 	@Override
 	protected void validateTarget(GameInternal game) throws IllegalPlayerActionException {
 		if (target == null) {

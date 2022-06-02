@@ -1,6 +1,7 @@
 package core.server.game.controllers.mechanics;
 
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
@@ -42,6 +43,7 @@ public final class HealGameController extends AbstractGameController<HealGameCon
 				break;
 			case HEAL:
 				this.target.changeHealthCurrentBy(this.value);
+				game.log(BattleLog.playerADidX(target, "HP <b>+" + value + "</b>"));
 				this.nextStage();
 				break;
 			case AFTER_HEAL:

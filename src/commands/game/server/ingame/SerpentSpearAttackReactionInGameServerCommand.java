@@ -6,6 +6,7 @@ import java.util.Set;
 import cards.Card;
 import cards.Card.Color;
 import cards.basics.Attack;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.AttackUsableGameController;
@@ -37,6 +38,11 @@ public class SerpentSpearAttackReactionInGameServerCommand extends InGameServerC
 				);
 				game.<AttackUsableGameController>getNextGameController().onAttackUsed(game, new Attack(color));
 				game.pushGameController(new UseCardOnHandGameController(source, cards));
+				game.log(BattleLog
+					.playerAUsedEquipment(source, source.getWeapon())
+					.withCards(cards)
+					.to("convert into an Attack")
+				);
 			}
 		};
 	}

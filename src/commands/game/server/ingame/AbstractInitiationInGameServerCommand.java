@@ -5,6 +5,7 @@ import java.util.Set;
 import cards.Card;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
@@ -36,9 +37,18 @@ public abstract class AbstractInitiationInGameServerCommand extends InGameServer
 			@Override
 			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				game.pushGameController(getInitiationGameController(game, target != null ? game.findPlayer(target) : null));
-				game.pushGameController(new UseCardOnHandGameController(source, Set.of(card)));			
+				game.pushGameController(new UseCardOnHandGameController(source, Set.of(card)));
+				game.log(getBattleLog(game));
 			}
 		};
+	}
+	
+	protected BattleLog getBattleLog(GameInternal game) {
+		if (target != null) {
+			return BattleLog.playerADidXToCards(source, "used", Set.of(card)).onPlayer(game.findPlayer(target));
+		} else {
+			return BattleLog.playerADidXToCards(source, "used", Set.of(card));
+		}
 	}
 	
 	@Override

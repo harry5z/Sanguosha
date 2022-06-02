@@ -4,6 +4,7 @@ import java.util.Set;
 
 import cards.Card;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.ArbitrationRequiredGameController;
@@ -36,6 +37,7 @@ public class ArbitrationController extends AbstractGameController<ArbitrationCon
 				this.nextStage();
 				this.arbitrationCard = game.getDeck().draw();
 				this.nextController.onArbitrationCompleted(this.arbitrationCard);
+				game.log(BattleLog.custom("The Arbitration result is " + BattleLog.formatCard(arbitrationCard)));
 				break;
 			case POST_ARBITRATION_SKILLS:
 				// Nothing yet

@@ -3,6 +3,7 @@ package core.event.handlers.equipment;
 import core.event.game.basic.AttackLockedSourceWeaponAbilitiesCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameDriver;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
@@ -35,6 +36,7 @@ public class IronSwordWeaponAbilitiesCheckEventHandler extends AbstractEventHand
 				event.controller.skipStage(AttackResolutionStage.TARGET_LOCKED_TARGET_EQUIPMENT_ABILITIES);
 				event.controller.dodgeController.skipStage(DodgeStage.TARGET_EQUIPMENT_ABILITIES);
 				event.controller.damageController.skipStage(DamageStage.TARGET_EQUIPMENT_ABILITIES);
+				game.log(BattleLog.playerAEquipmentPassivelyTriggered(player, player.getWeapon(), "Target's Shield is ignored"));
 			}
 		});
 	}

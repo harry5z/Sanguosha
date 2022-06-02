@@ -12,6 +12,7 @@ import commands.game.client.DecisionUIClientCommand;
 import commands.game.client.ShowCardSelectionPanelUIClientCommand;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractPlayerDecisionActionGameController;
 import core.server.game.controllers.CardSelectableGameController;
@@ -62,6 +63,7 @@ public class IcySwordGameController
 		if (this.decisionConfirmed) {
 			// If Icy Sword usage is confirmed, prevent Attack damage
 			this.controller.setStage(AttackResolutionStage.END);
+			game.log(BattleLog.playerAUsedEquipment(source, source.getWeapon()).to("discard 2 cards from " + BattleLog.formatPlayer(target)));
 		} else {
 			// skip Action
 			this.setStage(PlayerDecisionAction.END);
@@ -97,7 +99,9 @@ public class IcySwordGameController
 				try {
 					// TODO: convert to discard controller
 					List<Card> cards = this.target.getCardsOnHand();
-					this.target.discardCard(cards.get(new Random().nextInt(cards.size())));
+					Card cardToDiscard = cards.get(new Random().nextInt(cards.size()));
+					game.log(BattleLog.playerADidXToCards(target, "discarded", List.of(cardToDiscard)));
+					this.target.discardCard(cardToDiscard);
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}
@@ -123,20 +127,17 @@ public class IcySwordGameController
 	
 	@Override
 	public void validateCardSelected(GameInternal game, Card card, PlayerCardZone zone) throws IllegalPlayerActionException {
-		if (card == null) {
-			throw new IllegalPlayerActionException("Icy Sword: Card cannot be null");
-		}
 		switch (zone) {
 			case HAND:
-				if (!target.getCardsOnHand().contains(card)) {
-					throw new IllegalPlayerActionException("Icy Sword: Target does not own the card used");
+				if (target.getHandCount() == 0) {
+					throw new IllegalPlayerActionException("Icy Sword: Target has no card on hand");
 				}
 				break;
 			case EQUIPMENT:
-				if (!(card instanceof Equipment)) {
+				if (card == null || !(card instanceof Equipment)) {
 					throw new IllegalPlayerActionException("Icy Sword: Card is not an Equipment");
 				}
-				if (!source.isEquippedWith((Equipment) card)) {
+				if (!target.isEquippedWith((Equipment) card)) {
 					throw new IllegalPlayerActionException("Icy Sword: Target is not equipped with " + card);
 				}
 				break;

@@ -4,6 +4,7 @@ import core.event.game.basic.AttackTargetEquipmentCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage.Element;
+import core.server.game.BattleLog;
 import core.server.game.GameDriver;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
@@ -36,6 +37,7 @@ public class RattanArmorAttackTargetEquipmentCheckEventHandler extends AbstractE
 			@Override
 			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				event.getController().setStage(AttackResolutionStage.END);
+				game.log(BattleLog.playerAEquipmentPassivelyTriggered(player, player.getShield(), "Attack is blocked"));
 			}
 		});
 	}

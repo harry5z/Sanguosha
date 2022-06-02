@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import core.event.game.turn.DealStartTurnEvent;
 import core.event.game.turn.DrawStartTurnEvent;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.GameController;
 import core.server.game.controllers.GameControllerStage;
@@ -82,6 +83,7 @@ public class TurnGameController implements GameController {
 		}
 		switch (currentStage) {
 			case START_BEGINNING:
+				game.log(BattleLog.playerADidX(currentPlayer, "started their turn"));
 				this.nextStage();
 				return;
 			case START:
@@ -116,7 +118,7 @@ public class TurnGameController implements GameController {
 				return;
 			case DRAW:
 				this.nextStage();
-				game.pushGameController(new ReceiveCardsGameController(currentPlayer, game.getDeck().drawMany(2)));
+				game.pushGameController(new ReceiveCardsGameController(currentPlayer, game.getDeck().drawMany(2), false));
 				return;
 			case DEAL_BEGINNING:
 				this.nextStage();
@@ -140,6 +142,7 @@ public class TurnGameController implements GameController {
 				this.nextStage();
 				return;
 			case TURN_END:
+				game.log(BattleLog.playerADidX(currentPlayer, "ended their turn"));
 				this.nextStage();
 				this.seenDelayedTypes.clear();
 				this.currentPlayer.resetPlayerStates();

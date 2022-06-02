@@ -4,6 +4,8 @@ import java.util.Set;
 
 import cards.Card;
 import cards.Card.Color;
+import core.heroes.skills.ZhugeliangSeeThroughHeroSkill;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
@@ -31,6 +33,11 @@ public class ZhugeliangNullificationReactionInGameServerCommand extends InGameSe
 			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				game.<SpecialGameController>getNextGameController().onNullified();
 				game.pushGameController(new UseCardOnHandGameController(source, Set.of(nullification)));
+				game.log(BattleLog
+					.playerAUsedSkill(source, new ZhugeliangSeeThroughHeroSkill())
+					.withCard(nullification)
+					.to("convert into Nullification")
+				);
 			}
 		};
 	}

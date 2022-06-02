@@ -1,9 +1,11 @@
 package commands.game.server.ingame;
 
+import java.util.List;
 import java.util.Set;
 
 import cards.Card;
 import cards.basics.Attack;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.AttackUsableGameController;
@@ -39,6 +41,7 @@ public class AttackReactionInGameServerCommand extends InGameServerCommand {
 				if (attack != null) {
 					game.<AttackUsableGameController>getNextGameController().onAttackUsed(game, attack);
 					game.pushGameController(new UseCardOnHandGameController(source, Set.of(attack)));
+					game.log(BattleLog.playerADidXToCards(source, "used", List.of(attack)));
 				} else {
 					game.<AttackUsableGameController>getNextGameController().onAttackNotUsed(game);
 				}				

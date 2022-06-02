@@ -4,6 +4,7 @@ import java.util.Set;
 
 import cards.Card;
 import cards.basics.Wine;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
@@ -32,6 +33,7 @@ public class UseWineInGameServerCommand extends InGameServerCommand {
 				try {
 					game.getCurrentPlayer().useWine();
 					game.pushGameController(new UseCardOnHandGameController(game.getCurrentPlayer(), Set.of(wine)));
+					game.log(BattleLog.playerADidXToCards(source, "used", Set.of(wine)));
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}

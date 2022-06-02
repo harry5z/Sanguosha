@@ -4,6 +4,7 @@ import cards.Card;
 import cards.Card.Color;
 import commands.game.client.DecisionUIClientCommand;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractPlayerDecisionActionGameController;
 import core.server.game.controllers.ArbitrationRequiredGameController;
@@ -42,6 +43,7 @@ public class TaichiFormationGameController
 	protected void handleDecisionConfirmation(GameInternal game) throws GameFlowInterruptedException {
 		if (this.confirmed) {
 			game.pushGameController(new ArbitrationController(this, this.target));
+			game.log(BattleLog.custom(BattleLog.formatPlayer(target) + " used Taichi Formation"));
 		}		
 	}
 
@@ -49,8 +51,10 @@ public class TaichiFormationGameController
 	protected void handleAction(GameInternal game) throws GameFlowInterruptedException {
 		if (this.effective) {
 			this.nextController.onDodgeStageSkipped();
+			game.log(BattleLog.custom("Taichi Formation is effective"));
 		} else {
 			this.nextController.onDodgeStageNotSkipped();
+			game.log(BattleLog.custom("Taichi Formation is not effective"));
 		}		
 	}
 

@@ -2,7 +2,9 @@ package core.event.handlers.hero;
 
 import core.event.game.damage.SourceHeroOnDamageEvent;
 import core.event.handlers.AbstractEventHandler;
+import core.heroes.skills.WeiYanRampageHeroSkill;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameDriver;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
@@ -38,6 +40,7 @@ public class WeiYanRampageOnDamageEventHandler extends AbstractEventHandler<Sour
 					// heal up to the same as damage
 					int healAmount = Math.min(player.getHealthLimit() - player.getHealthCurrent(), event.getDamage().getAmount());
 					game.pushGameController(new HealGameController(player, player, healAmount));
+					game.log(BattleLog.playerASkillPassivelyTriggered(player, new WeiYanRampageHeroSkill(), "HP <b>+" + healAmount + "</b>"));
 				}
 			}
 		});

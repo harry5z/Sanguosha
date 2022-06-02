@@ -12,7 +12,7 @@ public class CreationGameController extends SingleTargetInstantSpecialGameContro
 
 	@Override
 	protected void takeEffect(GameInternal game) {
-		game.pushGameController(new ReceiveCardsGameController(source, game.getDeck().drawMany(2)));
+		game.pushGameController(new ReceiveCardsGameController(source, game.getDeck().drawMany(2), false));
 		this.nextStage();
 	}
 	

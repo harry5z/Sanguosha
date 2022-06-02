@@ -4,6 +4,7 @@ import cards.basics.Attack;
 import commands.game.client.DecisionUIClientCommand;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage.Element;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractPlayerDecisionActionGameController;
 import core.server.game.controllers.DecisionRequiredGameController;
@@ -39,6 +40,10 @@ public class FeatheredFanGameController extends AbstractPlayerDecisionActionGame
 		if (this.confirmed) {
 			Attack original = this.attackController.getAttackCard();
 			this.attackController.setAttackCard(new Attack(Element.FIRE, original.getNumber(), original.getSuit()));
+			game.log(BattleLog
+				.playerAUsedEquipment(source, source.getWeapon())
+				.to("add Fire Element to the Attack")
+			);
 		}		
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cards.Card;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
@@ -31,6 +32,7 @@ public class DiscardInGameServerCommand extends InGameServerCommand {
 				try {
 					// TODO convert to discard controller
 					game.getCurrentPlayer().discardCards(cards);
+					game.log(BattleLog.playerADidXToCards(game.getCurrentPlayer(), "discarded", cards));
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 					return;

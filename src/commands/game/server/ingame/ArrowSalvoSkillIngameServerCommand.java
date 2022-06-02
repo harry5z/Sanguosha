@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Queue;
 
 import cards.Card;
+import core.heroes.skills.YuanShaoArrowSalvoHeroSkill;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
@@ -42,6 +44,11 @@ public class ArrowSalvoSkillIngameServerCommand extends InGameServerCommand {
 						next = game.getNextPlayerAlive(next);
 					}
 					game.pushGameController(new ArrowSalvoGameController(source, targets));
+					game.log(BattleLog
+						.playerAUsedSkill(source, new YuanShaoArrowSalvoHeroSkill())
+						.withCards(cards)
+						.to("convert into Arrow Salvo")
+					);
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}

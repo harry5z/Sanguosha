@@ -2,6 +2,7 @@ package core.server.game.controllers.specials.delayed;
 
 import cards.Card;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.ArbitrationRequiredGameController;
 import core.server.game.controllers.GameControllerStage;
@@ -47,6 +48,9 @@ public abstract class AbstractDelayedArbitrationController
 				this.nextStage();
 				if (this.effective) {
 					this.handleEffect(game);
+					game.log(getLogOnEffectiveArbitration());
+				} else {
+					game.log(getLogOnIneffectiveArbitration());
 				}
 				break;
 			case BEFORE_END:
@@ -73,4 +77,7 @@ public abstract class AbstractDelayedArbitrationController
 	
 	protected abstract boolean isArbitrationEffective(Card card);
 	
+	protected abstract BattleLog getLogOnEffectiveArbitration();
+	
+	protected abstract BattleLog getLogOnIneffectiveArbitration();
 }

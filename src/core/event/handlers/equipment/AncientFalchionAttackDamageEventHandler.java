@@ -3,7 +3,10 @@ package core.event.handlers.equipment;
 import core.event.game.damage.AttackDamageModifierEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameDriver;
+import core.server.game.GameInternal;
+import core.server.game.controllers.AbstractSingleStageGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class AncientFalchionAttackDamageEventHandler extends AbstractEventHandler<AttackDamageModifierEvent> {
@@ -24,7 +27,13 @@ public class AncientFalchionAttackDamageEventHandler extends AbstractEventHandle
 		}
 		
 		if (event.getDamage().getTarget().getHandCount() == 0) {
-			event.getDamage().setAmount(event.getDamage().getAmount() + 1);
+			game.pushGameController(new AbstractSingleStageGameController() {
+				@Override
+				protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
+					event.getDamage().setAmount(event.getDamage().getAmount() + 1);
+					game.log(BattleLog.playerAEquipmentPassivelyTriggered(player, player.getWeapon(), "Damage <b>+1</b>"));
+				}
+			});
 		}
 	}
 

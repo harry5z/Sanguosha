@@ -4,6 +4,7 @@ import java.util.Queue;
 
 import core.event.game.GameEvent;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 
 public class ChainGameController extends AbstractMultiTargetInstantSpecialGameController {
@@ -20,6 +21,7 @@ public class ChainGameController extends AbstractMultiTargetInstantSpecialGameCo
 	@Override
 	protected void takeEffect(GameInternal game) {
 		this.currentTarget.chain();
+		game.log(BattleLog.playerADidX(currentTarget, "is now <b>" + (currentTarget.isChained() ? "Chained" : "Unchained") + "</b>"));
 		this.nextStage();
 	}
 

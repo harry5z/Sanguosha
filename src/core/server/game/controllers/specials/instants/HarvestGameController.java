@@ -47,7 +47,7 @@ public class HarvestGameController extends AbstractMultiTargetInstantSpecialGame
 	public void onCardSelected(GameInternal game, Card card, PlayerCardZone zone) {
 		this.nextStage();
 		this.selectableCards.replace(card, true);
-		game.pushGameController(new ReceiveCardsGameController(this.currentTarget, Set.of(card)));
+		game.pushGameController(new ReceiveCardsGameController(this.currentTarget, Set.of(card), true));
 		
 		// for client UI update only, won't cause interruption
 		game.getSyncController().sendSyncCommandToAllPlayers(

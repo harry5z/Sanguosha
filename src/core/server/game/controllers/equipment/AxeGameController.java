@@ -1,5 +1,6 @@
 package core.server.game.controllers.equipment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,11 +28,13 @@ public class AxeGameController extends AbstractPlayerDecisionActionGameControlle
 	
 	private final PlayerCompleteServer source;
 	private final AttackResolutionGameController controller;
+	private final List<Card> usedCards;
 	private boolean confirmed;
 
 	public AxeGameController(PlayerCompleteServer source, AttackResolutionGameController controller) {
 		this.source = source;
 		this.controller = controller;
+		this.usedCards = new ArrayList<>();
 		this.confirmed = false;
 	}
 
@@ -45,7 +48,11 @@ public class AxeGameController extends AbstractPlayerDecisionActionGameControlle
 		if (this.confirmed) {
 			// if confirmed, force the Attack to hit
 			this.controller.setStage(AttackResolutionStage.PRE_DAMAGE_SOURCE_WEAPON_ABILITIES);
-			game.log(BattleLog.playerADidX(source, "used Axe, discarding 2 cards to make the Attack hit"));
+			game.log(BattleLog
+				.playerAUsedEquipment(source, source.getWeapon())
+				.withCards(usedCards)
+				.to("make the Attack hit")
+			);
 		}
 	}
 
@@ -61,12 +68,12 @@ public class AxeGameController extends AbstractPlayerDecisionActionGameControlle
 
 	@Override
 	public void onCardSelected(GameInternal game, Card card, PlayerCardZone zone) {
+		this.usedCards.add(card);
 		switch (zone) {
 			case HAND:
 				try {
 					// TODO: convert to discard controller
 					this.source.discardCard(card);
-					game.log(BattleLog.playerADidXToCards(source, "discarded", List.of(card)));
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}

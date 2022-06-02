@@ -1,9 +1,12 @@
 package commands.game.server.ingame;
 
+import java.util.List;
+
 import cards.Card;
 import cards.specials.delayed.Starvation;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
@@ -35,6 +38,10 @@ public class InitiateStarvationInGameServerCommand extends InGameServerCommand {
 				try {
 					currentPlayer.removeCardFromHand(card);
 					game.findPlayer(target).pushDelayed(card, DelayedType.STARVATION);
+					game.log(BattleLog
+						.playerADidXToCards(source, "used", List.of(card))
+						.onPlayer(game.findPlayer(target))
+					);	
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}

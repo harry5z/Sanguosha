@@ -5,9 +5,11 @@ import java.util.Set;
 import cards.Card;
 import cards.Card.Color;
 import cards.equipments.Equipment;
+import core.heroes.skills.GanNingSuddenStrikeHeroSkill;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
@@ -46,6 +48,12 @@ public class SuddenStrikeSkillInGameServerCommand extends InGameServerCommand {
 					game.pushGameController(new RecycleCardsGameController(game.getCurrentPlayer(), Set.of(card)));
 					game.pushGameController(new UnequipGameController(game.getCurrentPlayer(), ((Equipment) card).getEquipmentType()));
 				}
+				game.log(BattleLog
+					.playerAUsedSkill(source, new GanNingSuddenStrikeHeroSkill())
+					.withCard(card)
+					.to("convert into Sabotage")
+					.onPlayer(game.findPlayer(target))
+				);
 			}
 		};
 	}

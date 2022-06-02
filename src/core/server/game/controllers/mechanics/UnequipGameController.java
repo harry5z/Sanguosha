@@ -4,6 +4,7 @@ import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
 import core.event.game.UnequipItemAbilityEvent;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;
@@ -47,6 +48,7 @@ public class UnequipGameController extends AbstractGameController<UnequipGameCon
 				try {
 					this.nextStage();
 					this.player.unequip(this.type);
+					game.log(BattleLog.playerADidX(player, "lost equipment <b>" + equipment.getName() + "</b>"));
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}

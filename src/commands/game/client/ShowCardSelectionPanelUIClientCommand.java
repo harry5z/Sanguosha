@@ -75,7 +75,7 @@ public class ShowCardSelectionPanelUIClientCommand extends AbstractSingleTargetO
 	
 	@Override
 	protected String getMessageForOthers() {
-		return "Waiting on " + target.getName() + " to select a card";
+		return "Waiting on " + selectionTarget.getName() + " to select a card";
 	}
 
 }

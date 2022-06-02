@@ -4,6 +4,7 @@ import cards.Card;
 import cards.basics.Attack;
 import commands.game.client.RequestAttackGameUIClientCommand;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractPlayerDecisionActionGameController;
 import core.server.game.controllers.AttackUsableGameController;
@@ -34,6 +35,12 @@ public class DragonBladeGameController extends AbstractPlayerDecisionActionGameC
 	protected void handleDecisionConfirmation(GameInternal game) throws GameFlowInterruptedException {
 		if (this.actionTaken) {
 			game.pushGameController(new AttackGameController(this.source, this.target, (Attack) card));
+			game.log(BattleLog
+				.playerAUsedEquipment(source, source.getWeapon())
+				.withCard(card)
+				.to("re-initiate Attack")
+				.onPlayer(target)
+			);
 		}
 	}
 

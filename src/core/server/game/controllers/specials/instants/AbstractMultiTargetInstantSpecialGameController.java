@@ -1,5 +1,6 @@
 package core.server.game.controllers.specials.instants;
 
+import java.util.LinkedList;
 import java.util.Queue;
 
 import core.event.game.GameEvent;
@@ -14,7 +15,7 @@ public abstract class AbstractMultiTargetInstantSpecialGameController extends Ab
 
 	public AbstractMultiTargetInstantSpecialGameController(PlayerCompleteServer source, Queue<PlayerCompleteServer> targets) {
 		super(source);
-		this.targets = targets;
+		this.targets = new LinkedList<>(targets);
 		this.currentTarget = this.targets.poll();
 	}
 

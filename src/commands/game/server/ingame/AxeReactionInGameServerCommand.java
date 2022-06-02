@@ -50,7 +50,7 @@ public class AxeReactionInGameServerCommand extends InGameServerCommand {
 		if (cards == null) {
 			throw new IllegalPlayerActionException("Axe Reaction: cards cannot be null");
 		}
-		if (cards.size() != 0 || cards.size() != 2) {
+		if (cards.size() != 0 && cards.size() != 2) {
 			throw new IllegalPlayerActionException("Axe Reaction: cards size must be either 0 or 2");
 		}
 		Map<Card, PlayerCardZone> map = new HashMap<>();

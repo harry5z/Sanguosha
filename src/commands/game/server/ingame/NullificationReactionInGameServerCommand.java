@@ -4,6 +4,7 @@ import java.util.Set;
 
 import cards.Card;
 import cards.specials.instant.Nullification;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import core.server.game.controllers.GameController;
@@ -32,6 +33,7 @@ public class NullificationReactionInGameServerCommand extends InGameServerComman
 				if (nullification != null) {
 					game.<SpecialGameController>getNextGameController().onNullified();
 					game.pushGameController(new UseCardOnHandGameController(source, Set.of(nullification)));
+					game.log(BattleLog.playerADidXToCards(source, "used", Set.of(nullification)));
 				} else {
 					game.<SpecialGameController>getNextGameController().onNullificationCanceled();
 				}

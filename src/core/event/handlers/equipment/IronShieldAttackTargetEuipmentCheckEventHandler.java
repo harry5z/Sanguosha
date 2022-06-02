@@ -4,6 +4,7 @@ import cards.Card.Color;
 import core.event.game.basic.AttackTargetEquipmentCheckEvent;
 import core.event.handlers.AbstractEventHandler;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameDriver;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
@@ -37,6 +38,7 @@ public class IronShieldAttackTargetEuipmentCheckEventHandler extends AbstractEve
 			protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
 				// skip Attack Resolution
 				event.getController().setStage(AttackResolutionStage.END);
+				game.log(BattleLog.playerAEquipmentPassivelyTriggered(player, player.getShield(), "Attack is blocked"));
 			}
 		});
 	}

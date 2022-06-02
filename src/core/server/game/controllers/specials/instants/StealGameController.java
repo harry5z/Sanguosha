@@ -59,19 +59,19 @@ public class StealGameController extends SingleTargetInstantSpecialGameControlle
 					// By default steal a random card from hand
 					Card stolenCard = cards.get(new Random().nextInt(cards.size()));
 					this.target.removeCardFromHand(stolenCard);
-					game.pushGameController(new ReceiveCardsGameController(this.source, Set.of(stolenCard)));
+					game.pushGameController(new ReceiveCardsGameController(this.source, Set.of(stolenCard), false));
 				} catch (InvalidPlayerCommandException e) {
 					e.printStackTrace();
 				}
 				break;
 			case EQUIPMENT:
 					Equipment equipment = (Equipment) card;
-					game.pushGameController(new ReceiveCardsGameController(this.source, Set.of(equipment)));
+					game.pushGameController(new ReceiveCardsGameController(this.source, Set.of(equipment), true));
 					game.pushGameController(new UnequipGameController(this.target, equipment.getEquipmentType()));
 				break;
 			case DELAYED:
 				this.target.removeDelayed(card);
-				game.pushGameController(new ReceiveCardsGameController(this.source, Set.of(card)));
+				game.pushGameController(new ReceiveCardsGameController(this.source, Set.of(card), true));
 				break;
 		}
 	}

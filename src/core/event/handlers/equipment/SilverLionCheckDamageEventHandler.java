@@ -2,8 +2,11 @@ package core.event.handlers.equipment;
 
 import core.event.game.damage.TargetEquipmentCheckDamageEvent;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.Damage;
 import core.server.game.GameDriver;
+import core.server.game.GameInternal;
+import core.server.game.controllers.AbstractSingleStageGameController;
 import exceptions.server.game.GameFlowInterruptedException;
 
 public class SilverLionCheckDamageEventHandler extends AbstractTargetEquipmentCheckDamageEventHandler {
@@ -20,7 +23,13 @@ public class SilverLionCheckDamageEventHandler extends AbstractTargetEquipmentCh
 		}
 		
 		if (damage.getAmount() > 1) {
-			damage.setAmount(1);
+			game.pushGameController(new AbstractSingleStageGameController() {
+				@Override
+				protected void handleOnce(GameInternal game) throws GameFlowInterruptedException {
+					damage.setAmount(1);
+					game.log(BattleLog.playerAEquipmentPassivelyTriggered(player, player.getShield(), "Damage is reduced to 1"));
+				}
+			});
 		}
 		
 	}

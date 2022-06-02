@@ -1,7 +1,9 @@
 package core.server.game.controllers.skills;
 
 import commands.game.client.DecisionUIClientCommand;
+import core.heroes.skills.HuangZhongSharpshooterHeroSkill;
 import core.player.PlayerCompleteServer;
+import core.server.game.BattleLog;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractPlayerDecisionActionGameController;
 import core.server.game.controllers.DecisionRequiredGameController;
@@ -33,6 +35,10 @@ public class HuangZhongSharpshooterGameController extends AbstractPlayerDecision
 	protected void handleDecisionConfirmation(GameInternal game) throws GameFlowInterruptedException {
 		if (confirmed) {
 			nextController.skipStage(AttackResolutionStage.DODGE);
+			game.log(BattleLog
+				.playerAUsedSkill(source, new HuangZhongSharpshooterHeroSkill())
+				.to("make the Attack hit")
+			);
 		}
 	}
 
