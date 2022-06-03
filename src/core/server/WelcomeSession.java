@@ -7,6 +7,7 @@ import utils.Log;
 import java.io.IOException;
 
 import commands.welcome.WelcomeSessionDisplayClientCommand;
+import commands.welcome.WelcomeSessionDuplicatedUserCommand;
 import commands.welcome.WelcomeSessionExitClientCommand;
 import core.server.OnlineUserManager.DuplicatedUserException;
 import core.server.OnlineUserManager.UserReconnectionException;
@@ -45,6 +46,7 @@ public class WelcomeSession extends ServerEntity {
 		} catch (DuplicatedUserException e) {
 			System.err.println(e.getMessage());
 			try {
+				connection.sendSynchronously(new WelcomeSessionDuplicatedUserCommand(name));
 				connection.close();
 			} catch (IOException e1) {
 				e1.printStackTrace();
@@ -61,6 +63,7 @@ public class WelcomeSession extends ServerEntity {
 				return;
 			}
 			connections.remove(connection);
+			OnlineUserManager.get().logout(connection);
 		}
 		connection.send(new WelcomeSessionExitClientCommand());
 	}
@@ -80,6 +83,7 @@ public class WelcomeSession extends ServerEntity {
 	public void onConnectionLost(Connection connection, String message) {
 		synchronized (this) {
 			connections.remove(connection);
+			OnlineUserManager.get().logout(connection);
 		}
 		Log.error(TAG, "Client connection lost. " + message);
 	}

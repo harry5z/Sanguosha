@@ -78,6 +78,15 @@ public class ServerConnection extends Connection {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void sendSynchronously(Command<?> command) {
+		synchronized (this.writeLock) {
+			this.commandQueue.add((Command<? super ConnectionListener>) command);
+			flushCommands();
+		}		
+	}
+	
 	/**
 	 * Periodically flush commands to be sent to the client.
 	 */

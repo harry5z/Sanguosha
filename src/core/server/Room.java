@@ -135,6 +135,7 @@ public class Room extends ServerEntity {
 		synchronized (entranceLock) {
 			connections.remove(connection);
 			lobby.onUpdateRoomInfo(this);
+			OnlineUserManager.get().logout(connection);
 		}
 		Log.error(TAG, "Connection Lost");
 	}

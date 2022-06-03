@@ -32,6 +32,11 @@ public class ClientConnection extends Connection {
 	public void send(Command<?> command) {
 		sendCommandPacket(new CommandPacket(0, command));
 	}
+	
+	@Override
+	public void sendSynchronously(Command<?> command) {
+		send(command);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -49,7 +54,7 @@ public class ClientConnection extends Connection {
 				this.receivedCommandIDs.add(id);
 
 				// Confirm with server that the command has been received
-				sendCommandPacket(new CommandPacket(CommandPacket.CONFIRM, new CommandConfirmationServerCommand(packet.getID())));
+				new Thread(() -> sendCommandPacket(new CommandPacket(CommandPacket.CONFIRM, new CommandConfirmationServerCommand(packet.getID())))).start();
 
 				// A rudimentary, half-working lost command recovery mechanism
 				// If a future command cannot be executed after a certain timeout

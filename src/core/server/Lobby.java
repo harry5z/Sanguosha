@@ -121,6 +121,7 @@ public class Lobby extends ServerEntity {
 	public void onConnectionLost(Connection connection, String message) {
 		synchronized (this) {
 			connections.remove(connection);
+			OnlineUserManager.get().logout(connection);
 		}
 		Log.error(TAG, "Connection is lost. " + message);
 	}

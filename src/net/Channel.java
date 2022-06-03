@@ -11,4 +11,11 @@ public interface Channel {
 	 */
 	public void send(Command<?> command);
 	
+	/**
+	 * Send command to server / client without delay
+	 * 
+	 * @param command : the command to be sent
+	 */
+	public void sendSynchronously(Command<?> command);
+	
 }

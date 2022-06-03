@@ -93,6 +93,13 @@ public class OnlineUserManager {
 		}
 	}
 	
+	public synchronized void logout(Connection connection) {
+		LoggedInUser user = connectionMap.remove(connection);
+		if (user != null) {
+			loggedInUsers.remove(user);
+		}
+	}
+	
 	/**
 	 * If a user disconnects, it records the last known location of the user. If the user
 	 * reconnects, the server attempts to move them into the previous location. If user was 
