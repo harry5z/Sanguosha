@@ -10,7 +10,7 @@ public class LabelGui extends JLabel {
 
 	public LabelGui(String text) {
 		super(text);
-		setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
+		setFont(new Font(Font.MONOSPACED, Font.BOLD, 25));
 		setHorizontalAlignment(JLabel.CENTER);
 	}
 }

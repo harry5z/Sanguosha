@@ -17,7 +17,7 @@ public class ControlButtonGui extends JButton
 	public ControlButtonGui(String text, ActionListener listener)
 	{
 		super(text);
-		setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
+		setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setHorizontalAlignment(JButton.CENTER);
 		addActionListener(listener);

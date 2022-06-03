@@ -317,7 +317,9 @@ public class PlayerGui extends JPanel implements PlayerUI {
 	
 	@Override
 	public void onHeroRegistered(Hero hero) {
-		heroButton.setText(hero.getName());
+		if (hero != null) {
+			heroButton.setText(hero.getName());
+		}
 	}
 
 	@Override

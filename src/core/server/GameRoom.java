@@ -61,6 +61,8 @@ public class GameRoom extends ServerEntity implements SyncController {
 	}
 	
 	public void endGame() {
+		OnlineUserManager.get().onGameEnded(connectionMap.values());
+		timer.cancel();
 		room.onGameEnded();
 	}
 	
@@ -176,8 +178,12 @@ public class GameRoom extends ServerEntity implements SyncController {
 	@Override
 	public synchronized void onConnectionLost(Connection connection, String message) {
 		this.connectionMap.remove(OnlineUserManager.get().getUser(connection).getName());
-		this.allowedResponseIDs.remove(connection);
 		OnlineUserManager.get().onUserConnectionLost(connection, this);
+		if (this.connectionMap.isEmpty()) {
+			endGame();
+			return;
+		}
+		this.allowedResponseIDs.remove(connection);
 	}
 
 	@Override

@@ -90,27 +90,21 @@ public class LobbyGui extends JPanel implements ClientPanel {
 		RoomGui(RoomInfo room) {
 			this.room = room;
 			int id = room.getRoomID();
-			String name = room.getRoomConfig().getName();
 			int capacity = room.getRoomConfig().getCapacity();
 			int occupancy = room.getOccupancy();
-			boolean chat = room.getRoomConfig().isChatAllowed();
 			
 			JLabel roomID = new LabelGui("Room "+id);
-			JLabel nameTag = new LabelGui(name);
-			JLabel occupany = new LabelGui(occupancy+"/"+capacity);
-			JLabel chattable = new LabelGui(chat ? "聊天" : "禁聊");
+			JLabel occupany = new LabelGui("["+occupancy+" Player / "+capacity +" Max]");
 			
 			this.setBorder(new LineBorder(Color.BLACK, 2));
 			this.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
 			add(roomID);
-			add(nameTag);
 			add(occupany);
-			add(chattable);
 			
 			this.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					if (e.getClickCount() == 2) {
+					if (e.getClickCount() >= 1) {
 						connection.send(new EnterRoomLobbyServerCommand(id));
 					}
 				}

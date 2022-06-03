@@ -1,5 +1,6 @@
 package core.server;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -107,6 +108,13 @@ public class OnlineUserManager {
 		loggedInUsers.remove(user);
 		connectionMap.remove(connection);
 		disconnectedUsers.put(user, lastLocation);
+	}
+	
+	public synchronized void onGameEnded(Collection<Connection> connections) {
+		for (Connection connection : connections) {
+			LoggedInUser user = connectionMap.get(connection);
+			disconnectedUsers.remove(user);
+		}
 	}
 	
 	public LoggedInUser getUser(Connection connection) {

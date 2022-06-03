@@ -1,18 +1,19 @@
 package core.server;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
+import commands.room.DisplayRoomUIClientCommand;
+import commands.room.UpdateRoomUIClientCommand;
+import core.server.OnlineUserManager.LoggedInUser;
+import core.server.game.GameConfig;
 import net.Connection;
 import net.UserInfo;
 import net.server.ServerEntity;
 import net.server.util.ServerUtils;
 import utils.Log;
 import utils.RoomIDUtil;
-
-import commands.room.DisplayRoomUIClientCommand;
-import commands.room.UpdateRoomUIClientCommand;
-import core.server.game.GameConfig;
 
 public class Room extends ServerEntity {
 	private static final String TAG = "Room";
@@ -48,10 +49,15 @@ public class Room extends ServerEntity {
 	
 	public void onGameEnded() {
 		synchronized (entranceLock) {
-			for (Connection connection : connections) {
-				connection.setConnectionListener(this);
+			for (Connection connection : new HashSet<>(connections)) {
+				if (OnlineUserManager.get().getUser(connection) == null) {
+					connections.remove(connection);
+				} else {
+					connection.setConnectionListener(this);
+				}
 			}
 			ServerUtils.sendCommandToConnections(new DisplayRoomUIClientCommand(getRoomInfo(), getUserInfos()), connections);
+			lobby.onUpdateRoomInfo(this);
 		}
 	}
 	
@@ -93,8 +99,11 @@ public class Room extends ServerEntity {
 		List<UserInfo> userInfos = new ArrayList<UserInfo>();
 		int i = 0;
 		for (Connection connection : connections) {
-			userInfos.add(new UserInfo(OnlineUserManager.get().getUser(connection).getName(), i));
-			i++;
+			LoggedInUser user = OnlineUserManager.get().getUser(connection);
+			if (user != null) {
+				userInfos.add(new UserInfo(user.getName(), i));
+				i++;
+			}
 		}
 		return userInfos;
 	}
