@@ -10,9 +10,9 @@ import java.util.Stack;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import commands.game.client.EnterOriginalGameRoomGameClientCommand;
-import commands.game.client.sync.player.DisplayPopupMessageGameClientCommand;
-import commands.game.client.sync.ui.SyncBattleLogGameUIClientCommand;
+import commands.client.game.EnterOriginalGameRoomGameClientCommand;
+import commands.client.game.sync.player.DisplayPopupMessageGameClientCommand;
+import commands.client.game.sync.ui.SyncBattleLogGameUIClientCommand;
 import core.Deck;
 import core.event.game.GameEvent;
 import core.event.handlers.EventHandler;

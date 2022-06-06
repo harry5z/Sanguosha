@@ -3,11 +3,11 @@ package listeners.game.server;
 import java.util.Set;
 
 import cards.Card;
-import commands.game.client.sync.SyncCommandsUtil;
-import commands.game.client.sync.player.SyncCardDisposedGameClientCommand;
-import commands.game.client.sync.player.SyncCardShownGameClientCommand;
-import commands.game.client.sync.player.SyncCardUsedGameClientCommand;
-import commands.game.client.sync.player.SyncDisposalAreaRefreshGameClientCommand;
+import commands.client.game.sync.SyncCommandsUtil;
+import commands.client.game.sync.player.SyncCardDisposedGameClientCommand;
+import commands.client.game.sync.player.SyncCardShownGameClientCommand;
+import commands.client.game.sync.player.SyncCardUsedGameClientCommand;
+import commands.client.game.sync.player.SyncDisposalAreaRefreshGameClientCommand;
 import core.Deck;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerSimple;

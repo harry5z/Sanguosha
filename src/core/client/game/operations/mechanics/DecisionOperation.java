@@ -1,6 +1,6 @@
 package core.client.game.operations.mechanics;
 
-import commands.game.server.ingame.DecisionInGameServerCommand;
+import commands.server.ingame.DecisionInGameServerCommand;
 import core.client.game.operations.AbstractOperation;
 
 public class DecisionOperation extends AbstractOperation {

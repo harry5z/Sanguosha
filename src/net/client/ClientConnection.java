@@ -8,11 +8,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import commands.Command;
-import commands.CommandConfirmationServerCommand;
-import commands.RequestResendServerCommand;
+import commands.client.ClientCommand;
+import commands.server.CommandConfirmationServerCommand;
+import commands.server.RequestResendServerCommand;
+import core.client.ClientFrame;
 import net.CommandPacket;
 import net.Connection;
-import net.ConnectionListener;
 import utils.Log;
 
 public class ClientConnection extends Connection {
@@ -29,16 +30,10 @@ public class ClientConnection extends Connection {
 	}
 
 	@Override
-	public void send(Command<?> command) {
+	public void send(Command<?, ? extends Connection> command) {
 		sendCommandPacket(new CommandPacket(0, command));
 	}
 	
-	@Override
-	public void sendSynchronously(Command<?> command) {
-		send(command);
-	}
-
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void processReceivedObject(Object obj) {
 		try {
@@ -79,7 +74,7 @@ public class ClientConnection extends Connection {
 			}
 			
 			// execute the command
-			((Command<? super ConnectionListener>) packet.getCommand()).execute(listener, ClientConnection.this);
+			((ClientCommand) packet.getCommand()).execute((ClientFrame) listener, ClientConnection.this);
 			
 			// this guarantees that all commands are executed in sequential order
 			// as they're sent, to prevent newer commands being received and executed by

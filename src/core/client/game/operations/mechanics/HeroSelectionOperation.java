@@ -2,7 +2,7 @@ package core.client.game.operations.mechanics;
 
 import java.util.List;
 
-import commands.game.server.ingame.HeroSelectionInGameServerCommand;
+import commands.server.ingame.HeroSelectionInGameServerCommand;
 import core.client.game.operations.AbstractOperation;
 import core.heroes.Hero;
 import ui.game.custom.HeroSelectionPane;

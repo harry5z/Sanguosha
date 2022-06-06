@@ -1,7 +1,7 @@
 package core.heroes.skills;
 
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.ZhugeliangInitiateFireAttackInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.ZhugeliangInitiateFireAttackInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.listener.skills.FireAttackSkillDealEventListener;
 import core.player.PlayerCompleteServer;

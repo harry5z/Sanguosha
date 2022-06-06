@@ -1,8 +1,8 @@
 package core.client.game.operations.basics;
 
 import cards.Card;
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.PlayerCardSelectionInGameServerCommand;
 import core.client.game.operations.AbstractSingleCardReactionOperation;
 import core.player.PlayerCardZone;
 

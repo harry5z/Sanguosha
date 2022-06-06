@@ -11,9 +11,9 @@ public class CommandPacket implements Serializable {
 	public static final int CONFIRM = -1;
 
 	private final int id;
-	private final Command<?> command;
+	private final Command<?, ? extends Connection> command;
 	
-	public CommandPacket(int id, Command<?> command) {
+	public CommandPacket(int id, Command<?, ? extends Connection> command) {
 		this.id = id;
 		this.command = command;
 	}
@@ -22,7 +22,7 @@ public class CommandPacket implements Serializable {
 		return id;
 	}
 	
-	public Command<?> getCommand() {
+	public Command<?, ? extends Connection> getCommand() {
 		return command;
 	}
 	

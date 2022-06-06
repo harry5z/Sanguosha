@@ -17,8 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import commands.lobby.CreateRoomLobbyServerCommand;
-import commands.lobby.EnterRoomLobbyServerCommand;
+import commands.server.CreateRoomLobbyServerCommand;
+import commands.server.EnterRoomLobbyServerCommand;
 import core.client.ClientPanel;
 import core.server.RoomInfo;
 import net.Connection;

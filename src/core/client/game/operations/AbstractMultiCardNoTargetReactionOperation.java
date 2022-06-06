@@ -3,7 +3,7 @@ package core.client.game.operations;
 import java.util.HashSet;
 
 import cards.equipments.Equipment.EquipmentType;
-import commands.game.server.ingame.InGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
 import core.player.PlayerSimple;
 import ui.game.interfaces.CardUI;
 

@@ -1,7 +1,7 @@
 package core.heroes.skills;
 
-import commands.game.client.PlayerActionGameClientCommand;
-import commands.game.server.ingame.InGameServerCommand;
+import commands.client.game.PlayerActionGameClientCommand;
+import commands.server.ingame.InGameServerCommand;
 
 /**
  * 

@@ -3,8 +3,8 @@ package core.client.game.operations.basics;
 import java.util.stream.Collectors;
 
 import cards.basics.Attack;
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateAttackInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.InitiateAttackInGameServerCommand;
 import core.client.game.event.InitiateAttackClientGameEvent;
 import core.client.game.operations.AbstractCardInitiatedMultiTargetOperation;
 import core.client.game.operations.TargetEditableOperation;

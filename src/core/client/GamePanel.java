@@ -2,7 +2,7 @@ package core.client;
 
 import java.util.UUID;
 
-import commands.game.server.ingame.InGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
 import core.GameState;
 import core.client.game.event.ClientGameEvent;
 import core.client.game.listener.ClientEventListener;

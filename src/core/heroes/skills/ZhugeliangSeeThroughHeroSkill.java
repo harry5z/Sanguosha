@@ -1,9 +1,9 @@
 package core.heroes.skills;
 
-import commands.game.client.PlayerActionGameClientCommand;
-import commands.game.client.RequestNullificationGameUIClientCommand;
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.ZhugeliangNullificationReactionInGameServerCommand;
+import commands.client.game.PlayerActionGameClientCommand;
+import commands.client.game.RequestNullificationGameUIClientCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.ZhugeliangNullificationReactionInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.listener.skills.SeeThroughSkillClientEventListener;
 import core.player.PlayerCompleteServer;

@@ -1,8 +1,8 @@
 package cards.specials.instant;
 
 import cards.equipments.Equipment.EquipmentType;
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateBorrowSwordInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.InitiateBorrowSwordInGameServerCommand;
 import core.GameState;
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.BorrowSwordOperation;

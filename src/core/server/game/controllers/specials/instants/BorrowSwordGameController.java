@@ -6,7 +6,7 @@ import cards.Card;
 import cards.basics.Attack;
 import cards.equipments.Equipment.EquipmentType;
 import cards.equipments.weapons.Weapon;
-import commands.game.client.RequestAttackGameUIClientCommand;
+import commands.client.game.RequestAttackGameUIClientCommand;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AttackUsableGameController;

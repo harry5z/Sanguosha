@@ -1,7 +1,7 @@
 package core.client.game.operations.basics;
 
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.UsePeachInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.UsePeachInGameServerCommand;
 import core.client.game.operations.AbstractCardInitiatedNoTargetOperation;
 import ui.game.interfaces.Activatable;
 

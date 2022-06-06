@@ -1,7 +1,7 @@
 package cards.specials.instant;
 
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateHarvestInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.InitiateHarvestInGameServerCommand;
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.HarvestOperation;
 import ui.game.interfaces.Activatable;

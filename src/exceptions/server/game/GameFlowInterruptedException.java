@@ -1,6 +1,6 @@
 package exceptions.server.game;
 
-import commands.game.client.PlayerActionGameClientCommand;
+import commands.client.game.PlayerActionGameClientCommand;
 
 /**
  * 

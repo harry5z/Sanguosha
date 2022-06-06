@@ -3,9 +3,9 @@ package listeners.game.server;
 import java.util.Set;
 
 import cards.Card;
-import commands.game.client.sync.SyncCommandsUtil;
-import commands.game.client.sync.player.SyncOtherPlayerCardGameClientCommand;
-import commands.game.client.sync.player.SyncPlayerCardGameClientCommand;
+import commands.client.game.sync.SyncCommandsUtil;
+import commands.client.game.sync.player.SyncOtherPlayerCardGameClientCommand;
+import commands.client.game.sync.player.SyncPlayerCardGameClientCommand;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerSimple;
 import core.server.SyncController;

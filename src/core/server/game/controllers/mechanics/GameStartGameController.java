@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import commands.game.client.EmperorHeroSelectionGameClientCommand;
-import commands.game.client.NonEmperorHeroSelectionGameClientCommand;
+import commands.client.game.EmperorHeroSelectionGameClientCommand;
+import commands.client.game.NonEmperorHeroSelectionGameClientCommand;
 import core.heroes.Hero;
 import core.heroes.HeroPool;
 import core.player.PlayerCompleteServer;

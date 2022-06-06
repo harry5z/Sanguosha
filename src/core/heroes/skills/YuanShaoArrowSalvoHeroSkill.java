@@ -1,7 +1,7 @@
 package core.heroes.skills;
 
-import commands.game.server.ingame.ArrowSalvoSkillIngameServerCommand;
-import commands.game.server.ingame.InGameServerCommand;
+import commands.server.ingame.ArrowSalvoSkillIngameServerCommand;
+import commands.server.ingame.InGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.listener.skills.ArrowSalvoSkillDealEventListener;
 import core.player.PlayerCompleteServer;

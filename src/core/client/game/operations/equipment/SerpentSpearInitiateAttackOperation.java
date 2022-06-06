@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 import cards.Card;
 import cards.equipments.Equipment.EquipmentType;
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.SerpentSpearInitiateAttackInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.SerpentSpearInitiateAttackInGameServerCommand;
 import core.client.game.operations.AbstractMultiCardMultiTargetOperation;
 import core.player.PlayerSimple;
 import ui.game.interfaces.EquipmentUI;

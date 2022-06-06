@@ -7,7 +7,7 @@ import java.util.Set;
 import cards.Card;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
-import commands.game.client.equipment.AxeAbilityGameClientCommand;
+import commands.client.game.equipment.AxeAbilityGameClientCommand;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.server.game.BattleLog;

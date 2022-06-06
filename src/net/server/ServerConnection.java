@@ -9,21 +9,28 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import commands.AggregatedClientCommand;
 import commands.Command;
+import commands.client.AggregatedClientCommand;
+import commands.client.ClientCommand;
+import commands.server.CommandConfirmationServerCommand;
+import commands.server.LoginServerCommand;
+import commands.server.RequestResendServerCommand;
+import commands.server.ServerCommand;
+import core.server.LoggedInUser;
+import core.server.WelcomeSession;
 import net.CommandPacket;
 import net.Connection;
-import net.ConnectionListener;
 import utils.Log;
 
 public class ServerConnection extends Connection {
 	private static final String TAG = "Server Connection";
 	private static final int FLUSH_COMMAND_FREQUENCY_MS = 100;
 	
-	private final Map<Integer, Command<? super ConnectionListener>> historyCommands;
-	private final List<Command<? super ConnectionListener>> commandQueue;
+	private final Map<Integer, ClientCommand> historyCommands;
+	private final List<ClientCommand> commandQueue;
 	private int commandCounter;
 	private final Timer timer;
+	private LoggedInUser user;
 
 	public ServerConnection(Socket socket) throws IOException {
 		super(socket);
@@ -38,6 +45,19 @@ public class ServerConnection extends Connection {
 				flushCommands();
 			}
 		}, 0, FLUSH_COMMAND_FREQUENCY_MS);
+		this.user = null;
+	}
+	
+	public void assignUser(LoggedInUser user) {
+		this.user = user;
+	}
+	
+	public LoggedInUser getUser() {
+		return user;
+	}
+	
+	public boolean isLoggedIn() {
+		return user != null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -48,7 +68,27 @@ public class ServerConnection extends Connection {
 			// in the future may allow concurrent commands of different types,
 			// e.g. chat messages and player actions can happen concurrently
 			synchronized (this.accessLock) {
-				((Command<? super ConnectionListener>) ((CommandPacket) obj).getCommand()).execute(listener, ServerConnection.this);
+				Command<?, ? extends Connection> command = ((CommandPacket) obj).getCommand();
+				// User must log in first
+				if (!isLoggedIn()) {
+					if (command instanceof LoginServerCommand) {
+						((LoginServerCommand) command).execute((WelcomeSession) listener, this);
+					}
+					return;
+				}
+				
+				// TODO clean up these 'instanceof'
+				if (command instanceof CommandConfirmationServerCommand) {
+					((CommandConfirmationServerCommand) command).execute(null, this);
+					return;
+				}
+				
+				if (command instanceof RequestResendServerCommand) {
+					((RequestResendServerCommand) command).execute(null, this);
+					return;
+				}
+				
+				user.handleClientAction((ServerCommand<ServerEntity>) command);
 			}
 		} catch (ClassCastException e) {
 			Log.error(TAG, "Command sent to the wrong object: " + e.getMessage());
@@ -70,19 +110,21 @@ public class ServerConnection extends Connection {
 	 * </p>
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public void send(Command<?> command) {
+	public void send(Command<?, ? extends Connection> command) {
 		synchronized (this.writeLock) {
-			this.commandQueue.add((Command<? super ConnectionListener>) command);
+			this.commandQueue.add((ClientCommand) command);
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
-	@Override
-	public void sendSynchronously(Command<?> command) {
+	/**
+	 * Send command to client without delay
+	 * 
+	 * @param command : the command to be sent
+	 */
+	public void sendSynchronously(ClientCommand command) {
 		synchronized (this.writeLock) {
-			this.commandQueue.add((Command<? super ConnectionListener>) command);
+			this.commandQueue.add((ClientCommand) command);
 			flushCommands();
 		}		
 	}
@@ -95,10 +137,10 @@ public class ServerConnection extends Connection {
 			if (commandQueue.isEmpty()) { // exit if no queued command to send
 				return;
 			}
-			List<Command<? super ConnectionListener>> commandsToSend = List.copyOf(commandQueue);
+			List<ClientCommand> commandsToSend = List.copyOf(commandQueue);
 			commandQueue.clear();
 			
-			Command<ConnectionListener> command = new AggregatedClientCommand(commandsToSend);
+			ClientCommand command = new AggregatedClientCommand(commandsToSend);
 			historyCommands.put(commandCounter, command);
 			CommandPacket packet = new CommandPacket(commandCounter, command);
 			commandCounter++;
@@ -108,7 +150,7 @@ public class ServerConnection extends Connection {
 	}
 	
 	public void resendCommand(int id) {
-		Command<?> command = null;
+		ClientCommand command = null;
 		synchronized (this.writeLock) {
 			if (historyCommands.containsKey(id)) {
 				command = historyCommands.get(id);

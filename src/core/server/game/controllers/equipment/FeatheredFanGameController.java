@@ -1,7 +1,7 @@
 package core.server.game.controllers.equipment;
 
 import cards.basics.Attack;
-import commands.game.client.DecisionUIClientCommand;
+import commands.client.game.DecisionUIClientCommand;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage.Element;
 import core.server.game.BattleLog;

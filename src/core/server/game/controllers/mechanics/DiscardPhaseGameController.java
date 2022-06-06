@@ -1,6 +1,6 @@
 package core.server.game.controllers.mechanics;
 
-import commands.game.client.DiscardGameUIClientCommand;
+import commands.client.game.DiscardGameUIClientCommand;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractSingleStageGameController;
 import exceptions.server.game.GameFlowInterruptedException;

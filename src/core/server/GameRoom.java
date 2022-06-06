@@ -10,50 +10,46 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-import commands.game.client.PlayerActionGameClientCommand;
-import commands.game.client.sync.SyncGameClientCommand;
-import commands.game.server.ingame.InGameServerCommand;
+import commands.client.game.PlayerActionGameClientCommand;
+import commands.client.game.sync.SyncGameClientCommand;
+import commands.server.ingame.InGameServerCommand;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerInfo;
-import core.server.OnlineUserManager.LoggedInUser;
 import core.server.game.Game;
 import core.server.game.GameConfig;
 import core.server.game.GameImpl;
 import exceptions.server.game.IllegalPlayerActionException;
-import net.Connection;
 import net.server.ServerEntity;
 import utils.Log;
 
-public class GameRoom extends ServerEntity implements SyncController {
+public class GameRoom implements ServerEntity, SyncController {
 	
 	private final Room room;
 	private final GameImpl game;
-	private final Map<String, Connection> connectionMap;
-	private final Map<Connection, UUID> allowedResponseIDs;
+	private final List<LoggedInUser> users;
+	private final List<LoggedInUser> disconnectedUsers;
+	private final Map<LoggedInUser, UUID> allowedResponseIDs;
 	private final Set<Class<? extends InGameServerCommand>> allowedResponseTypes;
 	private final Timer timer;
 	private TimerTask defaultResponseTask;
 	
-	public GameRoom(Room room, Set<Connection> connections, GameConfig config) {
-		this.connections.addAll(connections);
+	public GameRoom(Room room, List<LoggedInUser> users, GameConfig config) {
 		this.room = room;
-		this.connectionMap = new HashMap<>();
+		this.users = new ArrayList<>();
+		this.disconnectedUsers = new ArrayList<>();
 		this.allowedResponseIDs = new HashMap<>();
 		this.allowedResponseTypes = new HashSet<>();
 		this.timer = new Timer();
 		this.defaultResponseTask = null;
 		
-		// TODO: randomize player position
-		int i = 0;
 		List<PlayerInfo> players = new ArrayList<>();
-		for (Connection connection : this.connections) {
-			String name = OnlineUserManager.get().getUser(connection).getName();
-			this.connectionMap.put(name, connection);
-			players.add(new PlayerInfo(name, i));
-			i++;
+		for (int i = 0; i < users.size(); i++) {
+			LoggedInUser user = users.get(i);
+			user.moveToLocation(this);
+			this.users.add(user);
+			players.add(new PlayerInfo(user.getName(), i));
 		}
 		this.game = new GameImpl(this, config, players);
-
 	}
 	
 	public Game getGame() {
@@ -61,13 +57,13 @@ public class GameRoom extends ServerEntity implements SyncController {
 	}
 	
 	public void endGame() {
-		OnlineUserManager.get().onGameEnded(connectionMap.values());
+		OnlineUserManager.get().onGameEnded(disconnectedUsers);
 		timer.cancel();
-		room.onGameEnded();
+		room.onGameEnded(users);
 	}
 	
-	public synchronized void onCommandReceived(InGameServerCommand command, Connection connection) {
-		UUID allowed = this.allowedResponseIDs.get(connection);
+	public synchronized void onCommandReceived(InGameServerCommand command, LoggedInUser user) {
+		UUID allowed = this.allowedResponseIDs.get(user);
 		if (allowed == null || !allowed.equals(command.getResponseID())) {
 			Log.error("GameRoom", "Player response UUID mismatch");
 			return;
@@ -75,12 +71,6 @@ public class GameRoom extends ServerEntity implements SyncController {
 		
 		if (!this.allowedResponseTypes.contains(command.getClass())) {
 			Log.error("GameRoom", "Invalid Response Type: " + command.getClass().getSimpleName());
-			return;
-		}
-		
-		LoggedInUser user = OnlineUserManager.get().getUser(connection);
-		if (user == null) {
-			Log.error("GameRoom", "User not found");
 			return;
 		}
 		
@@ -98,7 +88,7 @@ public class GameRoom extends ServerEntity implements SyncController {
 			return;
 		}
 		
-		this.allowedResponseIDs.remove(connection); // clear UUID once a valid response is received
+		this.allowedResponseIDs.remove(user); // clear UUID once a valid response is received
 		if (this.allowedResponseIDs.size() == 0) {
 			this.defaultResponseTask.cancel();
 			this.defaultResponseTask = null;
@@ -110,7 +100,7 @@ public class GameRoom extends ServerEntity implements SyncController {
 	public synchronized void onDefaultResponseReceived(InGameServerCommand command) {
 		if (!allowedResponseIDs.isEmpty()) {
 			PlayerCompleteServer source = game.findPlayer(player -> player.getName().equals(
-				OnlineUserManager.get().getUser(allowedResponseIDs.keySet().iterator().next()).getName()
+				allowedResponseIDs.keySet().iterator().next().getName()
 			));
 			command.setSource(source);
 		}
@@ -132,18 +122,18 @@ public class GameRoom extends ServerEntity implements SyncController {
 						return;
 					}
 					defaultResponseTask = null;
-					command.getDefaultResponse().execute(GameRoom.this, null);
+					command.getDefaultResponse().execute(GameRoom.this, (LoggedInUser) null);
 				}
 			}
 		};
 		
-		this.connectionMap.forEach((name, connection) -> {
-			UUID id = command.generateResponseID(name);
+		this.users.forEach(user -> {
+			UUID id = command.generateResponseID(user.getName());
 			if (id != null) {
-				this.allowedResponseIDs.put(connection, id);
+				this.allowedResponseIDs.put(user, id);
 			}
 			command.setResponseTimeoutMS(room.gameConfig.getGameSpeed() * 1000);
-			connection.send(command.clone());
+			user.send(command.clone());
 		});
 		
 		// add one second to account for potential network delays
@@ -152,54 +142,50 @@ public class GameRoom extends ServerEntity implements SyncController {
 	
 	@Override
 	public synchronized void sendSyncCommandToAllPlayers(SyncGameClientCommand command) {
-		this.connectionMap.forEach((name, connection) -> {
-			if (this.connectionMap.containsKey(name)) {
-				connection.send(command);
-			}
-		});
+		this.users.forEach(user -> user.send(command));
 	}
 	
 	@Override
 	public synchronized void sendSyncCommandToPlayers(Map<String, SyncGameClientCommand> commands) {
 		commands.forEach((name, command) -> {
-			if (this.connectionMap.containsKey(name)) {
-				this.connectionMap.get(name).send(command);
-			}
+			users.stream().filter(user -> user.getName().equals(name)).forEach(user -> user.send(command));
 		});
 	}
 	
 	@Override
 	public synchronized void sendSyncCommandToPlayer(String name, SyncGameClientCommand command) {
-		if (this.connectionMap.containsKey(name)) {
-			this.connectionMap.get(name).send(command);
-		}
+		users.stream().filter(user -> user.getName().equals(name)).forEach(user -> user.send(command));
 	}
 	
 	@Override
-	public synchronized void onConnectionLost(Connection connection, String message) {
-		this.connectionMap.remove(OnlineUserManager.get().getUser(connection).getName());
-		OnlineUserManager.get().onUserConnectionLost(connection, this);
-		if (this.connectionMap.isEmpty()) {
+	public synchronized void onUserDisconnected(LoggedInUser user) {
+		users.remove(user);
+		OnlineUserManager.get().onInGameUserDisconnected(user);
+		if (this.users.isEmpty()) {
 			endGame();
 			return;
 		}
-		this.allowedResponseIDs.remove(connection);
+		disconnectedUsers.add(user);
+		allowedResponseIDs.remove(user);
 	}
 
 	@Override
-	public synchronized boolean onUserJoined(Connection connection) {
+	public void onUserJoined(LoggedInUser user) {
+		// user may not join while in game
+	}
+	
+	@Override
+	public void onUserReconnected(LoggedInUser user) {
 		// TODO exit if game has ended
-		String name = OnlineUserManager.get().getUser(connection).getName();
-		this.connectionMap.put(name, connection);
-		connection.setConnectionListener(this);
-		this.game.refreshForPlayer(name);
-		return true;
+		disconnectedUsers.remove(user);
+		users.add(user);
+		game.refreshForPlayer(user.getName());
 	}
 
 	@Override
-	public void onConnectionLeft(Connection connection) {
-		// TODO Auto-generated method stub
-		
+	public void onUserRemoved(LoggedInUser user) {
+		disconnectedUsers.remove(user);
+		room.onUserRemoved(user);
 	}
 
 }

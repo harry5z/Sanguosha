@@ -3,8 +3,8 @@ package core.client.game.operations.instants;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateChainInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.InitiateChainInGameServerCommand;
 import core.client.game.operations.AbstractCardInitiatedMultiTargetOperation;
 import core.player.PlayerInfo;
 import core.player.PlayerSimple;

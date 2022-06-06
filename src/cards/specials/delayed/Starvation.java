@@ -1,7 +1,7 @@
 package cards.specials.delayed;
 
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateStarvationInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.InitiateStarvationInGameServerCommand;
 import core.GameState;
 import core.client.game.operations.Operation;
 import core.client.game.operations.delayed.StarvationOperation;

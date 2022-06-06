@@ -3,7 +3,7 @@ package core.server.game.controllers.specials.instants;
 import java.util.Queue;
 
 import cards.Card;
-import commands.game.client.RequestAttackGameUIClientCommand;
+import commands.client.game.RequestAttackGameUIClientCommand;
 import core.event.game.instants.AOETargetEffectivenessEvent;
 import core.event.game.instants.BarbarianInvasionTargetEffectivenessEvent;
 import core.player.PlayerCompleteServer;

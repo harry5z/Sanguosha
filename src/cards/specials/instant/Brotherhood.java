@@ -1,7 +1,7 @@
 package cards.specials.instant;
 
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateBrotherhoodInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.InitiateBrotherhoodInGameServerCommand;
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.BrotherhoodOperation;
 import ui.game.interfaces.Activatable;

@@ -2,35 +2,16 @@ package core.server;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import net.Connection;
+import net.server.ServerConnection;
 import net.server.ServerEntity;
 
 public class OnlineUserManager {
-	
-	public static class LoggedInUser {
-		
-		private final String name;
-		
-		public LoggedInUser(String name) {
-			this.name = name;
-		}
-		
-		public String getName() {
-			return name;
-		}
-		
-		@Override
-		public int hashCode() {
-			return name.hashCode();
-		}
-		
-		@Override
-		public boolean equals(Object obj) {
-			return obj instanceof LoggedInUser ? name.equals(((LoggedInUser) obj).name) : false;
-		}
-	}
 	
 	@SuppressWarnings("serial")
 	public static class DuplicatedUserException extends Exception {
@@ -46,22 +27,32 @@ public class OnlineUserManager {
 		}
 	}
 	
-	private final Map<LoggedInUser, Connection> loggedInUsers;
-	private final Map<Connection, LoggedInUser> connectionMap;
-	private final Map<LoggedInUser, ServerEntity> disconnectedUsers;
-	private static OnlineUserManager manager;
+	private static class DisconnectedUser {
+		
+		final LoggedInUser user;
+		final TimerTask task;
+		
+		public DisconnectedUser(LoggedInUser user, TimerTask task) {
+			this.user = user;
+			this.task = task;
+		}
+	}
 	
+	private final Set<LoggedInUser> loggedInUsers;
+	private final Map<LoggedInUser, DisconnectedUser> disconnectedUsers;
+	private final Timer timer;
+	private static final OnlineUserManager MANAGER = new OnlineUserManager();
+	
+	private static final int USER_DISCONNECTION_TIMEOUT_MS = 300000; // 5 min
+
 	private OnlineUserManager() {
-		this.loggedInUsers = new HashMap<>();
-		this.connectionMap = new HashMap<>();
+		this.loggedInUsers = new HashSet<>();
 		this.disconnectedUsers = new HashMap<>();
+		this.timer = new Timer();
 	}
 	
 	public static OnlineUserManager get() {
-		if (manager == null) {
-			manager = new OnlineUserManager();
-		}
-		return manager;
+		return MANAGER;
 	}
 	
 	/**
@@ -73,59 +64,72 @@ public class OnlineUserManager {
 	 * @throws DuplicatedUserException
 	 * @throws UserReconnectionException
 	 */
-	public void login(String name, Connection connection) throws DuplicatedUserException, UserReconnectionException {
-		synchronized (this) {
-			LoggedInUser user = new LoggedInUser(name);
-			if (connectionMap.containsKey(connection)) {
-				throw new DuplicatedUserException("May not log in multiple times");
-			}
-			if (loggedInUsers.containsKey(user)) {
-				throw new DuplicatedUserException("User '" + name + "' exists");
-			}
-
-			loggedInUsers.put(user, connection);
-			connectionMap.put(connection, user);
-			if (disconnectedUsers.containsKey(user)) {
-				ServerEntity lastLocation = disconnectedUsers.remove(user);
-				lastLocation.onUserJoined(connection);
-				throw new UserReconnectionException("User '" + name + "' reconnected");
-			}
+	public synchronized void login(String name, ServerConnection connection, ServerEntity location) throws DuplicatedUserException, UserReconnectionException {
+		LoggedInUser user = new LoggedInUser(name);
+		if (loggedInUsers.contains(user)) {
+			throw new DuplicatedUserException("User \"" + name + "\" exists");
 		}
+		
+		// if user previously disconnected, reconnect now
+		DisconnectedUser dcUser = disconnectedUsers.remove(user);
+		if (dcUser != null) {
+			dcUser.task.cancel();
+			dcUser.user.assignConnection(connection);
+			connection.assignUser(dcUser.user);
+			loggedInUsers.add(dcUser.user);
+			ServerEntity lastLocation = dcUser.user.getLocation();
+			lastLocation.onUserReconnected(dcUser.user);
+			throw new UserReconnectionException("User '" + name + "' reconnected");
+		}
+		
+		connection.assignUser(user);
+		user.assignConnection(connection);
+		user.moveToLocation(location);
+		loggedInUsers.add(user);
 	}
 	
-	public synchronized void logout(Connection connection) {
-		LoggedInUser user = connectionMap.remove(connection);
-		if (user != null) {
-			loggedInUsers.remove(user);
-		}
+	public synchronized void logout(LoggedInUser user) {
+		loggedInUsers.remove(user);
 	}
 	
 	/**
-	 * If a user disconnects, it records the last known location of the user. If the user
-	 * reconnects, the server attempts to move them into the previous location. If user was 
-	 * in game, they will receive the latest game state to resume playing. Note that the 
-	 * previous location may no longer exist by the time user reconnects, in which case it
-	 * shall be handled correct (e.g. bump user back to lobby)
+	 * If a user disconnects while in game, server keeps the last known location of the user. 
+	 * If the user reconnects, server attempts to move them back into the game. If game has 
+	 * not ended, the user will receive the latest game state to resume playing; if the game 
+	 * has ended, user will log in again. Server also considers a user fully disconnected if 
+	 * user fails to reconnect within 5 minutes.
 	 * 
-	 * @param connection
-	 * @param lastLocation
+	 * @param user
 	 */
-	public synchronized void onUserConnectionLost(Connection connection, ServerEntity lastLocation) {
-		LoggedInUser user = connectionMap.get(connection);
+	public synchronized void onInGameUserDisconnected(LoggedInUser user) {
 		loggedInUsers.remove(user);
-		connectionMap.remove(connection);
-		disconnectedUsers.put(user, lastLocation);
+		TimerTask task = new TimerTask() {
+			@Override
+			public void run() {
+				removeDisconnectedUser(user);
+			}
+		};
+		timer.schedule(task, USER_DISCONNECTION_TIMEOUT_MS);
+		disconnectedUsers.put(user, new DisconnectedUser(user, task));
 	}
 	
-	public synchronized void onGameEnded(Collection<Connection> connections) {
-		for (Connection connection : connections) {
-			LoggedInUser user = connectionMap.get(connection);
-			disconnectedUsers.remove(user);
+	/**
+	 * If a game has ended, all disconnected users may not reconnect and need to log in again
+	 * 
+	 * @param users : disconnected users from a game
+	 */
+	public synchronized void onGameEnded(Collection<LoggedInUser> users) {
+		for (LoggedInUser user : users) {
+			DisconnectedUser dcUser = disconnectedUsers.remove(user);
+			if (dcUser != null) {
+				dcUser.task.cancel();
+			}
 		}
 	}
 	
-	public LoggedInUser getUser(Connection connection) {
-		return connectionMap.get(connection);
+	private synchronized void removeDisconnectedUser(LoggedInUser user) {
+		user.getLocation().onUserRemoved(user);
+		disconnectedUsers.remove(user);
 	}
 
 }

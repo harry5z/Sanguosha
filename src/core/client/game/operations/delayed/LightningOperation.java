@@ -1,7 +1,7 @@
 package core.client.game.operations.delayed;
 
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.UseLightningInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.UseLightningInGameServerCommand;
 import core.client.game.operations.AbstractCardInitiatedNoTargetOperation;
 import ui.game.interfaces.Activatable;
 

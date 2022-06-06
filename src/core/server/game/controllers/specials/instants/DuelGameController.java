@@ -1,7 +1,7 @@
 package core.server.game.controllers.specials.instants;
 
 import cards.Card;
-import commands.game.client.RequestAttackGameUIClientCommand;
+import commands.client.game.RequestAttackGameUIClientCommand;
 import core.player.PlayerCompleteServer;
 import core.server.game.Damage;
 import core.server.game.GameInternal;

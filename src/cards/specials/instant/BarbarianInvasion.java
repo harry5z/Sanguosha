@@ -1,7 +1,7 @@
 package cards.specials.instant;
 
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateBarbarianInvasionInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.InitiateBarbarianInvasionInGameServerCommand;
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.BarbarianInvasionOperation;
 import ui.game.interfaces.Activatable;

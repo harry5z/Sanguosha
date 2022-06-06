@@ -2,8 +2,8 @@ package core.client.game.operations.basics;
 
 import cards.Card;
 import cards.basics.Attack;
-import commands.game.server.ingame.AttackReactionInGameServerCommand;
-import commands.game.server.ingame.InGameServerCommand;
+import commands.server.ingame.AttackReactionInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
 import core.client.game.event.AttackReactionClientGameEvent;
 import core.client.game.operations.AbstractSingleCardReactionOperation;
 

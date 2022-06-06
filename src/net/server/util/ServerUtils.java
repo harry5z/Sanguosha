@@ -9,11 +9,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import net.Connection;
+import commands.client.ClientCommand;
+import commands.client.MessageDisplayClientUICommand;
+import core.server.LoggedInUser;
 import net.Message;
-
-import commands.Command;
-import commands.MessageDisplayClientUICommand;
 
 public class ServerUtils {
 	private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
@@ -24,14 +23,14 @@ public class ServerUtils {
 	 * Send a command to all connections concurrently
 	 * 
 	 * @param command : command to send
-	 * @param connections : connections to receive the command
+	 * @param users : users to receive the command
 	 */
-	public static void sendCommandToConnections(final Command<?> command, Collection<Connection> connections) {
+	public static void sendCommandToUsers(final ClientCommand command, Collection<LoggedInUser> users) {
 		List<Callable<Void>> updates = new ArrayList<Callable<Void>>();
 		try {
-			for (final Connection connection : connections) {
+			for (LoggedInUser user : users) {
 				updates.add(() -> {
-					connection.send(command);
+					user.send(command);
 					return null;
 				});
 			}
@@ -45,7 +44,7 @@ public class ServerUtils {
 		}
 	}
 	
-	public void sendChatMessage(Message message, Collection<Connection> connections) {
-		ServerUtils.sendCommandToConnections(new MessageDisplayClientUICommand(message) , connections);
+	public void sendChatMessage(Message message, Collection<LoggedInUser> users) {
+		ServerUtils.sendCommandToUsers(new MessageDisplayClientUICommand(message) , users);
 	}
 }

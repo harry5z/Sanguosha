@@ -1,7 +1,7 @@
 package cards.basics;
 
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.UseWineInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.UseWineInGameServerCommand;
 import core.GameState;
 import core.client.game.operations.Operation;
 import core.client.game.operations.basics.WineOperation;

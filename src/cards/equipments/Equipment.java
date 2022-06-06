@@ -1,8 +1,8 @@
 package cards.equipments;
 
 import cards.Card;
-import commands.game.server.ingame.EquipInGameServerCommand;
-import commands.game.server.ingame.InGameServerCommand;
+import commands.server.ingame.EquipInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
 import core.GameState;
 import core.client.GamePanel;
 import core.client.game.operations.Operation;

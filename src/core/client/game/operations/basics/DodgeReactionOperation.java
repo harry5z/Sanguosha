@@ -2,8 +2,8 @@ package core.client.game.operations.basics;
 
 import cards.Card;
 import cards.basics.Dodge;
-import commands.game.server.ingame.DodgeReactionInGameServerCommand;
-import commands.game.server.ingame.InGameServerCommand;
+import commands.server.ingame.DodgeReactionInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
 import core.client.game.operations.AbstractSingleCardReactionOperation;
 
 public class DodgeReactionOperation extends AbstractSingleCardReactionOperation {

@@ -1,7 +1,7 @@
 package cards.specials.instant;
 
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateArrowSalvoInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.InitiateArrowSalvoInGameServerCommand;
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.ArrowSalvoOperation;
 import ui.game.interfaces.Activatable;

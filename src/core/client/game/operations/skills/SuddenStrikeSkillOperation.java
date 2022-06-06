@@ -3,8 +3,8 @@ package core.client.game.operations.skills;
 import cards.Card;
 import cards.Card.Color;
 import cards.equipments.Equipment.EquipmentType;
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.SuddenStrikeSkillInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.SuddenStrikeSkillInGameServerCommand;
 import core.player.PlayerSimple;
 import ui.game.interfaces.SkillUI;
 

@@ -3,9 +3,9 @@ package core.server.game.controllers.specials.instants;
 import java.util.Set;
 
 import cards.Card;
-import commands.game.client.RequestShowCardGameUIClientCommand;
-import commands.game.client.RequestUseCardGameUIClientCommand;
-import commands.game.client.RequestUseCardGameUIClientCommand.RequestUseCardFilter;
+import commands.client.game.RequestShowCardGameUIClientCommand;
+import commands.client.game.RequestUseCardGameUIClientCommand;
+import commands.client.game.RequestUseCardGameUIClientCommand.RequestUseCardFilter;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.server.game.BattleLog;

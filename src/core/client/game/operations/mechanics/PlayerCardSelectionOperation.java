@@ -3,7 +3,7 @@ package core.client.game.operations.mechanics;
 import java.util.Collection;
 
 import cards.equipments.Equipment.EquipmentType;
-import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
+import commands.server.ingame.PlayerCardSelectionInGameServerCommand;
 import core.client.game.operations.AbstractOperation;
 import core.player.PlayerCardZone;
 import core.player.PlayerInfo;

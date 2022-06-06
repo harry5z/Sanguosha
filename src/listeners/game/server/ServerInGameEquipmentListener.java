@@ -4,9 +4,9 @@ import java.util.Set;
 
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
-import commands.game.client.sync.SyncCommandsUtil;
-import commands.game.client.sync.player.SyncEquipGameClientCommand;
-import commands.game.client.sync.player.SyncUnequipGameClientCommand;
+import commands.client.game.sync.SyncCommandsUtil;
+import commands.client.game.sync.player.SyncEquipGameClientCommand;
+import commands.client.game.sync.player.SyncUnequipGameClientCommand;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerSimple;
 import core.server.SyncController;

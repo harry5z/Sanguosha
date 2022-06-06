@@ -3,7 +3,7 @@ package core.client.game.operations.instants;
 import java.util.Map;
 
 import cards.Card;
-import commands.game.server.ingame.PlayerCardSelectionInGameServerCommand;
+import commands.server.ingame.PlayerCardSelectionInGameServerCommand;
 import core.client.game.operations.AbstractOperation;
 import core.player.PlayerCardZone;
 import core.player.PlayerInfo;

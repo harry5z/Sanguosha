@@ -1,6 +1,6 @@
 package core.server.game.controllers.specials;
 
-import commands.game.client.RequestNullificationGameUIClientCommand;
+import commands.client.game.RequestNullificationGameUIClientCommand;
 import core.server.game.GameInternal;
 import core.server.game.controllers.AbstractGameController;
 import core.server.game.controllers.GameControllerStage;

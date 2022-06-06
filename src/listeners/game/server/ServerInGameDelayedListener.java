@@ -3,7 +3,7 @@ package listeners.game.server;
 import java.util.Set;
 
 import cards.Card;
-import commands.game.client.sync.player.SyncDelayedAddedGameClientCommand;
+import commands.client.game.sync.player.SyncDelayedAddedGameClientCommand;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerSimple;
 import core.server.SyncController;

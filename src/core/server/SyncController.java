@@ -2,7 +2,7 @@ package core.server;
 
 import java.util.Map;
 
-import commands.game.client.sync.SyncGameClientCommand;
+import commands.client.game.sync.SyncGameClientCommand;
 
 public interface SyncController {
 	

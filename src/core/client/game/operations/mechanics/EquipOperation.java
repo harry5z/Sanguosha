@@ -1,8 +1,8 @@
 package core.client.game.operations.mechanics;
 
 import cards.equipments.Equipment;
-import commands.game.server.ingame.EquipInGameServerCommand;
-import commands.game.server.ingame.InGameServerCommand;
+import commands.server.ingame.EquipInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
 import core.client.game.operations.AbstractCardInitiatedNoTargetOperation;
 import ui.game.interfaces.Activatable;
 

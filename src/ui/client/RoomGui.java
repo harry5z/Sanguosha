@@ -10,8 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import commands.room.LeaveRoomServerCommand;
-import commands.room.StartGameServerCommand;
+import commands.server.LeaveRoomServerCommand;
+import commands.server.StartGameServerCommand;
 import core.Constants;
 import core.client.ClientPanel;
 import core.server.RoomInfo;

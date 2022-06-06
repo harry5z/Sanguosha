@@ -2,13 +2,13 @@ package listeners.game.server;
 
 import java.util.Set;
 
-import commands.game.client.sync.SyncCommandsUtil;
-import commands.game.client.sync.player.SyncChainGameClientCommand;
-import commands.game.client.sync.player.SyncFlipGameClientCommand;
-import commands.game.client.sync.player.SyncHeroGameClientCommand;
-import commands.game.client.sync.player.SyncResetWineEffectiveGameClientCommand;
-import commands.game.client.sync.player.SyncRoleGameClientCommand;
-import commands.game.client.sync.player.SyncWineUsedGameClientCommand;
+import commands.client.game.sync.SyncCommandsUtil;
+import commands.client.game.sync.player.SyncChainGameClientCommand;
+import commands.client.game.sync.player.SyncFlipGameClientCommand;
+import commands.client.game.sync.player.SyncHeroGameClientCommand;
+import commands.client.game.sync.player.SyncResetWineEffectiveGameClientCommand;
+import commands.client.game.sync.player.SyncRoleGameClientCommand;
+import commands.client.game.sync.player.SyncWineUsedGameClientCommand;
 import core.heroes.Hero;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerSimple;

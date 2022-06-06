@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import cards.Card;
-import commands.game.client.RequestDodgeGameUIClientCommand;
+import commands.client.game.RequestDodgeGameUIClientCommand;
 import core.event.game.DodgeTargetEquipmentCheckEvent;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;

@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import commands.welcome.EnterLobbyServerCommand;
+import commands.server.EnterLobbyServerCommand;
 import core.client.ClientPanel;
 import net.Connection;
 import net.client.ClientMessageListener;

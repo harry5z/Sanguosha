@@ -2,10 +2,10 @@ package listeners.game.server;
 
 import java.util.Set;
 
-import commands.game.client.sync.player.SyncAttackUsedGameClientCommand;
-import commands.game.client.sync.player.SyncAttackUsedSetGameClientCommand;
-import commands.game.client.sync.player.SyncPlayerStateGameClientCommand;
-import commands.game.client.sync.player.SyncWineUsedSetGameClientCommand;
+import commands.client.game.sync.player.SyncAttackUsedGameClientCommand;
+import commands.client.game.sync.player.SyncAttackUsedSetGameClientCommand;
+import commands.client.game.sync.player.SyncPlayerStateGameClientCommand;
+import commands.client.game.sync.player.SyncWineUsedSetGameClientCommand;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerSimple;
 import core.player.PlayerState;

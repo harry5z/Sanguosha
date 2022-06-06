@@ -1,6 +1,6 @@
 package cards.basics;
 
-import commands.game.server.ingame.InGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
 import core.GameState;
 import core.client.game.operations.Operation;
 import ui.game.interfaces.Activatable;

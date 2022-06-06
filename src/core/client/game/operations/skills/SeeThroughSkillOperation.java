@@ -3,8 +3,8 @@ package core.client.game.operations.skills;
 import cards.Card;
 import cards.Card.Color;
 import cards.equipments.Equipment.EquipmentType;
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.ZhugeliangNullificationReactionInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.ZhugeliangNullificationReactionInGameServerCommand;
 import core.player.PlayerSimple;
 import ui.game.interfaces.SkillUI;
 

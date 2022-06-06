@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import cards.Card;
 import cards.equipments.Equipment.EquipmentType;
-import commands.game.server.ingame.AxeReactionInGameServerCommand;
-import commands.game.server.ingame.InGameServerCommand;
+import commands.server.ingame.AxeReactionInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
 import core.client.game.operations.AbstractMultiCardNoTargetReactionOperation;
 import core.player.PlayerCardZone;
 

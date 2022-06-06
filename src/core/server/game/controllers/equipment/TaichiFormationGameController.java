@@ -2,7 +2,7 @@ package core.server.game.controllers.equipment;
 
 import cards.Card;
 import cards.Card.Color;
-import commands.game.client.DecisionUIClientCommand;
+import commands.client.game.DecisionUIClientCommand;
 import core.player.PlayerCompleteServer;
 import core.server.game.BattleLog;
 import core.server.game.GameInternal;

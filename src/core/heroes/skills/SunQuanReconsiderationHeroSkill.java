@@ -1,7 +1,7 @@
 package core.heroes.skills;
 
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.ReconsiderationSkillInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.ReconsiderationSkillInGameServerCommand;
 import core.client.GamePanel;
 import core.client.game.listener.skills.ReconsiderationSkillDealEventListener;
 import core.player.PlayerCompleteServer;

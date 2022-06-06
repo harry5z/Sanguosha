@@ -4,8 +4,8 @@ import java.util.stream.Collectors;
 
 import cards.Card;
 import cards.equipments.Equipment.EquipmentType;
-import commands.game.server.ingame.ArrowSalvoSkillIngameServerCommand;
-import commands.game.server.ingame.InGameServerCommand;
+import commands.server.ingame.ArrowSalvoSkillIngameServerCommand;
+import commands.server.ingame.InGameServerCommand;
 import core.player.PlayerSimple;
 import ui.game.interfaces.SkillUI;
 

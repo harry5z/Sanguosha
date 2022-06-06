@@ -1,7 +1,7 @@
 package core.client.game.operations.instants;
 
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateStealInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.InitiateStealInGameServerCommand;
 import core.client.game.operations.AbstractCardInitiatedMultiTargetOperation;
 import core.player.PlayerSimple;
 import ui.game.interfaces.Activatable;

@@ -1,7 +1,7 @@
 package cards.specials.instant;
 
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateFireAttackInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.InitiateFireAttackInGameServerCommand;
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.FireAttackOperation;
 import ui.game.interfaces.Activatable;

@@ -5,8 +5,8 @@ import java.util.UUID;
 
 import javax.swing.JFrame;
 
-import commands.lobby.test.EnterRoomTestLobbyServerCommand;
-import commands.welcome.EnterLobbyServerCommand;
+import commands.server.EnterLobbyServerCommand;
+import commands.server.EnterRoomTestLobbyServerCommand;
 import core.Constants;
 import core.client.ClientFrame;
 import core.client.ClientPanel;

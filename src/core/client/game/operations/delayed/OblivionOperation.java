@@ -1,7 +1,7 @@
 package core.client.game.operations.delayed;
 
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateOblivionInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.InitiateOblivionInGameServerCommand;
 import core.client.game.operations.AbstractCardInitiatedMultiTargetOperation;
 import core.player.PlayerSimple;
 import ui.game.interfaces.Activatable;

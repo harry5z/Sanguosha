@@ -1,6 +1,6 @@
 package core.client.game.operations.mechanics;
 
-import commands.game.server.ingame.EndStageInGameServerCommand;
+import commands.server.ingame.EndStageInGameServerCommand;
 import core.client.game.event.DealClientGameEvent;
 import core.client.game.event.EnableAttackClientGameEvent;
 import core.client.game.operations.AbstractOperation;

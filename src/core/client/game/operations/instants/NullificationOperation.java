@@ -2,8 +2,8 @@ package core.client.game.operations.instants;
 
 import cards.Card;
 import cards.specials.instant.Nullification;
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.NullificationReactionInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.NullificationReactionInGameServerCommand;
 import core.client.game.event.RequestNullificationClientGameEvent;
 import core.client.game.operations.AbstractSingleCardReactionOperation;
 

@@ -1,7 +1,7 @@
 package cards.specials.instant;
 
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.InitiateChainInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.InitiateChainInGameServerCommand;
 import core.client.game.operations.Operation;
 import core.client.game.operations.instants.ChainOperation;
 import ui.game.interfaces.Activatable;

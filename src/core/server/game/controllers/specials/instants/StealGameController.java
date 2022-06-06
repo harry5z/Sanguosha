@@ -8,7 +8,7 @@ import java.util.Set;
 import cards.Card;
 import cards.equipments.Equipment;
 import cards.equipments.Equipment.EquipmentType;
-import commands.game.client.ShowCardSelectionPanelUIClientCommand;
+import commands.client.game.ShowCardSelectionPanelUIClientCommand;
 import core.player.PlayerCardZone;
 import core.player.PlayerCompleteServer;
 import core.server.game.GameInternal;

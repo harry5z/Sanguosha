@@ -6,7 +6,7 @@ import java.util.Set;
 
 import cards.Card;
 import cards.equipments.Equipment;
-import commands.game.client.RequestRescueGameClientCommand;
+import commands.client.game.RequestRescueGameClientCommand;
 import core.player.PlayerCompleteServer;
 import core.player.Role;
 import core.server.game.BattleLog;

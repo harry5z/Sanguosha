@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import cards.Card;
-import commands.game.server.ingame.DiscardInGameServerCommand;
-import commands.game.server.ingame.InGameServerCommand;
+import commands.server.ingame.DiscardInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
 import core.client.game.operations.AbstractMultiCardNoTargetReactionOperation;
 import ui.game.interfaces.CardUI;
 

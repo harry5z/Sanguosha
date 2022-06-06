@@ -5,9 +5,11 @@ import java.util.Arrays;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+
+import commands.server.LoginServerCommand;
+
 import javax.swing.UnsupportedLookAndFeelException;
 
-import commands.welcome.LoginServerCommand;
 import net.Connection;
 import net.ConnectionListener;
 import ui.client.ClientFrameGui;

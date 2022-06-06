@@ -9,13 +9,6 @@ public interface Channel {
 	 * 
 	 * @param command : the command to be sent
 	 */
-	public void send(Command<?> command);
-	
-	/**
-	 * Send command to server / client without delay
-	 * 
-	 * @param command : the command to be sent
-	 */
-	public void sendSynchronously(Command<?> command);
+	public void send(Command<?, ? extends Connection> command);
 	
 }

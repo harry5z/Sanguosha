@@ -2,7 +2,7 @@ package core.server.game.controllers.equipment;
 
 import cards.Card;
 import cards.basics.Attack;
-import commands.game.client.RequestAttackGameUIClientCommand;
+import commands.client.game.RequestAttackGameUIClientCommand;
 import core.player.PlayerCompleteServer;
 import core.server.game.BattleLog;
 import core.server.game.GameInternal;

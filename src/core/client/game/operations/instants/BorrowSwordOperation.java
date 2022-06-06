@@ -1,7 +1,7 @@
 package core.client.game.operations.instants;
 
 import cards.equipments.Equipment.EquipmentType;
-import commands.game.server.ingame.InitiateBorrowSwordInGameServerCommand;
+import commands.server.ingame.InitiateBorrowSwordInGameServerCommand;
 import core.client.game.operations.AbstractOperation;
 import ui.game.CardGui;
 import ui.game.interfaces.Activatable;

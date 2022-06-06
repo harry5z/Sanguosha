@@ -2,11 +2,11 @@ package listeners.game.server;
 
 import java.util.Set;
 
-import commands.game.client.sync.SyncCommandsUtil;
-import commands.game.client.sync.player.SyncDeathGameClientCommand;
-import commands.game.client.sync.player.SyncHealthCurrentChangedGameClientCommand;
-import commands.game.client.sync.player.SyncHealthCurrentGameClientCommand;
-import commands.game.client.sync.player.SyncHealthLimitGameClientCommand;
+import commands.client.game.sync.SyncCommandsUtil;
+import commands.client.game.sync.player.SyncDeathGameClientCommand;
+import commands.client.game.sync.player.SyncHealthCurrentChangedGameClientCommand;
+import commands.client.game.sync.player.SyncHealthCurrentGameClientCommand;
+import commands.client.game.sync.player.SyncHealthLimitGameClientCommand;
 import core.player.PlayerCompleteServer;
 import core.player.PlayerSimple;
 import core.server.SyncController;

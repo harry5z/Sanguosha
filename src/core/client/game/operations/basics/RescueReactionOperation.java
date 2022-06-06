@@ -3,8 +3,8 @@ package core.client.game.operations.basics;
 import cards.Card;
 import cards.basics.Peach;
 import cards.basics.Wine;
-import commands.game.server.ingame.InGameServerCommand;
-import commands.game.server.ingame.RescueReactionInGameServerCommand;
+import commands.server.ingame.InGameServerCommand;
+import commands.server.ingame.RescueReactionInGameServerCommand;
 import core.client.game.operations.AbstractSingleCardReactionOperation;
 import core.player.PlayerInfo;
 
