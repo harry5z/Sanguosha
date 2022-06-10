@@ -161,12 +161,12 @@ public class GameRoom implements ServerEntity, SyncController {
 	public synchronized void onUserDisconnected(LoggedInUser user) {
 		users.remove(user);
 		OnlineUserManager.get().onInGameUserDisconnected(user);
+		disconnectedUsers.add(user);
+		allowedResponseIDs.remove(user);
 		if (this.users.isEmpty()) {
 			endGame();
 			return;
 		}
-		disconnectedUsers.add(user);
-		allowedResponseIDs.remove(user);
 	}
 
 	@Override
