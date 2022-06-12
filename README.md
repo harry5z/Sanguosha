@@ -1,11 +1,10 @@
-﻿
-
-
-# Sanguosha
+﻿# Sanguosha
 
 [Sanguosha](http://en.wikipedia.org/wiki/Legends_of_the_Three_Kingdoms), or loosely translated as "Battles of the Three Kingdoms", is a multiplayer turn-based board game. This project implements Sanguosha as an online multiplayer game.
 
-This project is written in Java. It includes both the game server and a game client implemented with Java Swing library. The server and client communicate via Socket.
+**Implementation**: Written in Java. It includes both the game server and a game client implemented with Java Swing library. The server and client communicate via Socket.
+
+**Size**: As of 06/11/2022, about 20K lines of code.
 
 <details>
   <summary><b>Click to see details</b></summary>
@@ -87,16 +86,12 @@ Sanguosha is characterized by a frequently interrupted gameflow due to many pass
 
 The game employs a ["Stacked"](https://github.com/harry5z/Sanguosha/blob/master/src/core/server/game/GameImpl.java#L222) gameflow mechanism, where each event is represented as a [`GameController`](https://github.com/harry5z/Sanguosha/blob/master/src/core/server/game/controllers/AbstractGameController.java) with [`Stage`](https://github.com/harry5z/Sanguosha/blob/master/src/core/server/game/controllers/mechanics/AttackResolutionGameController.java#L27-L38) that tracks the progress of the event's lifecycle. 
 
-[placeholder for video]
-
 #### Reliability
 
 ##### Player Reconnection
 
 If a player disconnects while in-game, the server [marks them as disconnected](https://github.com/harry5z/Sanguosha/blob/88c65e79ee47c05dfa966539077e40d78de00c3b/src/core/server/OnlineUserManager.java#L95-L114), and if they reconnects in time, they will be [redirected back into the game](https://github.com/harry5z/Sanguosha/blob/88c65e79ee47c05dfa966539077e40d78de00c3b/src/core/server/OnlineUserManager.java#L73-L83) and [sent the latest game states](https://github.com/harry5z/Sanguosha/blob/88c65e79ee47c05dfa966539077e40d78de00c3b/src/core/server/game/GameImpl.java#L185-L203), so that they can resume playing.
 If a player disconnects while not in-game, they're considered logged out.
-
-[placeholder for video]
 
 #### Performance
 
