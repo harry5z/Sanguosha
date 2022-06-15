@@ -1,6 +1,25 @@
 ﻿
-# Sanguosha
 
+
+## Table of Content
+
+1.  [Overview](#overview)
+2. [How To Play](#how-to-play)
+3. [Architecture](#architecture)
+    - [Model](#model)
+    - [View](#view)
+    - [Controller](#controller)
+    - [Event-driven flow](#event-driven-game-flow)
+4. [System Design](#system-design)
+    - [Overview](#system-overview)
+    -  [Extensibility](#extensibility)
+     - [Security](#security)
+    - [Recovery](#recovery)
+    - [Performance](#performance)
+    - [Learnability](#learnability)
+6. [TODOs/Further Thought](#todo)
+
+## Overview
 [Sanguosha](http://en.wikipedia.org/wiki/Legends_of_the_Three_Kingdoms), or loosely translated as "Battles of the Three Kingdoms", is a multiplayer turn-based board game. This project implements Sanguosha as an online multiplayer game.
 
 **Implementation**: It includes both the game server written in Java and a game client implemented with Java Swing library. The server and client communicate via Java Socket.
@@ -28,18 +47,48 @@ These issues were the original motives of my project. A big fan of Sanguosha, I 
 - Run [Server.java](https://github.com/harry5z/Sanguosha/blob/master/src/net/server/Server.java) without arguments
 - Run any number of [Client.java](https://github.com/harry5z/Sanguosha/blob/master/src/net/client/Client.java) without arguments.
 
+## Architecture
+
+Both the game server and Java Swing client are MVC based and event-driven to maximize extensibility and modularity. Several components are used by both server and client because of their similarity.
+
+#### Model
+The game essentially evolves around the states of its [`Player`s](https://github.com/harry5z/Sanguosha/blob/master/src/core/player/Player.java), each of whom has a [`Role`](https://github.com/harry5z/Sanguosha/blob/master/src/core/player/Role.java), a [`Hero`](https://github.com/harry5z/Sanguosha/blob/master/src/core/heroes/original/AbstractHero.java), some [`Card`s](https://github.com/harry5z/Sanguosha/blob/master/src/cards/Card.java), and some statuses such as Health Points. The game ends when a player of certain `Role` dies, see [game-end conditions](https://github.com/harry5z/Sanguosha/blob/master/src/core/server/game/controllers/mechanics/DeathResolutionGameController.java#L85-L100).
+
+The majority of player information is public (e.g. a player's `Hero`, [`Equipment`s](https://github.com/harry5z/Sanguosha/blob/master/src/cards/equipments/Equipment.java), HP) to all players. The only information private to a player themselves is their hand (of cards) and their `Role` (except the Emperor), which is revealed only upon death. As such, a player sees other players as [`SimplePlayer`s](https://github.com/harry5z/Sanguosha/blob/master/src/core/player/PlayerSimple.java) without `Role` and hand information, and themselves as a [`CompletePlayer`](https://github.com/harry5z/Sanguosha/blob/master/src/core/player/PlayerComplete.java) with all information available.
+
+- At [server side](https://github.com/harry5z/Sanguosha/blob/master/src/core/server/game/GameImpl.java#L49), all `Player`s are initialized as `CompletePlayer` as server is omniscient.
+- At [client side](https://github.com/harry5z/Sanguosha/blob/master/src/ui/game/GamePanelGui.java#L37-L38), only a player themselves is initialized as `CompletePlayer`, while all other players are represented as `SimplePlayer`.
+
+#### View
+
+The view on both server and client is represented by a number of [`Listener`s](https://github.com/harry5z/Sanguosha/blob/master/src/core/player/PlayerSimple.java#L28-L33) on `Player` reacting to state changes such as receiving/losing `Card`s, gaining/losing HP.
+
+- At server side, Server-side Listeners are [synchronizers](https://github.com/harry5z/Sanguosha/blob/19b096cae589f2753832fec03ae45a420ff64e32/src/listeners/game/server/ServerInGamePlayerListener.java) that simply send [`SyncCommand`s](https://github.com/harry5z/Sanguosha/blob/master/src/commands/client/game/sync/SyncGameClientCommand.java) to clients to update client-side player statuses, see [example](https://github.com/harry5z/Sanguosha/blob/master/src/commands/client/game/sync/player/SyncHealthCurrentGameClientCommand.java).
+- At client side, Client-side Listeners are [GUI components](https://github.com/harry5z/Sanguosha/tree/master/src/ui/game) that visually shows the statuses to the human player, see [example](https://github.com/harry5z/Sanguosha/blob/master/src/ui/game/LifebarGui.java#L19).
+
+#### Controller
+
+- At server side, the game employs a Stack of [`GameController`s](https://github.com/harry5z/Sanguosha/blob/master/src/core/server/game/controllers/AbstractGameController.java) that control the gameflow and modify Players, each with a [`Stage`](https://github.com/harry5z/Sanguosha/blob/master/src/core/server/game/controllers/mechanics/AttackResolutionGameController.java#L27-L38)  to track the progress of its own lifecycle. See an [example](https://github.com/harry5z/Sanguosha/blob/master/src/core/server/game/controllers/mechanics/HealGameController.java#L37-L56).
+- At client side, there is no "Controller". The client is designed with Server-driven UI, specifically, **only a [`SyncCommand`](https://github.com/harry5z/Sanguosha/blob/master/src/commands/client/game/sync/SyncGameClientCommand.java) from server may modify client-side Model**, which must always be consistent with server.
+
+#### Event-driven Game Flow
+
+Sanguosha is characterized by a turn-based game flow with many actively or passively triggered Hero Skills and Equipment abilities, which frequently interrupt the game to wait for player actions to proceed.
+
+At server side, the game [continuously drive the current `GameController`](https://github.com/harry5z/Sanguosha/blob/master/src/core/server/game/GameImpl.java#L217-L230) (which may push other `GameController`s on top of itself), until a player action is required and the `GameController` throws a [`GameFlowInterrupedException`](https://github.com/harry5z/Sanguosha/blob/19b096cae589f2753832fec03ae45a420ff64e32/src/exceptions/server/game/GameFlowInterruptedException.java) to "pause" the game and send a [`PlayerActionGameClientCommand`](https://github.com/harry5z/Sanguosha/blob/master/src/commands/client/game/PlayerActionGameClientCommand.java) to request player action. The player may respond with an [`InGameServerCommand`](https://github.com/harry5z/Sanguosha/blob/master/src/commands/server/ingame/InGameServerCommand.java) (or server takes a [default response](https://github.com/harry5z/Sanguosha/blob/master/src/commands/client/game/PlayerActionGameClientCommand.java#L55-L62) upon timeout), which "resumes" the game until the next player action is required.
+
 ## System Design
 
-### Overview
+### Overview <a id="system-overview"></a>
 
 The design concerns are listed below ranked by importance (high to low):
 
 ##### Tier 1
  - [**Extensibility**](#extensibility): The framework must be extensible to allow easy addition of new heroes, skills, features, etc.
  - [**Security**](#security): The game must avoid cheating, leaking, and sniffing for personal information, etc.
- - [**Consistency**](#consistency): The game must behave as per the rules, even during complex game flow interactions.
+
 ##### Tier 2
-- [**Reliability**](#reliability): Must be internally tolerant to errors like race conditions, and externally tolerant to user failures like internet disconnection.
+- [**Recovery**](#recovery): Must be internally tolerant to errors like race conditions, and externally tolerant to user failures like internet disconnection.
 - [**Performance**](#performance): Minimize network usage, memory & CPU usage, and avoid memory leaks.
 ##### Tier 3
 - [**Learnability/Maintainability (of the codebase)**](#learnability): The framework must be intuitive to learn and minimize errors due to human oversights.
@@ -55,7 +104,7 @@ Additionally, the game client's *UI and UX are deprioritized*, because (1) the f
 
 #### Extensibility
 
-The architecture is built so that new heroes and skills can be added quickly, with minimum edits to existing code. For example, see the commits for:
+The MVC architecture is built so that new heroes and skills can be added quickly, with minimum edits to existing code. For example, see the commits for:
 
 - [Wei Yan](https://github.com/harry5z/Sanguosha/commit/4a68e5f8d622d4c117df2a4581a8a48d4f736bbb), a hero with a passive skill (no player action). 100 lines.
 - [Huang Zhong](https://github.com/harry5z/Sanguosha/commit/e370a1f679d13b00bb62037a1431e516458f9990), a hero with a passively-triggered skill (player must confirm). 150 lines.
@@ -79,13 +128,7 @@ The game's security consists of 3 parts, Anti-cheat, Anti-leak, and Anti-sniff.
 
 - Anti-sniff: The client-server communication is currently unencyrpted, because no password information is present. However, it is therefore vulnerable to man-in-the-middle attacks. See [TODO list](#todo).
 
-#### Consistency
-
-Sanguosha is characterized by a frequently interrupted gameflow due to many passively triggered hero skills and equipment abilities. 
-
-The game employs a ["Stacked"](https://github.com/harry5z/Sanguosha/blob/master/src/core/server/game/GameImpl.java#L222) gameflow mechanism, where each event is represented as a [`GameController`](https://github.com/harry5z/Sanguosha/blob/master/src/core/server/game/controllers/AbstractGameController.java) with [`Stage`](https://github.com/harry5z/Sanguosha/blob/master/src/core/server/game/controllers/mechanics/AttackResolutionGameController.java#L27-L38) that tracks the progress of the event's lifecycle. 
-
-#### Reliability
+#### Recovery
 
 ##### Player Reconnection
 
@@ -104,14 +147,14 @@ As the project grows in size, components must be easily understandable and built
 
 - [AbstractMultiCardMultiTargetOperation](https://github.com/harry5z/Sanguosha/blob/master/src/core/client/game/operations/AbstractMultiCardMultiTargetOperation.java#L205-L269): A generic template that controls how the player interacts with game UI. Most player actions can be easily and correctly implemented this way, see [example](https://github.com/harry5z/Sanguosha/blob/master/src/core/client/game/operations/equipment/SerpentSpearInitiateAttackOperation.java).
 
----
-## Tasks/TODO <a id="todo"></a>
+## TODO List <a id="todo"></a>
 
 #### Server-side
 
 - [ ] Build generic JSON-based API for clients on different platforms
 - [ ] Add HTTPS-like encryption for client-server communication
 - [ ] Cover major game flows with integration tests
+- [ ] Add CPU & Memory monitoring and create alerts
 
 #### Client-side
 - [x] [Synchronous Execution](https://github.com/harry5z/Sanguosha/blob/master/src/net/client/ClientConnection.java#L70-L85). Make sure to execute updates sent by the server in chronological order
